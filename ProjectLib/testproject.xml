@@ -2,13 +2,13 @@
 <MangaProject>
     <tree_dynamics>
         <aboveground_competition>
-            <type> Simple </type>
+            <type> SimpleTest </type>
         </aboveground_competition>
         <belowground_competition>
-            <type> Simple </type>
+            <type> SimpleTest </type>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> Simple </type>
+            <type> SimpleTest </type>
         </tree_growth_and_death>
     </tree_dynamics>
 </MangaProject>

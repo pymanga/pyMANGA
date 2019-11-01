@@ -8,36 +8,21 @@
 from lxml import etree
 
 
-class MangaProject:
-    ## MangaProject defined in corresponding xml-file.
-    def __init__(self, args):
-        self.args = args
-
-    def getBelowgoundCompetitionConcept(self):
-        return self.args["belowground_competition"]
-
-    def getAbovegroundCompetitionConcept(self):
-        return self.args["aboveground_competition"]
-
-    def getDeathAndGrowthConcept(self):
-        return self.args["tree_growth_and_death"]
-
-
-
 class XMLtoProject(object):
     def __init__(self, **args):
-        try:
-            self.prjfile = args["xml_project_file"]
-        except KeyError:
-            raise KeyError("XML-Project file missing!")
+        self.prjfile = args["xml_project_file"]
         self.prj_arguments = {}
         self.readProjectFile()
         self.addTreeDynamicConcepts()
-        MangaProject(self.prj_arguments)
+
+    def getProjectArguments(self):
+        return self.prj_arguments
 
     def readProjectFile(self):
         tree = etree.parse(self.prjfile)
         self.root = tree.getroot()
+        for tag in self.root.iter():
+            tag.text = tag.text.strip()
 
     def addTreeDynamicConcepts(self):
         self.tree_dynamics = self.findChild(self.root, "tree_dynamics")
@@ -53,7 +38,3 @@ class XMLtoProject(object):
         if child is None:
             raise KeyError("key '" + key + "' is missing in project file")
         return child
-
-
-if __name__ == '__main__':
-    prj = XMLtoProject(xml_project_file = "testproject.xml")

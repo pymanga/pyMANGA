@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<MangaProject>
+    <tree_dynamics>
+        <aboveground_competition>
+            <type> Simple </type>
+        </aboveground_competition>
+        <belowground_competition>
+            <type> Simple </type>
+        </belowground_competition>
+        <tree_growth_and_death>
+            <type> Simple </type>
+        </tree_growth_and_death>
+    </tree_dynamics>
+</MangaProject>

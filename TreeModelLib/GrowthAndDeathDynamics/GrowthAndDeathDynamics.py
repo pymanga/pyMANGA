@@ -8,8 +8,14 @@ class GrowthAndDeathDynamics:
     #  @date: 2019 - Today
     #  @author: jasper.bathmann@ufz.de
 
-    def __init__(self, case):
+    def __init__(self, args):
+        case = args.find("type").text
         if case == "SimpleTest":
-            return 0
+            self.iniSimpleTest(args)
         else:
-            raise KeyError("Required competition not implemented.")
+            raise KeyError("Required growth and death not implemented.")
+        print(case + " growth and death dynamics initiated.")
+
+    def iniSimpleTest(self, args):
+        from .SimpleTest import SimpleTest
+        self.case = args.find("type").text

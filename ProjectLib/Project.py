@@ -5,8 +5,14 @@
 @author: jasper.bathmann@ufz.de
 """
 
-from TreeModelLib.AbovegroundCompetition import AbovegroundCompetition
-from . import XMLtoProject
+#from TreeModelLib.AbovegroundCompetition import AbovegroundCompetition
+if __name__ == '__main__' and __package__ is None:
+    from os import sys, path
+    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+import XMLtoProject
+from TreeModelLib import AbovegroundCompetition as AC
+from TreeModelLib import BelowgroundCompetition as BC
+from TreeModelLib import GrowthAndDeathDynamics as GADD
 
 
 class MangaProject:
@@ -18,22 +24,30 @@ class MangaProject:
             raise KeyError("XML-Project file missing!")
         xml_to_prj = XMLtoProject.XMLtoProject(**args)
         self.args = xml_to_prj.getProjectArguments()
+        self.iniAbovegroundCompetition()
+        self.iniBelowgroundCompetition()
+        self.iniDeathAndGrowthConcept()
 
     def getBelowgoundCompetitionConcept(self):
-        return self.args["belowground_competition"]
+        return self.belowground_competition
 
-    def getAbovegroundCompetitionConcept(self):
-        return self.args["aboveground_competition"]
+    def iniBelowgroundCompetition(self):
+        arg = self.args["belowground_competition"]
+        self.belowground_competition = (BC.BelowgroundCompetition(arg))
+
+    def getAbovegroundCompetition(self):
+        return self.aboveground_competition
 
     def iniAbovegroundCompetition(self):
         arg = self.args["aboveground_competition"]
-        self.AbovegroundCompetition = (
-                AbovegroundCompetition.AbovegroundCompetition(arg))
+        self.aboveground_competition = (AC.AbovegroundCompetition(arg))
 
     def getDeathAndGrowthConcept(self):
-        return self.args["tree_growth_and_death"]
+        return self.growth_and_death_dynamics
 
-
+    def iniDeathAndGrowthConcept(self):
+        arg = self.args["tree_growth_and_death"]
+        self.growth_and_death_dynamics = (GADD.GrowthAndDeathDynamics(arg))
 
 
 if __name__ == '__main__':

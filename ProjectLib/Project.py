@@ -9,7 +9,9 @@
 if __name__ == '__main__' and __package__ is None:
     from os import sys, path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-import XMLtoProject
+    import XMLtoProject
+else:
+    from . import XMLtoProject
 from TreeModelLib import AbovegroundCompetition as AC
 from TreeModelLib import BelowgroundCompetition as BC
 from TreeModelLib import GrowthAndDeathDynamics as GADD

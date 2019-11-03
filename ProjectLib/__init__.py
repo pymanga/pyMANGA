@@ -5,4 +5,9 @@ Created on Thu Nov  8 15:25:03 2018
 
 @author: bathmann
 """
-from . import *
+if __name__ == '__main__' :
+    import Project
+    import XMLtoProject
+else:
+    from . import Project
+    from . import XMLtoProject

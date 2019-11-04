@@ -25,3 +25,10 @@ class TreeGroup(object):
 
     def getTrees(self):
         return self.trees
+
+    def getNumberOfTrees(self):
+        return len(self.trees)
+
+    def removeTreesAtIndices(self, indices):
+        for i in sorted(indices)[::-1]:
+            self.trees.pop(i)

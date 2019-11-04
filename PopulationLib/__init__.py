@@ -10,8 +10,10 @@ if __name__ == '__main__':
     import GroupPlanting
     import TreeGroup
     import Tree
+    import Species
 else:
     from . import Population
     from . import GroupPlanting
     from . import TreeGroup
     from . import Tree
+    from . import Species

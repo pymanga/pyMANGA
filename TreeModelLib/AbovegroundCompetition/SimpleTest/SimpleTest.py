@@ -6,6 +6,7 @@
 """
 import numpy as np
 
+
 class SimpleTest(object):
     def __init__(self, args):
         ## SimpleTest case for aboveground competition concept. This case is
@@ -34,8 +35,7 @@ class SimpleTest(object):
         self.t_ini = t_ini
         self.t_end = t_end
 
-    def addTree(self, x, y, r_root, h_root, r_stem, h_stem, r_crown,
-                kwargs):
+    def addTree(self, x, y, r_root, h_root, r_stem, h_stem, r_crown, kwargs):
         ## Before being able to calculate the resources, all tree enteties need
         #  to be added with their current implementation for the next timestep.
         #  Here, in the SimpleTest case, each tree is represented by a one. In

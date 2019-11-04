@@ -53,4 +53,4 @@ class MangaProject:
 
 
 if __name__ == '__main__':
-    prj = MangaProject(xml_project_file = "testproject.xml")
+    prj = MangaProject(xml_project_file="testproject.xml")

@@ -27,11 +27,11 @@ class XMLtoProject(object):
     def addTreeDynamicConcepts(self):
         self.tree_dynamics = self.findChild(self.root, "tree_dynamics")
         self.prj_arguments["aboveground_competition"] = self.findChild(
-                self.tree_dynamics, "aboveground_competition")
+            self.tree_dynamics, "aboveground_competition")
         self.prj_arguments["belowground_competition"] = self.findChild(
-                self.tree_dynamics, "aboveground_competition")
+            self.tree_dynamics, "aboveground_competition")
         self.prj_arguments["tree_growth_and_death"] = self.findChild(
-                self.tree_dynamics, "tree_growth_and_death")
+            self.tree_dynamics, "tree_growth_and_death")
 
     def findChild(self, parent, key):
         child = parent.find(key)

@@ -32,7 +32,7 @@ class MangaProject:
         self.iniDeathAndGrowthConcept()
         self.iniPopulation()
 
-    def getBelowgoundCompetitionConcept(self):
+    def getBelowgroundCompetition(self):
         return self.belowground_competition
 
     def iniBelowgroundCompetition(self):

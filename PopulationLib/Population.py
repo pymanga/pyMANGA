@@ -26,6 +26,9 @@ class Population(object):
     def getTreeGroups(self):
         return self.tree_groups
 
+    def getTreeGroup(self, name):
+        return self.tree_groups[name]
+
     def getAllTrees(self):
         all_trees = []
         for name, group in self.tree_groups.items():

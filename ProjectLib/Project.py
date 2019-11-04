@@ -9,13 +9,13 @@
 if __name__ == '__main__' and __package__ is None:
     from os import sys, path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-    import XMLtoProject
-else:
-    from . import XMLtoProject
+
+from ProjectLib import XMLtoProject
 from TreeModelLib import AbovegroundCompetition as AC
 from TreeModelLib import BelowgroundCompetition as BC
 from TreeModelLib import GrowthAndDeathDynamics as GADD
 from PopulationLib import Population as POP
+from TimeLoopLib import TreeDynamicTimeLoop as TDTL
 
 
 class MangaProject:
@@ -31,6 +31,7 @@ class MangaProject:
         self.iniBelowgroundCompetition()
         self.iniDeathAndGrowthConcept()
         self.iniPopulation()
+        self.iniTreeTimeLoop()
 
     def getBelowgroundCompetition(self):
         return self.belowground_competition
@@ -59,6 +60,13 @@ class MangaProject:
 
     def getPopulation(self):
         return self.population
+
+    def iniTreeTimeLoop(self):
+        arg = self.args["tree_time_loop"]
+        self.tree_time_stepping = (TDTL.TreeDynamicTimeLoop(arg))
+
+    def getTreeTimeStepping(self):
+        return self.tree_time_stepping
 
 
 if __name__ == '__main__':

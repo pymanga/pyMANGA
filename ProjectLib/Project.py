@@ -57,6 +57,9 @@ class MangaProject:
         arg = self.args["initial_population"]
         self.population = (POP.Population(arg))
 
+    def getPopulation(self):
+        return self.population
+
 
 if __name__ == '__main__':
     prj = MangaProject(xml_project_file="testproject.xml")

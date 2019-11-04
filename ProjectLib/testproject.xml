@@ -11,4 +11,20 @@
             <type> SimpleTest </type>
         </tree_growth_and_death>
     </tree_dynamics>
+    <initial_population>
+        <group>
+            <name> Group1 </name>
+            <species> Avicennia </species>
+            <distribution>
+                <type> Random </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 100 </x_2>
+                    <y_2> 100 </y_2>
+                </domain>
+                <n_individuals> 100 </n_individuals>
+            </distribution>
+        </group>
+    </initial_population>
 </MangaProject>

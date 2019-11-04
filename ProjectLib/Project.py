@@ -15,6 +15,7 @@ else:
 from TreeModelLib import AbovegroundCompetition as AC
 from TreeModelLib import BelowgroundCompetition as BC
 from TreeModelLib import GrowthAndDeathDynamics as GADD
+from PopulationLib import Population as POP
 
 
 class MangaProject:
@@ -29,6 +30,7 @@ class MangaProject:
         self.iniAbovegroundCompetition()
         self.iniBelowgroundCompetition()
         self.iniDeathAndGrowthConcept()
+        self.iniPopulation()
 
     def getBelowgoundCompetitionConcept(self):
         return self.belowground_competition
@@ -50,6 +52,10 @@ class MangaProject:
     def iniDeathAndGrowthConcept(self):
         arg = self.args["tree_growth_and_death"]
         self.growth_and_death_dynamics = (GADD.GrowthAndDeathDynamics(arg))
+
+    def iniPopulation(self):
+        arg = self.args["initial_population"]
+        self.population = (POP.Population(arg))
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from lxml import etree
 
+
 class AbovegroundCompetition:
     ## Concept for aboveground competition
     #  @VAR case: aboveground competition concept to be used for the model.
@@ -14,8 +15,7 @@ class AbovegroundCompetition:
             self.iniSimpleTest(args)
         else:
             raise KeyError("Required aboveground competition not implemented.")
-        print(case +
-              " aboveground competition successfully initiated.")
+        print(case + " aboveground competition successfully initiated.")
 
     def iniSimpleTest(self, args):
         from .SimpleTest import SimpleTest
@@ -30,7 +30,7 @@ class AbovegroundCompetition:
 
     def calculateAbovegroundResources(self):
         self.aboveground_resources = (
-                self.concept.calculateAbovegroundResources())
+            self.concept.calculateAbovegroundResources())
 
     def prepareNextTimeStep(self, t_ini, t_end):
         self.concept.prepareNextTimeStep(t_ini, t_end)

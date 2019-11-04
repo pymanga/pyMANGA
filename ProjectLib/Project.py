@@ -68,6 +68,9 @@ class MangaProject:
     def getTreeTimeStepping(self):
         return self.tree_time_stepping
 
+    def runProject(self):
+        self.tree_time_stepping.runTimeLoop(self)
+
 
 if __name__ == '__main__':
     prj = MangaProject(xml_project_file="testproject.xml")

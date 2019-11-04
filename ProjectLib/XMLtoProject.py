@@ -15,6 +15,7 @@ class XMLtoProject(object):
         self.readProjectFile()
         self.addTreeDynamicConcepts()
         self.addInitialPopulation()
+        self.addTreeTimeLoop()
 
     def getProjectArguments(self):
         return self.prj_arguments
@@ -40,6 +41,10 @@ class XMLtoProject(object):
     def addInitialPopulation(self):
         self.prj_arguments["initial_population"] = self.findChild(
             self.root, "initial_population")
+
+    def addTreeTimeLoop(self):
+        self.prj_arguments["tree_time_loop"] = self.findChild(
+            self.root, "tree_time_loop")
 
     def findChild(self, parent, key):
         child = parent.find(key)

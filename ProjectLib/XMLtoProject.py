@@ -14,9 +14,13 @@ class XMLtoProject(object):
         self.prj_arguments = {}
         self.readProjectFile()
         self.addTreeDynamicConcepts()
+        self.addInitialPopulation()
 
     def getProjectArguments(self):
         return self.prj_arguments
+
+    def getProjectArgument(self, key):
+        return self.prj_arguments[key]
 
     def readProjectFile(self):
         tree = etree.parse(self.prjfile)
@@ -32,6 +36,10 @@ class XMLtoProject(object):
             self.tree_dynamics, "aboveground_competition")
         self.prj_arguments["tree_growth_and_death"] = self.findChild(
             self.tree_dynamics, "tree_growth_and_death")
+
+    def addInitialPopulation(self):
+        self.prj_arguments["initial_population"] = self.findChild(
+            self.root, "initial_population")
 
     def findChild(self, parent, key):
         child = parent.find(key)

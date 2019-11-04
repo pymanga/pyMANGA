@@ -12,11 +12,16 @@ class Tree(object):
         self.tree_id = tree_id
         self.species = species
         self.trees = []
+        self.x = x
+        self.y = y
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createTree()
         else:
             raise KeyError("Species " + species + " unknown!")
+
+    def getPosition(self):
+        return self.x, self.y
 
     def getGeometry(self):
         return self.geometry

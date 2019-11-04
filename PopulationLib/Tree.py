@@ -14,6 +14,7 @@ class Tree(object):
         self.trees = []
         self.x = x
         self.y = y
+        self.survival = 1
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createTree()
@@ -26,5 +27,14 @@ class Tree(object):
     def getGeometry(self):
         return self.geometry
 
+    def setGeometry(self, geometry):
+        self.geometry = geometry
+
     def getParameter(self):
         return self.parameter
+
+    def getSurvival(self):
+        return self.survival
+
+    def setSurvival(self, survival):
+        self.survival = survival

@@ -4,3 +4,4 @@
 from ProjectLib import Project
 
 prj = Project.MangaProject(xml_project_file="ProjectLib/testproject.xml")
+prj.runProject()

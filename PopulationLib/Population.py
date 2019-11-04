@@ -13,7 +13,7 @@ import PopulationLib as PLib
 
 class Population(object):
     def __init__(self, args):
-        self.tree_population = []
+        self.tree_groups = []
 
         for arg in args.iter("group"):
             self.addTreeGroup(arg)
@@ -21,7 +21,13 @@ class Population(object):
     def addTreeGroup(self, args):
         tree_group_creator = PLib.GroupPlanting.GroupPlanting(args)
         tree_group = tree_group_creator.getGroup()
-        self.tree_population.append(tree_group)
+        self.tree_groups.append(tree_group)
 
     def getTreeGroups(self):
-        return self.tree_population
+        return self.tree_groups
+
+    def getAllTrees(self):
+        all_trees = []
+        for tree_group in self.tree_groups:
+            for tree in tree_group.getTrees():
+                all_trees.append(tree)

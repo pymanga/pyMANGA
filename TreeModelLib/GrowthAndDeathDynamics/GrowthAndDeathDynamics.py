@@ -18,4 +18,11 @@ class GrowthAndDeathDynamics:
 
     def iniSimpleTest(self, args):
         from .SimpleTest import SimpleTest
-        self.case = args.find("type").text
+        self.concept = SimpleTest.SimpleTest(args)
+
+    def progressTree(self, tree, aboveground_resources, belowground_resources):
+        self.concept.progressTree(tree, aboveground_resources,
+                                  belowground_resources)
+
+    def prepareNextTimeStep(self, t_ini, t_end):
+        self.concept.prepareNextTimeStep(t_ini, t_end)

@@ -21,9 +21,8 @@ class AbovegroundCompetition:
         from .SimpleTest import SimpleTest
         self.concept = SimpleTest.SimpleTest(args)
 
-    def addTree(self, x, y, r_root, h_root, r_stem, h_stem, r_crown, kwargs):
-        self.concept.addTree(x, y, r_root, h_root, r_stem, h_stem, r_crown,
-                             kwargs)
+    def addTree(self, x, y, geometry, parameter):
+        self.concept.addTree(x, y, geometry, parameter)
 
     def getAbovegroundResources(self):
         return self.aboveground_resources

@@ -15,7 +15,7 @@ class GroupPlanting(object):
     def __init__(self, args):
         species = args.find("species").text
         group_name = args.find("name").text
-        self.tree_group = PLib.TreeGroup.TreeGroup(group_name, species)
+        self.tree_group = PLib.TreeGroup(group_name, species)
 
         distribution = args.find("distribution")
         distribution_type = distribution.find("type").text

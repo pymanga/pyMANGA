@@ -5,9 +5,10 @@ Created on Thu Nov  8 15:25:03 2018
 
 @author: bathmann
 """
-if __name__ == '__main__':
-    import Project
-    import XMLtoProject
+#from XMLtoProject import XMLtoProject
+if __name__ == '__main__' and __package__ is None:
+    from XMLtoProject import XMLtoProject
+    from Project import MangaProject
 else:
-    from . import Project
-    from . import XMLtoProject
+    from .XMLtoProject import XMLtoProject
+    from .Project import MangaProject

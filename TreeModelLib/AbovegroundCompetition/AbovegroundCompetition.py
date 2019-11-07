@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from lxml import etree
 
 
-class AbovegroundCompetition:
+class AbovegroundCompetition(object):
     ## Concept for aboveground competition
     #  @VAR case: aboveground competition concept to be used for the model.
     #  @date: 2019 - Today
@@ -19,7 +18,7 @@ class AbovegroundCompetition:
 
     def iniSimpleTest(self, args):
         from .SimpleTest import SimpleTest
-        self.concept = SimpleTest.SimpleTest(args)
+        self.concept = SimpleTest(args)
 
     def addTree(self, x, y, geometry, parameter):
         self.concept.addTree(x, y, geometry, parameter)

@@ -4,12 +4,11 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from lxml import etree
+import PopulationLib as PLib
 
 if __name__ == '__main__' and __package__ is None:
     from os import sys, path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-import PopulationLib as PLib
 
 
 class TreeGroup(object):
@@ -21,7 +20,7 @@ class TreeGroup(object):
 
     def addTree(self, x, y):
         self.max_id += 1
-        self.trees.append(PLib.Tree.Tree(x, y, self.species, self.max_id))
+        self.trees.append(PLib.Tree(x, y, self.species, self.max_id))
 
     def getTrees(self):
         return self.trees

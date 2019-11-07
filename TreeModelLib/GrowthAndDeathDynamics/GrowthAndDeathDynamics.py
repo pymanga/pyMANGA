@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class GrowthAndDeathDynamics:
+class GrowthAndDeathDynamics(object):
     ## Concept for tree growth and death dynamics
     #  @VAR case: tree dynamic concept to be used for the model
     #  @date: 2019 - Today
@@ -18,7 +18,7 @@ class GrowthAndDeathDynamics:
 
     def iniSimpleTest(self, args):
         from .SimpleTest import SimpleTest
-        self.concept = SimpleTest.SimpleTest(args)
+        self.concept = SimpleTest(args)
 
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         self.concept.progressTree(tree, aboveground_resources,

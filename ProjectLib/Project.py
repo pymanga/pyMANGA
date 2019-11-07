@@ -68,8 +68,8 @@ class MangaProject:
     def getTreeTimeStepping(self):
         return self.tree_time_stepping
 
-    def runProject(self):
-        self.tree_time_stepping.runTimeLoop(self)
+    def runProject(self, time_stepping):
+        self.tree_time_stepping.runTimeLoop(time_stepping)
 
 
 if __name__ == '__main__':

@@ -4,8 +4,11 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
+## This script converts the tag documentation from the .md format to doxygen-
+#  readable format. Additionally it is providing the correct linking of tags.
+#  CAUTION: Only run script from this folder.
 
-import os, sys
+import os
 
 
 def clear_folder(_dir):

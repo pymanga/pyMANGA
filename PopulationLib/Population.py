@@ -4,11 +4,8 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from lxml import etree
-if __name__ == '__main__' and __package__ is None:
-    from os import sys, path
-    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-import PopulationLib as PLib
+
+import PopulationLib
 
 
 class Population(object):
@@ -19,7 +16,7 @@ class Population(object):
             self.addTreeGroup(arg)
 
     def addTreeGroup(self, args):
-        tree_group_creator = PLib.GroupPlanting.GroupPlanting(args)
+        tree_group_creator = PopulationLib.GroupPlanting(args)
         tree_group = tree_group_creator.getGroup()
         self.tree_groups[tree_group.name] = tree_group
 

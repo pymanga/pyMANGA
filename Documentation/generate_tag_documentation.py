@@ -76,13 +76,14 @@ def edit_dir(dox_parent, md_parent):
             dox_filename = os.path.join(dox_parent, file.strip(end))
             dox_file = open(dox_filename + ".dox", "w")
 
-            page_name = dox_filename.strip(".").replace("/" + case + "_", "__").replace(
-                "/", "__")
-            dox_file.write("/*! \page " + page_name + " " + "&emsp;" + tag_type + "" + file[2:-3] + "\n")
+            page_name = dox_filename.strip(".").replace(
+                "/" + case + "_", "__").replace("/", "__")
+            dox_file.write("/*! \page " + page_name + " " + "&emsp;" +
+                           tag_type + "" + file[2:-3] + "\n")
             for line in md_file.readlines():
                 dox_file.write(line)
             if case == "i" or case == "c":
-                if (len(folders_in_folder) + len(t_files_in_folder))>0:
+                if (len(folders_in_folder) + len(t_files_in_folder)) > 0:
                     dox_file.write("# Child parameters \n \n")
                     for subfolder in folders_in_folder:
                         submodule_path = os.path.join(dox_parent, subfolder)
@@ -99,7 +100,6 @@ def edit_dir(dox_parent, md_parent):
                 dox_file.write("# Available cases \n \n")
                 for subfolder in folders_in_folder:
                     dox_file.write("- " + subfolder + "\n")
-
 
             dox_file.write("*/")
             dox_file.close()

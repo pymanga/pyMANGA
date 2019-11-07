@@ -3,7 +3,7 @@
 from lxml import etree
 
 
-class AbovegroundCompetition:
+class AbovegroundCompetition(object):
     ## Concept for aboveground competition
     #  @VAR case: aboveground competition concept to be used for the model.
     #  @date: 2019 - Today

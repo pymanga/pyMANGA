@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class BelowgroundCompetition:
+class BelowgroundCompetition(object):
     ## Concept for belowground competition
     #  @VAR case: belowground competition concept to be used for the model.
     #  @date: 2019 - Today

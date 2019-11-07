@@ -7,9 +7,9 @@ Created on Thu Nov  8 15:25:03 2018
 """
 
 if __name__ == '__main__':
-    from AbovegroundCompetition import AbovegroundCompetition
-    from BelowgroundCompetition import BelowgroundCompetition
-    from GrowthAndDeathDynamics import GrowthAndDeathDynamics
+    from AbovegroundCompetition.AbovegroundCompetition import AbovegroundCompetition
+    from BelowgroundCompetition.BelowgroundCompetition import BelowgroundCompetition
+    from GrowthAndDeathDynamics.GrowthAndDeathDynamics import GrowthAndDeathDynamics
 else:
     from .AbovegroundCompetition import AbovegroundCompetition
     from .BelowgroundCompetition import BelowgroundCompetition

@@ -9,23 +9,22 @@
 if __name__ == '__main__' and __package__ is None:
     from os import sys, path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-
 from ProjectLib import XMLtoProject
-from TreeModelLib import AbovegroundCompetition as AC
-from TreeModelLib import BelowgroundCompetition as BC
-from TreeModelLib import GrowthAndDeathDynamics as GADD
+from TreeModelLib import AbovegroundCompetition
+from TreeModelLib import BelowgroundCompetition
+from TreeModelLib import GrowthAndDeathDynamics
 from PopulationLib import Population as POP
 from TimeLoopLib import TreeDynamicTimeLoop as TDTL
 
 
-class MangaProject:
+class MangaProject(object):
     ## MangaProject defined in corresponding xml-file.
     def __init__(self, **args):
         try:
             self.prjfile = args["xml_project_file"]
         except KeyError:
             raise KeyError("XML-Project file missing!")
-        xml_to_prj = XMLtoProject.XMLtoProject(**args)
+        xml_to_prj = XMLtoProject(**args)
         self.args = xml_to_prj.getProjectArguments()
         self.iniAbovegroundCompetition()
         self.iniBelowgroundCompetition()
@@ -38,21 +37,21 @@ class MangaProject:
 
     def iniBelowgroundCompetition(self):
         arg = self.args["belowground_competition"]
-        self.belowground_competition = (BC.BelowgroundCompetition(arg))
+        self.belowground_competition = (BelowgroundCompetition(arg))
 
     def getAbovegroundCompetition(self):
         return self.aboveground_competition
 
     def iniAbovegroundCompetition(self):
         arg = self.args["aboveground_competition"]
-        self.aboveground_competition = (AC.AbovegroundCompetition(arg))
+        self.aboveground_competition = (AbovegroundCompetition(arg))
 
     def getDeathAndGrowthConcept(self):
         return self.growth_and_death_dynamics
 
     def iniDeathAndGrowthConcept(self):
         arg = self.args["tree_growth_and_death"]
-        self.growth_and_death_dynamics = (GADD.GrowthAndDeathDynamics(arg))
+        self.growth_and_death_dynamics = (GrowthAndDeathDynamics(arg))
 
     def iniPopulation(self):
         arg = self.args["initial_population"]

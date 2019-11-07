@@ -1,0 +1,12 @@
+/*! \page __project_dox__MangaProject__tree_dynamics__tree_dynamics &emsp;[input]tree_dynamics
+
+
+Tag to control the dynamical concepts of the trees. Hereby, concepts for the Aboveground-,  and Belowground-Competition concept need to be specified.
+
+
+
+# Child parameters 
+ 
+- \subpage __project_dox__MangaProject__tree_dynamics__belowground_competition__belowground_competition
+- \subpage __project_dox__MangaProject__tree_dynamics__aboveground_competition__aboveground_competition
+*/

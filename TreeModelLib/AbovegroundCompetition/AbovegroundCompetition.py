@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from TreeModelLib import TreeModel
 
 
-class AbovegroundCompetition:
+class AbovegroundCompetition(TreeModel):
     ## Concept for aboveground competition
     #  @VAR case: aboveground competition concept to be used for the model.
     #  @date: 2019 - Today
@@ -20,9 +21,6 @@ class AbovegroundCompetition:
         from .SimpleTest import SimpleTest
         self.concept = SimpleTest(args)
 
-    def addTree(self, x, y, geometry, parameter):
-        self.concept.addTree(x, y, geometry, parameter)
-
     def getAbovegroundResources(self):
         return self.aboveground_resources
 
@@ -30,5 +28,5 @@ class AbovegroundCompetition:
         self.concept.calculateAbovegroundResources()
         self.aboveground_resources = self.concept.getAbovegroundResources()
 
-    def prepareNextTimeStep(self, t_ini, t_end):
-        self.concept.prepareNextTimeStep(t_ini, t_end)
+    def getConceptType(self):
+        return "aboveground competition concept"

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from TreeModelLib import TreeModel
 
 
-class GrowthAndDeathDynamics:
+class GrowthAndDeathDynamics(TreeModel):
     ## Concept for tree growth and death dynamics
     #  @VAR case: tree dynamic concept to be used for the model
     #  @date: 2019 - Today
@@ -20,9 +21,5 @@ class GrowthAndDeathDynamics:
         from .SimpleTest import SimpleTest
         self.concept = SimpleTest(args)
 
-    def progressTree(self, tree, aboveground_resources, belowground_resources):
-        self.concept.progressTree(tree, aboveground_resources,
-                                  belowground_resources)
-
-    def prepareNextTimeStep(self, t_ini, t_end):
-        self.concept.prepareNextTimeStep(t_ini, t_end)
+    def getConceptType(self):
+        return "growth and death dynamics"

@@ -4,7 +4,7 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeModelLib import GrowthAndDeathDynamics
+from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
 
 
 class SimpleTest(GrowthAndDeathDynamics):

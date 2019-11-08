@@ -5,7 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from TreeModelLib import AbovegroundCompetition
+from TreeModelLib.AbovegroundCompetition import AbovegroundCompetition
 
 
 class SimpleTest(AbovegroundCompetition):

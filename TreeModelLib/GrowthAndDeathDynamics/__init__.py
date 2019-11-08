@@ -7,3 +7,4 @@ Created on Thu Nov  8 15:25:03 2018
 """
 
 from .GrowthAndDeathDynamics import GrowthAndDeathDynamics
+from .SimpleTest import SimpleTest

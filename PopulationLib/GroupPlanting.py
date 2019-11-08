@@ -9,19 +9,21 @@ if __name__ == '__main__' and __package__ is None:
     from os import sys, path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 import PopulationLib as PLib
+from PopulationLib import TreeGroup
 
 
-class GroupPlanting:
+class GroupPlanting(TreeGroup):
     def __init__(self, args):
-        species = args.find("species").text
-        group_name = args.find("name").text
-        self.tree_group = PLib.TreeGroup(group_name, species)
+        self.species = args.find("species").text
+        self.name = args.find("name").text
+        self.trees = []
+        self.max_id = 0
 
         distribution = args.find("distribution")
         distribution_type = distribution.find("type").text
-        print("Initialise tree group " + group_name + " with " +
+        print("Initialise tree group " + self.name + " with " +
               distribution_type + " distribution type and trees of species " +
-              species + ".")
+              self.species + ".")
         if distribution_type == "Random":
             self.plantRandomDistributedTrees(distribution)
         else:
@@ -62,7 +64,7 @@ class GroupPlanting:
             r_x, r_y = (np.random.rand(2))
             x_i = x_1 + l_x * r_x
             y_i = y_1 + l_y * r_y
-            self.tree_group.addTree(x_i, y_i)
+            self.addTree(x_i, y_i)
 
     def getGroup(self):
         return self.tree_group

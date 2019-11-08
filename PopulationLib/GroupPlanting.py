@@ -11,7 +11,7 @@ if __name__ == '__main__' and __package__ is None:
 import PopulationLib as PLib
 
 
-class GroupPlanting(object):
+class GroupPlanting:
     def __init__(self, args):
         species = args.find("species").text
         group_name = args.find("name").text

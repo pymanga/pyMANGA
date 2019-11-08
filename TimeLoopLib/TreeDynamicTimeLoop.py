@@ -8,7 +8,7 @@
 from TimeLoopLib import TreeDynamicTimeStepping
 
 
-class TreeDynamicTimeLoop(object):
+class TreeDynamicTimeLoop:
     def __init__(self, args):
         case = args.find("type").text
         if case == "Simple":

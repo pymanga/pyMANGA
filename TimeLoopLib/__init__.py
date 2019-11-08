@@ -8,3 +8,4 @@ Created on Thu Nov  8 15:25:03 2018
 
 from .TreeDynamicTimeStepping import TreeDynamicTimeStepping
 from .TreeDynamicTimeLoop import TreeDynamicTimeLoop
+from .SimpleTimeLoop.SimpleLoop import Loop

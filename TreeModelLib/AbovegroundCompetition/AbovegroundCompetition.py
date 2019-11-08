@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class AbovegroundCompetition(object):
+class AbovegroundCompetition:
     ## Concept for aboveground competition
     #  @VAR case: aboveground competition concept to be used for the model.
     #  @date: 2019 - Today
@@ -27,8 +27,8 @@ class AbovegroundCompetition(object):
         return self.aboveground_resources
 
     def calculateAbovegroundResources(self):
-        self.aboveground_resources = (
-            self.concept.calculateAbovegroundResources())
+        self.concept.calculateAbovegroundResources()
+        self.aboveground_resources = self.concept.getAbovegroundResources()
 
     def prepareNextTimeStep(self, t_ini, t_end):
         self.concept.prepareNextTimeStep(t_ini, t_end)

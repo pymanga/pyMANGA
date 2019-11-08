@@ -4,10 +4,7 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-if __name__ == '__main__' and __package__ is None:
-    from os import sys, path
-    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-from ProjectLib import XMLtoProject
+
 from TreeModelLib import AbovegroundCompetition
 from TreeModelLib import BelowgroundCompetition
 from TreeModelLib import GrowthAndDeathDynamics
@@ -15,15 +12,9 @@ import PopulationLib
 from TimeLoopLib import TreeDynamicTimeLoop
 
 
-class MangaProject(object):
-    ## MangaProject defined in corresponding xml-file.
-    def __init__(self, **args):
-        try:
-            self.prjfile = args["xml_project_file"]
-        except KeyError:
-            raise KeyError("XML-Project file missing!")
-        xml_to_prj = XMLtoProject(**args)
-        self.args = xml_to_prj.getProjectArguments()
+class MangaProject:
+    ## Parent class for MangaProjects.
+    def argsToProject(self):
         self.iniAbovegroundCompetition()
         self.iniBelowgroundCompetition()
         self.iniDeathAndGrowthConcept()
@@ -68,6 +59,8 @@ class MangaProject(object):
     def runProject(self, time_stepping):
         self.tree_time_stepping.runTimeLoop(time_stepping)
 
+    def getProjectArguments(self):
+        return self.args
 
-if __name__ == '__main__':
-    prj = MangaProject(xml_project_file="testproject.xml")
+    def getProjectArgument(self, key):
+        return self.args[key]

@@ -6,5 +6,5 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 
-import TreeModelLib
+from .TreeModelLib.TreeModel import TreeModel
 import ProjectLib

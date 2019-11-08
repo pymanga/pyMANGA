@@ -8,7 +8,7 @@
 import PopulationLib
 
 
-class Population(object):
+class Population:
     def __init__(self, args):
         self.tree_groups = {}
 

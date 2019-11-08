@@ -6,22 +6,26 @@
 """
 
 from lxml import etree
+if __name__ == '__main__' and __package__ is None:
+    from os import sys, path
+    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+from ProjectLib import Project
 
 
-class XMLtoProject(object):
+## Creates MangaProject defined in corresponding xml-file
+class XMLtoProject(Project.MangaProject):
     def __init__(self, **args):
-        self.prjfile = args["xml_project_file"]
-        self.prj_arguments = {}
+        try:
+            self.prjfile = args["xml_project_file"]
+        except KeyError:
+            raise KeyError("XML-Project file missing!")
+        self.args = {}
         self.readProjectFile()
         self.addTreeDynamicConcepts()
         self.addInitialPopulation()
         self.addTreeTimeLoop()
 
-    def getProjectArguments(self):
-        return self.prj_arguments
-
-    def getProjectArgument(self, key):
-        return self.prj_arguments[key]
+        self.argsToProject()
 
     def readProjectFile(self):
         tree = etree.parse(self.prjfile)
@@ -31,7 +35,7 @@ class XMLtoProject(object):
 
     def addTreeDynamicConcepts(self):
         self.tree_dynamics = self.findChild(self.root, "tree_dynamics")
-        self.prj_arguments["aboveground_competition"] = self.findChild(
+        self.args["aboveground_competition"] = self.findChild(
             self.tree_dynamics, "aboveground_competition")
         self.args["belowground_competition"] = self.findChild(
             self.tree_dynamics, "belowground_competition")
@@ -39,15 +43,19 @@ class XMLtoProject(object):
             self.tree_dynamics, "tree_growth_and_death")
 
     def addInitialPopulation(self):
-        self.prj_arguments["initial_population"] = self.findChild(
+        self.args["initial_population"] = self.findChild(
             self.root, "initial_population")
 
     def addTreeTimeLoop(self):
-        self.prj_arguments["tree_time_loop"] = self.findChild(
-            self.root, "tree_time_loop")
+        self.args["tree_time_loop"] = self.findChild(self.root,
+                                                     "tree_time_loop")
 
     def findChild(self, parent, key):
         child = parent.find(key)
         if child is None:
             raise KeyError("key '" + key + "' is missing in project file")
         return child
+
+
+if __name__ == '__main__' and __package__ is None:
+    prj = XMLtoProject(xml_project_file="testproject.xml")

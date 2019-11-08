@@ -18,8 +18,7 @@ class Population(TreeGroup):
             self.addTreeGroup(arg)
 
     def addTreeGroup(self, args):
-        tree_group_creator = PLib.GroupPlanting(args)
-        tree_group = tree_group_creator.getGroup()
+        tree_group = PLib.GroupPlanting(args)
         self.tree_groups[tree_group.name] = tree_group
         self.max_id += tree_group.getNumberOfTrees()
 
@@ -28,6 +27,9 @@ class Population(TreeGroup):
 
     def getTreeGroup(self, name):
         return self.tree_groups[name]
+
+    def getUngroupedTrees(self):
+        return self.trees
 
     def getTrees(self):
         all_trees = []

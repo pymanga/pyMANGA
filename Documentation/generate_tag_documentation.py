@@ -79,7 +79,7 @@ def edit_dir(dox_parent, md_parent):
             dox_filename = os.path.join(dox_parent, file.strip(end))
             dox_file = open(dox_filename + ".dox", "w")
 
-            page_name = dox_filename.strip(".").replace(
+            page_name = dox_filename.strip("./").replace(
                 "/" + case + "_", "__").replace("/", "__")
             dox_file.write("/*! \page " + page_name + " " + "&emsp;" +
                            tag_type + "" + file[2:-3] + "\n")
@@ -90,13 +90,13 @@ def edit_dir(dox_parent, md_parent):
                     dox_file.write("# Child parameters \n \n")
                     for subfolder in folders_in_folder:
                         submodule_path = os.path.join(dox_parent, subfolder)
-                        subpage_name = submodule_path.strip(".").replace(
+                        subpage_name = submodule_path.strip("./").replace(
                             "/", "__") + "__" + subfolder
                         dox_file.write("- \subpage " + subpage_name + "\n")
                     for subfolder in t_files_in_folder:
                         subfolder = subfolder[2:-3]
                         submodule_path = os.path.join(dox_parent, subfolder)
-                        subpage_name = submodule_path.strip(".").replace(
+                        subpage_name = submodule_path.strip("./").replace(
                             "/", "__")
                         dox_file.write("- \subpage " + subpage_name + "\n")
             if case == "t":

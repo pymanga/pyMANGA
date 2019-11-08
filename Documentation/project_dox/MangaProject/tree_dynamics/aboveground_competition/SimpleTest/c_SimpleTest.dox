@@ -1,4 +1,4 @@
-/*! \page __project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleTest__SimpleTest &emsp;[case]SimpleTest
+/*! \page project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleTest__SimpleTest &emsp;[case]SimpleTest
 
 
 SimpleTest aboveground competition concept. This concept returns a 1 for each tree added to it.

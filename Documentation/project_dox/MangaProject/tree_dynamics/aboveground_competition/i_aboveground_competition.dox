@@ -1,4 +1,4 @@
-/*! \page __project_dox__MangaProject__tree_dynamics__aboveground_competition__aboveground_competition &emsp;[input]aboveground_competition
+/*! \page project_dox__MangaProject__tree_dynamics__aboveground_competition__aboveground_competition &emsp;[input]aboveground_competition
 
 
 On this level, the Aboveground-Competition-Concept can be specified.
@@ -6,6 +6,6 @@ On this level, the Aboveground-Competition-Concept can be specified.
 
 # Child parameters 
  
-- \subpage __project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleTest__SimpleTest
-- \subpage __project_dox__MangaProject__tree_dynamics__aboveground_competition__type
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleTest__SimpleTest
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__type
 */

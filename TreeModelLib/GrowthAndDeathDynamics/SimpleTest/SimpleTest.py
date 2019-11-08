@@ -4,9 +4,10 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
+from TreeModelLib import GrowthAndDeathDynamics
 
 
-class SimpleTest(object):
+class SimpleTest(GrowthAndDeathDynamics):
     def __init__(self, args):
         ## SimpleTest case for death and growth dynamics. This case is
         #  defined to test the passing of information between the instances.

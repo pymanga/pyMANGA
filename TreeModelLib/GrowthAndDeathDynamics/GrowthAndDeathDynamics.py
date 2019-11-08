@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class GrowthAndDeathDynamics(object):
+class GrowthAndDeathDynamics:
     ## Concept for tree growth and death dynamics
     #  @VAR case: tree dynamic concept to be used for the model
     #  @date: 2019 - Today

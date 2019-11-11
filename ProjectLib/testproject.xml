@@ -33,4 +33,7 @@
         <t_end> 1e9 </t_end>
         <delta_t> 1e7 </delta_t>
     </tree_time_loop>
+    <visualization>
+        <type> SimplePyplot </type>
+    </visualization>
 </MangaProject>

@@ -11,6 +11,9 @@ class Visualization:
         self.case = args.find("type").text
         if self.case == "SimplePyplot":
             self.iniSimplePyplot(args)
+        elif self.case == "NoVis":
+            self.case = "No"
+            self.iniNoVis(args)
         else:
             raise KeyError("Required visualization type not implemented.")
         print(self.case + " visualization successfully initiated.")
@@ -18,6 +21,10 @@ class Visualization:
     def iniSimplePyplot(self, args):
         from .SimplePyplot import SimplePyplot
         self.visualization = SimplePyplot(args)
+
+    def iniNoVis(self, args):
+        from .NoVis import NoVis
+        self.visualization = NoVis(args)
 
     def update(self, tree_groups, time):
         self.visualization.update(tree_groups, time)

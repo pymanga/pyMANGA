@@ -5,8 +5,9 @@ Tag to control the dynamical concepts of the trees. Hereby, concepts for the Abo
 
 
 
-# Child parameters 
+# Required inputs: 
  
 - \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__belowground_competition
+- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__tree_growth_and_death
 - \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__aboveground_competition
 */

@@ -4,8 +4,11 @@
 On this level, the Belowground-Competition-Concept can be specified.
 
 
-# Child parameters 
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__type
+
+ # Possible cases: 
  
 - \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__SimpleTest__SimpleTest
-- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__type
 */

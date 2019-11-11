@@ -1,0 +1,8 @@
+/*! \page project_dox__MangaProject__initial_population__group__distribution__type &emsp;[tag]type
+
+
+Case selector for different types of initial distributions.
+# Available cases 
+ 
+- Random
+*/

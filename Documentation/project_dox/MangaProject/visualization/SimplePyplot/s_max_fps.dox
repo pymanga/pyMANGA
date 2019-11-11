@@ -1,0 +1,5 @@
+/*! \page project_dox__MangaProject__visualization__SimplePyplot__max_fps &emsp;[spec]max_fps
+
+
+Optional tag specifying the maximum amount of frames per second of the visualization. Default value is 50.
+*/

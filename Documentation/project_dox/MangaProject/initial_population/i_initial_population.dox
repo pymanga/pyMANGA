@@ -1,0 +1,11 @@
+/*! \page project_dox__MangaProject__initial_population__initial_population &emsp;[input]initial_population
+
+
+Tag to control the initial population for the MANGA-Model. Hereby, multiple groups can be specified.
+
+
+
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__initial_population__group__group
+*/

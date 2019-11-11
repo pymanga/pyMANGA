@@ -42,7 +42,10 @@ def edit_dir(dox_parent, md_parent):
     i_files_in_folder = []
     c_files_in_folder = []
     t_files_in_folder = []
+    s_files_in_folder = []
     folders_in_folder = []
+    t_folders_in_folder = []
+
     for file in all_files_in_folder:
         if (file[-3:]) == ".md":
             case = file[0]
@@ -52,21 +55,19 @@ def edit_dir(dox_parent, md_parent):
                 c_files_in_folder.append(file)
             if case == "t":
                 t_files_in_folder.append(file)
-        elif "." not in file:
+            if case == "s":
+                s_files_in_folder.append(file)
+        elif "." not in file and file.islower():
             folders_in_folder.append(file)
+        elif "." not in file and not file.islower():
+            t_folders_in_folder.append(file)
         else:
             raise KeyError("File of type " + file.split(".")[-1] +
                            " not compatible with this script! " +
                            " Please use '.md' files for documentation.")
 
-    print(i_files_in_folder)
-    print(c_files_in_folder)
-    print(t_files_in_folder)
-    print(folders_in_folder)
-
     for file in os.listdir(md_parent):
         if (file[-3:]) == ".md":
-            end = ".md"
             case = file[0]
             tag_type = ""
             if case == "i":
@@ -75,8 +76,10 @@ def edit_dir(dox_parent, md_parent):
                 tag_type = "[tag]"
             if case == "c":
                 tag_type = "[case]"
+            if case == "s":
+                tag_type = "[spec]"
             md_file = open(os.path.join(md_parent, file), "r")
-            dox_filename = os.path.join(dox_parent, file.strip(end))
+            dox_filename = os.path.join(dox_parent, file[:-3])
             dox_file = open(dox_filename + ".dox", "w")
 
             page_name = dox_filename.strip("./").replace(
@@ -86,8 +89,9 @@ def edit_dir(dox_parent, md_parent):
             for line in md_file.readlines():
                 dox_file.write(line)
             if case == "i" or case == "c":
-                if (len(folders_in_folder) + len(t_files_in_folder)) > 0:
-                    dox_file.write("# Child parameters \n \n")
+                if (len(folders_in_folder) + len(t_files_in_folder) +
+                        len(s_files_in_folder)) > 0:
+                    dox_file.write("# Required inputs: \n \n")
                     for subfolder in folders_in_folder:
                         submodule_path = os.path.join(dox_parent, subfolder)
                         subpage_name = submodule_path.strip("./").replace(
@@ -99,9 +103,23 @@ def edit_dir(dox_parent, md_parent):
                         subpage_name = submodule_path.strip("./").replace(
                             "/", "__")
                         dox_file.write("- \subpage " + subpage_name + "\n")
+
+                    for subfolder in s_files_in_folder:
+                        subfolder = subfolder[2:-3]
+                        submodule_path = os.path.join(dox_parent, subfolder)
+                        subpage_name = submodule_path.strip("./").replace(
+                            "/", "__")
+                        dox_file.write("- \subpage " + subpage_name + "\n")
+                if len(t_folders_in_folder) > 0:
+                    dox_file.write("\n # Possible cases: \n \n")
+                    for subfolder in t_folders_in_folder:
+                        submodule_path = os.path.join(dox_parent, subfolder)
+                        subpage_name = submodule_path.strip("./").replace(
+                            "/", "__") + "__" + subfolder
+                        dox_file.write("- \subpage " + subpage_name + "\n")
             if case == "t":
                 dox_file.write("# Available cases \n \n")
-                for subfolder in folders_in_folder:
+                for subfolder in t_folders_in_folder:
                     dox_file.write("- " + subfolder + "\n")
 
             dox_file.write("*/")

@@ -17,5 +17,5 @@ class SimplePyplot(Visualization):
         self.case = args.find("type").text
         print("Initiate visualization of type " + self.case + ".")
 
-    def update(self):
+    def update(self, tree_groups):
         print("dummy")

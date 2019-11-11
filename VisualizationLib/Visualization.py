@@ -19,9 +19,9 @@ class Visualization:
         from .SimplePyplot import SimplePyplot
         self.visualization = SimplePyplot(args)
 
-    def update(self):
+    def update(self, tree_groups):
         try:
-            self.visualization.update()
+            self.visualization.update(tree_groups)
         except AttributeError:
             self.raiseAttributeError("update")
 

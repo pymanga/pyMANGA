@@ -24,6 +24,7 @@ class XMLtoProject(Project.MangaProject):
         self.addTreeDynamicConcepts()
         self.addInitialPopulation()
         self.addTreeTimeLoop()
+        self.addVisualization()
 
         self.argsToProject()
 
@@ -49,6 +50,9 @@ class XMLtoProject(Project.MangaProject):
     def addTreeTimeLoop(self):
         self.args["tree_time_loop"] = self.findChild(self.root,
                                                      "tree_time_loop")
+
+    def addVisualization(self):
+        self.args["visualization"] = self.findChild(self.root, "visualization")
 
     def findChild(self, parent, key):
         child = parent.find(key)

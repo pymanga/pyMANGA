@@ -12,6 +12,8 @@ class TreeDynamicTimeStepping:
         self.belowground_competition = project.getBelowgroundCompetition()
         self.death_and_growth_concept = project.getDeathAndGrowthConcept()
         self.population = project.getPopulation()
+        self.visualization = project.getVisualization()
+        self.visualization.update()
 
     def step(self, t_start, t_end):
         self.aboveground_competition.prepareNextTimeStep(t_start, t_end)
@@ -41,3 +43,4 @@ class TreeDynamicTimeStepping:
                 if not tree.getSurvival():
                     kill_indices.append(i)
             tree_group.removeTreesAtIndices(kill_indices)
+        self.visualization.update()

@@ -19,16 +19,11 @@ class Visualization:
         from .SimplePyplot import SimplePyplot
         self.visualization = SimplePyplot(args)
 
-    def update(self, tree_groups):
-        try:
-            self.visualization.update(tree_groups)
-        except AttributeError:
-            self.raiseAttributeError("update")
-
-    def raiseAttributeError(self, string):
-        raise AttributeError("Function '" + string + "' is " +
-                             "required for " + self.getVisualizationType() +
-                             " visualization but not implemented!")
+    def update(self, tree_groups, time):
+        self.visualization.update(tree_groups, time)
 
     def getVisualizationType(self):
         return self.case
+
+    def show(self, time):
+        self.visualization.show(time)

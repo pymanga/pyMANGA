@@ -34,7 +34,7 @@ class XMLtoProject(object):
         self.prj_arguments["aboveground_competition"] = self.findChild(
             self.tree_dynamics, "aboveground_competition")
         self.prj_arguments["belowground_competition"] = self.findChild(
-            self.tree_dynamics, "aboveground_competition")
+            self.tree_dynamics, "belowground_competition")
         self.prj_arguments["tree_growth_and_death"] = self.findChild(
             self.tree_dynamics, "tree_growth_and_death")
 

@@ -33,9 +33,9 @@ class XMLtoProject(object):
         self.tree_dynamics = self.findChild(self.root, "tree_dynamics")
         self.prj_arguments["aboveground_competition"] = self.findChild(
             self.tree_dynamics, "aboveground_competition")
-        self.prj_arguments["belowground_competition"] = self.findChild(
-            self.tree_dynamics, "aboveground_competition")
-        self.prj_arguments["tree_growth_and_death"] = self.findChild(
+        self.args["belowground_competition"] = self.findChild(
+            self.tree_dynamics, "belowground_competition")
+        self.args["tree_growth_and_death"] = self.findChild(
             self.tree_dynamics, "tree_growth_and_death")
 
     def addInitialPopulation(self):

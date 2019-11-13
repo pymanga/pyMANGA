@@ -13,13 +13,19 @@ class BelowgroundCompetition(TreeModel):
         case = args.find("type").text
         if case == "SimpleTest":
             self.iniSimpleTest(args)
+        elif case == "OGSLargeScale3D":
+            self.iniOGSLargeScale3D(args)
         else:
-            raise KeyError("Required belowground competition not implemented.")
+            raise KeyError("Required belowground competition case " + case + " not implemented.")
         print(case + " belowground competition successfully initiated.")
 
     def iniSimpleTest(self, args):
         from .SimpleTest import SimpleTest
         self.concept = SimpleTest(args)
+
+    def iniOGSLargeScale3D(self, args):
+        from .OGSLargeScale3D import OGSLargeScale3D
+        self.concept = OGSLargeScale3D(args)
 
     def getBelowgroundResources(self):
         return self.belowground_resources

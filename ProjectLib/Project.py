@@ -29,6 +29,9 @@ class MangaProject:
     def setProjectArguments(self, args):
         self.args = args
 
+    def setProjectArguments(self, args):
+        self.args = args
+
     def getBelowgroundCompetition(self):
         return self.belowground_competition
 

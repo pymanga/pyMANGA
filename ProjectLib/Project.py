@@ -26,6 +26,9 @@ class MangaProject:
         self.iniVisualization()
         self.iniTreeOutput()
 
+    def setProjectArguments(self, args):
+        self.args = args
+
     def getBelowgroundCompetition(self):
         return self.belowground_competition
 

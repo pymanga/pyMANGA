@@ -7,7 +7,7 @@
 from lxml import etree
 
 
-class Tree(object):
+class Tree:
     def __init__(self, x, y, species, tree_id):
         self.tree_id = tree_id
         self.species = species

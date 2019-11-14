@@ -4,13 +4,11 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-if __name__ == '__main__' and __package__ is None:
-    from os import sys, path
-    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+
 from TimeLoopLib import TreeDynamicTimeStepping
 
 
-class TreeDynamicTimeLoop(object):
+class TreeDynamicTimeLoop:
     def __init__(self, args):
         case = args.find("type").text
         if case == "Simple":

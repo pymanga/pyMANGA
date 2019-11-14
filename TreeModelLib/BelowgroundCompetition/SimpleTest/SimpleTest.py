@@ -5,9 +5,10 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
+from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 
 
-class SimpleTest(object):
+class SimpleTest(BelowgroundCompetition):
     def __init__(self, args):
         ## SimpleTest case for belowground competition concept. This case is
         #  defined to test the passing of information between the instances.
@@ -21,8 +22,7 @@ class SimpleTest(object):
         #  subsequent timestep. In the SimpleTest concept, for each tree a one
         #  is returned
         #  @return: np.array with $N_tree$ scalars
-        self.resources = self.trees
-        return np.array(self.resources)
+        self.belowground_resources = self.trees
 
     def prepareNextTimeStep(self, t_ini, t_end):
         ## This functions prepares the competition concept for the competition

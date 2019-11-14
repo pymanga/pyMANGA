@@ -15,8 +15,6 @@ from ProjectLib import Project
 ## Creates MangaProject defined in corresponding xml-file
 class XMLtoProject(Project.MangaProject):
     def __init__(self, **args):
-        from os import path  # required to run TestXMLToProject
-
         self.args = {}
         try:
             self.prjfile = args["xml_project_file"]
@@ -40,9 +38,13 @@ class XMLtoProject(Project.MangaProject):
         self.xmlTextStrip(tree)
 
     def xmlTextStrip(self, tree):
+        if tree.getroot() == None:
+            raise AttributeError("XML-Tree for project configuration is " +
+                                 "missing.")
         self.root = tree.getroot()
         #  The for loop removes ambiguous spaces of the tag arguments
         for tag in self.root.iter():
+            print(tag.text, tag)
             tag.text = tag.text.strip()
 
     def addTreeDynamicConcepts(self):

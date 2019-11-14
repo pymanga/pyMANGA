@@ -10,8 +10,13 @@ class AbovegroundCompetition(TreeModel):
     #  @author: jasper.bathmann@ufz.de
 
     def __init__(self, args):
+        if args.find("type") == None:
+            raise AttributeError("Required tag in key AbovegroundCompetition" +
+                                 " 'type' missing.")
         case = args.find("type").text
-        if case == "SimpleTest":
+        if case == None or case == "":
+            raise KeyError("Key for tag 'type' not specified.")
+        elif case == "SimpleTest":
             self.iniSimpleTest(args)
         else:
             raise KeyError("Required aboveground competition not implemented.")

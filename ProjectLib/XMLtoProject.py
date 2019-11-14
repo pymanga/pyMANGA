@@ -26,6 +26,7 @@ class XMLtoProject(object):
     def readProjectFile(self):
         tree = etree.parse(self.prjfile)
         self.root = tree.getroot()
+        #  The for loop removes ambiguous spaces of the tag arguments
         for tag in self.root.iter():
             tag.text = tag.text.strip()
 

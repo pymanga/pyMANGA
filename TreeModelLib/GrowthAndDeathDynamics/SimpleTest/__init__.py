@@ -5,6 +5,8 @@ Created on Thu Nov  8 15:25:03 2018
 
 @author: bathmann
 """
-from . import *
-from TreeModelLib import *
-from ProjectLib import *
+
+if __name__ == '__main__':
+    import SimpleTest
+else:
+    from . import SimpleTest

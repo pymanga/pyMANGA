@@ -44,7 +44,6 @@ class XMLtoProject(Project.MangaProject):
         self.root = tree.getroot()
         #  The for loop removes ambiguous spaces of the tag arguments
         for tag in self.root.iter():
-            print(tag.text, tag)
             tag.text = tag.text.strip()
 
     def addTreeDynamicConcepts(self):

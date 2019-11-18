@@ -5,6 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
+import numpy as np
 
 
 class SimpleBettina(GrowthAndDeathDynamics):
@@ -23,40 +24,39 @@ class SimpleBettina(GrowthAndDeathDynamics):
         #  step, the list is simply resetted.
         #  @VAR: t_ini - initial time for next timestep \n
         #  t_end - end time for next 
-        self.t_ini = t_ini
-        self.t_end = t_end  # ist der fluß von "time" richtig?
+        self.time = t_end - t_ini
 
-    def progressTree(self, tree, aboveground_resources, belowground_resources, time):
+    def progressTree(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
-        parameter = tree.getParameter()
-        r_crown = geometry["r_crown"]
-        h_crown = geometry["h_crown"] 
-        r_root = geometry["r_root"]
-        h_root = geometry["h_root"]
-        r_stem = geometry["r_stem"]
-        h_stem = geometry["h_stem"]
-        self.die = 0		# was ist alles self?
-        self.flowLength(tree)
-        self.treeVolume(tree)
-        self.treeMaintenance(tree, time)
-        self.bgResources(tree, time, belowground_resources)
-        self.agResources(tree, time, aboveground_resources)
-        self.growthResources(tree)
-        self.treeGrowthWeights(tree)
-        self.treeGrowth(tree)
-        geometry["r_crown"] = r_crown
-        geometry["h_crown"] = h_crown
-        geometry["r_root"] = r_root
-        geometry["h_root"] = h_root
-        geometry["r_stem"] = r_stem
-        geometry["h_stem"] = h_stem
+        self.parameter = tree.getParameter()
+        self.r_crown = geometry["r_crown"]
+        self.h_crown = geometry["h_crown"] 
+        self.r_root = geometry["r_root"]
+        self.h_root = geometry["h_root"]
+        self.r_stem = geometry["r_stem"]
+        self.h_stem = geometry["h_stem"]
+        self.die = 0
+        self.flowLength()
+        self.treeVolume()
+        self.treeMaintenance()
+        self.bgResources(belowground_resources)
+        self.agResources(aboveground_resources)
+        self.growthResources()
+        self.treeGrowthWeights()
+        self.treeGrowth()
+        geometry["r_crown"] = self.r_crown
+        geometry["h_crown"] = self.h_crown
+        geometry["r_root"] = self.r_root
+        geometry["h_root"] = self.h_root
+        geometry["r_stem"] = self.r_stem
+        geometry["h_stem"] = self.h_stem
         tree.setGeometry(geometry)
         if (self.die == 0):
             tree.setSurvival(1)
         else:
-            tree.setSurvival(0)          # richtig?
+            tree.setSurvival(0)         
 
-    def treeGrowth(self, tree):
+    def treeGrowth(self):
         inc_rs = (self.weight_girthgrowth * self.grow /
                 (2 * np.pi * self.r_stem * self.flow_length)) 
         self.r_stem += inc_rs
@@ -72,71 +72,71 @@ class SimpleBettina(GrowthAndDeathDynamics):
         self.h_stem += inc_hs
         self.r_crown += inc_rc
  
-    def treeGrowthWeights(self, tree):
+    def treeGrowthWeights(self):
         self.weight_stemgrowth = (
-                parameter["half_max_h_growth_weight"] /
+                self.parameter["half_max_h_growth_weight"] /
                 (1 + np.exp(- (self.r_crown - self.r_root) /
                               (self.r_crown + self.r_root) /
-                              parameter["h_sigmo_slope"])))
+                              self.parameter["h_sigmo_slope"])))
         self.weight_crowngrowth = (
                 (1 - self.weight_stemgrowth) /
                 (1 + np.exp((self.ag_resources - self.bg_resources) /
                             (self.ag_resources - self.bg_resources) /
-                            parameter["sigmo_slope"])))
+                            self.parameter["sigmo_slope"])))
 
         self.weight_girthgrowth = (
                 (1 - self.weight_stemgrowth - self.weight_crowngrowth) /
                 (1 + np.exp((self.root_surface_resistance -
                              self.xylem_resistance) /
                  (self.root_surface_resistance + self.xylem_resistance) /
-                 parameter["sigmo_slope"])))
+                 self.parameter["sigmo_slope"])))
 
         self.weight_rootgrowth = (1 - self.weight_stemgrowth -
                                   self.weight_crowngrowth -
                                   self.weight_girthgrowth)
 
-    def treeMaintenance(self, tree, time): # was macht denn tree?
-        self.maint = self.volume * parameter["maint_factor"] * time
+    def treeMaintenance(self):
+        self.maint = self.volume * self.parameter["maint_factor"] * self.time
 
-    def flowLength(self, tree):
+    def flowLength(self):
         self.flow_length = (
                 2 * self.r_crown + self.h_stem +
-                0.5 ** 0.5 * self.root_radius)
+                0.5 ** 0.5 * self.r_root)
 
-    def treeVolume(self,tree):
+    def treeVolume(self):
         self.volume = (self.h_root * np.pi * self.r_root**2 +
                 self.flow_length * np.pi * self.r_stem**2 +
                 self.h_crown * np.pi * self.r_crown**2)
 
-    def agResources(self, tree, time, aboveground_resources):
+    def agResources(self, aboveground_resources):
         self.ag_resources = aboveground_resources * (
                 np.pi * self.r_crown**2 *
-                parameter["sun_c"] * time)
+                self.parameter["sun_c"] * self.time)
  
-    def bgResources(self, tree, time, belowground_resources):
-        self.rootSurfaceResistance(tree)
-        self.xylemResistance(tree)
-        self.deltaPsi(tree)
-        self.bg_resources = belowground_resources * ((- time * self.delta_psi /
+    def bgResources(self, belowground_resources):
+        self.rootSurfaceResistance()
+        self.xylemResistance()
+        self.deltaPsi()
+        self.bg_resources = belowground_resources * ((- self.time * self.delta_psi /
                          (self.root_surface_resistance + self.xylem_resistance)))
 
-    def rootSurfaceResistance(self,tree):
-        self.root_surface_resistance = ( 1 / parameter["lp"] /
-                parameter["k_geom"] / np.pi / self.r_root**2 / self.h_root)
+    def rootSurfaceResistance(self):
+        self.root_surface_resistance = ( 1 / self.parameter["lp"] /
+                self.parameter["k_geom"] / np.pi / self.r_root**2 / self.h_root)
 
-    def xylemResistance(self,tree):
+    def xylemResistance(self):
         self.xylem_resistance = (
-                self.flow_length / parameter["kf_sap"] /
+                self.flow_length / self.parameter["kf_sap"] /
                 np.pi / self.r_stem**2)
 
-    def deltaPsi(self,tree):
+    def deltaPsi(self):
         self.delta_psi = (
-                parameter["leaf_water_potential"] +
+                self.parameter["leaf_water_potential"] +
                 (2 * self.r_crown + self.h_stem) * 9810)
 
-    def growthResources(self,tree):
+    def growthResources(self):
         self.available_resources = min(self.ag_resources, self.bg_resources)
-        self.grow = (parameter["growth_factor"] *
+        self.grow = (self.parameter["growth_factor"] *
                      (self.available_resources - self.maint))
         if(self.grow < 0):
             self.grow = 0

@@ -50,6 +50,11 @@ class SimpleBettina(GrowthAndDeathDynamics):
         geometry["h_root"] = self.h_root
         geometry["r_stem"] = self.r_stem
         geometry["h_stem"] = self.h_stem
+        print(self.r_crown)
+        print(self.r_stem)
+        print(self.r_root)
+        print(self.h_stem)
+
         tree.setGeometry(geometry)
         if (self.die == 0):
             tree.setSurvival(1)
@@ -81,7 +86,7 @@ class SimpleBettina(GrowthAndDeathDynamics):
         self.weight_crowngrowth = (
                 (1 - self.weight_stemgrowth) /
                 (1 + np.exp((self.ag_resources - self.bg_resources) /
-                            (self.ag_resources - self.bg_resources) /
+                            (self.ag_resources + self.bg_resources) /
                             self.parameter["sigmo_slope"])))
 
         self.weight_girthgrowth = (

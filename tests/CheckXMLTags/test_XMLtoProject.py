@@ -13,6 +13,10 @@ Actions that require an error message to appear
 - required xml-tree-elements are missing (e.g. tree_dynamics)
 - required subelements are missing (e.g. aboveground_competition)
 - required xml-tags are missing (e.g. type, species)
+<<<<<<< HEAD
+=======
+- #wrong xml-text type (e.g. string instead of float)
+>>>>>>> 4509c00... [tests] started xml unit testing
 
 @ToDo: we need to specify required elements and tags - e.g. with DTD: each case requires DTD
 """
@@ -29,8 +33,6 @@ from lxml import etree
 
 
 class TestXMLToProject(unittest.TestCase):
-    from lxml import etree
-
     ## check if error is raised when file does not exist or file is not a file
     def test_file_exists(self):
         with self.assertRaisesRegex(OSError,
@@ -121,6 +123,14 @@ class TestXMLToProject(unittest.TestCase):
                 XMLtoProject(xml_tree=root).findChild(
                     parent=root, key=element)
 
-
 if __name__ == '__main__':
     unittest.main(verbosity=2)
+# in tree_dynamics:
+# above, below, growth
+# type
+# in pop.
+# group
+# name, species, distr.
+# in time
+# type, start, end
+

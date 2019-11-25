@@ -17,14 +17,18 @@ from ProjectLib import XMLtoProject
 # KeyError = alles in <>, return from element.key
 # =============================================================================
 
+
 def checkForEmptyTreeError(tree):
     try:
         XMLtoProject(xml_tree=tree)
+<<<<<<< HEAD
 
 def checkForEmptyTreeError(tree):
     try:
         XMLtoProject(xml_tree = tree)
 
+=======
+>>>>>>> 7c3cedb... tmp
     except AttributeError:
         if not tree.getroot() == None:
             raise KeyError("Empty tree error for non empty tree.")
@@ -35,19 +39,30 @@ def checkKeyErrorForMissingKey(tree, key):
         XMLtoProject()
     except KeyError:
         if tree.find(key) != (None):
+<<<<<<< HEAD
             raise KeyError("Required key '"+ key + "' "   +
                                  "not correctly checked.")
 
 def checkCorrectAttributeError(tree, tag, key):
     #try:
         XMLtoProject(xml_tree = tree)
+=======
+            raise KeyError("Required key '" + key + "' " +
+                           "not correctly checked.")
 
-    #except AttributeError:
-    #    print(tag.find(key))
-    #    if tag.find(key) != None:
-    #        raise AttributeError("Required tag 'type' for tag " + tag.key  +
-    #                             "not correctly checked.")
 
+def checkCorrectAttributeError(tree, tag, key):
+    #try:
+
+    XMLtoProject(xml_tree=tree)
+>>>>>>> 7c3cedb... tmp
+
+
+#except AttributeError:
+#    print(tag.find(key))
+#    if tag.find(key) != None:
+#        raise AttributeError("Required tag 'type' for tag " + tag.key  +
+#                             "not correctly checked.")
 
 def checkCorrectKeyErrorForWrongKey(args, tag, key, test):
     try:
@@ -57,6 +72,10 @@ def checkCorrectKeyErrorForWrongKey(args, tag, key, test):
         if tag.find(key) == test:
             raise KeyError("Case not correctly checked.")
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7c3cedb... tmp
 def checkForProjectArgExisting(args, search):
     try:
         XMLtoProject()
@@ -64,6 +83,7 @@ def checkForProjectArgExisting(args, search):
     except KeyError:
         if search in (args.keys()):
             raise KeyError("Key not correctly checked.")
+
 
 # create empty tree
 tree = etree.ElementTree()
@@ -83,6 +103,7 @@ etree.SubElement(root, "tree_dynamics")
 XMLtoProject(xml_tree=tree)
 
 tree_dynamics = ["aboveground_competition", "belowground_competition"]
+
 #if not tree.getroot(): print("True")
 # =============================================================================
 #
@@ -108,4 +129,3 @@ tree_dynamics = ["aboveground_competition", "belowground_competition"]
 #
 #
 # =============================================================================
-

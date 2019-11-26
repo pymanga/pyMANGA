@@ -5,7 +5,10 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
+from matplotlib import patches as patch
+from matplotlib import cm
 from matplotlib import pyplot as plt
+from matplotlib.collections import PatchCollection
 from VisualizationLib.Visualization import Visualization
 
 
@@ -24,24 +27,51 @@ class SimplePyplot(Visualization):
 
     def update(self, tree_groups, time):
         self.ax.clear()
+        patches = []
+        left, bottom = 99999, 99999
+        rigth, top = -99999, -99999
+        a, b = tree_groups.items()
+        colors = cm.get_cmap('viridis', len(b))
+        i = 0
+        patches = []
         for group_name, tree_group in tree_groups.items():
-            xs, ys, rs = [], [], []
+            patches_group = []
             for tree in tree_group.getTrees():
                 x, y = tree.getPosition()
-                xs.append(x), ys.append(y)
+                left = min(left, x)
+                rigth = max(rigth, x)
+                top = max(top, y)
+                bottom = min(bottom, y)
                 geo = tree.getGeometry()
-                rs.append(geo["r_crown"])
-            self.ax.scatter(xs, ys, s=rs, label=tree_group.name)
-        plt.legend(loc=1)
+                r = geo["r_crown"]
+                patches_group.append(patch.Circle((x, y), r))
+            patches.append(patches_group)
+        handles = []
+        for patches_group in patches:
+
+            p = PatchCollection(patches_group,
+                                alpha=1,
+                                linewidths=1,
+                                fc=colors.colors[i],
+                                edgecolors="k",
+                                label=tree_group.name)
+            leg = patch.Patch(color=colors.colors[i], label=tree_group.name)
+            handles.append(leg)
+
+            i += 1
+            self.ax.add_collection(p)
+        plt.legend(handles=handles, loc=1)
+
         timestring = self.createTimestring(time)
-        left, rigth = plt.xlim()
+
         ex_x = rigth - left
-        bottom, top = plt.ylim()
         ex_y = top - bottom
         if ex_y > ex_x:
             left = rigth - ex_y
         elif ex_x > ex_y:
             bottom = top - ex_x
+        self.ax.set_xlim(left, rigth)
+        self.ax.set_ylim(bottom, top)
         plt.title("Time = " + timestring + "years")
         plt.draw()
         plt.pause(1 / self.max_fps)

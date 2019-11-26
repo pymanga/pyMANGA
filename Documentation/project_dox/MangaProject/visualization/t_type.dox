@@ -1,0 +1,9 @@
+/*! \page project_dox__MangaProject__visualization__type &emsp;[tag]type
+
+
+Case selector for visualization type.
+# Available cases 
+ 
+- SimplePyplot
+- NoVis
+*/

@@ -1,0 +1,13 @@
+/*! \page project_dox__MangaProject__visualization__visualization &emsp;[input]visualization
+
+Specification of the visualization applied for the model run.
+
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__visualization__type
+
+ # Possible cases: 
+ 
+- \subpage project_dox__MangaProject__visualization__SimplePyplot__SimplePyplot
+- \subpage project_dox__MangaProject__visualization__NoVis__NoVis
+*/

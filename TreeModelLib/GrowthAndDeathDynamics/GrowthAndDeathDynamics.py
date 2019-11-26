@@ -22,7 +22,7 @@ class GrowthAndDeathDynamics(TreeModel):
     def iniSimpleTest(self, args):
         from .SimpleTest import SimpleTest
         self.concept = SimpleTest(args)
-  
+
     def iniSimpleBettina(self, args):
         from .SimpleBettina import SimpleBettina
         self.concept = SimpleBettina(args)

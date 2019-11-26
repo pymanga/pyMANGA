@@ -8,7 +8,7 @@
             <type> SimpleTest </type>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> SimpleTest </type>
+            <type> SimpleBettina </type>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>
@@ -20,8 +20,8 @@
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 10 </x_2>
-                    <y_2> 10 </y_2>
+                    <x_2> 50 </x_2>
+                    <y_2> 50 </y_2>
                 </domain>
                 <n_individuals> 100 </n_individuals>
             </distribution>
@@ -34,8 +34,8 @@
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 10 </x_2>
-                    <y_2> 10 </y_2>
+                    <x_2> 100 </x_2>
+                    <y_2> 100 </y_2>
                 </domain>
                 <n_individuals> 100 </n_individuals>
             </distribution>

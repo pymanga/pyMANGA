@@ -9,6 +9,7 @@ List containing species specific tree model parameters.
 
 def createTree():
     ini_root_depth = 0.004
+    ini_crown_depth = 0.004
     ini_stem_radius = 0.005
     ini_stem_height = 0.05
     ini_root_radius = 0.2
@@ -26,6 +27,7 @@ def createTree():
     geometry = {}
     parameter = {}
     geometry["h_root"] = ini_root_depth
+    geometry["h_crown"] = ini_crown_depth
     geometry["r_root"] = ini_root_radius
     geometry["r_stem"] = ini_stem_radius
     geometry["h_stem"] = ini_stem_height

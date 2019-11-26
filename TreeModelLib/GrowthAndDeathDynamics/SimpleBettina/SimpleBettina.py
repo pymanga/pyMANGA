@@ -42,7 +42,7 @@ class SimpleBettina(GrowthAndDeathDynamics):
         self.h_root = geometry["h_root"]
         self.r_stem = geometry["r_stem"]
         self.h_stem = geometry["h_stem"]
-        self.die = 0
+        self.survive = 1
         self.flowLength()
         self.treeVolume()
         self.treeMaintenance()
@@ -58,27 +58,27 @@ class SimpleBettina(GrowthAndDeathDynamics):
         geometry["r_stem"] = self.r_stem
         geometry["h_stem"] = self.h_stem
         tree.setGeometry(geometry)
-        if (self.die == 0):
+        if (self.survive == 1):
             tree.setSurvival(1)
         else:
             tree.setSurvival(0)         
 
     ## This functions updates the geometric measures of the tree.
     def treeGrowth(self):
-        inc_rs = (self.weight_girthgrowth * self.grow /
+        inc_r_stem = (self.weight_girthgrowth * self.grow /
                 (2 * np.pi * self.r_stem * self.flow_length)) 
-        self.r_stem += inc_rs
-        inc_hs = (self.weight_stemgrowth * self.grow /
+        self.r_stem += inc_r_stem
+        inc_h_stem = (self.weight_stemgrowth * self.grow /
                 (np.pi * self.r_stem ** 2))
-        inc_rc = (self.weight_crowngrowth * self.grow /
+        self.h_stem += inc_h_stem
+        inc_r_crown = (self.weight_crowngrowth * self.grow /
                 (2 * np.pi * (self.h_crown * self.r_crown +
                 self.r_stem ** 2)))
-        inc_rr = (self.weight_rootgrowth * self.grow /
+        self.r_crown += inc_r_crown
+        inc_r_root = (self.weight_rootgrowth * self.grow /
                 (2 * np.pi * self.r_root * self.h_root +
                  0.5 ** 0.5 * np.pi * self.r_stem ** 2))
-        self.r_root += inc_rr
-        self.h_stem += inc_hs
-        self.r_crown += inc_rc
+        self.r_root += inc_r_root
  
     ## This functions calculates the growths weights for distributing
     # biomass increment to the geometric (allometric) tree measures.
@@ -134,8 +134,7 @@ class SimpleBettina(GrowthAndDeathDynamics):
     def bgResources(self, belowground_resources):
         self.rootSurfaceResistance()
         self.xylemResistance()
-        self.deltaPsi()
-        self.bg_resources = belowground_resources * ((- self.time * self.delta_psi /
+        self.bg_resources = belowground_resources * ((- self.time * self.deltaPsi() /
                          (self.root_surface_resistance + self.xylem_resistance)))
 
     ## This function calculates the root surface resistance.
@@ -151,8 +150,7 @@ class SimpleBettina(GrowthAndDeathDynamics):
 
     ## This function calculates the potential gradient with soil water potential = 0.
     def deltaPsi(self):
-        self.delta_psi = (
-                self.parameter["leaf_water_potential"] +
+        return (self.parameter["leaf_water_potential"] +
                 (2 * self.r_crown + self.h_stem) * 9810)
 
     ## This function calculates the available resources and the biomass increment.
@@ -162,4 +160,4 @@ class SimpleBettina(GrowthAndDeathDynamics):
                      (self.available_resources - self.maint))
         if(self.grow < 0):
             self.grow = 0
-            self.die = 1
+            self.survive = 0

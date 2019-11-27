@@ -60,7 +60,7 @@ class MangaProject:
 
     def iniVisualization(self):
         arg = self.args["visualization"]
-        self.visualization = (Visualization(arg))
+        self.visualization = Visualization(arg)
 
     def getVisualization(self):
         return self.visualization

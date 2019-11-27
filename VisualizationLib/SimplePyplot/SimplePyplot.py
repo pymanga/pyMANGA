@@ -4,7 +4,6 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-import numpy as np
 from matplotlib import patches as patch
 from matplotlib import cm
 from matplotlib import pyplot as plt
@@ -33,7 +32,7 @@ class SimplePyplot(Visualization):
         a, b = tree_groups.items()
         colors = cm.get_cmap('viridis', len(b))
         i = 0
-        patches = []
+        patches, group_names = [], []
         for group_name, tree_group in tree_groups.items():
             patches_group = []
             for tree in tree_group.getTrees():
@@ -46,16 +45,17 @@ class SimplePyplot(Visualization):
                 r = geo["r_crown"]
                 patches_group.append(patch.Circle((x, y), r))
             patches.append(patches_group)
+            group_names.append(group_name)
         handles = []
-        for patches_group in patches:
+        for patches_group, group_name in zip(patches, group_names):
 
             p = PatchCollection(patches_group,
                                 alpha=1,
                                 linewidths=1,
-                                fc=colors.colors[i],
+                                facecolors=colors.colors[i],
                                 edgecolors="k",
                                 label=tree_group.name)
-            leg = patch.Patch(color=colors.colors[i], label=tree_group.name)
+            leg = patch.Patch(color=colors.colors[i], label=group_name)
             handles.append(leg)
 
             i += 1

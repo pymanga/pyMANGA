@@ -30,9 +30,9 @@ class SimplePyplot(Visualization):
     #  distinct tree groups are indicated by varying colors. The
     #  Plotsize is derived from the distribution of trees, such 
     #  that all tree centers a shown.
-    #  @VAR tree_groups - list of tree groups as processes by
+    #  @param tree_groups - list of tree groups as processes by
     #  Manga.\n
-    #  @VAR time - double indicating current time
+    #  @param time - double indicating current time
     def update(self, tree_groups, time):
         self._ax.clear()
         patches = []
@@ -87,7 +87,7 @@ class SimplePyplot(Visualization):
 
     ## Show function necessary for all visualization classes.
     #  This function displays the current state of the subplot.\n
-    #  @VAR time - current time.
+    #  @param time - current time.
     def show(self, time):
         plt.title("Time = " + str(time) + "years")
         plt.show()

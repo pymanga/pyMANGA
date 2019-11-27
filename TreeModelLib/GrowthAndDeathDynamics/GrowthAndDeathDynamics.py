@@ -5,7 +5,7 @@ from TreeModelLib import TreeModel
 
 class GrowthAndDeathDynamics(TreeModel):
     ## Concept for tree growth and death dynamics
-    #  @VAR case: tree dynamic concept to be used for the model
+    #  @param case: tree dynamic concept to be used for the model
     #  @date: 2019 - Today
     #  @author: jasper.bathmann@ufz.de
 

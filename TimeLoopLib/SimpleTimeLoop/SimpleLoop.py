@@ -10,7 +10,7 @@ class Loop:
     def __init__(self, args):
         ## SimpleTest case for aboveground competition concept. This case is
         #  defined to test the passing of information between the instances.
-        #  @VAR: Tags to define SimpleTest: type
+        #  @param: Tags to define SimpleTest: type
         #  @date: 2019 - Today
         case = args.find("type").text
         print("Initiate time loop of type " + case + ".")

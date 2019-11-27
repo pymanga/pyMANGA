@@ -8,4 +8,4 @@ Created on Thu Nov  8 15:25:03 2018
 
 from .Visualization import Visualization
 from .SimplePyplot import SimplePyplot
-from .NoVis import NoVis
+from .NONE import NONE

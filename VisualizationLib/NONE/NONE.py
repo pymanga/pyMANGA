@@ -7,7 +7,7 @@
 from VisualizationLib.Visualization import Visualization
 
 
-class NoVis(Visualization):
+class NONE(Visualization):
     def __init__(self, args):
         self.case = args.find("type").text
         print("Running without visualization.")

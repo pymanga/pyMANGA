@@ -5,5 +5,5 @@ Case selector for visualization type.
 # Available cases 
  
 - SimplePyplot
-- NoVis
+- NONE
 */

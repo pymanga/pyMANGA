@@ -9,5 +9,5 @@ Specification of the visualization applied for the model run.
  # Possible cases: 
  
 - \subpage project_dox__MangaProject__visualization__SimplePyplot__SimplePyplot
-- \subpage project_dox__MangaProject__visualization__NoVis__NoVis
+- \subpage project_dox__MangaProject__visualization__NONE__NONE
 */

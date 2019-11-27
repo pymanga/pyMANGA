@@ -28,7 +28,7 @@ class SimplePyplot(Visualization):
     #  This function updates the subplot displaying positions
     #  and crown radius of all individual trees. Hereby, the
     #  distinct tree groups are indicated by varying colors. The
-    #  Plotsize is derived from the distribution of trees, such 
+    #  Plotsize is derived from the distribution of trees, such
     #  that all tree centers a shown.
     #  @param tree_groups - list of tree groups as processes by
     #  Manga.\n
@@ -91,7 +91,6 @@ class SimplePyplot(Visualization):
     def show(self, time):
         plt.title("Time = " + str(time) + "years")
         plt.show()
-
 
     ## This member function converts the argument to a string.
     #  Used in update()

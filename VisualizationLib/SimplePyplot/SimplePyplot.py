@@ -17,15 +17,24 @@ class SimplePyplot(Visualization):
 
         print("Initiate visualization of type " + self.case + ".")
         try:
-            self.max_fps = float(args.find("max_fps").text)
+            self._max_fps = float(args.find("max_fps").text)
         except AttributeError:
-            self.max_fps = 50
+            self._max_fps = 50
             print("Tag 'max_fps' in '" + self.case +
                   "' visualization is missing! max_fps set to 50.")
-        fig, self.ax = plt.subplots(figsize=(10, 10))
+        fig, self._ax = plt.subplots(figsize=(10, 10))
 
+    ## Update function necessary for all visualization classes.
+    #  This function updates the subplot displaying positions
+    #  and crown radius of all individual trees. Hereby, the
+    #  distinct tree groups are indicated by varying colors. The
+    #  Plotsize is derived from the distribution of trees, such 
+    #  that all tree centers a shown.
+    #  @VAR tree_groups - list of tree groups as processes by
+    #  Manga.\n
+    #  @VAR time - double indicating current time
     def update(self, tree_groups, time):
-        self.ax.clear()
+        self._ax.clear()
         patches = []
         left, bottom = 99999, 99999
         rigth, top = -99999, -99999
@@ -59,7 +68,7 @@ class SimplePyplot(Visualization):
             handles.append(leg)
 
             i += 1
-            self.ax.add_collection(p)
+            self._ax.add_collection(p)
         plt.legend(handles=handles, loc=1)
 
         timestring = self.createTimestring(time)
@@ -70,16 +79,22 @@ class SimplePyplot(Visualization):
             left = rigth - ex_y
         elif ex_x > ex_y:
             bottom = top - ex_x
-        self.ax.set_xlim(left, rigth)
-        self.ax.set_ylim(bottom, top)
+        self._ax.set_xlim(left, rigth)
+        self._ax.set_ylim(bottom, top)
         plt.title("Time = " + timestring + "years")
         plt.draw()
-        plt.pause(1 / self.max_fps)
+        plt.pause(1 / self._max_fps)
 
+    ## Show function necessary for all visualization classes.
+    #  This function displays the current state of the subplot.\n
+    #  @VAR time - current time.
     def show(self, time):
         plt.title("Time = " + str(time) + "years")
         plt.show()
 
+
+    ## This member function converts the argument to a string.
+    #  Used in update()
     def createTimestring(self, arg):
         timestring = ""
         if (type(arg) == float):

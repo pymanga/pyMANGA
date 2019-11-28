@@ -15,14 +15,22 @@ class TreeOutput:
         case = args.find("type").text
         if case == "NONE":
             self.iniNONE(args)
+        elif case == "OneTreeOneFile":
+            self.iniOneTreeOneFile(args)
         else:
-            raise KeyError("Required tree_output not implemented")
+            raise KeyError("Required tree_output of type '" + case + "' not "
+                           "implemented!")
         print(case + " tree output sucesscully initiated.")
 
     ## Constructor for no output generation.
     def iniNONE(self, args):
         from .NONE import NONE
         self.output = NONE(args)
+
+    ## Constructor for output which generates one file per tree.
+    def iniOneTreeOneFile(self, args):
+        from .OneTreeOneFile import OneTreeOneFile
+        self.output = OneTreeOneFile(args)
 
     ## Dummy for write output function
     def writeOutput(self, tree_groups, time):

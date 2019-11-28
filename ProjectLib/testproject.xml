@@ -51,6 +51,7 @@
         <type> SimplePyplot </type>
     </visualization>
     <tree_output>
+        <type> NONE </type>
     </tree_output>
 </MangaProject>
 

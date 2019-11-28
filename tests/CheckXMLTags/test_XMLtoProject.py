@@ -13,7 +13,6 @@ Actions that require an error message to appear
 - required xml-tree-elements are missing (e.g. tree_dynamics)
 - required subelements are missing (e.g. aboveground_competition)
 - required xml-tags are missing (e.g. type, species)
-- #wrong xml-text type (e.g. string instead of float)
 
 @ToDo: we need to specify required elements and tags - e.g. with DTD: each case requires DTD
 """
@@ -30,53 +29,98 @@ from lxml import etree
 
 
 class TestXMLToProject(unittest.TestCase):
+    from lxml import etree
+
+    ## check if error is raised when file does not exist or file is not a file
     def test_file_exists(self):
-        # check if error is raised when file does not exist or file is not a file
         with self.assertRaisesRegex(OSError,
                                     'File is not a file or does not exist'):
             XMLtoProject(xml_project_file="tests/CheckXMLTags/notExistingFile")
 
+    ## check if error is raised when project file has no ".xml" ending
     def test_file_extension(self):
-        # check if error is raised when project file has no ".xml" ending
         with self.assertRaisesRegex(ValueError, "File is not an xml file"):
             XMLtoProject(xml_project_file='error.txt')
 
-    def test_elements_exist(self):
-        from lxml import etree
-
-        # check if error is raised when required elements do not exist
-        requiredElements = [
-            "tree_dynamics", "initial_population", "tree_time_loop"
-        ]
-
+    ## check if error is raised when required elements in MangaProject do not exist
+    # required_elements: "tree_dynamics", "initial_population",
+    #                    "tree_time_loop", "visualization"
+    def test_required_elements_manga_project(self):
+        required_elements = ["tree_dynamics", "initial_population",
+                            "tree_time_loop", "visualization"]
         # build test tree
         manga_project = etree.Element("MangaProject")
-        element = etree.SubElement(manga_project,
-                                   requiredElements[1])  # "tree_dynamics")
-        etree.SubElement(element, "test")
-        print("MangaProject \n", etree.dump(manga_project))
 
-        print("TYPE:  ", type(manga_project))
+        for element in required_elements:
+            with self.assertRaisesRegex(
+                KeyError, "Key '" + element +
+                          "' is missing in project file"):
+                XMLtoProject(xml_tree=manga_project).findChild(
+                    parent=manga_project, key=element)
 
-        for tag in manga_project.iter():
-            print(tag, tag.attrib)
+    ## check if error is raised when required elements in "tree_dynamics" do not exist
+    # required elements: "aboveground_competition", "belowground_competition",
+    #                    "tree_growth_and_death"
+    # check if error is raised when required sub-elements do not exist
+    # required sub element: "type"
+    def test_required_elements_tree_dynamics(self):
+        required_elements = ["aboveground_competition",
+                             "belowground_competition",
+                             "tree_growth_and_death"]
+        # build test tree
+        root = etree.Element("tree_dynamics")
 
-        # test for "tree_dynamics"
+        for element in required_elements:
+            with self.assertRaisesRegex(
+                KeyError, "Key '" + element +
+                          "' is missing in project file"):
+                XMLtoProject(xml_tree=root).findChild(
+                    parent=root, key=element)
+
+            sub_element = etree.SubElement(root, element)
+            with self.assertRaisesRegex(
+                KeyError, "Key '" + "type" +
+                          "' is missing in project file"):
+                XMLtoProject(xml_tree=root).findChild(
+                    parent=sub_element, key="type")
+
+    ## check if error is raised when required elements in "initial_population" do not exist
+    # required element: "group"
+    # required sub element: "name", "species", "distribution"
+    def test_required_elements_initial_population(self):
+        required_element = "group"
+        required_sub_element = ["name", "species", "distribution"]
+
+        root = etree.Element("initial_population")
+
         with self.assertRaisesRegex(
-                KeyError, "Key '" + requiredElements[0] +
-                "' is missing in project file"):
-            XMLtoProject(xml_tree=manga_project).findChild(
-                parent=manga_project, key="tree_dynamics")
+            KeyError, "Key '" + required_element +
+                      "' is missing in project file"):
+            XMLtoProject(xml_tree=root).findChild(
+                parent=root, key=required_element)
+
+        sub_element = etree.SubElement(root, "group")
+
+        for sub_sub_element in required_sub_element:
+            with self.assertRaisesRegex(
+                KeyError, "Key '" + sub_sub_element +
+                          "' is missing in project file"):
+                XMLtoProject(xml_tree=root).findChild(
+                    parent=sub_element, key=sub_sub_element)
+
+    ## check if error is raised when required elements in "tree_time_loop" do not exist
+    # required elements: "type", "t_start", "t_end"
+    def test_required_elements_tree_time_loop(self):
+        required_elements = ["type", "t_start", "t_end"]
+
+        root = etree.Element("tree_time_loop")
+        for element in required_elements:
+            with self.assertRaisesRegex(
+                KeyError, "Key '" + element +
+                          "' is missing in project file"):
+                XMLtoProject(xml_tree=root).findChild(
+                    parent=root, key=element)
 
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-
-# in tree_dynamics:
-# above, below, growth
-# type
-# in pop.
-# group
-# name, species, distr.
-# in time
-# type, start, end

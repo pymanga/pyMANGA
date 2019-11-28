@@ -8,13 +8,22 @@ from TreeOutputLib.TreeOutput import TreeOutput
 import os
 
 
+## Output class. This class creates one file per tree at a defined location.
+#  A line containing time, position, desired geometric measures and desired
+#  parameters is written at every nth timestep.
 class OneTreeOneFile(TreeOutput):
     ## Constructor of dummy objects in order to drop output
+    #  @param args xml element parsed from project to this constructor.
     def __init__(self, args):
+        ## Directory, where output is saved. Please make sure it exists and is
+        #  empty.
         self.output_dir = self.checkRequiredKey("output_dir", args)
+        ## N-timesteps between two outputs
         self.output_each_nth_timestep = int(
             self.checkRequiredKey("output_each_nth_timestep", args))
+        ## Geometric measures included in output
         self.geometry_outputs = []
+        ## Parameters included in output
         self.parameter_outputs = []
         for key in args.iterchildren("geometry_output"):
             self.geometry_outputs.append(key.text.strip())
@@ -42,6 +51,10 @@ class OneTreeOneFile(TreeOutput):
             for tree in group:
                 print("")
 
+    ## This function checks if a key exists and if its text content is empty.
+    #  Raises key-errors, if the key is not properly defined.
+    #  @param key Name of the key to be checked
+    #  @param args args parsed from project. Xml-element
     def checkRequiredKey(self, key, args):
         tmp = args.find(key)
         if tmp == None:

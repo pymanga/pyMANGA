@@ -5,6 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 from TreeOutputLib.TreeOutput import TreeOutput
+import os
 
 
 class OneTreeOneFile(TreeOutput):
@@ -19,12 +20,27 @@ class OneTreeOneFile(TreeOutput):
             self.geometry_outputs.append(key.text.strip())
         for key in args.iterchildren("parameter_output"):
             self.parameter_outputs.append(key.text.strip())
+        try:
+            dir_files = len(os.listdir(self.output_dir))
+        except FileNotFoundError:
+            raise FileNotFoundError(
+                "[Errno 2] No such directory: '" + self.output_dir +
+                "' as defined in the project file." +
+                " Please make sure your output directory exists!")
+        if dir_files > 0:
+            raise ValueError("Output directory '" + self.output_dir +
+                             "' is not empty.")
         print(
             "Output to '" + self.output_dir + "' of tree positions, the " +
             "parameters ", self.parameter_outputs,
             " and geometric" + " measures ", self.geometry_outputs,
             " at every " + str(self.output_each_nth_timestep) +
             " timesteps initialized.")
+
+    def writeOutput(self, tree_groups, time):
+        for group in tree_groups:
+            for tree in group:
+                print("")
 
     def checkRequiredKey(self, key, args):
         tmp = args.find(key)

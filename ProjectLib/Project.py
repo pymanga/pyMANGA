@@ -8,11 +8,8 @@
 from TreeModelLib import AbovegroundCompetition
 from TreeModelLib import BelowgroundCompetition
 from TreeModelLib import GrowthAndDeathDynamics
-<<<<<<< HEAD
 from VisualizationLib import Visualization
-=======
 from TreeOutputLib import TreeOutput
->>>>>>> [ProLib] tree_output added as required key, tree_output object of class Project defined
 import PopulationLib
 from TimeLoopLib import TreeDynamicTimeLoop
 

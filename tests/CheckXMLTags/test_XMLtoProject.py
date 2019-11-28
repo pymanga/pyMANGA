@@ -14,9 +14,12 @@ Actions that require an error message to appear
 - required subelements are missing (e.g. aboveground_competition)
 - required xml-tags are missing (e.g. type, species)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 - #wrong xml-text type (e.g. string instead of float)
 >>>>>>> 4509c00... [tests] started xml unit testing
+=======
+>>>>>>> 8854016... [tests] updated xml unit testing
 
 @ToDo: we need to specify required elements and tags - e.g. with DTD: each case requires DTD
 """
@@ -122,7 +125,6 @@ class TestXMLToProject(unittest.TestCase):
                           "' is missing in project file"):
                 XMLtoProject(xml_tree=root).findChild(
                     parent=root, key=element)
-
 if __name__ == '__main__':
     unittest.main(verbosity=2)
 # in tree_dynamics:

@@ -25,6 +25,7 @@ class XMLtoProject(Project.MangaProject):
         self.addInitialPopulation()
         self.addTreeTimeLoop()
         self.addVisualization()
+        self.addTreeOutput()
 
         self.argsToProject()
 
@@ -54,6 +55,11 @@ class XMLtoProject(Project.MangaProject):
 
     def addVisualization(self):
         self.args["visualization"] = self.findChild(self.root, "visualization")
+
+    ## Parsing information concerning output of tree data from input-file to
+    #  project arguments.
+    def addTreeOutput(self):
+        self.args["tree_output"] = self.findChild(self.root, "tree_output")
 
     def findChild(self, parent, key):
         child = parent.find(key)

@@ -50,4 +50,7 @@
     <visualization>
         <type> SimplePyplot </type>
     </visualization>
+    <tree_output>
+    </tree_output>
 </MangaProject>
+

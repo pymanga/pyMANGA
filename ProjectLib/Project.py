@@ -8,11 +8,16 @@
 from TreeModelLib import AbovegroundCompetition
 from TreeModelLib import BelowgroundCompetition
 from TreeModelLib import GrowthAndDeathDynamics
+<<<<<<< HEAD
 from VisualizationLib import Visualization
+=======
+from TreeOutputLib import TreeOutput
+>>>>>>> [ProLib] tree_output added as required key, tree_output object of class Project defined
 import PopulationLib
 from TimeLoopLib import TreeDynamicTimeLoop
 
 
+## Class to store and manage all information necessary for a MANGA model run.
 class MangaProject:
     ## Parent class for MangaProjects.
     def argsToProject(self):
@@ -22,6 +27,7 @@ class MangaProject:
         self.iniPopulation()
         self.iniTreeTimeLoop()
         self.iniVisualization()
+        self.iniTreeOutput()
 
     def getBelowgroundCompetition(self):
         return self.belowground_competition
@@ -64,6 +70,16 @@ class MangaProject:
 
     def getVisualization(self):
         return self.visualization
+
+    ## Constructor for tree output
+    def iniTreeOutput(self):
+        arg = self.args["tree_output"]
+        ## Containing configuration on tree_output
+        self.tree_output = TreeOutput(arg)
+
+    ## Returns tree output defined for the project
+    def getTreeOutput(self):
+        return self.tree_output
 
     def runProject(self, time_stepping):
         self.tree_time_stepping.runTimeLoop(time_stepping)

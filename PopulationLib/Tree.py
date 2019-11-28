@@ -38,3 +38,6 @@ class Tree:
 
     def setSurvival(self, survival):
         self.survival = survival
+
+    def getId(self):
+        return self.tree_id

@@ -12,7 +12,7 @@ class SimpleBettina(GrowthAndDeathDynamics):
     ## SimpleBettina for death and growth dynamics. This module is implements
     #  the BETTINA single tree model as described in the ODD, appendix of
     #  https://doi.org/10.1016/j.ecolmodel.2018.10.005 \n
-    #  @VAR Tags to define SimpleBettina: type
+    #  @param Tags to define SimpleBettina: type
     #  @date 2019 - Today
     def __init__(self, args):
         case = args.find("type").text
@@ -22,16 +22,16 @@ class SimpleBettina(GrowthAndDeathDynamics):
     #  In the SimpleBettina concept, trees are saved in a simple list
     #  and the timestepping is updated. In preparation for the next time-
     #  step, the list is simply resetted.\n
-    #  @VAR t_ini - initial time for next timestep \n
-    #  @VAR t_end - end time for next
+    #  @param t_ini - initial time for next timestep \n
+    #  @param t_end - end time for next
     def prepareNextTimeStep(self, t_ini, t_end):
         self.time = t_end - t_ini
 
     ## This functions is the main routine for reading the tree geometry and
     #  parameters, scheduling the computations and updating the tree geometry.\n
-    #  @VAR tree - object of type tree\n
-    #  @VAR aboveground_resources - fraction of maximum light interception (shading effect)\n
-    #  @VAR belowground_resources - fract of max water upt (compet and/or salinity > 0)
+    #  @param tree - object of type tree\n
+    #  @param aboveground_resources - fraction of maximum light interception (shading effect)\n
+    #  @param belowground_resources - fract of max water upt (compet and/or salinity > 0)
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         self.parameter = tree.getParameter()
@@ -120,13 +120,13 @@ class SimpleBettina(GrowthAndDeathDynamics):
 
     ## This function calculates the available aboveground resources (intercepted light
     # measured equivalent to respective water uptake).
-    #  @VAR aboveground_resources - fraction of maximum light interception (shading effect)\n
+    #  @param aboveground_resources - fraction of maximum light interception (shading effect)\n
     def agResources(self, aboveground_resources):
         self.ag_resources = aboveground_resources * (
             np.pi * self.r_crown**2 * self.parameter["sun_c"] * self.time)
 
     ## This function calculates the available belowground resources (m³ water).
-    #  @VAR belowground_resources - fract of max water upt (compet and/or salinity > 0)
+    #  @param belowground_resources - fract of max water upt (compet and/or salinity > 0)
     def bgResources(self, belowground_resources):
         self.rootSurfaceResistance()
         self.xylemResistance()

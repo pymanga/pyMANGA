@@ -1,0 +1,10 @@
+/*! \page project_dox__MangaProject__visualization__SimplePyplot__SimplePyplot &emsp;[case]SimplePyplot
+
+
+SimplePyplot visualization using the matplotlib python module. This type currently only shows the position and the crown radius of trees.
+
+
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__visualization__SimplePyplot__max_fps
+*/

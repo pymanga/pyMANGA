@@ -6,8 +6,8 @@ Random case for initial tree distribution. Here, the initial trees are randomly 
 
 # Required inputs: 
  
-- \subpage project_dox__MangaProject__initial_population__group__distribution__Random__x_1
-- \subpage project_dox__MangaProject__initial_population__group__distribution__Random__x_2
 - \subpage project_dox__MangaProject__initial_population__group__distribution__Random__y_1
 - \subpage project_dox__MangaProject__initial_population__group__distribution__Random__y_2
+- \subpage project_dox__MangaProject__initial_population__group__distribution__Random__x_1
+- \subpage project_dox__MangaProject__initial_population__group__distribution__Random__x_2
 */

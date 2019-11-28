@@ -5,7 +5,7 @@ from TreeModelLib import TreeModel
 
 class BelowgroundCompetition(TreeModel):
     ## Concept for belowground competition
-    #  @VAR case: belowground competition concept to be used for the model.
+    #  @param case: belowground competition concept to be used for the model.
     #  @date: 2019 - Today
     #  @author: jasper.bathmann@ufz.de
 

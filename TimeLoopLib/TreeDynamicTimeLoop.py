@@ -33,3 +33,4 @@ class TreeDynamicTimeLoop:
                   " and end time " + str(self.t_end) + ".")
             time_stepper.step(self.t_ini, self.t_end)
             self.getNextTimeStepBoundaries()
+        time_stepper.finish(self.t_end)

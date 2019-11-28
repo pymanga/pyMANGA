@@ -8,6 +8,7 @@
 from TreeModelLib import AbovegroundCompetition
 from TreeModelLib import BelowgroundCompetition
 from TreeModelLib import GrowthAndDeathDynamics
+from VisualizationLib import Visualization
 import PopulationLib
 from TimeLoopLib import TreeDynamicTimeLoop
 
@@ -20,6 +21,7 @@ class MangaProject:
         self.iniDeathAndGrowthConcept()
         self.iniPopulation()
         self.iniTreeTimeLoop()
+        self.iniVisualization()
 
     def getBelowgroundCompetition(self):
         return self.belowground_competition
@@ -55,6 +57,13 @@ class MangaProject:
 
     def getTreeTimeStepping(self):
         return self.tree_time_stepping
+
+    def iniVisualization(self):
+        arg = self.args["visualization"]
+        self.visualization = Visualization(arg)
+
+    def getVisualization(self):
+        return self.visualization
 
     def runProject(self, time_stepping):
         self.tree_time_stepping.runTimeLoop(time_stepping)

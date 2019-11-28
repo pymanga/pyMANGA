@@ -8,12 +8,26 @@
             <type> SimpleTest </type>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> SimpleTest </type>
+            <type> SimpleBettina </type>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>
         <group>
             <name> Group1 </name>
+            <species> Avicennia </species>
+            <distribution>
+                <type> Random </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 50 </x_2>
+                    <y_2> 50 </y_2>
+                </domain>
+                <n_individuals> 100 </n_individuals>
+            </distribution>
+        </group>
+        <group>
+            <name> Group2 </name>
             <species> Avicennia </species>
             <distribution>
                 <type> Random </type>
@@ -33,4 +47,7 @@
         <t_end> 1e9 </t_end>
         <delta_t> 1e7 </delta_t>
     </tree_time_loop>
+    <visualization>
+        <type> SimplePyplot </type>
+    </visualization>
 </MangaProject>

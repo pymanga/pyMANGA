@@ -46,10 +46,39 @@ class OneTreeOneFile(TreeOutput):
             " at every " + str(self.output_each_nth_timestep) +
             " timesteps initialized.")
 
+    ## Writes output to predefined folder
+    #  For each tree a file is created and updated throughout the simulation.
+    #  This function is only able to work, if the output directory exists and
+    #  is empty at the begin of the model run
     def writeOutput(self, tree_groups, time):
-        for group in tree_groups:
-            for tree in group:
-                print("")
+        files_in_folder = os.listdir(self.output_dir)
+        for group_name, tree_group in tree_groups.items():
+            for tree in tree_group.getTrees():
+                filename = group_name + "_" + "%07.0d" % (tree.getId())
+                file = open(self.output_dir + filename, "a")
+                if filename not in files_in_folder:
+                    string = ""
+                    string += "time \t x \t y \t"
+                    for geometry_output in self.geometry_outputs:
+                        string += geometry_output + "\t"
+                    for parameter_output in self.parameter_outputs:
+                        string += geometry_output + "\t"
+                    string += "\n"
+                    file.write(string)
+                string = ""
+                string += (str(time) + "\t" + str(tree.x) + "\t" +
+                           str(tree.y) + "\t")
+                if (len(self.geometry_outputs) > 0):
+                    geometry = tree.getGeometry()
+                    for geometry_output in self.geometry_outputs:
+                        string += str(geometry[geometry_output]) + "\t"
+                if (len(self.parameter_outputs) > 0):
+                    parameter = tree.getParameter()
+                    for parameter_output in self.parameter_outputs:
+                        string += str(parameter[parameter_output]) + "\t"
+                string += "\n"
+                file.write(string)
+                file.close()
 
     ## This function checks if a key exists and if its text content is empty.
     #  Raises key-errors, if the key is not properly defined.

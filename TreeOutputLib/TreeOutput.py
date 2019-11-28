@@ -34,4 +34,4 @@ class TreeOutput:
 
     ## Dummy for write output function
     def writeOutput(self, tree_groups, time):
-        pass
+        self.output.writeOutput(tree_groups, time)

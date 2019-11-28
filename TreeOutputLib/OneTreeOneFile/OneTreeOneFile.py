@@ -62,7 +62,7 @@ class OneTreeOneFile(TreeOutput):
                     for geometry_output in self.geometry_outputs:
                         string += geometry_output + "\t"
                     for parameter_output in self.parameter_outputs:
-                        string += geometry_output + "\t"
+                        string += parameter_output + "\t"
                     string += "\n"
                     file.write(string)
                 string = ""

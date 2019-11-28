@@ -51,7 +51,11 @@
         <type> SimplePyplot </type>
     </visualization>
     <tree_output>
-        <type> NONE </type>
+        <type> OneTreeOneFile </type>
+        <output_each_nth_timestep> 1 </output_each_nth_timestep>
+        <output_dir> ./testoutputs/ </output_dir>
+        <geometry_output> r_stem </geometry_output>
+        <geometry_output> h_stem </geometry_output>
     </tree_output>
 </MangaProject>
 

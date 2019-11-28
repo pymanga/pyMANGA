@@ -16,7 +16,8 @@ class BelowgroundCompetition(TreeModel):
         elif case == "OGSLargeScale3D":
             self.iniOGSLargeScale3D(args)
         else:
-            raise KeyError("Required belowground competition case " + case + " not implemented.")
+            raise KeyError("Required belowground competition case " + case +
+                           " not implemented.")
         print(case + " belowground competition successfully initiated.")
 
     def iniSimpleTest(self, args):

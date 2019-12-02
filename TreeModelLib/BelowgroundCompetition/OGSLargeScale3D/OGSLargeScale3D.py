@@ -56,10 +56,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
         #  t_end - end time for next timestep
         self.trees_to_mesh_cell_id_map = []
         self.i = 0
-
-        self.xml_t_initial.text = str(t_ini)
-        self.xml_t_end.text = str(t_end)
-
+        self.t_ini = t_ini
+        self.t_end = t_end
+        self.xml_t_initial.text = str(self.t_ini)
+        self.xml_t_end.text = str(self.t_end)
+        self.tree_cell_ids = []
         self.constant_contributions = np.zeros_like(self.volumes)
         self.salinity_prefactors = np.zeros_like(self.volumes)
         #  TODO: rename file
@@ -77,15 +78,41 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self.trees_to_mesh_cell_id_map.append(1)
         affected_cells = self.cell_information.getCellIDsAtXY(x, y)
         v = 0
-        self.tree_cell_ids[affected_cells]
+        self.tree_cell_ids.append(affected_cells)
         for cell_id in affected_cells:
             v_i = self.volumes.GetTuple(cell_id)[0]
 
             v += v_i
+        root_surface_resistance = self.rootSurfaceResistance(
+            parameter["lp"], parameter["k_geom"], geometry["r_root"],
+            geometry["h_root"])
+        xylem_resistance = self.xylemResistance(geometry["r_crown"],
+                                                geometry["h_stem"],
+                                                geometry["r_root"],
+                                                parameter["kf_sap"],
+                                                geometry["r_stem"])
+        R = root_surface_resistance + xylem_resistance
+        constant_contribution = (
+            (parameter["leaf_water_potential"] +
+             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R * 1000)
+
+        salinity_prefactor = 85000 * 1000 / R * 1000
 
         for cell_id in affected_cells:
-            self.constant_contributions[cell_id] += .1
-            self.salinity_prefactors[cell_id] += .1
+            self.constant_contributions[cell_id] += constant_contribution / v
+            self.salinity_prefactors[cell_id] += salinity_prefactor / v
+
+    ## This function calculates the root surface resistance.
+    def rootSurfaceResistance(self, lp, k_geom, r_root, h_root):
+        root_surface_resistance = (1 / lp / k_geom / np.pi / r_root**2 /
+                                   h_root)
+        return root_surface_resistance
+
+    ## This function calculates the xylem resistance.
+    def xylemResistance(self, r_crown, h_stem, r_root, kf_sap, r_stem):
+        flow_length = (2 * r_crown + h_stem + 0.5**0.5 * r_root)
+        xylem_resistance = (flow_length / kf_sap / np.pi / r_stem**2)
+        return xylem_resistance
 
 
 class CellInformation:

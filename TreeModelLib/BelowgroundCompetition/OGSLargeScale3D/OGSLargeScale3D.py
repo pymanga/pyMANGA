@@ -33,11 +33,15 @@ class OGSLargeScale3D(BelowgroundCompetition):
         time_stepping = time_loop__processes__process.find("time_stepping")
         self.xml_t_initial = time_stepping.find("t_initial")
         self.xml_t_end = time_stepping.find("t_end")
+
+        time_loop__output = time_loop.find("output")
+        self.ogs_prefix = time_loop__output.find("prefix")
         self.cell_information = CellInformation(
             path.join(self.ogs_project_folder, self.ogs_source_mesh))
         self.volumes = self.cell_information.getCellVolumes()
         self.source_mesh_name = args.find("source_mesh").text
         self.tree.find("python_script").text = "python_source.py"
+
         self.copyPythonScript()
 
         print("Initiate belowground competition of type " + case + ".")
@@ -86,7 +90,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
                   current_project_file + " -o " + self.ogs_project_folder)
         self.end = time.time()
         self.cell_information.mapSalinity(
-            path.join(self.ogs_project_folder, self.ogs_bulk_mesh))
+            path.join(self.ogs_project_folder, self.ogs_prefix)) ##TODO find correct ogs output file
 
         print("time", self.end - self.start)
         exit()
@@ -140,9 +144,9 @@ class OGSLargeScale3D(BelowgroundCompetition):
         R = root_surface_resistance + xylem_resistance
         constant_contribution = -(
             (parameter["leaf_water_potential"] +
-             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R * 1000)
+             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R)
 
-        salinity_prefactor = -85000 * 1000 / R * 1000
+        salinity_prefactor = -85000 * 1000 / R
 
         for cell_id in affected_cells:
             self.constant_contributions[cell_id] += constant_contribution / v

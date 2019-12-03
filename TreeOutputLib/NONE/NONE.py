@@ -13,3 +13,6 @@ class NONE(TreeOutput):
         ## defining the type of output
         self.case = args.find("type").text
         print("Running without tree output.")
+
+    def writeOutput(self, tree_groups, time):
+        pass

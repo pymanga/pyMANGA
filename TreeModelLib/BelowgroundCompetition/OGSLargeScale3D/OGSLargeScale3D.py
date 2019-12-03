@@ -10,6 +10,7 @@ import vtk as vtk
 from lxml import etree
 from os import path
 import time
+import shutil
 
 
 class OGSLargeScale3D(BelowgroundCompetition):
@@ -33,8 +34,14 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self.cell_information = CellInformation(
             path.join(self.ogs_project_folder, self.ogs_source_mesh))
         self.volumes = self.cell_information.getCellVolumes()
-        self.tree.write("test.xml")
         self.source_mesh_name = args.find("source_mesh").text
+        self.tree.find("python_script").text = "python_source.py"
+
+        shutil.copyfile(
+            path.join(path.dirname(path.dirname(path.abspath(__file__))),
+                      "OGSLargeScale3D/python_source.py"),
+            path.join(self.ogs_project_folder, "python_source.py"))
+
         print("Initiate belowground competition of type " + case + ".")
         self.start = time.time()
 
@@ -43,6 +50,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
         #  subsequent timestep. In the SimpleTest concept, for each tree a one
         #  is returned
         #  @return: np.array with $N_tree$ scalars
+
         self.end = time.time()
         print("time", self.end - self.start)
         exit()
@@ -64,8 +72,10 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self.constant_contributions = np.zeros_like(self.volumes)
         self.salinity_prefactors = np.zeros_like(self.volumes)
         #  TODO: rename file
-        filename = path.join(self.ogs_project_folder, self.ogs_project_file)
-        self.tree.write("test.xml")
+        filename = path.join(
+            self.ogs_project_folder,
+            str(t_end).replace(".", "_") + "_" + self.ogs_project_file)
+        self.tree.write(filename)
 
     def addTree(self, x, y, geometry, parameter):
         ## Before being able to calculate the resources, all tree enteties need

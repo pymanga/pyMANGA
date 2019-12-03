@@ -1,0 +1,13 @@
+/*! \page project_dox__MangaProject__tree_output__tree_output &emsp;[input]tree_output
+
+Specification of the output scheme applied to trees.
+
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__tree_output__type
+
+ # Possible cases: 
+ 
+- \subpage project_dox__MangaProject__tree_output__NONE__NONE
+- \subpage project_dox__MangaProject__tree_output__OneTreeOneFile__OneTreeOneFile
+*/

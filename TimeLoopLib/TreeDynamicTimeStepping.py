@@ -14,12 +14,15 @@ class TreeDynamicTimeStepping:
         self.population = project.getPopulation()
         self.visualization = project.getVisualization()
         self.visualization.update(self.population.getTreeGroups(), "Begin")
+        ## Output configuration
+        self.tree_output = project.getTreeOutput()
 
     def step(self, t_start, t_end):
         self.aboveground_competition.prepareNextTimeStep(t_start, t_end)
         self.belowground_competition.prepareNextTimeStep(t_start, t_end)
         self.death_and_growth_concept.prepareNextTimeStep(t_start, t_end)
         tree_groups = self.population.getTreeGroups()
+        self.tree_output.writeOutput(tree_groups, t_start)
         for group_name, tree_group in tree_groups.items():
             for tree in tree_group.getTrees():
                 x, y = tree.getPosition()
@@ -47,5 +50,10 @@ class TreeDynamicTimeStepping:
             tree_group.removeTreesAtIndices(kill_indices)
         self.visualization.update(tree_groups, t_end)
 
+    ## Last action, when timeloop is done
     def finish(self, time):
-        self.visualization.show(time)
+        self.visualization.show(time)  
+        tree_groups = self.population.getTreeGroups()
+
+        self.tree_output.writeOutput(tree_groups, time)
+

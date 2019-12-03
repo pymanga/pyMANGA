@@ -11,6 +11,7 @@ from lxml import etree
 from os import path
 import time
 import shutil
+import os
 
 
 class OGSLargeScale3D(BelowgroundCompetition):
@@ -23,6 +24,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self.ogs_project_folder = args.find("ogs_project_folder").text.strip()
         self.ogs_project_file = args.find("ogs_project_file").text.strip()
         self.ogs_source_mesh = args.find("source_mesh").text.strip()
+        self.ogs_bulk_mesh = args.find("bulk_mesh").text.strip()
         self.tree = etree.parse(
             path.join(self.ogs_project_folder, self.ogs_project_file))
         time_loop = self.tree.find("time_loop")
@@ -36,22 +38,56 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self.volumes = self.cell_information.getCellVolumes()
         self.source_mesh_name = args.find("source_mesh").text
         self.tree.find("python_script").text = "python_source.py"
-
-        shutil.copyfile(
-            path.join(path.dirname(path.dirname(path.abspath(__file__))),
-                      "OGSLargeScale3D/python_source.py"),
-            path.join(self.ogs_project_folder, "python_source.py"))
+        self.copyPythonScript()
 
         print("Initiate belowground competition of type " + case + ".")
         self.start = time.time()
+
+    def copyPythonScript(self):
+        source = open(
+            path.join(path.dirname(path.dirname(path.abspath(__file__))),
+                      "OGSLargeScale3D/python_source.py"), "r")
+        target = open(path.join(self.ogs_project_folder, "python_source.py"),
+                      "w")
+        constants_filename = path.join(self.ogs_project_folder,
+                                       "constant_contributions.npy")
+        prefactors_filename = path.join(self.ogs_project_folder,
+                                        "salinity_prefactors.npy")
+        for line in source.readlines():
+            if "constant_contributions.npy" in line:
+                line = line.replace("constant_contributions.npy",
+                                    constants_filename)
+            if "salinity_prefactors.npy" in line:
+                line = line.replace("salinity_prefactors.npy",
+                                    prefactors_filename)
+            if "CellInformation(source_mesh)" in line:
+                line = line.replace(
+                    "source_mesh", "'" +
+                    path.join(self.ogs_project_folder, self.source_mesh_name) +
+                    "'")
+            target.write(line)
+        source.close()
+        target.close()
 
     def calculateBelowgroundResources(self):
         ## This function returns the BelowgroundResources calculated in the
         #  subsequent timestep. In the SimpleTest concept, for each tree a one
         #  is returned
         #  @return: np.array with $N_tree$ scalars
-
+        np.save(
+            path.join(self.ogs_project_folder, "constant_contributions.npy"),
+            self.constant_contributions)
+        np.save(path.join(self.ogs_project_folder, "salinity_prefactors.npy"),
+                self.salinity_prefactors)
+        current_project_file = path.join(
+            self.ogs_project_folder,
+            str(self.t_end).replace(".", "_") + "_" + self.ogs_project_file)
+        os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +
+                  current_project_file + " -o " + self.ogs_project_folder)
         self.end = time.time()
+        self.cell_information.mapSalinity(
+            path.join(self.ogs_project_folder, self.ogs_bulk_mesh))
+
         print("time", self.end - self.start)
         exit()
 
@@ -102,11 +138,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
                                                 parameter["kf_sap"],
                                                 geometry["r_stem"])
         R = root_surface_resistance + xylem_resistance
-        constant_contribution = (
+        constant_contribution = -(
             (parameter["leaf_water_potential"] +
              (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R * 1000)
 
-        salinity_prefactor = 85000 * 1000 / R * 1000
+        salinity_prefactor = -85000 * 1000 / R * 1000
 
         for cell_id in affected_cells:
             self.constant_contributions[cell_id] += constant_contribution / v
@@ -127,9 +163,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
 
 class CellInformation:
     def __init__(self, source_mesh):
+        self.mesh_name = source_mesh
         meshReader = vtk.vtkXMLUnstructuredGridReader()
-        meshReader.SetFileName(source_mesh)
+        meshReader.SetFileName(self.mesh_name)
         meshReader.Update()
+
         self.grid = meshReader.GetOutput()
         self.cells = self.grid.GetCells()
         self.cell_finder = vtk.vtkCellLocator()
@@ -186,6 +224,17 @@ class CellInformation:
             yi.sort()
         return ids
 
+    def mapSalinity(self, mesh_name):
+        meshReader = vtk.vtkXMLUnstructuredGridReader()
+        meshReader.SetFileName(mesh_name)
+        meshReader.Update()
+        bulk_grid = meshReader.GetOutput()
+        resample_filter = vtk.vtkResampleWithDataSet()
+        resample_filter.SetSourceData(bulk_grid)
+        resample_filter.SetInputData(self.grid)
+        resample_filter.Update()
+        self.grid = resample_filter.GetOutput()
+
     def getCellVolumeFromId(self, cell_id):
         cell_volume = self.volumes.GetTuple(cell_id)[0]
         return cell_volume
@@ -196,3 +245,10 @@ class CellInformation:
 
     def getCellVolumes(self):
         return self.volumes
+
+    def outputMesh(self):
+
+        writer = vtk.vtkXMLUnstructuredGridWriter()
+        writer.SetFileName(self.mesh_name)
+        writer.SetInputData(self.grid)
+        writer.Write()

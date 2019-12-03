@@ -9,4 +9,3 @@ Created on Thu Nov  8 15:25:03 2018
 from .AbovegroundCompetition import AbovegroundCompetition
 from .SimpleTest import SimpleTest
 from .SimpleAsymmetricZOI import SimpleAsymmetricZOI
-

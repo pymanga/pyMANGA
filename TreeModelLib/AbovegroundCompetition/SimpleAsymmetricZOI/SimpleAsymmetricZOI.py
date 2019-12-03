@@ -15,6 +15,7 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         #  @VAR: Tags to define SimpleTest: type
         #  @date: 2019 - Today
         case = args.find("type").text
+        #left_boundary = args.find("left_boundary").text
         print("Initiate aboveground competition of type " + case + ".")
 
     def calculateAbovegroundResources(self):
@@ -32,14 +33,24 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         #  @VAR: t_ini - initial time for next timestep \n
         #  t_end - end time for next timestep
         self.trees = []
+        self.xe = []
+        self.ye = []
+        self.height = []
+        self.r_crown =[]
         self.t_ini = t_ini
         self.t_end = t_end
 
     def addTree(self, x, y, geometry, parameter):
-        ## Before being able to calculate the resources, all tree enteties need
+        ## Before being able to calculate the resources, all tree entities need
         #  to be added with their current implementation for the next timestep.
         #  Here, in the SimpleTest case, each tree is represented by a one. In
         #  general, an object containing all necessary information should be
         #  stored for each tree
         #  @VAR: position, geometry, parameter
         self.trees.append(1)
+        self.xe.append(x)
+        self.ye.append(y)
+        self.height.append(geometry["h_stem"] + 2 * geometry["r_crown"])
+        self.r_crown.append(geometry["r_crown"])
+
+

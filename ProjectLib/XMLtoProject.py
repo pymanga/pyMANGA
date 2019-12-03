@@ -35,7 +35,7 @@ class XMLtoProject(Project.MangaProject):
 
         self.argsToProject()
 
-def checkRequiredElements(self):
+    def checkRequiredElements(self):
         # required elements on level1, ....
         level1 = ["tree_dynamics", "initial_population",
                   "tree_time_loop"]  # , "visualization"]

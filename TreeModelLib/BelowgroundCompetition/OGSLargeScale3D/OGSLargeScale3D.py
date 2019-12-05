@@ -24,9 +24,10 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self.ogs_project_folder = args.find("ogs_project_folder").text.strip()
         self.ogs_project_file = args.find("ogs_project_file").text.strip()
         self.ogs_source_mesh = args.find("source_mesh").text.strip()
-        self.ogs_bulk_mesh = args.find("bulk_mesh").text.strip()
+        #self.ogs_bulk_mesh = args.find("bulk_mesh")
         self.tree = etree.parse(
             path.join(self.ogs_project_folder, self.ogs_project_file))
+        self.ogs_bulk_mesh = self.tree.find("meshes").find("mesh")
         time_loop = self.tree.find("time_loop")
         time_loop__processes = time_loop.find("processes")
         time_loop__processes__process = time_loop__processes.find("process")
@@ -36,6 +37,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
 
         time_loop__output = time_loop.find("output")
         self.ogs_prefix = time_loop__output.find("prefix")
+
         self.cell_information = CellInformation(
             path.join(self.ogs_project_folder, self.ogs_source_mesh))
         self.volumes = self.cell_information.getCellVolumes()
@@ -90,10 +92,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
                   current_project_file + " -o " + self.ogs_project_folder)
         self.end = time.time()
         self.cell_information.mapSalinity(
-            path.join(self.ogs_project_folder, self.ogs_prefix)) ##TODO find correct ogs output file
+            path.join(
+                self.ogs_project_folder,
+                self.ogs_prefix.text))  ##TODO find correct ogs output file
 
         print("time", self.end - self.start)
-        exit()
 
     def prepareNextTimeStep(self, t_ini, t_end):
         ## This functions prepares the competition concept for the competition
@@ -102,6 +105,14 @@ class OGSLargeScale3D(BelowgroundCompetition):
         #  step, the list is simply resetted.
         #  @VAR: t_ini - initial time for next timestep \n
         #  t_end - end time for next timestep
+        files = os.listdir(self.ogs_project_folder)
+        try:
+            for file in files:
+                if (self.ogs_prefix.text in file
+                        and ("_" + str(self.t_end)) in file):
+                    self.ogs_bulk_mesh.text = str(file)
+        except:
+            print("This should only happen in the first timestep.")
         self.trees_to_mesh_cell_id_map = []
         self.i = 0
         self.t_ini = t_ini
@@ -114,8 +125,9 @@ class OGSLargeScale3D(BelowgroundCompetition):
         #  TODO: rename file
         filename = path.join(
             self.ogs_project_folder,
-            str(t_end).replace(".", "_") + "_" + self.ogs_project_file)
+            str(t_ini).replace(".", "_") + "_" + self.ogs_project_file)
         self.tree.write(filename)
+        self.belowground_resources = []
 
     def addTree(self, x, y, geometry, parameter):
         ## Before being able to calculate the resources, all tree enteties need
@@ -151,6 +163,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
         for cell_id in affected_cells:
             self.constant_contributions[cell_id] += constant_contribution / v
             self.salinity_prefactors[cell_id] += salinity_prefactor / v
+        self.belowground_resources.append(1.)
 
     ## This function calculates the root surface resistance.
     def rootSurfaceResistance(self, lp, k_geom, r_root, h_root):

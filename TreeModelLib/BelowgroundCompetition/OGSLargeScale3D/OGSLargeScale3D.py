@@ -7,6 +7,7 @@
 import numpy as np
 from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 import vtk as vtk
+from vtk.util import numpy_support
 from lxml import etree
 from os import path
 import time
@@ -21,6 +22,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
         #  @VAR: Tags to define SimpleTest: type
         #  @date: 2019 - Today
         case = args.find("type").text
+        print("Initiate belowground competition of type " + case + ".")
         self.ogs_project_folder = args.find("ogs_project_folder").text.strip()
         self.ogs_project_file = args.find("ogs_project_file").text.strip()
         self.ogs_source_mesh = args.find("source_mesh").text.strip()
@@ -46,8 +48,121 @@ class OGSLargeScale3D(BelowgroundCompetition):
 
         self.copyPythonScript()
 
-        print("Initiate belowground competition of type " + case + ".")
-        self.start = time.time()
+    def calculateBelowgroundResources(self):
+        ## This function returns the BelowgroundResources calculated in the
+        #  subsequent timestep. In the SimpleTest concept, for each tree a one
+        #  is returned
+        #  @return: np.array with $N_tree$ scalars
+        np.save(
+            path.join(self.ogs_project_folder, "constant_contributions.npy"),
+            self.constant_contributions)
+        np.save(path.join(self.ogs_project_folder, "salinity_prefactors.npy"),
+                self.salinity_prefactors)
+        current_project_file = path.join(
+            self.ogs_project_folder,
+            str(self.t_ini).replace(".", "_") + "_" + self.ogs_project_file)
+        os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +
+                  current_project_file + " -o " + self.ogs_project_folder)
+        files = os.listdir(self.ogs_project_folder)
+        for file in files:
+            if (self.ogs_prefix.text in file
+                    and ("_" + str(self.t_end)) in file):
+                self.ogs_bulk_mesh.text = str(file)
+
+        self.cell_information.mapSalinity(
+            path.join(
+                self.ogs_project_folder,
+                self.ogs_bulk_mesh.text))  ##TODO find correct ogs output file
+
+        salinity_array = self.cell_information.getSalinities()
+        self.belowground_resources = []
+        for tree_id in range(len(self.tree_constant_contribution)):
+            mean_salinity_for_tree = np.mean(
+                salinity_array[self.tree_cell_ids[tree_id]])
+            belowground_resource = ((self.tree_constant_contribution[tree_id] +
+                                     mean_salinity_for_tree *
+                                     self.tree_salinity_prefactor[tree_id]) /
+                                    self.tree_constant_contribution[tree_id])
+            self.belowground_resources.append(belowground_resource)
+
+        parameters = self.tree.find("parameters")
+        for parameter in parameters.iterchildren():
+            name = parameter.find("name")
+            if name.text.strip() == "c_ini":
+                parameter.find("field_name").text = "concentration"
+
+            if name.text.strip() == "p_ini":
+                parameter.find("field_name").text = "pressure"
+
+    def prepareNextTimeStep(self, t_ini, t_end):
+        ## This functions prepares the competition concept for the competition
+        #  concept. In the SimpleTest concept, trees are saved in a simple list
+        #  and the timestepping is updated. In preparation for the next time-
+        #  step, the list is simply resetted.
+        #  @VAR: t_ini - initial time for next timestep \n
+        #  t_end - end time for next timestep
+        self.i = 0
+        self.t_ini = t_ini
+        self.t_end = t_end
+        self.xml_t_initial.text = str(self.t_ini)
+        self.xml_t_end.text = str(self.t_end)
+        self.tree_cell_ids = []
+        self.tree_constant_contribution = []
+        self.tree_salinity_prefactor = []
+        self.constant_contributions = np.zeros_like(self.volumes)
+        self.salinity_prefactors = np.zeros_like(self.volumes)
+        #  TODO: rename file
+        filename = path.join(
+            self.ogs_project_folder,
+            str(t_ini).replace(".", "_") + "_" + self.ogs_project_file)
+        self.tree.write(filename)
+        self.belowground_resources = []
+
+    def addTree(self, x, y, geometry, parameter):
+        ## Before being able to calculate the resources, all tree enteties need
+        #  to be added with their current implementation for the next timestep.
+        #  Here, in the SimpleTest case, each tree is represented by a one. In
+        #  general, an object containing all necessary information should be
+        #  stored for each tree
+        #  @para: position, geometry, parameter
+        self.i += 1
+        affected_cells = self.cell_information.getCellIDsAtXY(x, y)
+        v = 0
+        self.tree_cell_ids.append(affected_cells)
+        for cell_id in affected_cells:
+            v_i = self.volumes.GetTuple(cell_id)[0]
+
+            v += v_i
+        root_surface_resistance = self.rootSurfaceResistance(
+            parameter["lp"], parameter["k_geom"], geometry["r_root"],
+            geometry["h_root"])
+        xylem_resistance = self.xylemResistance(geometry["r_crown"],
+                                                geometry["h_stem"],
+                                                geometry["r_root"],
+                                                parameter["kf_sap"],
+                                                geometry["r_stem"])
+        R = root_surface_resistance + xylem_resistance
+        constant_contribution = -(
+            (parameter["leaf_water_potential"] +
+             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R * 1000)
+        self.tree_constant_contribution.append(constant_contribution)
+        salinity_prefactor = -85000 * 1000 / R * 1000
+        self.tree_salinity_prefactor.append(salinity_prefactor)
+        for cell_id in affected_cells:
+            self.constant_contributions[cell_id] += constant_contribution / v
+            self.salinity_prefactors[cell_id] += salinity_prefactor / v
+
+    ## This function calculates the root surface resistance.
+    def rootSurfaceResistance(self, lp, k_geom, r_root, h_root):
+        root_surface_resistance = (1 / lp / k_geom / np.pi / r_root**2 /
+                                   h_root)
+        return root_surface_resistance
+
+    ## This function calculates the xylem resistance.
+    def xylemResistance(self, r_crown, h_stem, r_root, kf_sap, r_stem):
+        flow_length = (2 * r_crown + h_stem + 0.5**0.5 * r_root)
+        xylem_resistance = (flow_length / kf_sap / np.pi / r_stem**2)
+        return xylem_resistance
 
     def copyPythonScript(self):
         source = open(
@@ -74,108 +189,6 @@ class OGSLargeScale3D(BelowgroundCompetition):
             target.write(line)
         source.close()
         target.close()
-
-    def calculateBelowgroundResources(self):
-        ## This function returns the BelowgroundResources calculated in the
-        #  subsequent timestep. In the SimpleTest concept, for each tree a one
-        #  is returned
-        #  @return: np.array with $N_tree$ scalars
-        np.save(
-            path.join(self.ogs_project_folder, "constant_contributions.npy"),
-            self.constant_contributions)
-        np.save(path.join(self.ogs_project_folder, "salinity_prefactors.npy"),
-                self.salinity_prefactors)
-        current_project_file = path.join(
-            self.ogs_project_folder,
-            str(self.t_end).replace(".", "_") + "_" + self.ogs_project_file)
-        os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +
-                  current_project_file + " -o " + self.ogs_project_folder)
-        self.end = time.time()
-        self.cell_information.mapSalinity(
-            path.join(
-                self.ogs_project_folder,
-                self.ogs_prefix.text))  ##TODO find correct ogs output file
-
-        print("time", self.end - self.start)
-
-    def prepareNextTimeStep(self, t_ini, t_end):
-        ## This functions prepares the competition concept for the competition
-        #  concept. In the SimpleTest concept, trees are saved in a simple list
-        #  and the timestepping is updated. In preparation for the next time-
-        #  step, the list is simply resetted.
-        #  @VAR: t_ini - initial time for next timestep \n
-        #  t_end - end time for next timestep
-        files = os.listdir(self.ogs_project_folder)
-        try:
-            for file in files:
-                if (self.ogs_prefix.text in file
-                        and ("_" + str(self.t_end)) in file):
-                    self.ogs_bulk_mesh.text = str(file)
-        except:
-            print("This should only happen in the first timestep.")
-        self.trees_to_mesh_cell_id_map = []
-        self.i = 0
-        self.t_ini = t_ini
-        self.t_end = t_end
-        self.xml_t_initial.text = str(self.t_ini)
-        self.xml_t_end.text = str(self.t_end)
-        self.tree_cell_ids = []
-        self.constant_contributions = np.zeros_like(self.volumes)
-        self.salinity_prefactors = np.zeros_like(self.volumes)
-        #  TODO: rename file
-        filename = path.join(
-            self.ogs_project_folder,
-            str(t_ini).replace(".", "_") + "_" + self.ogs_project_file)
-        self.tree.write(filename)
-        self.belowground_resources = []
-
-    def addTree(self, x, y, geometry, parameter):
-        ## Before being able to calculate the resources, all tree enteties need
-        #  to be added with their current implementation for the next timestep.
-        #  Here, in the SimpleTest case, each tree is represented by a one. In
-        #  general, an object containing all necessary information should be
-        #  stored for each tree
-        #  @para: position, geometry, parameter
-        self.i += 1
-        self.trees_to_mesh_cell_id_map.append(1)
-        affected_cells = self.cell_information.getCellIDsAtXY(x, y)
-        v = 0
-        self.tree_cell_ids.append(affected_cells)
-        for cell_id in affected_cells:
-            v_i = self.volumes.GetTuple(cell_id)[0]
-
-            v += v_i
-        root_surface_resistance = self.rootSurfaceResistance(
-            parameter["lp"], parameter["k_geom"], geometry["r_root"],
-            geometry["h_root"])
-        xylem_resistance = self.xylemResistance(geometry["r_crown"],
-                                                geometry["h_stem"],
-                                                geometry["r_root"],
-                                                parameter["kf_sap"],
-                                                geometry["r_stem"])
-        R = root_surface_resistance + xylem_resistance
-        constant_contribution = -(
-            (parameter["leaf_water_potential"] +
-             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R)
-
-        salinity_prefactor = -85000 * 1000 / R
-
-        for cell_id in affected_cells:
-            self.constant_contributions[cell_id] += constant_contribution / v
-            self.salinity_prefactors[cell_id] += salinity_prefactor / v
-        self.belowground_resources.append(1.)
-
-    ## This function calculates the root surface resistance.
-    def rootSurfaceResistance(self, lp, k_geom, r_root, h_root):
-        root_surface_resistance = (1 / lp / k_geom / np.pi / r_root**2 /
-                                   h_root)
-        return root_surface_resistance
-
-    ## This function calculates the xylem resistance.
-    def xylemResistance(self, r_crown, h_stem, r_root, kf_sap, r_stem):
-        flow_length = (2 * r_crown + h_stem + 0.5**0.5 * r_root)
-        xylem_resistance = (flow_length / kf_sap / np.pi / r_stem**2)
-        return xylem_resistance
 
 
 class CellInformation:
@@ -231,9 +244,13 @@ class CellInformation:
             dist = np.abs((points[:-1] - points[1:]))[0, 2]
             if len(ids) == 3:
                 search = 0
-            elif dist < 1e-4:
+            elif dist < 1e-3:
                 search = 0
-            elif i == 1e5:
+                if len(ids) < 1:
+                    raise ValueError("It seems like some trees are located " +
+                                     "outside the ogs bulk mesh!" +
+                                     " Please check for consistency.")
+            elif i == 1e4:
                 search = 0
                 raise ValueError("Search algorithm failed! Please improve" +
                                  " algorithm!")
@@ -251,6 +268,9 @@ class CellInformation:
         resample_filter.SetInputData(self.grid)
         resample_filter.Update()
         self.grid = resample_filter.GetOutput()
+        self.vtkPointToCellData()
+        self.salinities = numpy_support.vtk_to_numpy(
+            self.grid.GetCellData().GetArray("concentration"))
 
     def getCellVolumeFromId(self, cell_id):
         cell_volume = self.volumes.GetTuple(cell_id)[0]
@@ -269,3 +289,12 @@ class CellInformation:
         writer.SetFileName(self.mesh_name)
         writer.SetInputData(self.grid)
         writer.Write()
+
+    def vtkPointToCellData(self):
+        mapper = vtk.vtkPointDataToCellData()
+        mapper.SetInputData(self.grid)
+        mapper.Update()
+        self.grid = mapper.GetOutput()
+
+    def getSalinities(self):
+        return self.salinities

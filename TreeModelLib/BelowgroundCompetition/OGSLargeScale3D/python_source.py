@@ -2,8 +2,50 @@ import OpenGeoSys
 
 import vtk as vtk
 import numpy as np
+from math import pi, sin
+
+seaward_salinity = 0.035
+tide_daily_amplitude = 1
+tide_monthly_amplitude = .5
+tide_daily_frequency = 60 * 60 * 12.
+tide_monthly_frequency = 60. * 60 * 24 * 31 / 2.
 
 
+def tidal_cycle(t):
+    return (
+        sin(2 * pi * t / tide_daily_frequency) *
+        (tide_daily_amplitude +
+         tide_monthly_amplitude * sin(2 * pi * t / tide_monthly_frequency)))
+
+
+def pressure_value(z, tidal_cycle):
+    return 1000 * 9.81 * (tidal_cycle - z)
+
+
+# Dirichlet BCs
+class BCSea_p_D(OpenGeoSys.BoundaryCondition):
+    def getDirichletBCValue(self, t, coords, node_id, primary_vars):
+        x, y, z = coords
+        tide = tidal_cycle(t)
+        value = pressure_value(z, tide)
+        if tide < z:
+            return (False, 0)
+        else:
+            return (True, value)
+
+
+class BCSea_C(OpenGeoSys.BoundaryCondition):
+    def getDirichletBCValue(self, t, coords, node_id, primary_vars):
+        x, y, z = coords
+        tide = tidal_cycle(t)
+        value = seaward_salinity
+        if tide > z:
+            return (True, value)
+        else:
+            return (False, 0)
+
+
+##Source Terms
 class CellInformation:
     def __init__(self, source_mesh):
         meshReader = vtk.vtkXMLUnstructuredGridReader()
@@ -46,3 +88,5 @@ cell_information = CellInformation(source_mesh)
 
 # instantiate source term object referenced in OpenGeoSys' prj file
 flux_to_trees = FluxToTrees()
+bc_tide_p = BCSea_p_D()
+bc_tide_C = BCSea_C()

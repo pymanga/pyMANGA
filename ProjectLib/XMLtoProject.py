@@ -18,22 +18,33 @@ class XMLtoProject(Project.MangaProject):
         from os import path  # required to run TestXMLToProject
 
         self.args = {}
-        try:
-            self.prjfile = args["xml_project_file"]
-            self.readProjectFile()
-        except KeyError:
-            try:
-                tree = args["xml_tree"]
-                self.xmlTextStrip(tree)
-            except KeyError:
-                raise KeyError("Input not correct!")
-        self.addTreeDynamicConcepts()
-        self.addInitialPopulation()
-        self.addTreeTimeLoop()
-        self.addVisualization()
-        self.addTreeOutput()
 
-        self.argsToProject()
+        if "xml_project_file" in args:
+            if not path.isfile(args["xml_project_file"]) or not path.exists(
+                    args["xml_project_file"]):
+                raise OSError('File is not a file or does not exist: ' +
+                              args["xml_project_file"])
+
+            elif not path.splitext(
+                    args["xml_project_file"])[-1].lower() == ".xml":
+                raise ValueError("File is not an xml file: " +
+                                 args["xml_project_file"])
+
+            else:
+                self.prjfile = args["xml_project_file"]
+                self.readProjectFile()
+                self.checkRequiredElements()
+
+                self.addTreeDynamicConcepts()
+                self.addInitialPopulation()
+                self.addTreeTimeLoop()
+                self.addVisualization()
+                self.addTreeOutput()
+
+                self.argsToProject()
+
+        elif "xml_tree" in args:
+            tree = args["xml_tree"]
 
     def checkRequiredElements(self):
         # required elements on level1, ....

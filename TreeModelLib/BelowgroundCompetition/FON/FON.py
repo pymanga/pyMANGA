@@ -9,20 +9,20 @@ from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 
 
 class FON(BelowgroundCompetition):
+    ## FON case for belowground competition concept. For details see
+    #  (https://doi.org/10.1016/S0304-3800(00)00298-2). FON returns a list 
+    #  of multipliers for each tree for salinity and competition.\n
+    #  @param: Tags to define FON: type\n
+    #  @date: 2019 - Today
     def __init__(self, args):
-        ## SimpleTest case for belowground competition concept. This case is
-        #  defined to test the passing of information between the instances.
-        #  @param: Tags to define SimpleTest: type
-        #  @date: 2019 - Today
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         self.makeGrid(args)
 
+    ## This function returns a list of the growth reduction factors of all trees.
+    #  calculated in the subsequent timestep.\n  
+    #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
-        ## This function returns the BelowgroundResources calculated in the
-        #  subsequent timestep. In the SimpleTest concept, for each tree a one
-        #  is returned
-        #  @return: np.array with $N_tree$ scalars
         for i in range(len(self.xe)):
             distance = ((self.my_grid[0] - self.xe[i])**2 + (self.my_grid[1]-self.ye[i])**2)**0.5
             my_fon = self.calculateFonFromDistance(self.r_stem[i],distance)
@@ -43,7 +43,9 @@ class FON(BelowgroundCompetition):
                  ( self.salt_effect_ui[i]-self.salinity))))
         self.belowground_resources = np.multiply(self.resource_limitation,self.salinity_reduction)
         
-
+    ## This function returns the fon height of a tree on the mesh.\n
+    #  @param rst - FON radius\n
+    #  @param distance - array of distances of all mesh points to tree position
     def calculateFonFromDistance(self,rst,distance):
         fon_radius = self.aa * rst ** self.bb
         cc = -np.log(self.fmin)/(fon_radius-rst)
@@ -52,6 +54,7 @@ class FON(BelowgroundCompetition):
         height[height < self.fmin] = 0
         return height
 
+    ## This function initialises the mesh.\n
     def makeGrid(self,args):
         missing_tags = [
            "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution",
@@ -100,13 +103,13 @@ class FON(BelowgroundCompetition):
         ye = np.linspace(y_1+y_step/2.,y_2-y_step/2., y_resolution ,endpoint=True) 
         self.my_grid = np.meshgrid(xe,ye)
 
+    ## This functions prepares the competition concept for the competition
+    #  concept. In the FON concept, tree's allometric measures are saved
+    #  in simple lists and the timestepping is updated. A mesh-like array 
+    #  is prepared for storing all FON heights of the stand.\n
+    #  @param t_ini - initial time for next timestep \n
+    #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        ## This functions prepares the competition concept for the competition
-        #  concept. In the SimpleTest concept, trees are saved in a simple list
-        #  and the timestepping is updated. In preparation for the next time-
-        #  step, the list is simply resetted.
-        #  @param: t_ini - initial time for next timestep \n
-        #  t_end - end time for next timestep
         self.trees = []
         self.fon_area = []
         self.fon_impact = []
@@ -121,13 +124,10 @@ class FON(BelowgroundCompetition):
         self.t_end = t_end
         self.fon_height = np.zeros_like(self.my_grid[0])
 
+    ## Before being able to calculate the resources, all tree entities need
+    #  to be added with their relevant allometric measures for the next timestep.
+    #  @param: position, geometry, parameter
     def addTree(self, x, y, geometry, parameter):
-        ## Before being able to calculate the resources, all tree enteties need
-        #  to be added with their current implementation for the next timestep.
-        #  Here, in the SimpleTest case, each tree is represented by a one. In
-        #  general, an object containing all necessary information should be
-        #  stored for each tree
-        #  @param: position, geometry, parameter
         self.trees.append(1)
         if self.mesh_size > 0.25:
              print("Error: mesh not fine enough for FON!")

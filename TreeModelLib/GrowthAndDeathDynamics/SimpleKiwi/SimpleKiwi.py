@@ -8,25 +8,27 @@ from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
 
 
 class SimpleKiwi(GrowthAndDeathDynamics):
+    ## SimpleKiwi for death and growth dynamics. For details see
+    #  https://doi.org/10.1016/S0304-3800(00)00298-2 \n
+    #  @param Tags to define SimpleBettina: type
+    #  @date 2019 - Today
     def __init__(self, args):
-        ## SimpleTest case for death and growth dynamics. This case is
-        #  defined to test the passing of information between the instances.
-        #  @param: Tags to define SimpleTest: type
-        #  @date: 2019 - Today
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
 
+    ## This functions prepares the growth and death concept.
+    #  In the SimpleKiwi concept, the timestepping is updated. 
+    #  @param t_ini - initial time for next timestep \n
+    #  @param t_end - end time for next
     def prepareNextTimeStep(self, t_ini, t_end):
-        ## This functions prepares the cgrowth and death concept.
-        #  In the SimpleTest concept, trees are saved in a simple list
-        #  and the timestepping is updated. In preparation for the next time-
-        #  step, the list is simply resetted.
-        #  @param: t_ini - initial time for next timestep \n
-        #  t_end - end time for next timestep
-        self.trees = []
         self.t_ini = t_ini
         self.t_end = t_end
 
+    ## This functions is the main routine for reading the tree geometry and
+    #  parameters, scheduling the computations and updating the tree geometry.\n
+    #  @param tree - object of type tree\n
+    #  @param aboveground_resources - fraction of maximum light interception (shading effect)\n
+    #  @param belowground_resources - fract of max water upt (compet and/or salinity > 0)
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()

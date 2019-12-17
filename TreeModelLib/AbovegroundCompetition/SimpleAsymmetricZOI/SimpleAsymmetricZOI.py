@@ -9,21 +9,20 @@ from TreeModelLib.AbovegroundCompetition import AbovegroundCompetition
 
 
 class SimpleAsymmetricZOI(AbovegroundCompetition):
+    ## SimpleAsymmetricZOI case for aboveground competition concept. Asymmetric
+    #  Zone Of Influence with highest tree at a meshpoint gets all the light at 
+    #  this meshpoint (BETTINA geometry of a tree assumed).\n
+    #  @param Tags to define SimpleAsymmetricZOI: see tag documentation
+    #  @date: 2019 - Today
     def __init__(self, args):
-        ## SimpleTest case for aboveground competition concept. This case is
-        #  defined to test the passing of information between the instances.
-        #  @VAR: Tags to define SimpleTest: type
-        #  @date: 2019 - Today
         case = args.find("type").text
-        #left_boundary = args.find("left_boundary").text
         print("Initiate aboveground competition of type " + case + ".")
         self.makeGrid(args)
 
+    ## This function returns the AbovegroundResources calculated in the
+    #  subsequent timestep.\n
+    #  @return: np.array with $N_tree$ scalars
     def calculateAbovegroundResources(self):
-        ## This function returns the AbovegroundResources calculated in the
-        #  subsequent timestep. In the SimpleTest concept, for each tree a one
-        #  is returned
-        #  @return: np.array with $N_tree$ scalars
         for i in range(len(self.xe)):
             distance = ((self.my_grid[0] - self.xe[i])**2 + (self.my_grid[1]-self.ye[i])**2)**0.5
             my_height = self.calculateHeightFromDistance(self.h_stem[i],self.r_crown[i],distance)
@@ -33,16 +32,20 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         for i in range(len(self.xe)):
             self.tree_win.append(sum(sum(self.winner==i)))
         self.aboveground_resources = np.divide(self.tree_win,self.crown_area)
-        print(self.crown_area)
-        print(self.tree_win)
-        print(self.aboveground_resources)
         
+    ## This function calculates the tree height at a (mesh-)point depending
+    #  on the distance from the tree position.\n
+    #  @param hst - stem height\n
+    #  @param rcr - crown radius\n
+    #  @param distance - distance from the stem position
     def calculateHeightFromDistance(self,hst,rcr,distance):
         height = rcr-distance
         height = np.maximum(height, 0,height)
         height[height>0] = hst + (4*rcr**2 - distance[height>0]**2)**0.5
         return height
 
+    ## This function reads x- and y-domain and mesh resolution
+    #  from project file and creates the mesh.\n
     def makeGrid(self,args):
         missing_tags = [
            "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"
@@ -82,13 +85,14 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         ye = np.linspace(y_1+y_step/2.,y_2-y_step/2., y_resolution ,endpoint=True) 
         self.my_grid = np.meshgrid(xe,ye)
 
+    ## This functions prepares arrays for the competition
+    #  concept. In the SimpleAssymmetricZOI concept, trees geometric measures
+    #  are saved in simple lists and the timestepping is updated. Two numpy
+    #  arrays similar to the mesh array for canopy height and tree ID of highest tree
+    #  at corresponding mesh point are initialised. \n
+    #  @param t_ini - initial time for next timestep \n
+    #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        ## This functions prepares the competition concept for the competition
-        #  concept. In the SimpleTest concept, trees are saved in a simple list
-        #  and the timestepping is updated. In preparation for the next time-
-        #  step, the list is simply resetted.
-        #  @VAR: t_ini - initial time for next timestep \n
-        #  t_end - end time for next timestep
         self.trees = []
         self.crown_area = []
         self.tree_win = []
@@ -101,13 +105,10 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         self.canopy_height = np.zeros_like(self.my_grid[0])
         self.winner = np.full_like(self.my_grid[0],fill_value=np.nan)
 
+    ## Before being able to calculate the resources, all tree entities need
+    #  to be added with their current implementation for the next timestep.
+    #  @param position, geometry, parameter
     def addTree(self, x, y, geometry, parameter):
-        ## Before being able to calculate the resources, all tree entities need
-        #  to be added with their current implementation for the next timestep.
-        #  Here, in the SimpleTest case, each tree is represented by a one. In
-        #  general, an object containing all necessary information should be
-        #  stored for each tree
-        #  @VAR: position, geometry, parameter
         self.trees.append(1)
         if geometry["r_crown"] < self.min_r_crown:
             print("Error: mesh not fine enough for crown dimensions!")

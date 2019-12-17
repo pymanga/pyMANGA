@@ -10,7 +10,7 @@ List containing species specific tree model parameters.
 def createTree():
     ini_root_depth = 0.004
     ini_crown_depth = 0.004
-    ini_stem_radius = 0.005
+    ini_stem_radius = 0.015 #0.005
     ini_stem_height = 0.05
     ini_root_radius = 0.2
     ini_crown_radius = 0.2
@@ -24,6 +24,14 @@ def createTree():
     growth_factor = 0.0015
     h_sigmo_slope = 0.5
     sigmo_slope = 0.15
+    # Kiwi
+    salt_effect_d = -0.18
+    salt_effect_ui = 72
+    max_height = 3500 #cm
+    max_dbh = 140 #cm
+    max_growth = 162
+    b2 = 48.04
+    b3 = 0.172
     geometry = {}
     parameter = {}
     geometry["h_root"] = ini_root_depth
@@ -42,4 +50,13 @@ def createTree():
     parameter["growth_factor"] = growth_factor
     parameter["h_sigmo_slope"] = h_sigmo_slope
     parameter["sigmo_slope"] = sigmo_slope
+    parameter["salt_effect_d"] = salt_effect_d
+    parameter["salt_effect_ui"] = salt_effect_ui
+    parameter["max_height"] = max_height
+    parameter["max_dbh"] = max_dbh
+    parameter["max_growth"] = max_growth
+    parameter["b2"] = b2
+    parameter["b3"] = b3
+    parameter["mortality_constant"] = 0.467
+
     return geometry, parameter

@@ -52,8 +52,7 @@ class TreeDynamicTimeStepping:
 
     ## Last action, when timeloop is done
     def finish(self, time):
-        self.visualization.show(time)  
+        self.visualization.show(time)
         tree_groups = self.population.getTreeGroups()
 
         self.tree_output.writeOutput(tree_groups, time)
-

@@ -110,7 +110,7 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         l_y = y_2 - y_1
         x_step = l_x / x_resolution
         y_step = l_y / y_resolution
-        self.min_r_crown = np.min([x_step, y_step]) * 1 / 2**0.5
+        self.min_r_crown = np.max([x_step, y_step]) * 1 / 2**0.5
         xe = np.linspace(x_1 + x_step / 2.,
                          x_2 - x_step / 2.,
                          x_resolution,

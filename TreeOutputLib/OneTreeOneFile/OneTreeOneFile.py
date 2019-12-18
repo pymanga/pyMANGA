@@ -41,11 +41,12 @@ class OneTreeOneFile(TreeOutput):
         if dir_files > 0:
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
-        print("Output to '" + self.output_dir + "' of tree positions, the " +
-              "parameters ", self.parameter_outputs,
-              " and geometric" + " measures ", self.geometry_outputs,
-              " at every " + str(self.output_each_nth_timestep) +
-              " timesteps initialized.")
+        print(
+            "Output to '" + self.output_dir + "' of tree positions, the " +
+            "parameters ", self.parameter_outputs,
+            " and geometric" + " measures ", self.geometry_outputs,
+            " at every " + str(self.output_each_nth_timestep) +
+            " timesteps initialized.")
 
     ## Writes output to predefined folder
     #  For each tree a file is created and updated throughout the simulation.
@@ -58,28 +59,31 @@ class OneTreeOneFile(TreeOutput):
             files_in_folder = os.listdir(self.output_dir)
             for group_name, tree_group in tree_groups.items():
                 for tree in tree_group.getTrees():
-                    filename = group_name + "_" + "%07.0d" % (tree.getId())
+                    filename = (group_name + "_" + "%07.0d" % (tree.getId()) +
+                                ".csv")
                     file = open(self.output_dir + filename, "a")
                     if filename not in files_in_folder:
                         string = ""
-                        string += "time \t x \t y \t"
+                        string += "time ,\t x ,\t y ,\t"
                         for geometry_output in self.geometry_outputs:
-                            string += geometry_output + "\t"
+                            string += geometry_output + ",\t"
                         for parameter_output in self.parameter_outputs:
-                            string += parameter_output + "\t"
+                            string += parameter_output + ",\t"
+                        string = string[:-3]
                         string += "\n"
                         file.write(string)
                     string = ""
-                    string += (str(time) + "\t" + str(tree.x) + "\t" +
-                               str(tree.y) + "\t")
+                    string += (str(time) + ",\t" + str(tree.x) + ",\t" +
+                               str(tree.y) + ",\t")
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:
-                            string += str(geometry[geometry_output]) + "\t"
+                            string += str(geometry[geometry_output]) + ",\t"
                     if (len(self.parameter_outputs) > 0):
                         parameter = tree.getParameter()
                         for parameter_output in self.parameter_outputs:
-                            string += str(parameter[parameter_output]) + "\t"
+                            string += str(parameter[parameter_output]) + ",\t"
+                    string = string[:-3]
                     string += "\n"
                     file.write(string)
                     file.close()

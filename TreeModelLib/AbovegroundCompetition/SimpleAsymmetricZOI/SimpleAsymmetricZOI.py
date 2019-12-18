@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @date: 2018-Today
-@author: jasper.bathmann@ufz.de
+@author: ronny.peters@tu-dresden.de
 """
 import numpy as np
 from TreeModelLib.AbovegroundCompetition import AbovegroundCompetition
@@ -35,17 +35,18 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         
     ## This function calculates the tree height at a (mesh-)point depending
     #  on the distance from the tree position.\n
-    #  @param hst - stem height\n
-    #  @param rcr - crown radius\n
+    #  @param stem_height - stem height\n
+    #  @param crown_radius - crown radius\n
     #  @param distance - distance from the stem position
-    def calculateHeightFromDistance(self,hst,rcr,distance):
-        height = rcr-distance
+    def calculateHeightFromDistance(self,stem_height,crown_radius,distance):
+        height = crown_radius-distance
         height = np.maximum(height, 0,height)
-        height[height>0] = hst + (4*rcr**2 - distance[height>0]**2)**0.5
+        height[height>0] = stem_height + (4*crown_radius**2 - distance[height>0]**2)**0.5
         return height
 
     ## This function reads x- and y-domain and mesh resolution
     #  from project file and creates the mesh.\n
+    #  @param Tags to define plot size and spatial resolution: see tag documentation
     def makeGrid(self,args):
         missing_tags = [
            "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"
@@ -93,7 +94,6 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        self.trees = []
         self.crown_area = []
         self.tree_win = []
         self.xe = []
@@ -109,7 +109,6 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
     #  to be added with their current implementation for the next timestep.
     #  @param position, geometry, parameter
     def addTree(self, x, y, geometry, parameter):
-        self.trees.append(1)
         if geometry["r_crown"] < self.min_r_crown:
             print("Error: mesh not fine enough for crown dimensions!")
             print("Please refine mesh or increase initial crown radius above " + str(self.min_r_crown) + "m !")

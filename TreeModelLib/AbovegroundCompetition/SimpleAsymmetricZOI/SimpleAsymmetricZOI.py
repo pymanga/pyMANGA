@@ -23,17 +23,39 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
     #  subsequent timestep.\n
     #  @return: np.array with $N_tree$ scalars
     def calculateAbovegroundResources(self):
-        for i in range(len(self.xe)):
-            distance = ((self.my_grid[0] - self.xe[i])**2 +
-                        (self.my_grid[1] - self.ye[i])**2)**0.5
-            my_height = self.calculateHeightFromDistance(
-                self.h_stem[i], self.r_crown[i], distance)
-            self.crown_area.append(sum(sum(my_height > 0)))
-            self.winner[self.canopy_height < my_height] = i
-            self.canopy_height = np.maximum(self.canopy_height, my_height)
-        for i in range(len(self.xe)):
-            self.tree_win.append(sum(sum(self.winner == i)))
-        self.aboveground_resources = np.divide(self.tree_win, self.crown_area)
+        #for i in range(len(self.xe)):
+        distance = (((self.my_grid[0][:, :, np.newaxis] -
+                      np.array(self.xe)[np.newaxis, np.newaxis, :])**2 +
+                     (self.my_grid[1][:, :, np.newaxis] -
+                      np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5)
+        my_height, canopy_bools = self.calculateHeightFromDistance(
+            np.array(self.h_stem), np.array(self.r_crown), distance)
+        #Define empty array of dimensions res_x, res_y, n_trees
+        crown_areas = np.zeros_like(my_height)
+        #Add a one, where tree is larger than 0
+        crown_areas[np.where(canopy_bools)] += 1
+        #Count all nodes, which are occupied by trees
+        #returns array of shape (ntrees)
+        crown_areas = crown_areas.sum(axis=(0, 1))
+
+        # look for largest tree
+        self.canopy_height = np.max(my_height, axis=-1)
+        self.canopy_height[np.where(np.less(self.canopy_height, 0))] = 0
+
+        #define array to count wins
+        wins = np.zeros_like(my_height)
+        #indicate, where tree is highest
+        wins[np.where(np.equal(my_height,
+                               self.canopy_height[:, :, np.newaxis]))] += 1
+
+        #Account for shared wins
+        cumwins = wins.sum(axis=-1)
+        cumwins[np.where(cumwins == 0)] = -1e-4
+        wins = wins / cumwins[:, :, np.newaxis]
+        wins[np.where(wins < 0)] = 0
+        #Count number of wins
+        wins = wins.sum(axis=(0, 1))
+        self.aboveground_resources = wins / crown_areas
 
     ## This function calculates the tree height at a (mesh-)point depending
     #  on the distance from the tree position.\n
@@ -41,11 +63,12 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
     #  @param crown_radius - crown radius\n
     #  @param distance - distance from the stem position
     def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
-        height = crown_radius - distance
-        height = np.maximum(height, 0, height)
-        height[height > 0] = stem_height + (4 * crown_radius**2 -
-                                            distance[height > 0]**2)**0.5
-        return height
+        bools = crown_radius[np.newaxis, np.newaxis, :] > distance
+        idx = np.where(bools)
+        height = np.full_like(distance, fill_value=-99999)
+        height[idx] = stem_height[idx[2]] + (4 * crown_radius[idx[2]]**2 -
+                                             distance[idx]**2)**0.5
+        return height, bools
 
     ## This function reads x- and y-domain and mesh resolution
     #  from project file and creates the mesh.\n

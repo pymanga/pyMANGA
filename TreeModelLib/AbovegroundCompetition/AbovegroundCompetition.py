@@ -13,6 +13,8 @@ class AbovegroundCompetition(TreeModel):
         case = args.find("type").text
         if case == "SimpleTest":
             self.iniSimpleTest(args)
+        elif case == "SimpleAsymmetricZOI":
+            self.iniSimpleAsymmetricZOI(args)
         else:
             raise KeyError("Required aboveground competition not implemented.")
         print(case + " aboveground competition successfully initiated.")
@@ -20,6 +22,10 @@ class AbovegroundCompetition(TreeModel):
     def iniSimpleTest(self, args):
         from .SimpleTest import SimpleTest
         self.concept = SimpleTest(args)
+
+    def iniSimpleAsymmetricZOI(self, args):
+        from .SimpleAsymmetricZOI import SimpleAsymmetricZOI
+        self.concept = SimpleAsymmetricZOI(args)
 
     def getAbovegroundResources(self):
         return self.aboveground_resources

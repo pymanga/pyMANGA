@@ -39,14 +39,14 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         crown_areas = crown_areas.sum(axis=(0, 1))
 
         # look for largest tree
-        self.canopy_height = np.max(my_height, axis=-1)
-        self.canopy_height[np.where(np.less(self.canopy_height, 0))] = 0
+        canopy_height = np.max(my_height, axis=-1)
+        canopy_height[np.where(np.less(canopy_height, 0))] = 0
 
         #define array to count wins
         wins = np.zeros_like(my_height)
         #indicate, where tree is highest
         wins[np.where(np.equal(my_height,
-                               self.canopy_height[:, :, np.newaxis]))] += 1
+                               canopy_height[:, :, np.newaxis]))] += 1
 
         #Account for shared wins
         cumwins = wins.sum(axis=-1)
@@ -110,7 +110,7 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         l_y = y_2 - y_1
         x_step = l_x / x_resolution
         y_step = l_y / y_resolution
-        self.min_r_crown = np.mean([x_step, y_step]) * 2**0.5
+        self.min_r_crown = np.min([x_step, y_step]) * 1 / 2**0.5
         xe = np.linspace(x_1 + x_step / 2.,
                          x_2 - x_step / 2.,
                          x_resolution,
@@ -129,16 +129,12 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        self.crown_area = []
-        self.tree_win = []
         self.xe = []
         self.ye = []
         self.h_stem = []
         self.r_crown = []
         self.t_ini = t_ini
         self.t_end = t_end
-        self.canopy_height = np.zeros_like(self.my_grid[0])
-        self.winner = np.full_like(self.my_grid[0], fill_value=np.nan)
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their current implementation for the next timestep.

@@ -12,7 +12,12 @@ import PopulationLib as PLib
 from PopulationLib import TreeGroup
 
 
+## Initializes groups of tree population and defines necessary functions.
 class GroupPlanting(TreeGroup):
+    ## Function initializing tree group and initial population of this group,
+    #  depending on specification in project file.
+    #  @param args: arguments specified in project file. Please see tag
+    #  documentation.
     def __init__(self, args):
         self.species = args.find("species").text
         self.name = args.find("name").text
@@ -30,6 +35,10 @@ class GroupPlanting(TreeGroup):
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")
 
+    ## Function initializing tree population of size n_individuals within given
+    #  rectangular domain.
+    #  @param args: arguments specified in project file. Please see tag
+    #  documentation.
     def plantRandomDistributedTrees(self, args):
         missing_tags = [
             "type", "domain", "x_1", "x_2", "y_1", "y_2", "n_individuals"
@@ -74,6 +83,7 @@ class GroupPlanting(TreeGroup):
             y_i = self.y_1 + self.l_y * r_y
             self.addTree(x_i, y_i)
 
+    ## Randomly recruiting trees within given domain.
     def recruitTrees(self):
         for i in range(self.n_recruitment):
             r_x, r_y = (np.random.rand(2))
@@ -81,5 +91,6 @@ class GroupPlanting(TreeGroup):
             y_i = self.y_1 + self.l_y * r_y
             self.addTree(x_i, y_i)
 
+    ## Returns all living trees belonging to this group.
     def getGroup(self):
         return self.tree_group

@@ -34,23 +34,31 @@ class GroupPlanting(TreeGroup):
         missing_tags = [
             "type", "domain", "x_1", "x_2", "y_1", "y_2", "n_individuals"
         ]
+        #  Set default value
+        self.n_recruitment = 0
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "n_individuals":
                 n_individuals = int(arg.text)
             elif tag == "x_1":
-                x_1 = float(arg.text)
+                self.x_1 = float(arg.text)
             elif tag == "x_2":
                 x_2 = float(arg.text)
             elif tag == "y_1":
-                y_1 = float(arg.text)
+                self.y_1 = float(arg.text)
             elif tag == "y_2":
                 y_2 = float(arg.text)
-            try:
-                missing_tags.remove(tag)
-            except ValueError:
-                raise ValueError("Tag " + tag +
-                                 " not specified for random tree planting!")
+            elif tag == "n_recruitment_per_step":
+                self.n_recruitment = int(arg.text)
+            if tag != "n_recruitment_per_step":
+                try:
+
+                    missing_tags.remove(tag)
+                except ValueError:
+                    raise ValueError(
+                        "Tag " + tag +
+                        " not specified for random tree planting!")
+
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:
@@ -58,12 +66,19 @@ class GroupPlanting(TreeGroup):
             raise KeyError(
                 "Tag(s) " + string +
                 "are not given for random tree planting in project file.")
-        l_x = x_2 - x_1
-        l_y = y_2 - y_1
+        self.l_x = x_2 - self.x_1
+        self.l_y = y_2 - self.y_1
         for i in range(n_individuals):
             r_x, r_y = (np.random.rand(2))
-            x_i = x_1 + l_x * r_x
-            y_i = y_1 + l_y * r_y
+            x_i = self.x_1 + self.l_x * r_x
+            y_i = self.y_1 + self.l_y * r_y
+            self.addTree(x_i, y_i)
+
+    def recruitTrees(self):
+        for i in range(self.n_recruitment):
+            r_x, r_y = (np.random.rand(2))
+            x_i = self.x_1 + self.l_x * r_x
+            y_i = self.y_1 + self.l_y * r_y
             self.addTree(x_i, y_i)
 
     def getGroup(self):

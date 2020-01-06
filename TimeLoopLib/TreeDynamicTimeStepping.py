@@ -48,6 +48,7 @@ class TreeDynamicTimeStepping:
                     kill_indices.append(i)
                 j += 1
             tree_group.removeTreesAtIndices(kill_indices)
+            tree_group.recruitTrees()
         self.visualization.update(tree_groups, t_end)
 
     ## Last action, when timeloop is done

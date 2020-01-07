@@ -3,6 +3,7 @@ import OpenGeoSys
 import vtk as vtk
 import numpy as np
 from math import pi, sin
+import os
 
 seaward_salinity = 0.035
 tide_daily_amplitude = 1
@@ -63,29 +64,42 @@ class CellInformation:
         return cell_id
 
 
-def constantContribution(coords):
-    cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])
+def constantContribution(cell_id):
     return constant_contributions[cell_id]
 
 
-def salinityContribution(coords, salinity):
-    cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])
+def salinityContribution(cell_id, salinity):
     return salinity_prefactors[cell_id]
 
 
 class FluxToTrees(OpenGeoSys.SourceTerm):
     def getFlux(self, t, coords, primary_vars):
         salinity = primary_vars[1]
-        value = constantContribution(coords) + salinityContribution(
-            coords, salinity)
+
+        cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])
+        calls[cell_id] += 1
+        cumsum_salinity[cell_id] += salinity
+        if t == t_write:
+            np.save(cumsum_savename, cumsum_salinity)
+            np.save(calls_savename, calls)
+        value = constantContribution(cell_id) + salinityContribution(
+            cell_id, salinity)
         Jac = [0.0, 0.0]
         return (value, Jac)
 
 
 constant_contributions = np.load("constant_contributions.npy")
 salinity_prefactors = np.load("salinity_prefactors.npy")
-cell_information = CellInformation(source_mesh)
+cumsum_salinity = np.zeros_like(salinity_prefactors)
+calls = np.zeros_like(salinity_prefactors)
+mangapath = os.path.join(
+    os.path.abspath("."),
+    "TreeModelLib/BelowgroundCompetition/OGSLargeScale3D")
+cumsum_savename = os.path.join(mangapath, "cumsum_salinity.npy")
+calls_savename = os.path.join(mangapath, "calls_in_last_timestep.npy")
 
+t_write = t_end
+cell_information = CellInformation(source_mesh)
 # instantiate source term object referenced in OpenGeoSys' prj file
 flux_to_trees = FluxToTrees()
 bc_tide_p = BCSea_p_D()

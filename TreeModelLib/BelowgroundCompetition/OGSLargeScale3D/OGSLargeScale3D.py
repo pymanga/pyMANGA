@@ -46,13 +46,13 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self.source_mesh_name = args.find("source_mesh").text
         self.tree.find("python_script").text = "python_source.py"
 
-        self.copyPythonScript()
-
     def calculateBelowgroundResources(self):
         ## This function returns the BelowgroundResources calculated in the
         #  subsequent timestep. In the SimpleTest concept, for each tree a one
         #  is returned
         #  @return: np.array with $N_tree$ scalars
+        self.copyPythonScript()
+
         np.save(
             path.join(self.ogs_project_folder, "constant_contributions.npy"),
             self.constant_contributions)
@@ -69,16 +69,16 @@ class OGSLargeScale3D(BelowgroundCompetition):
                     and ("_" + str(self.t_end)) in file):
                 self.ogs_bulk_mesh.text = str(file)
 
-        self.cell_information.mapSalinity(
-            path.join(
-                self.ogs_project_folder,
-                self.ogs_bulk_mesh.text))  ##TODO find correct ogs output file
-
-        salinity_array = self.cell_information.getSalinities()
-        self.belowground_resources = []
+        cumsum_salinity = np.load(
+            path.join(path.dirname(path.dirname(path.abspath(__file__))),
+                      "OGSLargeScale3D/cumsum_salinity.npy"))
+        calls_per_cell = np.load(
+            path.join(path.dirname(path.dirname(path.abspath(__file__))),
+                      "OGSLargeScale3D/calls_in_last_timestep.npy"))
+        salinity = cumsum_salinity / calls_per_cell
         for tree_id in range(len(self.tree_constant_contribution)):
-            mean_salinity_for_tree = np.mean(
-                salinity_array[self.tree_cell_ids[tree_id]])
+            ids = self.tree_cell_ids[tree_id]
+            mean_salinity_for_tree = np.mean(salinity[ids])
             belowground_resource = ((self.tree_constant_contribution[tree_id] +
                                      mean_salinity_for_tree *
                                      self.tree_salinity_prefactor[tree_id]) /
@@ -111,6 +111,8 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self.tree_salinity_prefactor = []
         self.constant_contributions = np.zeros_like(self.volumes)
         self.salinity_prefactors = np.zeros_like(self.volumes)
+        self.calls_in_last_timestep = np.zeros_like(self.volumes)
+        self.cumsum_salinity = np.zeros_like(self.volumes)
         #  TODO: rename file
         filename = path.join(
             self.ogs_project_folder,
@@ -186,6 +188,8 @@ class OGSLargeScale3D(BelowgroundCompetition):
                     "source_mesh", "'" +
                     path.join(self.ogs_project_folder, self.source_mesh_name) +
                     "'")
+            if "t_write = t_end" in line:
+                line = line.replace("t_end", str(self.t_end))
             target.write(line)
         source.close()
         target.close()
@@ -258,20 +262,6 @@ class CellInformation:
             yi.sort()
         return ids
 
-    def mapSalinity(self, mesh_name):
-        meshReader = vtk.vtkXMLUnstructuredGridReader()
-        meshReader.SetFileName(mesh_name)
-        meshReader.Update()
-        bulk_grid = meshReader.GetOutput()
-        resample_filter = vtk.vtkResampleWithDataSet()
-        resample_filter.SetSourceData(bulk_grid)
-        resample_filter.SetInputData(self.grid)
-        resample_filter.Update()
-        self.grid = resample_filter.GetOutput()
-        self.vtkPointToCellData()
-        self.salinities = numpy_support.vtk_to_numpy(
-            self.grid.GetCellData().GetArray("concentration"))
-
     def getCellVolumeFromId(self, cell_id):
         cell_volume = self.volumes.GetTuple(cell_id)[0]
         return cell_volume
@@ -295,6 +285,3 @@ class CellInformation:
         mapper.SetInputData(self.grid)
         mapper.Update()
         self.grid = mapper.GetOutput()
-
-    def getSalinities(self):
-        return self.salinities

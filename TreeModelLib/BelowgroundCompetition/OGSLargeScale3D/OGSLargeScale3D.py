@@ -76,10 +76,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
         for tree_id in range(len(self._tree_constant_contribution)):
             ids = self._tree_cell_ids[tree_id]
             mean_salinity_for_tree = np.mean(salinity[ids])
-            belowground_resource = ((self._tree_constant_contribution[tree_id] +
-                                     mean_salinity_for_tree *
-                                     self._tree_salinity_prefactor[tree_id]) /
-                                    self._tree_constant_contribution[tree_id])
+            belowground_resource = (
+                (self._tree_constant_contribution[tree_id] +
+                 mean_salinity_for_tree *
+                 self._tree_salinity_prefactor[tree_id]) /
+                self._tree_constant_contribution[tree_id])
             self.belowground_resources.append(belowground_resource)
 
         parameters = self._tree.find("parameters")
@@ -197,9 +198,9 @@ class OGSLargeScale3D(BelowgroundCompetition):
                                     prefactors_filename)
             if "CellInformation(source_mesh)" in line:
                 line = line.replace(
-                    "source_mesh", "'" +
-                    path.join(self._ogs_project_folder, self._source_mesh_name) +
-                    "'")
+                    "source_mesh",
+                    "'" + path.join(self._ogs_project_folder,
+                                    self._source_mesh_name) + "'")
             if "t_write = t_end" in line:
                 line = line.replace("t_end", str(self._t_end))
             target.write(line)

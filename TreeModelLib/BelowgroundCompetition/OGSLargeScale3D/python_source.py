@@ -13,10 +13,9 @@ tide_monthly_period = 60. * 60 * 24 * 31 / 2.
 
 
 def tidal_cycle(t):
-    return (
-        sin(2 * pi * t / tide_daily_period) *
-        (tide_daily_amplitude +
-         tide_monthly_amplitude * sin(2 * pi * t / tide_monthly_period)))
+    return (sin(2 * pi * t / tide_daily_period) *
+            (tide_daily_amplitude +
+             tide_monthly_amplitude * sin(2 * pi * t / tide_monthly_period)))
 
 
 def pressure_value(z, tidal_cycle):

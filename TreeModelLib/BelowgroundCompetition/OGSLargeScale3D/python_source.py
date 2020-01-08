@@ -8,22 +8,22 @@ import os
 seaward_salinity = 0.035
 tide_daily_amplitude = 1
 tide_monthly_amplitude = .5
-tide_daily_frequency = 60 * 60 * 12.
-tide_monthly_frequency = 60. * 60 * 24 * 31 / 2.
+tide_daily_period = 60 * 60 * 12.
+tide_monthly_period = 60. * 60 * 24 * 31 / 2.
 
 
 def tidal_cycle(t):
     return (
-        sin(2 * pi * t / tide_daily_frequency) *
+        sin(2 * pi * t / tide_daily_period) *
         (tide_daily_amplitude +
-         tide_monthly_amplitude * sin(2 * pi * t / tide_monthly_frequency)))
+         tide_monthly_amplitude * sin(2 * pi * t / tide_monthly_period)))
 
 
 def pressure_value(z, tidal_cycle):
     return 1000 * 9.81 * (tidal_cycle - z)
 
 
-# Dirichlet BCs
+## Dirichlet BCs
 class BCSea_p_D(OpenGeoSys.BoundaryCondition):
     def getDirichletBCValue(self, t, coords, node_id, primary_vars):
         x, y, z = coords
@@ -35,6 +35,7 @@ class BCSea_p_D(OpenGeoSys.BoundaryCondition):
             return (True, value)
 
 
+## Dirichlet BCs
 class BCSea_C(OpenGeoSys.BoundaryCondition):
     def getDirichletBCValue(self, t, coords, node_id, primary_vars):
         x, y, z = coords
@@ -46,7 +47,6 @@ class BCSea_C(OpenGeoSys.BoundaryCondition):
             return (False, 0)
 
 
-##Source Terms
 class CellInformation:
     def __init__(self, source_mesh):
         meshReader = vtk.vtkXMLUnstructuredGridReader()
@@ -72,6 +72,7 @@ def salinityContribution(cell_id, salinity):
     return salinity_prefactors[cell_id]
 
 
+##Source Terms
 class FluxToTrees(OpenGeoSys.SourceTerm):
     def getFlux(self, t, coords, primary_vars):
         salinity = primary_vars[1]

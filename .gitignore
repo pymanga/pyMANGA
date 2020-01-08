@@ -111,3 +111,4 @@ TreeModelLib/BelowgroundCompetition/OGS/bin/
 
 TreeModelLib/BelowgroundCompetition/OGSLargeScale3D/calls_in_last_timestep.npy
 TreeModelLib/BelowgroundCompetition/OGSLargeScale3D/cumsum_salinity.npy
+TreeModelLib/BelowgroundCompetition/OGS/share

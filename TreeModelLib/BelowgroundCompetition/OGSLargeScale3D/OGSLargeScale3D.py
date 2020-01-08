@@ -19,6 +19,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
         #  @VAR: Tags to define SimpleTest: type
         #  @date: 2019 - Today
         case = args.find("type").text
+        self.abiotic_drivers = args.find("abiotic_driver_configuration")
         print("Initiate belowground competition of type " + case + ".")
         self.ogs_project_folder = args.find("ogs_project_folder").text.strip()
         self.ogs_project_file = args.find("ogs_project_file").text.strip()
@@ -173,6 +174,10 @@ class OGSLargeScale3D(BelowgroundCompetition):
         prefactors_filename = path.join(self.ogs_project_folder,
                                         "salinity_prefactors.npy")
         for line in source.readlines():
+            if self.abiotic_drivers:
+                for abiotic_factor in self.abiotic_drivers.iterchildren():
+                    if (abiotic_factor.tag + " = ") in line:
+                        line = abiotic_factor.tag + " = " + abiotic_factor.text + "\n"
             if "constant_contributions.npy" in line:
                 line = line.replace("constant_contributions.npy",
                                     constants_filename)

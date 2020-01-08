@@ -7,11 +7,8 @@
 import numpy as np
 from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 import vtk as vtk
-from vtk.util import numpy_support
 from lxml import etree
 from os import path
-import time
-import shutil
 import os
 
 
@@ -26,7 +23,6 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self.ogs_project_folder = args.find("ogs_project_folder").text.strip()
         self.ogs_project_file = args.find("ogs_project_file").text.strip()
         self.ogs_source_mesh = args.find("source_mesh").text.strip()
-        #self.ogs_bulk_mesh = args.find("bulk_mesh")
         self.tree = etree.parse(
             path.join(self.ogs_project_folder, self.ogs_project_file))
         self.ogs_bulk_mesh = self.tree.find("meshes").find("mesh")
@@ -262,26 +258,5 @@ class CellInformation:
             yi.sort()
         return ids
 
-    def getCellVolumeFromId(self, cell_id):
-        cell_volume = self.volumes.GetTuple(cell_id)[0]
-        return cell_volume
-
-    def getCellVolumeFromCoordinates(self, x, y, z):
-        cell_id = self.getCellId(self, x, y, z)
-        return self.getCellVolumeFromId(self, cell_id)
-
     def getCellVolumes(self):
         return self.volumes
-
-    def outputMesh(self):
-
-        writer = vtk.vtkXMLUnstructuredGridWriter()
-        writer.SetFileName(self.mesh_name)
-        writer.SetInputData(self.grid)
-        writer.Write()
-
-    def vtkPointToCellData(self):
-        mapper = vtk.vtkPointDataToCellData()
-        mapper.SetInputData(self.grid)
-        mapper.Update()
-        self.grid = mapper.GetOutput()

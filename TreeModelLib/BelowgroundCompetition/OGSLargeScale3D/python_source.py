@@ -9,11 +9,10 @@ seaward_salinity = 0.035
 tide_daily_amplitude = 1
 tide_monthly_amplitude = .5
 tide_daily_frequency = 60 * 60 * 12.
+tide_monthly_frequency = 60. * 60 * 24 * 31 / 2.
 
 
 def tidal_cycle(t):
-    tide_monthly_frequency = 60. * 60 * 24 * 31 / 2.
-
     return (
         sin(2 * pi * t / tide_daily_frequency) *
         (tide_daily_amplitude +

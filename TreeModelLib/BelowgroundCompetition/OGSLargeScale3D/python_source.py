@@ -9,10 +9,11 @@ seaward_salinity = 0.035
 tide_daily_amplitude = 1
 tide_monthly_amplitude = .5
 tide_daily_frequency = 60 * 60 * 12.
-tide_monthly_frequency = 60. * 60 * 24 * 31 / 2.
 
 
 def tidal_cycle(t):
+    tide_monthly_frequency = 60. * 60 * 24 * 31 / 2.
+
     return (
         sin(2 * pi * t / tide_daily_frequency) *
         (tide_daily_amplitude +
@@ -75,13 +76,14 @@ def salinityContribution(cell_id, salinity):
 class FluxToTrees(OpenGeoSys.SourceTerm):
     def getFlux(self, t, coords, primary_vars):
         salinity = primary_vars[1]
-
         cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])
         calls[cell_id] += 1
         cumsum_salinity[cell_id] += salinity
         if t == t_write:
-            np.save(cumsum_savename, cumsum_salinity)
-            np.save(calls_savename, calls)
+            counter[0] = counter[0] + 1
+            if counter[0] == len(cumsum_salinity):
+                np.save(cumsum_savename, cumsum_salinity)
+                np.save(calls_savename, calls)
         value = constantContribution(cell_id) + salinityContribution(
             cell_id, salinity)
         Jac = [0.0, 0.0]
@@ -92,6 +94,8 @@ constant_contributions = np.load("constant_contributions.npy")
 salinity_prefactors = np.load("salinity_prefactors.npy")
 cumsum_salinity = np.zeros_like(salinity_prefactors)
 calls = np.zeros_like(salinity_prefactors)
+counter = np.zeros((1), dtype=int)
+
 mangapath = os.path.join(
     os.path.abspath("."),
     "TreeModelLib/BelowgroundCompetition/OGSLargeScale3D")

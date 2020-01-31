@@ -1,0 +1,8 @@
+/*! \page project_dox__MangaProject__initial_population__group__distribution__n_recruitment_per_step &emsp;[spec]n_recruitment_per_step
+
+
+Optional input. Number of new recruits for this group in each timestep.
+
+
+
+*/

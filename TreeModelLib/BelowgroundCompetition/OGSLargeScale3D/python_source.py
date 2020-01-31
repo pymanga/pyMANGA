@@ -68,7 +68,7 @@ def constantContribution(cell_id):
 
 
 def salinityContribution(cell_id, salinity):
-    return salinity_prefactors[cell_id]
+    return salinity_prefactors[cell_id] * salinity
 
 
 ##Source Terms
@@ -83,10 +83,10 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
             if counter[0] == len(cumsum_salinity):
                 np.save(cumsum_savename, cumsum_salinity)
                 np.save(calls_savename, calls)
-        value = constantContribution(cell_id) + salinityContribution(
+        positive_flux = constantContribution(cell_id) + salinityContribution(
             cell_id, salinity)
         Jac = [0.0, 0.0]
-        return (value, Jac)
+        return (-positive_flux, Jac)
 
 
 constant_contributions = np.load("constant_contributions.npy")

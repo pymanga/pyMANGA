@@ -10,7 +10,7 @@ List containing species specific tree model parameters.
 def createTree():
     ini_root_depth = 0.004
     ini_crown_depth = 0.004
-    ini_stem_radius = 0.015 #0.005
+    ini_stem_radius = 0.015  #0.005
     ini_stem_height = 0.05
     ini_root_radius = 0.2
     ini_crown_radius = 0.2
@@ -27,8 +27,8 @@ def createTree():
     # Kiwi
     salt_effect_d = -0.18
     salt_effect_ui = 72
-    max_height = 3500 #cm
-    max_dbh = 140 #cm
+    max_height = 3500  #cm
+    max_dbh = 140  #cm
     max_growth = 162
     b2 = 48.04
     b3 = 0.172

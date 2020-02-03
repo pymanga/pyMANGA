@@ -41,12 +41,11 @@ class OneTreeOneFile(TreeOutput):
         if dir_files > 0:
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
-        print(
-            "Output to '" + self.output_dir + "' of tree positions, the " +
-            "parameters ", self.parameter_outputs,
-            " and geometric" + " measures ", self.geometry_outputs,
-            " at every " + str(self.output_each_nth_timestep) +
-            " timesteps initialized.")
+        print("Output to '" + self.output_dir + "' of tree positions, the " +
+              "parameters ", self.parameter_outputs,
+              " and geometric" + " measures ", self.geometry_outputs,
+              " at every " + str(self.output_each_nth_timestep) +
+              " timesteps initialized.")
 
     ## Writes output to predefined folder
     #  For each tree a file is created and updated throughout the simulation.

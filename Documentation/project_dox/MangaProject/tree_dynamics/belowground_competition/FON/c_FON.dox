@@ -1,0 +1,20 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__FON__FON &emsp;[case]FON
+
+
+FON belowground competition concept as used in the Kiwi model. For details see (https://doi.org/10.1016/S0304-3800(00)00298-2). Returns a multiplier for competition and salinity.
+
+
+
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__y_1
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__y_2
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__x_resolution
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__salinity
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__fmin
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__x_1
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__bb
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__x_2
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__y_resolution
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__FON__aa
+*/

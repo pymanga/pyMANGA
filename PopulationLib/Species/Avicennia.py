@@ -32,6 +32,7 @@ def createTree():
     max_growth = 162
     b2 = 48.04
     b3 = 0.172
+    # kiwi end
     geometry = {}
     parameter = {}
     geometry["h_root"] = ini_root_depth
@@ -50,6 +51,7 @@ def createTree():
     parameter["growth_factor"] = growth_factor
     parameter["h_sigmo_slope"] = h_sigmo_slope
     parameter["sigmo_slope"] = sigmo_slope
+    # Kiwi
     parameter["salt_effect_d"] = salt_effect_d
     parameter["salt_effect_ui"] = salt_effect_ui
     parameter["max_height"] = max_height
@@ -58,5 +60,5 @@ def createTree():
     parameter["b2"] = b2
     parameter["b3"] = b3
     parameter["mortality_constant"] = 0.467
-
+    # kiwi end
     return geometry, parameter

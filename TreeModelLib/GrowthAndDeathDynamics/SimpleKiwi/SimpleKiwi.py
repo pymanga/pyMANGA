@@ -10,7 +10,7 @@ from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
 class SimpleKiwi(GrowthAndDeathDynamics):
     ## SimpleKiwi for death and growth dynamics. For details see
     #  https://doi.org/10.1016/S0304-3800(00)00298-2 \n
-    #  @param Tags to define SimpleBettina: type
+    #  @param Tags to define SimpleKiwi, see tag documentation \n
     #  @date 2019 - Today
     def __init__(self, args):
         case = args.find("type").text
@@ -21,8 +21,8 @@ class SimpleKiwi(GrowthAndDeathDynamics):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next
     def prepareNextTimeStep(self, t_ini, t_end):
-        self.t_ini = t_ini
-        self.t_end = t_end
+        self._t_ini = t_ini
+        self._t_end = t_end
 
     ## This functions is the main routine for reading the tree geometry and
     #  parameters, scheduling the computations and updating the tree geometry.\n
@@ -33,7 +33,6 @@ class SimpleKiwi(GrowthAndDeathDynamics):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
         tree.setGeometry(geometry)
-        tree.setSurvival(1)
         dbh = geometry["r_stem"] * 200
         height = (137 + parameter["b2"] * dbh - parameter["b3"] * dbh**2)
         growth = (
@@ -42,7 +41,8 @@ class SimpleKiwi(GrowthAndDeathDynamics):
             /
             (274 + 3 * parameter["b2"] * dbh - 4 * parameter["b3"] * dbh**2) *
             belowground_resources)
-        dbh = dbh + growth * (self.t_end - self.t_ini) / (3600 * 24 * 365)
+        dbh = dbh + growth * (self._t_end - self._t_ini) / (3600 * 24 * 365)
+        tree.setSurvival(1)
         if growth < parameter["mortality_constant"]:
             tree.setSurvival(0)
         geometry["r_stem"] = dbh / 200

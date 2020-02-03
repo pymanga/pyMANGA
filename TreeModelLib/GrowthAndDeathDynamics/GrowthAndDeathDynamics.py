@@ -15,6 +15,8 @@ class GrowthAndDeathDynamics(TreeModel):
             self.iniSimpleTest(args)
         elif case == "SimpleBettina":
             self.iniSimpleBettina(args)
+        elif case == "SimpleKiwi":
+            self.iniSimpleKiwi(args)
         else:
             raise KeyError("Required growth and death not implemented.")
         print(case + " growth and death dynamics initiated.")
@@ -26,6 +28,10 @@ class GrowthAndDeathDynamics(TreeModel):
     def iniSimpleBettina(self, args):
         from .SimpleBettina import SimpleBettina
         self.concept = SimpleBettina(args)
+
+    def iniSimpleKiwi(self, args):
+        from .SimpleKiwi import SimpleKiwi
+        self.concept = SimpleKiwi(args)
 
     def getConceptType(self):
         return "growth and death dynamics"

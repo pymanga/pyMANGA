@@ -8,4 +8,5 @@ Case selector for different types of belowground competition.
 # Available cases 
  
 - SimpleTest
+- OGSLargeScale3D
 */

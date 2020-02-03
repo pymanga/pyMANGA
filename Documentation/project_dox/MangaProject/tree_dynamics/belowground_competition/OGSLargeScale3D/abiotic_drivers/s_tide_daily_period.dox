@@ -1,0 +1,5 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__OGSLargeScale3D__abiotic_drivers__tide_daily_period &emsp;[spec]tide_daily_period
+
+
+Optional: Period of daily tide. Default value is 12*60*60, i.e. the daily tide has a cyclus of half a day. 
+*/

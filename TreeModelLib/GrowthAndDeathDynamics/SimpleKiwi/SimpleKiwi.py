@@ -43,8 +43,6 @@ class SimpleKiwi(GrowthAndDeathDynamics):
         dbh = dbh + growth * (self.t_end - self.t_ini)/(3600*24*365)
         if growth < parameter["mortality_constant"]:
             tree.setSurvival(0)
-        print(growth)
-        print(dbh)
         geometry["r_stem"] = dbh/200
 
  

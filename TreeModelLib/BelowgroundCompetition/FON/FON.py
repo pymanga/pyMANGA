@@ -19,29 +19,34 @@ class FON(BelowgroundCompetition):
         print("Initiate belowground competition of type " + case + ".")
         self.makeGrid(args)
 
+
     ## This function returns a list of the growth reduction factors of all trees.
-    #  calculated in the subsequent timestep.\n  
+    #  calculated in the subsequent timestep.\n
     #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
-        for i in range(len(self.xe)):
-            distance = ((self.my_grid[0] - self.xe[i])**2 + (self.my_grid[1]-self.ye[i])**2)**0.5
-            my_fon = self.calculateFonFromDistance(self.r_stem[i],distance)
-            self.fon_area.append(sum(sum(my_fon > 0)))
-            self.fon_height = self.fon_height + my_fon
-        for i in range(len(self.xe)):
-            distance = ((self.my_grid[0] - self.xe[i])**2 + (self.my_grid[1]-self.ye[i])**2)**0.5
-            my_fon = self.calculateFonFromDistance(self.r_stem[i],distance)
-            impact = self.fon_height - my_fon
-            impact[my_fon < self.fmin] = 0
-            self.fon_impact.append(sum(sum(impact)))
-            self.resource_limitation.append(1 - 2 * self.fon_impact[i]/self.fon_area[i])
-            if self.resource_limitation[i] < 0:
-                self.resource_limitation[i] = 0
-        for i in range(len(self.xe)):
-            self.salinity_reduction.append(1/(1 +
-                 np.exp( self.salt_effect_d[i]*
-                 ( self.salt_effect_ui[i]-self.salinity))))
-        self.belowground_resources = np.multiply(self.resource_limitation,self.salinity_reduction)
+        distance = (((self.my_grid[0][:, :, np.newaxis] -
+                      np.array(self.xe)[np.newaxis, np.newaxis, :])**2 +
+                     (self.my_grid[1][:, :, np.newaxis] -
+                      np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5)
+        my_fon = self.calculateFonFromDistance(np.array(self.r_stem),distance)
+        fon_areas = np.zeros_like(my_fon)
+        #Add a one, where tree is larger than 0
+        fon_areas[np.where(my_fon>0)] += 1
+        #Count all nodes, which are occupied by trees
+        #returns array of shape (ntrees)
+        fon_areas = fon_areas.sum(axis=(0, 1))
+        fon_heigths = my_fon.sum(axis=-1)
+        fon_impacts = fon_heigths[:,:,np.newaxis] - my_fon
+        fon_impacts[np.where(my_fon<self.fmin)] = 0
+        fon_impacts = fon_impacts.sum(axis=(0,1))
+        resource_limitations = 1 - 2 * fon_impacts/fon_areas
+        resource_limitations[np.where(resource_limitations<0)] = 0
+        salinity_reductions = (1/(1 +
+                 np.exp( np.array(self.salt_effect_d)*
+                 ( np.array(self.salt_effect_ui)-self.salinity))))
+        self.belowground_resources = resource_limitations*salinity_reductions
+
+        print(len(self.belowground_resources), " baeume")
         
     ## This function returns the fon height of a tree on the mesh.\n
     #  @param rst - FON radius\n
@@ -49,7 +54,7 @@ class FON(BelowgroundCompetition):
     def calculateFonFromDistance(self,rst,distance):
         fon_radius = self.aa * rst ** self.bb
         cc = -np.log(self.fmin)/(fon_radius-rst)
-        height = np.exp(-cc * (distance-rst))
+        height = np.exp(-cc[np.newaxis, np.newaxis, :] * (distance-rst[np.newaxis, np.newaxis, :]))
         height[height > 1] = 1
         height[height < self.fmin] = 0
         return height

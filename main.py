@@ -9,8 +9,7 @@ from TimeLoopLib import TreeDynamicTimeStepping
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "hi:",
-                                   ["project_file="])
+        opts, args = getopt.getopt(argv, "hi:", ["project_file="])
     except getopt.GetoptError:
         print("""pyMANGA wrong usage. Type "python main.py -h"
   for additional help.""")

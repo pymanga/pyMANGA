@@ -2,22 +2,13 @@
 <MangaProject>
     <tree_dynamics>
         <aboveground_competition>
-            <type> SimpleAsymmetricZOI </type>
-            <domain>
-                <x_1> 0 </x_1>
-                <y_1> 0 </y_1>
-                <x_2> 50 </x_2>
-                <y_2> 50 </y_2>
-	        <x_resolution> 180 </x_resolution>
-	        <y_resolution> 180 </y_resolution>
-            </domain>
+            <type> SimpleTest </type>
         </aboveground_competition>
-
         <belowground_competition>
             <type> SimpleTest </type>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> SimpleBettina </type>
+            <type> SimpleTest </type>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>
@@ -29,11 +20,11 @@
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 50 </x_2>
-                    <y_2> 50 </y_2>
+                    <x_2> 20 </x_2>
+                    <y_2> 20 </y_2>
                 </domain>
                 <n_individuals> 0 </n_individuals>
-                <n_recruitment_per_step> 10 </n_recruitment_per_step>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
             </distribution>
         </group>
         <group>
@@ -44,11 +35,10 @@
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 50 </x_2>
-                    <y_2> 50 </y_2>
+                    <x_2> 100 </x_2>
+                    <y_2> 5 </y_2>
                 </domain>
                 <n_individuals> 200 </n_individuals>
-
             </distribution>
         </group>
     </initial_population>
@@ -64,7 +54,7 @@
     <tree_output>
         <type> OneTreeOneFile </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
-        <output_dir> ./testoutputs/ </output_dir>
+        <output_dir> ./ProjectLib/ExampleSetups/testoutputs/ </output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <parameter_output> k_geom </parameter_output>

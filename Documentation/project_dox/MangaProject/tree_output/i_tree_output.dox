@@ -9,5 +9,6 @@ Specification of the output scheme applied to trees.
  # Possible cases: 
  
 - \subpage project_dox__MangaProject__tree_output__NONE__NONE
+- \subpage project_dox__MangaProject__tree_output__OneTimestepOneFile__OneTimestepOneFile
 - \subpage project_dox__MangaProject__tree_output__OneTreeOneFile__OneTreeOneFile
 */

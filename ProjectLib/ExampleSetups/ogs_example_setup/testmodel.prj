@@ -191,7 +191,7 @@
             <name>concentration</name>
             <components>1</components>
             <order>1</order>
-            <initial_condition>c_ini</initial_condition>
+            <initial_condition>c_left</initial_condition>
             <boundary_conditions>
                 <boundary_condition>
                     <mesh>left_boundary</mesh>

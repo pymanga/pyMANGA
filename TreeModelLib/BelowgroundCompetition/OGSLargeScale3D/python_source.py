@@ -6,8 +6,8 @@ from math import pi, sin
 import os
 
 seaward_salinity = 0.035
-tide_daily_amplitude = 1
-tide_monthly_amplitude = .5
+tide_daily_amplitude = .7
+tide_monthly_amplitude = .37
 tide_daily_period = 60 * 60 * 12.
 tide_monthly_period = 60. * 60 * 24 * 31 / 2.
 

@@ -148,12 +148,12 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self._tree_constant_contribution.append(constant_contribution)
         salinity_prefactor = -85000 * 1000 / R * 1000
         self._tree_salinity_prefactor.append(salinity_prefactor)
-        area_to_volume = geometry["r_root"]**2 * np.pi / v
+        per_volume = 1. / v
         for cell_id in affected_cells:
             self._constant_contributions[
-                cell_id] += constant_contribution * area_to_volume
+                cell_id] += constant_contribution * per_volume
             self._salinity_prefactors[
-                cell_id] += salinity_prefactor * area_to_volume
+                cell_id] += salinity_prefactor * per_volume
 
     ## This function calculates the root surface resistance.
     #  @param lp: lp value must exist in tree parameters

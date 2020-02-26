@@ -15,8 +15,8 @@ def createTree():
     ini_root_radius = 0.2
     ini_crown_radius = 0.2
     leaf_water_potential = -7860000
-    kf_sap = 1.6e-10
-    lp = 0.33e-14
+    kf_sap = 3.2e-10
+    lp = 0.66e-14
     k_geom = 4000
     half_max_h_growth_weight = 0.15
     maint_factor = 6e-7

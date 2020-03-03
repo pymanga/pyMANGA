@@ -43,6 +43,8 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self._volumes = self._cell_information.getCellVolumes()
         self._source_mesh_name = args.find("source_mesh").text
         self._tree.find("python_script").text = "python_source.py"
+        self._t_ini_list = []
+        self._t_end_list = []
 
     ## This function updates and returns BelowgroundResources in the current
     #  timestep. For each tree a reduction factor is calculated which is defined
@@ -60,6 +62,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
             str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
         os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +
                   current_project_file + " -o " + self._ogs_project_folder)
+        self.writePVDCollection()
         files = os.listdir(self._ogs_project_folder)
         for file in files:
             if (self._ogs_prefix.text in file
@@ -109,6 +112,8 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self._tree_salinity_prefactor = []
         self._constant_contributions = np.zeros_like(self._volumes)
         self._salinity_prefactors = np.zeros_like(self._volumes)
+        self._t_end_list.append(self._t_end)
+        self._t_ini_list.append(self._t_ini)
         filename = path.join(
             self._ogs_project_folder,
             str(t_ini).replace(".", "_") + "_" + self._ogs_project_file)
@@ -209,6 +214,28 @@ class OGSLargeScale3D(BelowgroundCompetition):
             target.write(line)
         source.close()
         target.close()
+
+    ## This function writes a pvd collection of the belowground grids at the
+    #  tree model timesteps
+    def writePVDCollection(self):
+        pvd_file = open(
+            os.path.join(self._ogs_project_folder, "vtu_collection.pvd"), "w")
+        pvd_file.write('<?xml version="1.0"?>\n')
+        pvd_file.write(
+            '<VTKFile type="Collection" version="0.1"' +
+            ' byte_order="LittleEndian" compressor="vtkZLibDataCompressor">\n')
+        pvd_file.write('\t<Collection>\n')
+        time = self._t_ini_list[0]
+        pvd_file.write('\t\t<DataSet timestep="' + str(time) +
+                       '" group="" part="0" file="' + self._ogs_prefix.text +
+                       '_pcs_0_ts_0_t_%1.6f.vtu"/>\n' % time)
+        for time in self._t_end_list:
+            pvd_file.write('\t\t<DataSet timestep="' + str(time) +
+                           '" group="" part="0" file="' + self._ogs_prefix.text +
+                           '_pcs_0_ts_0_t_%1.6f.vtu"/>\n' % time)
+        pvd_file.write("\t</Collection>\n")
+        pvd_file.write("</VTKFile>\n")
+        pvd_file.close()
 
 
 ## Helper class providing information on given mesh. The mesh needs to contain

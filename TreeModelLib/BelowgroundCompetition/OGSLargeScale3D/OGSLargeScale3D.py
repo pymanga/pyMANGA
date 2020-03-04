@@ -43,7 +43,6 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self._volumes = self._cell_information.getCellVolumes()
         self._source_mesh_name = args.find("source_mesh").text
         self._tree.find("python_script").text = "python_source.py"
-        self._t_ini_list = []
         self._t_end_list = []
 
     ## This function updates and returns BelowgroundResources in the current
@@ -113,7 +112,10 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self._constant_contributions = np.zeros_like(self._volumes)
         self._salinity_prefactors = np.zeros_like(self._volumes)
         self._t_end_list.append(self._t_end)
-        self._t_ini_list.append(self._t_ini)
+        try:
+            self._t_ini_zero
+        except AttributeError:
+            self._t_ini_zero = self._t_ini
         filename = path.join(
             self._ogs_project_folder,
             str(t_ini).replace(".", "_") + "_" + self._ogs_project_file)
@@ -226,7 +228,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
             '<VTKFile type="Collection" version="0.1"' +
             ' byte_order="LittleEndian" compressor="vtkZLibDataCompressor">\n')
         pvd_file.write('\t<Collection>\n')
-        time = self._t_ini_list[0]
+        time = self._t_ini_zero
         pvd_file.write('\t\t<DataSet timestep="' + str(time) +
                        '" group="" part="0" file="' + self._ogs_prefix.text +
                        '_pcs_0_ts_0_t_%1.6f.vtu"/>\n' % time)

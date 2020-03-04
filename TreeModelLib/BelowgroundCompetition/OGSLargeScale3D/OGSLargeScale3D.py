@@ -197,7 +197,8 @@ class OGSLargeScale3D(BelowgroundCompetition):
             if self._abiotic_drivers:
                 for abiotic_factor in self._abiotic_drivers.iterchildren():
                     if (abiotic_factor.tag + " = ") in line:
-                        line = abiotic_factor.tag + " = " + abiotic_factor.text + "\n"
+                        line = (abiotic_factor.tag + " = " +
+                                abiotic_factor.text + "\n")
             if "constant_contributions.npy" in line:
                 line = line.replace("constant_contributions.npy",
                                     constants_filename)
@@ -230,9 +231,14 @@ class OGSLargeScale3D(BelowgroundCompetition):
                        '" group="" part="0" file="' + self._ogs_prefix.text +
                        '_pcs_0_ts_0_t_%1.6f.vtu"/>\n' % time)
         for time in self._t_end_list:
-            pvd_file.write('\t\t<DataSet timestep="' + str(time) +
-                           '" group="" part="0" file="' + self._ogs_prefix.text +
-                           '_pcs_0_ts_0_t_%1.6f.vtu"/>\n' % time)
+            vtu_files = os.listdir(self._ogs_project_folder)
+            for filename in vtu_files:
+                if ("_" + str(time) in filename
+                        and self._ogs_prefix.text in filename
+                        and "_pcs_0_ts_0_t_" not in filename):
+                    pvd_file.write('\t\t<DataSet timestep="' + str(time) +
+                                   '" group="" part="0" file="' + filename +
+                                   '"/>\n')
         pvd_file.write("\t</Collection>\n")
         pvd_file.write("</VTKFile>\n")
         pvd_file.close()

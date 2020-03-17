@@ -60,8 +60,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
         current_project_file = path.join(
             self._ogs_project_folder,
             str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
+        print("Running ogs...")
         os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +
-                  current_project_file + " -o " + self._ogs_project_folder)
+                  current_project_file + " -o " + self._ogs_project_folder +
+                  " -l error")
+        print("OGS-calculation done.")
         self.writePVDCollection()
         files = os.listdir(self._ogs_project_folder)
         for file in files:

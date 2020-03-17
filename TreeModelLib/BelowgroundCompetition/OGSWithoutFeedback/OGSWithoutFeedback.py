@@ -35,8 +35,11 @@ class OGSWithoutFeedback(OGSLargeScale3D):
             self._ogs_project_folder,
             "pymanga_" + self._ogs_project_file)
         self._tree.write(current_project_file)
+        print("Calculating belowground resources distribution using ogs...")
         os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +
-                  current_project_file + " -o " + self._ogs_project_folder)
+                  current_project_file + " -o " + self._ogs_project_folder +
+                  " -l error")
+        print("OGS-calculation done.")
 
     ## This function updates and returns BelowgroundResources in the current
     #  timestep. For each tree a reduction factor is calculated which is defined

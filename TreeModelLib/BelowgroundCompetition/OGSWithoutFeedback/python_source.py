@@ -68,15 +68,16 @@ class CellInformation:
 ##Source Terms
 class FluxToTrees(OpenGeoSys.SourceTerm):
     def getFlux(self, t, coords, primary_vars):
-        salinity = primary_vars[1]
-        cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])
-        calls[cell_id] += 1
-        cumsum_salinity[cell_id] += salinity
-        if t == t_write:
-            counter[0] = counter[0] + 1
-            if counter[0] == len(cumsum_salinity):
-                np.save(cumsum_savename, cumsum_salinity)
-                np.save(calls_savename, calls)
+        if t > t_min:
+            salinity = primary_vars[1]
+            cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])
+            calls[cell_id] += 1
+            cumsum_salinity[cell_id] += salinity
+            if t == t_write:
+                counter[0] = counter[0] + 1
+                if counter[0] == len(cumsum_salinity):
+                    np.save(cumsum_savename, cumsum_salinity)
+                    np.save(calls_savename, calls)
 
         Jac = [0.0, 0.0]
         return (0, Jac)
@@ -90,7 +91,7 @@ mangapath = os.path.join(
     "TreeModelLib/BelowgroundCompetition/OGSWithoutFeedback")
 cumsum_savename = os.path.join(mangapath, "cumsum_salinity.npy")
 calls_savename = os.path.join(mangapath, "calls_in_last_timestep.npy")
-
+t_min = 1.5e7
 t_write = t_end
 cell_information = CellInformation(source_mesh)
 n_cells = cell_information.grid.GetNumberOfCells()

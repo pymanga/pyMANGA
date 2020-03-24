@@ -21,7 +21,7 @@ import os
 class OGSLargeScale3D(BelowgroundCompetition):
     def __init__(self, args):
         case = args.find("type").text
-        self._abiotic_drivers = args.find("abiotic_driver_configuration")
+        self._abiotic_drivers = args.find("abiotic_drivers")
         print("Initiate belowground competition of type " + case + ".")
         self._ogs_project_folder = args.find("ogs_project_folder").text.strip()
         self._ogs_project_file = args.find("ogs_project_file").text.strip()

@@ -25,6 +25,18 @@ class OGSWithoutFeedback(OGSLargeScale3D):
     #  The resulting salinities are used for each MANGA timestep since there is
     #  no feedback considered here..
     def runOGSOnce(self):
+        try:
+            print("Trying to remove previous results...")
+            os.remove(path.join(path.dirname(
+                    path.dirname(path.abspath(__file__))),
+                      "OGSWithoutFeedback/cumsum_salinity.npy"))
+            os.remove(
+                    path.join(path.dirname(path.dirname(path.abspath(__file__))),
+                      "OGSWithoutFeedback/calls_in_last_timestep.npy"))
+            print("Previous results removed.")
+        except FileNotFoundError:
+            print("No files found.")
+
         self._t_end = float(self._xml_t_end.text)
         self.copyPythonScript()
 
@@ -104,6 +116,7 @@ class OGSWithoutFeedback(OGSLargeScale3D):
             if self._abiotic_drivers:
                 for abiotic_factor in self._abiotic_drivers.iterchildren():
                     if (abiotic_factor.tag + " = ") in line:
+
                         line = (abiotic_factor.tag + " = " +
                                 abiotic_factor.text + "\n")
             if "constant_contributions.npy" in line:

@@ -121,7 +121,6 @@ class OGSWithoutFeedback(OGSLargeScale3D):
             if self._abiotic_drivers:
                 for abiotic_factor in self._abiotic_drivers.iterchildren():
                     if (abiotic_factor.tag + " = ") in line:
-
                         line = (abiotic_factor.tag + " = " +
                                 abiotic_factor.text + "\n")
             if "constant_contributions.npy" in line:

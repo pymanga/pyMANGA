@@ -19,7 +19,13 @@ import os
 class OGSWithoutFeedback(OGSLargeScale3D):
     def __init__(self, args):
         super().__init__(args)
-        self.runOGSOnce()
+        if args.find("use_old_ogs_results"):
+            use_old_ogs_results = bool(args.find("use_old_ogs_results").text)
+            if use_old_ogs_results:
+                print("pyMANGA is using old results from previously saved"+
+                      " numpy arrays.")
+        else:
+            self.runOGSOnce()
 
     ## This function calculates the mean salinity by given abiotic drivers.
     #  The resulting salinities are used for each MANGA timestep since there is

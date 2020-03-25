@@ -22,7 +22,7 @@ class OGSWithoutFeedback(OGSLargeScale3D):
         if args.find("use_old_ogs_results"):
             use_old_ogs_results = bool(args.find("use_old_ogs_results").text)
             if use_old_ogs_results:
-                print("pyMANGA is using old results from previously saved"+
+                print("pyMANGA is using old results from previously saved" +
                       " numpy arrays.")
         else:
             self.runOGSOnce()
@@ -33,12 +33,12 @@ class OGSWithoutFeedback(OGSLargeScale3D):
     def runOGSOnce(self):
         try:
             print("Trying to remove previous results...")
-            os.remove(path.join(path.dirname(
-                    path.dirname(path.abspath(__file__))),
-                      "OGSWithoutFeedback/cumsum_salinity.npy"))
             os.remove(
-                    path.join(path.dirname(path.dirname(path.abspath(__file__))),
-                      "OGSWithoutFeedback/calls_in_last_timestep.npy"))
+                path.join(path.dirname(path.dirname(path.abspath(__file__))),
+                          "OGSWithoutFeedback/cumsum_salinity.npy"))
+            os.remove(
+                path.join(path.dirname(path.dirname(path.abspath(__file__))),
+                          "OGSWithoutFeedback/calls_in_last_timestep.npy"))
             print("Previous results removed.")
         except FileNotFoundError:
             print("No files found.")
@@ -49,9 +49,8 @@ class OGSWithoutFeedback(OGSLargeScale3D):
         self._constant_contributions = np.zeros_like(self._volumes)
         self._salinity_prefactors = np.zeros_like(self._volumes)
 
-        current_project_file = path.join(
-            self._ogs_project_folder,
-            "pymanga_" + self._ogs_project_file)
+        current_project_file = path.join(self._ogs_project_folder,
+                                         "pymanga_" + self._ogs_project_file)
         self._tree.write(current_project_file)
         print("Calculating belowground resources distribution using ogs...")
         os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +

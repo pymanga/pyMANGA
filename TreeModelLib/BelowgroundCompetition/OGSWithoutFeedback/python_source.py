@@ -63,14 +63,13 @@ class CellInformation:
         return cell_id
 
 
-
-
 ##Source Terms
 class FluxToTrees(OpenGeoSys.SourceTerm):
     def getFlux(self, t, coords, primary_vars):
         if t > t_min:
             salinity = primary_vars[1]
-            cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])
+            cell_id = cell_information.getCellId(coords[0], coords[1],
+                                                 coords[2])
             calls[cell_id] += 1
             cumsum_salinity[cell_id] += salinity
             if t == t_write:
@@ -81,7 +80,6 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
 
         Jac = [0.0, 0.0]
         return (0, Jac)
-
 
 
 counter = np.zeros((1), dtype=int)

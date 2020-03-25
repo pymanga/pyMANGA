@@ -7,6 +7,7 @@
 import vtk as vtk
 import numpy as np
 
+
 ## Helper class providing information on given mesh. The mesh needs to contain
 #  an array with name "Volume"
 class CellInformation:

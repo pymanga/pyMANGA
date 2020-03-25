@@ -1,0 +1,5 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__OGSWithoutFeedback__use_old_ogs_results &emsp;[spec]use_old_ogs_results
+
+
+Optional bool parameter. If this parameter is set to "True", pyMANGA is using the results on the porewater salinity distribution from its previous ogs-calculations.
+*/

@@ -15,6 +15,8 @@ class BelowgroundCompetition(TreeModel):
             self.iniSimpleTest(args)
         elif case == "OGSLargeScale3D":
             self.iniOGSLargeScale3D(args)
+        elif case == "OGSWithoutFeedback":
+            self.iniOGSWithoutFeedback(args)
         elif case == "FON":
             self.iniFON(args)
         else:
@@ -29,6 +31,10 @@ class BelowgroundCompetition(TreeModel):
     def iniOGSLargeScale3D(self, args):
         from .OGSLargeScale3D import OGSLargeScale3D
         self.concept = OGSLargeScale3D(args)
+
+    def iniOGSWithoutFeedback(self, args):
+        from .OGSWithoutFeedback import OGSWithoutFeedback
+        self.concept = OGSWithoutFeedback(args)
 
     def iniFON(self, args):
         from .FON import FON

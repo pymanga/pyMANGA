@@ -18,9 +18,9 @@ def createTree():
     kf_sap = 3.2e-10
     lp = 0.66e-14
     k_geom = 4000
-    half_max_h_growth_weight = 0.15
-    maint_factor = 6e-7
-    sun_c = 8e-8
+    half_max_h_growth_weight = 0.015
+    maint_factor = 6.5e-6
+    sun_c = 2e-7
     growth_factor = 0.0015
     h_sigmo_slope = 0.5
     sigmo_slope = 0.15

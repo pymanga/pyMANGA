@@ -6,6 +6,7 @@
 """
 import numpy as np
 from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
+from TreeModelLib.BelowgroundCompetition.OGS.helpers import CellInformation
 import vtk as vtk
 from lxml import etree
 from os import path
@@ -20,7 +21,7 @@ import os
 class OGSLargeScale3D(BelowgroundCompetition):
     def __init__(self, args):
         case = args.find("type").text
-        self._abiotic_drivers = args.find("abiotic_driver_configuration")
+        self._abiotic_drivers = args.find("abiotic_drivers")
         print("Initiate belowground competition of type " + case + ".")
         self._ogs_project_folder = args.find("ogs_project_folder").text.strip()
         self._ogs_project_file = args.find("ogs_project_file").text.strip()
@@ -59,8 +60,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
         current_project_file = path.join(
             self._ogs_project_folder,
             str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
+        print("Running ogs...")
         os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +
-                  current_project_file + " -o " + self._ogs_project_folder)
+                  current_project_file + " -o " + self._ogs_project_folder +
+                  " -l error")
+        print("OGS-calculation done.")
         self.writePVDCollection()
         files = os.listdir(self._ogs_project_folder)
         for file in files:
@@ -244,87 +248,3 @@ class OGSLargeScale3D(BelowgroundCompetition):
         pvd_file.write("\t</Collection>\n")
         pvd_file.write("</VTKFile>\n")
         pvd_file.close()
-
-
-## Helper class providing information on given mesh. The mesh needs to contain
-#  an array with name "Volume"
-class CellInformation:
-    ## Constructor reading source_mesh and creating id_finder for this
-    #  @param source_mesh: vtkUnstructuredGrid of interest
-    def __init__(self, source_mesh):
-        self._mesh_name = source_mesh
-        meshReader = vtk.vtkXMLUnstructuredGridReader()
-        meshReader.SetFileName(self._mesh_name)
-        meshReader.Update()
-
-        self._grid = meshReader.GetOutput()
-        self._cells = self._grid.GetCells()
-        self._cell_finder = vtk.vtkCellLocator()
-        self._cell_finder.SetDataSet(self._grid)
-        self._cell_finder.LazyEvaluationOn()
-        cells = self._grid.GetCellData()
-        self._volumes = cells.GetArray("Volume")
-
-    ## Lookup funktion for cell_id
-    #  @param x: x-coordinate
-    #  @param y: y-coordinate
-    #  @param z: z-coordinate
-    #  @return int giving cell id
-    def getCellId(self, x, y, z):
-        cell_id = self._cell_finder.FindCell([x, y, z])
-        return cell_id
-
-    ## This function returns all the cell ids of the grid at a given x,y-
-    #  coordinate. At the moment, the implementation is a bit weird.
-    #  Suggestions to improveme the implementation are most welcome.
-    #  @param x: x-coordinate for tree search
-    #  @param y: y-coordinate for tree search
-    def getCellIDsAtXY(self, x, y):
-        bounds = self._grid.GetBounds()
-        p1 = [x, y, bounds[-1]]
-        p2 = [x, y, bounds[-2]]
-        cell_ids = vtk.vtkIdList()
-        self._cell_finder.FindCellsAlongLine(p1, p2, 1, cell_ids)
-
-        def linepoints(y):
-            return np.array(p1)[np.newaxis, :] + y[:, np.newaxis] * (
-                np.array(p2)[np.newaxis, :] - np.array(p1)[np.newaxis, :])
-
-        search = 1
-        yi = np.array([0, .5, 1])
-        points = (linepoints(yi))
-        ids = []
-        i = 0
-        for point in points:
-            iD = (self.getCellId(point[0], point[1], point[2]))
-            if (iD not in ids) and (iD != -1):
-                ids.append(iD)
-        while (search):
-            new_yi = (yi[:-1] + yi[1:]) / 2.
-            points = linepoints(new_yi)
-            for point in points:
-                iD = (self.getCellId(point[0], point[1], point[2]))
-                if (iD not in ids) and (iD != -1):
-                    ids.append(iD)
-            i += 1
-            dist = np.abs((points[:-1] - points[1:]))[0, 2]
-            if len(ids) == 3:
-                search = 0
-            elif dist < 1e-3:
-                search = 0
-                if len(ids) < 1:
-                    raise ValueError("It seems like some trees are located " +
-                                     "outside the ogs bulk mesh!" +
-                                     " Please check for consistency.")
-            elif i == 1e4:
-                search = 0
-                raise ValueError("Search algorithm failed! Please improve" +
-                                 " algorithm!")
-            yi = np.concatenate((yi, new_yi))
-            yi.sort()
-        return ids
-
-    ## Returns cell volumes
-    #  @return np.array of shape = (len(cells))
-    def getCellVolumes(self):
-        return self._volumes

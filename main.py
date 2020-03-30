@@ -3,6 +3,7 @@
 
 import getopt
 import sys
+from os import path
 from ProjectLib import XMLtoProject
 from TimeLoopLib import TreeDynamicTimeStepping
 
@@ -33,4 +34,5 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    sys.path.append((path.dirname(path.abspath(__file__))))
     main(sys.argv[1:])

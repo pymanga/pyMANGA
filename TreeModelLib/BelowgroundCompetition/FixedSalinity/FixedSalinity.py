@@ -19,21 +19,21 @@ class FixedSalinity(BelowgroundCompetition):
 
     def calculateBelowgroundResources(self):
         psi_zero = self._psi_leaf +  (2 * self._r_crown + self._h_stem) * 9810
-        psi_sali = psi_zero + 85000 * self.salinity
-        self.belowground_resources = psi_sali / psi_zero
+        psi_sali = psi_zero + 85000 * self._salinity
+        print(psi_zero)
+        print(psi_sali)
+        self.belowground_resources = np.array(psi_sali) / np.array(psi_zero)
   
 
     def GetSalinity(self, args):
         missing_tags = [
-            "salinity"
+            "salinity", "type"
         ]
-        print("Sömmerda ")
 
         for arg in args.iterdescendants():
             tag = arg.tag
-            print(tag)
             if tag == "salinity":
-                self.salinity = int(arg.text)
+                self.salinity = float(arg.text)
             try:
                 missing_tags.remove(tag)
             except ValueError:
@@ -53,10 +53,11 @@ class FixedSalinity(BelowgroundCompetition):
         self._h_stem.append(geometry["h_stem"])
         self._r_crown.append(geometry["r_crown"])
         self._psi_leaf.append(parameter["leaf_water_potential"])
+        self._salinity.append(self.salinity)
 
     def prepareNextTimeStep(self, t_ini, t_end):
         self._h_stem = []
         self._r_crown = []
         self._psi_leaf = []
-
+        self._salinity = [] 
 

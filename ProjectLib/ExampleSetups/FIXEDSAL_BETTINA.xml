@@ -6,9 +6,7 @@
         </aboveground_competition>
         <belowground_competition>
             <type> FixedSalinity </type>
-            <abiotic_drivers>
-                <salinity> 0.035 </salinity>
-            </abiotic_drivers>
+            <salinity> 0.035 </salinity>
         </belowground_competition>
         <tree_growth_and_death>
             <type> SimpleBettina </type>
@@ -55,15 +53,13 @@
         <type> NONE </type>
     </visualization>
     <tree_output>
-    <tree_output>
-        <type> OneTreeOneFile </type>
+        <type> NONE </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
         <output_dir> ./ProjectLib/ExampleSetups/testoutputs/ </output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <geometry_output> r_crown </geometry_output>
         <geometry_output> r_root </geometry_output>
-    </tree_output>
     </tree_output>
 </MangaProject>
 

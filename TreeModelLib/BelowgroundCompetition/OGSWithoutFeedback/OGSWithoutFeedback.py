@@ -109,9 +109,14 @@ class OGSWithoutFeedback(OGSLargeScale3D):
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.
     def copyPythonScript(self):
-        source = open(
-            path.join(path.dirname(path.abspath(__file__)),
-                      "python_source.py"), "r")
+        if self._use_external_python_script:
+            source = open(
+                path.join(self._ogs_project_folder,
+                          self._external_python_script), "r")
+        else:
+            source = open(
+                path.join(path.dirname(path.abspath(__file__)),
+                          "python_source.py"), "r")
         target = open(path.join(self._ogs_project_folder, "python_source.py"),
                       "w")
         constants_filename = path.join(self._ogs_project_folder,

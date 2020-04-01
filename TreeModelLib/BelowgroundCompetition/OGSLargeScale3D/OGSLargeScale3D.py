@@ -43,6 +43,13 @@ class OGSLargeScale3D(BelowgroundCompetition):
             path.join(self._ogs_project_folder, self._ogs_source_mesh))
         self._volumes = self._cell_information.getCellVolumes()
         self._source_mesh_name = args.find("source_mesh").text
+
+        self._use_external_python_script = False
+        if args.find("python_script") is not None:
+            print("Using external python script")
+            self._external_python_script = (
+                    args.find("python_script").text.strip())
+            self._use_external_python_script = True
         self._tree.find("python_script").text = "python_source.py"
         self._t_end_list = []
 
@@ -61,7 +68,8 @@ class OGSLargeScale3D(BelowgroundCompetition):
             self._ogs_project_folder,
             str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
         print("Running ogs...")
-        os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +
+        bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
+        os.system(bc_path +"/OGS/bin/ogs " +
                   current_project_file + " -o " + self._ogs_project_folder +
                   " -l error")
         print("OGS-calculation done.")
@@ -190,9 +198,14 @@ class OGSLargeScale3D(BelowgroundCompetition):
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.
     def copyPythonScript(self):
-        source = open(
-            path.join(path.dirname(path.dirname(path.abspath(__file__))),
-                      "OGSLargeScale3D/python_source.py"), "r")
+        if self._use_external_python_script:
+            source = open(
+                path.join(self._ogs_project_folder,
+                          self._external_python_script), "r")
+        else:
+            source = open(
+                path.join(path.dirname(path.abspath(__file__)),
+                          "python_source.py"), "r")
         target = open(path.join(self._ogs_project_folder, "python_source.py"),
                       "w")
         constants_filename = path.join(self._ogs_project_folder,
@@ -211,6 +224,9 @@ class OGSLargeScale3D(BelowgroundCompetition):
             if "salinity_prefactors.npy" in line:
                 line = line.replace("salinity_prefactors.npy",
                                     prefactors_filename)
+            if "mangapath = " in line:
+                line = line.replace("dummy",
+                                    '"' + path.dirname(path.abspath(__file__)) + '"')
             if "CellInformation(source_mesh)" in line:
                 line = line.replace(
                     "source_mesh",

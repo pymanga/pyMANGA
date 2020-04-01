@@ -53,7 +53,8 @@ class OGSWithoutFeedback(OGSLargeScale3D):
                                          "pymanga_" + self._ogs_project_file)
         self._tree.write(current_project_file)
         print("Calculating belowground resources distribution using ogs...")
-        os.system("./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs " +
+        bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
+        os.system(bc_path +"/OGS/bin/ogs " +
                   current_project_file + " -o " + self._ogs_project_folder +
                   " -l error")
         print("OGS-calculation done.")
@@ -108,9 +109,14 @@ class OGSWithoutFeedback(OGSLargeScale3D):
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.
     def copyPythonScript(self):
-        source = open(
-            path.join(path.dirname(path.dirname(path.abspath(__file__))),
-                      "OGSWithoutFeedback/python_source.py"), "r")
+        if self._use_external_python_script:
+            source = open(
+                path.join(self._ogs_project_folder,
+                          self._external_python_script), "r")
+        else:
+            source = open(
+                path.join(path.dirname(path.abspath(__file__)),
+                          "python_source.py"), "r")
         target = open(path.join(self._ogs_project_folder, "python_source.py"),
                       "w")
         constants_filename = path.join(self._ogs_project_folder,
@@ -126,6 +132,9 @@ class OGSWithoutFeedback(OGSLargeScale3D):
             if "constant_contributions.npy" in line:
                 line = line.replace("constant_contributions.npy",
                                     constants_filename)
+            if "mangapath = " in line:
+                line = line.replace("dummy",
+                                    '"' + path.dirname(path.abspath(__file__)) + '"')
             if "salinity_prefactors.npy" in line:
                 line = line.replace("salinity_prefactors.npy",
                                     prefactors_filename)

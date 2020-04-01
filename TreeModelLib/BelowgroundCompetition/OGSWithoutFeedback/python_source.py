@@ -84,9 +84,7 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
 
 counter = np.zeros((1), dtype=int)
 
-mangapath = os.path.join(
-    os.path.abspath("."),
-    "TreeModelLib/BelowgroundCompetition/OGSWithoutFeedback")
+mangapath = dummy
 cumsum_savename = os.path.join(mangapath, "cumsum_salinity.npy")
 calls_savename = os.path.join(mangapath, "calls_in_last_timestep.npy")
 t_min = 1.5e7

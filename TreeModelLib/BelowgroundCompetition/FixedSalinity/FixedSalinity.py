@@ -18,11 +18,9 @@ class FixedSalinity(BelowgroundCompetition):
         self.GetSalinity(args)
 
     def calculateBelowgroundResources(self):
-        psi_zero = self._psi_leaf +  (2 * self._r_crown + self._h_stem) * 9810
-        psi_sali = psi_zero + 85000 * self._salinity
-        print(psi_zero)
-        print(psi_sali)
-        self.belowground_resources = np.array(psi_sali) / np.array(psi_zero)
+        psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) + np.array(self._h_stem)) * 9810
+        psi_sali = np.array(psi_zero) + 85000000 * np.array(self._salinity)
+        self.belowground_resources = psi_sali / psi_zero
   
 
     def GetSalinity(self, args):

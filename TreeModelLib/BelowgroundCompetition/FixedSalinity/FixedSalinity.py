@@ -9,14 +9,17 @@ from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 
 
 class FixedSalinity(BelowgroundCompetition):
+    ## Fixed salinityin belowground competition concept.
+    #  @param: Tags to define FixedSalinity: type, salinity
+    #  @date: 2020 - Today
     def __init__(self, args):
-        ## Fixed salinityin belowground competition concept.
-        #  @param: Tags to define FixedSalinity: type, salinity
-        #  @date: 2020 - Today
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         self.GetSalinity(args)
 
+    ## This function returns a list of the growth reduction factors of all trees.
+    #  calculated in the subsequent timestep.\n
+    #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
         psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
                                                np.array(self._h_stem)) * 9810
@@ -24,6 +27,7 @@ class FixedSalinity(BelowgroundCompetition):
             self._salinity_tree)
         self.belowground_resources = psi_sali / psi_zero
 
+    ## This function reads salinity from the control file.\n
     def GetSalinity(self, args):
         missing_tags = ["salinity", "type"]
 
@@ -46,12 +50,20 @@ class FixedSalinity(BelowgroundCompetition):
                 "are not given for below-ground initialisation in project file."
             )
 
+    ## Before being able to calculate the resources, all tree entities need
+    #  to be added with their relevant allometric measures for the next timestep.
+    #  @param: position, geometry, parameter
     def addTree(self, x, y, geometry, parameter):
         self._h_stem.append(geometry["h_stem"])
         self._r_crown.append(geometry["r_crown"])
         self._psi_leaf.append(parameter["leaf_water_potential"])
         self._salinity_tree.append(self._salinity)
 
+    ## This functions prepares the computation of water uptake
+    #  by porewater salinity. Only tree height aund leaf 
+    #  water potential is needed\n
+    #  @param t_ini - initial time for next timestep \n
+    #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         self._h_stem = []
         self._r_crown = []

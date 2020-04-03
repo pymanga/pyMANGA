@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @date: 2018-Today
-@author: jasper.bathmann@ufz.de
+@author: ronny.peters@tu-dresden.de
 """
 from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
 

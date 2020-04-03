@@ -132,7 +132,7 @@ class SimpleBettina(GrowthAndDeathDynamics):
         self.xylemResistance()
         self.bg_resources = belowground_resources * (
             (-self.time * self.deltaPsi() /
-             (self.root_surface_resistance + self.xylem_resistance)))
+             (self.root_surface_resistance + self.xylem_resistance)/np.pi))
 
     ## This function calculates the root surface resistance.
     def rootSurfaceResistance(self):

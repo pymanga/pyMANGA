@@ -48,7 +48,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
         if args.find("python_script") is not None:
             print("Using external python script")
             self._external_python_script = (
-                    args.find("python_script").text.strip())
+                args.find("python_script").text.strip())
             self._use_external_python_script = True
         self._tree.find("python_script").text = "python_source.py"
         self._t_end_list = []
@@ -69,9 +69,8 @@ class OGSLargeScale3D(BelowgroundCompetition):
             str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
         print("Running ogs...")
         bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
-        os.system(bc_path +"/OGS/bin/ogs " +
-                  current_project_file + " -o " + self._ogs_project_folder +
-                  " -l error")
+        os.system(bc_path + "/OGS/bin/ogs " + current_project_file + " -o " +
+                  self._ogs_project_folder + " -l error")
         print("OGS-calculation done.")
         self.writePVDCollection()
         files = os.listdir(self._ogs_project_folder)
@@ -163,9 +162,10 @@ class OGSLargeScale3D(BelowgroundCompetition):
         R = root_surface_resistance + xylem_resistance
         constant_contribution = -(
             (parameter["leaf_water_potential"] +
-             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R * 1000)
+             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R *
+            1000) / np.pi
         self._tree_constant_contribution.append(constant_contribution)
-        salinity_prefactor = -85000 * 1000 / R * 1000
+        salinity_prefactor = -85000 * 1000 / R * 1000 / np.pi
         self._tree_salinity_prefactor.append(salinity_prefactor)
         per_volume = 1. / v
         for cell_id in affected_cells:
@@ -225,8 +225,8 @@ class OGSLargeScale3D(BelowgroundCompetition):
                 line = line.replace("salinity_prefactors.npy",
                                     prefactors_filename)
             if "mangapath = " in line:
-                line = line.replace("dummy",
-                                    '"' + path.dirname(path.abspath(__file__)) + '"')
+                line = line.replace(
+                    "dummy", '"' + path.dirname(path.abspath(__file__)) + '"')
             if "CellInformation(source_mesh)" in line:
                 line = line.replace(
                     "source_mesh",

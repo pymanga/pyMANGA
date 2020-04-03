@@ -54,9 +54,8 @@ class OGSWithoutFeedback(OGSLargeScale3D):
         self._tree.write(current_project_file)
         print("Calculating belowground resources distribution using ogs...")
         bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
-        os.system(bc_path +"/OGS/bin/ogs " +
-                  current_project_file + " -o " + self._ogs_project_folder +
-                  " -l error")
+        os.system(bc_path + "/OGS/bin/ogs " + current_project_file + " -o " +
+                  self._ogs_project_folder + " -l error")
         print("OGS-calculation done.")
 
     ## This function updates and returns BelowgroundResources in the current
@@ -133,8 +132,8 @@ class OGSWithoutFeedback(OGSLargeScale3D):
                 line = line.replace("constant_contributions.npy",
                                     constants_filename)
             if "mangapath = " in line:
-                line = line.replace("dummy",
-                                    '"' + path.dirname(path.abspath(__file__)) + '"')
+                line = line.replace(
+                    "dummy", '"' + path.dirname(path.abspath(__file__)) + '"')
             if "salinity_prefactors.npy" in line:
                 line = line.replace("salinity_prefactors.npy",
                                     prefactors_filename)

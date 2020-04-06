@@ -114,3 +114,5 @@ TreeModelLib/BelowgroundCompetition/OGSLargeScale3D/cumsum_salinity.npy
 TreeModelLib/BelowgroundCompetition/OGS/share
 ProjectLib/ExampleSetups/testoutputs
 ProjectLib/Applications
+TreeModelLib/BelowgroundCompetition/OGSWithoutFeedback/calls_in_last_timestep.npy
+TreeModelLib/BelowgroundCompetition/OGSWithoutFeedback/cumsum_salinity.npy

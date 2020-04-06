@@ -57,7 +57,7 @@ class OneTimestepOneFile(TreeOutput):
         filename = ("Population_t_%012.1f" % (time) + ".csv")
         file = open(self.output_dir + filename, "w")
         string = ""
-        string += "tree ,\t time ,\t x ,\t y ,\t"
+        string += "tree,\t time,\t x,\t y,\t"
         for geometry_output in self.geometry_outputs:
             string += geometry_output + ",\t"
         for parameter_output in self.parameter_outputs:

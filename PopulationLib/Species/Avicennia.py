@@ -18,7 +18,7 @@ def createTree():
     kf_sap = 1.04e-10
     lp = 0.33e-14
     k_geom = 4000
-    half_max_h_growth_weight = 0.12
+    half_max_h_growth_weight = 0.015
     maint_factor = 0.0000002
     sun_c = 2.5e-8
     growth_factor = 0.0047

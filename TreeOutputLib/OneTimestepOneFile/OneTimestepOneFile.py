@@ -41,11 +41,12 @@ class OneTimestepOneFile(TreeOutput):
         if dir_files > 0:
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
-        print("Output to '" + self.output_dir + "' of tree positions, the " +
-              "parameters ", self.parameter_outputs,
-              " and geometric" + " measures ", self.geometry_outputs,
-              " at every " + str(self.output_each_nth_timestep) +
-              " timesteps initialized.")
+        print(
+            "Output to '" + self.output_dir + "' of tree positions, the " +
+            "parameters ", self.parameter_outputs,
+            " and geometric" + " measures ", self.geometry_outputs,
+            " at every " + str(self.output_each_nth_timestep) +
+            " timesteps initialized.")
 
     ## Writes output to predefined folder
     #  For each timestep a file is created throughout the simulation.
@@ -70,9 +71,9 @@ class OneTimestepOneFile(TreeOutput):
                 for tree in tree_group.getTrees():
 
                     string = ""
-                    string += (group_name + "_" + "%07.0d" % (tree.getId()) +
-                               "\t" + str(time) + ",\t" + str(tree.x) + ",\t" +
-                               str(tree.y) + ",\t")
+                    string += (group_name + "_" + "%09.0d" % (tree.getId()) +
+                               ",\t" + str(time) + ",\t" + str(tree.x) +
+                               ",\t" + str(tree.y) + ",\t")
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:

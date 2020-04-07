@@ -41,11 +41,12 @@ class OneTreeOneFile(TreeOutput):
         if dir_files > 0:
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
-        print("Output to '" + self.output_dir + "' of tree positions, the " +
-              "parameters ", self.parameter_outputs,
-              " and geometric" + " measures ", self.geometry_outputs,
-              " at every " + str(self.output_each_nth_timestep) +
-              " timesteps initialized.")
+        print(
+            "Output to '" + self.output_dir + "' of tree positions, the " +
+            "parameters ", self.parameter_outputs,
+            " and geometric" + " measures ", self.geometry_outputs,
+            " at every " + str(self.output_each_nth_timestep) +
+            " timesteps initialized.")
 
     ## Writes output to predefined folder
     #  For each tree a file is created and updated throughout the simulation.
@@ -58,7 +59,7 @@ class OneTreeOneFile(TreeOutput):
             files_in_folder = os.listdir(self.output_dir)
             for group_name, tree_group in tree_groups.items():
                 for tree in tree_group.getTrees():
-                    filename = (group_name + "_" + "%07.0d" % (tree.getId()) +
+                    filename = (group_name + "_" + "%09.0d" % (tree.getId()) +
                                 ".csv")
                     file = open(self.output_dir + filename, "a")
                     if filename not in files_in_folder:

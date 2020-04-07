@@ -80,11 +80,9 @@ class OGSLargeScale3D(BelowgroundCompetition):
                 self._ogs_bulk_mesh.text = str(file)
 
         cumsum_salinity = np.load(
-            path.join(path.dirname(path.dirname(path.abspath(__file__))),
-                      "OGSLargeScale3D/cumsum_salinity.npy"))
+            path.join(self._ogs_project_folder, "cumsum_salinity.npy"))
         calls_per_cell = np.load(
-            path.join(path.dirname(path.dirname(path.abspath(__file__))),
-                      "OGSLargeScale3D/calls_in_last_timestep.npy"))
+            path.join(self._ogs_project_folder, "calls_in_last_timestep.npy"))
         salinity = cumsum_salinity / calls_per_cell
         for tree_id in range(len(self._tree_constant_contribution)):
             ids = self._tree_cell_ids[tree_id]
@@ -212,6 +210,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
                                        "constant_contributions.npy")
         prefactors_filename = path.join(self._ogs_project_folder,
                                         "salinity_prefactors.npy")
+        cumsum_filename = path.join(self._ogs_project_folder,
+                                    "cumsum_salinity.npy")
+        calls_filename = path.join(self._ogs_project_folder,
+                                   "calls_in_last_timestep.npy")
+
         for line in source.readlines():
             if self._abiotic_drivers:
                 for abiotic_factor in self._abiotic_drivers.iterchildren():
@@ -224,9 +227,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
             if "salinity_prefactors.npy" in line:
                 line = line.replace("salinity_prefactors.npy",
                                     prefactors_filename)
-            if "mangapath = " in line:
-                line = line.replace(
-                    "dummy", '"' + path.dirname(path.abspath(__file__)) + '"')
+            if "cumsum_salinity.npy" in line:
+                line = line.replace("cumsum_salinity.npy", cumsum_filename)
+            if "calls_in_last_timestep.npy" in line:
+                line = line.replace("calls_in_last_timestep.npy",
+                                    calls_filename)
             if "CellInformation(source_mesh)" in line:
                 line = line.replace(
                     "source_mesh",

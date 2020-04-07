@@ -84,9 +84,8 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
 
 counter = np.zeros((1), dtype=int)
 
-mangapath = dummy
-cumsum_savename = os.path.join(mangapath, "cumsum_salinity.npy")
-calls_savename = os.path.join(mangapath, "calls_in_last_timestep.npy")
+cumsum_savename = "cumsum_salinity.npy"
+calls_savename = "calls_in_last_timestep.npy"
 t_min = 1.5e7
 t_write = t_end
 cell_information = CellInformation(source_mesh)

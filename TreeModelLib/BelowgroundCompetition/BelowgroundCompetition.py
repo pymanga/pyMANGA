@@ -19,6 +19,8 @@ class BelowgroundCompetition(TreeModel):
             self.iniOGSWithoutFeedback(args)
         elif case == "FON":
             self.iniFON(args)
+        elif case == "FixedSalinity":
+            self.iniFixedSalinity(args)
         else:
             raise KeyError("Required belowground competition case " + case +
                            " not implemented.")
@@ -39,6 +41,10 @@ class BelowgroundCompetition(TreeModel):
     def iniFON(self, args):
         from .FON import FON
         self.concept = FON(args)
+
+    def iniFixedSalinity(self, args):
+        from .FixedSalinity import FixedSalinity
+        self.concept = FixedSalinity(args)
 
     def getBelowgroundResources(self):
         return self.belowground_resources

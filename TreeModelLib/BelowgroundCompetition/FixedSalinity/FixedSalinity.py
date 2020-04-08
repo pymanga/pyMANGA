@@ -60,7 +60,7 @@ class FixedSalinity(BelowgroundCompetition):
         self._salinity_tree.append(self._salinity)
 
     ## This functions prepares the computation of water uptake
-    #  by porewater salinity. Only tree height aund leaf 
+    #  by porewater salinity. Only tree height aund leaf
     #  water potential is needed\n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep

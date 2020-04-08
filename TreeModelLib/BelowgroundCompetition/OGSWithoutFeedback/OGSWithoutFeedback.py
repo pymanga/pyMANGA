@@ -51,6 +51,11 @@ class OGSWithoutFeedback(OGSLargeScale3D):
 
         self._constant_contributions = np.zeros_like(self._volumes)
         self._salinity_prefactors = np.zeros_like(self._volumes)
+        np.save(
+            path.join(self._ogs_project_folder, "constant_contributions.npy"),
+            self._constant_contributions)
+        np.save(path.join(self._ogs_project_folder, "salinity_prefactors.npy"),
+                self._salinity_prefactors)
 
         current_project_file = path.join(self._ogs_project_folder,
                                          "pymanga_" + self._ogs_project_file)

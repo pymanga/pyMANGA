@@ -95,7 +95,6 @@ cumsum_salinity = np.zeros_like(salinity_prefactors)
 calls = np.zeros_like(salinity_prefactors)
 counter = np.zeros((1), dtype=int)
 
-
 cumsum_savename = "cumsum_salinity.npy"
 calls_savename = "calls_in_last_timestep.npy"
 

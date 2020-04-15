@@ -34,6 +34,7 @@ class SimpleBettina(GrowthAndDeathDynamics):
     #  @param belowground_resources - fract of max water upt (compet and/or salinity > 0)
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
+        growth_concept_information = tree.getGrowthConceptInformation()
         self.parameter = tree.getParameter()
         self.r_crown = geometry["r_crown"]
         self.h_crown = geometry["h_crown"]
@@ -56,7 +57,14 @@ class SimpleBettina(GrowthAndDeathDynamics):
         geometry["h_root"] = self.h_root
         geometry["r_stem"] = self.r_stem
         geometry["h_stem"] = self.h_stem
+        growth_concept_information[
+            "root_surface_resistance"] = self.root_surface_resistance
+        growth_concept_information["xylem_resistance"] = self.xylem_resistance
+        growth_concept_information["ag_resources"] = self.ag_resources
+        growth_concept_information["bg_resources"] = self.bg_resources
+
         tree.setGeometry(geometry)
+        tree.setGrowthConceptInformation(growth_concept_information)
         if (self.survive == 1):
             tree.setSurvival(1)
         else:

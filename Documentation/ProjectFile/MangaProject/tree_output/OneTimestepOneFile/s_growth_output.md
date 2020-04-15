@@ -1,0 +1,3 @@
+
+optional: Information from growth concept which should be added to the output. You can add an arbitrary number of information as long as they are available for the growth concept.
+To check availability in of growth informations in growth concept, please see growth concept tag documentation.

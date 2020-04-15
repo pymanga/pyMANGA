@@ -4,3 +4,6 @@ SimpleTest death and growth concept. This concept preserves each tree added to i
 
 
 
+Available growth information for output:
+**None implemented yet**
+

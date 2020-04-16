@@ -69,7 +69,7 @@ class OneTreeOneFile(TreeOutput):
                     file = open(self.output_dir + filename, "a")
                     if filename not in files_in_folder:
                         string = ""
-                        string += "time,\t x ,\t y,\t"
+                        string += "time,\t x ,\t y"
                         for geometry_output in self.geometry_outputs:
                             string += ",\t" + geometry_output
                         for parameter_output in self.parameter_outputs:

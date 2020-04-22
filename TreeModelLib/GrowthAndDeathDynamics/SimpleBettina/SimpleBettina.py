@@ -64,8 +64,11 @@ class SimpleBettina(GrowthAndDeathDynamics):
         growth_concept_information["bg_resources"] = self.bg_resources
         growth_concept_information["growth"] = self.grow
         growth_concept_information["available_resources"] = (
-                self.available_resources)
-        growth_concept_information["psi_zero"] = self.deltaPsi()
+            self.available_resources)
+        psi_zero = self.deltaPsi()
+        growth_concept_information["psi_zero"] = psi_zero
+        growth_concept_information["salinity"] = (
+            (belowground_resources * psi_zero - psi_zero) / 85000000.)
 
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)

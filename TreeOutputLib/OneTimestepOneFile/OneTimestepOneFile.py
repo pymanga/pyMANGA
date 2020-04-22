@@ -78,7 +78,7 @@ class OneTimestepOneFile(TreeOutput):
                     string = ""
                     string += (group_name + "_" + "%09.0d" % (tree.getId()) +
                                ",\t" + str(time) + ",\t" + str(tree.x) +
-                               ",\t" + str(tree.y) + ",\t")
+                               ",\t" + str(tree.y))
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:

@@ -25,12 +25,16 @@ class OneTreeOneFile(TreeOutput):
         self.geometry_outputs = []
         ## Parameters included in output
         self.parameter_outputs = []
+        ## Parameters included in output
+        self.growth_outputs = []
         ## Counter for output generation
         self._output_counter = 0
         for key in args.iterchildren("geometry_output"):
             self.geometry_outputs.append(key.text.strip())
         for key in args.iterchildren("parameter_output"):
             self.parameter_outputs.append(key.text.strip())
+        for key in args.iterchildren("growth_output"):
+            self.growth_outputs.append(key.text.strip())
         try:
             dir_files = len(os.listdir(self.output_dir))
         except FileNotFoundError:
@@ -59,31 +63,43 @@ class OneTreeOneFile(TreeOutput):
             files_in_folder = os.listdir(self.output_dir)
             for group_name, tree_group in tree_groups.items():
                 for tree in tree_group.getTrees():
+                    growth_information = tree.getGrowthConceptInformation()
                     filename = (group_name + "_" + "%09.0d" % (tree.getId()) +
                                 ".csv")
                     file = open(self.output_dir + filename, "a")
                     if filename not in files_in_folder:
                         string = ""
-                        string += "time,\t x ,\t y,\t"
+                        string += "time,\t x ,\t y"
                         for geometry_output in self.geometry_outputs:
-                            string += geometry_output + ",\t"
+                            string += ",\t" + geometry_output
                         for parameter_output in self.parameter_outputs:
-                            string += parameter_output + ",\t"
-                        string = string[:-3]
+                            string += ",\t" + parameter_output
+                        for growth_output in self.growth_outputs:
+                            string += ",\t" + growth_output
                         string += "\n"
                         file.write(string)
                     string = ""
                     string += (str(time) + ",\t" + str(tree.x) + ",\t" +
-                               str(tree.y) + ",\t")
+                               str(tree.y))
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:
-                            string += str(geometry[geometry_output]) + ",\t"
+                            string += ",\t" + str(geometry[geometry_output])
                     if (len(self.parameter_outputs) > 0):
                         parameter = tree.getParameter()
                         for parameter_output in self.parameter_outputs:
-                            string += str(parameter[parameter_output]) + ",\t"
-                    string = string[:-3]
+                            string += ",\t" + str(parameter[parameter_output])
+                    if (len(growth_information) > 0):
+                        for growth_output_key in self.growth_outputs:
+                            try:
+                                string += ",\t" + str(
+                                    growth_information[growth_output_key])
+                            except KeyError:
+                                raise KeyError(
+                                    "Key " + growth_output_key +
+                                    " not available in growth concept!" +
+                                    " Please read growth concept documentation."
+                                )
                     string += "\n"
                     file.write(string)
                     file.close()

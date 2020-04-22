@@ -20,6 +20,7 @@ class Tree:
             self.geometry, self.parameter = Avicennia.createTree()
         else:
             raise KeyError("Species " + species + " unknown!")
+        self.growth_concept_information = {}
 
     def getPosition(self):
         return self.x, self.y
@@ -29,6 +30,12 @@ class Tree:
 
     def setGeometry(self, geometry):
         self.geometry = geometry
+
+    def getGrowthConceptInformation(self):
+        return self.growth_concept_information
+
+    def setGrowthConceptInformation(self, growth_concept_information):
+        self.growth_concept_information = growth_concept_information
 
     def getParameter(self):
         return self.parameter

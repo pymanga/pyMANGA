@@ -1,0 +1,56 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pyMANGA – Documentation</title>
+    <link>https://5eb306c1efda690006331c0a--pymanga.netlify.app/docs/</link>
+    <description>Recent content in Documentation on pyMANGA</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://5eb306c1efda690006331c0a--pymanga.netlify.app/docs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: MacOS</title>
+      <link>https://5eb306c1efda690006331c0a--pymanga.netlify.app/docs/getting-started/macos/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://5eb306c1efda690006331c0a--pymanga.netlify.app/docs/getting-started/macos/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Microsoft Windows</title>
+      <link>https://5eb306c1efda690006331c0a--pymanga.netlify.app/docs/getting-started/windows/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://5eb306c1efda690006331c0a--pymanga.netlify.app/docs/getting-started/windows/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Ubuntu</title>
+      <link>https://5eb306c1efda690006331c0a--pymanga.netlify.app/docs/getting-started/ubuntu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://5eb306c1efda690006331c0a--pymanga.netlify.app/docs/getting-started/ubuntu/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

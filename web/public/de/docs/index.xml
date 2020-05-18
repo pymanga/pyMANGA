@@ -1,0 +1,241 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pyMANGA – Dokumentation</title>
+    <link>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/</link>
+    <description>Recent content in Dokumentation on pyMANGA</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: MacOS</title>
+      <link>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/macos/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/macos/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Microsoft Windows</title>
+      <link>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/windows/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/windows/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;microsoft-windows-10&#34;&gt;Microsoft Windows 10&lt;/h1&gt;
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+&lt;h3 id=&#34;installation-mit-git&#34;&gt;Installation mit GIT&lt;/h3&gt;
+&lt;h3 id=&#34;manuelle-installation&#34;&gt;Manuelle Installation&lt;/h3&gt;
+&lt;p&gt;Um das Programm manuell zu installieren, muss der Quellcode von dieser
+&lt;a href=&#34;https://github.com/jbathmann/pyMANGA/&#34;&gt;Homepage&lt;/a&gt; heruntergeladen
+werden. Die ZIP-Datei wird an einer beliebigen Stelle entpackt. Um
+Modelle mit Simulation des Grundwassergeschehens rechnen zu können, muss
+die numerische Grundwassersimulationssoftware Open Geo System
+installiert werden. Auf dieser
+&lt;a href=&#34;https://jenkins.opengeosys.org/job/ufz/job/ogs/job/master/lastSuccessfulBuild/artifact/build/&#34;&gt;Homepage&lt;/a&gt;
+kann die aktuelle Version des OGS heruntergeladen werden. Um
+Grundwassermodell und Baumwachstumsmodell koppeln zu können, bedarf es
+der Version mit pythonim Dateinamen. Die Dateien müssen in den Ordner
+.\TreeModelLib\BelowgroundCompetition\OGS so entpackt werden, dass in
+diesem Ordner (OGS) der bin-Ordner des Downloadordners liegt. Eine
+genauere Beschreibung des Installationsvorgang findet sich in der
+Beschreibung des dritten Beispiel-Setups OGS3D_SAZOI_BETTINA.xml.&lt;/p&gt;
+&lt;h2 id=&#34;erste-schritte&#34;&gt;Erste Schritte&lt;/h2&gt;
+&lt;p&gt;Um ein Beispiel-Modellsetup zu rechnen, muss zunächst das Windows
+Terminal geöffnet werden. Eine Möglichkeit hierfür ist das Öffnen des
+Ausführen-Dialogs mit der Tastenkombination WINDOWS + R. In das sich
+öffnende Fenster kann die Windows-Konsole mit der Eintragung von
+&amp;lt;&amp;lt;cmd.exe&amp;gt;&amp;gt; gestartet werden. Im Windows Terminal muss nun zunächst
+mit &amp;lt;&amp;lt;cd Dateipfad\zum\Programm&amp;gt;&amp;gt; zum Dateispeicherort des
+Programmes navigiert werden. Das Programm pyMANGA wird nun über die
+Eingabe folgendes Befehls gestartet: &amp;lt;&amp;lt;python main.py&amp;gt;&amp;gt;. Je nachdem
+wieviele Python-Pakete in der jeweiligen Python-Distribution bereits
+installiert sind, müssen zunächst mehr oder weniger viele Pakete
+nachinstalliert werden. Das Fehlen eines Paketes wird mit
+&amp;lt;&amp;lt;ModuleNotFoundError: No module named &amp;lsquo;NameDesFehlendenModuls&amp;rsquo;&amp;gt;&amp;gt; in
+der letzten Zeile der Ausgabe angezeigt. Fehlende Pakete können über das
+Windows-Terminal mit &amp;lt;&amp;lt;pip install NameDesFehlendenPaketes&amp;gt;&amp;gt;
+installiert werden. Nachdem das erste fehlende Paket installiert wurde,
+wird durch die erneute Eingabe von &amp;lt;&amp;lt;python main.py&amp;gt;&amp;gt; überprüft, ob
+weitere Pakete fehlen. Sollte dies der Fall sein, werden auch diese
+Pakete nachinstalliert. Dieses Schema wird solange wiederholt, bis das
+Terminal auf die Eingabe &amp;lt;&amp;lt;python main.py&amp;gt;&amp;gt; folgende Ausgabe
+liefert: &amp;lt;&amp;lt;UnboundLocalError: Wrong usage of pyMANGA. Type &amp;quot;python
+main.py -h&amp;quot; for additional help.&amp;gt;&amp;gt;&lt;/p&gt;
+&lt;p&gt;pyMANGA ist jetzt ausführbar. Um die Berechnung eines Modell-Setups zu
+starten, muss die Steuerdatei des Setups angegeben werden werden. Hierzu
+muss folgendes in das Windows-Terminal eingegeben werden:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-{.numberLines&#34; data-lang=&#34;{.numberLines&#34;&gt;main.py --project_file &amp;quot;Pfad\zu\Steuerdatei&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Im Allgemeinen ist bei der Angabe eines Dateipfades in der
+Windows-Konsole stets auf die Verwendung des Backshlashes zu achten. Bis
+auf dieses Detail unterscheiden sich die Installation und die Bedienung
+der Software kaum zwischen den beiden Betriebssystemen Microsoft Windows
+und Ubuntu.&lt;/p&gt;
+&lt;h3 id=&#34;beispielsetup-allsimple_withoutputxml&#34;&gt;Beispielsetup AllSimple_WithOutput.xml&lt;/h3&gt;
+&lt;p&gt;In der Steuerdatei zum ersten Beispiel-Setup ist die Anzeige einer
+Visualisierung vom Typ SimplePyplotvoreingestellt. Eine Ausgabe der
+Ergebnisse soll in der Form OneTreeOneFile erfolgen. Der Pfad der
+Ausgabe der Ergebnisdateien wird in Zeile 57 des Steuerfiles vorgegeben
+(siehe Anhang). Diese Zeile im Quellcode ist die einzige Stelle, an der
+in der Steuerdatei noch etwas geändert werden muss. Der Dateipfad für
+das Abspeichern der Ergebnisse muss zunächst erstellt werden und
+anschließend der Pfad in die Steuerdatei geschrieben werden.
+Standardmäßig wird hierfür der auch im Anhang in die Steuerdatei
+eingetragene Dateipfad &amp;lt;&amp;lt;./ProjectLib/ExampleSetups/testoutputs&amp;gt;&amp;gt;
+genutzt.&lt;/p&gt;
+&lt;p&gt;Um einen Modelllauf mit dem Beispielsetup AllSimple\WithOutput zu
+starten, muss, nachdem im Windows-Terminal zum Dateispeicherort
+navigiert wurde, folgendes eingegeben werden:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-{.numberLines&#34; data-lang=&#34;{.numberLines&#34;&gt;python main.py --project_file\text&amp;quot;.\ProjectLib\ExampleSetups\AllSimple_WithOutput.xml&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Eine fehlerfreie Berechnung des Beispiel-Setups ist am Erscheinen der
+grafischen Ausgabe und der Visualisierung der Ergebnisse bis zum Ende
+der Berechnung ($31,69\ a$) und an den in den zuvor definierten
+Ausgabeort geschriebenen Ergebnisdateien zu erkennen. Dieser Ordner
+sollte auch vor jedem Modelllauf geleert werden, andernfalls kommt es zu
+Problem (Fehlermeldung: &amp;lt;&amp;lt;ValueError: Output directory
+&amp;lsquo;./ProjectLib/ExampleSetups/testoutputs/&amp;rsquo; is not empty.&amp;gt;&amp;gt;).&lt;/p&gt;
+&lt;h3 id=&#34;beispielsetup-fon_sazoi_kiwixml&#34;&gt;Beispielsetup FON_SAZOI_KIWI.xml&lt;/h3&gt;
+&lt;p&gt;Dieses Beispiel-Setup ist so voreingestellt, dass eine Visualisierung
+während der Berechnung des Modells gezeigt wird, aber keine
+Ergebnisdateien geschrieben werden. Die Modelllaufzeit beträgt $150\ a$
+(bzw. $4733640000\ s$, Quellcode Zeile 67 f.). Dementsprechend entfällt
+hier auch die Notwendigkeit einen Dateispeicherort für die
+Modellergebnisdateien in der Steuerdatei anzugeben.&lt;/p&gt;
+&lt;p&gt;Das Beispiel kann analog zu dem Setup AllSimple$_$WithOutputgestartet
+werden. In das Windows-Terminal wird also - nachdem an den Speicherort
+des Programms navigiert wurde - folgender Befehl ausgeführt:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-{.numberLines&#34; data-lang=&#34;{.numberLines&#34;&gt;python main.py --project_file\text&amp;quot;.\ProjectLib\ExampleSetups\FON_SAZOI_KIWI.xml&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Die korrekte Modellberechnung ist wieder an der grafischen Ausgabe,
+welche die Modellergebnisse bis zu einer Modelllaufzeit von 150 a
+visualisiert, zu erkennen.&lt;/p&gt;
+&lt;h3 id=&#34;beispielsetup-ogs3d_sazoi_bettinaxml&#34;&gt;Beispielsetup OGS3D_SAZOI_BETTINA.xml&lt;/h3&gt;
+&lt;p&gt;In diesem Beispiel ist weder eine Visualisierung noch ein Speichern der
+Modellergebnisse vorgesehen. Im Gegensatz zu den ersten beiden
+Beispielen wird die Grundwasserströmung mit berücksichtigt. Um die
+Modellergebnisse zu berechnen, wird die numerische
+Grundwassermodellierungssoftware OGS benötigt. Das Software-Paket kann
+von dieser
+&lt;a href=&#34;https://jenkins.opengeosys.org/job/ufz/job/ogs/job/master/lastSuccessfulBuild/artifact/build/&#34;&gt;Homepage&lt;/a&gt;
+heruntergeladen werden. Die ZIP-Datei wird so entpackt, dass der
+bin-Ordner direkt im Dateipfad ./TreeModelLib/BelowgroundCompetition/OGS
+der pyMANGA Installation liegt. Ob OGS nun bereits ausführbar ist, kann
+mit dem Befehl&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-{.numberLines&#34; data-lang=&#34;{.numberLines&#34;&gt;Pfad\zum\Speicherort\von\pyMANGA\TreeModelLib\BelowgroundCompetition\OGS\bin\ogs
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;überprüft werden. Das dritte Beispiel-Setup wird nun analog zu den
+ersten beiden Setups gestartet. Ob die Berechnung korrekt durchgeführt
+wird, erkennt man an der Ausgabe des Terminals.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Ubuntu</title>
+      <link>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/ubuntu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/ubuntu/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;ubuntu-1804&#34;&gt;Ubuntu 18.04&lt;/h1&gt;
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+&lt;h3 id=&#34;installation-mit-git&#34;&gt;Installation mit GIT&lt;/h3&gt;
+&lt;p&gt;Um mit der eigentlichen Installation des Programms beginnen zu können,
+muss Git zunächst installiert werden. Indem man den Befehl &amp;lt;&amp;lt;sudo
+apt-get update&amp;gt;&amp;gt; folgend mit &amp;lt;sudo apt-get install git&amp;gt; in das
+Terminal (aufrufbar mit STRG + ALT + T) eingibt, startet man die
+Installation. Mit der Abfrage &amp;lt;&amp;lt;git &amp;ndash;version&amp;gt;&amp;gt; kann die
+Installation überprüft werden (Ausgabe gibt Version der Git-Installation
+an - wenn die Installation erfolgreich war). Mit der Eingabe &amp;lt;&amp;lt;cd
+Pfad/zu/dem/gewünschten/Speicherort/des/Programms&amp;gt;&amp;gt; wird mit dem
+Terminal zu dem Pfad navigiert, an dem das Programm gespeichert werden
+soll. Der Befehl &amp;lt;&amp;lt;git clone
+&lt;a href=&#34;https://github.com/jbathmann/pyMANGA.git&#34;&gt;https://github.com/jbathmann/pyMANGA.git&lt;/a&gt;&amp;gt;&amp;gt; lädt das Programm auf den
+heimischen Rechner und speichert es an dem zuvor angegebenen
+Dateispeicherort.&lt;/p&gt;
+&lt;h3 id=&#34;manuelle-installation&#34;&gt;Manuelle Installation&lt;/h3&gt;
+&lt;h2 id=&#34;erste-schritte&#34;&gt;Erste Schritte&lt;/h2&gt;
+&lt;p&gt;Um das Programm zu starten, muss zunächst zu dem Dateispeicherort
+navigiert werden (&amp;lt;&amp;lt;cd Pfad/zum/Speicherort/des/Programms&amp;gt;&amp;gt;). Hier
+kann das Programm mit der Eingabe von &amp;lt;python main.py&amp;gt; gestartet
+werden. Sollten noch nicht alle benötigten Python-Pakete installiert
+sein, wird dies über die Ausgabe angezeigt (&amp;lt;&amp;lt;ModuleNotFoundError: No
+module named &amp;lsquo;NameDesFehlendenModuls&amp;rsquo;&amp;gt;&amp;gt;). Fehlende Pakete lassen sich
+mit dem Befehl &amp;lt;&amp;lt;pip install NameDesFehlendenModuls&amp;gt;&amp;gt; installieren.
+Nach der Installation eines Pakets wird die Eingabe &amp;lt;python main.py&amp;gt;
+wiederholt, bis keine fehlenden Pakete mehr angezeigt werden und der
+letzte Teil der Ausgabe &amp;lt;&amp;lt;UnboundLocalError: Wrong usage of pyMANGA.
+Type &amp;quot;python main.py -h&amp;quot; for additional help.&amp;gt;&amp;gt; lautet.&lt;/p&gt;
+&lt;p&gt;pyMANGA ist jetzt ausführbar. Um die Berechnung eines Modell-Setups zu
+starten, muss die Steuerdatei des Setups angegeben werden werden. Hierzu
+muss folgendes in das Terminal eingegeben werden:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-{.numberLines&#34; data-lang=&#34;{.numberLines&#34;&gt;python main.py --project_file ./Pfad/zu/Steuerdatei
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;beispielsetup-allsimple_withoutputxml&#34;&gt;Beispielsetup AllSimple_WithOutput.xml&lt;/h3&gt;
+&lt;p&gt;In der Steuerdatei zum ersten Beispiel-Setup ist die Anzeige einer
+Visualisierung vom Typ SimplePyplotvoreingestellt. Eine Ausgabe der
+Ergebnisse soll in der Form OneTreeOneFile erfolgen. Der Pfad der
+Ausgabe der Ergebnisdateien wird in Zeile 57 des Quellcodes (siehe
+Anhang) vorgegeben.&lt;/p&gt;
+&lt;p&gt;Um einen Modelllauf mit dem Beispielsetup zu starten, muss, nachdem im
+Terminal zum Dateispeicherort navigiert wurde, folgendes eingegeben
+werden:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-{.numberLines&#34; data-lang=&#34;{.numberLines&#34;&gt;python main.py --project_file ./ProjectLib/ExampleSetups/AllSimple_WithOutput.xml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Eine fehlerfreie Berechnung des Beispiel-Setups ist am Erscheinen der
+grafischen Ausgabe und deren Visualisierung der Ergebnisse bis zum Ende
+der Berechnung ($1 * 10^9\ s$ bzw. $31,69\ a$) sowie an den im
+Steuerfile definierten Dateiort für die Ergebnisdateien (Standardmäßig:
+./ProjectLib/ExampleSetups/testoutputs) zu erkennen. Dieser Ordner
+sollte auch vor jedem Modelllauf geleert werden, andernfalls kommt es zu
+Problem (Fehlermeldung: &amp;lt;&amp;lt;ValueError: Output directory
+&amp;lsquo;./ProjectLib/ExampleSetups/testoutputs/&amp;rsquo; is not empty.&amp;gt;&amp;gt;).&lt;/p&gt;
+&lt;h3 id=&#34;beispielsetup-fon_sazoi_kiwixml&#34;&gt;Beispielsetup FON_SAZOI_KIWI.xml&lt;/h3&gt;
+&lt;p&gt;Dieses Beispiel-Setup ist so voreingestellt, dass eine Visualisierung
+während der Berechnung des Modells gezeigt wird, aber keine
+Ergebnisdateien geschrieben werden. Die Modelllaufzeit beträgt $150\ a$
+(bzw. $4733640000\ s$, Quellcode Zeile 67 f.).&lt;/p&gt;
+&lt;p&gt;Gestartet wird der Modelllauf analog zum ersten Beispiel-Setup. Befehl
+muss also lauten:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-{.numberLines&#34; data-lang=&#34;{.numberLines&#34;&gt;python main.py --project_file ./ProjectLib/ExampleSetups/FON/SAZOI/KIWI.xml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Eine fehlerfreie Berechnung erkennt man an der Visualisierung der
+Modellergebnisse bis zum Endzeitpunkt des Modelllaufs.&lt;/p&gt;
+&lt;h3 id=&#34;beispielsetup-ogs3d_sazoi_bettinaxml&#34;&gt;Beispielsetup OGS3D_SAZOI_BETTINA.xml&lt;/h3&gt;
+&lt;p&gt;In diesem Beispiel ist weder eine Visualisierung noch ein Speichern der
+Modellergebnisse vorgesehen. Im Gegensatz zu den ersten beiden
+Beispielen wird die Grundwasserströmung mit berücksichtigt. Um die
+Modellergebnisse berechnen zu können, wird die numerische
+Grundwassermodellierungssoftware OGS benötigt. Die Software kann hier
+heruntergeladen werden und so installiert werden, dass der bin-Ordner
+direkt im Dateipfad ./TreeModelLib/BelowgroundCompetition/OGS der
+pyMANGA Installation liegt. Ob OGS nun bereits ausführbar ist, kann mit
+dem Befehl&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-{.numberLines&#34; data-lang=&#34;{.numberLines&#34;&gt;Pfad\zum\Speicherort\von\pyMANGA\TreeModelLib\BelowgroundCompetition\OGS\bin\ogs
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;überprüft werden. Eventuell müssen noch fehlende Python-Pakete auch hier
+zunächst installiert werden. Das dritte Beispiel-Setup wird nun analog
+zu den ersten beiden Setups gestartet. Wird die Grundwasserströmung mit
+OGS nicht korrekt berechnet, stellt die Installation von Python der
+Version 3.6.X und pip3 einen Lösungsversuch dar. Das Modell wird nun mit
+folgendem Befehl gestartet:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-{.numberLines&#34; data-lang=&#34;{.numberLines&#34;&gt;python3.6 main.py --project_file ./ProjectLib/ExampleSetups/FON/SAZOI/KIWI.xml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Noch fehlende Pakete für die Python-Version 3.6 müssen mit dem Befehl
+&amp;lt;&amp;lt;pip3 install fehlendesPythonpaket&amp;gt;&amp;gt; zunächst installiert werden.&lt;/p&gt;
+&lt;p&gt;Startet die Berechnung des Modells korrekt, liefert das Terminal
+folgende Ausgabe:&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

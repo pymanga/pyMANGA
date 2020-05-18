@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/</loc>
+    <lastmod>2020-05-06T20:36:14+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/macos/</loc>
+    <lastmod>2020-05-06T20:36:14+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/windows/</loc>
+    <lastmod>2020-05-06T20:36:14+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/erste-schritte/ubuntu/</loc>
+    <lastmod>2020-05-06T20:36:14+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/</loc>
+    <lastmod>2020-05-06T20:36:14+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://5eb306c1efda690006331c0a--pymanga.netlify.app/docs/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/docs/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/download/</loc>
+    <lastmod>2020-05-06T20:36:14+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/forum/</loc>
+    <lastmod>2020-05-06T20:36:14+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/</loc>
+    <lastmod>2020-05-06T20:36:14+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://5eb306c1efda690006331c0a--pymanga.netlify.app/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/search/</loc>
+    <lastmod>2020-05-06T20:36:14+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://5eb306c1efda690006331c0a--pymanga.netlify.app/search/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/search/"
+                />
+  </url>
+  
+</urlset>

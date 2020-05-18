@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	
+	<sitemap>
+	   	<loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/de/sitemap.xml</loc>
+		
+	   	<lastmod>2020-05-06T20:36:14+02:00</lastmod>
+		
+	</sitemap>
+	
+	<sitemap>
+	   	<loc>https://5eb306c1efda690006331c0a--pymanga.netlify.app/en/sitemap.xml</loc>
+		
+	   	<lastmod>2020-05-06T20:36:14+02:00</lastmod>
+		
+	</sitemap>
+	
+</sitemapindex>

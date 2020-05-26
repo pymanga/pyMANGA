@@ -5,6 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 from lxml import etree
+import importlib.util
 
 
 class Tree:
@@ -18,6 +19,20 @@ class Tree:
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createTree()
+        elif "/" in species:
+            try:
+                print("Trying to initiate custom species from provided file.")
+                spec = importlib.util.spec_from_file_location("", species)
+                foo = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(foo)
+                self.geometry, self.parameter = foo.createTree()
+            except FileNotFoundError:
+                raise FileNotFoundError("The file " + species +
+                                        " does not exist.")
+            except AttributeError:
+                raise AttributeError("The file " + species + " is not " +
+                                     "correctly defining a tree species. "
+                                     "Please review the file.")
         else:
             raise KeyError("Species " + species + " unknown!")
         self.growth_concept_information = {}

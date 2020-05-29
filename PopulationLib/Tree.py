@@ -21,7 +21,6 @@ class Tree:
             self.geometry, self.parameter = Avicennia.createTree()
         elif "/" in species:
             try:
-                print("Trying to initiate custom species from provided file.")
                 spec = importlib.util.spec_from_file_location("", species)
                 foo = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(foo)

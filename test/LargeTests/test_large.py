@@ -1,14 +1,16 @@
+import sys
+sys.path.append('../../')
 from ProjectLib import XMLtoProject
 from TimeLoopLib import TreeDynamicTimeStepping
 import unittest
 import glob
 import os
 
-filepathExampleSetups = "./ProjectLib/ExampleSetups/*.xml"
+filepathExampleSetups = "./Test_Setups_large/*.xml"
 xml = glob.glob(filepathExampleSetups)
 e = []
 for xmlfile in xml:
-    resultsFilepath = "./ProjectLib/ExampleSetups/testoutputs/*.*"
+    resultsFilepath = "./Test_Setup_large/testoutputs/*.*"
     results = glob.glob(resultsFilepath)
     for result in results:
         os.remove(result)

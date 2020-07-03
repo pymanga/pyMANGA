@@ -96,7 +96,6 @@ venv.bak/
 
 # Rope project settings
 .ropeproject
-
 # mkdocs documentation
 /site
 
@@ -116,3 +115,6 @@ ProjectLib/ExampleSetups/testoutputs
 ProjectLib/Applications
 TreeModelLib/BelowgroundCompetition/OGSWithoutFeedback/calls_in_last_timestep.npy
 TreeModelLib/BelowgroundCompetition/OGSWithoutFeedback/cumsum_salinity.npy
+
+test/LargeTests/Test_Setups_large/testoutputs
+test/SmallTests/Test_Setups_small/testoutputs

@@ -7,13 +7,13 @@ import unittest
 import glob
 import os
 
-filepathExampleSetups = path.join(path.dirname(path.abspath(__file__)),"Test_Setups_small/*.xml")
-xml = glob.glob(filepathExampleSetups)
+filepath_examplesetups = path.join(path.dirname(path.abspath(__file__)),"Test_Setups_small/*.xml")
+xml = glob.glob(filepath_examplesetups)
 errors = []
 if xml:
     for xmlfile in xml:
-        resultsFilepath = path.join(path.dirname(path.abspath(__file__)),"Test_Setups_small/testoutputs/*.*")
-        results = glob.glob(resultsFilepath)
+        filepath_results = path.join(path.dirname(path.abspath(__file__)),"Test_Setups_small/testoutputs/*.*")
+        results = glob.glob(filepath_results)
         for result in results:
             os.remove(result)
         print("________________________________________________")
@@ -33,7 +33,7 @@ if xml:
             unittest.main(exit=False)
         print("The setup", xmlfile, "was tested.")
         print("________________________________________________")
-    print("The testing of all example setups is finished")
+    print("The testing of all example setups is finished.")
     print("")
     if errors:
         if len(errors) == 1:
@@ -46,6 +46,6 @@ if xml:
             print(errors[x])
         print("")
     else:
-        print("The tests of all example setups were successful")
+        print("The tests of all example setups were successful.")
         print("")
 else: print("unfortunately no project-file could be found.")

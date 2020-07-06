@@ -46,3 +46,8 @@ class TreeOutput:
     ## Returns output type:
     def getOutputType(self):
         return self.case
+
+    ## This function returns the output directory
+    def getOutputDir(self):
+        return self.output.getOutputDir()
+

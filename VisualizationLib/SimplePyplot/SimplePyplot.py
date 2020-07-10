@@ -76,9 +76,11 @@ class SimplePyplot(Visualization):
         ex_x = rigth - left
         ex_y = top - bottom
         if ex_y > ex_x:
-            left = rigth - ex_y
+            left = rigth - ex_y / 2.
+            rigth = left + ex_y
         elif ex_x > ex_y:
-            bottom = top - ex_x
+            bottom = top - ex_x / 2.
+            top = bottom + ex_x
         self._ax.set_xlim(left, rigth)
         self._ax.set_ylim(bottom, top)
         plt.title("Time = " + timestring + "years")

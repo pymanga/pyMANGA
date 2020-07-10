@@ -50,6 +50,13 @@ class OGSLargeScale3D(BelowgroundCompetition):
             self._external_python_script = (
                 args.find("python_script").text.strip())
             self._use_external_python_script = True
+
+        self._use_fixed_ogs_delta_t = False
+        if args.find("delta_t_ogs") is not None:
+            print("Using predefined ogs timesteps")
+            self._fixed_ogs_delta_t = float(
+                args.find("delta_t_ogs").text.strip())
+            self._use_fixed_ogs_delta_t = True
         self._tree.find("python_script").text = "python_source.py"
         self._t_end_list = []
 
@@ -112,7 +119,10 @@ class OGSLargeScale3D(BelowgroundCompetition):
     #  @param t_end: end time of next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         self._t_ini = t_ini
-        self._t_end = t_end
+        if self._use_fixed_ogs_delta_t:
+            self._t_end = t_ini + self._fixed_ogs_delta_t
+        else:
+            self._t_end = t_end
         self._xml_t_initial.text = str(self._t_ini)
         self._xml_t_end.text = str(self._t_end)
         self._tree_cell_ids = []

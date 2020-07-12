@@ -116,3 +116,7 @@ class OneTimestepOneFile(TreeOutput):
             raise KeyError("Key '" + key + "' in project file at position " +
                            "MangaProject__tree_output needs to be specified.")
         return tmp.text
+
+    ## This function returns the output directory
+    def getOutputDir(self):
+        return self.output_dir

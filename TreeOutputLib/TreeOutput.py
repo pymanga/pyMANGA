@@ -12,17 +12,17 @@ class TreeOutput:
     #  choosen case.
     def __init__(self, args):
         ## String defining case of output
-        case = args.find("type").text
-        if case == "NONE":
+        self.case = args.find("type").text
+        if self.case == "NONE":
             self.iniNONE(args)
-        elif case == "OneTreeOneFile":
+        elif self.case == "OneTreeOneFile":
             self.iniOneTreeOneFile(args)
-        elif case == "OneTimestepOneFile":
+        elif self.case == "OneTimestepOneFile":
             self.iniOneTimestepOneFile(args)
         else:
             raise KeyError("Required tree_output of type '" + case + "' not "
                            "implemented!")
-        print(case + " tree output sucesscully initiated.")
+        print(self.case + " tree output sucesscully initiated.")
 
     ## Constructor for no output generation.
     def iniNONE(self, args):
@@ -42,3 +42,11 @@ class TreeOutput:
     ## Dummy for write output function
     def writeOutput(self, tree_groups, time):
         self.output.writeOutput(tree_groups, time)
+
+    ## Returns output type:
+    def getOutputType(self):
+        return self.case
+
+    ## This function returns the output directory
+    def getOutputDir(self):
+        return self.output.getOutputDir()

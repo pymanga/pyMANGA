@@ -16,3 +16,7 @@ class NONE(TreeOutput):
 
     def writeOutput(self, tree_groups, time):
         pass
+
+    ## This function returns the output directory
+    def getOutputDir(self):
+        return ""

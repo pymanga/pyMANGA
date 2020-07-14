@@ -1,17 +1,16 @@
-''' Helper script for the pyManga.json notation.
-    def parse_jsontemplate: returns a python dictionary with the resolved
-    dependencies.
-    def buildXML(option): returns xml string for a option object.
-'''
+## Helper script for the pyManga.json notation.
+#  def parse_jsontemplate: returns a python dictionary with the resolved
+#  dependencies.
+#  def buildXML(option): returns xml string for a option object.
+
 import json
 from xml.etree import ElementTree as ET
 from xml.dom import minidom
 import copy
 
-
+## Goes recursively throug dict "add" and adds all entries that are missing in
+#  dict "data".
 def dict_updateNew(data, add):
-    ''' Goes recursively throug dict "add" and adds
-        all entries that are missing in dict "data".'''
     for k, v in add.items():
         if k not in data:
             data[k] = add[k]
@@ -57,8 +56,8 @@ def fqn(option):
     return "{}{}".format(namespace, option["name"])
 
 
+## Parses json file and returns the options with resolved dependencies
 def parse_jsontemplate(path):
-    ''' Parses json file and returns the options with resolved dependencies'''
     with open(path) as jsonFile:
         d = dict(json.load(jsonFile))
         # Transform array to dict to make basetypes accesible by name
@@ -71,15 +70,14 @@ def parse_jsontemplate(path):
     return optionMap
 
 
+## Transform option in xml tree.
+#  option.name becomes a xml element tag.
+#  option.value becomes element entry if the option is of type "integer",
+#  "float" or "string".
+#   option.value holds suboptions if option is of type "complex"
+#   if option is of type "alternative", option.value is the index of the
+#   chosen alternative.
 def buildNode(option):
-    ''' Transform option in xml tree.
-        option.name becomes a xml element tag.
-        option.value becomes element entry if the option is of type "integer",
-        "float" or "string".
-        option.value holds suboptions if option is of type "complex"
-        if option is of type "alternative", option.value is the index of the
-        chosen alternative.
-    '''
     name = option["name"]
     if option["typedict"]["type"] == "complex":
         node = ET.Element(name)

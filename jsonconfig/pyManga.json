@@ -1,7 +1,7 @@
 
 {
     "_doc": {
-        "aim": "Provide simple datastructure to hold nested configuration options.",
+        "aim": "Provide simple datastructure to hold nested configuration options with xml file format in mind.",
         "concept": "An option is the only buildingblock for the configuration. It consists of a name, value and a type. To nest options there is the option type >complex< whose value is a list for the suboptions. To model alternative subtrees, there is the option type >alternative<.",
         "types": {
             "string": "The value field is the default value. If there are predefined values to chose from, these can be defined in the typedict.enum.",

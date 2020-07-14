@@ -62,9 +62,12 @@ class OGSWithoutFeedback(OGSLargeScale3D):
         self._tree.write(current_project_file)
         print("Calculating belowground resources distribution using ogs...")
         bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
-        os.system(bc_path + "/OGS/bin/ogs " + current_project_file + " -o " +
-                  self._ogs_project_folder + " -l error")
+        if not (os.system(bc_path + "/OGS/bin/ogs " + current_project_file +
+                          " -o " + self._ogs_project_folder +
+                          " -l error") == 0):
+            raise ValueError("Ogs calculation failed!")
         print("OGS-calculation done.")
+
 
     ## This function updates and returns BelowgroundResources in the current
     #  timestep. For each tree a reduction factor is calculated which is defined

@@ -1,0 +1,504 @@
+
+{
+    "_doc": {
+        "aim": "Provide simple datastructure to hold nested configuration options.",
+        "concept": "An option is the only buildingblock for the configuration. It consists of a name, value and a type. To nest options there is the option type >complex< whose value is a list for the suboptions. To model alternative subtrees, there is the option type >alternative<.",
+        "types": {
+            "string": "The value field is the default value. If there are predefined values to chose from, these can be defined in the typedict.enum.",
+            "integer": "The value field is the default value. The range can be restricted with typedict.min and typedict.max.",
+            "float": "The value field is the default value. The range can be restricted with typedict.min and typedict.max.",
+            "complex": "The value is a list with the suboptions. Is used to build nested configurations.",
+            "alternative": "An option (A) with type >alternative< has alternative options in typedict.alternatives. The value of (A) is the index of the chosen alternative (B). Option (A) is replaced by (B) when the xml is built, but (B)takes the name of (A). The names of the alternative options are only used for reference."
+        },
+        "base": "The fields defined in the >base< object are mandatory. To ease the writing process and increase readability an option can have a >$base< field to reference the basetypes.",
+        "namespaces and refs": "To reuse options and increase readability they can be defined once and referernced anywhere. They have to be defined at the rootlevel of the option object. They can be referenced by their name with the >$ref< field. There must not be two options with the same name at the rootlevel of the options object if they dont have a >namespace< field. If two options have the same name, they can introduce a >namespace< field and are then referenced by >namespace<:>name<."
+    },
+    "base": [
+        {
+            "name": "STRING",
+            "minOccurs": 1,
+            "maxOccurs": 1,
+            "typedict": {
+                "type": "string",
+                "enum": []
+            },
+            "value": "Text"
+        },
+        {
+            "name": "INTEGER",
+            "minOccurs": 1,
+            "maxOccurs": 1,
+            "typedict": {
+                "type": "integer",
+                "min": -1e12,
+                "max": 1e12
+            },
+            "value": 0
+        },
+        {
+            "name": "FLOAT",
+            "minOccurs": 1,
+            "maxOccurs": 1,
+            "typedict": {
+                "type": "float",
+                "min": -1e12,
+                "max": 1e12
+            },
+            "value": 0.0
+        },    
+        {
+            "name": "COMPLEX",
+            "minOccurs": 1,
+            "maxOccurs": 1,
+            "typedict": {
+                "type": "complex"
+            },
+            "value": []
+        },
+        {
+            "name": "ALTERNATIVE",
+            "minOccurs": 1,
+            "maxOccurs": 1,
+            "typedict": {
+                "type": "alternative",
+                "alternatives":[]
+            },
+            "value": 0
+        }
+    ],
+    "options": [
+        {
+            "name": "aboveground_competition",
+            "$base": "ALTERNATIVE",
+            "typedict": {
+                "alternatives": [
+                    {
+                        "$ref": "agc:SimpleTest"
+                    },
+                    {
+                        "$ref": "agc:SimpleAsymmetricZOI"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "SimpleTest",
+            "$namespace": "agc",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "SimpleTest"
+                }
+            ]
+        },
+        {
+            "name": "SimpleAsymmetricZOI",
+            "$namespace": "agc",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "SimpleAsymmetricZOI"
+                },
+                {
+                    "$ref": "cmnres:domain" 
+                }               
+            ]
+        },
+        {
+            "name": "belowground_competition",
+            "$base": "ALTERNATIVE",
+            "typedict": {
+                "alternatives": [
+                    {
+                        "$ref": "bgc:SimpleTest"
+                    },
+                    {
+                        "$ref": "bgc:FON"
+                    },
+                    {
+                        "$ref": "bgc:FixedSalinity"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "SimpleTest",
+            "$namespace": "bgc",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "SimpleTest"
+                }
+            ]
+        },
+        {
+            "name": "FON",
+            "$namespace": "bgc",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "FON"
+                },
+                {
+                    "$ref": "cmnres:domain"
+                },
+                {
+                    "name": "aa",
+                    "$base": "FLOAT",
+                    "value": 10
+                },
+                {
+                    "name": "bb",
+                    "$base": "FLOAT",
+                    "value": 0.65
+                },
+                {
+                    "name": "fmin",
+                    "$base": "FLOAT",
+                    "value": 0.1
+                },
+                {
+                    "name": "salinity",
+                    "$base": "FLOAT",
+                    "value": 35
+                }
+            ]
+        },
+        {
+            "name": "FixedSalinity",
+            "$namespace": "bgc",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "FixedSalinity"
+                },
+                {
+                    "name": "salinity",
+                    "$base": "FLOAT",
+                    "value": 0.05
+                }
+            ]
+        },
+        {
+            "name": "tree_growth_and_death",
+            "$base": "ALTERNATIVE",
+            "typedict": {
+                "alternatives": [
+                    {
+                        "$ref": "tgd:SimpleTest"
+                    },
+                    {
+                        "$ref": "tgd:SimpleKiwi"
+                    },
+                    {
+                        "$ref": "tgd:SimpleBettina"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "SimpleTest",
+            "$namespace": "tgd",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "SimpleTest"
+                }
+            ]
+        },
+        {
+            "name": "SimpleKiwi",
+            "$namespace": "tgd",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "SimpleKiwi"
+                }
+            ]
+        },
+        {
+            "name": "SimpleBettina",
+            "$namespace": "tgd",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "SimpleBettina"
+                }
+            ]
+        },
+        {
+            "name": "group",
+            "$namespace": "ip",
+            "$base": "COMPLEX",
+            "maxOccurs": 10,
+            "value":[
+                {
+                    "name": "name",
+                    "$base": "STRING",
+                    "value": "Name"
+                },
+                {
+                    "$ref": "ip:species"
+                },
+                {
+                    "$ref": "ip:distribution"
+                }
+            ]
+        },
+        {
+            "name": "species",
+            "$namespace": "ip",
+            "$base": "STRING",
+            "typedict":{
+                "enum": ["Avicennia","Avicennia2"]
+            },
+            "value": "Avicennia"
+        },
+        {
+            "name": "distribution",
+            "$namespace": "ip",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "typedict":{
+                        "enum": ["random"]
+                    },
+                    "value": "random"
+                },
+                {
+                    "$ref":  "cmn:domain"
+                },
+                {
+                    "$ref": "ip:species"
+                },
+                {
+                    "name": "n_individuals",
+                    "$base": "INTEGER",
+                    "typedict": {
+                        "min": 0,
+                        "max": 50
+                    },
+                    "value": 20
+                },
+                {
+                    "name": "recruitment_per_step",
+                    "$base": "INTEGER",
+                    "minOccurs": 0,
+                    "typedict": {
+                        "min": 0,
+                        "max": 200
+                    },
+                    "value": 20
+                }
+            ]
+        },
+        {
+            "name": "domain",
+            "$namespace": "cmn",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "x_1",
+                    "$base": "FLOAT",
+                    "typedict":{
+                        "min": 0,
+                        "max": 500
+                    },
+                    "value": 0
+                },
+                {
+                    "name": "y_1",
+                    "$base": "FLOAT",
+                    "typedict":{
+                        "min": 0,
+                        "max": 500
+                    },
+                    "value": 0
+                },
+                {
+                    "name": "x_2",
+                    "$base": "FLOAT",
+                    "typedict":{
+                        "min": 0,
+                        "max": 500
+                    },
+                    "value": 50
+                },
+                {
+                    "name": "y_2",
+                    "$base": "FLOAT",
+                    "typedict":{
+                        "min": 0,
+                        "max": 500
+                    },
+                    "value": 50
+                }
+            ]
+        },
+        {
+            "name": "domain",
+            "$namespace": "cmnres",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "x_1",
+                    "$base": "FLOAT",
+                    "typedict":{
+                        "min": 0,
+                        "max": 500
+                    },
+                    "value": 0
+                },
+                {
+                    "name": "y_1",
+                    "$base": "FLOAT",
+                    "typedict":{
+                        "min": 0,
+                        "max": 500
+                    },
+                    "value": 0
+                },
+                {
+                    "name": "x_2",
+                    "$base": "FLOAT",
+                    "typedict":{
+                        "min": 0,
+                        "max": 500
+                    },
+                    "value": 50
+                },
+                {
+                    "name": "y_2",
+                    "$base": "FLOAT",
+                    "typedict":{
+                        "min": 0,
+                        "max": 500
+                    },
+                    "value": 50
+                },
+                {
+                    "name": "x_resolution",
+                    "$base": "FLOAT",
+                    "value": 10
+                },
+                {
+                    "name": "y_resolution",
+                    "$base": "FLOAT",
+                    "value": 10
+                }
+            ]
+        },
+        {
+            "name": "tree_dynamics",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "$ref": "aboveground_competition"
+                },
+                {
+                    "$ref": "belowground_competition"
+                },
+                {
+                    "$ref": "tree_growth_and_death"
+                }
+            ]
+        },
+        {
+            "name": "initial_population",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "$ref": "ip:group"
+                }
+            ]
+        },
+        {
+            "name": "tree_time_loop",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "Simple"
+                },
+                {
+                    "name": "t_start",
+                    "$base": "FLOAT",
+                    "value": 0
+                },
+                {
+                    "name": "t_end",
+                    "$base": "FLOAT",
+                    "value": 1e9
+                },
+                {
+                    "name": "delta_t",
+                    "$base": "FLOAT",
+                    "value": 1e7
+                }
+            ]
+        },
+        {
+            "name": "visualization",
+            "$base": "COMPLEX",
+            "value":[
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "NONE"
+                }
+            ]
+        },
+        {
+            "name": "tree_output",
+            "$base": "COMPLEX",
+            "value":[
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "NONE"
+                }
+            ]
+        },
+        {
+            "name": "MangaProject",
+            "$base": "COMPLEX",
+            "value": [
+                {
+                    "$ref": "tree_dynamics"
+                },
+                {
+                    "$ref": "initial_population"
+                },
+                {
+                    "$ref": "tree_time_loop"
+                },
+                {
+                    "$ref": "visualization"
+                },
+                {
+                    "$ref": "tree_output"
+                }           
+            ]
+        }
+    ]
+}
+

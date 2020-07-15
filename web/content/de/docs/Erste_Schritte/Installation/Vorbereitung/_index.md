@@ -3,6 +3,6 @@ title: "Vorbereitungen zu Start von pyMANGA"
 linkTitle: "Vorbereitung"
 weight: 2
 description:
-  Eine Anleitung zur Berechnung von einfachen Beispiel-Setups in verschiedenen Betriebssystemen
+  Anleitungen zum Durchführen der Nötigen Vorbereitungen, um pyMANGA in den verschiedenen Betriebssystemen ausführen zu können. 
 ---
 

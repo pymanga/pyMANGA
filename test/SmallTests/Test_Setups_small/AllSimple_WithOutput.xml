@@ -2,7 +2,7 @@
 <MangaProject>
     <tree_dynamics>
         <aboveground_competition>
-            <type> SimpleTest </type>
+            <type> SimpleTest </type> 
         </aboveground_competition>
         <belowground_competition>
             <type> SimpleTest </type>
@@ -54,7 +54,7 @@
     <tree_output>
         <type> OneTreeOneFile </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
-        <output_dir> ./Test_Setups_small/testoutputs/ </output_dir>
+        <output_dir> testoutputs/ </output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <parameter_output> k_geom </parameter_output>

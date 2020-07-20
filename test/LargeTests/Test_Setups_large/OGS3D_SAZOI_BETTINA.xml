@@ -14,7 +14,7 @@
         </aboveground_competition>
         <belowground_competition>
             <type> OGSLargeScale3D </type>
-            <ogs_project_folder> ./test/LargeTests/Test_Setups_large/ogs_example_setup/ </ogs_project_folder>
+            <ogs_project_folder> test/LargeTests/Test_Setups_large/ogs_example_setup/ </ogs_project_folder>
             <ogs_project_file> testmodel.prj </ogs_project_file>
             <source_mesh> source_domain.vtu </source_mesh>
             <bulk_mesh> testbulk.vtu </bulk_mesh>

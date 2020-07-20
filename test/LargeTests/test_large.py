@@ -8,7 +8,9 @@ import glob
 import os
 from lxml import etree
 import shutil
+from utils import get_project_root
 
+manga_root_directory = str(get_project_root())
 filepath_examplesetups = path.join(path.dirname(path.abspath(__file__)),"Test_Setups_large/*.xml")
 xml = glob.glob(filepath_examplesetups)
 errors = []
@@ -40,7 +42,7 @@ if xml:
         if not output_type == "NONE":
             output_dir_xml_element = findChild(output, "output_dir")
             #output_dir = path.join(path.dirname(path.abspath(__file__)),output_dir_xml_element.text)
-            output_dir = output_dir_xml_element.text
+            output_dir = path.join(manga_root_directory, output_dir_xml_element.text)
             
             if not os.path.exists(output_dir):
                 output_exist = "n"                    

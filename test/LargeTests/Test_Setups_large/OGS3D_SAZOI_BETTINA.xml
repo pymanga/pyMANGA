@@ -18,6 +18,7 @@
             <ogs_project_file> testmodel.prj </ogs_project_file>
             <source_mesh> source_domain.vtu </source_mesh>
             <bulk_mesh> testbulk.vtu </bulk_mesh>
+            <delta_t_ogs> 1e6 </delta_t_ogs>
             <abiotic_drivers>
                 <seaward_salinity> 0.035 </seaward_salinity>
             </abiotic_drivers>

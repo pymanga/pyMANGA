@@ -89,17 +89,17 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         return (-positive_flux, Jac)
 
 
-constant_contributions = np.load("./test/LargeTests/Test_Setups_large/ogs_example_setup/constant_contributions.npy")
-salinity_prefactors = np.load("./test/LargeTests/Test_Setups_large/ogs_example_setup/salinity_prefactors.npy")
+constant_contributions = np.load("test/LargeTests/Test_Setups_large/ogs_example_setup/constant_contributions.npy")
+salinity_prefactors = np.load("test/LargeTests/Test_Setups_large/ogs_example_setup/salinity_prefactors.npy")
 cumsum_salinity = np.zeros_like(salinity_prefactors)
 calls = np.zeros_like(salinity_prefactors)
 counter = np.zeros((1), dtype=int)
 
-cumsum_savename = "./test/LargeTests/Test_Setups_large/ogs_example_setup/cumsum_salinity.npy"
-calls_savename = "./test/LargeTests/Test_Setups_large/ogs_example_setup/calls_in_last_timestep.npy"
+cumsum_savename = "test/LargeTests/Test_Setups_large/ogs_example_setup/cumsum_salinity.npy"
+calls_savename = "test/LargeTests/Test_Setups_large/ogs_example_setup/calls_in_last_timestep.npy"
 
 t_write = 10000000.0
-cell_information = CellInformation('./test/LargeTests/Test_Setups_large/ogs_example_setup/source_domain.vtu')
+cell_information = CellInformation('test/LargeTests/Test_Setups_large/ogs_example_setup/source_domain.vtu')
 # instantiate source term object referenced in OpenGeoSys' prj file
 flux_to_trees = FluxToTrees()
 bc_tide_p = BCSea_p_D()

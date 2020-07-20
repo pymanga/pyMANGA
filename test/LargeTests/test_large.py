@@ -8,9 +8,8 @@ import glob
 import os
 from lxml import etree
 import shutil
-from utils import get_project_root
 
-manga_root_directory = str(get_project_root())
+manga_root_directory = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
 filepath_examplesetups = path.join(path.dirname(path.abspath(__file__)),"Test_Setups_large/*.xml")
 xml = glob.glob(filepath_examplesetups)
 errors = []
@@ -21,7 +20,6 @@ if xml:
         print("________________________________________________")
         print("In the following the setup", xmlfile, "is tested.")
         print("________________________________________________")
-
 
         def findChild( parent, key):
             child = parent.find(key)
@@ -41,36 +39,37 @@ if xml:
         
         if not output_type == "NONE":
             output_dir_xml_element = findChild(output, "output_dir")
-            #output_dir = path.join(path.dirname(path.abspath(__file__)),output_dir_xml_element.text)
             output_dir = path.join(manga_root_directory, output_dir_xml_element.text)
             
             if not os.path.exists(output_dir):
-                output_exist = "n"                    
+                output_exist = False                   
                 os.makedirs(output_dir)
             else:
-                output_exist = "y"
+                output_exist = True
                 old_results = glob.glob(path.join(output_dir,"*.*"))
                 if old_results:
                     for result in old_results:
                         os.remove(result)
-        else:
-                output_exist = "e"
                 
         class MyTest(unittest.TestCase):
             def test(self):
+                #Test of MANGA project file and the and the correct calculation of its.
                 try:
                     prj = XMLtoProject(xml_project_file=xmlfile)
                     time_stepper = TreeDynamicTimeStepping(prj)
                     prj.runProject(time_stepper)
+                #Storing failed test for clear evaluation    
                 except:
                     self.fail(errors.append(xmlfile))
         
         if __name__ == "__main__":
             unittest.main(exit=False)
+            
+        #remove created output     
         if not output_type == "NONE":
-            if output_exist == "n":
+            if not output_exist:
                 shutil.rmtree((output_dir[:-1]), ignore_errors=True)
-            if output_exist == "y":
+            elif output_exist:
                 old_results = glob.glob(path.join(output_dir,"*.*"))
                 for result in old_results:
                     os.remove(result)

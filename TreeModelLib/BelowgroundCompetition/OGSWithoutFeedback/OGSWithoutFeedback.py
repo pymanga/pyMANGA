@@ -68,7 +68,6 @@ class OGSWithoutFeedback(OGSLargeScale3D):
             raise ValueError("Ogs calculation failed!")
         print("OGS-calculation done.")
 
-
     ## This function updates and returns BelowgroundResources in the current
     #  timestep. For each tree a reduction factor is calculated which is defined
     #  as: resource uptake at zero salinity/ real resource uptake.

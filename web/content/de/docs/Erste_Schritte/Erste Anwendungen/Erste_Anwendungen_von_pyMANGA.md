@@ -12,7 +12,7 @@ Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie falls noch nicht gesc
 Abbildung 1: ausgeführte main.py Datei in der Eingabekonsole.
 
 Hier ist zu sehen, dass die *main.py* Datei ausgeführt wurde und auf weitere Eingaben wartet. Damit ist der Start von MANGA geglückt und Sie können ein paar erste Verwendungsbeispiele testen. Dazu können Sie folgenden Code eingeben (siehe Abbildung 2).
-•	py main.py -i ProjectLib\ExampleSetups\AllSimple_WithOutput.xml		[1]
+	• py main.py -i ProjectLib\ExampleSetups\AllSimple_WithOutput.xml		[1]
 
 *-i* beschreibt dabei den Index bzw. den Pfad der Datei, in der der Input definiert ist, der für dieses Beispiel verwendet werden soll.   
 

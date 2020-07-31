@@ -1,0 +1,1 @@
+This folder serves as a static directory in the English language version of the homepage.

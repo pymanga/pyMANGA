@@ -1,13 +1,9 @@
 ---
-title: "Microsoft Windows 10"
+title: "Installation unter Microsoft Windows 10"
 linkTitle: "Microsoft Windows"
 weight: 3
 description:
 ---
-Installation
-------------
-
-## Installation 
 Um MANGA (Mangrove groundwater salinity feedback model) ausführen zu können, müssen Sie zunächst sich ein Interpreter für die Programmiersprache Python besorgen. Ein Beispiel wäre python<sup>T</sup><sup>M</sup>. Dazu öffnen Sie Ihren Browser und gehen Sie auf die Seite *Python.org.* Im Auswahlmenü unter *Download finden* Sie die aktuelle Release Version für ihr Betriebssystem von Python (in dieser Anleitung wird das Vorgehen unter Windows beschrieben, siehe Abbildung 1).
 
 <figure>

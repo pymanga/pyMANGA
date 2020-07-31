@@ -4,8 +4,6 @@ linkTitle: "Microsoft Windows"
 weight: 3
 description: >
 ---
-## Vorbereitungen zu Start von pyMANGA unter Windows 10
-
 Um MANGA auszuführen zu können, müssen noch ein paar Module für den Python Compiler installiert werden. Dazu müssen Sie die *Eingabeaufforderung* öffnen. Diese finden Sie einfach über die Suche, indem Sie der „Eingabeaufforderung“ eingeben und per Mausklick öffnen. Da es sich bei MANGA um ein Zeilenprogramm handelt, spielt sich alles in der Eingabeaufforderung ab (siehe Abbildung 1). 
 
 <figure>

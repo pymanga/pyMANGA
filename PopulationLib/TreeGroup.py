@@ -18,9 +18,15 @@ class TreeGroup:
         self.trees = []
         self.max_id = 0
 
-    def addTree(self, x, y):
+    ## Adds a new tree instance to the tree group
+    #  @param x: x-position of the new tree
+    #  @param y: y-position of the new tree
+    #  @param initial_geometry: controls, whether an initial geometry is
+    #  parsed to the tree
+    def addTree(self, x, y, initial_geometry=False):
         self.max_id += 1
-        self.trees.append(PLib.Tree(x, y, self.species, self.max_id))
+        self.trees.append(
+            PLib.Tree(x, y, self.species, self.max_id, initial_geometry))
 
     def getTrees(self):
         return self.trees

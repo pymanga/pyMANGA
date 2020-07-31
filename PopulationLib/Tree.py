@@ -9,7 +9,7 @@ import importlib.util
 
 
 class Tree:
-    def __init__(self, x, y, species, tree_id):
+    def __init__(self, x, y, species, tree_id, initial_geometry=False):
         self.tree_id = tree_id
         self.species = species
         self.trees = []
@@ -34,6 +34,11 @@ class Tree:
                                      "Please review the file.")
         else:
             raise KeyError("Species " + species + " unknown!")
+        if initial_geometry:
+            self.geometry["r_crown"] = initial_geometry["r_crown"]
+            self.geometry["r_root"] = initial_geometry["r_root"]
+            self.geometry["r_stem"] = initial_geometry["r_stem"]
+            self.geometry["h_stem"] = initial_geometry["h_stem"]
         self.growth_concept_information = {}
 
     def getPosition(self):

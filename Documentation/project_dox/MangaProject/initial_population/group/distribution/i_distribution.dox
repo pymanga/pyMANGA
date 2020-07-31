@@ -11,4 +11,5 @@ Specification of the tree groups initial distribution.
  # Possible cases: 
  
 - \subpage project_dox__MangaProject__initial_population__group__distribution__Random__Random
+- \subpage project_dox__MangaProject__initial_population__group__distribution__GroupFromFile__GroupFromFile
 */

@@ -2,25 +2,11 @@
 <MangaProject>
     <tree_dynamics>
         <aboveground_competition>
-            <type> SimpleAsymmetricZOI </type>
-            <domain>
-                <x_1> 0 </x_1>
-                <y_1> 0 </y_1>
-                <x_2> 100 </x_2>
-                <y_2> 5 </y_2>
-	        <x_resolution> 360 </x_resolution>
-	        <y_resolution> 18 </y_resolution>
-            </domain>
+            <type> SimpleTest </type>
         </aboveground_competition>
         <belowground_competition>
-            <type> OGSLargeScale3D </type>
-            <ogs_project_folder> ./ProjectLib/ExampleSetups/ogs_example_setup/ </ogs_project_folder>
-            <ogs_project_file> testmodel.prj </ogs_project_file>
-            <source_mesh> source_domain.vtu </source_mesh>
-            <bulk_mesh> testbulk.vtu </bulk_mesh>
-            <abiotic_drivers>
-                <seaward_salinity> 0.035 </seaward_salinity>
-            </abiotic_drivers>
+            <type> FixedSalinity </type>
+            <salinity> 0.05 </salinity>
         </belowground_competition>
         <tree_growth_and_death>
             <type> SimpleBettina </type>
@@ -35,11 +21,11 @@
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 100 </x_2>
-                    <y_2> 5 </y_2>
+                    <x_2> 20 </x_2>
+                    <y_2> 20 </y_2>
                 </domain>
                 <n_individuals> 0 </n_individuals>
-                <n_recruitment_per_step> 10 </n_recruitment_per_step>
+                <n_recruitment_per_step> 0 </n_recruitment_per_step>
             </distribution>
         </group>
         <group>
@@ -50,24 +36,30 @@
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 100 </x_2>
-                    <y_2> 5 </y_2>
+                    <x_2> 20 </x_2>
+                    <y_2> 20 </y_2>
                 </domain>
-                <n_individuals> 200 </n_individuals>
+                <n_individuals> 1 </n_individuals>
             </distribution>
         </group>
     </initial_population>
     <tree_time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 1e9 </t_end>
-        <delta_t> 60*60*24*365.25/2 </delta_t>
+        <t_end> 2.5e9 </t_end>
+        <delta_t> 1e7 </delta_t>
     </tree_time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
     <tree_output>
-        <type> NONE </type>
+        <type> OneTreeOneFile </type>
+        <output_each_nth_timestep> 1 </output_each_nth_timestep>
+        <output_dir> test/testoutputs/ </output_dir>
+        <geometry_output> r_stem </geometry_output>
+        <geometry_output> h_stem </geometry_output>
+        <geometry_output> r_crown </geometry_output>
+        <geometry_output> r_root </geometry_output>
     </tree_output>
 </MangaProject>
 

@@ -1,7 +1,7 @@
 
 {
     "_doc": {
-        "aim": "Provide simple datastructure to hold nested configuration options with xml file format in mind.",
+        "aim": "Provide simple datastructure to hold nested configuration options.",
         "concept": "An option is the only buildingblock for the configuration. It consists of a name, value and a type. To nest options there is the option type >complex< whose value is a list for the suboptions. To model alternative subtrees, there is the option type >alternative<.",
         "types": {
             "string": "The value field is the default value. If there are predefined values to chose from, these can be defined in the typedict.enum.",
@@ -458,6 +458,28 @@
         },
         {
             "name": "visualization",
+            "$namespace": "default",
+            "$base": "COMPLEX",
+            "value":[
+                {
+                    "name": "type",
+                    "$base": "STRING",
+                    "value": "NONE"
+                }
+            ]
+        },
+        {
+            "name": "geometry_output",
+            "$namespace": "default",
+            "$base": "STRING",
+            "maxOccurs": 10,
+            "typedict": {
+                "enum": ["r_stem","h_stem","r_crown","r_root"]
+            }
+        },
+        {
+            "name": "tree_output",
+            "$namespace": "default",
             "$base": "COMPLEX",
             "value":[
                 {
@@ -469,13 +491,41 @@
         },
         {
             "name": "tree_output",
+            "$namespace": "webui",
             "$base": "COMPLEX",
             "value":[
                 {
                     "name": "type",
                     "$base": "STRING",
-                    "value": "NONE"
+                    "value": "OneTimestepOneFile"
+                },
+                {
+                    "name": "output_each_nth_timestep",
+                    "$base": "INTEGER",
+                    "value": 1
+                },
+                {
+                    "name": "output_dir",
+                    "$base": "STRING",
+                    "value": "./run/"
+                },
+                {
+                    "$ref": "default:geometry_output",
+                    "value": "r_stem"
+                },
+                {
+                    "$ref": "default:geometry_output",
+                    "value": "h_stem"
+                },
+                {
+                    "$ref": "default:geometry_output",
+                    "value": "r_crown"
+                },
+                {
+                    "$ref": "default:geometry_output",
+                    "value": "r_root"
                 }
+
             ]
         },
         {
@@ -492,10 +542,10 @@
                     "$ref": "tree_time_loop"
                 },
                 {
-                    "$ref": "visualization"
+                    "$ref": "default:visualization"
                 },
                 {
-                    "$ref": "tree_output"
+                    "$ref": "default:tree_output"
                 }           
             ]
         }

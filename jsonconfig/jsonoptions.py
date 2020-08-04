@@ -24,7 +24,7 @@ def option_resolveReferences(option,optionMap,baseOptions):
     # Replace ref with option if neccessary
     if "$ref" in option:
         ref = option["$ref"]
-        option.update(optionMap[ref])
+        dict_updateNew(option,optionMap[ref])
         del option["$ref"]
 
     # Insert missing parameters from base option if neccesary
@@ -98,6 +98,20 @@ def buildNode(option):
     return node
 
 
+
+
+def forEachOptionApply(option,func):
+    func(option)
+    
+    if option["typedict"]["type"] == "complex":
+        for subOption in option["value"]:
+            forEachOptionApply(subOption,func)
+
+    elif option["typedict"]["type"] == "alternative":
+        for altOption in option["typedict"]["alternatives"]:
+            forEachOptionApply(altOption,func)
+
+
 def buildXML(option):
     root = buildNode(option)
     xmlstr = minidom.parseString(ET.tostring(root)).toprettyxml(indent="   ")
@@ -108,3 +122,4 @@ if __name__ == "__main__":
     path = "./pyManga.json"
     options = parse_jsontemplate(path)
     xml = buildXML(options["MangaProject"])
+

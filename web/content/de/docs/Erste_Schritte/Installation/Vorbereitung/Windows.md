@@ -7,7 +7,7 @@ description: >
 Um MANGA auszuführen zu können, müssen noch ein paar Module für den Python Compiler installiert werden. Dazu müssen Sie die *Eingabeaufforderung* öffnen. Diese finden Sie einfach über die Suche, indem Sie der „Eingabeaufforderung“ eingeben und per Mausklick öffnen. Da es sich bei MANGA um ein Zeilenprogramm handelt, spielt sich alles in der Eingabeaufforderung ab (siehe Abbildung 1). 
 
 <figure>
-<img src="/de/static/oeffnen_der_Eingabeaufforderung.jpg">
+<img src="/pictures/oeffnen_der_Eingabeaufforderung.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 1:</b> öffnen der Eingabeaufforderung.</i></font></figcaption>
 </figure><p>
 
@@ -16,7 +16,7 @@ Nun müssen die folgenden Module *numpy*, *vtk*, *lxml* und *matplotlib* install
 	• py -3.7 -m pip install numpy								     [1]
 
 <figure>
-<img src="/de/static/Beispielhafte_Installation_des_Moduls_numpy.jpg">
+<img src="/pictures/Beispielhafte_Installation_des_Moduls_numpy.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 2:</b> Beispielhafte Installation des Moduls numpy.</i></font></figcaption>
 </figure><p>
 
@@ -31,7 +31,7 @@ Hinweis: Sollte die Eingabeaufforderung eine Wahrung ausgeben, dass *pip* nicht 
 Zur Erklärung was Sie eingegeben haben: *py* bedeuten, dass Sie Python aufrufen. Dabei ist -3.7 die Version, die Sie nutzen. Mit *-m* wird ein Modul aufgerufen, in diesem Fall *pip*, welches dazu dient andere Module zu installieren. Zum Schluss folgt der Modul Name vom zu installierendem Modul. Nun sind die Vorbereitungen für die Nutzung des Compilers abgeschlossen. Als nächsten Schritt müssen Sie, falls es noch nicht geschehen ist, das Programm MANGA downloaden. Dazu gehen Sie auf die folgende Internetseite [Link](https://github.com/jbathmann/pyMANGA/ "https://github.com/jbathmann/pyMANGA/") und downloaden das Programm als zip Datei und speichern es auf Ihren Rechner (siehe Abbildung 3).
 
 <figure>
-<img src="/de/static/Download_von_pyMANGA.jpg">
+<img src="/pictures/Download_von_pyMANGA.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 3:</b> Download von pyMANGA.</i></font></figcaption>
 </figure><p>
 
@@ -42,7 +42,7 @@ Anschließend entpacken Sie die Datei (*pyMANGA-master.zip*) auf Ihren Desktop. 
 Hierbei bedeutet wiederum *py* das Python aufgerufen wird, *main.py* stellt die Datei dar, die aufgerufen werden soll, und -h ruft die Hilfe auf.   
 
 <figure>
-<img src="/de/static/oeffnen_der_Eingabeaufforderung_im_pyMANGA_Ordner.jpg">
+<img src="/pictures/oeffnen_der_Eingabeaufforderung_im_pyMANGA_Ordner.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 4:</b> öffnen der Eingabeaufforderung im pyMANGA Ordner.</i></font></figcaption>
 </figure><p>
 

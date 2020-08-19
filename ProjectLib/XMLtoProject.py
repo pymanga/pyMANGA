@@ -21,6 +21,7 @@ class XMLtoProject(Project.MangaProject):
             raise KeyError("XML-Project file missing!")
         self.args = {}
         self.readProjectFile()
+        self.addNumpyRandomSeed()
         self.addTreeDynamicConcepts()
         self.addInitialPopulation()
         self.addTreeTimeLoop()
@@ -35,6 +36,9 @@ class XMLtoProject(Project.MangaProject):
         #  The for loop removes ambiguous spaces of the tag arguments
         for tag in self.root.iter():
             tag.text = tag.text.strip()
+
+    def addNumpyRandomSeed(self):
+        self.args["random_seed"] = self.root.find("random_seed")
 
     def addTreeDynamicConcepts(self):
         self.tree_dynamics = self.findChild(self.root, "tree_dynamics")

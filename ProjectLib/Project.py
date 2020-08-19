@@ -12,12 +12,14 @@ from VisualizationLib import Visualization
 from TreeOutputLib import TreeOutput
 import PopulationLib
 from TimeLoopLib import TreeDynamicTimeLoop
+import numpy as np
 
 
 ## Class to store and manage all information necessary for a MANGA model run.
 class MangaProject:
     ## Parent class for MangaProjects.
     def argsToProject(self):
+        self.iniNumpyRandomSeed()
         self.iniAbovegroundCompetition()
         self.iniBelowgroundCompetition()
         self.iniDeathAndGrowthConcept()
@@ -28,6 +30,12 @@ class MangaProject:
 
     def getBelowgroundCompetition(self):
         return self.belowground_competition
+
+    def iniNumpyRandomSeed(self):
+        if self.args["random_seed"] is not None:
+            print("Setting seed for random number generator.")
+            _seed = int(self.args["random_seed"].text.strip())
+            np.random.seed(_seed)
 
     def iniBelowgroundCompetition(self):
         arg = self.args["belowground_competition"]

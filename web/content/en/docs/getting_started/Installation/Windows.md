@@ -23,4 +23,4 @@ Execute the downloaded file (*python-3.7.7-amd64.exe*) like a normal Windows exe
 <figcaption><font size = "1"><i><b>Figure 3:</b>Running the Windows exe of Python 3.7.7.</i></font></figcaption>
 </figure><p>
 
-Damit ist die Installation Python abgeschlossen. Um MANGA zu starten müssen nun noch einige Vorbereitungen getroffen werden. Gehen sie dazu in das Unterverzeichnis Vorbereitung und Wählen sie die entsprechende Datei vor ihr Betriebssystem. 
+This completes the Python installation. To start MANGA some preparations have to be made. Go to the subdirectory Preparation and select the appropriate file before your operating system. 

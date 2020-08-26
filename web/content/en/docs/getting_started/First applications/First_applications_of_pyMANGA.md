@@ -55,3 +55,65 @@ Similarly, you can use the following codes to try out two more examples where ot
 	• py main.py -i ProjectLib\ExampleSetups\FON_SAZOI_KIWI.xml	            [3]
 
 Due to other project configurations (in *FIXEDSAL_BETTINA.xml and FON_SAZOI_KIWI.xml*) there is no visual representation in the code 3 example (compare <a href="/en/docs/first_steps/first_applications/first_applications_of_pymanga/#Figure_6">Figure 6</a> ). 
+
+The next application of pyMANGA uses OpenGeoSys (OGS). This is a scientific open source project for the development of numerical methods for the simulation of thermo-hydro-mechanical-chemical (THMC) processes in porous and fragmented media. To use OGS you have to download and install it first. To do so, go to the following website [Link](https://www.opengeosys.org/releases/ "https://www.opengeosys.org/releases/") and scroll down until you find version 6.3.0 and download it (see figure 7 and 8).
+
+<figure>
+<a name="Abbildung_7"></a>
+<img src="/de/static/Versionsauswahl_von_OGS.jpg">
+<figcaption><font size = "1"><i><b>Figure 7:</b> Version selection of OGS.</i></font></figcaption>
+</figure><p>
+
+<figure>
+<a name="Abbildung_8"></a>
+<img src="/de/static/Download_von_OGS 6.3.0.jpg">
+<figcaption><font size = "1"><i><b>Figure 8:</b> Download OGS 6.3.0.</i></font></figcaption>
+</figure><p>
+
+Select the file to be downloaded according to your operating system.  Then unzip the zip file, copy the bin folder and paste it into the pyMANGA-master folder in the following path (see figure 9).
+
+	\pyMANGA-master\TreeModelLib\BelowgroundCompetition\OGS					 [4]
+
+<figure>
+<a name="Abbildung_9"></a>
+<img src="/de/static/Einfuegen_von_OGS_in_den_pyMANGA-master_Ordner.jpg">
+<figcaption><font size = "1"><i><b>Figure 9:</b> Insert OGS into the pyMANGA-master folder.</i></font></figcaption>
+</figure><p>
+
+OGS is now installed. To test if it works properly, open the Bin folder, press shift and the right mouse button and select Open PowerShell window here (see Figure 10).
+
+<figure>
+<a name="Abbildung_10"></a>
+<img src="/de/static/Test_ob_OGS_Ordnungsgemaeß_funktioniert.jpg">
+<figcaption><font size = "1"><i><b>Figure 10:</b> Test if OGS works properly.</i></font></figcaption>
+</figure><p>
+
+Copy the path that appears in the PowerShell window and append \OGS and press Enter. The following figure shows the PowerShell window output when OGS is running smoothly. 
+
+<figure>
+<a name="Abbildung_11"></a>
+<img src="/de/static/Ausgabe_bei_Ordnungsgemaeßer_Funktion_von_OGS.jpg">
+<figcaption><font size = "1"><i><b> Figure 11:</b> Output if OGS functions properly.</i></font></figcaption>
+</figure><p>
+
+Now you can start the next application example by opening the command prompt in the pyMANGA-master folder and starting pyMANGA as usual. Then enter the following command (see Figure 12).
+
+	py main.py -i ProjectLib\ExampleSetups\OGS3D_SAZOI_BETTINA.xml 				 [5]
+
+<figure>
+<a name="Abbildung_12"></a>
+<img src="/de/static/zeigt_die_Ausfuehrung_des_Anwendungsbeispiels_mit_OGS.jpg">
+<figcaption><font size = "1"><i><b>Figure 12:</b> shows the execution of the application example with OGS.</i></font></figcaption>
+</figure><p>
+
+Note: The computing time can take several hours. You can reduce this by opening \pyMANGA-master\ProjectLib\ExampleSetups in the GS3D_SAZOI_BETTINA file under the following path and adding the following line
+
+	<delta_t_ogs> 604800 </delta_t_ogs>							 [6]
+
+Here 604800 can be varied and corresponds here to one week, so the calculations are not performed for every second, but only per week, which significantly reduces the computing time (see Figure 13). 
+
+<figure>
+<a name="Abbildung_13"></a>
+<img src="/de/static/Anpassung_zur_Rechenzeit_Verkuerzung.jpg">
+<figcaption><font size = "1"><i><b>Figure 13:</b> Adaptation to the computing time reduction.</i></font></figcaption>
+</figure><p>

@@ -60,34 +60,31 @@ Die nächste Anwendung von pyMANGA nutzt OpenGeoSys (OGS). Dabei handelt es sich
 
 <figure>
 <a name="Abbildung_7"></a>
-<img src="/de/static/Versionsauswahl_von_OGS.jpg">
+<img src="/pictures/Versionsauswahl_von_OGS.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 7:</b> Versionsauswahl von OGS.</i></font></figcaption>
 </figure><p>
 
 <figure>
 <a name="Abbildung_8"></a>
-<img src="/de/static/Download_von_OGS 6.3.0.jpg">
+<img src="/pictures/Download_von_OGS 6.3.0.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 8:</b> Download von OGS 6.3.0.</i></font></figcaption>
 </figure><p>
 
-Wählen Sie entsprechend ihres Betriebssystems die zu downloadende Datei aus.  Anschließend entpacken Sie die Zip Datei, kopieren den Bin Ordner und fügen diese in den pyMANGA-master Ordner in den folgenden Pfad ein (siehe Abbildung 9).
+Wählen Sie, entsprechend ihres Betriebssystems, die zu downloadende Datei aus.  Anschließend entpacken Sie die Zip Datei, kopieren den Bin Ordner und fügen diese in den pyMANGA-master Ordner in den folgenden Pfad ein (siehe Abbildung 9).
 
 	\pyMANGA-master\TreeModelLib\BelowgroundCompetition\OGS					 [4]
 
 <figure>
 <a name="Abbildung_9"></a>
-<img src="/de/static/Einfuegen_von_OGS_in_den_pyMANGA-master_Ordner.jpg">
+<img src="/pictures/Einfuegen_von_OGS_in_den_pyMANGA-master_Ordner.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 9:</b> Einfügen von OGS in den pyMANGA-master Ordner.</i></font></figcaption>
 </figure><p>
 
-<<<<<<< HEAD:web/content/de/docs/Erste_Schritte/Erste_Anwendungen/Erste_Anwendungen_von_pyMANGA.md
-Aufgrund von anderen Projekt-Konfigurationen (in *FIXEDSAL_BETTINA.xml und FON_SAZOI_KIWI.xml*) wird unteranderem im Beispiel zu Code 3 keine visuelle Darstellung ausgegeben (vergleiche <a href="/de/docs/erste_schritte/erste_anwendungen/erste_anwendungen_von_pymanga/#Abbildung_6">Abbildung 6</a> ).    
-=======
 Damit ist OGS installiert. Um zu testen ob es ordnungsgemäß funktioniert, öffnen Sie den Bin Ordner, drücken shift und die rechte Maustaste und wählen PowerShell-Fenster hier öffnen (siehe Abbildung 10).
 
 <figure>
 <a name="Abbildung_10"></a>
-<img src="/de/static/Test_ob_OGS_Ordnungsgemaeß_funktioniert.jpg">
+<img src="/pictures/Test_ob_OGS_Ordnungsgemaeß_funktioniert.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 10:</b> Test ob OGS Ordnungsgemaeß funktioniert.</i></font></figcaption>
 </figure><p>
 
@@ -95,7 +92,7 @@ Kopieren Sie den Pfad, der im PowerShell-Fenster angezeigt wird, und hängen Sie
 
 <figure>
 <a name="Abbildung_11"></a>
-<img src="/de/static/Ausgabe_bei_Ordnungsgemaeßer_Funktion_von_OGS.jpg">
+<img src="/pictures/Ausgabe_bei_Ordnungsgemaeßer_Funktion_von_OGS.jpg">
 <figcaption><font size = "1"><i><b> Abbildung 11:</b> Ausgabe bei Ordnungsgemäßer Funktion von OGS.</i></font></figcaption>
 </figure><p>
 
@@ -105,7 +102,7 @@ Nun können Sie das nächste Anwendungsbeispiel starten, indem Sie wie gehabt di
 
 <figure>
 <a name="Abbildung_12"></a>
-<img src="/de/static/zeigt_die_Ausfuehrung_des_Anwendungsbeispiels_mit_OGS.jpg">
+<img src="/pictures/zeigt_die_Ausfuehrung_des_Anwendungsbeispiels_mit_OGS.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 12:</b> zeigt die Ausführung des Anwendungsbeispiels mit OGS.</i></font></figcaption>
 </figure><p>
 
@@ -113,11 +110,10 @@ Hinweis: Die Rechenzeit kann mehrere Stunden betragen. Dies können Sie reduzier
 
 	<delta_t_ogs> 604800 </delta_t_ogs>							 [6]
 
-Dabei kann 604800 variiert werden und entspricht hier eine Woche, somit wird nicht für jede Sekunde die Berechnungen durchgeführt, sondern nur pro Woche was die Rechenzeit deutlich reduziert(siehe Abbildung 13). 
+Hier werden 604800 Sekunden angegeben, diese Zahl kann variiert werden. Sie entspricht hier einer Woche, d.h. die OGS-Berechnungen werden im Baummodell nicht für den Ausgangszeitschritt, sondern nur für eine Woche durchgeführt. Aus den Ergebnissen wird die Porenwasserverteilung unter stationären Annahmen extrapoliert. Folglich muss dieser Parameter sehr vorsichtig verwendet werden, ist aber ein Mittel, um die Rechenzeit deutlich zu reduzieren (siehe Abbildung 13).
 
 <figure>
 <a name="Abbildung_13"></a>
-<img src="/de/static/Anpassung_zur_Rechenzeit_Verkuerzung.jpg">
+<img src="/pictures/Anpassung_zur_Rechenzeit_Verkuerzung.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 13:</b> Anpassung zur Rechenzeit Verkürzung.</i></font></figcaption>
 </figure><p>
->>>>>>> 4d80603... OGS Beispiel hinzugefügt und ins Englische übersetz:web/content/de/docs/Erste_Schritte/Erste Anwendungen/Erste_Anwendungen_von_pyMANGA.md

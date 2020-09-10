@@ -11,32 +11,32 @@ Before you start with first applications, if you haven't already done so, you sh
 <figcaption><font size = "1"><i><b>Figure 1:</b>Executed main.py file in the input console.</i></font></figcaption>
 </figure><p>
 
-Here you can see that the *main.py* file has been executed and is waiting for further input. So the start of MANGA was successful and you can test some first usage examples. You can enter the following code (see figure 2).
+Here you can see that the ***main.py*** file has been executed and is waiting for further input. So the start of MANGA was successful and you can test some first usage examples. You can enter the following code (see figure 2).
 
 	• py main.py -i ProjectLib\ExampleSetups\AllSimple_WithOutput.xml	    		 [1]
 
-*-i* refers to the index or path of the file in which the input to be used for this example is defined.   
+***-i*** refers to the index or path of the file in which the input to be used for this example is defined.   
 
 <figure>
 <img src="/pictures/Fehlermeldung_beim_Aufuehren_von_py-main.py.jpg">
 <figcaption><font size = "1"><i><b>Figure 2:</b> Error message when trying to <b>py main.py -i ProjectLib\ExampleSetups\AllSimple_WithOutput.xml.</b></i></font></figcaption>
 </figure><p>
 
-After executing the code, an error message is displayed, which describes that a folder named *testoutputs* does not exist, but is needed by the program to save the simulation results. This information can be found in the file *AllSimple_WithOutput.xml*, which defines the input for our example. To view it, you have to open the file using the editor. To do so, please create the directory listed (see figure 2). The specified file path is relative to the folder where you started pyMANGA, see figure 3. To do this, follow the file path in the *pyMANGA-master* folder as shown in Figure 2, right-click on the file, click *Open with* and select the editor (see Figure 3).
+After executing the code, an error message is displayed, which describes that a folder named ***testoutputs*** does not exist, but is needed by the program to save the simulation results. This information can be found in the file ***AllSimple_WithOutput.xml***, which defines the input for our example. To view it, you have to open the file using the editor. To do so, please create the directory listed (see figure 2). The specified file path is relative to the folder where you started pyMANGA, see figure 3. To do this, follow the file path in the ***pyMANGA-master*** folder as shown in Figure 2, right-click on the file, click ***Open with*** and select the editor (see Figure 3).
 
 <figure>
 <img src="/pictures/Inhalt_von_AllSimple_WithOutput.xml,_geoeffnet_mit_dem_Text_Editor.jpg">
 <figcaption><font size = "1"><i><b>Figure 3:</b> Content of </b>AllSimple_WithOutput.xml</b>, opened with the Text Editor.</i></font></figcaption>
 </figure><p>
 
-The file contains the red-marked lines, which define the programs output, e.g. the tree height (h_stem) and where to put it, namely in the non-existent folder *testoutputs*, which was defined as the output location for the simulation results. Consequently, you must now create this folder. To do this, right-click in the subfolder *C:\Users\chris\Desktop\pyMANGA-master\ProjectLib\ExampleSetups*, click on Create new folder and name it testoutputs (see Figure 4).
+The file contains the **red-marked** lines, which define the programs output, e.g. the **tree height (h_stem)** and where to put it, namely in the non-existent folder ***testoutputs***, which was defined as the output location for the simulation results. Consequently, you must now create this folder. To do this, right-click in the subfolder ***C:\Users\chris\Desktop\pyMANGA-master\ProjectLib\ExampleSetups***, click on Create new folder and name it testoutputs (see Figure 4).
 
 <figure>
 <img src="/pictures/Erstellung_des_neuen_Ordners_testoutputs.jpg">
 <figcaption><font size = "1"><i><b>Figure 4:</b> Creating the new folder <b>testoutputst</b>.</i></font></figcaption>
 </figure><p>
 
-Then run code 1 again at the command prompt. Now the program should start the first simulation (see figure 5). There are several input parameters which can be set in MANGA project configurations. The file which has just been started is a configuration file. A description of these parameters can be found on the following website [Link](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html "https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html").The results of the simulation are displayed once visually in a separate window (see Figure 6) and in the form of *csv* files in the newly created folder *testoutputs*. You have successfully executed the first example.
+Then run code 1 again at the command prompt. Now the program should start the first simulation (see figure 5). There are several input parameters which can be set in MANGA project configurations. The file which has just been started is a configuration file. A description of these parameters can be found on the following website [**Link**](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html "https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html").The results of the simulation are displayed once visually in a separate window (see Figure 6) and in the form of ***csv*** files in the newly created folder ***testoutputs***. You have successfully executed the first example.
 
 <figure>
 <img src="/pictures/Widerholte_Ausfuehrung_von_py_main.py_-i_ProjectLibExampleSetupsAllSimple_WithOutput.xml_nach_erstellung_den_neuen_Ordner_testoutputs.jpg">
@@ -49,14 +49,14 @@ Then run code 1 again at the command prompt. Now the program should start the fi
 <figcaption><font size = "1"><i><b>Figure 6:</b> Visual results of the simulation.</i></font></figcaption>
 </figure><p>
 
-Similarly, you can use the following codes to try out two more examples where other input variants are defined. However, you must first empty the *testoutputs* folder or define another folder in the input files using the editor, since the program cannot overwrite the old output data. Then enter the code in the command prompt again. In addition, other parameters were changed again. Use the website [Link](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html "https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html") to get an overview of the setting variants of the input parameters used in the examples and compare them. 
+Similarly, you can use the following codes to try out two more examples where other input variants are defined. However, you must first empty the ***testoutputs*** folder or define another folder in the input files using the editor, since the program cannot overwrite the old output data. Then enter the code in the command prompt again. In addition, other parameters were changed again. Use the website [**Link**](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html "https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html") to get an overview of the setting variants of the input parameters used in the examples and compare them. 
 
 	• py main.py -i ProjectLib\ExampleSetups\FIXEDSAL_BETTINA.xml 	            	  	 [2] 
 	• py main.py -i ProjectLib\ExampleSetups\FON_SAZOI_KIWI.xml	          		 [3]
 
-Due to other project configurations (in *FIXEDSAL_BETTINA.xml and FON_SAZOI_KIWI.xml*) there is no visual representation in the code 3 example (compare <a href="/en/docs/first_steps/first_applications/first_applications_of_pymanga/#Figure_6">Figure 6</a> ). 
+Due to other project configurations (in ***FIXEDSAL_BETTINA.xml and FON_SAZOI_KIWI.xml***) there is no visual representation in the code 3 example (compare <a href="/en/docs/first_steps/first_applications/first_applications_of_pymanga/#Figure_6">Figure 6</a> ). 
 
-The next application of pyMANGA uses OpenGeoSys (OGS). This is a scientific open source project for the development of numerical methods for the simulation of thermo-hydro-mechanical-chemical (THMC) processes in porous and fragmented media. To use OGS you have to download and install it first. To do so, go to the following website [Link](https://www.opengeosys.org/releases/ "https://www.opengeosys.org/releases/") and scroll down until you find version 6.3.0 and download it (see figure 7 and 8).
+The next application of **pyMANGA** uses **OpenGeoSys** (OGS). This is a scientific open source project for the development of numerical methods for the simulation of thermo-hydro-mechanical-chemical (THMC) processes in porous and fragmented media. To use **OGS** you have to download and install it first. To do so, go to the following website [**Link**](https://www.opengeosys.org/releases/ "https://www.opengeosys.org/releases/") and scroll down until you find **version 6.3.0** and download it (see figure 7 and 8).
 
 <figure>
 <a name="Abbildung_7"></a>
@@ -70,7 +70,7 @@ The next application of pyMANGA uses OpenGeoSys (OGS). This is a scientific open
 <figcaption><font size = "1"><i><b>Figure 8:</b> Download OGS 6.3.0.</i></font></figcaption>
 </figure><p>
 
-Select the file to be downloaded according to your operating system.  Then unzip the zip file, copy the bin folder and paste it into the pyMANGA-master folder in the following path (see figure 9).
+Select the file to be downloaded according to your operating system.  Then unzip the zip file, copy the ***bin*** folder and paste it into the ***pyMANGA-master*** folder in the following path (see figure 9).
 
 	\pyMANGA-master\TreeModelLib\BelowgroundCompetition\OGS					 [4]
 
@@ -80,7 +80,7 @@ Select the file to be downloaded according to your operating system.  Then unzip
 <figcaption><font size = "1"><i><b>Figure 9:</b> Insert OGS into the pyMANGA-master folder.</i></font></figcaption>
 </figure><p>
 
-OGS is now installed. To test if it works properly, open the _Bin_ folder, press **shift** and the **right mouse button** and select **Open PowerShell window here** (see Figure 10).
+**OGS** is now installed. To test if it works properly, open the ***_Bin_*** folder, press **shift** and the **right mouse button** and select **Open PowerShell window here** (see Figure 10).
 
 <figure>
 <a name="Abbildung_10"></a>
@@ -88,7 +88,7 @@ OGS is now installed. To test if it works properly, open the _Bin_ folder, press
 <figcaption><font size = "1"><i><b>Figure 10:</b> Test if OGS works properly.</i></font></figcaption>
 </figure><p>
 
-Copy the path that appears in the PowerShell window and append \OGS and press Enter. The following figure shows the PowerShell window output when OGS is running smoothly. 
+Copy the path that appears in the **PowerShell window** and append ***\OGS*** and press Enter. The following figure shows the PowerShell window output when OGS is running smoothly. 
 
 <figure>
 <a name="Abbildung_11"></a>
@@ -96,7 +96,7 @@ Copy the path that appears in the PowerShell window and append \OGS and press En
 <figcaption><font size = "1"><i><b> Figure 11:</b> Output if OGS functions properly.</i></font></figcaption>
 </figure><p>
 
-Now you can start the next application example by opening the command prompt in the pyMANGA-master folder and starting pyMANGA as usual. Then enter the following command (see Figure 12).
+Now you can start the next application example by opening the command prompt in the ***pyMANGA-master*** folder and starting pyMANGA as usual. Then enter the following command (see Figure 12).
 
 	py main.py -i ProjectLib\ExampleSetups\OGS3D_SAZOI_BETTINA.xml 				 [5]
 
@@ -106,11 +106,11 @@ Now you can start the next application example by opening the command prompt in 
 <figcaption><font size = "1"><i><b>Figure 12:</b> shows the execution of the application example with OGS.</i></font></figcaption>
 </figure><p>
 
-Note: The computing time can take several hours. You can reduce this by opening \pyMANGA-master\ProjectLib\ExampleSetups in the GS3D_SAZOI_BETTINA file under the following path and adding the following line
+Note: The computing time can take several hours. You can reduce this by opening ***\pyMANGA-master\ProjectLib\ExampleSetups in the GS3D_SAZOI_BETTINA*** file under the following path and adding the following line
 
 	<delta_t_ogs> 604800 </delta_t_ogs>							 [6]
 
-Here 604800 is given in seconds and can be varied. Here, it corresponds here to one week, i.e. the ogs-calculations are not performed for the home timestep in the tree model but only for one week. From the results the porewater distribution is extrapolated under steady state assumptions. Consequently, this parameter has to be used very carefully but is a means to significantly reduce computing time (see Figure 13).
+Here **604800** is given in seconds and can be varied. Here, it corresponds here to one week, i.e. the ogs-calculations are not performed for the home timestep in the tree model but only for one week. From the results the porewater distribution is extrapolated under steady state assumptions. Consequently, this parameter has to be used very carefully but is a means to significantly reduce computing time (see Figure 13).
 
 <figure>
 <a name="Abbildung_13"></a>

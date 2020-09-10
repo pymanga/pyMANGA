@@ -4,7 +4,19 @@ linkTitle: "Erste Anwendungen von pyMANGA"
 weight: 3
 description:
 ---
-Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie falls noch nicht geschehen die Anleitungen zur Installation und Vorbereitung für ihr entsprechendes Betriebssystem durchgehen, diese wird vor allen für Anfänger empfohlen, welche wenig Erfahrung mit Python und der Eingabekonsole haben. Diese Anleitung ist für alle drei Betrebsyteme (MacOS, Unbunt, Windows) geeignet, bei Besonderheiten in der Ausführung auf den jeweiligen Systemen sind Anmerkungen zu finden.   
+
+Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie falls noch nicht geschehen die Anleitungen zur Installation und Vorbereitung für ihr entsprechendes Betriebssystem durchgehen, diese wird vor allen für Anfänger empfohlen, welche wenig Erfahrung mit Python und der Eingabekonsole haben. Diese Anleitung ist für alle drei Betrebsyteme (MacOS, Unbunt, Windows) geeignet, bei Besonderheiten in der Ausführung auf den jeweiligen Systemen sind Anmerkungen zu finden.
+
+<details>
+<summary >Ubuntu</summary>
+<p>
+Hier steht der Inhalt zu Ubuntu
+</p>
+</details>
+
+<details>
+<summary>Windows</summary>
+<p>
 
 <figure>
 <img src="/pictures/ausgefuehrte_main_py_Datei_in_der_Eingabekonsole.jpg">
@@ -15,7 +27,7 @@ Hier ist zu sehen, dass die *main.py* Datei ausgeführt wurde und auf weitere Ei
 
 	• py main.py -i ProjectLib\ExampleSetups\AllSimple_WithOutput.xml			     [1]
 
-*-i* beschreibt dabei den Index bzw. den Pfad der Datei, in der der Input definiert ist, der für dieses Beispiel verwendet werden soll.   
+*-i* beschreibt dabei den Index bzw. den Pfad der Datei, in der der Input definiert ist, der für dieses Beispiel verwendet werden soll.
 
 <figure>
 <img src="/pictures/Fehlermeldung_beim_Aufuehren_von_py-main.py.jpg">
@@ -48,9 +60,19 @@ Im Anschluss führen Sie den Code 1 erneut in der Eingabeaufforderung aus. Nun s
 <figcaption><font size = "1"><i><b>Abbildung 6:</b> Visuelle Ergebnisse der Simulation.</i></font></figcaption>
 </figure><p>
 
-Analog dazu können Sie mit den folgenden Codes zwei weitere Beispiel ausprobieren, in dem andere Input-Varianten definiert sind. Dazu müssen Sie aber zunächst den Ordner *testoutputs* leeren bzw. einen anderen Ordner in den Input-Dateien mit Hilfe des Editors definieren, da das Programm die alten Output-Daten nicht überschreiben kann. Anschließend geben Sie wieder den Code in die Eingabeaufforderung ein. Des Weiteren wurden wiederum andere Parameter verändern. Verschaffen Sie sich mit Hilfe der Internetseite [Link](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html "https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html") einen Überblick über die Einstellungsvarianten der Input-Parameter, die in den Beispielen verwendet worden und vergleichen Sie sie.       
+Analog dazu können Sie mit den folgenden Codes zwei weitere Beispiel ausprobieren, in dem andere Input-Varianten definiert sind. Dazu müssen Sie aber zunächst den Ordner *testoutputs* leeren bzw. einen anderen Ordner in den Input-Dateien mit Hilfe des Editors definieren, da das Programm die alten Output-Daten nicht überschreiben kann. Anschließend geben Sie wieder den Code in die Eingabeaufforderung ein. Des Weiteren wurden wiederum andere Parameter verändern. Verschaffen Sie sich mit Hilfe der Internetseite [Link](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html "https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html") einen Überblick über die Einstellungsvarianten der Input-Parameter, die in den Beispielen verwendet worden und vergleichen Sie sie.
 
 	• py main.py -i ProjectLib\ExampleSetups\FIXEDSAL_BETTINA.xml 			            [2] 
 	• py main.py -i ProjectLib\ExampleSetups\FON_SAZOI_KIWI.xml			            [3]
 
-Aufgrund von anderen Projekt-Konfigurationen (in *FIXEDSAL_BETTINA.xml und FON_SAZOI_KIWI.xml*) wird unteranderem im Beispiel zu Code 3 keine visuelle Darstellung ausgegeben (vergleiche <a href="/de/docs/erste_schritte/erste_anwendungen/erste_anwendungen_von_pymanga/#Abbildung_6">Abbildung 6</a> ).    
+Aufgrund von anderen Projekt-Konfigurationen (in *FIXEDSAL_BETTINA.xml und FON_SAZOI_KIWI.xml*) wird unteranderem im Beispiel zu Code 3 keine visuelle Darstellung ausgegeben (vergleiche <a href="/de/docs/erste_schritte/erste_anwendungen/erste_anwendungen_von_pymanga/#Abbildung_6">Abbildung 6</a> ).
+
+</p>
+</details>
+
+<details>
+<summary>MacOS</summary>
+<p>
+Hier steht der Inhalt zu MacOS
+</p>
+</details>

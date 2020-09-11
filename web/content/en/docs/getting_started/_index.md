@@ -1,8 +1,8 @@
 ---
-title: "Getting started"
+title: "First steps with pyMANGA"
 linkTitle: "Getting started"
 weight: 2
-description: >
-  What you have to do to calculate first example setups in different operating systems
+description:
 ---
+A guide to calculating simple sample setups in different operating systems.
 

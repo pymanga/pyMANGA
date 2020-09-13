@@ -1,21 +1,38 @@
 ---
 title: "Erste Anwendungen von pyMANGA"
 linkTitle: "Erste Anwendungen von pyMANGA"
-weight: 3
+weight: 2
 description:
 ---
-Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie falls noch nicht geschehen die Anleitungen zur Installation und Vorbereitung für ihr entsprechendes Betriebssystem durchgehen, diese wird vor allen für Anfänger empfohlen, welche wenig Erfahrung mit Python und der Eingabekonsole haben. Diese Anleitung ist für alle drei Betrebsyteme (MacOS, Unbunt, Windows) geeignet, bei Besonderheiten in der Ausführung auf den jeweiligen Systemen sind Anmerkungen zu finden.   
+
+<head>
+<style type="text/css">
+<!--
+details summary {color: white; background: #00305E; margin-bottom: 1em;}
+-->
+</style>
+</head>
+
+Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie, falls noch nicht geschehen, die Anleitungen zur Installation und Vorbereitung für ihr entsprechendes Betriebssystem durchgehen. Diese wird vor allem für Anfänger empfohlen, welche wenig Erfahrung mit Python und der Eingabekonsole haben. Diese Anleitung ist grundsätzlich für alle drei Betriebsyteme (MacOS, Unbunt, Windows) geeignet. Bei Besonderheiten in der Ausführung auf den jeweiligen Systemen sind Anmerkungen zu finden.
+
+## Einfachere Beispiel-Setups ohne OpenGeoSys
+
+Zunächst muss wieder mit der Konsolenoberfläche zu dem Dateispeicherort der pyMANGA Hauptebene navigiert werden. Durch die Eingabe von 
+
+	• py main.py -h
+
+wird pyMANGA gestartet und alle verfügbaren Eingabeoptionen ausgegeben (-h steht für help).
 
 <figure>
 <img src="/pictures/ausgefuehrte_main_py_Datei_in_der_Eingabekonsole.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 1:</b> Ausgeführte main.py Datei in der Eingabekonsole.</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 1:</b> Ausgeführte main.py Datei in der Windows-Eingabekonsole.</i></font></figcaption>
 </figure><p>
 
 Hier ist zu sehen, dass die ***main.py*** Datei ausgeführt wurde und auf weitere Eingaben wartet. Damit ist der Start von MANGA geglückt und Sie können ein paar erste Verwendungsbeispiele testen. Dazu können Sie folgenden Code eingeben (siehe Abbildung 2).
 
 	• py main.py -i ProjectLib\ExampleSetups\AllSimple_WithOutput.xml			  [1]
 
-***-i*** beschreibt dabei den Index bzw. den Pfad der Datei, in der der Input definiert ist, der für dieses Beispiel verwendet werden soll.   
+***-i*** beschreibt dabei den Index bzw. den Pfad der Datei, in der der Input definiert ist, der für dieses Beispiel verwendet werden soll. Beachten Sie, dass die Verwendung von Bachslashes im Dateipfad nur für die Windows-Variante gilt. 
 
 <figure>
 <img src="/pictures/Fehlermeldung_beim_Aufuehren_von_py-main.py.jpg">
@@ -54,9 +71,24 @@ Analog dazu können Sie mit den folgenden Codes zwei weitere Beispiel ausprobier
 	• py main.py -i ProjectLib\ExampleSetups\FIXEDSAL_BETTINA.xml 			         [2] 
 	• py main.py -i ProjectLib\ExampleSetups\FON_SAZOI_KIWI.xml			         [3]
 
-Aufgrund von anderen Projekt-Konfigurationen (in ***FIXEDSAL_BETTINA.xml und FON_SAZOI_KIWI.xml***) wird unteranderem im Beispiel zu Code 3 keine visuelle Darstellung ausgegeben (vergleiche <a href="/de/docs/erste_schritte/erste_anwendungen/erste_anwendungen_von_pymanga/#Abbildung_6">Abbildung 6</a> ).    
+Aufgrund von anderen Projekt-Konfigurationen (in ***FIXEDSAL_BETTINA.xml und FON_SAZOI_KIWI.xml***) wird unteranderem im Beispiel zu Code 3 keine visuelle Darstellung ausgegeben (vergleiche <a href="/de/docs/erste_schritte/erste_anwendungen_von_pymanga/#Abbildung_6">Abbildung 6</a> ).    
+
+## Komplexere Beispiel-Setups mit OpenGeoSys
+
 
 Die nächste Anwendung von **pyMANGA** nutzt **OpenGeoSys** (OGS). Dabei handelt es sich um ein wissenschaftliches Open-Source-Projekt zur Entwicklung numerischer Methoden für die Simulation von thermo-hydro-mechanisch-chemischen (THMC) Prozessen in porösen und fragmentierten Medien. Um **OGS** zu nutzen müssen Sie dieses zunächst herunterladen und installieren. Dazu gehen Sie auf die folgende Internetseite [**Link**](https://www.opengeosys.org/releases/ "https://www.opengeosys.org/releases/")  und scrollen bis Sie die **Version** **6.3.0** finden und downloaden diese (siehe Abbildung 7 und 8).
+
+
+<details>
+<summary >Erste Anwendungen in Ubuntu</summary>
+<p>
+Hier finden Sie in kürze eine Beschreibung für Ubuntu. Sehen Sie sich solange gerne den bereits vorhandenen Inhalt zu Windows an.
+</p>
+</details>
+
+<details>
+<summary>Erste Anwendungen in Windows</summary>
+<p>
 
 <figure>
 <a name="Abbildung_7"></a>
@@ -117,3 +149,4 @@ Hier werden **604800** Sekunden angegeben, diese Zahl kann variiert werden. Sie 
 <img src="/pictures/Anpassung_zur_Rechenzeit_Verkuerzung.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 13:</b> Anpassung zur Rechenzeit Verkürzung.</i></font></figcaption>
 </figure><p>
+

@@ -20,15 +20,14 @@ Da das Baumwachstumsmodell und die Kopplung zwischen den beiden Programmen in Py
 Um MANGA (Mangrove groundwater salinity feedback model) ausführen zu können, muss eine Python 3-Distribution installiert sein. Da sich die Systemvoraussetzungen zwischen den verschiedenen Betriebssystemen stark unterscheiden, wird die Installation für jedes Betriebssystem separat beschrieben.
 
 <details>
-<summary background="coral";
-  margin-bottom="1em";>Installation von Python in Ubuntu</summary>
+<summary>Installation von Python in Ubuntu</summary>
 <p>
 
 Ubuntu 18.04 liefert eine erste Installation von (Python 2 und) Python 3 von Haus aus mit. Um zu überprüfen, welche Version sich aktuell auf dem Rechner befindet, kann, nachdem ein neues Terminal-Fenster mit der Tastenkombination **"STRG + Alt + T"** geöffnet wurde, eine Versionsabfrage mit dem Kommando 
 
 	• python3 -V 
 
-erfolgen. Es wird empfohlen das Paket zunächst zu updaten. Um die Version auf den neuesten Stand zu bringen, kann über die Kommandos 
+erfolgen. Es wird empfohlen das Paketverzeichnis des Betriebssystems zunächst zu updaten. Um die Version auf den neuesten Stand zu bringen, kann über die Kommandos 
 
 	• sudo apt update
  
@@ -56,22 +55,25 @@ das Paket (neu)installiert werden.
 <summary>Installation von Python in Windows</summary>
 <p>
 
-Um **MANGA** (Mangrove groundwater salinity feedback model) ausführen zu können, müssen Sie zunächst sich ein **Interpreter** für die Programmiersprache **Python** besorgen. Ein Beispiel wäre **python<sup>T</sup><sup>M</sup>**. Dazu öffnen Sie Ihren **Browser** und gehen Sie auf die Seite ***Python.org***. Im Auswahlmenü unter ***Download*** finden Sie die aktuelle Release Version für ihr Betriebssystem von **Python** (in dieser Anleitung wird das Vorgehen unter Windows beschrieben, siehe Abbildung 1).
+Um **MANGA** (Mangrove groundwater salinity feedback model) ausführen zu können, müssen Sie zunächst sich ein **Interpreter** für die Programmiersprache **Python** besorgen. Ein Beispiel wäre **python<sup>T</sup><sup>M</sup>**. Dazu öffnen Sie Ihren **Browser** und gehen Sie auf die Seite ***Python.org***. Im Auswahlmenü unter ***Download*** finden Sie die aktuelle Release Version für ihr Betriebssystem von **Python** (in dieser Anleitung wird das Vorgehen unter Windows beschrieben, siehe <a href="/de/docs/erste_schritte/installation/#Abbildung_1">Abbildung 1</a>).
 
 <figure>
+<a name="Abbildung_1"></a>
 <img src="/pictures/Auswahl_Menue_zum_Downloaden_der_Windows_Variante_von_pythonTM.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 1:</b> Auswahl Menü zum Downloaden der Windows Variante von python<sup>T</sup><sup>M</sup>.</i></font></figcaption>
 </figure><p>
 
 <figure>
+<a name="Abbildung_2"></a>
 <img src="/pictures/zu_waehlender_Link_für_das_Downloaden_von_python-3_7_7.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 2:</b> zu wählender Link für das Downloaden von python-3.7.7.</i></font></figcaption>
 </figure><p>
 
-Führen Sie die herunter geladene Datei (***python-3.7.7-amd64.exe***) aus, wie eine normale **Windows** **exe** und installieren Sie sie auf Ihren Rechner (siehe Abbildung 3). 
+Führen Sie die herunter geladene Datei (***python-3.7.7-amd64.exe***) aus, wie eine normale **Windows** **exe** und installieren Sie sie auf Ihren Rechner <a href="/de/docs/erste_schritte/installation/#Abbildung_3">Abbildung 3</a>
 
 <figure>
-<img src="/pictures/Ausfuehrung_der_Windows_exe_von_Python_3_7_7.jpg">
+<a name="Abbildung_3"></a>
+<img src="/pictures/Ausfuehrung_der_Windows_exe_von_Python_3_7_7.jpg" alt="Abbildung 3">
 <figcaption><font size = "1"><i><b>Abbildung 3:</b> Ausführung der Windows exe von Python 3.7.7.</i></font></figcaption>
 </figure><p>
 
@@ -81,7 +83,7 @@ Damit ist die Installation von **Python** abgeschlossen.
 </details>
 
 <br>
-Nachdem Sie Python auf Ihrem Rechner eingerichtet haben, wird im nächsten Schritt pyMANGA installiert. 
+Nachdem Sie Python auf Ihrem Rechner eingerichtet haben, wird im nächsten Schritt pyMANGA installiert. Dies können Sie entweder durch Klonen des [git-repositories](https://github.com/jbathmann/pyMANGA/ "https://github.com/jbathmann/pyMANGA/") (Für Fortgeschrittene) oder durch Befolgen der nachfolgenden Anleitung erreichen. 
 </p>
 
 <details>
@@ -93,8 +95,9 @@ Um Manga ausführen zu können, müssen ggf. noch nicht in der Python-Bibliothek
 Um die Software zu downloaden laden Sie sich die aktuelle Version als zip-Datei über diese [Homepage](https://github.com/jbathmann/pyMANGA/ "https://github.com/jbathmann/pyMANGA/") herunter.
 
 <figure>
+<a name="Abbildung_4"></a>
 <img src="/pictures/ubuntu_download.png">
-<figcaption><font size = "1"><i><b>Abbildung 1:</b> Download von pyMANGA als zip-Datei</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 4:</b> Download von pyMANGA als zip-Datei</i></font></figcaption>
 </figure><p>
 
 Diese zip-Datei muss nun an einem beliebigem Speicherort entpackt werden. Achten Sie darauf, dass sich keine Leerzeichen und keine Umlaute in dem Dateifpad befinden.
@@ -102,8 +105,9 @@ Diese zip-Datei muss nun an einem beliebigem Speicherort entpackt werden. Achten
 Das Programm ist jetzt ausführbar. Öffnen Sie mit der Tastenkombination Strg + Alt + T ein Terminalfenster und navigieren Sie in die Hauptebene des Programms. Alternativ können Sie auch den grafischen Weg wählen, indem Sie über Dateien zu dem Speicherort navigieren. Dort können Sie die Konsole über einen Rechtsklick und in dem sich öffnenden Menü über das Feld "In Terminal öffnen" ein Terminalfenster öffnen, indem Sie sich bereits in der Hauptebene des Programms befinden.
 
 <figure>
+<a name="Abbildung_5"></a>
 <img src="/pictures/ubuntu_Hauptebene_pyMANGA.png">
-<figcaption><font size = "1"><i><b>Abbildung 2:</b> Hauptebene von pyMANGA</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 5:</b> Hauptebene von pyMANGA</i></font></figcaption>
 </figure><p>
 
 Durch die Eingabe "python main.py" wird das Programm nun gestartet. Falls pyMANGA aufgrund von fehlenden Modulen in der lokalen Python-Bibliothek - wie zu Anfang erwähnt - noch nicht ausgeführt werden kann, wird jeweils eines der fehlenden Pakete in einer Fehlermeldung ausgegeben. Für die Installation von Python-Modulen eignet sich unter anderem pip ("Pip installs Python"). Durch das öffnen eines Terminalfenster (Tastenkombination Strg + Alt + T) und der Eingabe des Befehls
@@ -129,20 +133,22 @@ Nachdem das fehlende Modul installiert wurde, starten Sie pyMANGA erneut. Sollte
 <summary>Installation von pyMANGA in Windows</summary>
 <p>
 
-Um **MANGA** auszuführen zu können, müssen noch ein paar Module für den **Python** **Compiler** installiert werden. Dazu müssen Sie die **Eingabeaufforderung** öffnen. Diese finden Sie einfach über die Suche, indem Sie der **„Eingabeaufforderung“** eingeben und per **Mausklick** öffnen. Da es sich bei **MANGA** um ein Zeilenprogramm handelt, spielt sich alles in der **Eingabeaufforderung** ab (siehe Abbildung 1). 
+Um **MANGA** auszuführen zu können, müssen noch ein paar Module für den **Python** **Compiler** installiert werden. Dazu müssen Sie die **Eingabeaufforderung** öffnen. Diese finden Sie einfach über die Suche, indem Sie der **„Eingabeaufforderung“** eingeben und per **Mausklick** öffnen. Da es sich bei **MANGA** um ein Zeilenprogramm handelt, spielt sich alles in der **Eingabeaufforderung** ab (siehe <a href="/de/docs/erste_schritte/installation/#Abbildung_6">Abbildung 6</a>). 
 
 <figure>
+<a name="Abbildung_6"></a>
 <img src="/pictures/oeffnen_der_Eingabeaufforderung.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 1:</b> öffnen der Eingabeaufforderung.</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 6:</b> öffnen der Eingabeaufforderung.</i></font></figcaption>
 </figure><p>
 
-Nun müssen die folgenden **Module** ***numpy***, ***vtk***, ***lxml*** und ***matplotlib*** installiert werden. Wir beginnen mit dem **Modul** ***numpy***. Geben Sie den aufgezeigten Code in die **Eingabeaufforderung**, um das **Modul** zu installieren (siehe Abbildung 2). 
+Nun müssen die folgenden **Module** ***numpy***, ***vtk***, ***lxml*** und ***matplotlib*** installiert werden. Wir beginnen mit dem **Modul** ***numpy***. Geben Sie den aufgezeigten Code in die **Eingabeaufforderung**, um das **Modul** zu installieren (siehe <a href="/de/docs/erste_schritte/installation/#Abbildung_7">Abbildung 7</a>). 
 
 	• py -3.7 -m pip install numpy								    [1]
 
 <figure>
+<a name="Abbildung_7"></a>
 <img src="/pictures/Beispielhafte_Installation_des_Moduls_numpy.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 2:</b> Beispielhafte Installation des Moduls numpy.</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 7:</b> Beispielhafte Installation des Moduls numpy.</i></font></figcaption>
 </figure><p>
 
 Führen Sie dies analog für die drei anderen **Module** aus mit dem folgenden Code
@@ -153,25 +159,27 @@ Führen Sie dies analog für die drei anderen **Module** aus mit dem folgenden C
 
 Hinweis: Sollte die **Eingabeaufforderung** eine Wahrung ausgeben, dass ***pip*** nicht aktuell ist, können Sie mit **upgrade** ***pip*** dies aktualisieren. Dies ist aber nicht zwingend erforderlich.
 
-Zur Erklärung was Sie eingegeben haben: ***py*** bedeuten, dass Sie **Python** aufrufen. Dabei ist **-3.7** die Version, die Sie nutzen. Mit ***-m*** wird ein Modul aufgerufen, in diesem Fall ***pip***, welches dazu dient andere **Module** zu installieren. Zum Schluss folgt der **Modul** **Name** vom zu installierendem **Modul**. Nun sind die Vorbereitungen für die Nutzung des **Compilers** abgeschlossen. Als nächsten Schritt müssen Sie, falls es noch nicht geschehen ist, das Programm **MANGA** downloaden. Dazu gehen Sie auf die folgende Internetseite [**Link**](https://github.com/jbathmann/pyMANGA/ "https://github.com/jbathmann/pyMANGA/") und downloaden das Programm als zip Datei und speichern es auf Ihren Rechner (siehe Abbildung 3).
+Zur Erklärung was Sie eingegeben haben: ***py*** bedeuten, dass Sie **Python** aufrufen. Dabei ist **-3.7** die Version, die Sie nutzen. Mit ***-m*** wird ein Modul aufgerufen, in diesem Fall ***pip***, welches dazu dient andere **Module** zu installieren. Zum Schluss folgt der **Modul** **Name** vom zu installierendem **Modul**. Nun sind die Vorbereitungen für die Nutzung des **Compilers** abgeschlossen. Als nächsten Schritt müssen Sie, falls es noch nicht geschehen ist, das Programm **MANGA** downloaden. Dazu gehen Sie auf die folgende [Homepage](https://github.com/jbathmann/pyMANGA/ "https://github.com/jbathmann/pyMANGA/") und downloaden das Programm als zip Datei und speichern es auf Ihren Rechner (siehe <a href="/de/docs/erste_schritte/installation/#Abbildung_8">Abbildung 8</a>).
 
 <figure>
+<a name="Abbildung_8"></a>
 <img src="/pictures/Download_von_pyMANGA.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 3:</b> Download von pyMANGA.</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 8:</b> Download von pyMANGA.</i></font></figcaption>
 </figure><p>
 
-Anschließend entpacken Sie die Datei (***pyMANGA-master.zip***) auf Ihren Desktop. Sie enthält sämtliche Programmbestandteile von **MANGA** unter anderem ***main.py***, welche die Ausführungsdatei darstellt, die zum Ausführen des Programmes aufgerufen werden muss. Dazu muss Sie nun dem **Ordner** öffnen und mit **Rechtsklick** in einem leeren Bereich des **Ordners** die **Eingabeaufforderung** öffnen (siehe Abbildung 4) und den folgenden Code eingeben.
+Anschließend entpacken Sie die Datei (***pyMANGA-master.zip***) auf Ihren Desktop. Sie enthält sämtliche Programmbestandteile von **MANGA** unter anderem ***main.py***, welche die Ausführungsdatei darstellt, die zum Ausführen des Programmes aufgerufen werden muss. Dazu muss Sie nun dem **Ordner** öffnen und mit **Rechtsklick** in einem leeren Bereich des **Ordners** die **Eingabeaufforderung** öffnen (siehe <a href="/de/docs/erste_schritte/installation/#Abbildung_9">Abbildung 9</a>) und den folgenden Code eingeben.
 
 	• py main.py -h										     [5]
 
-Hierbei bedeutet wiederum ***py*** das Python aufgerufen wird, ***main.py*** stellt die Datei dar, die aufgerufen werden soll, und ***-h*** ruft die Hilfe auf.   
+Hierbei bedeutet wiederum ***py*** das Python aufgerufen wird, ***main.py*** stellt die Datei dar, die aufgerufen werden soll, und ***-h*** ruft die Hilfe auf.
 
 <figure>
+<a name="Abbildung_9"></a>
 <img src="/pictures/oeffnen_der_Eingabeaufforderung_im_pyMANGA_Ordner.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 4:</b> öffnen der Eingabeaufforderung im pyMANGA Ordner.</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 9:</b> öffnen der Eingabeaufforderung im pyMANGA Ordner.</i></font></figcaption>
 </figure><p>
 
-Hinweis: Die **Eingabeaufforderung** wird im **Ordner** aufgerufen, damit der ***Ordnerpfad*** nicht jedes Mal mit eingegeben werden muss. Unter Windows 10 ist dies nur möglich, wenn Sie sich ***cmd in Kontextmenü hinzufügen.zip*** von der folgenden Internetseite [**Link**](https://www.giga.de/downloads/windows-10/tipps/windows-10-wieder-die-eingabeaufforderung-im-kontextmenue-anzeigen/ "https://www.giga.de/downloads/windows-10/tipps/windows-10-wieder-die- eingabeaufforderung-im-kontextmenue-anzeigen/")  herunterladen und wie auf der Seite beschrieben ausführen. Alternativ ist es möglich in **Eingabeaufforderung**, die Sie in der Windows Suche mit dem **Suchbegriff** **„Eingabeaufforderung“** finden, zu nutzen und den vollständigen Dateipfad anzugeben, der in diesem Beispiel wie folgt lautet ***C:\Users\...\Desktop\pyMANGA-master***. Um Ihren Dateipfad herauszufinden machen Sie einen **Rechtsklick** auf den **Ordner** ***pyMANGA-master*** und gehen Sie auf **Eigenschaften**. Hier finden sich die Angaben zum Ort des Ordners an den Sie noch mit eine \ den **Namen** des **Ordners** anhängen müssen.
+Hinweis: Die **Eingabeaufforderung** wird im **Ordner** aufgerufen, damit der ***Ordnerpfad*** nicht jedes Mal mit eingegeben werden muss. Unter Windows 10 ist dies nur möglich, wenn Sie sich ***cmd in Kontextmenü hinzufügen.zip*** von der folgenden [Homepage](https://www.giga.de/downloads/windows-10/tipps/windows-10-wieder-die-eingabeaufforderung-im-kontextmenue-anzeigen/ "https://www.giga.de/downloads/windows-10/tipps/windows-10-wieder-die- eingabeaufforderung-im-kontextmenue-anzeigen/")  herunterladen und wie auf der Seite beschrieben ausführen. Alternativ ist es möglich in **Eingabeaufforderung**, die Sie in der Windows Suche mit dem **Suchbegriff** **„Eingabeaufforderung“** finden, zu nutzen und den vollständigen Dateipfad anzugeben, der in diesem Beispiel wie folgt lautet ***C:\Users\...\Desktop\pyMANGA-master***. Um Ihren Dateipfad herauszufinden machen Sie einen **Rechtsklick** auf den **Ordner** ***pyMANGA-master*** und gehen Sie auf **Eigenschaften**. Hier finden sich die Angaben zum Ort des Ordners an den Sie noch mit eine \ den **Namen** des **Ordners** anhängen müssen.
 
 <details>
 <summary>Installation von pyMANGA in MacOS</summary>

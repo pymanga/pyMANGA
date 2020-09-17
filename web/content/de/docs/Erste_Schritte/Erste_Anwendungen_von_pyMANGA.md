@@ -13,7 +13,7 @@ details summary {color: white; background: #00305E; margin-bottom: 1em;}
 </style>
 </head>
 
-Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie, falls noch nicht geschehen, die <a href="/de/docs/erste_schritte/installation">Anleitungen zur Installation und Vorbereitung</a> für ihr entsprechendes Betriebssystem durchgehen. Diese wird vor allem für Anfänger empfohlen, welche wenig Erfahrung mit **Python** und der Eingabekonsole haben. Diese Anleitung ist grundsätzlich für alle drei Betriebsyteme (MacOS, Unbunt, Windows) geeignet. Der nachfolgende Absatz ist basierend auf der Ausführung in Windows beschrieben. Sollten Sie z.B. Ubuntu verwenden beachten Sie bitte die Übertragung von allgemein bekannten Unterschieden (z.B. Verwendung von Backslash, "python" vs. "py", etc.)
+Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie, falls noch nicht geschehen, die <a href="/de/docs/erste_schritte/installation">Anleitungen zur Installation und Vorbereitung</a> für ihr entsprechendes Betriebssystem durchgehen. Diese wird vor allem für Anfänger empfohlen, welche wenig Erfahrung mit **Python** und der Eingabekonsole haben. Diese Anleitung ist grundsätzlich für alle drei Betriebsyteme (MacOS, Unbunt, Windows) geeignet. Der nachfolgende Absatz ist basierend auf der Ausführung in Windows beschrieben. Sollten Sie z.B. Ubuntu verwenden, beachten Sie bitte die Übertragung von allgemein bekannten Unterschieden (z.B. Verwendung von Backslash, "python" vs. "py", etc.)
 
 ## Einfachere Beispiel-Setups ohne OpenGeoSys
 

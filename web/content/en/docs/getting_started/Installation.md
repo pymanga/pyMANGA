@@ -17,7 +17,7 @@ The software pyMANGA represents a coupling between a tree growth and a groundwat
 Since the tree growth model and the coupling between the two programs are written in **Python**, a **Python compiler** is required to run the **pyMANGA** program. During the installation a local library with different **Python modules** is installed on your computer. These modules contain source code that is difficult to formulate or frequently used - so it does not need to be written in the program, but can be easily retrieved from the library. Because the installation differs between operating systems, please select your operating system below.
 
 
-In order to run **MANGA**, some modules for the **Python compiler** must be installed. Da sich die Systemvoraussetzungen zwischen den verschiedenen Betriebssystemen stark unterscheiden, wird die Installation für jedes Betriebssystem separat beschrieben.
+In order to run **MANGA**, some modules for the **Python compiler** must be installed.Since the system requirements differ greatly between the various operating systems, the installation is described separately for each one.
 
 <details>
 <summary>Installation of Python in Ubuntu</summary>

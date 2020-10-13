@@ -7,4 +7,4 @@ menu:
     weight: 2
 description: >
 ---
-Ein praktischer Leitfaden, für erste pyMANGA Anwendungen auf verschiedenen Betriebssystemen.
+

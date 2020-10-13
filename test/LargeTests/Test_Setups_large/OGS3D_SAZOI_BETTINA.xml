@@ -62,7 +62,7 @@
         <type> Simple </type>
         <t_start> 0 </t_start>
         <t_end> 1e9 </t_end>
-        <delta_t> 60*60*24*365.25/2 </delta_t>
+        <delta_t> 15778800 </delta_t>
     </tree_time_loop>
     <visualization>
         <type> NONE </type>

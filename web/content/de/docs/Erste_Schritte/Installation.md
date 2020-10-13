@@ -86,7 +86,7 @@ Nachdem Sie Python auf Ihrem Rechner eingerichtet haben, wird im nächsten Schri
 </p>
 
 <details>
-<summary >Installation von pyMANGA in Ubuntu</summary>
+<summary>Installation von pyMANGA in Ubuntu <a name="Installation_Ubuntu"></a></summary>
 <p>
 
 Um **Manga** ausführen zu können, müssen ggf. noch nicht in der **Python-Bibliothek** vorhandene, aber von **pyMANGA** benötigte Module installiert werden. Da bei **Ubuntu** auch im Betriebssystem **Python** eine wichtige Rolle spielt, ist die bereits vorinstallierte Bibliothek sehr umfangreich. Es wird deshalb empfohlen das Programm zunächst zu installieren und ggf. noch fehlende Module nach erster Ausführung des Programms zu installieren - **pyMANGA** weist sie darauf hin, welche Module benötigt werden.
@@ -109,7 +109,7 @@ Das Programm ist jetzt ausführbar. Öffnen Sie mit der Tastenkombination **Strg
 <figcaption><font size = "1"><i><b>Abbildung 5:</b> Hauptebene von <b>pyMANGA</b></i></font></figcaption>
 </figure><p>
 
-Durch die Eingabe "python main.py" wird das Programm nun gestartet. Falls **pyMANGA** aufgrund von fehlenden Modulen in der lokalen **Python-Bibliothek** - wie zu Anfang erwähnt - noch nicht ausgeführt werden kann, wird jeweils eines der fehlenden Pakete in einer Fehlermeldung ausgegeben. Für die Installation von Python-Modulen eignet sich unter anderem **pip** ("Pip installs Python"). Durch das öffnen eines Terminalfenster (Tastenkombination **Strg + Alt + T**) und der Eingabe des Befehls
+Durch die Eingabe "python3 main.py" wird das Programm nun gestartet. Falls **pyMANGA** aufgrund von fehlenden Modulen in der lokalen **Python-Bibliothek** - wie zu Anfang erwähnt - noch nicht ausgeführt werden kann, wird jeweils eines der fehlenden Pakete in einer Fehlermeldung ausgegeben. Für die Installation von Python-Modulen eignet sich unter anderem **pip** ("Pip installs Python"). Durch das öffnen eines Terminalfenster (Tastenkombination **Strg + Alt + T**) und der Eingabe des Befehls
 
 	• sudo apt-get install python3-pip
 
@@ -119,11 +119,15 @@ Um mit pip nun ein **Python-Modul** in die Bibliothek hinzuzufügen muss folgend
 
 	• pip3 install Name_des_Moduls
 
-Falls pyMANGA bei einer ersten Ausführung das **Python-Modul** "vtk" als fehlend ausgegeben hat, lässt es sich mit folgender Eingabe in die Konsole installieren:
+Sollten keine manuellen Veränderungen an der Standard-Python-Bibliothek vorgenommen worden sein, fehlen die Module "numpy", "vtk", "lxml" und "matplotlib" zur Ausführung von **pyMANGA**. Diese müssen alle der Reihe nach installiert werden, der erste Befehl würde für das Modul "numpy" also folgendermaßen aussehen:
 
-	• pip3 install vtk
+	• pip3 install numpy
 
-Nachdem das fehlende Modul installiert wurde, starten Sie pyMANGA erneut. Sollten jetzt noch weitere **Python-Module** fehlen, wird **pyMANGA** wieder eines davon als fehlende Voraussetzung ausgeben. Diesen Schritt wiederholen Sie so lange, bis alle Python-Module installiert sind. Wenn das der Fall ist, sollte **pyMANGA** einen 13-zeiligen Text ausgeben, von denen die letzte Zeile folgende Fehlermeldung beinhaltet: "Wrong usage of pyMANGA. Type "python main.py -h". Auch wenn Sie zunächst diese Fehlermeldung erhalten bedeutet es, dass **pyMANGA** richtig installiert und ausgeführt werden kann. Die Berechnung eines ersten Beispiel-Setups wird im Abschnitt Erste Anwendungen von **pyMANGA** dieses kurzen Tutorials erklärt.
+Eine Außnahme stellt lediglich das Modul "vtk" dar. Um später Berechnung mit pyMANGA durchführen zu können, bei denen auch die Grundwasserströmung berücksichtigt wird, wird für dieses Modul eine bestimmt Version benötigt. Soll nicht die aktuellste Version eines Moduls mit pip installiert werden, sieht der Befehl hierfür so aus:
+
+	• pip3 install vtk==8.1.2
+
+Nachdem die fehlenden Modul installiert wurden, starten Sie pyMANGA erneut. Sollten jetzt noch weitere **Python-Module** fehlen, wird **pyMANGA** wieder eines davon als fehlende Voraussetzung ausgeben. Diesen Schritt wiederholen Sie so lange, bis alle Python-Module installiert sind. Wenn das der Fall ist, sollte **pyMANGA** einen 13-zeiligen Text ausgeben, von denen die letzte Zeile folgende Fehlermeldung beinhaltet: "Wrong usage of pyMANGA. Type "python main.py -h". Auch wenn Sie zunächst diese Fehlermeldung erhalten bedeutet es, dass **pyMANGA** richtig installiert und ausgeführt werden kann. Die Berechnung eines ersten Beispiel-Setups wird im Abschnitt Erste Anwendungen von **pyMANGA** dieses kurzen Tutorials erklärt.
 
 </p>
 </details>

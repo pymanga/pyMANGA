@@ -12,7 +12,7 @@ details summary {color: white; background: #00305E; margin-bottom: 1em;}
 </style>
 </head>
 
-Die Software **pyMANGA** stellt eine Kopplung zwischen einem Baumwachstums- und einem Grundwassermodellierungsprogramm dar. Für die Modellierung des Pflanzenwachstums findet die Software **Bettina** und für die Modellierung des Grundwassers die Software <a href="https://www.opengeosys.org/">**OpenGeoSys**</a> Anwendung. 
+Die Software **pyMANGA** stellt eine Kopplung zwischen einem Baumwachstums- und einem Grundwassermodellierungsprogramm dar. Für die Modellierung des Pflanzenwachstums findet die Software **Bettina** und für die Modellierung des Grundwassers die Software <a href="https://www.opengeosys.org/" target="_blank">**OpenGeoSys**</a> Anwendung. 
 
 Da das Baumwachstumsmodell und die Kopplung zwischen den beiden Programmen in **Python** geschrieben sind, wird zur Ausführung des Programms **pyMANGA** ein **Python-Compiler** benötigt. Bei der Installation wird eine lokale Bibliothek mit verschiedenen **Python-Modulen** auf Ihrem Rechner installiert. Diese Module beinhalten aufwendig zu formulierenden oder häufig gebrauchten Quellcode - somit muss dieser im Programm nicht ausformuliert geschrieben werden, sondern kann einfach aus der Bibliothek abgerufen werden. Da sich die Installation zwischen den Betriebssystem unterscheidet, wählen Sie nachfolgend Ihr Betriebssystem aus.
 
@@ -123,11 +123,30 @@ Sollten keine manuellen Veränderungen an der Standard-Python-Bibliothek vorgeno
 
 	• pip3 install numpy
 
-Eine Außnahme stellt lediglich das Modul "vtk" dar. Um später Berechnung mit pyMANGA durchführen zu können, bei denen auch die Grundwasserströmung berücksichtigt wird, wird für dieses Modul eine bestimmt Version benötigt. Soll nicht die aktuellste Version eines Moduls mit pip installiert werden, sieht der Befehl hierfür so aus:
+Eine Außnahme stellt lediglich das Modul "vtk" dar. Um später Berechnung mit pyMANGA durchführen zu können, bei denen auch die **Grundwasserströmung** berücksichtigt wird, wird für dieses Modul **eine bestimmte Version** benötigt. Soll nicht die aktuellste Version eines Moduls mit pip installiert werden, sieht der Befehl hierfür so aus:
 
 	• pip3 install vtk==8.1.2
 
-Nachdem die fehlenden Modul installiert wurden, starten Sie pyMANGA erneut. Sollten jetzt noch weitere **Python-Module** fehlen, wird **pyMANGA** wieder eines davon als fehlende Voraussetzung ausgeben. Diesen Schritt wiederholen Sie so lange, bis alle Python-Module installiert sind. Wenn das der Fall ist, sollte **pyMANGA** einen 13-zeiligen Text ausgeben, von denen die letzte Zeile folgende Fehlermeldung beinhaltet: "Wrong usage of pyMANGA. Type "python main.py -h". Auch wenn Sie zunächst diese Fehlermeldung erhalten bedeutet es, dass **pyMANGA** richtig installiert und ausgeführt werden kann. Die Berechnung eines ersten Beispiel-Setups wird im Abschnitt Erste Anwendungen von **pyMANGA** dieses kurzen Tutorials erklärt.
+Nachdem die fehlenden Modul installiert wurden, starten Sie pyMANGA erneut. Sollten jetzt noch weitere **Python-Module** fehlen, wird **pyMANGA** wieder eines davon als fehlende Voraussetzung ausgeben. Diesen Schritt wiederholen Sie so lange, bis alle Python-Module installiert sind. Wenn das der Fall ist, sollte Sie folgende Ausgabe erhalten:
+
+
+	Traceback (most recent call last):
+	  File "main.py", line 26, in main
+	    prj = XMLtoProject(xml_project_file=project_file)
+	UnboundLocalError: local variable 'project_file' referenced before assignment
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "main.py", line 38, in <module>
+	    main(sys.argv[1:])
+	  File "main.py", line 28, in main
+	    raise UnboundLocalError('Wrong usage of pyMANGA. Type "python' +
+	UnboundLocalError: Wrong usage of pyMANGA. Type "python main.py -h" for additional help.
+
+
+
+Auch wenn Sie zunächst diese Fehlermeldung erhalten bedeutet es, dass **pyMANGA** richtig installiert und ausgeführt werden kann. Die Berechnung eines ersten Beispiel-Setups wird im Abschnitt <a href="/de/docs/erste_schritte/erste_anwendungen_von_pymanga/">Erste Anwendungen von **pyMANGA**</a> dieses Tutorials erklärt.
 
 </p>
 </details>

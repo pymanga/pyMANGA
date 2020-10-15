@@ -103,7 +103,7 @@ Die nächste Anwendung von **pyMANGA** nutzt <a href="https://www.opengeosys.org
 <summary >Erste Anwendungen in Ubuntu</summary>
 <p>
 
-Auf dieser <a href="https://github.com/ufz/ogs/releases/tag/6.2.2">Homepage</a> finden Sie am Seitenende mehrere Varianten der OGS-Version 6.2.2. Wählen Sie die Variante **"ogs-6.2.2-Linux-5.3.4-arch1-1-ARCH-x64-python--de-utils"** aus und laden Sie den komprimierten Ordner herunter oder benutzen Sie direkt diesen [Link](https://github.com/ufz/ogs/releases/download/6.2.2/ogs-6.2.2-Linux-5.3.4-arch1-1-ARCH-x64-python-de-utils.tar.gz). Stellen Sie bitte sicher, dass Sie exakt diese Version von OGS downloaden.
+Auf dieser <a href="https://github.com/ufz/ogs/releases/tag/6.2.2">Homepage</a> finden Sie am Seitenende mehrere Varianten der OGS-Version 6.2.2. Wählen Sie die Variante **"ogs-6.2.2-Linux-5.3.4-arch1-1-ARCH-x64-python--de-utils"** aus und laden Sie den komprimierten Ordner herunter oder benutzen Sie direkt diesen [Link](https://github.com/ufz/ogs/releases/download/6.2.2/ogs-6.2.2-Linux-5.3.4-arch1-1-ARCH-x64-python-de-utils.tar.gz). **Stellen Sie bitte sicher, dass Sie exakt diese Version von OGS downloaden.**
 
 Entpacken Sie den Ordner und verschieben Sie die drei in diesem enthaltene Ordner (_bin_, _lib_ und _share_) ausgehend von der pyMANGA-Hauptebene in folgenden Ordner:
 
@@ -117,6 +117,7 @@ Lässt sich OGS korrekt ausführen, erhalten Sie folgende Ausgabe:
 
 
 
+
 	PARSE ERROR:
 	             Required argument missing: project-file
 
@@ -125,7 +126,7 @@ Lässt sich OGS korrekt ausführen, erhalten Sie folgende Ausgabe:
 	          [--config-warnings-nonfatal] [-l <LOG_LEVEL>] [-o <PATH>] [-r
 	          <PATH>] [--] [--version] [-h] <PROJECT_FILE>
 
-Sollte das nicht funktionieren, überprüfen Sie zunächst ob sie das Python-Modul "vtk" in der Version 8.1.2 installiert haben. Lesen Sie hierzu auch den <a href="/de/docs/erste_schritte/installation#Installation_Ubuntu">Abschnitt zur Installation von pyMANGA in Ubuntu</a>. Wenn Sie an dieser Stelle auf unüberwindbare Probleme stoßen kontaktieren Sie uns.
+Sollte das nicht funktionieren, überprüfen Sie zunächst ob sie das Python-Modul "vtk" in der Version 8.1.2 installiert haben. Lesen Sie hierzu auch den <a href="/de/docs/erste_schritte/installation#Installation_Ubuntu">Abschnitt zur Installation von pyMANGA in Ubuntu</a>. Wenn Sie an dieser Stelle auf unüberwindbare Probleme stoßen <a href="/de/impressum">kontaktieren</a> Sie uns.
 
 
 Nun können Sie das nächste Anwendungsbeispiel starten, indem Sie ein Terminal in der **pyMANGA**-Hauptebene öffnen und nachfolgenden Befehl eingeben:

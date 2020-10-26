@@ -9,7 +9,7 @@ description:
 
 Das Modell-Setup kann unter diesem Link gedownloaded werden. Es wird sowohl der Einfluss der Gezeitendynamik als auch der Zusammenhang zwischen Pflanzenwassernutzung und Salzgehalt im Porenwasser berücksichtigt. In der Veröffentlichung DOI XXX wird dieses Setup als full-model bezeichnet.
 
-Im folgenden werden die wichtigsten Dateien des Setups genauer beschrieben. In der Hauptebene des Setups liegen ein Ordner "Input_OGS" und die zwei Dateien Avicennia.py und setup_pymanga.xml. Wie der Name vermuten lässt, befinden sich im Ordner "Input_OGS" die für die Grundwassermodellierung nötigen Modelleingangsdateien. Avicennia.py enthält Einstellungen zur Mangrovenart "Graue Mangrove". Hier können zum Beispiel die Wachstumsgeschwindigkeit, maximale Wachstumshöhe, maximale Lebenszeit und andere individuenspezifische Parameter definiert werden. Die Steuerdatei stellt das Herzstück eines jeden Modellsetups dar. Sie wird aufgerufen, um einen Modelllauf zu starten. Das Dokument README.md dient lediglich zu Informationszwecken und spielt bei der Modellierung mit pyMANGA keine Rolle.
+Im folgenden werden die wichtigsten Dateien des Setups genauer beschrieben. In der Hauptebene des Setups liegen ein Ordner "Input_OGS" und die zwei Dateien Avicennia.py und setup_pymanga.xml. Wie der Name vermuten lässt, befinden sich im Ordner "Input_OGS" die für die Grundwassermodellierung nötigen Modelleingangsdateien. Avicennia.py enthält Einstellungen zur Mangrovenart "Graue Mangrove". Hier können zum Beispiel die Wachstumsgeschwindigkeit, maximale Wachstumshöhe, maximale Lebenszeit und andere individuenspezifische Parameter definiert werden. Die Steuerdatei "Dateiname.xml" stellt das Herzstück eines jeden Modellsetups dar. Sie wird aufgerufen, um einen Modelllauf zu starten. Das Dokument README.md dient lediglich zu Informationszwecken und spielt bei der Modellierung mit pyMANGA keine Rolle.
 
 # Steuerdatei: setup_pymanga.xml
 
@@ -41,7 +41,11 @@ Im letzten Unterpunkt, "python_script", kann eine Python-Datei angegeben werden,
 
 ### tree_growth_and_death
 
-Im dritten und letzten Hauptpunkt des Abschnitts "tree_dynamics" kann das dynamische Konzept des Baumwachstums und -sterbens ausgewählt werden. Hierfür stehen drei zur Verfügung, "SimpleKiwi", "SimpleTest" und "SimpleBettina". Mit dem in diesem Setup verwendeten Konzepts "SimpleKiwi" wird das "Kiwi single tree model" (siehe hierzu mehr in dieser Veröffentlichung=link:https://doi.org/10.1016/S0304-3800(00)00298-2) zur Modellierung der dynamischen Entwicklung des Baumbestands verwendet. Im Quellcode finden sich die drei Konzepte unter "./TreeModelLib/GrowthAndDeathDynamics/".
+Im dritten und letzten Hauptpunkt des Abschnitts "tree_dynamics" kann das dynamische Konzept des Baumwachstums und -sterbens ausgewählt werden. Hierfür stehen drei zur Verfügung, "SimpleKiwi", "SimpleTest" und "SimpleBettina". Mit dem in diesem Setup verwendeten Konzepts "SimpleBettina" wird das "Kiwi single tree model"  zur Modellierung der dynamischen Entwicklung des Baumbestands verwendet. Weitere Informationen finden sich hierzu in dieser <a href="https://doi.org/10.1016/j.ecolmodel.2018.10.005"> Veröffentlichung</a> Im Quellcode finden sich die drei Konzepte unter 
+
+	./TreeModelLib/GrowthAndDeathDynamics/".
+
+
 
 An dieser Stelle ist der Abschnitt "tree_dynamics" zu Ende. 
 
@@ -66,7 +70,7 @@ Zur Verfügung steht für "type" momentan nur "simple". Hierbei sind alle Zeitsc
 
 ## visualization
 
-In diesem Setup ist eine Visualisierung der Modellierung während eines Modelllaufs ausgeschaltet. Für den Punkt "type" wird hierzu "NONE" gewählt. Mit "SimplePypolot" würde die Position und der Kronenradius von Bäumen in Echtzeit mit Hilfe der matplotlib visualisiert werden. Ein Beispiel wie so eine Visualisierung aussehen würde zeigt nachfolgende Abbildung.
+In diesem Setup ist eine Visualisierung der Modellierung während eines Modelllaufs ausgeschaltet. Für den Punkt "type" wird hierzu "NONE" gewählt. Mit "SimplePypolot" würde die Position und der Kronenradius von Bäumen in Echtzeit mit Hilfe der matplotlib visualisiert werden.
 
 ## tree_output
 
@@ -84,24 +88,34 @@ Diese Datei enthält detailierte Informationen zum Tidenhub.
 
 ## complete_boundary.vtu
 
+Zusammenfassung aller Randbedingungen.
+
 ## constant_contributions.npy
 
 ## left_boundary.vtu
+
+Informationen zur Randbedingung am linken Rand des Grundwassermodells.
 
 ## python_script.py
 
 ## quad.vtu
 
+Volumen des Modellraums.
+
 ## right_boundery.vtu
 
-## source_domain.vtu
+Informationen zur Randbedingung am rechten Rand des Grundwassermodells.
 
 ## source_domain.vtu
+
+Räumliche Diskretisierung des Modellgebiets.
 
 ## testbulk.vtu
 
 ## testmodel.prj
 
+Was das xml-File für pyMANGA, ist das prj-File für OGS: die Steuerdatei. Hier können verschiedene Input-Dateien angegeben werden und Parameter definiert werden. Eigenschaften zum Untergrund und des Fluids wie die Porosität oder die Dichte werden zum Beispiel von OGS aus dieser Datei ausgelesen. 
+
 ## top_boundery.vtu
 
-## vtu_collection.pvd
+Informationen zur Randbedingung am oberen Rand des Grundwassermodells.

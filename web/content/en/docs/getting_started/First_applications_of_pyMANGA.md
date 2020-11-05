@@ -13,17 +13,17 @@ details summary {color: white; background: #00305E; margin-bottom: 1em;}
 </style>
 </head>
 
-Before you start with first applications, if you haven't already done so, you should read the <a href="/docs/getting_started/installation">installation and preparation instructions</a> for your operating system. This is especially recommended for beginners who have little experience with **Python** and the input console. These instructions are generally suitable for all three operating systems (MacOS, Unbunt, Windows). The following chapter is described based on the execution in Windows. Note the corresponding changes when using Ubuntu (e.g. no backslashes, "python" instead of "py" in terminal, etc.)
+Before you start with first applications, if you haven't already done so, you should read the <a href="/docs/getting_started/installation">installation and preparation instructions</a> for your operating system. This is especially recommended for beginners who have little experience with **Python** and the input console. These instructions are generally suitable for all three operating systems (MacOS, Unbunt, Windows). The following chapter is described based on the execution in Windows. Note the corresponding changes when using Ubuntu (e.g. using of backslashes etc.)
 
 ## Simple sample setups without OpenGeoSys
 
 First you have to use the console interface again to navigate to the file location of the **pyMANGA** main level. Entering then for **Windows**
 
-	• py main.py -h  			         [1a]
+	• py -3.7 main.py -h  			         [1a]
 
 respectively for **Ubuntu**
 
-	• python main.py -h  			         [1b]
+	• python3 main.py -h  			         [1b]
 
 starts **pyMANGA** and displays all available input options (-h stands for help).
 
@@ -35,7 +35,7 @@ starts **pyMANGA** and displays all available input options (-h stands for help)
 
 Here you can see that the ***main.py*** file has been executed and is waiting for further input. So the start of **pyMANGA** was successful and you can test some first usage examples. You can enter the following code (see <a href="/docs/getting_started/first_applications_of_pymanga/#Figure_2">Figure 2</a>) for **Windows**:
 
-	• py main.py -i test\SmallTests\Test_Setups_small\AllSimple_WithOutput.xml	    		 [2a]
+	• py -3.8 main.py -i test\SmallTests\Test_Setups_small\AllSimple_WithOutput.xml	    		 [2a]
 
 respectively for **Ubuntu**:
 
@@ -90,21 +90,54 @@ Then run code 1 again at the command prompt. Now the program should start the fi
 
 Similarly, you can use the following codes to try out two more examples where other input variants are defined. However, you must first empty the ***testoutputs*** folder or define another folder in the input files using the editor, since the program cannot overwrite the old output data. Then enter the code in the command prompt again. In addition, other parameters were changed again. Use the [website](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html "https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html") to get an overview of the setting variants of the input parameters used in the examples and compare them. 
 
-	• py main.py -i \test\SmallTests\Test_Setups_small\FIXEDSAL_BETTINA.xml   [3] 
-	• py main.py -i \test\SmallTests\Test_Setups_small\FON_SAZOI_KIWI.xml     [4]
+	• py -3.7 main.py -i test\SmallTests\Test_Setups_small\FIXEDSAL_BETTINA.xml   [3] 
+	• py -3.7 main.py -i test\SmallTests\Test_Setups_small\FON_SAZOI_KIWI.xml     [4]
 
 Due to other project configurations (in ***FIXEDSAL_BETTINA.xml and FON_SAZOI_KIWI.xml***) there is no visual representation in the code 3 example (compare <a href="/docs/getting_started/first_applications_of_pymanga/#Figure_4">Figure 6</a>).
 
 ## More complex sample setups with OpenGeoSys
 
 
-The next application of **pyMANGA** uses **OpenGeoSys** (OGS). This is a scientific open source project for the development of numerical methods for the simulation of thermo-hydro-mechanical-chemical (THMC) processes in porous and fragmented media. To use **OGS** you must first download and install it. Since the installation is very different between the operating systems, the following explanation is individually formulated for your operating system.
+The next application of **pyMANGA** uses <a href="https://www.opengeosys.org/">**OpenGeoSys**</a> (OGS). This is a scientific open source project for the development of numerical methods for the simulation of thermo-hydro-mechanical-chemical (THMC) processes in porous and fragmented media. To use **OGS** you must first download and install it. Since the installation is very different between the operating systems, the following explanation is individually formulated for your operating system.
 
 
 <details>
 <summary >First applications of pyMANGA with OGS in Ubuntu</summary>
 <p>
-Here you will soon find a description for Ubuntu. Please feel free to have a look at the already existing content for Windows.
+
+On this <a href="https://github.com/ufz/ogs/releases/tag/6.2.2">homepage</a> you will find several variants of OGS version 6.2.2 at the bottom of the page. Select the variant **"ogs-6.2.2-Linux-5.3.4-arch1-1-ARCH-x64-python--de-utils "** and download the compressed folder or use this [link](https://github.com/ufz/ogs/releases/download/6.2.2/ogs-6.2.2-Linux-5.3.4-arch1-1-ARCH-x64-python-de-utils.tar.gz) directly. **Please make sure that you download exactly this version of OGS.**
+
+Unzip the folder and move the three folders it contains (_bin_, _lib_ and _share_) seen from the pyMANGA main level to the following folder:
+
+	./TreeModelLib/BelowgroundCompetition/OGS
+
+The files must be located directly in this folder. To check if OGS is executable on your computer, open a terminal in the **pyMANGA** main level and enter the following:
+
+	./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs
+
+If OGS runs correctly, you will get the following output:
+
+
+
+
+	PARSE ERROR:
+	             Required argument missing: project-file
+
+	Brief USAGE: 
+	   ./ogs  [--enable-fpe] [--unbuffered-std-out]
+	          [--config-warnings-nonfatal] [-l <LOG_LEVEL>] [-o <PATH>] [-r
+	          <PATH>] [--] [--version] [-h] <PROJECT_FILE>
+
+If this does not work, first check if you have installed the Python module "vtk" in version 8.1.2. Please also read the <a href="/en/docs/first_steps/installation#Installation_Ubuntu">section on installing pyMANGA in Ubuntu</a>. If you encounter insurmountable problems at this point <a href="/en/impressum">contact</a> us.
+
+
+Now you can start the next application example by opening a terminal in the **pyMANGA** main level and entering the following command:
+
+	python3 main.py -i test/LargeTests/Test_Setups_large/OGS3D_SAZOI_BETTINA.xml
+
+
+
+
 </p>
 </details>
 
@@ -155,7 +188,7 @@ Copy the path that appears in the **PowerShell window** and append ***\OGS*** an
 
 Now you can start the next application example by opening the command prompt in the ***pyMANGA-master*** folder and starting pyMANGA as usual. Then enter the following command (see <a href="/docs/getting_started/first_applications_of_pymanga/#Figure_12">Figure 12</a>).
 
-	• py main.py -i \test\LargeTests\Test_Setups_large\OGS3D_SAZOI_BETTINA.xml 				 [6]
+	• py -3.7 main.py -i \test\LargeTests\Test_Setups_large\OGS3D_SAZOI_BETTINA.xml 				 [6]
 
 <figure>
 <a name="Figure_12"></a>
@@ -165,7 +198,7 @@ Now you can start the next application example by opening the command prompt in 
 
 Note: The computing time can take several hours. You can reduce this by opening 
 
-***test\LargeTests\Test_Setups_large\OGS3D_SAZOI_BETTINA.xml*** 
+***.\test\LargeTests\Test_Setups_large\OGS3D_SAZOI_BETTINA.xml*** 
 
 and adding the following line
 

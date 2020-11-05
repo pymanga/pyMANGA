@@ -12,7 +12,7 @@ details summary {color: white; background: #00305E; margin-bottom: 1em;}
 </style>
 </head>
 
-The software pyMANGA represents a coupling between a tree growth and a groundwater modelling program. The software "Bettina" is used for the modeling of plant growth and the software "OpenGeoSys" for the modeling of groundwater.
+The software pyMANGA represents a coupling between a tree growth and a groundwater modelling program. The software "Bettina" is used for the modeling of plant growth and the software <a href="https://www.opengeosys.org/" target="_blank">**OpenGeoSys**</a> for the modeling of groundwater.
 
 Since the tree growth model and the coupling between the two programs are written in **Python**, a **Python compiler** is required to run the **pyMANGA** program. During the installation a local library with different **Python modules** is installed on your computer. These modules contain source code that is difficult to formulate or frequently used - so it does not need to be written in the program, but can be easily retrieved from the library. Because the installation differs between operating systems, please select your operating system below.
 
@@ -84,7 +84,7 @@ After you have set up **Python** on your computer, the next step is to install *
 </p>
 
 <details>
-<summary >Installation of pyMANGA in Ubuntu</summary>
+<summary >Installation of pyMANGA in Ubuntu <a name="Installation_Ubuntu"></a></summary>
 <p>
 
 In order to run **pyMANGA**, you may need to install modules that are not yet in the **Python** library but are required by pyMANGA. Since **Python** also plays an important role in the **Ubuntu** operating system, the pre-installed library is very extensive. Therefore it is recommended to install the program first and to install any missing modules after the first execution of the program - **pyMANGA** will tell you which modules are needed.
@@ -111,7 +111,7 @@ The program is now executable. Open a terminal window with the key combination *
 
 By typing 
 
-	• python main.py
+	• python3 main.py
 
 the program will now be started. If **pyMANGA** cannot yet be executed due to missing modules in the local Python library - as mentioned at the beginning - one of the missing packages is displayed in an error message. For the installation of **Python modules**, **pip** ("Pip installs Python") is suitable. By opening a terminal window (key combination **Ctrl + Alt + T**) and entering the command
 
@@ -123,11 +123,33 @@ To add a **Python module** to the library with **pip** the following command mus
 
 	• pip3 install name_of_the_module
 
-If **pyMANGA** for example showed the **Python module** "vtk" as missing on first execution, it can be installed by typing the following into the console:
+If no manual changes have been made to the standard Python library, the modules "numpy", "vtk", "lxml" and "matplotlib" are missing to run **pyMANGA**. These must all be installed, so the first command would look like this for the module "numpy":
 
-	• pip3 install vtk
+	• pip3 install numpy
 
-After the missing module is installed, restart **pyMANGA**. If any other **Python modules** are missing now, **pyMANGA** will again output one of them as missing prerequisite. Repeat this step until all **Python modules** are installed. If this is the case, **pyMANGA** should output a 13-line text. In the last line is written the following error message: "Wrong usage of pyMANGA. Type "python main.py -h". Even if you get this error message first, it means that **pyMANGA** is installed and is runable correctly. The calculation of a first example setup is explained in the section  <a href="/docs/getting_started/first_applications_of_pymanga/">First Applications of pyMANGA</a> of this short tutorial.
+The only exception is the module "vtk". In order to be able to perform calculations with pyMANGA at a later time, which also take the **groundwater flow** into account, **a certain version** is required for this module. If you do not want to install the latest version of a module with pip, the command looks like this:
+
+	• pip3 install vtk==8.1.2
+
+After the missing module is installed, restart **pyMANGA**. If any other **Python modules** are missing now, **pyMANGA** will again output one of them as missing prerequisite. Repeat this step until all **Python modules** are installed. If this is the case, you should get the following output:
+
+
+	Traceback (most recent call last):
+	  File "main.py", line 26, in main
+	    prj = XMLtoProject(xml_project_file=project_file)
+	UnboundLocalError: local variable 'project_file' referenced before assignment
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "main.py", line 38, in <module>
+	    main(sys.argv[1:])
+	  File "main.py", line 28, in main
+	    raise UnboundLocalError('Wrong usage of pyMANGA. Type "python' +
+	UnboundLocalError: Wrong usage of pyMANGA. Type "python main.py -h" for additional help.
+
+
+Even if you get this error message first, it means that **pyMANGA** is installed and is runable correctly. The calculation of a first example setup is explained in the section  <a href="/docs/getting_started/first_applications_of_pymanga/">First Applications of **pyMANGA**</a> of this short tutorial.
 </p>
 </details>
 

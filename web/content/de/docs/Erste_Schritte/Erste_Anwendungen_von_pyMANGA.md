@@ -13,17 +13,17 @@ details summary {color: white; background: #00305E; margin-bottom: 1em;}
 </style>
 </head>
 
-Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie, falls noch nicht geschehen, die <a href="/de/docs/erste_schritte/installation">Anleitungen zur Installation und Vorbereitung</a> für ihr entsprechendes Betriebssystem durchgehen. Diese wird vor allem für Anfänger empfohlen, welche wenig Erfahrung mit **Python** und der Eingabekonsole haben. Diese Anleitung ist grundsätzlich für alle drei Betriebsyteme (MacOS, Unbunt, Windows) geeignet. Der nachfolgende Absatz ist basierend auf der Ausführung in Windows beschrieben. Sollten Sie z.B. Ubuntu verwenden, beachten Sie bitte die Übertragung von allgemein bekannten Unterschieden (z.B. Verwendung von Backslash, "python" vs. "py", etc.)
+Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie, falls noch nicht geschehen, die <a href="/de/docs/erste_schritte/installation">Anleitungen zur Installation und Vorbereitung</a> für ihr entsprechendes Betriebssystem durchgehen. Diese wird vor allem für Anfänger empfohlen, welche wenig Erfahrung mit **Python** und der Eingabekonsole haben. Diese Anleitung ist grundsätzlich für alle drei Betriebsyteme (MacOS, Unbunt, Windows) geeignet. Der nachfolgende Absatz ist basierend auf der Ausführung in Windows beschrieben. Sollten Sie z.B. Ubuntu verwenden, beachten Sie bitte die Übertragung von allgemein bekannten Unterschieden (z.B. die Verwendung von Backslashes)
 
 ## Einfachere Beispiel-Setups ohne OpenGeoSys
 
 Zunächst muss wieder mit der Konsolenoberfläche zu dem Dateispeicherort der **pyMANGA** Hauptebene navigiert werden. Durch die Eingabe von 
 
-	• py main.py -h  			         [1a]
+	• py -3.7 main.py -h  			         [1a]
 
 für Windows und
 
-	• python main.py -h  			         [1b]
+	• python3 main.py -h  			         [1b]
 
 für Ubuntu wird **pyMANGA** gestartet und alle verfügbaren Eingabeoptionen ausgegeben (-h steht für help).
 
@@ -35,7 +35,7 @@ für Ubuntu wird **pyMANGA** gestartet und alle verfügbaren Eingabeoptionen aus
 
 Hier ist zu sehen, dass die ***main.py*** Datei ausgeführt wurde und auf weitere Eingaben wartet. Damit ist der Start von **MANGA** geglückt und Sie können ein paar erste Verwendungsbeispiele testen. Dazu können Sie folgenden Code eingeben (siehe <a href="/de/docs/erste_schritte/erste_anwendungen_von_pymanga/#Abbildung_2">Abbildung 2</a>).
 
-	• py main.py -i \test\SmallTests\Test_Setups_small\AllSimple_WithOutput.xml			  [2]
+	• py -3.7 main.py -i test\SmallTests\Test_Setups_small\AllSimple_WithOutput.xml			  [2]
 
 ***-i*** beschreibt dabei den Index bzw. den Pfad der Datei, in der der Input definiert ist, der für dieses Beispiel verwendet werden soll. Beachten Sie, dass die Verwendung von Bachslashes im Dateipfad nur für die Windows-Variante gilt. 
 
@@ -88,21 +88,52 @@ Im Anschluss führen Sie den Code 1 erneut in der Eingabeaufforderung aus. Nun s
 Analog dazu können Sie mit den folgenden Codes zwei weitere Beispiele ausprobieren, in dem andere Input-Varianten definiert sind. Dazu müssen Sie aber zunächst den Ordner ***testoutputs*** leeren bzw. einen anderen Ordner in den Input-Dateien mit Hilfe des Editors definieren, da das Programm die alten Output-Daten nicht überschreiben kann. Anschließend geben Sie wieder den Code in die Eingabeaufforderung ein. Des Weiteren wurden wiederum andere Parameter verändern. Verschaffen Sie sich mit Hilfe der [Homepage](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html "https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html") einen Überblick über die Einstellungsvarianten der Input-Parameter, die in den Beispielen verwendet werden und vergleichen Sie sie.
 
 
-	• py main.py -i \test\SmallTests\Test_Setups_small\FIXEDSAL_BETTINA.xml 			 [3] 
-	• py main.py -i \test\SmallTests\Test_Setups_small\FON_SAZOI_KIWI.xml			         [4]
+	• py -3.7 main.py -i test\SmallTests\Test_Setups_small\FIXEDSAL_BETTINA.xml 			 [3] 
+	• py -3.7 main.py -i test\SmallTests\Test_Setups_small\FON_SAZOI_KIWI.xml			 [4]
 
 Aufgrund von anderen Projekt-Konfigurationen (in ***FIXEDSAL_BETTINA.xml und FON_SAZOI_KIWI.xml***) wird unteranderem im Beispiel zu Code 3 keine visuelle Darstellung ausgegeben (vergleiche <a href="/de/docs/erste_schritte/erste_anwendungen_von_pymanga/#Abbildung_6">Abbildung 6</a>).
 
 ## Komplexere Beispiel-Setups mit OpenGeoSys
 
 
-Die nächste Anwendung von **pyMANGA** nutzt **OpenGeoSys** (OGS). Dabei handelt es sich um ein wissenschaftliches Open-Source-Projekt zur Entwicklung numerischer Methoden für die Simulation von thermo-hydro-mechanisch-chemischen (THMC) Prozessen in porösen und fragmentierten Medien. Um **OGS** zu nutzen müssen Sie dieses zunächst herunterladen und installieren. Da die Installation zwischen den Betriebssystemen sehr verschieden ist, ist nachfolgende Erklägung individuell für Ihr Betriebssystem formuliert.
+Die nächste Anwendung von **pyMANGA** nutzt <a href="https://www.opengeosys.org/">**OpenGeoSys**</a> (OGS). Dabei handelt es sich um ein wissenschaftliches Open-Source-Projekt zur Entwicklung numerischer Methoden für die Simulation von thermo-hydro-mechanisch-chemischen (THMC) Prozessen in porösen und fragmentierten Medien. Um **OGS** zu nutzen müssen Sie dieses zunächst herunterladen und installieren. Da die Installation zwischen den Betriebssystemen sehr verschieden ist, ist nachfolgende Erklägung individuell für Ihr Betriebssystem formuliert.
 
 
 <details>
 <summary >Erste Anwendungen in Ubuntu</summary>
 <p>
-Hier finden Sie in kürze eine Beschreibung für Ubuntu. Sehen Sie sich solange gerne den bereits vorhandenen Inhalt zu Windows an.
+
+Auf dieser <a href="https://github.com/ufz/ogs/releases/tag/6.2.2">Homepage</a> finden Sie am Seitenende mehrere Varianten der OGS-Version 6.2.2. Wählen Sie die Variante **"ogs-6.2.2-Linux-5.3.4-arch1-1-ARCH-x64-python--de-utils"** aus und laden Sie den komprimierten Ordner herunter oder benutzen Sie direkt diesen [Link](https://github.com/ufz/ogs/releases/download/6.2.2/ogs-6.2.2-Linux-5.3.4-arch1-1-ARCH-x64-python-de-utils.tar.gz). **Stellen Sie bitte sicher, dass Sie exakt diese Version von OGS downloaden.**
+
+Entpacken Sie den Ordner und verschieben Sie die drei in diesem enthaltene Ordner (_bin_, _lib_ und _share_) ausgehend von der pyMANGA-Hauptebene in folgenden Ordner:
+
+	./TreeModelLib/BelowgroundCompetition/OGS
+
+Die Dateien müssen direkt in diesem Ordner liegen. Um zu überprüfen ob OGS auf Ihrem Rechner ausführbar ist, öffnen Sie ein Terminal in der **pyMANGA**-Hauptebene und geben Sie folgendes ein:
+
+	./TreeModelLib/BelowgroundCompetition/OGS/bin/ogs
+
+Lässt sich OGS korrekt ausführen, erhalten Sie folgende Ausgabe:
+
+
+
+
+	PARSE ERROR:
+	             Required argument missing: project-file
+
+	Brief USAGE: 
+	   ./ogs  [--enable-fpe] [--unbuffered-std-out]
+	          [--config-warnings-nonfatal] [-l <LOG_LEVEL>] [-o <PATH>] [-r
+	          <PATH>] [--] [--version] [-h] <PROJECT_FILE>
+
+Sollte das nicht funktionieren, überprüfen Sie zunächst ob sie das Python-Modul "vtk" in der Version 8.1.2 installiert haben. Lesen Sie hierzu auch den <a href="/de/docs/erste_schritte/installation#Installation_Ubuntu">Abschnitt zur Installation von pyMANGA in Ubuntu</a>. Wenn Sie an dieser Stelle auf unüberwindbare Probleme stoßen <a href="/de/impressum">kontaktieren</a> Sie uns.
+
+
+Nun können Sie das nächste Anwendungsbeispiel starten, indem Sie ein Terminal in der **pyMANGA**-Hauptebene öffnen und nachfolgenden Befehl eingeben:
+
+	python3 main.py -i test/LargeTests/Test_Setups_large/OGS3D_SAZOI_BETTINA.xml 
+
+
 </p>
 </details>
 
@@ -153,7 +184,7 @@ Kopieren Sie den Pfad, der im **PowerShell-Fenster** angezeigt wird, und hängen
 
 Nun können Sie das nächste Anwendungsbeispiel starten, indem Sie wie gehabt die Eingabeaufforderung im ***pyMANGA-master*** Ordner öffnen und pyMANGA starten. Anschließend geben Sie den nachfolgenden Befehl ein (siehe <a href="/de/docs/erste_schritte/erste_anwendungen_von_pymanga/#Abbildung_12">Abbildung 12</a>).
 
-	py main.py -i \test\LargeTests\Test_Setups_large\OGS3D_SAZOI_BETTINA.xml 				 [6]
+	py -3.7 main.py -i test\LargeTests\Test_Setups_large\OGS3D_SAZOI_BETTINA.xml 				 [6]
 
 <figure>
 <a name="Abbildung_12"></a>
@@ -161,7 +192,10 @@ Nun können Sie das nächste Anwendungsbeispiel starten, indem Sie wie gehabt di
 <figcaption><font size = "1"><i><b>Abbildung 12:</b> zeigt die Ausführung des Anwendungsbeispiels mit OGS.</i></font></figcaption>
 </figure><p>
 
-Hinweis: Die Rechenzeit kann mehrere Stunden betragen. Dies können Sie reduzierten, indem Sie in der Datei ***GS3D_SAZOI_BETTINA*** unter folgenden Pfad ***\pyMANGA-master\ProjectLib\ExampleSetups*** öffnen und die folgende Zeile hinzufügen.
+</p>
+</details>
+
+Hinweis: Die Rechenzeit kann mehrere Stunden betragen. Dies können Sie reduzierten, indem Sie in der Datei ***OGS3D_SAZOI_BETTINA*** unter folgenden Pfad ***.\ProjectLib\ExampleSetups*** öffnen und die folgende Zeile ändern:
 
 	<delta_t_ogs> 604800 </delta_t_ogs>							 [7]
 
@@ -170,9 +204,6 @@ Hier werden **604800** Sekunden angegeben, diese Zahl kann variiert werden. Sie 
 <figure>
 <a name="Abbildung_13"></a>
 <img src="/pictures/Anpassung_zur_Rechenzeit_Verkuerzung.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 13:</b> Anpassung zur Rechenzeit Verkürzung.</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 13:</b> Anpassung zur Verkürzung der Rechenzeit.</i></font></figcaption>
 </figure><p>
-
-</p>
-</details>
 

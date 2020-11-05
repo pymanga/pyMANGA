@@ -35,11 +35,11 @@ starts **pyMANGA** and displays all available input options (-h stands for help)
 
 Here you can see that the ***main.py*** file has been executed and is waiting for further input. So the start of **pyMANGA** was successful and you can test some first usage examples. You can enter the following code (see <a href="/docs/getting_started/first_applications_of_pymanga/#Figure_2">Figure 2</a>) for **Windows**:
 
-	• py main.py -i test\SmallTests\Test_Setups_small\AllSimple_WithOutput.xml	    		 [2a]
+	• py main.py -i .\test\SmallTests\Test_Setups_small\AllSimple_WithOutput.xml	    		 [2a]
 
 respectively for **Ubuntu**:
 
-	• python main.py -i test/SmallTests/Test_Setups_small/AllSimple_WithOutput.xml	    		 [2b]
+	• python main.py -i ./test/SmallTests/Test_Setups_small/AllSimple_WithOutput.xml	    		 [2b]
 
 ***-i*** refers to the index or path of the file in which the input to be used for this example is defined. Note that the use of backslashes in the file path only applies to the Windows variant.
 
@@ -90,8 +90,8 @@ Then run code 1 again at the command prompt. Now the program should start the fi
 
 Similarly, you can use the following codes to try out two more examples where other input variants are defined. However, you must first empty the ***testoutputs*** folder or define another folder in the input files using the editor, since the program cannot overwrite the old output data. Then enter the code in the command prompt again. In addition, other parameters were changed again. Use the [website](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html "https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html") to get an overview of the setting variants of the input parameters used in the examples and compare them. 
 
-	• py main.py -i \test\SmallTests\Test_Setups_small\FIXEDSAL_BETTINA.xml   [3] 
-	• py main.py -i \test\SmallTests\Test_Setups_small\FON_SAZOI_KIWI.xml     [4]
+	• py main.py -i .\test\SmallTests\Test_Setups_small\FIXEDSAL_BETTINA.xml   [3] 
+	• py main.py -i .\test\SmallTests\Test_Setups_small\FON_SAZOI_KIWI.xml     [4]
 
 Due to other project configurations (in ***FIXEDSAL_BETTINA.xml and FON_SAZOI_KIWI.xml***) there is no visual representation in the code 3 example (compare <a href="/docs/getting_started/first_applications_of_pymanga/#Figure_4">Figure 6</a>).
 
@@ -155,7 +155,7 @@ Copy the path that appears in the **PowerShell window** and append ***\OGS*** an
 
 Now you can start the next application example by opening the command prompt in the ***pyMANGA-master*** folder and starting pyMANGA as usual. Then enter the following command (see <a href="/docs/getting_started/first_applications_of_pymanga/#Figure_12">Figure 12</a>).
 
-	• py main.py -i \test\LargeTests\Test_Setups_large\OGS3D_SAZOI_BETTINA.xml 				 [6]
+	• py main.py -i .\test\LargeTests\Test_Setups_large\OGS3D_SAZOI_BETTINA.xml 				 [6]
 
 <figure>
 <a name="Figure_12"></a>

@@ -13,6 +13,8 @@ class BelowgroundCompetition(TreeModel):
         case = args.find("type").text
         if case == "SimpleTest":
             self.iniSimpleTest(args)
+        elif case == "SimpleHydro":
+            self.iniSimpleHydro(args)
         elif case == "OGSLargeScale3D":
             self.iniOGSLargeScale3D(args)
         elif case == "OGSWithoutFeedback":
@@ -25,6 +27,10 @@ class BelowgroundCompetition(TreeModel):
             raise KeyError("Required belowground competition case " + case +
                            " not implemented.")
         print(case + " belowground competition successfully initiated.")
+
+    def iniSimpleHydro(self, args):
+        from .SimpleHydro import SimpleHydro
+        self.concept = SimpleHydro(args)
 
     def iniSimpleTest(self, args):
         from .SimpleTest import SimpleTest

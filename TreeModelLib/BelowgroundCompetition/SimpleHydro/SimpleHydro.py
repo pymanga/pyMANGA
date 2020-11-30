@@ -23,53 +23,90 @@ class SimpleHydro(BelowgroundCompetition):
     #  calculated in the subsequent timestep.\n
     #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
-        distance = (((self._my_grid[0][:, :, np.newaxis] -
-                      np.array(self._xe)[np.newaxis, np.newaxis, :])**2 +
-                     (self._my_grid[1][:, :, np.newaxis] -
-                      np.array(self._ye)[np.newaxis, np.newaxis, :])**2)**0.5)
-        my_fon = self.calculateFonFromDistance(np.array(self._r_stem),
-                                               distance)
-        fon_areas = np.zeros_like(my_fon)
-        #Add a one, where tree is larger than 0
-        fon_areas[np.where(my_fon > 0)] += 1
-        #Count all nodes, which are occupied by trees
-        #returns array of shape (ntrees)
-        fon_areas = fon_areas.sum(axis=(0, 1))
-        fon_heigths = my_fon.sum(axis=-1)
-        fon_impacts = fon_heigths[:, :, np.newaxis] - my_fon
-        fon_impacts[np.where(my_fon < self._fmin)] = 0
-        fon_impacts = fon_impacts.sum(axis=(0, 1))
-        resource_limitations = 1 - 2 * fon_impacts / fon_areas
-        resource_limitations[np.where(resource_limitations < 0)] = 0
-        salinity_reductions = (1 / (1 + np.exp(
-            np.array(self._salt_effect_d) *
-            (np.array(self._salt_effect_ui) - self._salinity))))
-        self.belowground_resources = resource_limitations * salinity_reductions
+        self.transpire()
+        self.belowground_resources = ((np.array(self._potential_nosal) +
+                              np.array(self._salinity) * 85000)
+                             /np.array(self._potential_nosal))
+        print(self.belowground_resources)
+        
 
-    ## This function returns the fon height of a tree on the mesh.\n
-    #  @param rst - FON radius\n
-    #  @param distance - array of distances of all mesh points to tree position
-    def calculateFonFromDistance(self, rst, distance):
-        fon_radius = self._aa * rst**self._bb
-        cc = -np.log(self._fmin) / (fon_radius - rst)
-        height = np.exp(-cc[np.newaxis, np.newaxis, :] *
-                        (distance - rst[np.newaxis, np.newaxis, :]))
-        height[height > 1] = 1
-        height[height < self._fmin] = 0
-        return height
+
+    def transpire(self):
+        distance = (np.array(self._r_root)[np.newaxis, np.newaxis, :] - 
+                      ((self._my_grid[0][:, :, np.newaxis] -
+                      np.array(self._xe)[np.newaxis, np.newaxis, :])**2 +
+                      (self._my_grid[1][:, :, np.newaxis] -
+                      np.array(self._ye)[np.newaxis, np.newaxis, :])**2)**0.5)
+        water_loss = (distance - distance)[:,:,0]
+        presence = distance > 0
+        maxe = np.amax(distance,axis=(0,1))
+        self._salinity = []
+        self.transpiration = []
+        for ii in range(distance.shape[2]):
+           closest = distance[:,:,ii] == maxe[ii]
+           presence[:,:,ii] = np.fmax(closest, presence[:,:,ii])
+           self._salinity.append((np.sum( presence[:,:,ii] * self.salinity) /
+                       np.sum(presence[:,:,ii])))
+#           print(self._salinity)
+           self.transpiration.append((-self._potential_nosal[ii] - self._salinity[ii] 
+                       * 85000)/self._resistance[ii]/np.pi * (self._t_end - self._t_ini))
+           water_loss += (self.transpiration[ii] / np.sum(presence[:,:,ii])) * presence[:,:,ii]
+        print(np.sum(self.transpiration))
+# dilution
+        self.salinity += self._sea_salinity*water_loss/self.volume
+        self.salinity += -self.salinity*self._dilution_frac_upper+self._sea_salinity*self._dilution_frac_upper
+         
+# diffusion
+        salinity_new = self.salinity * (1-self._diffusion_frac)
+   # x-dir
+        for ii in range(self.x_resolution):
+            if ii == self.x_resolution-1:
+                salinity_new[:,ii] += self.salinity[:,ii]*self._diffusion_frac/4
+                salinity_new[:,ii-1] += self.salinity[:,ii]*self._diffusion_frac/4
+            elif ii == 0:
+                salinity_new[:,ii+1] += self.salinity[:,ii]*self._diffusion_frac/4
+                salinity_new[:,ii] += self.salinity[:,ii]*self._diffusion_frac/4
+            else:
+                salinity_new[:,ii+1] += self.salinity[:,ii]*self._diffusion_frac/4
+                salinity_new[:,ii-1] += self.salinity[:,ii]*self._diffusion_frac/4
+   # y-dir
+        for ii in range(self.y_resolution):
+            if ii == self.y_resolution-1:
+                salinity_new[ii,:] += self.salinity[ii,:]*self._diffusion_frac/4
+                salinity_new[ii-1,:] += self.salinity[ii,:]*self._diffusion_frac/4
+            elif ii == 0:
+                salinity_new[ii+1,:] += self.salinity[ii,:]*self._diffusion_frac/4
+                salinity_new[ii,:] += self.salinity[ii,:]*self._diffusion_frac/4
+            else:
+                salinity_new[ii+1,:] += self.salinity[ii,:]*self._diffusion_frac/4
+                salinity_new[ii-1,:] += self.salinity[ii,:]*self._diffusion_frac/4
+        self.salinity = salinity_new
+# gradient-flow
+        multi_fac = self.Q_fac * (self._t_end - self._t_ini)       
+#        print(multi_fac) 
+        salinity_new[0,:] = self.salinity[0,:] * (1 - multi_fac)  + self._up_sal * multi_fac 
+        salinity_new[1:self.y_resolution,:] = (self.salinity[1:self.y_resolution,:]
+                              * (1 - multi_fac)  + self.salinity[0:(self.y_resolution-1),:] * multi_fac) 
+        self.salinity=salinity_new
+        print(np.ndarray.round(self.salinity))
+
+
+
 
     ## This function initialises the mesh.\n
     def makeGrid(self, args):
         missing_tags = [
             "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
-            "y_resolution", "aa", "bb", "fmin", "salinity"
+            "y_resolution", "depth", "porosity", "dilution_frac_upper",
+            "dilution_frac_lower", "diffusion_frac",
+            "sea_salinity", "ini_sal", "up_sal", "slope", "k_f"
         ]
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "x_resolution":
-                x_resolution = int(arg.text)
-            if tag == "y_resolution":
-                y_resolution = int(arg.text)
+                self.x_resolution = int(arg.text)
+            elif tag == "y_resolution":
+                self.y_resolution = int(arg.text)
             elif tag == "x_1":
                 x_1 = float(arg.text)
             elif tag == "x_2":
@@ -78,14 +115,26 @@ class SimpleHydro(BelowgroundCompetition):
                 y_1 = float(arg.text)
             elif tag == "y_2":
                 y_2 = float(arg.text)
-            elif tag == "aa":
-                self._aa = float(arg.text)
-            elif tag == "bb":
-                self._bb = float(arg.text)
-            elif tag == "fmin":
-                self._fmin = float(arg.text)
-            elif tag == "salinity":
-                self._salinity = float(arg.text)
+            elif tag == "depth":
+                self._depth = float(arg.text)
+            elif tag == "porosity":
+                self._porosity = float(arg.text)
+            elif tag == "dilution_frac_upper":
+                self._dilution_frac_upper = float(arg.text)
+            elif tag == "dilution_frac_lower":
+                self._dilution_frac_lower = float(arg.text)
+            elif tag == "diffusion_frac":
+                self._diffusion_frac = float(arg.text)
+            elif tag == "sea_salinity":
+                self._sea_salinity = float(arg.text)
+            elif tag == "ini_sal":
+                self._ini_sal = float(arg.text)
+            elif tag == "up_sal":
+                self._up_sal = float(arg.text)
+            elif tag == "slope":
+                self._slope = float(arg.text)
+            elif tag == "k_f":
+                self._k_f = float(arg.text)
             try:
                 missing_tags.remove(tag)
             except ValueError:
@@ -102,18 +151,21 @@ class SimpleHydro(BelowgroundCompetition):
             )
         l_x = x_2 - x_1
         l_y = y_2 - y_1
-        x_step = l_x / x_resolution
-        y_step = l_y / y_resolution
+        x_step = l_x / self.x_resolution
+        y_step = l_y / self.y_resolution
         self._mesh_size = np.maximum(x_step, y_step)
         xe = np.linspace(x_1 + x_step / 2.,
                          x_2 - x_step / 2.,
-                         x_resolution,
+                         self.x_resolution,
                          endpoint=True)
         ye = np.linspace(y_1 + y_step / 2.,
                          y_2 - y_step / 2.,
-                         y_resolution,
+                         self.y_resolution,
                          endpoint=True)
         self._my_grid = np.meshgrid(xe, ye)
+        self.salinity = self._my_grid[0] - self._my_grid[0] + self._ini_sal
+        self.volume = self._depth * x_step * y_step * self._porosity
+        self.Q_fac = self._k_f * self._slope / y_step
 
     ## This functions prepares the competition concept for the competition
     #  concept. In the FON concept, tree's allometric measures are saved
@@ -122,29 +174,57 @@ class SimpleHydro(BelowgroundCompetition):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        self._fon_area = []
-        self._fon_impact = []
-        self._resource_limitation = []
-        self._salinity_reduction = []
-        self._xe = []
-        self._ye = []
-        self._salt_effect_d = []
-        self._salt_effect_ui = []
-        self._r_stem = []
         self._t_ini = t_ini
         self._t_end = t_end
-        self._fon_height = np.zeros_like(self._my_grid[0])
+        self._r_root = []
+        self._r_crown = []
+        self._r_stem = []
+        self._h_stem = []
+        self._xe = []
+        self._ye = []
+        self._resistance = []
+        self._potential_nosal = []
+        print(self._t_ini/3600/24/365)
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
     #  @param: position, geometry, parameter
     def addTree(self, x, y, geometry, parameter):
-        if self._mesh_size > 0.25:
-            print("Error: mesh not fine enough for FON!")
-            print("Please refine mesh to grid size < 0.25m !")
-            exit()
         self._xe.append(x)
         self._ye.append(y)
-        self._salt_effect_d.append(parameter["salt_effect_d"])
-        self._salt_effect_ui.append(parameter["salt_effect_ui"])
+        self._r_root.append(geometry["r_root"])
+        self._r_crown.append(geometry["r_crown"])
         self._r_stem.append(geometry["r_stem"])
+        self._h_stem.append(geometry["h_stem"])
+        root_surface_resistance = self.rootSurfaceResistance(
+            parameter["lp"], parameter["k_geom"], geometry["r_root"],
+            geometry["h_root"])
+        xylem_resistance = self.xylemResistance(geometry["r_crown"],
+                                                geometry["h_stem"],
+                                                geometry["r_root"],
+                                                parameter["kf_sap"],
+                                                geometry["r_stem"])
+        self._resistance.append(root_surface_resistance + xylem_resistance)
+        self._potential_nosal.append((parameter["leaf_water_potential"] 
+                               + (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810))
+    ## This function calculates the root surface resistance.
+    #  @param lp: lp value must exist in tree parameters
+    #  @param k_geom: k_geom value must exist in tree parameters
+    #  @param r_root: r_root value must exist in tree geometry
+    #  @param h_root: h_root value must exist in tree geometry
+    def rootSurfaceResistance(self, lp, k_geom, r_root, h_root):
+        root_surface_resistance = (1 / lp / k_geom / np.pi / r_root**2 /
+                                   h_root)
+        return root_surface_resistance
+
+    ## This function calculates the root surface resistance.
+    #  @param r_crown: r_crown value must exist in tree geometry
+    #  @param h_stem: r_stem value must exist in tree geometry
+    #  @param r_root: r_root value must exist in tree geometry
+    #  @param kf_sap: kf_sap value must exist in tree parameters
+    #  @param r_stem: r_stem value must exist in tree geometry
+    def xylemResistance(self, r_crown, h_stem, r_root, kf_sap, r_stem):
+        flow_length = (2 * r_crown + h_stem + 0.5**0.5 * r_root)
+        xylem_resistance = (flow_length / kf_sap / np.pi / r_stem**2)
+        return xylem_resistance
+

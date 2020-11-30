@@ -29,6 +29,9 @@ class SimpleHydro(BelowgroundCompetition):
                                       np.array(self._potential_nosal))
         print(self.belowground_resources)
 
+    ## This function calculates the water balance of each grid cell.
+    # Transpiration, dilution (tidal flooding), exchange between neighbouring
+    # grid cells and gradient flow is regarded for.
     def transpire(self):
         distance = (np.array(self._r_root)[np.newaxis, np.newaxis, :] -
                     ((self._my_grid[0][:, :, np.newaxis] -

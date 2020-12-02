@@ -7,12 +7,11 @@
 import numpy as np
 from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 
-
 class SimpleHydro(BelowgroundCompetition):
-    ## FON case for belowground competition concept. For details see
-    #  (https://doi.org/10.1016/S0304-3800(00)00298-2). FON returns a list
-    #  of multipliers for each tree for salinity and competition.\n
-    #  @param: Tags to define FON, see tag documentation \n
+    ## Simple approach to reduce water availability due to osmotic potential.
+    #  Processes are gradient flow, salinisation by plant transpiration,
+    #  dilution by tides and horizontal mixing (diffusion).\n
+    #  @param: Tags to define SimpleHydro, see tag documentation \n
     #  @date: 2019 - Today
     def __init__(self, args):
         case = args.find("type").text
@@ -27,7 +26,6 @@ class SimpleHydro(BelowgroundCompetition):
         self.belowground_resources = ((np.array(self._potential_nosal) +
                                        np.array(self._salinity) * 85000) /
                                       np.array(self._potential_nosal))
-        print(self.belowground_resources)
 
     ## This function calculates the water balance of each grid cell.
     # Transpiration, dilution (tidal flooding), exchange between neighbouring
@@ -53,7 +51,6 @@ class SimpleHydro(BelowgroundCompetition):
                 self._resistance[ii] / np.pi * (self._t_end - self._t_ini))
             water_loss += (self.transpiration[ii] /
                            np.sum(presence[:, :, ii])) * presence[:, :, ii]
-        print(np.sum(self.transpiration))
         # dilution
         self.salinity += self._sea_salinity * water_loss / self.volume
         self.salinity += (-self.salinity * self._dilution_frac_upper +
@@ -64,48 +61,38 @@ class SimpleHydro(BelowgroundCompetition):
         # x-dir
         for ii in range(self.x_resolution):
             if ii == self.x_resolution - 1:
-                salinity_new[:,
-                             ii] += self.salinity[:,
-                                                  ii] * self._diffusion_frac / 4
-                salinity_new[:, ii -
-                             1] += self.salinity[:,
-                                                 ii] * self._diffusion_frac / 4
+                salinity_new[:,ii] += (
+                         self.salinity[:,ii] * self._diffusion_frac / 4)
+                salinity_new[:, ii - 1] += (
+                         self.salinity[:,ii] * self._diffusion_frac / 4)
             elif ii == 0:
-                salinity_new[:, ii +
-                             1] += self.salinity[:,
-                                                 ii] * self._diffusion_frac / 4
-                salinity_new[:,
-                             ii] += self.salinity[:,
-                                                  ii] * self._diffusion_frac / 4
+                salinity_new[:, ii + 1] += (
+                         self.salinity[:,ii] * self._diffusion_frac / 4)
+                salinity_new[:, ii] += (
+                         self.salinity[:,ii] * self._diffusion_frac / 4)
             else:
-                salinity_new[:, ii +
-                             1] += self.salinity[:,
-                                                 ii] * self._diffusion_frac / 4
-                salinity_new[:, ii -
-                             1] += self.salinity[:,
-                                                 ii] * self._diffusion_frac / 4
+                salinity_new[:, ii + 1] += (
+                         self.salinity[:,ii] * self._diffusion_frac / 4)
+                salinity_new[:, ii - 1] += (
+                         self.salinity[:,ii] * self._diffusion_frac / 4)
 
         # y-dir
         for ii in range(self.y_resolution):
             if ii == self.y_resolution - 1:
-                salinity_new[
-                    ii, :] += self.salinity[ii, :] * self._diffusion_frac / 4
-                salinity_new[
-                    ii -
-                    1, :] += self.salinity[ii, :] * self._diffusion_frac / 4
+                salinity_new[ii, :] += (
+                         self.salinity[ii, :] * self._diffusion_frac / 4)
+                salinity_new[ii - 1, :] += (
+                         self.salinity[ii, :] * self._diffusion_frac / 4)
             elif ii == 0:
-                salinity_new[
-                    ii +
-                    1, :] += self.salinity[ii, :] * self._diffusion_frac / 4
-                salinity_new[
-                    ii, :] += self.salinity[ii, :] * self._diffusion_frac / 4
+                salinity_new[ii + 1, :] += (
+                         self.salinity[ii, :] * self._diffusion_frac / 4)
+                salinity_new[ii, :] += (
+                         self.salinity[ii, :] * self._diffusion_frac / 4)
             else:
-                salinity_new[
-                    ii +
-                    1, :] += self.salinity[ii, :] * self._diffusion_frac / 4
-                salinity_new[
-                    ii -
-                    1, :] += self.salinity[ii, :] * self._diffusion_frac / 4
+                salinity_new[ii + 1, :] += (
+                         self.salinity[ii, :] * self._diffusion_frac / 4)
+                salinity_new[ii - 1, :] += (
+                         self.salinity[ii, :] * self._diffusion_frac / 4)
         self.salinity = salinity_new
         # gradient-flow
         multi_fac = self.Q_fac * (self._t_end - self._t_ini)
@@ -115,7 +102,6 @@ class SimpleHydro(BelowgroundCompetition):
             self.salinity[1:self.y_resolution, :] * (1 - multi_fac) +
             self.salinity[0:(self.y_resolution - 1), :] * multi_fac)
         self.salinity = salinity_new
-        print(np.ndarray.round(self.salinity))
 
     ## This function initialises the mesh.\n
     def makeGrid(self, args):
@@ -191,10 +177,8 @@ class SimpleHydro(BelowgroundCompetition):
         self.volume = self._depth * x_step * y_step * self._porosity
         self.Q_fac = self._k_f * self._slope / y_step
 
-    ## This functions prepares the competition concept for the competition
-    #  concept. In the FON concept, tree's allometric measures are saved
-    #  in simple lists and the timestepping is updated. A mesh-like array
-    #  is prepared for storing all FON heights of the stand.\n
+    ## This functions prepares the tree variables for the SimpleHydro
+    #  concept.\n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):

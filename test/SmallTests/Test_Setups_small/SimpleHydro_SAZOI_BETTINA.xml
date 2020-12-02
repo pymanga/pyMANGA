@@ -75,7 +75,7 @@
         <delta_t> 432000 </delta_t>
     </tree_time_loop>
     <visualization>
-        <type> SimplePyplot </type>
+        <type> NONE </type>
     </visualization>
     <tree_output>
         <type> NONE </type>

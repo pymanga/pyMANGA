@@ -18,20 +18,21 @@
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
                 <x_2> 6 </x_2>
-                <y_2> 20 </y_2>
+                <y_2> 100 </y_2>
 	        <x_resolution> 3 </x_resolution>
-	        <y_resolution> 10 </y_resolution>
+	        <y_resolution> 50 </y_resolution>
             </domain>
             <depth> 1 </depth>
             <porosity> 0.5 </porosity>
-            <dilution_frac_upper> 0.08 </dilution_frac_upper>
-            <dilution_frac_lower> 0.018 </dilution_frac_lower>
-            <diffusion_frac> 0.2 </diffusion_frac>
+            <dilution_frac_upper> 0.0 </dilution_frac_upper>
+            <dilution_frac_lower> 0.2 </dilution_frac_lower>
+            <diffusion_frac> 0.05 </diffusion_frac>
             <sea_salinity> 35 </sea_salinity>
-            <ini_sal> 35 </ini_sal>
+            <ini_sal> 45 </ini_sal>
             <up_sal> 10 </up_sal>
-            <slope> 0.002 </slope>
+            <slope> 0.005 </slope>
             <k_f> 0.00025 </k_f>
+            <flooding_duration> 7.0, 4.1, 2.0, 1.2, 0.8, 0.6, 0.4, 0.2, 0.0  </flooding_duration>
         </belowground_competition>
         <tree_growth_and_death>
             <type> SimpleBettina </type>
@@ -61,10 +62,10 @@
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 5 </x_2>
+                    <x_2> 6 </x_2>
                     <y_2> 100 </y_2>
                 </domain>
-                <n_individuals> 10 </n_individuals>
+                <n_individuals> 1000 </n_individuals>
             </distribution>
         </group>
     </initial_population>

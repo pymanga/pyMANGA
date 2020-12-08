@@ -39,7 +39,6 @@ class FixedSalinity(BelowgroundCompetition):
             tag = arg.tag
             if tag == "salinity":
                 self._salinity = arg.text.split()
-                print(self._salinity)
                 if len(self._salinity) != 2:
                     raise (
                         KeyError("Two salinity values need to be specified"))

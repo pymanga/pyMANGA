@@ -4,7 +4,7 @@ linkTitle: "Die Steuerdatei"
 weight: 2
 description:
 ---
-Die Steuerdatei eines jeden pyMANGA-Setups wird im xml-Format geschrieben, hier werden alle Einstellungen zur Modellierung vorgenommen. Im Folgenden wird exemplarisch die Steuerdatei des Modellsetups "Full Model" beschrieben. Bei diesem Modell handelt es sich um eine gekoppelte Betrachtung des Grundwasserhaushalts und Pflanzenwachstums. Es wird also sowohl der Einfluss der Gezeitendynamik als auch der Zusammenhang zwischen Pflanzenwassernutzung und Salzgehalt im Porenwasser berücksichtigt. Für mehr Information zu diesem Modell lesen Sie diesen Absatz in der Dokumentation. !!!!!!!!!!!!!Link setzen !!!!!!!!!!!!!!!
+Die Steuerdatei eines jeden pyMANGA-Setups wird im xml-Format geschrieben, hier werden alle Einstellungen zur Modellierung vorgenommen. Im Folgenden wird exemplarisch die Steuerdatei des Modellsetups "Full Model" beschrieben. Bei diesem Modell handelt es sich um eine gekoppelte Betrachtung des Grundwasserhaushalts und Pflanzenwachstums. Es wird also sowohl der Einfluss der Gezeitendynamik als auch der Zusammenhang zwischen Pflanzenwassernutzung und Salzgehalt im Porenwasser berücksichtigt. Für mehr Information zu diesem Modell lesen Sie <a href="/de/docs/beispielmodell_exmouth_gulf/">diesen Abschnitt</a> in der Dokumentation, der das Setup genauer beschreibt.
 
 ## tree_dynamics
 

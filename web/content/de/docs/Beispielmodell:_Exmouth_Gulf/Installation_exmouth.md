@@ -1,7 +1,7 @@
 ---
 title: "Installation des Modellsetups"
 linkTitle: "Installation des Setups"
-weight: 3
+weight: 4
 description:
 ---
 

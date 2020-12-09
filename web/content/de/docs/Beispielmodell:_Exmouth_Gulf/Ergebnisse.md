@@ -1,7 +1,7 @@
 ---
 title: "Das Modell (Arbeitstitel)"
 linkTitle: "Das Modell (Arbeitstitel)"
-weight: 10
+weight: 3
 description:
 ---
 
@@ -26,13 +26,13 @@ description:
 
 # Modellgebiet
 
-Im Modell wird ein Transekt von 185 m Länge und 10 m Breite abgebildet (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_1">Abbildung 1</a>). 
-Zur Evaluierung der Modellergebnisse stehen die Daten aus zwei Untersuchungsgebieten ("Treatment Averages") zur Verfügung. An diesen beiden Stellen wird das Mangrovenwachstum bereits seit Jahrzehnten dokumentiert. Ein Modellgebiet befindet sich auf dem seeseitigen Ende des abgebildeten Transekts, das andere am landseitigen Ende (siehe auch <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2</a>).
+Im Modell wird ein Transekt von 185 m Länge und 10 m Breite abgebildet (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_1">Abbildung 1</a>).
+Zur Evaluierung der Modellergebnisse werden sowohl Allometrydaten aus einer Transektenmessung, als auch Messergebnisse einer Langzeitstudie verwendet. In der Langzeitstudie werden die Auswirkungen von Düngung auf das Wachstum von insgesamt 72 Mangroven, von denen jeweils die Hälfte an der land- und an der seeseitigen Seite des Transekts steht, dokumentiert (siehe auch <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4</a>).
 
 <figure>
 <a name="Abbildung_1"></a>
 <img src="/pictures/exmouth_gulf/Transect_Sketch.png">
-<figcaption><font size = "1"><i><b>Abbildung 1:</b> tba</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 1:</b> Modellgebiet</i></font></figcaption>
 </figure><br>
 
 
@@ -40,7 +40,7 @@ Zur Evaluierung der Modellergebnisse stehen die Daten aus zwei Untersuchungsgebi
 
 ## Modellvarianten
 
-Das Mangrovenwachstum wurde mit Hilfe von drei verschiedenen Modellen simuliert(!!!!!!!simuliert=/modelliert) (siehe auch <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_1">Tabelle 1</a>). 
+Das Mangrovenwachstum wurde mit Hilfe von drei verschiedenen Modellen simuliert (siehe auch <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_1">Tabelle 1</a>). 
 
 Im Modell <b>"Model Without Feedback"</b> werden die dynamischen Veränderungen der abiotischen Einflüsse (Gezeiten, Grundwasserneubildung und Salzgehalt des Meerwassers (!!!!!!nicht dynamisch abgedildet, oder?) über entsprechende Randbedinungen berücksichtigt. Der Einfluss der Pflanzenwasserentnahme auf den Salzgehalts des Porenwassers wurde nicht abgebildet.
 
@@ -48,10 +48,10 @@ Das Modell <b>"Model Without Tide"</b> berücksichtigt die Auswirkungen der Pfla
 
 Die dritte Modellvariante (<b>"Full Model"</b>) bildet schließlich sowohl die Dynamik der Gezeiten als auch die Kopplung der Pflanzenwasserentnahme und des Porenwassers ab.
 
-Nachfolgende Tabelle (!!!!! Verlinkung) fasst die Spezifikationen der drei Modellvarianten zusammen.
+Nachfolgende <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_1">Tabelle 1</a> fasst die Spezifikationen der drei Modellvarianten zusammen.
 
 <figure>
-<figcaption align="top"><font size = "1"><i><b>Tabelle 1:</b> tba</i></font></figcaption>
+<figcaption align="top"><font size = "1"><i><b>Tabelle 1:</b> Modellvarianten</i></font></figcaption>
 <a name="Tabelle_1"></a>
 <table border="1" rules="all" width="100%">
  <tr>
@@ -116,20 +116,20 @@ Nachfolgende Tabelle (!!!!! Verlinkung) fasst die Spezifikationen der drei Model
 
 ### Grundwassermodell
 
-Das Grundwassermodell bildet den Untergrund mit einem Gitter der Ausmaße 10 m x 230 m x 3 m auf fünf FEM-Layern mit 5880 Zellen ab. Nachfolgende Abbildung zeigt die räumliche Diskretisierung aus seeseitiger Perspektive.
+Das Grundwassermodell bildet den Untergrund mit einem Gitter der Ausmaße 10 m x 230 m x 3 m auf fünf FEM-Layern mit 5880 Zellen ab. Nachfolgende <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2</a> zeigt die räumliche Diskretisierung aus seeseitiger Perspektive.
 
 <figure>
-<a name="Abbildung_4"></a>
+<a name="Abbildung_2"></a>
 <img src="/pictures/exmouth_gulf/dis.png">
-<figcaption><font size = "1"><i><b>Abbildung 4:</b> tba</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 2:</b> Räumliche Diskretisierung des Grundwassermodells</i></font></figcaption>
 </figure><p>
 
-Die Mangroven entnehmen dem Untergrund Bodenwasser aus einer Tiefe von 40 cm bis 80 cm unter der Geländeoberkante. Abbildung !!!!Link setzen!!! zeigt das Modellgebiet (Grau) und den Bereich der Wasserentnahme durch die Mangroven (Blau). Zu beachten ist die 50-fache Skalierung in z-Richtung. 
+Die Mangroven entnehmen dem Untergrund Bodenwasser aus einer Tiefe von 40 cm bis 80 cm unter der Geländeoberkante. <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_3">Abbildung 3</a> zeigt das Modellgebiet (Grau) und den Bereich der Wasserentnahme durch die Mangroven (Blau). Zu beachten ist die 50-fache Skalierung in z-Richtung. 
 
 <figure>
-<a name="Abbildung_5"></a>
+<a name="Abbildung_3"></a>
 <img src="/pictures/exmouth_gulf/model_area_legend.png">
-<figcaption><font size = "1"><i><b>Abbildung 4:</b> tba</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 3:</b> Bereich der Wasserentnahme durch Mangroven</i></font></figcaption>
 </figure><p>
 
 Zeitlich diskretisiert wird das Grundwassermodell mit einer Zeitschrittlänge von einer Stunde. Der Tidenhub als dynamische Randbedingung wird mit der Zeitreihe der Jahre 1991 bis 1993, die über die gesamte Modelllaufzeit immer wieder wiederholt wird, abgebildet.
@@ -147,9 +147,13 @@ Da jede Mangrove als einzelnes Individuum abgebildet wird findet eine räumliche
 
 ## Parametrisierung
 
+In den nachfolgenden Tabellen finden sich die Parametrisierungen des Untergrunds (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_2">Tabelle 2</a>) und der Mangroven (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_3">Tabelle 3</a>), globale Gewichtungsfaktoren (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_4">Tabelle 4</a>) sowie die Anfangswerte der Geoemtrieen der Mangrovensetzlinge (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_5">Tabelle 5</a>).
+
 ### Untergrund
 
 <table>
+<tablecaption align="top"><font size = "1"><i><b>Tabelle 2:</b> Parametrisierung des Untergrunds</i></font></tablecaption>
+<a name="Tabelle_2"></a>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Symbol</th>
@@ -252,7 +256,10 @@ Da jede Mangrove als einzelnes Individuum abgebildet wird findet eine räumliche
 
 #### Wasserhaushalt der Mangroven
 
+
 <table>
+<tablecaption align="top"><font size = "1"><i><b>Tabelle 3:</b> Parametrisierung der biotischen Faktoren</i></font></tablecaption>
+<a name="Tabelle_3"></a>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Symbol</th>
@@ -292,6 +299,8 @@ Da jede Mangrove als einzelnes Individuum abgebildet wird findet eine räumliche
 #### Globale Gewichtungsfaktoren
 
 <table>
+<tablecaption align="top"><font size = "1"><i><b>Tabelle 4:</b> Globale Gewichtungsfaktoren</i></font></tablecaption>
+<a name="Tabelle_4"></a>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Symbol</th>
@@ -324,10 +333,11 @@ Da jede Mangrove als einzelnes Individuum abgebildet wird findet eine räumliche
 </tbody>
 </table>
 
-
 #### Anfangswerte der geometrischen Kennwerte für Mangrovensetzlinge
 
 <table>
+<tablecaption align="top"><font size = "1"><i><b>Tabelle 5:</b> Anfangswerte der geometischen Kennwerte der Mangrovensetzlinge</i></font></tablecaption>
+<a name="Tabelle_5"></a>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Symbol</th>
@@ -488,10 +498,11 @@ Um die Mangroven im Modellgebiet abzubilden, bedarf es der Herstellung einer sta
 
 # Ergebnisse
 
-Nachfolgende Abbildung zeigt die dynamische Entwicklung der Mangrovenpopulation im Modellgebiet und die Entwicklung der Biomasse. Gut nachzuvollziehen ist hier bereits in den ersten 100 Zeitschritten die immer stabiler werdende Mangrovenpopulation. Es bilden sich relativ schnell Bereiche über die X-Länge des Transsekts aus, in den große und somit Mangroven die sehr alt werden wachsen, und solche, in denen junge Mangroven schnell wieder sterben.
+Nachfolgende Visualisierung zeigt die dynamische Entwicklung der Mangrovenpopulation im Modellgebiet und die Entwicklung der Biomasse. Gut nachzuvollziehen ist hier bereits in den ersten 100 Zeitschritten die immer stabiler werdende Mangrovenpopulation. Es bilden sich relativ schnell Bereiche über die X-Länge des Transsekts aus, in denen große und somit Mangroven die sehr alt werden wachsen, und solche, in denen junge Mangroven schnell wieder sterben.
 
 
 <figure id="vis">
+<a name="Visualisierung_1"></a>
 <form oninput="x.value=parseInt(a.value)" id="slider" >
 <script type="text/javascript">
  /*<![CDATA[*/
@@ -505,15 +516,16 @@ Nachfolgende Abbildung zeigt die dynamische Entwicklung der Mangrovenpopulation 
 <img src="/pictures/exmouth_gulf/TS/ts_0.png" id="abb">
 </br>
 </br>
-<p align="right">
-<font size = "6">  Zeitschritt:&nbsp;&nbsp;&nbsp;&nbsp; </font>
+<p align="left">
+<font size = "6">&nbsp;  Zeitschritt:&nbsp;&nbsp;&nbsp;&nbsp; </font>
   <input type="range" id="a" min="0" max="1670" value="0"> &nbsp;
 <font size = "6">  <output name="x" for="a">0</output> </font>&nbsp;&nbsp;
 </p>
 </figure>
+<figcaption><font size = "1"><i><b>Visualisierung 1:</b> Dynamische Entwicklung der Mangrovenpopulation über die Modellierungszeit</i></font></figcaption>
+<p>
 
-
-
+<!--
 <p>
 <input type="button" value="click to go fullscreen" onclick="toggleFullScreen()">
 </p>
@@ -542,9 +554,10 @@ function toggleFullScreen() {
 }
 
 </script>
+-->
 
 
-Nachfolgendes Video zeigt die dynamische Entwicklung der Mangrovenpopulation im Modellgebiet und die Entwicklung der Biomasse. Gut nachzuvollziehen ist hier bereits in den ersten 100 Zeitschritten die immer stabiler werdende Mangrovenpopulation. Es bilden sich relativ schnell Bereiche über die X-Länge des Transsekts aus, in den große und somit Mangroven die sehr alt werden wachsen, und solche, in denen junge Mangroven schnell wieder sterben. Mit dem Schieberegler in der unteren rechten Ecke können Sie sich einen beliebigen Zeitschritt visualisieren lassen.
+Nachfolgendes Video zeigt die dynamische Entwicklung der Biomasse im gesamten Modellgebiet und in einzelnen Abschnitten. Gut nachzuvollziehen ist hier die Ausbildung von verschiedenen Zonen unterschiedlicher Wuchshöhe und Individuendichte innerhalb des Mangrovenwalds.
 
 Test mit youtube, SimpleTest:
 
@@ -573,35 +586,33 @@ Test mit Vimeo:
 <br>
 
 
-Die Ergebnisse des "<b>Full Models</b>" stimmen mit den gemessenen Felddaten qualitativ überein (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2</a>). Dies trifft sowohl auf das Baumhöhenprofil (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_1">Abbildung 1 A</a>) als auch auf das Profil des Salzgehalts des Porenwassers (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_1">Abbildung 1 B</a>) an dem untersuchten Transekt zu. Insbesondere die Variation des Porenwassersalzgehalts konnte gut abgebildet werden (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2 A</a>). Ein Vergleich der Ergebnisse des "Full Models" mit den Ergebnissen der beiden Modellvarianten "Model Without Feedback" und "Model Without Tide" zeigt eine deutlich schlechtere Wiedergabe der gemessenen Felddaten durch die beiden einfacheren Modelle (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2 C und 2 D</a>). 
+Die Ergebnisse des "<b>Full Models</b>" stimmen mit den gemessenen Felddaten qualitativ überein (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4</a>). Dies trifft sowohl auf das Baumhöhenprofil (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 A</a>) als auch auf das Profil des Salzgehalts des Porenwassers (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 B</a>) in dem untersuchten Transekt zu. Insbesondere die Variation des Porenwassersalzgehalts konnte gut abgebildet werden (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 A</a>). Ein Vergleich der Ergebnisse des "Full Models" mit den Ergebnissen der beiden Modellvarianten "Model Without Feedback" und "Model Without Tide" zeigt eine deutlich schlechtere Wiedergabe der gemessenen Felddaten durch die beiden einfacheren Modelle (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 C und 4 D</a>). 
 
 <figure>
-<a name="Abbildung_1"></a>
+<a name="Abbildung_4"></a>
 <img src="/pictures/exmouth_gulf/Figure_3.png">
-<figcaption><font size = "1"><i><b>Abbildung 2:</b> tba</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 4:</b> Ergebnisse</i></font></figcaption>
 </figure><p>
 
-Die in der <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_3">Abbildung 3</a> eingezeichneten "Treatment Averages" sind zwei Bereiche, in denen schon seit längerer Zeit die dort wachsenden Mangroven genauer untersucht werden. Ein Vergleich der Ergebnisse dieser Beobachtungen mit den Ergebnissen der Modellierung zeigt ebenfalls eine hohe Übereinstimmung.
+Die in der <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4</a> eingezeichneten "Treatment Averages" sind zwei Bereiche, in denen schon seit längerer Zeit die dort wachsenden Mangroven genauer untersucht werden. Ein Vergleich der Ergebnisse dieser Beobachtungen mit den Ergebnissen der Modellierung zeigt ebenfalls eine hohe Übereinstimmung.
 
 Um die Auswirkungen der Berücksichtung der zeitlichen Dynamik der Gezeiten und der Pflanzenwasserentnahme auf den Salzgehalt im Porenwasser zu untersuchen, wurde diese mit folgender Formel normiert:
 
 <figure>
-<a name="Abbildung_X"></a>
 <div align="center">
 <img src="/pictures/exmouth_gulf/formel.png" width="50%">
 </div>
-<figcaption><font size = "1"><i><b>Abbildung X:</b> tba</i></font></figcaption>
 </figure><p>
 
-Diese relativen Auswirkungen sind in nachfolgender Abbildung für die Baumhöhe und den Porenwassersalzgehalt abgebildet. Ein Wert von Null würde bedeuten, dass sich die Ergebnisse zwischen Full Model und dem jeweiligen vereinfachtem Modelltyp nicht unterscheidet. Je größer der Wert wird, umso höher ist die Abweichung.
+Diese relativen Auswirkungen sind in nachfolgender <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_5">Abbildung 5</a> für die Baumhöhe und den Porenwassersalzgehalt abgebildet. Ein Wert von Null würde bedeuten, dass sich die Ergebnisse zwischen Full Model und dem jeweiligen vereinfachtem Modelltyp nicht unterscheiden. Je größer der Wert wird, umso höher ist die Abweichung.
 
 <figure>
-<a name="Abbildung_3"></a>
+<a name="Abbildung_5"></a>
 <img src="/pictures/exmouth_gulf/Figure_3_2.png">
-<figcaption><font size = "1"><i><b>Abbildung 3:</b> tba</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 5:</b> Relative Auswirkung der Nichtberücksichtigung des Tidenhubs ("Model Wihtout Tide") und der Pflanzenwasserentnahme ("Model Without Feedback")</i></font></figcaption>
 </figure><p>
 
-Aufgrund der größeren Auswirkungen des Tidenhubs im seenahen Bereich kann das Modell "<b>Without Tide</b>" sowohl die Bäumhöhen als auch den Porenwassersalzgehalt hier nur mit reltiv großer Abweichung im Vergleich zum "<b>Full Model</b>" abbilden. Je weiter man sich aber in Richtung Festland bewergt, desto geringer werden die Wasserstandsschwankungen aufgrund der Gezeiten. Die Baumhöhen und Salzgehalte können in diesem Bereich (x>75 m) mit geringeren relativen Abweichungen zum Full Model abgebildet werden.
+Aufgrund der größeren Auswirkungen des Tidenhubs im seenahen Bereich kann das Modell "<b>Without Tide</b>" sowohl die Bäumhöhen als auch den Porenwassersalzgehalt hier nur mit reltiv großer Abweichung im Vergleich zum "<b>Full Model</b>" abbilden. Je weiter man sich aber in Richtung Festland bewergt, desto geringer werden die Wasserstandsschwankungen aufgrund der Gezeiten. Die Baumhöhen und Salzgehalte können in diesem Bereich (x > 75 m) mit geringeren relativen Abweichungen zum Full Model abgebildet werden.
 
 Das Modell "<b>Without Feedback</b>" hat insbesondere im mittleren bis landseitigem Bereich <pre>(60 m < x < 165 m) </pre> des Transsekts Probleme, die Wachstumshöhe der Mangroven so abzubilden, wie es das "<b>Full Model</b>" macht. 
 
@@ -611,4 +622,4 @@ Das Modell "<b>Without Feedback</b>" hat insbesondere im mittleren bis landseiti
 
 Mit Hilfe des "<b>Full Models</b>" konnte die für Mangrovenwälder typische Struktur abgebildet werden. Die gemessenen Felddaten und modellierten Werte liegen innerhalb der Variabilität der Feldbeobachtungen. MANGA ist hierzu auch ohne weitere Kalibrierung der pflanzenspezfischen Parameter in der Lage. Das "<b>Full Model</b>" konnten Bereiche im Modellgebiet erkenntlich gemacht werden, in denen entweder die Gezeiten oder die Vegetation die Struktureigenschaften maßgeblich beeinflusst. 
 
-Aufgrund der Ergebnisse der Modellierung muss davon ausgegangen werden, dass eine korrekte Abbildung des Mangrovenwachstums mit MANGA nur unter Berücksichtigung des Tidenhubs und der Einflüsse der Wasserentnahme der Mangroven aus dem Untergrund möglich ist. Die durch die Pflanzenwasserentnahme verursachten Gradienten der Salzkonzentration im Grundwasser wirken sich signifikant auf die Wachstumsdynamik der Mangrovenpopulation aus. 
+Aufgrund der Ergebnisse der Modellierung muss davon ausgegangen werden, dass eine korrekte Abbildung des Mangrovenwachstums mit MANGA nur unter Berücksichtigung des Tidenhubs und der Einflüsse der Wasserentnahme der Mangroven aus dem Untergrund möglich ist. Die durch die Pflanzenwasserentnahme verursachten Gradienten der Salzkonzentration im Grundwasser wirken sich signifikant auf die Wachstumsdynamik der Mangrovenpopulation aus.

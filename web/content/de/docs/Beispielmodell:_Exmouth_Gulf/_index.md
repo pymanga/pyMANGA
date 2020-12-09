@@ -1,5 +1,5 @@
 ---
-title: "Beispielmodell: Exmouth-Gulf in Australia"
+title: "Beispielmodell: Exmouth-Golf in Australia"
 linkTitle: "Beispielmodell: Exmouth-Golf"
 weight: 3
 description:

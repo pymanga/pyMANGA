@@ -1,19 +1,19 @@
 ---
 title: "Modelsetup Exmouth Golf"
 linkTitle: "Modell-Setup"
-weight: 2
+weight: 3
 description:
 ---
 
 # Beschreibung des Modellsetups
 
-Das Modell-Setup kann unter diesem Link gedownloaded werden. Es wird sowohl der Einfluss der Gezeitendynamik als auch der Zusammenhang zwischen Pflanzenwassernutzung und Salzgehalt im Porenwasser berücksichtigt. In der Veröffentlichung DOI XXX wird dieses Setup als full-model bezeichnet.
+Das Modell-Setup des "Full Models" kann hier !!!!!link setzen!!!! gedownloaded werden. Im folgenden werden die wichtigsten Dateien des Setups genauer beschrieben. Möchten Sie das Setup installieren und einen Modelllauf starten, sehen Sie sich hierzu gerne die <a href="/de/docs/erste_schritte/">allgemeinen Hinweise zur Installation und den ersten Schritten von pyMANGA</a> und die <a href="/de/docs/erste_schritte/">Hinweise zur Installation des "Full Models"</a> an.
 
-Im folgenden werden die wichtigsten Dateien des Setups genauer beschrieben. In der Hauptebene des Setups liegen ein Ordner "Input_OGS" und die zwei Dateien Avicennia.py und setup_pymanga.xml. Wie der Name vermuten lässt, befinden sich im Ordner "Input_OGS" die für die Grundwassermodellierung nötigen Modelleingangsdateien. Avicennia.py enthält Einstellungen zur Mangrovenart "Graue Mangrove". Hier können zum Beispiel die Wachstumsgeschwindigkeit, maximale Wachstumshöhe, maximale Lebenszeit und andere individuenspezifische Parameter definiert werden. Die Steuerdatei "Dateiname.xml" stellt das Herzstück eines jeden Modellsetups dar. Sie wird aufgerufen, um einen Modelllauf zu starten. Das Dokument README.md dient lediglich zu Informationszwecken und spielt bei der Modellierung mit pyMANGA keine Rolle.
+In der Hauptebene des Setups liegen ein Ordner "Input_OGS" und die zwei Dateien Avicennia.py und setup_pymanga.xml. Wie der Name vermuten lässt, befinden sich im Ordner "Input_OGS" die für die Grundwassermodellierung nötigen Modelleingangsdateien. "Avicennia.py" enthält Einstellungen zur Mangrovenart "Graue Mangrove". Hier können zum Beispiel die Wachstumsgeschwindigkeit, maximale Wachstumshöhe, maximale Lebenszeit und andere individuenspezifische Parameter definiert werden. Die Steuerdatei "Dateiname.xml" stellt das Herzstück eines jeden Modellsetups dar. Sie wird aufgerufen, um einen Modelllauf zu starten. Das Dokument README.md dient lediglich Informationszwecken und spielt bei der Modellierung mit pyMANGA keine Rolle.
 
 # Steuerdatei: setup_pymanga.xml
 
-Eine Beschreibung der Steuerdatei dieses Setups finden Sie hier.  !!!!!link setzen!!!!!
+Eine Beschreibung der Steuerdatei dieses Setups finden Sie  <a href="/de/docs/steuerdatei/">hier</a>.
 
 
 # Input_OGS

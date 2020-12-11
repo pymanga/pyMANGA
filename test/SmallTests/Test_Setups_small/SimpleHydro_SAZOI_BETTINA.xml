@@ -3,14 +3,6 @@
     <tree_dynamics>
         <aboveground_competition>
             <type> SimpleTest </type>
-            <domain>
-                <x_1> 0 </x_1>
-                <y_1> 0 </y_1>
-                <x_2> 5 </x_2>
-                <y_2> 5 </y_2>
-	        <x_resolution> 20 </x_resolution>
-	        <y_resolution> 20 </y_resolution>
-            </domain>
         </aboveground_competition>
         <belowground_competition>
             <type> SimpleHydro </type>
@@ -80,12 +72,6 @@
     </visualization>
     <tree_output>
         <type> NONE </type>
-        <output_each_nth_timestep> 1 </output_each_nth_timestep>
-        <output_dir> ./ProjectLib/ExampleSetups/testoutputs/ </output_dir>
-        <geometry_output> r_stem </geometry_output>
-        <geometry_output> h_stem </geometry_output>
-        <geometry_output> r_crown </geometry_output>
-        <geometry_output> r_root </geometry_output>
     </tree_output>
 </MangaProject>
 

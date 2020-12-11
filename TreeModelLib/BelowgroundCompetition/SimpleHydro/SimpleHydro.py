@@ -8,6 +8,7 @@ import numpy as np
 import math
 from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 
+
 class SimpleHydro(BelowgroundCompetition):
     ## Simple approach to reduce water availability due to osmotic potential.
     #  Processes are gradient flow, salinisation by plant transpiration,
@@ -32,8 +33,11 @@ class SimpleHydro(BelowgroundCompetition):
     # Transpiration, dilution (tidal flooding), exchange between neighbouring
     # grid cells and gradient flow is regarded for.
     def transpire(self):
-        tsl=(self._t_end - self._t_ini)
-        s_d=3600*24
+        ## time step length
+        tsl = (self._t_end - self._t_ini)
+        ## seconds per day
+        s_d = 3600 * 24
+        ##calculate water uptake from grid cells
         distance = (np.array(self._r_root)[np.newaxis, np.newaxis, :] -
                     ((self._my_grid[0][:, :, np.newaxis] -
                       np.array(self._xe)[np.newaxis, np.newaxis, :])**2 +
@@ -54,50 +58,59 @@ class SimpleHydro(BelowgroundCompetition):
                 self._resistance[ii] / np.pi * tsl)
             water_loss += (self.transpiration[ii] /
                            np.sum(presence[:, :, ii])) * presence[:, :, ii]
+        ## refill
         self.salinity += self._sea_salinity * water_loss / self.volume
-        # dilution
-        self.salinity += (-self.salinity * self.dilution_frac * tsl/s_d +
-                          self._sea_salinity * self.dilution_frac * tsl/s_d)
-        # diffusion
-        salinity_new = self.salinity * (1 - self._diffusion_frac * tsl/s_d)
-        # x-dir
+        ## dilution
+        self.salinity += (-self.salinity * self.dilution_frac * tsl / s_d +
+                          self._sea_salinity * self.dilution_frac * tsl / s_d)
+        ## diffusion
+        salinity_new = self.salinity * (1 - self._diffusion_frac * tsl / s_d)
+        # diff in x-dir
         for ii in range(self.x_resolution):
             if ii == self.x_resolution - 1:
-                salinity_new[:,ii] += (
-                         self.salinity[:,ii] * self._diffusion_frac * tsl/s_d / 4)
-                salinity_new[:, ii - 1] += (
-                         self.salinity[:,ii] * self._diffusion_frac * tsl/s_d / 4)
+                salinity_new[:, ii] += (self.salinity[:, ii] *
+                                        self._diffusion_frac * tsl / s_d / 4)
+                salinity_new[:, ii -
+                             1] += (self.salinity[:, ii] *
+                                    self._diffusion_frac * tsl / s_d / 4)
             elif ii == 0:
-                salinity_new[:, ii + 1] += (
-                         self.salinity[:,ii] * self._diffusion_frac * tsl/s_d / 4)
-                salinity_new[:, ii] += (
-                         self.salinity[:,ii] * self._diffusion_frac * tsl/s_d / 4)
+                salinity_new[:, ii +
+                             1] += (self.salinity[:, ii] *
+                                    self._diffusion_frac * tsl / s_d / 4)
+                salinity_new[:, ii] += (self.salinity[:, ii] *
+                                        self._diffusion_frac * tsl / s_d / 4)
             else:
-                salinity_new[:, ii + 1] += (
-                         self.salinity[:,ii] * self._diffusion_frac * tsl/s_d / 4)
-                salinity_new[:, ii - 1] += (
-                         self.salinity[:,ii] * self._diffusion_frac * tsl/s_d / 4)
+                salinity_new[:, ii +
+                             1] += (self.salinity[:, ii] *
+                                    self._diffusion_frac * tsl / s_d / 4)
+                salinity_new[:, ii -
+                             1] += (self.salinity[:, ii] *
+                                    self._diffusion_frac * tsl / s_d / 4)
 
-        # y-dir
+        # diff in y-dir
         for ii in range(self.y_resolution):
             if ii == self.y_resolution - 1:
-                salinity_new[ii, :] += (
-                         self.salinity[ii, :] * self._diffusion_frac * tsl/s_d / 4)
-                salinity_new[ii - 1, :] += (
-                         self.salinity[ii, :] * self._diffusion_frac * tsl/s_d / 4)
+                salinity_new[ii, :] += (self.salinity[ii, :] *
+                                        self._diffusion_frac * tsl / s_d / 4)
+                salinity_new[ii -
+                             1, :] += (self.salinity[ii, :] *
+                                       self._diffusion_frac * tsl / s_d / 4)
             elif ii == 0:
-                salinity_new[ii + 1, :] += (
-                         self.salinity[ii, :] * self._diffusion_frac * tsl/s_d / 4)
-                salinity_new[ii, :] += (
-                         self.salinity[ii, :] * self._diffusion_frac * tsl/s_d / 4)
+                salinity_new[ii +
+                             1, :] += (self.salinity[ii, :] *
+                                       self._diffusion_frac * tsl / s_d / 4)
+                salinity_new[ii, :] += (self.salinity[ii, :] *
+                                        self._diffusion_frac * tsl / s_d / 4)
             else:
-                salinity_new[ii + 1, :] += (
-                         self.salinity[ii, :] * self._diffusion_frac * tsl/s_d / 4)
-                salinity_new[ii - 1, :] += (
-                         self.salinity[ii, :] * self._diffusion_frac * tsl/s_d / 4)
+                salinity_new[ii +
+                             1, :] += (self.salinity[ii, :] *
+                                       self._diffusion_frac * tsl / s_d / 4)
+                salinity_new[ii -
+                             1, :] += (self.salinity[ii, :] *
+                                       self._diffusion_frac * tsl / s_d / 4)
         self.salinity = salinity_new
-        # gradient-flow
-        multi_fac = self.Q_fac * tsl
+        ## gradient-flow
+        multi_fac = self.q_fac * tsl
         salinity_new[0, :] = self.salinity[0, :] * (
             1 - multi_fac) + self._up_sal * multi_fac
         salinity_new[1:self.y_resolution, :] = (
@@ -151,7 +164,6 @@ class SimpleHydro(BelowgroundCompetition):
             elif tag == "flooding_duration":
                 from ast import literal_eval
                 self._flooding_duration = np.array(literal_eval(arg.text))
-               
             try:
                 missing_tags.remove(tag)
             except ValueError:
@@ -182,19 +194,21 @@ class SimpleHydro(BelowgroundCompetition):
         self._my_grid = np.meshgrid(xe, ye)
         self.salinity = self._my_grid[0] - self._my_grid[0] + self._ini_sal
         self.volume = self._depth * x_step * y_step * self._porosity
-        self.Q_fac = self._k_f * self._slope / y_step
-        inds = np.arange((self._flooding_duration.shape[0]-1)*(self.y_resolution-1),0,
-                 -(self._flooding_duration.shape[0]-1))/(self.y_resolution-1)
+        self.q_fac = self._k_f * self._slope / y_step
+        inds = np.arange(
+            (self._flooding_duration.shape[0] - 1) *
+            (self.y_resolution - 1), 0,
+            -(self._flooding_duration.shape[0] - 1)) / (self.y_resolution - 1)
         inds = np.append(inds, 0)
         inds_int = np.trunc(inds).astype(int)
         inds_frac = inds - inds_int
-        raw_flodur=np.append(self._flooding_duration,0)
-        flodur = (raw_flodur[inds_int] + inds_frac * 
-                (raw_flodur[inds_int + 1] - raw_flodur[inds_int]))/24
-        dilu_vec = (_dilution_frac_upper + (- _dilution_frac_upper
-                 + _dilution_frac_lower)*flodur)
-        self.dilution_frac=(np.repeat(np.array([dilu_vec]),3,axis=0)).transpose()
-
+        raw_flodur = np.append(self._flooding_duration, 0)
+        flodur = (raw_flodur[inds_int] + inds_frac *
+                  (raw_flodur[inds_int + 1] - raw_flodur[inds_int])) / 24
+        dilu_vec = (_dilution_frac_upper +
+                    (-_dilution_frac_upper + _dilution_frac_lower) * flodur)
+        self.dilution_frac = (np.repeat(np.array([dilu_vec]), 3,
+                                        axis=0)).transpose()
 
     ## This functions prepares the tree variables for the SimpleHydro
     #  concept.\n

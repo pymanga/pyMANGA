@@ -9,13 +9,14 @@ import importlib.util
 
 
 class Tree:
-    def __init__(self, x, y, species, tree_id, initial_geometry=False):
+    def __init__(self, x, y, species, tree_id, initial_geometry=False, group_name=""):
         self.tree_id = tree_id
         self.species = species
         self.trees = []
         self.x = x
         self.y = y
         self.survival = 1
+        self.group_name = group_name
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createTree()

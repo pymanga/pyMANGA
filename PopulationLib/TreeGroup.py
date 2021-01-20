@@ -26,7 +26,7 @@ class TreeGroup:
     def addTree(self, x, y, initial_geometry=False):
         self.max_id += 1
         self.trees.append(
-            PLib.Tree(x, y, self.species, self.max_id, initial_geometry))
+            PLib.Tree(x, y, self.species, self.max_id, initial_geometry, group_name=self.name))
 
     def getTrees(self):
         return self.trees

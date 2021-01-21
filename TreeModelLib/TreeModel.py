@@ -13,9 +13,9 @@ class TreeModel:
         except AttributeError:
             self.raiseAttributeError("prepareNextTimeStep")
 
-    def addTree(self, x, y, geometry, parameter):
+    def addTree(self, tree):
         try:
-            self.concept.addTree(x, y, geometry, parameter)
+            self.concept.addTree(tree)
         except AttributeError:
             self.raiseAttributeError("addTree")
 

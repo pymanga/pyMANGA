@@ -153,7 +153,11 @@ class OGSLargeScale3D(BelowgroundCompetition):
     #  @param y: y-coordinate of tree
     #  @param geometry: geometric properties of tree
     #  @param parameter: dict containing tree parameters
-    def addTree(self, x, y, geometry, parameter):
+    def addTree(self, tree):
+        x, y = tree.getPosition()
+        geometry = tree.getGeometry()
+        parameter = tree.getParameter()
+
         affected_cells = self._cell_information.getCellIDsAtXY(x, y)
         v = 0
         self._tree_cell_ids.append(affected_cells)

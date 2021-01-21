@@ -67,7 +67,10 @@ class FixedSalinity(BelowgroundCompetition):
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
     #  @param: position, geometry, parameter
-    def addTree(self, x, y, geometry, parameter):
+    def addTree(self, tree):
+        x, y = tree.getPosition()
+        geometry = tree.getGeometry()
+        parameter = tree.getParameter()
         self._xe.append(x)
         self._h_stem.append(geometry["h_stem"])
         self._r_crown.append(geometry["r_crown"])

@@ -41,7 +41,7 @@ class SimpleTest(AbovegroundCompetition):
         #  Here, in the SimpleTest case, each tree is represented by a one. In
         #  general, an object containing all necessary information should be
         #  stored for each tree
-        #  @param: position, geometry, parameter
+        #  @param: tree
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
         parameter = tree.getParameter()

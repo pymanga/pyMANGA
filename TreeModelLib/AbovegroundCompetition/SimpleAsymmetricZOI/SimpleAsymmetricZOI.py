@@ -138,7 +138,7 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their current implementation for the next timestep.
-    #  @param position, geometry, parameter
+    #  @param tree
     def addTree(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()

@@ -229,7 +229,7 @@ class SimpleHydro(BelowgroundCompetition):
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
-    #  @param: position, geometry, parameter
+    #  @param: tree
     def addTree(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()

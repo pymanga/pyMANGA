@@ -149,11 +149,12 @@ class OGSLargeScale3D(BelowgroundCompetition):
     #  Here, in the OGS case, each tree is represented by a contribution to
     #  python source terms in OGS. To this end, their constant and salinity
     #  dependent resource uptake is saved in numpy arrays.
-    #  @param x: x-coordinate of tree
-    #  @param y: y-coordinate of tree
-    #  @param geometry: geometric properties of tree
-    #  @param parameter: dict containing tree parameters
-    def addTree(self, x, y, geometry, parameter):
+    #  @param tree
+    def addTree(self, tree):
+        x, y = tree.getPosition()
+        geometry = tree.getGeometry()
+        parameter = tree.getParameter()
+
         affected_cells = self._cell_information.getCellIDsAtXY(x, y)
         v = 0
         self._tree_cell_ids.append(affected_cells)

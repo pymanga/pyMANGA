@@ -137,12 +137,15 @@ class FON(BelowgroundCompetition):
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
-    #  @param: position, geometry, parameter
-    def addTree(self, x, y, geometry, parameter):
+    #  @param: tree
+    def addTree(self, tree):
         if self._mesh_size > 0.25:
             print("Error: mesh not fine enough for FON!")
             print("Please refine mesh to grid size < 0.25m !")
             exit()
+        x, y = tree.getPosition()
+        geometry = tree.getGeometry()
+        parameter = tree.getParameter()
         self._xe.append(x)
         self._ye.append(y)
         self._salt_effect_d.append(parameter["salt_effect_d"])

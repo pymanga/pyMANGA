@@ -25,11 +25,9 @@ class TreeDynamicTimeStepping:
         self.tree_output.writeOutput(tree_groups, t_start)
         for group_name, tree_group in tree_groups.items():
             for tree in tree_group.getTrees():
-                x, y = tree.getPosition()
-                geometry = tree.getGeometry()
-                parameter = tree.getParameter()
-                self.aboveground_competition.addTree(x, y, geometry, parameter)
-                self.belowground_competition.addTree(x, y, geometry, parameter)
+
+                self.aboveground_competition.addTree(tree)
+                self.belowground_competition.addTree(tree)
 
         self.aboveground_competition.calculateAbovegroundResources()
         self.belowground_competition.calculateBelowgroundResources()

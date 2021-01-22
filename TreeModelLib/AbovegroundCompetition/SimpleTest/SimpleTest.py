@@ -35,11 +35,15 @@ class SimpleTest(AbovegroundCompetition):
         self.t_ini = t_ini
         self.t_end = t_end
 
-    def addTree(self, x, y, geometry, parameter):
+    def addTree(self, tree):
         ## Before being able to calculate the resources, all tree enteties need
         #  to be added with their current implementation for the next timestep.
         #  Here, in the SimpleTest case, each tree is represented by a one. In
         #  general, an object containing all necessary information should be
         #  stored for each tree
-        #  @param: position, geometry, parameter
+        #  @param: tree
+        x, y = tree.getPosition()
+        geometry = tree.getGeometry()
+        parameter = tree.getParameter()
+
         self.trees.append(1)

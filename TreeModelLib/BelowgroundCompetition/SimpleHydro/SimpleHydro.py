@@ -117,7 +117,6 @@ class SimpleHydro(BelowgroundCompetition):
             self.salinity[1:self.y_resolution, :] * (1 - multi_fac) +
             self.salinity[0:(self.y_resolution - 1), :] * multi_fac)
         self.salinity = salinity_new
-        print(self.salinity)
 
     ## This function initialises the mesh.\n
     def makeGrid(self, args):
@@ -225,12 +224,15 @@ class SimpleHydro(BelowgroundCompetition):
         self._ye = []
         self._resistance = []
         self._potential_nosal = []
-        print(self._t_ini / 3600 / 24 / 365)
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
-    #  @param: position, geometry, parameter
-    def addTree(self, x, y, geometry, parameter):
+    #  @param: tree
+    def addTree(self, tree):
+        x, y = tree.getPosition()
+        geometry = tree.getGeometry()
+        parameter = tree.getParameter()
+
         self._xe.append(x)
         self._ye.append(y)
         self._r_root.append(geometry["r_root"])

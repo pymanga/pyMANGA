@@ -33,6 +33,7 @@ class OneTimestepOneFile(TreeOutput):
         self.parameter_outputs = []
         ## Parameters included in output
         self.growth_outputs = []
+        self.network_outputs = []
         ## Counter for output generation
         self._output_counter = 0
         for key in args.iterchildren("geometry_output"):
@@ -41,6 +42,8 @@ class OneTimestepOneFile(TreeOutput):
             self.parameter_outputs.append(key.text.strip())
         for key in args.iterchildren("growth_output"):
             self.growth_outputs.append(key.text.strip())
+        for key in args.iterchildren("network_output"):
+            self.network_outputs.append(key.text.strip())
         try:
             dir_files = len(os.listdir(self.output_dir))
         except FileNotFoundError:
@@ -65,6 +68,7 @@ class OneTimestepOneFile(TreeOutput):
     def writeOutput(self, tree_groups, time):
         self._output_counter = (self._output_counter %
                                 self.output_each_nth_timestep)
+
         if self._output_counter == 0:
             delimiter = "\t"
             filename = ("Population_t_%012.1f" % (time) + ".csv")
@@ -77,6 +81,8 @@ class OneTimestepOneFile(TreeOutput):
                 string += delimiter + parameter_output
             for growth_output in self.growth_outputs:
                 string += delimiter + growth_output
+            for network_output in self.network_outputs:
+                string += delimiter + network_output
             string += "\n"
             file.write(string)
             for group_name, tree_group in tree_groups.items():
@@ -105,6 +111,12 @@ class OneTimestepOneFile(TreeOutput):
                                     " not available in growth concept!" +
                                     " Please read growth concept documentation."
                                 )
+                    if (len(self.network_outputs) > 0):
+                        rgf = tree.getRGF()
+                        partner = tree.getPartner()
+                        potential_partner = tree.getPotentialPartner()
+                        string += delimiter + str(rgf) + delimiter + str(partner) + delimiter + str(potential_partner)
+
                     string += "\n"
                     file.write(string)
             file.close()

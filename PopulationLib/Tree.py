@@ -16,6 +16,9 @@ class Tree:
         self.x = x
         self.y = y
         self.survival = 1
+        self.rgf = -1
+        self.potential_partner = []
+        self.partner = []
         self.group_name = group_name
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
@@ -68,3 +71,21 @@ class Tree:
 
     def getId(self):
         return self.tree_id
+
+    def getRGF(self):
+        return self.rgf
+
+    def setRGF(self, rgf):
+        self.rgf = rgf
+
+    def getPotentialPartner(self):
+        return self.potential_partner
+
+    def setPotentialPartner(self, potential_partner):
+        self.potential_partner = potential_partner
+
+    def getPartner(self):
+        return self.partner
+
+    def setPartner(self, partner):
+        self.partner = partner

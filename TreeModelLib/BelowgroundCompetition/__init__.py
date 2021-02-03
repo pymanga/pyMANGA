@@ -13,3 +13,4 @@ from .OGSWithoutFeedback import OGSWithoutFeedback
 from .OGSLargeScale3D import OGSLargeScale3D
 from .OGS.helpers import CellInformation
 from .FixedSalinity import FixedSalinity
+from .Network import Network

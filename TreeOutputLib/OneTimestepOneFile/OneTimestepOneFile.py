@@ -59,38 +59,39 @@ class OneTimestepOneFile(TreeOutput):
     def writeOutput(self, tree_groups, time):
         self._output_counter = (self._output_counter %
                                 self.output_each_nth_timestep)
-        filename = ("Population_t_%012.1f" % (time) + ".csv")
-        file = open(self.output_dir + filename, "w")
-        string = ""
-        string += "tree,\t time,\t x,\t y"
-        for geometry_output in self.geometry_outputs:
-            string += ",\t" + geometry_output
-        for parameter_output in self.parameter_outputs:
-            string += ",\t" + parameter_output
-        for growth_output in self.growth_outputs:
-            string += ",\t" + growth_output
-        string += "\n"
-        file.write(string)
         if self._output_counter == 0:
+            delimiter = "\t"
+            filename = ("Population_t_%012.1f" % (time) + ".csv")
+            file = open(self.output_dir + filename, "w")
+            string = ""
+            string += 'tree' + delimiter + 'time' + delimiter + 'x' + delimiter + 'y'
+            for geometry_output in self.geometry_outputs:
+                string += delimiter + geometry_output
+            for parameter_output in self.parameter_outputs:
+                string += delimiter + parameter_output
+            for growth_output in self.growth_outputs:
+                string += delimiter + growth_output
+            string += "\n"
+            file.write(string)
             for group_name, tree_group in tree_groups.items():
                 for tree in tree_group.getTrees():
                     growth_information = tree.getGrowthConceptInformation()
                     string = ""
                     string += (group_name + "_" + "%09.0d" % (tree.getId()) +
-                               ",\t" + str(time) + ",\t" + str(tree.x) +
-                               ",\t" + str(tree.y))
+                               delimiter + str(time) + delimiter + str(tree.x) +
+                               delimiter + str(tree.y))
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:
-                            string += ",\t" + str(geometry[geometry_output])
+                            string += delimiter + str(geometry[geometry_output])
                     if (len(self.parameter_outputs) > 0):
                         parameter = tree.getParameter()
                         for parameter_output in self.parameter_outputs:
-                            string += ",\t" + str(parameter[parameter_output])
+                            string += delimiter + str(parameter[parameter_output])
                     if (len(growth_information) > 0):
                         for growth_output_key in self.growth_outputs:
                             try:
-                                string += ",\t" + str(
+                                string += delimiter + str(
                                     growth_information[growth_output_key])
                             except KeyError:
                                 raise KeyError(
@@ -100,7 +101,7 @@ class OneTimestepOneFile(TreeOutput):
                                 )
                     string += "\n"
                     file.write(string)
-        file.close()
+            file.close()
         self._output_counter += 1
 
     ## This function checks if a key exists and if its text content is empty.

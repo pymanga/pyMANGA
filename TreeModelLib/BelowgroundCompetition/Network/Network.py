@@ -17,11 +17,16 @@ class Network(BelowgroundCompetition):
         case = args.find("type").text
         print("Initiate below-ground competition of type " + case + ".")
 
+    ## This functions prepares the computation of water uptake
+    #  by porewater salinity. Only tree height and leaf
+    #  water potential is needed\n
+    #  @param t_ini - initial time for next timestep \n
+    #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         self.trees = []
         self._xe = []
         self._ye = []
-        self._tree_name = np.empty(0)#[]
+        self._tree_name = np.empty(0)
         self._partner_names = []
         self._partner_indices = []
         self._potential_partner = []
@@ -40,34 +45,30 @@ class Network(BelowgroundCompetition):
         self._r_stem = []
         self._kf_sap = []
 
-        #self._water_absorb = np.empty(0)            # []
-        #self._water_avail = np.empty(0)         # []
-        #self._water_exchanged_trees = np.empty(0)           # []
         self.belowground_resources = []
 
         self._t_ini = t_ini
         self._t_end = t_end
         self.time = t_end - t_ini
 
+    ## Before being able to calculate the resources, all tree entities need
+    #  to be added with their relevant allometric measures for the next timestep.
+    #  @param: tree
     def addTree(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
-        rgf = tree.getRGF()
-        partner = tree.getPartner()
-        potential_partner = tree.getPotentialPartner()
+        self.network = tree.getNetwork()
 
         self.trees.append(tree)
 
-        self._rgf_counter.append(rgf)
-        self._partner_names.append(partner)
-        self._potential_partner.append(potential_partner)
+        self._rgf_counter.append(self.network['rgf'])
+        self._partner_names.append(self.network['partner'])
+        self._potential_partner.append(self.network['potential_partner'])
 
         self._xe.append(x)
         self._ye.append(y)
         self.n_trees = len(self._xe)
-
-        #self._tree_name.append(str(tree.group_name) + str(tree.tree_id))
         self._tree_name = np.concatenate((self._tree_name,
                                          [str(tree.group_name) + str(tree.tree_id)]))
 
@@ -92,7 +93,8 @@ class Network(BelowgroundCompetition):
         self._psi_height.append((2 * geometry["r_crown"] + geometry["h_stem"]) * 9810)
         self._psi_top = np.array(self._psi_leaf) - np.array(self._psi_height)
         # ToDo: Woher kommt psi_osmo?
-        self._psi_osmo = np.array([35] * self.n_trees)
+        sal = 0
+        self._psi_osmo = np.array([sal] * self.n_trees)
 
         self._kf_sap.append(parameter["kf_sap"])
 
@@ -105,6 +107,16 @@ class Network(BelowgroundCompetition):
                                               self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b
 
+        for i, tree in zip(range(0, self.n_trees), self.trees):
+            network = {}
+            network['partner'] = self._partner_names[i]
+            network['rgf'] = self._rgf_counter[i]
+            network['potential_partner'] = self._potential_partner[i]
+            network['water_available'] = self._water_avail[i]
+            network['water_absorbed'] = self._water_absorb[i]
+            network['water_exchanged'] = self._water_exchanged_trees[i]
+
+            tree.setNetwork(network)
     '''
     ##############################
     # Sub-model: group formation #
@@ -126,7 +138,6 @@ class Network(BelowgroundCompetition):
             if partners_delete:
                 for p in partners_delete:
                     self._partner_names[i].remove(p)
-                    print('delte tree ' + str(p) + ', new group ' + str(self._partner_names[i]))
 
     ## This function gets the current indices of partners
     def updatePartnerIdices(self):
@@ -218,7 +229,8 @@ class Network(BelowgroundCompetition):
                 # Roots meet with the probability p_meeting,
                 # p depends on how much the roots overlap
                 if r_root_sum - distance > 0:
-                    p_meeting = 1 - distance / r_root_sum   # ToDo: check if this makes sense
+                    p_meeting = 1 - distance / r_root_sum
+                    #p_meeting = 1
                     p = np.random.random(1)[0]
                     if p <= p_meeting:
                         contact_matrix[i, j] = 1
@@ -254,7 +266,7 @@ class Network(BelowgroundCompetition):
 
     ## Function that modifies the tree-own vairable 'rgf_counter'.
     # If a pair of trees are ale to start root graft formation the variable is set to 1.
-    def setRGFforGrowthAndDeath(self, pairs):
+    def getRGFforGrowthAndDeath(self, pairs):
         # ToDo: Communication is missing.
         for i in range(0, len(pairs)):
             pair = pairs[i]
@@ -263,16 +275,11 @@ class Network(BelowgroundCompetition):
                 self._rgf_counter[l1], self._rgf_counter[l2] = 1, 1
                 self._potential_partner[l1], self._potential_partner[l2] = self._tree_name[l2], self._tree_name[l1]
 
-        # add new attribute values to trees
-        for tree, rgf, pot_partner in zip(self.trees, self._rgf_counter, self._potential_partner):
-            tree.setRGF(rgf)
-            tree.setPotentialPartner(pot_partner)
-
     # procedure calling all the sub procedures
     def rootGraftFormation(self):
         contact_matrix = self.getContactMatrix()
         pairs = self.getPairsFromMatrix(contact_matrix)
-        self.setRGFforGrowthAndDeath(pairs)
+        self.getRGFforGrowthAndDeath(pairs)
 
     '''
     #####################################

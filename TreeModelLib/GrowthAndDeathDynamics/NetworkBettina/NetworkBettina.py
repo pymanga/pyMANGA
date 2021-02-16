@@ -16,15 +16,15 @@ class NetworkBettina(SimpleBettina):
     def __init__(self, args):
         case = args.find("type").text
         print("Growth and death dynamics of type " + case + ".")
-        # self.rgf = tree.getRGF()
-        # self.potential_partner = []
-        # self.partner = []
 
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         # network
-        self.rgf  = tree.getRGF()
-        self.partner = tree.getPartner()
-        self.potential_partner = tree.getPotentialPartner()
+        network = tree.getNetwork()
+        self.rgf = network['rgf']
+        self.partner = network['partner']
+        self.potential_partner = network['potential_partner']
+        self.psi_osmo = network["psi_osmo"]
+        self.name = str(tree.group_name) + str(tree.tree_id)
         # network end
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()
@@ -50,50 +50,48 @@ class NetworkBettina(SimpleBettina):
         geometry["h_root"] = self.h_root
         geometry["r_stem"] = self.r_stem
         geometry["h_stem"] = self.h_stem
-        growth_concept_information[
-            "root_surface_resistance"] = self.root_surface_resistance
+        growth_concept_information["root_surface_resistance"] = self.root_surface_resistance
         growth_concept_information["xylem_resistance"] = self.xylem_resistance
         growth_concept_information["ag_resources"] = self.ag_resources
         growth_concept_information["bg_resources"] = self.bg_resources
         growth_concept_information["growth"] = self.grow
-        growth_concept_information["available_resources"] = (
-            self.available_resources)
+        growth_concept_information["available_resources"] = self.available_resources
         psi_zero = self.deltaPsi()
         growth_concept_information["psi_zero"] = psi_zero
-        growth_concept_information["salinity"] = (
-            (belowground_resources * psi_zero - psi_zero) / 85000000.)
-        # network
-        tree.setRGF(self.rgf)
-        tree.setPotentialPartner(self.potential_partner)
-        tree.setPartner(self.partner)
-        print(belowground_resources)
-        # network end
+        growth_concept_information["salinity"] = -self.psi_osmo / 85000000
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)
+        # network
+        network['rgf'] = self.rgf
+        network['potential_partner'] = self.potential_partner
+        network['partner'] = self.partner
+        tree.setNetwork(network)
+        # network end
         if (self.survive == 1):
             tree.setSurvival(1)
         else:
             tree.setSurvival(0)
 
-## This function calculates the available resources and the biomass increment.
+    ## This function calculates the available resources and the biomass increment.
     # In addition, this function reduces the available resources if trees are in the grafting process
     # and calls the root graft formation manager
     def growthResources(self):
         self.available_resources = min(self.ag_resources, self.bg_resources)
         self.grow = (self.parameter["growth_factor"] *
                      (self.available_resources - self.maint))
-        if self.rgf != -1:
-            print("here self.rgf != -1, " + str(self.rgf))
-            self.grow = self.grow / 2
-            self.rootGraftFormation()
+
+        self.rootGraftFormation()
 
         if (self.grow < 0):
             self.grow = 0
             self.survive = 0
 
     def rootGraftFormation(self):
-        self.rgf = self.rgf + 1
-        if self.rgf == 2:      # todo: correct threshold
-            self.rgf = -1
-            self.partner.append(self.potential_partner)
-            self.potential_partner = []
+        if self.rgf != -1:
+            self.grow = self.grow / 2
+            self.rgf = self.rgf + 1
+            if round(self.rgf * self.time / 3600 / 24 / 365, 3) >= 2:      # todo: correct threshold
+                self.rgf = -1
+                self.partner.append(self.potential_partner)
+                self.potential_partner = []
+                print(str(self.name) + ' grafted to ' + str(self.partner))

@@ -25,6 +25,8 @@ class BelowgroundCompetition(TreeModel):
             self.iniFixedSalinity(args)
         elif case == "SimpleNetwork":
             self.iniSimpleNetwork(args)
+        elif case == "NetworkFixedSalinity":
+            self.iniNetworkFixedSalinity(args)
         else:
             raise KeyError("Required belowground competition case " + case +
                            " not implemented.")
@@ -57,6 +59,10 @@ class BelowgroundCompetition(TreeModel):
     def iniSimpleNetwork(self, args):
         from .SimpleNetwork import SimpleNetwork
         self.concept = SimpleNetwork(args)
+
+    def iniNetworkFixedSalinity(self, args):
+        from .NetworkFixedSalinity import NetworkFixedSalinity
+        self.concept = NetworkFixedSalinity(args)
 
     def getBelowgroundResources(self):
         return self.belowground_resources

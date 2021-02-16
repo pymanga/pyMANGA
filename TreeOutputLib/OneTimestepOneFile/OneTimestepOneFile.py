@@ -33,6 +33,7 @@ class OneTimestepOneFile(TreeOutput):
         self.parameter_outputs = []
         ## Parameters included in output
         self.growth_outputs = []
+        ## Network information included in output
         self.network_outputs = []
         ## Counter for output generation
         self._output_counter = 0
@@ -111,12 +112,10 @@ class OneTimestepOneFile(TreeOutput):
                                     " not available in growth concept!" +
                                     " Please read growth concept documentation."
                                 )
-                    if (len(self.network_outputs) > 0):
-                        rgf = tree.getRGF()
-                        partner = tree.getPartner()
-                        potential_partner = tree.getPotentialPartner()
-                        string += delimiter + str(rgf) + delimiter + str(partner) + delimiter + str(potential_partner)
-
+                    if len(self.network_outputs) > 0:
+                        network = tree.getNetwork()
+                        for network_output in self.network_outputs:
+                            string += delimiter + str(network[network_output])
                     string += "\n"
                     file.write(string)
             file.close()

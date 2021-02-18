@@ -17,15 +17,7 @@ class Tree:
         self.y = y
         self.survival = 1
         self.group_name = group_name
-        # network
-        self.network = {}
-        self.network['rgf'] = -1
-        self.network['potential_partner'] = []
-        self.network['partner'] = []
-        self.network['water_absorbed'] = []
-        self.network['water_available'] = []
-        self.network['water_exchanged'] = []
-        # network end
+        self.iniNetwork()   # this initialization is only required if networks (root grafts) are simulated
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createTree()
@@ -77,6 +69,15 @@ class Tree:
 
     def getId(self):
         return self.tree_id
+
+    def iniNetwork(self):
+        self.network = {}
+        self.network['rgf'] = -1
+        self.network['potential_partner'] = []
+        self.network['partner'] = []
+        self.network['water_absorbed'] = []
+        self.network['water_available'] = []
+        self.network['water_exchanged'] = []
 
     def getNetwork(self):
         return self.network

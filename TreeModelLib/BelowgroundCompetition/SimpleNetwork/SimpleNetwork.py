@@ -92,8 +92,7 @@ class SimpleNetwork(BelowgroundCompetition):
         self._psi_leaf.append(parameter["leaf_water_potential"])
         self._psi_height.append((2 * geometry["r_crown"] + geometry["h_stem"]) * 9810)
         self._psi_top = np.array(self._psi_leaf) - np.array(self._psi_height)
-        # ToDo: Woher kommt psi_osmo?
-        sal = 0
+        sal = 0  # Salinity is 0 ppt is the basic scenario
         self._psi_osmo = np.array([sal] * self.n_trees)
 
         self._kf_sap.append(parameter["kf_sap"])
@@ -115,6 +114,7 @@ class SimpleNetwork(BelowgroundCompetition):
             network['water_available'] = self._water_avail[i]
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]
+            network['psi_osmo'] = self._psi_osmo[i]
 
             tree.setNetwork(network)
     '''

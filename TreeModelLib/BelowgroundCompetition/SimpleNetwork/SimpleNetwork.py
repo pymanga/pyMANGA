@@ -30,7 +30,7 @@ class SimpleNetwork(BelowgroundCompetition):
         self.trees = []
         self._xe = []
         self._ye = []
-        self._tree_name = np.empty(0)
+        self._tree_names = np.empty(0)
         self._partner_names = []
         self._partner_indices = []
         self._potential_partner = []
@@ -73,8 +73,8 @@ class SimpleNetwork(BelowgroundCompetition):
         self._xe.append(x)
         self._ye.append(y)
         self.n_trees = len(self._xe)
-        self._tree_name = np.concatenate((self._tree_name,
-                                         [str(tree.group_name) + str(tree.tree_id)]))
+        self._tree_names = np.concatenate((self._tree_names,
+                                           [str(tree.group_name) + str(tree.tree_id)]))
 
         self._below_graft_resistance = np.concatenate((self._below_graft_resistance,
                                                        [self.belowGraftResistance(parameter["lp"],
@@ -125,13 +125,14 @@ class SimpleNetwork(BelowgroundCompetition):
             network['psi_osmo'] = self._psi_osmo[i]
 
             tree.setNetwork(network)
+
     '''
     ##############################
     # Sub-model: group formation #
     ##############################
 
     The sub-model group formation manages the formation of groups. Therefore, it requires 
-    a list with tree_names (self._tree_name) and a list with partner_names (self._partners).
+    a list with tree_names (self._tree_names) and a list with partner_names (self._partners).
     The sub-model converts the partner_names into current index values, then creates a graph dictionary
     from the partner indices and assigns groupIDs (self._gID).
     '''
@@ -141,7 +142,7 @@ class SimpleNetwork(BelowgroundCompetition):
         for i in range(0, len(self._partner_names)):
             partners_delete = []
             for j in range(0, len(self._partner_names[i])):
-                if self._partner_names[i][j] not in self._tree_name:
+                if self._partner_names[i][j] not in self._tree_names:
                     partners_delete.append(self._partner_names[i][j])
             if partners_delete:
                 for p in partners_delete:
@@ -156,7 +157,7 @@ class SimpleNetwork(BelowgroundCompetition):
             else:
                 h = []
                 for j in i:
-                    a = tree_indices[np.where(self._tree_name == j)][0]
+                    a = tree_indices[np.where(self._tree_names == j)][0]
                     h.append(a)
                 self._partner_indices.append(h)
 
@@ -278,7 +279,7 @@ class SimpleNetwork(BelowgroundCompetition):
             if self.checkRgfAbility(pair=pairs[i]):
                 l1, l2 = pair[0], pair[1]
                 self._rgf_counter[l1], self._rgf_counter[l2] = 1, 1
-                self._potential_partner[l1], self._potential_partner[l2] = self._tree_name[l2], self._tree_name[l1]
+                self._potential_partner[l1], self._potential_partner[l2] = self._tree_names[l2], self._tree_names[l1]
 
     ## Function that calls all the sub procedures to initialize root graft formation.
     def rootGraftFormation(self):

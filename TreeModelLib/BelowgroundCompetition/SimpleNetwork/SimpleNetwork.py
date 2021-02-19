@@ -96,8 +96,7 @@ class SimpleNetwork(BelowgroundCompetition):
         self._psi_leaf.append(parameter["leaf_water_potential"])
         self._psi_height.append((2 * geometry["r_crown"] + geometry["h_stem"]) * 9810)
         self._psi_top = np.array(self._psi_leaf) - np.array(self._psi_height)
-        sal = 0  # Salinity is 0 ppt is the basic scenario
-        self._psi_osmo = np.array([sal] * self.n_trees)
+        self._psi_osmo = np.array([0] * self.n_trees)  # Salinity is 0 ppt is the basic scenario
 
         self._kf_sap.append(parameter["kf_sap"])
 

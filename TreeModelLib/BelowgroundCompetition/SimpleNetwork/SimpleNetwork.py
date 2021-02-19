@@ -259,21 +259,26 @@ class SimpleNetwork(BelowgroundCompetition):
     # @return a matrix of shape n-trees*n-trees with bool to indicate whether tree root are in
     # contact
     def getContactMatrix(self):
-        contact_matrix = np.zeros((self.n_trees, self.n_trees))
-        for i in range(0, self.n_trees):
-            for j in range(i + 1, self.n_trees):
-                distance = self.getDistance(self._xe[i], self._xe[j],
-                                            self._ye[i], self._ye[j])
-                r_root_sum = self._r_root[i] + self._r_root[j]
+        x_mesh = np.array(np.meshgrid(self._xe, self._xe))
+        y_mesh = np.array(np.meshgrid(self._ye, self._ye))
+        # calculate distances between all trees
+        distances = ((x_mesh[0] - x_mesh[1]) ** 2 + (y_mesh[0] - y_mesh[1]) ** 2) ** .5
 
-                # Roots meet with the probability p_meeting,
-                # p depends on how much the roots overlap
-                if r_root_sum - distance > 0:
-                    p_meeting = 1 - distance / r_root_sum
-                    p = np.random.random(1)[0]
-                    if p <= p_meeting:
-                        contact_matrix[i, j] = 1
-                        contact_matrix[j, i] = 1
+        roots = np.array(np.meshgrid(self._r_root, self._r_root))
+        root_sums = roots[0] + roots[1]
+
+        # probability for root contact
+        p_meeting = 1 - distances / root_sums
+        # probability is 0 for tree = tree (diagonal)
+        p_meeting[np.where(distances == 0)] = 0
+        # probability 0 if root plates don't overlap
+        p_meeting[np.where(distances > root_sums)] = 0
+        # generate random float
+        props = np.random.random((len(self._xe), len(self._xe)))
+        contact_matrix = np.zeros(np.shape(x_mesh[0]))
+        indices = np.where(props < p_meeting)
+        contact_matrix[indices] += 1
+
         return contact_matrix
 
     ## Function that returns an array with pairs based on the contact matrix.
@@ -478,7 +483,9 @@ class SimpleNetwork(BelowgroundCompetition):
         # Assign values from results vector X to different flow rates
         self._water_absorb[members] = X[0:n_t]
         self._water_avail[members] = X[n_t:2 * n_t]
+        # water exchanged for each connection
         water_exchanged = X[2 * n_t:size]
+
         # sum up in- and out-flows (water_exchanged)
         for i in range(0, n_l):
             l1 = list(link_list_group[i])[0]

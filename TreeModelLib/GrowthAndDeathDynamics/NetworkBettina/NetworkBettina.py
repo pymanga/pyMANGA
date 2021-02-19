@@ -39,15 +39,9 @@ class NetworkBettina(SimpleBettina):
     # In addition, this function reduces the available resources if trees are in the grafting process
     # and calls the root graft formation manager
     def growthResources(self):
-        self.available_resources = min(self.ag_resources, self.bg_resources)
-        self.grow = (self.parameter["growth_factor"] *
-                     (self.available_resources - self.maint))
-
+        # Simple bettina get growth resources
+        SimpleBettina.growthResources(self)
         self.rootGraftFormation()
-
-        if (self.grow < 0):
-            self.grow = 0
-            self.survive = 0
 
     def rootGraftFormation(self):
         if self.rgf != -1:

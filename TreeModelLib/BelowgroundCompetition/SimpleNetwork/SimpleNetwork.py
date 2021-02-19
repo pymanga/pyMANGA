@@ -27,33 +27,50 @@ class SimpleNetwork(BelowgroundCompetition):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
+        # Parameters associated with the SimpleBettina model
         self.trees = []
         self._xe = []
         self._ye = []
         self._tree_names = np.empty(0)
-        self._partner_names = []
-        self._partner_indices = []
-        self._potential_partner = []
-        self._rgf_counter = []
-
-        self.graph_dict = {}
-        self._gIDs = []
-
-        self._above_graft_resistance = np.empty(0)
-        self._below_graft_resistance = np.empty(0)
         self._psi_height = []
         self._psi_leaf = []
         self._psi_osmo = []
+        ## Water potential acting at the top of the tree, that is the difference between
+        # min. leaf water potential and height potential
         self._psi_top = []
         self._r_root = []
         self._r_stem = []
         self._kf_sap = []
-
         self.belowground_resources = []
-
         self._t_ini = t_ini
         self._t_end = t_end
         self.time = t_end - t_ini
+
+        # Parameters associated with the network concept
+        # List of length n-trees, which contains the names of adjacent trees
+        self._partner_names = []
+        # List of length n-trees, which contains the current indices of adjacent trees
+        self._partner_indices = []
+        ## List of length n-trees, which contains the name of tree with which currently
+        # develops a connection (root graft)
+        self._potential_partner = []
+        ## List of length n-trees, which contains a counter indicating the status of the
+        # root graft formation (rgf) process. If > 0 the tree is in the process of rgf, if = -1
+        # the tree is not in the process of rgf
+        self._rgf_counter = []
+        ## Dictionary that represents the network of grafted trees (= nodes)
+        # Trees are the keys and Links are the adjacent tree(s)
+        self.graph_dict = {}
+        ## List of length n-trees, which contains the group IDs indicating which trees
+        # belong to the same group.
+        self._gIDs = []
+        ## Resistance acting above the root graft, that is the sum of crown and stem
+        # xylem resistance
+        self._above_graft_resistance = np.empty(0)
+        ## Resistance acting below the root graft, that is the sum of root xylem resistance
+        # and root surface resistance
+        self._below_graft_resistance = np.empty(0)
+
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
@@ -102,7 +119,8 @@ class SimpleNetwork(BelowgroundCompetition):
 
     ## This function returns a list of the growth modification factors of all trees.
     #  calculated in the subsequent timestep.\n
-    #  The factor can be > 1, if trees receive water from their adjacent trees.
+    #  The factor is > 1, if trees receive water from their adjacent trees; < 1 if the
+    #  lose water to the adjacent tree; or = 1 if no exchange happens
     #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
         self.groupFormation()
@@ -113,6 +131,8 @@ class SimpleNetwork(BelowgroundCompetition):
                                               self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b
 
+        # Update the parameter belonging to the tree and are needed in the growth-
+        # and-death-concept
         for i, tree in zip(range(0, self.n_trees), self.trees):
             network = {}
             network['partner'] = self._partner_names[i]
@@ -141,6 +161,8 @@ class SimpleNetwork(BelowgroundCompetition):
         for i in range(0, len(self._partner_names)):
             partners_delete = []
             for j in range(0, len(self._partner_names[i])):
+                ## If the name of the partner isn't in the list of tree names anymore it will be removed
+                # from the partner list
                 if self._partner_names[i][j] not in self._tree_names:
                     partners_delete.append(self._partner_names[i][j])
             if partners_delete:
@@ -149,6 +171,8 @@ class SimpleNetwork(BelowgroundCompetition):
 
     ## This function gets the current indices of partners from their names.
     def updatePartnerIdices(self):
+        ## In order to access the partners by their indices the current indices must be
+        # updated in each time step.
         tree_indices = np.array(range(0, self.n_trees))
         for i in self._partner_names:
             if not i:
@@ -166,7 +190,12 @@ class SimpleNetwork(BelowgroundCompetition):
             self.graph_dict[i] = set(self._partner_indices[i])
 
     ## This function finds all subcomponents of a graph, i.e. groups of grafted trees.
-    # source: https://stackoverflow.com/questions/10301000/python-connected-components
+    # The function is based on jimifiki's code
+    # (ref: https://stackoverflow.com/questions/10301000/python-connected-components)
+    # @param graph_dictionary - a dictionary with tree indices as keys and
+    # the adjacent partner trees as values
+    # @return a dictionary defining groups by an ID (key) and the indices of the
+    # corresponding trees (value)
     def getComponents(self, graph_dictionary):
         def findRoot(aNode, aRoot):
             while aNode != aRoot[aNode][0]:
@@ -222,10 +251,13 @@ class SimpleNetwork(BelowgroundCompetition):
     '''
 
     ## This function calculates the distance between two trees in meter.
+    # @return a scalar
     def getDistance(self, x1, x2, y1, y2):
         return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
 
     ## This function returns a matrix indicating whether roots of trees are in contact or not
+    # @return a matrix of shape n-trees*n-trees with bool to indicate whether tree root are in
+    # contact
     def getContactMatrix(self):
         contact_matrix = np.zeros((self.n_trees, self.n_trees))
         for i in range(0, self.n_trees):
@@ -245,6 +277,7 @@ class SimpleNetwork(BelowgroundCompetition):
         return contact_matrix
 
     ## Function that returns an array with pairs based on the contact matrix.
+    # @return a 2d array with tree indices of connected trees (format: from, to)
     def getPairsFromMatrix(self, contact_matrix):
         pairs = []
         for i in range(0, self.n_trees):
@@ -254,6 +287,9 @@ class SimpleNetwork(BelowgroundCompetition):
         return pairs
 
     ## Function to check if a pair of trees fullfiles all the conditions to startk root graft formation
+    # @return bool that indicate whether a pair of trees fulfils the requirements to start
+    # root graft formation
+    # @param pair - a 2d array with tree indices of connected trees (format: from, to)
     def checkRgfAbility(self, pair):
         l1, l2 = pair[0], pair[1]
 
@@ -270,7 +306,9 @@ class SimpleNetwork(BelowgroundCompetition):
         return start_rgf
 
     ## Function that modifies the tree-own vairable 'rgf_counter'.
-    # If a pair of trees are ale to start root graft formation the variable is set to 1.
+    # If a pair of trees are ale to start root graft formation the variable is set to 1 and
+    # the adjacent tree is added to the list of potential partners.
+    # @param pair - a 2d array with tree indices of connected trees (format: from, to)
     def getRGFforGrowthAndDeath(self, pairs):
         for i in range(0, len(pairs)):
             pair = pairs[i]
@@ -296,22 +334,41 @@ class SimpleNetwork(BelowgroundCompetition):
     '''
 
     ## Function that calculates the below-graft resistance (i.e. stem and crown xylem resistance).
+    # @return a scalar
+    # @param lp - hydraulic conductivity of root skin
+    # @param k_geom - root surface per fine root biomass
+    # @param kf_sap - hydraulic conductivity of xylem
+    # @param r_root - root radius
+    # @param h_root - height of fine roots
+    # @param r_stem - stem radius
     def belowGraftResistance(self, lp, k_geom, kf_sap, r_root, h_root, r_stem):
-        below_graft_resistance = 1 / (lp * k_geom * np.pi * r_root**2 * h_root) +\
-                                      (0.5**0.5 * r_root) / (kf_sap * np.pi * r_stem**2)
+        below_graft_resistance = 1 / (lp * k_geom * np.pi * r_root ** 2 * h_root) + \
+                                 (0.5 ** 0.5 * r_root) / (kf_sap * np.pi * r_stem ** 2)
         return below_graft_resistance
 
     ## Function that calculates the above-graft resistance (i.e. stem and crown xylem resistance).
+    # @return a scalar
+    # @param kf_sap - hydraulic conductivity of xylem
+    # @param r_crown - crown radius
+    # @param h_stem - stem height
+    # @param r_stem - stem radius
     def aboveGraftResistance(self, kf_sap, r_crown, h_stem, r_stem):
-        above_graft_resistance = (2 * r_crown + h_stem) / (kf_sap * np.pi * r_stem**2)
+        above_graft_resistance = (2 * r_crown + h_stem) / (kf_sap * np.pi * r_stem ** 2)
         return above_graft_resistance
 
     ## Function that calculates the xylem resistance in the grafted roots.
+    # @return a scalar
+    # @param distance - distance between connected trees
+    # @param r_graft - radius of grafted roots
+    # @param kf_sap - hydraulic conductivity of xylem
     def getGraftResistance(self, distance, r_graft, kf_sap):
         graft_resistance = distance / (kf_sap * np.pi * r_graft ** 2)
         return graft_resistance
 
     ## Function that returns an array with the links of a specific tree.
+    # @return a list with tree indices of adjacent trees
+    # @param link_list - a 2d array with tree indices of connected trees (format: from, to)
+    # @param tree - index of the tree under consideration
     def getMyLinks(self, link_list, tree):
         my_links = []
         for links in link_list:
@@ -320,8 +377,11 @@ class SimpleNetwork(BelowgroundCompetition):
         return my_links
 
     ## Function that creates a 2d array with links (from, to) based of graph-dictionary.
+    # The function is based on the code of a python course on graphs
+    # (ref: https://www.python-course.eu/graphs_python.php)
+    # @return a 2d array with tree indices of connected trees (format: from, to)
+    # @param graph_dictionary - a dictionary with tree indices as keys and
     def getLinkList(self, graph_dict):
-        # source: https://www.python-course.eu/graphs_python.php
         link_list = []
         for vertex in graph_dict:
             for neighbour in graph_dict[vertex]:
@@ -330,24 +390,26 @@ class SimpleNetwork(BelowgroundCompetition):
         link_list = [x for x in link_list if len(x) > 1]
         return link_list
 
-    # Function that creates the matrix to calculate below-ground resources for each group of grafted trees
+    ## Function that creates the matrix to calculate below-ground resources for each group
+    # of grafted trees. The matrix contains a set of linear equations (Ax=B) allowing the calculation
+    # of water absorbed, available, exchanged for all trees of a group. The equations result from
+    # the electronic-hydraulic analogy and the utilization of Kirchhoff's laws.
     # @param members - list with indexes of group members
     # @param link_list - list with connected trees
+    # @return a matrix of shape size*size+1 (size = 2*n-trees + n-links); the matrix represents
+    # linear equations: Ax=B, whereby matrix[, 0:size] = A and matrix[, size+1] = B
     def getBGresourcesMatrixGroup(self, members, link_list):
-        # make matrix
-        # n_t = len(bg_resistance)
         n_t = len(members)
         n_l = len(link_list)
         size = 2 * n_t + n_l
         matrix = np.zeros((size, size + 1))
 
         j = 0
-        #    for i in range(0, n_t):
         for i in members:
             bgCol = j
             agCol = n_t + j
 
-            # 1st law: each tree node
+            # 1st law: flow in and out of each tree node
             matrix[j, bgCol] = 1  # below-graft
             matrix[j, agCol] = -1  # above-graft
 
@@ -359,14 +421,14 @@ class SimpleNetwork(BelowgroundCompetition):
                 else:
                     matrix[j, gCol] = -1
 
-            # 2nd law: along tree
+            # 2nd law: flow along each along tree
             row = j + n_t
             matrix[row, bgCol] = self._below_graft_resistance[i]
             matrix[row, agCol] = self._above_graft_resistance[i]
             matrix[row, size] = self._psi_osmo[i] - self._psi_top[i]
             j += 1
 
-        # 2nd law: between trees, below-graft
+        # 2nd law: flow between pairs of connected trees, below-graft
         for i in range(0, n_l):
             l1 = list(link_list[i])[0]  # link tree 1
             l2 = list(link_list[i])[1]  # link tree 2
@@ -385,6 +447,11 @@ class SimpleNetwork(BelowgroundCompetition):
         return matrix
 
     ## Function that calculates water uptake of an individual tree, see SimpleBettina.
+    # @return a scalar
+    # @param psi_top - difference between min. leaf water potential and height potential
+    # @param psi_osmo - osmotic potential, caused by pore-water salinity
+    # @param ag_resistance - above-graft resistance
+    # @param bg_resistance - below-graft resistance
     def getBGresourcesIndividual(self, psi_top, psi_osmo, ag_resistance, bg_resistance):
         res_b = -(psi_top - psi_osmo) / ((ag_resistance + bg_resistance) * np.pi) * self.time
         return res_b
@@ -394,19 +461,25 @@ class SimpleNetwork(BelowgroundCompetition):
     # @param members - list with indexes of group members
     # @param link_list_group - list with connected trees of group (format: from, to)
     def calculateBGresourcesGroup(self, members, link_list_group):
+        ## get the system of linear equations (matrix) for the group of grafted trees;
+        # linear equation Ax=B in matrix form
         matrix = self.getBGresourcesMatrixGroup(members, link_list_group)
         n_t = len(members)
         n_l = len(link_list_group)
 
         size = 2 * n_t + n_l
+        # separate matrix to get left and right side of linear equations of type Ax=B
         A = matrix[:, 0:size]
         B = matrix[:, size]
+        ## Get the inverse of the matrix A and find the dot product between the inverse and the
+        # matrix B
+        # the result is divided by pi (Peters et al. 2021) and multiplied by the time step length in sec
         X = np.linalg.inv(A).dot(B) / np.pi * self.time  # m³/tsl
-        # m³/s # * 1000 * 3600 * 24
+        # Assign values from results vector X to different flow rates
         self._water_absorb[members] = X[0:n_t]
         self._water_avail[members] = X[n_t:2 * n_t]
         water_exchanged = X[2 * n_t:size]
-
+        # sum up in- and out-flows (water_exchanged)
         for i in range(0, n_l):
             l1 = list(link_list_group[i])[0]
             l2 = list(link_list_group[i])[1]
@@ -424,10 +497,15 @@ class SimpleNetwork(BelowgroundCompetition):
         self._water_exchanged_trees = np.zeros(self.n_trees)
 
         for gID in set(self._gIDs):
+            # get tree indices of group members
             members = ids[np.where(self._gIDs == gID)]
+            # make a graph dictionary of the group
             graph_dict_group = {i: self.graph_dict[i] for i in members}
+            # make a list with indices of connected trees of the group
             link_list_group = np.array(self.getLinkList(graph_dict_group))
             if len(link_list_group) == 0:
+                ## if the tree is not grafted water_absorbed and water_available corresponds to
+                # SimpleBettina water uptake and water_exchange is 0
                 self._water_absorb[members] = self.getBGresourcesIndividual(self._psi_top[members],
                                                                             self._psi_osmo[members],
                                                                             self._above_graft_resistance[members],

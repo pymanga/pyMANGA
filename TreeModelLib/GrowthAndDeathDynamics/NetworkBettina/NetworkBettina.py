@@ -19,6 +19,8 @@ class NetworkBettina(SimpleBettina):
 
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         network = tree.getNetwork()
+        ## counter to track or define the time required for root graft formation,
+        # if -1 no root graft formation takes place at the moment
         self.rgf = network['rgf']
         self.partner = network['partner']
         self.potential_partner = network['potential_partner']
@@ -43,12 +45,13 @@ class NetworkBettina(SimpleBettina):
         SimpleBettina.growthResources(self)
         self.rootGraftFormation()
 
+    ## This function reduces growth during the process of root graft formation.
+    # It is assumed that the process will take 2 years (this is subject to change).
     def rootGraftFormation(self):
         if self.rgf != -1:
             self.grow = self.grow / 2
             self.rgf = self.rgf + 1
-            if round(self.rgf * self.time / 3600 / 24 / 365, 3) >= 2:      # todo: correct threshold
+            if round(self.rgf * self.time / 3600 / 24 / 365, 3) >= 2:
                 self.rgf = -1
                 self.partner.append(self.potential_partner)
                 self.potential_partner = []
-                print(str(self.name) + ' grafted to ' + str(self.partner))

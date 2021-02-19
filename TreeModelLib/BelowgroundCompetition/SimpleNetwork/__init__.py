@@ -5,4 +5,4 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from .Network import Network
+from .SimpleNetwork import SimpleNetwork

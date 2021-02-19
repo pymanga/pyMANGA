@@ -55,7 +55,7 @@ class BelowgroundCompetition(TreeModel):
         self.concept = FixedSalinity(args)
 
     def iniNetwork(self, args):
-        from .Network import Network
+        from .SimpleNetwork import Network
         self.concept = Network(args)
 
     def getBelowgroundResources(self):

@@ -8,7 +8,7 @@ import numpy as np
 from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 
 
-class Network(BelowgroundCompetition):
+class SimpleNetwork(BelowgroundCompetition):
     #########
     # BASIC #
     #########

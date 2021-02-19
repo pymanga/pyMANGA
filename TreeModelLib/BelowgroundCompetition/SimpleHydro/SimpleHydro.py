@@ -30,11 +30,6 @@ class SimpleHydro(BelowgroundCompetition):
                                       np.array(self._potential_nosal))
 
 
-#        print(self._potential_nosal)
-#        print(self._salinity)
-#        print(self.belowground_resources)
-#        hh
-
 ## This function calculates the water balance of each grid cell.
 # Transpiration, dilution (tidal flooding), exchange between neighbouring
 # grid cells and gradient flow is regarded for.
@@ -73,60 +68,17 @@ class SimpleHydro(BelowgroundCompetition):
             ## refill
             self.salinity += self._sea_salinity * water_loss / self.volume / (
                 tsl / s_d)
-            ## dilution
-            self.salinity += (-self.salinity * self.dilution_frac +
-                              self._sea_salinity * self.dilution_frac)
-            ## diffusion
-            salinity_new = self.salinity * (1 - self._diffusion_frac)
-            # diff in x-dir
-            for ii in range(self.x_resolution):
-                if ii == self.x_resolution - 1:
-                    salinity_new[:, ii] += (self.salinity[:, ii] *
-                                            self._diffusion_frac / 4)
-                    salinity_new[:, ii - 1] += (self.salinity[:, ii] *
-                                                self._diffusion_frac / 4)
-                elif ii == 0:
-                    salinity_new[:, ii + 1] += (self.salinity[:, ii] *
-                                                self._diffusion_frac / 4)
-                    salinity_new[:, ii] += (self.salinity[:, ii] *
-                                            self._diffusion_frac / 4)
-                else:
-                    salinity_new[:, ii + 1] += (self.salinity[:, ii] *
-                                                self._diffusion_frac / 4)
-                    salinity_new[:, ii - 1] += (self.salinity[:, ii] *
-                                                self._diffusion_frac / 4)
+            self.updateSalinity(1)
 
-            # diff in y-dir
-            for ii in range(self.y_resolution):
-                if ii == self.y_resolution - 1:
-                    salinity_new[ii, :] += (self.salinity[ii, :] *
-                                            self._diffusion_frac / 4)
-                    salinity_new[ii - 1, :] += (self.salinity[ii, :] *
-                                                self._diffusion_frac / 4)
-                elif ii == 0:
-                    salinity_new[ii + 1, :] += (self.salinity[ii, :] *
-                                                self._diffusion_frac / 4)
-                    salinity_new[ii, :] += (self.salinity[ii, :] *
-                                            self._diffusion_frac / 4)
-                else:
-                    salinity_new[ii + 1, :] += (self.salinity[ii, :] *
-                                                self._diffusion_frac / 4)
-                    salinity_new[ii - 1, :] += (self.salinity[ii, :] *
-                                                self._diffusion_frac / 4)
-            self.salinity = salinity_new
-            ## gradient-flow
-            multi_fac = self.q_fac * s_d
-            salinity_new[0, :] = self.salinity[0, :] * (
-                1 - multi_fac) + self._up_sal * multi_fac
-            salinity_new[1:self.y_resolution, :] = (
-                self.salinity[1:self.y_resolution, :] * (1 - multi_fac) +
-                self.salinity[0:(self.y_resolution - 1), :] * multi_fac)
-            self.salinity = salinity_new
-        print(rest)
         ## refill
         self.salinity += self._sea_salinity * water_loss / self.volume / (
             tsl / s_d) * rest
+        self.updateSalinity(rest)
+
+    def updateSalinity(self, rest):
+        s_d = 3600 * 24
         ## dilution
+
         self.salinity += (-self.salinity * self.dilution_frac +
                           self._sea_salinity * self.dilution_frac) * rest
         ## diffusion
@@ -264,7 +216,8 @@ class SimpleHydro(BelowgroundCompetition):
                   (raw_flodur[inds_int + 1] - raw_flodur[inds_int])) / 24
         dilu_vec = (_dilution_frac_upper +
                     (-_dilution_frac_upper + _dilution_frac_lower) * flodur)
-        self.dilution_frac = (np.repeat(np.array([dilu_vec]), 3,
+        self.dilution_frac = (np.repeat(np.array([dilu_vec]),
+                                        self.x_resolution,
                                         axis=0)).transpose()
 
     ## This functions prepares the tree variables for the SimpleHydro

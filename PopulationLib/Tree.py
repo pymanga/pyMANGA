@@ -71,10 +71,11 @@ class Tree:
         return self.tree_id
 
     def iniNetwork(self):
+        # This function initializes a dictionary containing parameters required to build a network of grafted trees
         self.network = {}
-        self.network['rgf'] = -1
-        self.network['potential_partner'] = []
-        self.network['partner'] = []
+        self.network['rgf'] = -1    # counter to track or define the time required for root graft formation, if -1 no root graft formation takes place at the moment
+        self.network['potential_partner'] = []  # list with the names of trees (tree_name) with which an root graft is currently being formed
+        self.network['partner'] = []    # list with the names of trees (tree_name) with which it is connected
         self.network['water_absorbed'] = []
         self.network['water_available'] = []
         self.network['water_exchanged'] = []

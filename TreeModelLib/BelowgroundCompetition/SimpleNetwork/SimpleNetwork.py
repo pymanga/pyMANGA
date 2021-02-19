@@ -165,7 +165,7 @@ class SimpleNetwork(BelowgroundCompetition):
         for i in range(0, len(self._partner_indices)):
             self.graph_dict[i] = set(self._partner_indices[i])
 
-    ## This function find all subcomponents of a graph, i.e. groups of grafted trees.
+    ## This function finds all subcomponents of a graph, i.e. groups of grafted trees.
     # source: https://stackoverflow.com/questions/10301000/python-connected-components
     def getComponents(self, graph_dictionary):
         def findRoot(aNode, aRoot):
@@ -272,7 +272,6 @@ class SimpleNetwork(BelowgroundCompetition):
     ## Function that modifies the tree-own vairable 'rgf_counter'.
     # If a pair of trees are ale to start root graft formation the variable is set to 1.
     def getRGFforGrowthAndDeath(self, pairs):
-        # ToDo: Communication is missing.
         for i in range(0, len(pairs)):
             pair = pairs[i]
             if self.checkRgfAbility(pair=pairs[i]):

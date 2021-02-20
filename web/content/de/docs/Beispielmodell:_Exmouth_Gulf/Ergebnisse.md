@@ -518,7 +518,7 @@ Nachfolgende Visualisierung zeigt die dynamische Entwicklung der Mangrovenpopula
 </br>
 <p align="left">
 <font size = "6">&nbsp;  Zeitschritt:&nbsp;&nbsp;&nbsp;&nbsp; </font>
-  <input type="range" id="a" min="0" max="1670" value="0"> &nbsp;
+  <input type="range" id="a" min="0" max="10" value="0"> &nbsp;
 <font size = "6">  <output name="x" for="a">0</output> </font>&nbsp;&nbsp;
 </p>
 </figure>

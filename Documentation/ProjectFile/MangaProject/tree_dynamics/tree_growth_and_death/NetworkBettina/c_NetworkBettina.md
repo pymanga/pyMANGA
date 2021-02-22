@@ -9,5 +9,10 @@ The concept only works with a Network belowground concept.
 Available growth information for output:
 **root_surface_resistance**; **xylem_resistance**; **ag_resources**; **bg_resources**; **growth**; **available_resources**; **psi_zero**; **salinity**
 
-Available network information for output:
-...
+Available network information for output:  
+**partner** ... list with tree names of partners;  
+**potential_partner** ... list with tree names of potential partners;  
+**rgf** ... counter that describes root graft formation status;  
+**water_available** ... available water for growth and maintenance in litre per timestep;  
+**water_absorbed** ... water absorbed from the soil in litre per timestep;  
+**water_exchanged** ... water exchanged between connected trees in litre per timestep 

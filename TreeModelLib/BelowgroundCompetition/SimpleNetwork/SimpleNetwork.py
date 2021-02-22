@@ -71,7 +71,6 @@ class SimpleNetwork(BelowgroundCompetition):
         # and root surface resistance
         self._below_graft_resistance = np.empty(0)
 
-
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
     #  @param: tree
@@ -270,9 +269,8 @@ class SimpleNetwork(BelowgroundCompetition):
         # probability for root contact
         p_meeting = 1 - distances / root_sums
         # probability is 0 for tree = tree (diagonal)
-        p_meeting[np.where(distances == 0)] = 0
-        # probability 0 if root plates don't overlap
-        p_meeting[np.where(distances > root_sums)] = 0
+        np.fill_diagonal(p_meeting, 0)
+
         # generate random float
         props = np.random.random((len(self._xe), len(self._xe)))
         contact_matrix = np.zeros(np.shape(x_mesh[0]))
@@ -487,12 +485,16 @@ class SimpleNetwork(BelowgroundCompetition):
         water_exchanged = X[2 * n_t:size]
 
         # sum up in- and out-flows (water_exchanged)
-        for i in range(0, n_l):
-            l1 = list(link_list_group[i])[0]
-            l2 = list(link_list_group[i])[1]
-            self._water_exchanged_trees[l1] += water_exchanged[i]
-            self._water_exchanged_trees[l2] -= water_exchanged[i]
-            i += 1
+        # reshape link_list_group to shape = [2, n_l]
+        # transform set of links to list of links
+        linkList_group_list = [list(links) for links in link_list_group]
+        # reshape link_list_group to shape = [2, n_l]
+        reshape_llg = np.transpose(linkList_group_list)
+        from_IDs = reshape_llg[0, :]    # from IDs
+        to_IDs = reshape_llg[1, :]      # to IDs
+        np.add.at(self._water_exchanged_trees, from_IDs, water_exchanged)
+        np.add.at(self._water_exchanged_trees, to_IDs,
+                  -1 * np.array(water_exchanged))
 
     ## Function that calculates water absorbed, available and exchanged for all trees.
     # Depending on the graft status of a tree, i.e. grafted vs. non-grafted, this function calls

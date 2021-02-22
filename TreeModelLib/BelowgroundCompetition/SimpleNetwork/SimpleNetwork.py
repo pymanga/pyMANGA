@@ -310,11 +310,9 @@ class SimpleNetwork(BelowgroundCompetition):
     # @return a 2d array with tree indices of connected trees (format:
     # from, to)
     def getPairsFromMatrix(self, contact_matrix):
-        pairs = []
-        for i in range(0, self.n_trees):
-            for j in range(i + 1, self.n_trees):
-                if contact_matrix[i, j] == 1:
-                    pairs.append([i, j])
+        # reshape to a triangular matrix to avaid duplicated links
+        contact_matrix_upper = np.triu(contact_matrix)
+        pairs = np.argwhere(contact_matrix_upper == 1).tolist()
         return pairs
 
     ## Function to check if a pair of trees fullfiles all the conditions to

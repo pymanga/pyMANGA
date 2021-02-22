@@ -293,10 +293,15 @@ class SimpleNetwork(BelowgroundCompetition):
         # probability is 0 for tree = tree (diagonal)
         np.fill_diagonal(p_meeting, 0)
 
-        # generate random float
-        props = np.random.random((len(self._xe), len(self._xe)))
+        # generate matrix with random floats
+        probs = np.random.random((len(self._xe), len(self._xe)))
+        # reshape to a triangular matrix
+        probs = np.triu(probs)
+        # Mirror upper triangle of the matrix
+        probs += probs.transpose()
+
         contact_matrix = np.zeros(np.shape(x_mesh[0]))
-        indices = np.where(props < p_meeting)
+        indices = np.where(probs < p_meeting)
         contact_matrix[indices] += 1
 
         return contact_matrix

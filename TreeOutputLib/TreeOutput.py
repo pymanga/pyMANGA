@@ -19,6 +19,8 @@ class TreeOutput:
             self.iniOneTreeOneFile(args)
         elif self.case == "OneTimestepOneFile":
             self.iniOneTimestepOneFile(args)
+        elif self.case == "OneTimestepOneFilePerGroup":
+            self.iniOneTimestepOneFilePerGroup(args)
         else:
             raise KeyError("Required tree_output of type '" + case + "' not "
                            "implemented!")
@@ -38,6 +40,11 @@ class TreeOutput:
     def iniOneTimestepOneFile(self, args):
         from .OneTimestepOneFile import OneTimestepOneFile
         self.output = OneTimestepOneFile(args)
+
+    ## Constructor for output which generates one file per group per timestep.
+    def iniOneTimestepOneFilePerGroup(self, args):
+        from .OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup
+        self.output = OneTimestepOneFilePerGroup(args)
 
     ## Dummy for write output function
     def writeOutput(self, tree_groups, time):

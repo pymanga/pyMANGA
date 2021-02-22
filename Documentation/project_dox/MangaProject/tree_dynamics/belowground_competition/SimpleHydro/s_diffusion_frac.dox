@@ -1,0 +1,5 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__SimpleHydro__diffusion_frac &emsp;[spec]diffusion_frac
+
+
+fraction of water in a grid cell exchanged with neighbouring 4 grid cells per day[-]. Neighbouring cells get one fourth of it, at boundaries the share remains in the grid cell. Check with time step length!
+*/

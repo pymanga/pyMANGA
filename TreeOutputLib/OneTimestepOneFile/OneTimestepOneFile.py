@@ -21,6 +21,12 @@ class OneTimestepOneFile(TreeOutput):
         ## N-timesteps between two outputs
         self.output_each_nth_timestep = int(
             self.checkRequiredKey("output_each_nth_timestep", args))
+        ## Check if overwrite of previous output is allowed
+        allow_previous_output = args.find("allow_previous_output")
+        if allow_previous_output is not None:
+            allow_previous_output = bool(allow_previous_output.text)
+        else:
+            allow_previous_output = False
         ## Geometric measures included in output
         self.geometry_outputs = []
         ## Parameters included in output
@@ -42,7 +48,7 @@ class OneTimestepOneFile(TreeOutput):
                 "[Errno 2] No such directory: '" + self.output_dir +
                 "' as defined in the project file." +
                 " Please make sure your output directory exists!")
-        if dir_files > 0:
+        if (dir_files > 0 and allow_previous_output == False):
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
         print(

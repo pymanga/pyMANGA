@@ -5,42 +5,39 @@
 @author: jasper.bathmann@ufz.de
 """
 from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import OneTimestepOneFile
-import os
 
 
-## Output class. This class creates one file per tree at a defined location.
-#  A line containing time, position, desired geometric measures and desired
-#  parameters is written at every nth timestep.
-class OneTreeOneFile(OneTimestepOneFile):
+## Output class. This class creates one file per timestep per group at a 
+#  defined location. A line containing time, position, desired geometric 
+#  measures and desired parameters is written at every nth timestep.
+class OneTimestepOneFilePerGroup(OneTimestepOneFile):
     ## Writes output to predefined folder
-    #  For each tree a file is created and updated throughout the simulation.
+    #  For each timestep a file is created throughout the simulation.
     #  This function is only able to work, if the output directory exists and
-    #  is empty at the begin of the model run
+    #  is empty at the beginning of the model run
     def writeOutput(self, tree_groups, time):
         self._output_counter = (self._output_counter %
                                 self.output_each_nth_timestep)
         if self._output_counter == 0:
-            files_in_folder = os.listdir(self.output_dir)
             for group_name, tree_group in tree_groups.items():
+                filename = (group_name + "_t_%012.1f" % (time) + ".csv")
+                file = open(self.output_dir + filename, "w")
+                string = ""
+                string += "tree \t time \t x \t y"
+                for geometry_output in self.geometry_outputs:
+                    string += "\t" + geometry_output
+                for parameter_output in self.parameter_outputs:
+                    string += "\t" + parameter_output
+                for growth_output in self.growth_outputs:
+                    string += "\t" + growth_output
+                string += "\n"
+                file.write(string)
                 for tree in tree_group.getTrees():
                     growth_information = tree.getGrowthConceptInformation()
-                    filename = (group_name + "_" + "%09.0d" % (tree.getId()) +
-                                ".csv")
-                    file = open(self.output_dir + filename, "a")
-                    if filename not in files_in_folder:
-                        string = ""
-                        string += "time \t x \t y"
-                        for geometry_output in self.geometry_outputs:
-                            string += "\t" + geometry_output
-                        for parameter_output in self.parameter_outputs:
-                            string += "\t" + parameter_output
-                        for growth_output in self.growth_outputs:
-                            string += "\t" + growth_output
-                        string += "\n"
-                        file.write(string)
                     string = ""
-                    string += (str(time) + "\t" + str(tree.x) + "\t" +
-                               str(tree.y))
+                    string += (group_name + "_" + "%09.0d" % (tree.getId()) +
+                               "\t" + str(time) + "\t" + str(tree.x) +
+                               "\t" + str(tree.y))
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:
@@ -62,5 +59,5 @@ class OneTreeOneFile(OneTimestepOneFile):
                                 )
                     string += "\n"
                     file.write(string)
-                    file.close()
+                file.close()
         self._output_counter += 1

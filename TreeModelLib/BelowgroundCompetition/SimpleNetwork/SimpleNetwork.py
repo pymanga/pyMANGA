@@ -22,7 +22,7 @@ class SimpleNetwork(BelowgroundCompetition):
         case = args.find("type").text
         print("Initiate below-ground competition of type " + case + ".")
 
-    ## This functions prepares the tree variables for the SimpleHydro
+    ## This functions prepares the tree variables for the NetworkHydro
     #  concept.\n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep

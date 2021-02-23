@@ -6,10 +6,12 @@ The concept is based on the Bettina single tree model as described in the ODD (a
 
 The concept only works with a Network belowground concept.
 
-Available growth information for output:
+Available growth information for output (_<growth_output > ... </growth_output>_):
+
 **root_surface_resistance**; **xylem_resistance**; **ag_resources**; **bg_resources**; **growth**; **available_resources**; **psi_zero**; **salinity**
 
-Available network information for output:  
+Available network information for output (_<network_output > ... </network_output>_):
+  
 **partner** ... list with tree names of partners;  
 **potential_partner** ... list with tree names of potential partners;  
 **rgf** ... counter that describes root graft formation status;  

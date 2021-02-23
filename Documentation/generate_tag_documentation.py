@@ -83,7 +83,7 @@ def edit_dir(dox_parent, md_parent):
             dox_file = open(dox_filename + ".dox", "w")
 
             page_name = dox_filename.strip("./").replace(
-                "/" + case + "_", "__").replace("/", "__")
+                os.sep + case + "_", "__").replace(os.sep, "__")
             dox_file.write("/*! \page " + page_name + " " + "&emsp;" +
                            tag_type + "" + file[2:-3] + "\n")
             for line in md_file.readlines():
@@ -95,27 +95,27 @@ def edit_dir(dox_parent, md_parent):
                     for subfolder in folders_in_folder:
                         submodule_path = os.path.join(dox_parent, subfolder)
                         subpage_name = submodule_path.strip("./").replace(
-                            "/", "__") + "__" + subfolder
+                            os.sep, "__") + "__" + subfolder
                         dox_file.write("- \subpage " + subpage_name + "\n")
                     for subfolder in t_files_in_folder:
                         subfolder = subfolder[2:-3]
                         submodule_path = os.path.join(dox_parent, subfolder)
                         subpage_name = submodule_path.strip("./").replace(
-                            "/", "__")
+                            os.sep, "__")
                         dox_file.write("- \subpage " + subpage_name + "\n")
 
                     for subfolder in s_files_in_folder:
                         subfolder = subfolder[2:-3]
                         submodule_path = os.path.join(dox_parent, subfolder)
                         subpage_name = submodule_path.strip("./").replace(
-                            "/", "__")
+                            os.sep, "__")
                         dox_file.write("- \subpage " + subpage_name + "\n")
                 if len(t_folders_in_folder) > 0:
                     dox_file.write("\n # Possible cases: \n \n")
                     for subfolder in t_folders_in_folder:
                         submodule_path = os.path.join(dox_parent, subfolder)
                         subpage_name = submodule_path.strip("./").replace(
-                            "/", "__") + "__" + subfolder
+                            os.sep, "__") + "__" + subfolder
                         dox_file.write("- \subpage " + subpage_name + "\n")
             if case == "t":
                 dox_file.write("# Available cases \n \n")
@@ -127,7 +127,7 @@ def edit_dir(dox_parent, md_parent):
             md_file.close()
         else:
             subdir = file
-            os.mkdir(dox_parent + "/" + file)
+            os.mkdir(dox_parent + os.sep + file)
             dox_child = os.path.join(dox_parent, subdir)
             md_child = os.path.join(md_parent, subdir)
 

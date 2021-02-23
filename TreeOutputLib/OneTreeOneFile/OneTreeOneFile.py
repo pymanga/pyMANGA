@@ -4,7 +4,8 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import OneTimestepOneFile
+from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import \
+    OneTimestepOneFile
 import os
 
 
@@ -20,6 +21,7 @@ class OneTreeOneFile(OneTimestepOneFile):
         self._output_counter = (self._output_counter %
                                 self.output_each_nth_timestep)
         if self._output_counter == 0:
+            delimiter = "\t"
             files_in_folder = os.listdir(self.output_dir)
             for group_name, tree_group in tree_groups.items():
                 for tree in tree_group.getTrees():
@@ -29,30 +31,34 @@ class OneTreeOneFile(OneTimestepOneFile):
                     file = open(self.output_dir + filename, "a")
                     if filename not in files_in_folder:
                         string = ""
-                        string += "time \t x \t y"
+                        string += 'time' + delimiter + 'x' + delimiter + 'y'
                         for geometry_output in self.geometry_outputs:
-                            string += "\t" + geometry_output
+                            string += delimiter + geometry_output
                         for parameter_output in self.parameter_outputs:
-                            string += "\t" + parameter_output
+                            string += delimiter + parameter_output
                         for growth_output in self.growth_outputs:
-                            string += "\t" + growth_output
+                            string += delimiter + growth_output
+                        for network_output in self.network_outputs:
+                            string += delimiter + network_output
                         string += "\n"
                         file.write(string)
                     string = ""
-                    string += (str(time) + "\t" + str(tree.x) + "\t" +
-                               str(tree.y))
+                    string += (str(time) + delimiter + str(tree.x) +
+                               delimiter + str(tree.y))
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:
-                            string += "\t" + str(geometry[geometry_output])
+                            string += delimiter + str(
+                                geometry[geometry_output])
                     if (len(self.parameter_outputs) > 0):
                         parameter = tree.getParameter()
                         for parameter_output in self.parameter_outputs:
-                            string += "\t" + str(parameter[parameter_output])
+                            string += delimiter + str(
+                                parameter[parameter_output])
                     if (len(growth_information) > 0):
                         for growth_output_key in self.growth_outputs:
                             try:
-                                string += "\t" + str(
+                                string += delimiter + str(
                                     growth_information[growth_output_key])
                             except KeyError:
                                 raise KeyError(
@@ -60,6 +66,10 @@ class OneTreeOneFile(OneTimestepOneFile):
                                     " not available in growth concept!" +
                                     " Please read growth concept documentation."
                                 )
+                    if len(self.network_outputs) > 0:
+                        network = tree.getNetwork()
+                        for network_output in self.network_outputs:
+                            string += delimiter + str(network[network_output])
                     string += "\n"
                     file.write(string)
                     file.close()

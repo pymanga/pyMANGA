@@ -75,7 +75,8 @@ class OneTimestepOneFile(TreeOutput):
             filename = ("Population_t_%012.1f" % (time) + ".csv")
             file = open(self.output_dir + filename, "w")
             string = ""
-            string += 'tree' + delimiter + 'time' + delimiter + 'x' + delimiter + 'y'
+            string += 'tree' + delimiter + 'time' + delimiter + 'x' + \
+                      delimiter + 'y'
             for geometry_output in self.geometry_outputs:
                 string += delimiter + geometry_output
             for parameter_output in self.parameter_outputs:
@@ -91,16 +92,19 @@ class OneTimestepOneFile(TreeOutput):
                     growth_information = tree.getGrowthConceptInformation()
                     string = ""
                     string += (group_name + "_" + "%09.0d" % (tree.getId()) +
-                               delimiter + str(time) + delimiter + str(tree.x) +
+                               delimiter + str(time) + delimiter + str(
+                                tree.x) +
                                delimiter + str(tree.y))
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:
-                            string += delimiter + str(geometry[geometry_output])
+                            string += delimiter + str(
+                                geometry[geometry_output])
                     if (len(self.parameter_outputs) > 0):
                         parameter = tree.getParameter()
                         for parameter_output in self.parameter_outputs:
-                            string += delimiter + str(parameter[parameter_output])
+                            string += delimiter + str(
+                                parameter[parameter_output])
                     if (len(growth_information) > 0):
                         for growth_output_key in self.growth_outputs:
                             try:

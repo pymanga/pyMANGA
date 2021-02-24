@@ -14,7 +14,7 @@ class SimpleHydro(BelowgroundCompetition):
     #  Processes are gradient flow, salinisation by plant transpiration,
     #  dilution by tides and horizontal mixing (diffusion).\n
     #  @param: Tags to define SimpleHydro, see tag documentation \n
-    #  @date: 2019 - Today
+    #  @date: 2021 - Today
     def __init__(self, args):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
@@ -29,11 +29,9 @@ class SimpleHydro(BelowgroundCompetition):
                                        np.array(self._salinity) * 85000) /
                                       np.array(self._potential_nosal))
 
-
-## This function calculates the water balance of each grid cell.
-# Transpiration, dilution (tidal flooding), exchange between neighbouring
-# grid cells and gradient flow is regarded for.
-
+    ## This function calculates the water balance of each grid cell.
+    # Transpiration, dilution (tidal flooding), exchange between neighbouring
+    # grid cells and gradient flow is regarded for.
     def transpire(self):
         ## time step length
         tsl = (self._t_end - self._t_ini)
@@ -41,36 +39,48 @@ class SimpleHydro(BelowgroundCompetition):
         s_d = 3600 * 24
         ## number of days
         ndays = int(tsl / s_d)
-        ## part of the last days
+        ## fraction of the last day
         rest = tsl / s_d - int(tsl / s_d)
         ##calculate water uptake from grid cells
+        ####negative distance of gridcells to root zone, positive values -> grid cell inside root zone
         distance = (np.array(self._r_root)[np.newaxis, np.newaxis, :] -
                     ((self._my_grid[0][:, :, np.newaxis] -
                       np.array(self._xe)[np.newaxis, np.newaxis, :])**2 +
                      (self._my_grid[1][:, :, np.newaxis] -
                       np.array(self._ye)[np.newaxis, np.newaxis, :])**2)**0.5)
+        ###initialise water loss matrix from gridcells (transpiration)
         water_loss = np.zeros(np.shape(distance[:, :, 0]))
+        ### which tree is present where?
         presence = distance > 0
+        ### what is the distance to the closest gridcell
         maxe = np.amax(distance, axis=(0, 1))
+        ### initialise things
         self._salinity = []
         self.transpiration = []
+        ### for the trees ...
         for ii in range(distance.shape[2]):
+            ### making the tree being present at the closest gridcell (to define at least one grid cell for the tree to be present)
             closest = distance[:, :, ii] == maxe[ii]
             presence[:, :, ii] = np.fmax(closest, presence[:, :, ii])
+            ### average salinity in the root zone
             self._salinity.append((np.sum(presence[:, :, ii] * self.salinity) /
                                    np.sum(presence[:, :, ii])))
+            ### transpiration for the tree
             self.transpiration.append(
                 (-self._potential_nosal[ii] - self._salinity[ii] * 85000) /
                 self._resistance[ii] / np.pi * tsl)
+            ### transpiration per grid cell
             water_loss += (self.transpiration[ii] /
                            np.sum(presence[:, :, ii])) * presence[:, :, ii]
+        ## what OGS would do:
         for ii in range(ndays):
-            ## refill
+            ## refill transpiration losses with seawater
             self.salinity += self._sea_salinity * water_loss / self.volume / (
                 tsl / s_d)
+            ## do all the other stuff, see there. argument "1" means entire day
             self.updateSalinity(1)
 
-        ## refill
+        ## refill (if there are fractions of a day left)
         self.salinity += self._sea_salinity * water_loss / self.volume / (
             tsl / s_d) * rest
         self.updateSalinity(rest)
@@ -78,11 +88,13 @@ class SimpleHydro(BelowgroundCompetition):
     def updateSalinity(self, rest):
         s_d = 3600 * 24
         ## dilution
-
+        ### the fraction of diluted water gets replaced with sea water
         self.salinity += (-self.salinity * self.dilution_frac +
                           self._sea_salinity * self.dilution_frac) * rest
         ## diffusion
+        ### keep water that is not diffusing to neighbouring cells
         salinity_new = self.salinity * (1 - self._diffusion_frac * rest)
+        ### distribute a quarter of the diffused water to the neighbours or keep it, if at the edge
         # diff in x-dir
         for ii in range(self.x_resolution):
             if ii == self.x_resolution - 1:
@@ -119,7 +131,7 @@ class SimpleHydro(BelowgroundCompetition):
                 salinity_new[ii - 1, :] += (self.salinity[ii, :] *
                                             self._diffusion_frac * rest / 4)
         self.salinity = salinity_new
-        ## gradient-flow
+        ## gradient-flow hilldown
         multi_fac = self.q_fac * s_d * rest
         salinity_new[0, :] = self.salinity[0, :] * (
             1 - multi_fac) + self._up_sal * multi_fac

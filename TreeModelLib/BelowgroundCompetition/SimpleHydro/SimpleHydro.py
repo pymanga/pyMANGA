@@ -41,7 +41,7 @@ class SimpleHydro(BelowgroundCompetition):
         s_d = 3600 * 24
         ## number of days
         ndays = int(tsl / s_d)
-        ## number of days
+        ## part of the last days
         rest = tsl / s_d - int(tsl / s_d)
         ##calculate water uptake from grid cells
         distance = (np.array(self._r_root)[np.newaxis, np.newaxis, :] -
@@ -82,7 +82,7 @@ class SimpleHydro(BelowgroundCompetition):
         self.salinity += (-self.salinity * self.dilution_frac +
                           self._sea_salinity * self.dilution_frac) * rest
         ## diffusion
-        salinity_new = self.salinity * (1 - self._diffusion_frac) * rest
+        salinity_new = self.salinity * (1 - self._diffusion_frac * rest)
         # diff in x-dir
         for ii in range(self.x_resolution):
             if ii == self.x_resolution - 1:

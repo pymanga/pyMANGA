@@ -453,55 +453,75 @@ class SimpleNetwork(BelowgroundCompetition):
     # linear equations: Ax=B, whereby matrix[, 0:size] = A and
     # matrix[, size+1] = B
     def getBGresourcesMatrixGroup(self, members, link_list):
+        # Create empty matrix
         n_t = len(members)
         n_l = len(link_list)
         size = 2 * n_t + n_l
         matrix = np.zeros((size, size + 1))
 
-        j = 0
-        for i in members:
-            bgCol = j
-            agCol = n_t + j
+        ## Basic indices to fill the matrix
+        # columns: bg_1 ... bg_t | ag_1 ... ag_t | g_1 ... g_l
+        # rows: node_1 ... node_t | tree_1 ... tree_t | link_1 ... link_l
+        # Below-graft columns
+        bg_col = np.array(range(0, len(members)))
+        # Above-graft columns
+        ag_col = bg_col + n_t
+        # Graft columns
+        g_col = (2 * n_t) - 1 + n_l
+        # node_rows
+        node_row = np.array(range(0, len(members)))
+        # tree_rows
+        tree_rows = node_row + n_t
+        # links_rows
+        link_rows = (2 * n_t) - 1 + n_l
 
-            # Kirchhoff's 1st law: flow in and out of each tree node
-            matrix[j, bgCol] = 1  # below-graft
-            matrix[j, agCol] = -1  # above-graft
+        ## Kirchhoff's 1st law: flow in and out of each tree node
+        # Add inflow, i.e. +1, to below-graft column; and outflow, i.e. -1 to
+        # above-graft column
+        matrix[node_row, bg_col] = 1  # below-graft
+        matrix[node_row, ag_col] = -1  # above-graft
 
-            my_links = self.getMyLinks(link_list, i)
-            for k in my_links:
-                # index of my_links in linkList
-                gCol = 2 * n_t + np.where(link_list == k)[0]
-                # check whether i is first element of link
-                if list(k)[0] == i:
-                    matrix[j, gCol] = 1
-                else:
-                    matrix[j, gCol] = -1
+        # Add in-/ outflow through graft
+        # Transform sets to lists in link_list
+        link_list_group_list = [list(links) for links in link_list]
+        # reshape link_list_group to shape = [2, n_l]
+        reshape_llg = np.transpose(link_list_group_list)
+        # Get from and to tree IDs
+        from_IDs = reshape_llg[0, :]  # from IDs
+        to_IDs = reshape_llg[1, :]  # to IDs
+        # Get indices, i.e. rows, corresponding to from and to tree IDs
+        from_index = node_row[
+            np.searchsorted(members, from_IDs, sorter=node_row)]
+        to_index = node_row[np.searchsorted(members, to_IDs, sorter=node_row)]
+        # Set graft in- and outflow
+        matrix[from_index, g_col] = 1
+        matrix[to_index, g_col] = -1
 
-            # Kirchhoff's 2nd law: flow along each along tree
-            row = j + n_t
-            matrix[row, bgCol] = self._below_graft_resistance[i]
-            matrix[row, agCol] = self._above_graft_resistance[i]
-            matrix[row, size] = self._psi_osmo[i] - self._psi_top[i]
-            j += 1
+        ## Kirchhoff's 2nd law: flow along the tree
 
-        # Kirchhoff's 2nd law: flow between pairs of connected trees,
-        # below-graft
-        for i in range(0, n_l):
-            l1 = list(link_list[i])[0]  # link tree 1
-            l2 = list(link_list[i])[1]  # link tree 2
-            distance = self.getDistance(x1=self._xe[l1], x2=self._xe[l2],
-                                        y1=self._ye[l1], y2=self._ye[l2])
-            r_graft = 0.25 * (self._r_stem[l1] + self._r_stem[l2]) / 2
-            kf_sap = (self._kf_sap[l1] + self._kf_sap[l2]) / 2
-            graft_resistance = self.getGraftResistance(r_graft, distance,
-                                                       kf_sap)
-            row = 2 * n_t + i
-            col1 = np.where(members == l1)[0]
-            col2 = np.where(members == l2)[0]
-            matrix[row, col1] = -self._below_graft_resistance[l1]
-            matrix[row, col2] = self._below_graft_resistance[l2]
-            matrix[row, 2 * n_t + i] = graft_resistance
-            matrix[row, size] = self._psi_osmo[l2] - self._psi_osmo[l1]  # = B
+        matrix[tree_rows, bg_col] = self._below_graft_resistance[members]
+        matrix[tree_rows, ag_col] = self._above_graft_resistance[members]
+        matrix[tree_rows, size] = self._psi_osmo[members] - self._psi_top[
+            members]
+
+        ## Kirchhoff's 2nd law: flow between two connected trees
+        x_mesh = np.array(np.meshgrid(self._xe, self._xe))
+        y_mesh = np.array(np.meshgrid(self._ye, self._ye))
+        # calculate distances between all trees of the group
+        distances = ((x_mesh[0] - x_mesh[1]) ** 2 + (
+                y_mesh[0] - y_mesh[1]) ** 2) ** .5
+        r_stem = np.array(np.meshgrid(self._r_stem, self._r_stem))
+        r_grafts = 0.25 * (r_stem[0] + r_stem[1]) / 2
+        kf_sap = np.array(np.meshgrid(self._kf_sap, self._kf_sap))
+        kf_saps = (kf_sap[0] + kf_sap[1]) / 2
+
+        graft_resistance = self.getGraftResistance(r_grafts, distances,
+                                                   kf_saps)
+        matrix[link_rows, from_index] = -self._below_graft_resistance[from_IDs]
+        matrix[link_rows, to_index] = self._below_graft_resistance[to_IDs]
+        matrix[link_rows, g_col] = graft_resistance[from_IDs, to_IDs]
+        matrix[link_rows, size] = self._psi_osmo[to_IDs] - self._psi_osmo[
+            from_IDs]      # y
         return matrix
 
     ## Function that calculates water uptake of an individual tree,
@@ -524,10 +544,11 @@ class SimpleNetwork(BelowgroundCompetition):
     # @param link_list_group - list with connected trees of group
     # (format: from, to)
     def calculateBGresourcesGroup(self, members, link_list_group):
-        ## get the system of linear equations (matrix) for the group of
+        ## Get the system of linear equations (matrix) for the group of
         # grafted trees;
         # linear equation Ax=B in matrix form
         matrix = self.getBGresourcesMatrixGroup(members, link_list_group)
+
         n_t = len(members)
         n_l = len(link_list_group)
 

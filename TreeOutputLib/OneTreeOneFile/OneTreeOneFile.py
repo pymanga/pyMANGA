@@ -28,7 +28,7 @@ class OneTreeOneFile(OneTimestepOneFile):
                     growth_information = tree.getGrowthConceptInformation()
                     filename = (group_name + "_" + "%09.0d" % (tree.getId()) +
                                 ".csv")
-                    file = open(self.output_dir + filename, "a")
+                    file = open(os.path.join(self.output_dir, filename), "a")
                     if filename not in files_in_folder:
                         string = ""
                         string += 'time' + delimiter + 'x' + delimiter + 'y'

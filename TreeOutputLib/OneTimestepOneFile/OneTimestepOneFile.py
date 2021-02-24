@@ -48,10 +48,11 @@ class OneTimestepOneFile(TreeOutput):
         try:
             dir_files = len(os.listdir(self.output_dir))
         except FileNotFoundError:
-            raise FileNotFoundError(
-                "[Errno 2] No such directory: '" + self.output_dir +
+            print("No such directory: '" + self.output_dir +
                 "' as defined in the project file." +
-                " Please make sure your output directory exists!")
+                " Creating directory...")
+            os.mkdir(self.output_dir)
+            dir_files = 0
         if (dir_files > 0 and allow_previous_output == False):
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
@@ -73,7 +74,7 @@ class OneTimestepOneFile(TreeOutput):
         if self._output_counter == 0:
             delimiter = "\t"
             filename = ("Population_t_%012.1f" % (time) + ".csv")
-            file = open(self.output_dir + filename, "w")
+            file = open(os.path.join(self.output_dir, filename), "w")
             string = ""
             string += 'tree' + delimiter + 'time' + delimiter + 'x' + \
                       delimiter + 'y'

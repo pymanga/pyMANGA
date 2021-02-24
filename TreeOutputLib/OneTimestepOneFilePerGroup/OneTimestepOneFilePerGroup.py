@@ -6,6 +6,7 @@
 """
 from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import \
     OneTimestepOneFile
+import os
 
 
 ## Output class. This class creates one file per timestep per group at a 
@@ -23,7 +24,7 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
             delimiter = "\t"
             for group_name, tree_group in tree_groups.items():
                 filename = (group_name + "_t_%012.1f" % (time) + ".csv")
-                file = open(self.output_dir + filename, "w")
+                file = open(os.path.join(self.output_dir, filename), "w")
                 string = ""
                 string += 'tree' + delimiter + 'time' + delimiter + 'x' +  \
                           delimiter + 'y'

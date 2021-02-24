@@ -52,6 +52,7 @@ class OneTimestepOneFile(TreeOutput):
                 "' as defined in the project file." +
                 " Creating directory...")
             os.mkdir(self.output_dir)
+            dir_files = 0
         if (dir_files > 0 and allow_previous_output == False):
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")

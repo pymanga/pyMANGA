@@ -10,3 +10,4 @@ from .GrowthAndDeathDynamics import GrowthAndDeathDynamics
 from .SimpleTest import SimpleTest
 from .SimpleBettina import SimpleBettina
 from .SimpleKiwi import SimpleKiwi
+from .NetworkBettina import NetworkBettina

@@ -33,6 +33,8 @@ class OneTimestepOneFile(TreeOutput):
         self.parameter_outputs = []
         ## Parameters included in output
         self.growth_outputs = []
+        ## Network information included in output
+        self.network_outputs = []
         ## Counter for output generation
         self._output_counter = 0
         for key in args.iterchildren("geometry_output"):
@@ -41,6 +43,8 @@ class OneTimestepOneFile(TreeOutput):
             self.parameter_outputs.append(key.text.strip())
         for key in args.iterchildren("growth_output"):
             self.growth_outputs.append(key.text.strip())
+        for key in args.iterchildren("network_output"):
+            self.network_outputs.append(key.text.strip())
         try:
             dir_files = len(os.listdir(self.output_dir))
         except FileNotFoundError:
@@ -65,18 +69,22 @@ class OneTimestepOneFile(TreeOutput):
     def writeOutput(self, tree_groups, time):
         self._output_counter = (self._output_counter %
                                 self.output_each_nth_timestep)
+
         if self._output_counter == 0:
             delimiter = "\t"
             filename = ("Population_t_%012.1f" % (time) + ".csv")
             file = open(self.output_dir + filename, "w")
             string = ""
-            string += 'tree' + delimiter + 'time' + delimiter + 'x' + delimiter + 'y'
+            string += 'tree' + delimiter + 'time' + delimiter + 'x' + \
+                      delimiter + 'y'
             for geometry_output in self.geometry_outputs:
                 string += delimiter + geometry_output
             for parameter_output in self.parameter_outputs:
                 string += delimiter + parameter_output
             for growth_output in self.growth_outputs:
                 string += delimiter + growth_output
+            for network_output in self.network_outputs:
+                string += delimiter + network_output
             string += "\n"
             file.write(string)
             for group_name, tree_group in tree_groups.items():
@@ -84,16 +92,19 @@ class OneTimestepOneFile(TreeOutput):
                     growth_information = tree.getGrowthConceptInformation()
                     string = ""
                     string += (group_name + "_" + "%09.0d" % (tree.getId()) +
-                               delimiter + str(time) + delimiter + str(tree.x) +
+                               delimiter + str(time) + delimiter + str(
+                                tree.x) +
                                delimiter + str(tree.y))
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:
-                            string += delimiter + str(geometry[geometry_output])
+                            string += delimiter + str(
+                                geometry[geometry_output])
                     if (len(self.parameter_outputs) > 0):
                         parameter = tree.getParameter()
                         for parameter_output in self.parameter_outputs:
-                            string += delimiter + str(parameter[parameter_output])
+                            string += delimiter + str(
+                                parameter[parameter_output])
                     if (len(growth_information) > 0):
                         for growth_output_key in self.growth_outputs:
                             try:
@@ -105,6 +116,10 @@ class OneTimestepOneFile(TreeOutput):
                                     " not available in growth concept!" +
                                     " Please read growth concept documentation."
                                 )
+                    if len(self.network_outputs) > 0:
+                        network = tree.getNetwork()
+                        for network_output in self.network_outputs:
+                            string += delimiter + str(network[network_output])
                     string += "\n"
                     file.write(string)
             file.close()

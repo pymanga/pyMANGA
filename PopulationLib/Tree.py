@@ -9,7 +9,8 @@ import importlib.util
 
 
 class Tree:
-    def __init__(self, x, y, species, tree_id, initial_geometry=False, group_name=""):
+    def __init__(self, x, y, species, tree_id, initial_geometry=False,
+                 group_name=""):
         self.tree_id = tree_id
         self.species = species
         self.trees = []
@@ -17,6 +18,9 @@ class Tree:
         self.y = y
         self.survival = 1
         self.group_name = group_name
+        ## This initialization is only required if networks (root grafts) are
+        # simulated
+        self.iniNetwork()
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createTree()
@@ -68,3 +72,25 @@ class Tree:
 
     def getId(self):
         return self.tree_id
+
+    ## This function initializes a dictionary containing parameters required
+    # to build a network of grafted trees
+    def iniNetwork(self):
+        self.network = {}
+        ## Counter to track or define the time required for root graft
+        # formation, if -1 no root graft formation takes place at the moment
+        self.network['rgf'] = -1
+        ## List with the names of trees (tree_name) with which an root graft
+        # is currently being formed
+        self.network['potential_partner'] = []
+        # List with the names of trees (tree_name) with which it is connected
+        self.network['partner'] = []
+        self.network['water_absorbed'] = []
+        self.network['water_available'] = []
+        self.network['water_exchanged'] = []
+
+    def getNetwork(self):
+        return self.network
+
+    def setNetwork(self, network):
+        self.network = network

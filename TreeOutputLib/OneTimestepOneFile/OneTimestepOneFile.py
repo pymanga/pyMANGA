@@ -73,7 +73,7 @@ class OneTimestepOneFile(TreeOutput):
         if self._output_counter == 0:
             delimiter = "\t"
             filename = ("Population_t_%012.1f" % (time) + ".csv")
-            file = open(self.output_dir + filename, "w")
+            file = open(os.path.join(self.output_dir, filename), "w")
             string = ""
             string += 'tree' + delimiter + 'time' + delimiter + 'x' + \
                       delimiter + 'y'

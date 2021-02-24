@@ -38,8 +38,7 @@ class SimplePyplot(Visualization):
         patches = []
         left, bottom = 99999, 99999
         rigth, top = -99999, -99999
-        a, b = tree_groups.items()
-        colors = cm.get_cmap('viridis', len(b))
+        colors = cm.get_cmap('viridis', len(tree_groups.items()))
         i = 0
         patches, group_names = [], []
         for group_name, tree_group in tree_groups.items():

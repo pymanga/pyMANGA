@@ -48,10 +48,10 @@ class OneTimestepOneFile(TreeOutput):
         try:
             dir_files = len(os.listdir(self.output_dir))
         except FileNotFoundError:
-            raise FileNotFoundError(
-                "[Errno 2] No such directory: '" + self.output_dir +
+            print("No such directory: '" + self.output_dir +
                 "' as defined in the project file." +
-                " Please make sure your output directory exists!")
+                " Creating directory...")
+            os.mkdir(self.output_dir)
         if (dir_files > 0 and allow_previous_output == False):
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")

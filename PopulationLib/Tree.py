@@ -88,6 +88,16 @@ class Tree:
         self.network['water_absorbed'] = []
         self.network['water_available'] = []
         self.network['water_exchanged'] = []
+        # List with minimum grafted root radius
+        self.network['r_gr_min'] = []
+        self.network['r_gr_rgf'] = []
+        self.network['r_gr'] = []
+        self.network['l_gr_rgf'] = []
+        self.network['l_gr'] = []
+
+        ## List with lengths of grafted roots (proportional to r_root of
+        # adjacent trees
+        self.network['l_gr'] = []
         self.network['psi_osmo'] = []
 
     def getNetwork(self):

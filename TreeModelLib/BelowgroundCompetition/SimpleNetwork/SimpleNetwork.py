@@ -61,6 +61,13 @@ class SimpleNetwork(BelowgroundCompetition):
         # is in the process of rgf, if = -1 the tree is not in the process
         # of rgf
         self._rgf_counter = []
+
+        self._r_gr_min = []
+        self._r_gr_rgf = []
+        self._l_gr_rgf = []
+        self._r_gr = []
+        self._l_gr = []
+
         ## Dictionary that represents the network of grafted trees (= nodes).
         # Trees are the keys and Links are the adjacent tree(s)
         self.graph_dict = {}
@@ -89,6 +96,19 @@ class SimpleNetwork(BelowgroundCompetition):
         self._rgf_counter.append(self.network['rgf'])
         self._partner_names.append(self.network['partner'])
         self._potential_partner.append(self.network['potential_partner'])
+
+        # list with min./current grafted root radius of each pair; same
+        # structure as potential_partner
+        # required for rgf
+        self._r_gr_min.append(self.network['r_gr_min'])
+        self._r_gr_rgf.append(self.network['r_gr_rgf'])
+        self._l_gr_rgf.append(self.network['l_gr_rgf'])
+
+        # List with grafted root radius; same structure as partner_names
+        # required for water exchange
+        self._r_gr.append(self.network['r_gr'])
+        self._l_gr.append(self.network['l_gr'])
+
 
         self._xe.append(x)
         self._ye.append(y)
@@ -139,14 +159,25 @@ class SimpleNetwork(BelowgroundCompetition):
                                               self._above_graft_resistance,
                                               self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b
+        self.updateNetworkParametersForGrowthAndDeath()
 
+    ## This function updates the network parameters that are required in the
+    # growth-and death concept NetworkBettina
+    def updateNetworkParametersForGrowthAndDeath(self):
         # Update the parameter belonging to the tree and are needed in the
         # growth- and-death-concept
         for i, tree in zip(range(0, self.n_trees), self.trees):
             network = {}
-            network['partner'] = self._partner_names[i]
-            network['rgf'] = self._rgf_counter[i]
+            # Parameters related to the root graft formation process
             network['potential_partner'] = self._potential_partner[i]
+            network['r_gr_rgf'] = self._r_gr_rgf[i]
+            network['r_gr_min'] = self._r_gr_min[i]
+            network['l_gr_rgf'] = self._l_gr_rgf[i]
+            network['rgf'] = self._rgf_counter[i]
+            # Parameter related to water exchange
+            network['partner'] = self._partner_names[i]
+            network['r_gr'] = self._r_gr[i]
+            network['l_gr'] = self._l_gr[i]
             network['water_available'] = self._water_avail[i]
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]
@@ -358,6 +389,24 @@ class SimpleNetwork(BelowgroundCompetition):
                 self._potential_partner[l1], self._potential_partner[l2] = \
                 self._tree_names[l2], self._tree_names[l1]
 
+                # Set initial size of grafted root radius
+                self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
+                # Get min. radius of grafted roots
+                f_gr = 0.1 # ToDo: include and read from xml
+                r_gr_min = f_gr * min(self._r_root[l1], self._r_root[l2])
+                self._r_gr_min[l1], self._r_gr_min[l2] = [r_gr_min], [r_gr_min]
+
+                # Get length of grafted root section
+                distance = self.getDistance(self._xe[l1], self._xe[l2],
+                                            self._ye[l1], self._ye[l2])
+                root_sums = self._r_root[l1] + self._r_root[l2]
+                l_gr = (distance + root_sums) / 2
+                self._l_gr_rgf[l1], self._l_gr_rgf[l2] = self._r_root[l1] / \
+                                                         root_sums * l_gr,  \
+                                                         self._r_root[l2] / \
+                                                         root_sums * l_gr,
+
+
     ## Function that calls all the sub procedures to initialize root graft
     # formation.
     def rootGraftFormation(self):
@@ -413,6 +462,15 @@ class SimpleNetwork(BelowgroundCompetition):
         graft_resistance = distance / (kf_sap * np.pi * r_graft ** 2)
         return graft_resistance
 
+    ## Function that calculates the radius of the grafted roots (
+    # link-function)
+    def graftedRootsRadius(self):
+        link_list = self.getLinkList(self.graph_dict)
+        for i in range(0, len(link_list)):
+            l1, l2 = link_list[0], link_list[1]
+
+            self._r_gr = 0
+
     ## Function that returns an array with the links of a specific tree.
     # @return a list with tree indices of adjacent trees
     # @param link_list - a 2d array with tree indices of connected trees
@@ -447,7 +505,7 @@ class SimpleNetwork(BelowgroundCompetition):
     # available, exchanged for all trees of a group. The equations result from
     # the electronic-hydraulic analogy and the utilization of Kirchhoff's laws.
     # @param members - list with indexes of group members
-    # @param link_list - list with connected trees
+    # @param link_list - list with connected trees of the group
     # @return a matrix of shape size*size+1 (size = 2*n-trees + n-links);
     # the matrix represents
     # linear equations: Ax=B, whereby matrix[, 0:size] = A and
@@ -511,15 +569,17 @@ class SimpleNetwork(BelowgroundCompetition):
         distances = ((x_mesh[0] - x_mesh[1]) ** 2 + (
                 y_mesh[0] - y_mesh[1]) ** 2) ** .5
         r_stem = np.array(np.meshgrid(self._r_stem, self._r_stem))
-        r_grafts = 0.25 * (r_stem[0] + r_stem[1]) / 2
+        f_gr = 0.1
+        r_grafts = f_gr * np.minimum(r_stem[0], r_stem[1])
         kf_sap = np.array(np.meshgrid(self._kf_sap, self._kf_sap))
         kf_saps = (kf_sap[0] + kf_sap[1]) / 2
 
-        graft_resistance = self.getGraftResistance(r_grafts, distances,
-                                                   kf_saps)
+        graft_resistance = self.getGraftResistance(r_grafts[from_IDs, to_IDs],
+                                                   distances[from_IDs, to_IDs],
+                                                   kf_saps[from_IDs, to_IDs])
         matrix[link_rows, from_index] = -self._below_graft_resistance[from_IDs]
         matrix[link_rows, to_index] = self._below_graft_resistance[to_IDs]
-        matrix[link_rows, g_col] = graft_resistance[from_IDs, to_IDs]
+        matrix[link_rows, g_col] = graft_resistance
         matrix[link_rows, size] = self._psi_osmo[to_IDs] - self._psi_osmo[
             from_IDs]      # y
         return matrix

@@ -21,6 +21,7 @@ class SimpleNetwork(BelowgroundCompetition):
     def __init__(self, args):
         case = args.find("type").text
         print("Initiate below-ground competition of type " + case + ".")
+        self.getInputParameters(args)
 
     ## This functions prepares the tree variables for the NetworkHydro
     #  concept.\n
@@ -67,6 +68,7 @@ class SimpleNetwork(BelowgroundCompetition):
         self._l_gr_rgf = []
         self._r_gr = []
         self._l_gr = []
+        self._weight_gr = []
 
         ## Dictionary that represents the network of grafted trees (= nodes).
         # Trees are the keys and Links are the adjacent tree(s)
@@ -108,7 +110,7 @@ class SimpleNetwork(BelowgroundCompetition):
         # required for water exchange
         self._r_gr.append(self.network['r_gr'])
         self._l_gr.append(self.network['l_gr'])
-
+        self._weight_gr.append(self.network['weight_gr'])
 
         self._xe.append(x)
         self._ye.append(y)
@@ -182,8 +184,32 @@ class SimpleNetwork(BelowgroundCompetition):
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]
             network['psi_osmo'] = self._psi_osmo[i]
+            network['weight_gr'] = self._weight_gr[i]
 
             tree.setNetwork(network)
+
+    def getInputParameters(self, args):
+        missing_tags = ["type", "f_gr"]
+        for arg in args.iterdescendants():
+            tag = arg.tag
+            if tag == "f_gr":
+                self.f_gr = float(args.find("f_gr").text)
+
+            try:
+                missing_tags.remove(tag)
+            except ValueError:
+                raise ValueError(
+                    "Tag " + tag +
+                    " not specified for below-ground initialisation!")
+        if len(missing_tags) > 0:
+            string = ""
+            for tag in missing_tags:
+                string += tag + " "
+            raise KeyError(
+                "Tag(s) " + string +
+                "are not given for below-ground initialisation in project "
+                "file."
+            )
 
     '''
     ##############################
@@ -392,8 +418,7 @@ class SimpleNetwork(BelowgroundCompetition):
                 # Set initial size of grafted root radius
                 self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
                 # Get min. radius of grafted roots
-                f_gr = 0.1 # ToDo: include and read from xml
-                r_gr_min = f_gr * min(self._r_root[l1], self._r_root[l2])
+                r_gr_min = self.f_gr * min(self._r_root[l1], self._r_root[l2])
                 self._r_gr_min[l1], self._r_gr_min[l2] = [r_gr_min], [r_gr_min]
 
                 # Get length of grafted root section
@@ -569,8 +594,9 @@ class SimpleNetwork(BelowgroundCompetition):
         distances = ((x_mesh[0] - x_mesh[1]) ** 2 + (
                 y_mesh[0] - y_mesh[1]) ** 2) ** .5
         r_stem = np.array(np.meshgrid(self._r_stem, self._r_stem))
-        f_gr = 0.1
-        r_grafts = f_gr * np.minimum(r_stem[0], r_stem[1])
+        # ToDo: update r_gr based on avail. resources
+        # self.r_gr = ...
+        r_grafts = self.f_gr * np.minimum(r_stem[0], r_stem[1])
         kf_sap = np.array(np.meshgrid(self._kf_sap, self._kf_sap))
         kf_saps = (kf_sap[0] + kf_sap[1]) / 2
 

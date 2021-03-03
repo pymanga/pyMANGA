@@ -16,6 +16,7 @@ class NetworkBettina(SimpleBettina):
     def __init__(self, args):
         case = args.find("type").text
         print("Growth and death dynamics of type " + case + ".")
+        self.getInputParameters(args)
 
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         network = tree.getNetwork()
@@ -30,6 +31,7 @@ class NetworkBettina(SimpleBettina):
         self.r_gr_rgf = network['r_gr_rgf']
         self.l_gr_rgf = network['l_gr_rgf']
         self.r_gr = network['r_gr']
+        self.weight_gr = network['weight_gr']
 
         self.name = str(tree.group_name) + str(tree.tree_id)
         # Simple bettina tree progress
@@ -44,6 +46,7 @@ class NetworkBettina(SimpleBettina):
         network['r_gr_rgf'] = self.r_gr_rgf
         network['l_gr_rgf'] = self.l_gr_rgf
         network['r_gr'] = self.r_gr
+        network['weight_gr'] = self.weight_gr
 
         tree.setNetwork(network)
         if self.survive == 1:
@@ -77,17 +80,40 @@ class NetworkBettina(SimpleBettina):
             self.partner.append(self.potential_partner)
             # Reset rgf parameters
             self.r_gr_rgf = 0.004
-            self.rgf = -1   # ToDo: remove? or leave it as counter to
+            self.rgf = -1
             # analyse rgf duration
             self.potential_partner = []
             self.r_gr_min = []
         else:
             # if rgf is not finished, the grafted roots must grow
-            f_wrg = 0.5     # ToDo read from xml
-            self.weight_gr = self.weight_girthgrowth * f_wrg
+            self.weight_gr = self.weight_girthgrowth * self.f_wgr
             inc_r_gr = (self.weight_gr * self.grow /
                         (2 * np.pi * self.l_gr_rgf * self.r_gr_rgf))
             self.r_gr_rgf += inc_r_gr
             # reduce girth growth factor
-            self.weight_girthgrowth = self.weight_girthgrowth * (1 - f_wrg)
+            self.weight_girthgrowth = self.weight_girthgrowth * (1 -
+                                                                 self.f_wgr)
             self.rgf += 1
+
+    def getInputParameters(self, args):
+        missing_tags = ["type", "f_wgr"]
+        for arg in args.iterdescendants():
+            tag = arg.tag
+            print('tag ' + str(tag))
+            if tag == "f_wgr":
+                self.f_wgr = float(args.find("f_wgr").text)
+            try:
+                missing_tags.remove(tag)
+            except ValueError:
+                raise ValueError(
+                    "Tag " + tag +
+                    " not specified for growth and death initialisation!")
+        if len(missing_tags) > 0:
+            string = ""
+            for tag in missing_tags:
+                string += tag + " "
+            raise KeyError(
+                "Tag(s) " + string +
+                "are not given for growth and death initialisation in "
+                "project file."
+            )

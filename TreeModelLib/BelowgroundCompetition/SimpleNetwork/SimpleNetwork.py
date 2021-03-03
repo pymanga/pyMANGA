@@ -467,13 +467,13 @@ class SimpleNetwork(BelowgroundCompetition):
         # Above-graft columns
         ag_col = bg_col + n_t
         # Graft columns
-        g_col = (2 * n_t) - 1 + n_l
+        g_col = (2 * n_t) + np.array(range(0, n_l))
         # node_rows
         node_row = np.array(range(0, len(members)))
         # tree_rows
         tree_rows = node_row + n_t
         # links_rows
-        link_rows = (2 * n_t) - 1 + n_l
+        link_rows = (2 * n_t) + np.array(range(0, n_l))
 
         ## Kirchhoff's 1st law: flow in and out of each tree node
         # Add inflow, i.e. +1, to below-graft column; and outflow, i.e. -1 to

@@ -92,12 +92,11 @@ class Tree:
         self.network['r_gr_min'] = []
         self.network['r_gr_rgf'] = []
         self.network['r_gr'] = []
-        self.network['l_gr_rgf'] = []
-        self.network['l_gr'] = []
-
         ## List with lengths of grafted roots (proportional to r_root of
         # adjacent trees
+        self.network['l_gr_rgf'] = []
         self.network['l_gr'] = []
+        self.network['weight_gr'] = 0
         self.network['psi_osmo'] = []
 
     def getNetwork(self):

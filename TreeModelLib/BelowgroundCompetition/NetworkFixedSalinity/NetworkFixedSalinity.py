@@ -6,10 +6,10 @@
 """
 
 import numpy as np
-from TreeModelLib.BelowgroundCompetition.Network import Network
+from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
 
 
-class NetworkFixedSalinity(Network):
+class NetworkFixedSalinity(SimpleNetwork):
     ## Fixed salinityin belowground competition concept.
     #  @param: Tags to define FixedSalinity: type, salinity
     #  @date: 2020 - Today

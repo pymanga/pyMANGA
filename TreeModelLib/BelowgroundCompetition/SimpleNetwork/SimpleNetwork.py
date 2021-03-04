@@ -412,7 +412,7 @@ class SimpleNetwork(BelowgroundCompetition):
                 # Set initial size of grafted root radius
                 self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
                 # Get min. radius of grafted roots
-                r_gr_min = self.f_gr * min(self._r_root[l1], self._r_root[l2])
+                r_gr_min = self.f_gr * min(self._r_stem[l1], self._r_stem[l2])
                 self._r_gr_min[l1], self._r_gr_min[l2] = [r_gr_min], [r_gr_min]
 
                 # Get length of grafted root section

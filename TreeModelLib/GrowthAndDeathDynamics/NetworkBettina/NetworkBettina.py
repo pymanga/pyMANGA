@@ -30,7 +30,6 @@ class NetworkBettina(SimpleBettina):
         self.r_gr_min = network['r_gr_min']
         self.r_gr_rgf = network['r_gr_rgf']
         self.l_gr_rgf = network['l_gr_rgf']
-        self.r_gr = network['r_gr']
         self.weight_gr = network['weight_gr']
 
         self.name = str(tree.group_name) + str(tree.tree_id)
@@ -45,7 +44,6 @@ class NetworkBettina(SimpleBettina):
         network['r_gr_min'] = self.r_gr_min
         network['r_gr_rgf'] = self.r_gr_rgf
         network['l_gr_rgf'] = self.l_gr_rgf
-        network['r_gr'] = self.r_gr
         network['weight_gr'] = self.weight_gr
 
         tree.setNetwork(network)
@@ -78,8 +76,6 @@ class NetworkBettina(SimpleBettina):
             print('RGF is finished after ' + str(self.rgf) + ' time '
                  'steps. Years: ' + str(self.rgf * self.time / 3600 / 24 /
                                         365))
-            # Set radius of functional grafted roots
-            self.r_gr = self.r_gr_min
             # Append partner
             self.partner.append(self.potential_partner)
             # Reset rgf parameters

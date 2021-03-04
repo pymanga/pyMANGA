@@ -66,8 +66,6 @@ class SimpleNetwork(BelowgroundCompetition):
         self._r_gr_min = []
         self._r_gr_rgf = []
         self._l_gr_rgf = []
-        self._r_gr = []
-        self._l_gr = []
         self._weight_gr = []
 
         ## Dictionary that represents the network of grafted trees (= nodes).
@@ -108,8 +106,6 @@ class SimpleNetwork(BelowgroundCompetition):
 
         # List with grafted root radius; same structure as partner_names
         # required for water exchange
-        self._r_gr.append(self.network['r_gr'])
-        self._l_gr.append(self.network['l_gr'])
         self._weight_gr.append(self.network['weight_gr'])
 
         self._xe.append(x)
@@ -178,8 +174,6 @@ class SimpleNetwork(BelowgroundCompetition):
             network['rgf'] = self._rgf_counter[i]
             # Parameter related to water exchange
             network['partner'] = self._partner_names[i]
-            network['r_gr'] = self._r_gr[i]
-            network['l_gr'] = self._l_gr[i]
             network['water_available'] = self._water_avail[i]
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]
@@ -594,9 +588,11 @@ class SimpleNetwork(BelowgroundCompetition):
         distances = ((x_mesh[0] - x_mesh[1]) ** 2 + (
                 y_mesh[0] - y_mesh[1]) ** 2) ** .5
         r_stem = np.array(np.meshgrid(self._r_stem, self._r_stem))
-        # ToDo: update r_gr based on avail. resources
-        # self.r_gr = ...
+        # @mcwimm: at the moment the grafted root radius grows proportional to
+        #  the stem radius. This might be updated to grow based on avail.
+        #  resources.
         r_grafts = self.f_gr * np.minimum(r_stem[0], r_stem[1])
+
         kf_sap = np.array(np.meshgrid(self._kf_sap, self._kf_sap))
         kf_saps = (kf_sap[0] + kf_sap[1]) / 2
 

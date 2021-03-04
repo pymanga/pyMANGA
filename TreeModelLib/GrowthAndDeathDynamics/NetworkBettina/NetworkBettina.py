@@ -62,9 +62,13 @@ class NetworkBettina(SimpleBettina):
     def treeGrowthWeights(self):
         # Simple bettina get growth weigths
         SimpleBettina.treeGrowthWeights(self)
+
         # If self.r_gr_min exists the tree is currently in the process of rgf
         if self.r_gr_min:
             self.rootGraftFormation()
+        else:
+            self.weight_gr = 0
+
 
     ## This function simulated root graft formation and thereby reduces girth
     # growth during this process.

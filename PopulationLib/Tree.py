@@ -88,6 +88,7 @@ class Tree:
         self.network['water_absorbed'] = []
         self.network['water_available'] = []
         self.network['water_exchanged'] = []
+        self.network['psi_osmo'] = []
 
     def getNetwork(self):
         return self.network

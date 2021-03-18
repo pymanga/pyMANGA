@@ -27,7 +27,7 @@ class NetworkFixedSalinity(SimpleNetwork):
         self.trees = []
         self._xe = []
         self._ye = []
-        self._tree_name = np.empty(0)
+        self._tree_names = np.empty(0)
         self._partner_names = []
         self._partner_indices = []
         self._potential_partner = []
@@ -70,29 +70,33 @@ class NetworkFixedSalinity(SimpleNetwork):
         self._xe.append(x)
         self._ye.append(y)
         self.n_trees = len(self._xe)
-        self._tree_name = np.concatenate((self._tree_name,
-                                          [str(tree.group_name) + str(tree.tree_id)]))
+        self._tree_names = np.concatenate((self._tree_names,
+                                           [str(tree.group_name) +
+                                            str(tree.tree_id)]))
 
-        self._below_graft_resistance = np.concatenate((self._below_graft_resistance,
-                                                       [self.belowGraftResistance(parameter["lp"],
-                                                                                  parameter["k_geom"],
-                                                                                  parameter["kf_sap"],
-                                                                                  geometry["r_root"],
-                                                                                  geometry["h_root"],
-                                                                                  geometry["r_stem"])]
-                                                       ))
-        self._above_graft_resistance = np.concatenate((self._above_graft_resistance,
-                                                       [self.aboveGraftResistance(
-                                                           parameter["kf_sap"], geometry["r_crown"],
-                                                           geometry["h_stem"], geometry["r_stem"])]
-                                                       ))
+        self._below_graft_resistance = np.concatenate(
+            (self._below_graft_resistance,
+             [self.belowGraftResistance(parameter["lp"],
+                                        parameter["k_geom"],
+                                        parameter["kf_sap"],
+                                        geometry["r_root"],
+                                        geometry["h_root"],
+                                        geometry["r_stem"])]
+             ))
+        self._above_graft_resistance = np.concatenate(
+            (self._above_graft_resistance,
+             [self.aboveGraftResistance(
+                 parameter["kf_sap"], geometry["r_crown"],
+                 geometry["h_stem"], geometry["r_stem"])]
+             ))
 
         self._r_root.append(geometry["r_root"])
         self._r_stem.append(geometry["r_stem"])
 
         self._kf_sap.append(parameter["kf_sap"])
         self._psi_leaf.append(parameter["leaf_water_potential"])
-        self._psi_height.append((2 * geometry["r_crown"] + geometry["h_stem"]) * 9810)
+        self._psi_height.append(
+            (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810)
         self._psi_top = np.array(self._psi_leaf) - np.array(self._psi_height)
 
     def calculateBelowgroundResources(self):
@@ -117,7 +121,6 @@ class NetworkFixedSalinity(SimpleNetwork):
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]
             network['psi_osmo'] = self._psi_osmo[i]
-
 
             tree.setNetwork(network)
 
@@ -164,4 +167,3 @@ class NetworkFixedSalinity(SimpleNetwork):
                 "Tag(s) " + string +
                 "are not given for below-ground initialisation in project file."
             )
-

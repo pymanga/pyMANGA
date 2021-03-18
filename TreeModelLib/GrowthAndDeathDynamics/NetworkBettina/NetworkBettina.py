@@ -27,7 +27,8 @@ class NetworkBettina(SimpleBettina):
         self.psi_osmo = network["psi_osmo"]
         self.name = str(tree.group_name) + str(tree.tree_id)
         # Simple bettina tree progress
-        SimpleBettina.progressTree(self, tree, aboveground_resources, belowground_resources)
+        SimpleBettina.progressTree(self, tree, aboveground_resources,
+                                   belowground_resources)
         network['rgf'] = self.rgf
         network['potential_partner'] = self.potential_partner
         network['partner'] = self.partner

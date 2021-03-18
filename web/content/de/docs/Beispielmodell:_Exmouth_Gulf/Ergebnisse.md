@@ -35,6 +35,32 @@ Zur Evaluierung der Modellergebnisse werden sowohl Allometrydaten aus einer Tran
 <figcaption><font size = "1"><i><b>Abbildung 1:</b> Modellgebiet</i></font></figcaption>
 </figure><br>
 
+Das Modell bildet das Mangrovenwachstum an der in nachfolgender Darstellung zu sehenden Stelle im Exmouth-Golf dar.
+
+<iframe src="https://www.google.com/maps/d/embed?mid=1EiX5yyZGJgVSu7pueUi5_jK160ndg0tG" width="640" height="480"></iframe>
+
+<br>
+<br>
+<br>
+
+Die Höhenprofile aus dem digitalen Oberflächenmodell der fünf Transekte (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2"> Abbildung 2 A</a>) wurden übereinander gelegt und aus den fünf Signalen (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2 B</a>) die Geländeoberkante mit Hilfe eines digitalen Geländemodells (abgebildet/interpoliert/extrahiert MARKER) (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2 C</a>)
+
+<figure>
+<a name="Abbildung_2"></a>
+<img src="/pictures/exmouth_gulf/dem.png" style="width:75%">
+<figcaption><font size = "1"><i><b>Abbildung 2:</b> MARKER</i></font></figcaption>
+</figure><br>
+
+MARKER
+Soll diese Abbildung hier auch mit rein, oder wird das dann zu viel?
+
+<figure>
+<a name="Abbildung_2"></a>
+<img src="/pictures/exmouth_gulf/dgm.png" style="width:75%">
+<figcaption><font size = "1"><i><b>Abbildung 2:</b> MARKER</i></font></figcaption>
+</figure><br>
+
+MARKER
 
 # Modellierung (Arbeitstitel)
 
@@ -493,12 +519,16 @@ In den nachfolgenden Tabellen finden sich die Parametrisierungen des Untergrunds
 
 # Runtime [Arbeitstitel]
 
-Um die Mangroven im Modellgebiet abzubilden, bedarf es der Herstellung einer stabilen Population, also dem Erreichen von quasi-stationären Verhältnissen. Hierzu werden zunächst 30 Mangroven zufällig im Modellgebiet als Setzlinge positioniert. In jedem Zeitschritt (Länge: halbes Jahr) kommen nun 30 neue Mangroven hinzu, die ebenfalls zufällig im Modellgebiet positioniert werden. Aufgrund des wettbewerbsbasiertem Baumwachstumsmodell sterben diese neuen Mangroven mehr oder weniger schnell wieder ab. So ist die Wahrscheinlich, dass eine junge Mangrove im Einzugsgebiet einer bereits älteren sehr schnell wieder stirbt sehr hoch. Ursächlich hierfür ist die überirdische Konkurenz betreffend vor allem das fehlende Sonnenlicht. Durch die Aufkonzentrierung des Salzgehalts, bedingt durch die Entnahme von Frischwasser der anderen Mangroven, entstehen im Porenwasser Salzfahnen. Diese sorgen für schlechtere Wachstumsbedingungen der sich im Abstrom befindenden (jungen) Mangroven. 
+Um die Mangroven im Modellgebiet abzubilden, bedarf es der Herstellung einer stabilen Population, also dem Erreichen von quasi-stationären Verhältnissen. Hierzu werden zunächst 30 Mangroven zufällig im Modellgebiet als Setzlinge positioniert. In jedem Zeitschritt (Länge: halbes Jahr) kommen nun 30 neue Mangroven hinzu, die ebenfalls zufällig im Modellgebiet positioniert werden. Aufgrund des wettbewerbsbasierten Baumwachstumsmodells sterben diese neuen Mangroven mehr oder weniger schnell wieder ab. So ist die Wahrscheinlichkeit, dass eine junge Mangrove im Einzugsgebiet einer bereits älteren sehr schnell wieder stirbt sehr hoch. Ursächlich hierfür ist die überirdische Konkurenz betreffend vor allem das fehlende Sonnenlicht. Durch die Aufkonzentrierung des Salzgehalts, bedingt durch die Entnahme von Frischwasser der anderen Mangroven, entstehen im Porenwasser Salzfahnen. Diese sorgen für schlechtere Wachstumsbedingungen der sich im Abstrom befindenden (jungen) Mangroven. Unterschiedliche Mangrovenarten haben eine jeweils höhere oder niedrigere Toleranz gegenüber hohen Salzkonzentrationen. In diesem Projekt wurden in diesem Zusammenhang die beiden Arten Avicennia marina (<a href="https://www.biologie-seite.de/Biologie/Avicennia_marina">"graue Mangrove"</a>) und Rhizophora mangle (<a href="https://www.biologie-seite.de/Biologie/Rote_Mangrove">"rote Mangrove"</a>) genauer betrachtet.
 
 
 # Ergebnisse
 
-Nachfolgende Visualisierung zeigt die dynamische Entwicklung der Mangrovenpopulation im Modellgebiet und die Entwicklung der Biomasse. Gut nachzuvollziehen ist hier bereits in den ersten 100 Zeitschritten die immer stabiler werdende Mangrovenpopulation. Es bilden sich relativ schnell Bereiche über die X-Länge des Transsekts aus, in denen große und somit Mangroven die sehr alt werden wachsen, und solche, in denen junge Mangroven schnell wieder sterben.
+In diesem Projekt wurden mit Hilfe des pyMANGA-Modells zwei Prozesse genauer Betrachtet. Zum einen sollte die Entwicklung der typischen Strukturen in Mangrovenwäldern abgebildet werden, zum anderen sollte das Wachstumsverhalten der beiden Mangrovenarten unter verschiedenen Umweltbedingungen Untersucht werden. Im nachfolgenden werden die Ergebnisse des Projekts kurz zusammengefasst.
+
+## Waldstruktur
+
+Nachfolgende Visualisierung zeigt die dynamische Entwicklung der Mangrovenpopulation im Modellgebiet und die Entwicklung der Biomasse. Gut nachzuvollziehen ist hier bereits in den ersten 100 Zeitschritten die immer stabiler werdende Mangrovenpopulation. Es bilden sich relativ schnell Bereiche über die X-Länge des Transsekts aus, in denen große und somit Mangroven die sehr alt werden wachsen, und solche, in denen junge Mangroven schnell wieder sterben. Dadurch, dass in jedem Zeitschritt 30 neue Mangroven als Setzlinge in das Modell hinzukommen und die Nährstoffkonkurenz anfangs sehr gering ist wächst die Biomasse im Modell zunächst sehr stark an. Mit steigender Anzahl an Mangroven im Modellgebiet wird die Konkurenz zwischen den einzelnen Bäumen immer größer. Nach dem globalem Maximum der Biomasse fällt diese durch für einige Mangroven immer schlechter werdende Nährstoffbedingungen zunächst leicht ab. Nach einer gewissen Zeit stellt sich dann ein quasi-stationärer Zustand der Mangrovenpopulation ein. 
 
 
 <figure id="vis">
@@ -510,72 +540,30 @@ Nachfolgende Visualisierung zeigt die dynamische Entwicklung der Mangrovenpopula
    function aktualisiere() {
 	  var TS = (document.querySelector("output[name=x]")) ;
 	  var a = '/pictures/exmouth_gulf/TS/ts_'+TS.value+'.png' ;
-          document.getElementById("abb").setAttribute("src", a) ;
+          document.getElementById("abb").setAttribute('src', a) ;
 }
+/*]]>*/
 </script>
-<img src="/pictures/exmouth_gulf/TS/ts_0.png" id="abb">
+<img src='/pictures/exmouth_gulf/TS/ts_0.png' id="abb">
 </br>
 </br>
 <p align="left">
 <font size = "6">&nbsp;  Zeitschritt:&nbsp;&nbsp;&nbsp;&nbsp; </font>
-  <input type="range" id="a" min="0" max="10" value="0"> &nbsp;
+  <input type="range" id="a" min="0" max="1650" step="50"> &nbsp;
 <font size = "6">  <output name="x" for="a">0</output> </font>&nbsp;&nbsp;
 </p>
 </figure>
 <figcaption><font size = "1"><i><b>Visualisierung 1:</b> Dynamische Entwicklung der Mangrovenpopulation über die Modellierungszeit</i></font></figcaption>
 <p>
 
-<!--
-<p>
-<input type="button" value="click to go fullscreen" onclick="toggleFullScreen()">
-</p>
 
-<script type="text/javascript">
- /*<![CDATA[*/
-function toggleFullScreen() {
-  if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
-   (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-    if (document.documentElement.requestFullScreen) {  
-      document.documentElement.requestFullScreen();  
-    } else if (document.documentElement.mozRequestFullScreen) {  
-      document.documentElement.mozRequestFullScreen();  
-    } else if (document.documentElement.webkitRequestFullScreen) {  
-      document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
-    }  
-  } else {  
-    if (document.cancelFullScreen) {  
-      document.cancelFullScreen();  
-    } else if (document.mozCancelFullScreen) {  
-      document.mozCancelFullScreen();  
-    } else if (document.webkitCancelFullScreen) {  
-      document.webkitCancelFullScreen();  
-    }  
-  }  
-}
-
-</script>
--->
-
-
-Nachfolgendes Video zeigt die dynamische Entwicklung der Biomasse im gesamten Modellgebiet und in einzelnen Abschnitten. Gut nachzuvollziehen ist hier die Ausbildung von verschiedenen Zonen unterschiedlicher Wuchshöhe und Individuendichte innerhalb des Mangrovenwalds.
-
-Test mit youtube, SimpleTest:
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rtIQ-Zg-t_M" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+Im nachfolgenden Video wurde das Modellgebiet in zehn Sektoren unterteilt. Dargestellt wird die dynamische Entwicklung der Mangrovenpopulation und der Salzkonzentration im Bodenwasser sowie die Biomasse der Mangroven in den einzelnen Sektoren. Im Vergleich zur vorhergehenden Visualisierung ist in diesem Video eine Hauptursache der Ausbildung der typischen Waldstruktur zu erkennen, nämlich die Aufkonzentrierung des Salzgehalts im Bodenwasser in einem bestimmten Bereich. Die hohe Korrelation zwischen Salzkonzentration und Biomasse in den einzelnen Sektoren ist bereits ab Zeitschritt MARKER zu erkennen.
 
 <br>
 <br>
-<br>
-
-Test mit Vimeo:
-
-<br>
-<br>
-<br>
 
 
-<iframe src="https://player.vimeo.com/video/481362688" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<iframe src="https://player.vimeo.com/video/481362688" width="640" height="360" frameborder="1" allow="autoplay; fullscreen" allowfullscreen></iframe>
 
 
 
@@ -614,9 +602,34 @@ Diese relativen Auswirkungen sind in nachfolgender <a href="/de/docs/beispielmod
 
 Aufgrund der größeren Auswirkungen des Tidenhubs im seenahen Bereich kann das Modell "<b>Without Tide</b>" sowohl die Bäumhöhen als auch den Porenwassersalzgehalt hier nur mit reltiv großer Abweichung im Vergleich zum "<b>Full Model</b>" abbilden. Je weiter man sich aber in Richtung Festland bewergt, desto geringer werden die Wasserstandsschwankungen aufgrund der Gezeiten. Die Baumhöhen und Salzgehalte können in diesem Bereich (x > 75 m) mit geringeren relativen Abweichungen zum Full Model abgebildet werden.
 
-Das Modell "<b>Without Feedback</b>" hat insbesondere im mittleren bis landseitigem Bereich <pre>(60 m < x < 165 m) </pre> des Transsekts Probleme, die Wachstumshöhe der Mangroven so abzubilden, wie es das "<b>Full Model</b>" macht. 
+Das Modell "<b>Without Feedback</b>" hat insbesondere im mittleren bis landseitigem Bereich (60 m < x < 165 m) des Transsekts Probleme, die Wachstumshöhe der Mangroven so abzubilden, wie es das "<b>Full Model</b>" macht. 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!
+## Speziendominanz MARKER
+
+Im vorangegangenem Abschnitt wurde gezeigt, dass pyMANGA mit der Berücksichtigung von Salzkonzentration im Bodenwasser und des Tidenhubs in der Lage ist, die für Mangrovenwälder typischen Waldstrukturen abzubilden. Mit Hilfe der umfangreichen Parametrisierungsmöglichkeiten des Baumwachstumsmodells (siehe hierzu auch MARKER) kann mit pyMANGA auch das Wachstum einzelner bestimmter Individuenarten untersucht werden. Verschiedene Mangrovenarten zum Beispiel weisen verschiedene Toleranzen gegenüber zu hohen Salzgehalten auf.
+
+
+<figure>
+<a name="Abbildung_5"></a>
+<img src="/pictures/exmouth_gulf/Spezien_1.png">
+<figcaption><font size = "1"><i><b>Abbildung 5:</b> Relative Auswirkung der Nichtberücksichtigung des Tidenhubs ("Model Wihtout Tide") und der Pflanzenwasserentnahme ("Model Without Feedback")</i></font></figcaption>
+</figure><p>
+
+<figure>
+<a name="Abbildung_5"></a>
+<img src="/pictures/exmouth_gulf/Spezien_2.png">
+<figcaption><font size = "1"><i><b>Abbildung 5:</b> Relative Auswirkung der Nichtberücksichtigung des Tidenhubs ("Model Wihtout Tide") und der Pflanzenwasserentnahme ("Model Without Feedback")</i></font></figcaption>
+</figure><p>
+
+<figure>
+<a name="Abbildung_5"></a>
+<img src="/pictures/exmouth_gulf/Spezien_3.png">
+<figcaption><font size = "1"><i><b>Abbildung 5:</b> Relative Auswirkung der Nichtberücksichtigung des Tidenhubs ("Model Wihtout Tide") und der Pflanzenwasserentnahme ("Model Without Feedback")</i></font></figcaption>
+</figure><p>
+
+ 
+
+MARKER
 
 # Fazit
 

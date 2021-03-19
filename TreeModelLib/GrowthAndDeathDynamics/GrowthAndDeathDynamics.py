@@ -20,7 +20,7 @@ class GrowthAndDeathDynamics(TreeModel):
         elif case == "NetworkBettina":
             self.iniNetworkBettina(args)
         elif case == "NetworkBettinaVar":
-            self.iniNetworkBettina(args)
+            self.iniNetworkBettinaVar(args)
         else:
             raise KeyError("Required growth and death not implemented.")
         print(case + " growth and death dynamics initiated.")

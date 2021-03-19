@@ -481,15 +481,6 @@ class SimpleNetwork(BelowgroundCompetition):
         graft_resistance = distance / (kf_sap * np.pi * r_graft ** 2)
         return graft_resistance
 
-    ## Function that calculates the radius of the grafted roots (
-    # link-function)
-    def graftedRootsRadius(self):
-        link_list = self.getLinkList(self.graph_dict)
-        for i in range(0, len(link_list)):
-            l1, l2 = link_list[0], link_list[1]
-
-            self._r_gr = 0
-
     ## Function that returns an array with the links of a specific tree.
     # @return a list with tree indices of adjacent trees
     # @param link_list - a 2d array with tree indices of connected trees

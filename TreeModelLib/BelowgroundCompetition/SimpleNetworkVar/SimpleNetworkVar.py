@@ -105,9 +105,9 @@ class SimpleNetworkVar(BelowgroundCompetition):
             self._r_gr_rgf.append(self.network['r_gr_rgf'])
             self._l_gr_rgf.append(self.network['l_gr_rgf'])
 
-        # List with grafted root radius; same structure as partner_names
-        # required for water exchange
-        self._weight_gr.append(self.network['weight_gr'])
+            # List with grafted root radius; same structure as partner_names
+            # required for water exchange
+            self._weight_gr.append(self.network['weight_gr'])
 
         self._xe.append(x)
         self._ye.append(y)
@@ -191,7 +191,7 @@ class SimpleNetworkVar(BelowgroundCompetition):
             if tag == "f_radius":
                 self.f_radius = float(args.find("f_radius").text)
             if tag == "variant":
-                self.variant = float(args.find("variant").text)
+                self.variant = args.find("variant").text
             try:
                 missing_tags.remove(tag)
             except ValueError:
@@ -592,7 +592,6 @@ class SimpleNetworkVar(BelowgroundCompetition):
         #  resources.
         r_grafts = self.f_radius * np.minimum(r_stem[0], r_stem[1])
         l_gr = (r_root[0] + r_root[1] + distances) / 2
-        print('l_gr ' + str(l_gr))
         kf_sap = np.array(np.meshgrid(self._kf_sap, self._kf_sap))
         kf_saps = (kf_sap[0] + kf_sap[1]) / 2
 

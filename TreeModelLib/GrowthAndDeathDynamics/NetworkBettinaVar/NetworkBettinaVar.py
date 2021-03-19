@@ -47,7 +47,8 @@ class NetworkBettinaVar(SimpleBettina):
             network['r_gr_min'] = self.r_gr_min
             network['r_gr_rgf'] = self.r_gr_rgf
             network['l_gr_rgf'] = self.l_gr_rgf
-            network['weight_gr'] = self.weight_gr
+            network['weight_gr'] = self.weight_gr # ToDo muss weight_gr
+            # wirklich in network sein?
 
         tree.setNetwork(network)
         if self.survive == 1:
@@ -59,13 +60,13 @@ class NetworkBettinaVar(SimpleBettina):
         if self.variant == 'V2':
             self.treeGrowthWeightsV2()
         else:
-            SimpleBettina.treeGrowthWeights()
+            SimpleBettina.treeGrowthWeights(self)
 
     def growthResources(self):
         if self.variant == "V1":
             self.growthResourcesV1()
         else:
-            SimpleBettina.growthResources()
+            SimpleBettina.growthResources(self)
 
     def rootGraftFormation(self):
         if self.variant == 'V1':
@@ -142,7 +143,8 @@ class NetworkBettinaVar(SimpleBettina):
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "variant":
-                self.variant = float(args.find("variant").text)
+                self.variant = args.find("variant").text
+            #if self.variant != "V0":
             if tag == "f_growth":
                 self.f_growth = float(args.find("f_growth").text)
             try:

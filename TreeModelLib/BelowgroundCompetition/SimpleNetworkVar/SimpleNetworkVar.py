@@ -271,19 +271,22 @@ class SimpleNetworkVar(BelowgroundCompetition):
         # dictionary contains all links, no matter if they are functional
         for i in range(0, len(self._partner_indices)):
             graph_dict_incomplete[i] = set(self._partner_indices[i])
-        # helper
-        link_list = []
-        link_list2 = []
-        for vertex in graph_dict_incomplete:
-            self.setKeyDictionary(self.graph_dict, vertex, set())
-            for neighbour in graph_dict_incomplete[vertex]:
-                if {neighbour, vertex} not in link_list2:
-                    link_list2.append({vertex, neighbour})
-                else:
-                    # trees are only put in the dict. if the occur more than
-                    # ones, i.e. both partners have finished rgf
-                    link_list.append({vertex, neighbour})
-                    self.setKeyDictionary(self.graph_dict, vertex, neighbour)
+        if self.variant == "V0":
+            self.graph_dict = graph_dict_incomplete
+        else:
+            # helper
+            link_list = []
+            link_list2 = []
+            for vertex in graph_dict_incomplete:
+                self.setKeyDictionary(self.graph_dict, vertex, set())
+                for neighbour in graph_dict_incomplete[vertex]:
+                    if {neighbour, vertex} not in link_list2:
+                        link_list2.append({vertex, neighbour})
+                    else:
+                        # trees are only put in the dict. if the occur more than
+                        # ones, i.e. both partners have finished rgf
+                        link_list.append({vertex, neighbour})
+                        self.setKeyDictionary(self.graph_dict, vertex, neighbour)
 
     ## This function creates a graph dictionary from the partner indices.
     # Includes all links, i.e. also if not both partners finished rgf

@@ -63,12 +63,13 @@ class NetworkBettinaVar(SimpleBettina):
             SimpleBettina.treeGrowthWeights(self)
 
     def growthResources(self):
+        SimpleBettina.growthResources(self)
         if self.variant == "V0":
             self.rootGraftFormationV0()
         if self.variant == "V1":
             self.growthResourcesV1()
-        else:
-            SimpleBettina.growthResources(self)
+
+
 
     ## This functions calculates the growths weights for distributing
     # biomass increment to the geometric (allometric) tree measures as
@@ -91,7 +92,7 @@ class NetworkBettinaVar(SimpleBettina):
     # formation manager
     def growthResourcesV1(self):
         # Simple bettina get growth resources
-        SimpleBettina.growthResources(self)
+        #SimpleBettina.growthResources(self)
         self.rootGraftFormationV1()
 
     def rootGraftFormationV0(self):

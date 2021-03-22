@@ -207,6 +207,11 @@ class SimpleNetworkVar(BelowgroundCompetition):
                 "are not given for below-ground initialisation in project "
                 "file."
             )
+        if self.variant not in ["V0", "V1", "V2"]:
+            raise KeyError(
+                "SimpleNetworkVar variant " + self.variant +
+                " is not defined. Existing variants are 'V0', 'V1' and 'V2'."
+            )
 
     '''
     ##############################

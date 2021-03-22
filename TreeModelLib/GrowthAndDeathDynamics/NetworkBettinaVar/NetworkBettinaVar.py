@@ -160,3 +160,8 @@ class NetworkBettinaVar(SimpleBettina):
                 "are not given for growth and death initialisation in "
                 "project file."
             )
+        if self.variant not in ["V0", "V1", "V2"]:
+            raise KeyError(
+                "NetworkBettinaVar variant " + self.variant +
+                " is not defined. Existing variants are 'V0', 'V1' and 'V2'."
+            )

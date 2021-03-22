@@ -63,16 +63,12 @@ class NetworkBettinaVar(SimpleBettina):
             SimpleBettina.treeGrowthWeights(self)
 
     def growthResources(self):
+        if self.variant == "V0":
+            self.rootGraftFormationV0()
         if self.variant == "V1":
             self.growthResourcesV1()
         else:
             SimpleBettina.growthResources(self)
-
-    def rootGraftFormation(self):
-        if self.variant == 'V1':
-            self.rootGraftFormationV1()
-        if self.variant == 'V2':
-            self.rootGraftFormationV2()
 
     ## This functions calculates the growths weights for distributing
     # biomass increment to the geometric (allometric) tree measures as
@@ -85,7 +81,7 @@ class NetworkBettinaVar(SimpleBettina):
 
         # If self.r_gr_min exists the tree is currently in the process of rgf
         if self.r_gr_min:
-            self.rootGraftFormation()
+            self.rootGraftFormationV2()
         else:
             self.weight_gr = 0
 
@@ -96,14 +92,20 @@ class NetworkBettinaVar(SimpleBettina):
     def growthResourcesV1(self):
         # Simple bettina get growth resources
         SimpleBettina.growthResources(self)
-        self.rootGraftFormation()
+        self.rootGraftFormationV1()
+
+    def rootGraftFormationV0(self):
+        if self.rgf != -1:
+            self.rgf = -1
+            self.partner.append(self.potential_partner)
+            self.potential_partner = []
 
     ## This function reduces growth during the process of root graft formation.
     # It is assumed that the process will take 2 years (this is subject to
     # change).
     def rootGraftFormationV1(self):
         if self.rgf != -1:
-            self.grow = self.grow * self.f_growth
+            self.grow = self.grow * (1 - self.f_growth)
             self.rgf = self.rgf + 1
             if round(self.rgf * self.time / 3600 / 24 / 365, 3) >= 2:
                 self.rgf = -1
@@ -115,10 +117,6 @@ class NetworkBettinaVar(SimpleBettina):
     def rootGraftFormationV2(self):
         # check if rgf is finished
         if self.r_gr_rgf >= self.r_gr_min[0]:
-            print('RGF is finished after ' + str(self.rgf) + ' time ' \
-                                                     'steps. Years: ' + str(
-                self.rgf * self.time / 3600 / 24 / \
-                365))
             # Append partner
             self.partner.append(self.potential_partner)
             # Reset rgf parameters

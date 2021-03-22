@@ -142,7 +142,6 @@ class NetworkBettinaVar(SimpleBettina):
             tag = arg.tag
             if tag == "variant":
                 self.variant = args.find("variant").text
-            #if self.variant != "V0":
             if tag == "f_growth":
                 self.f_growth = float(args.find("f_growth").text)
             try:

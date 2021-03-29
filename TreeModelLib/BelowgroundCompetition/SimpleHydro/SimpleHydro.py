@@ -186,7 +186,8 @@ class SimpleHydro(BelowgroundCompetition):
                 from ast import literal_eval
                 self._flooding_duration = np.array(literal_eval(arg.text))
             try:
-                missing_tags.remove(tag)
+                if tag in missing_tags:
+                    missing_tags.remove(tag)
             except ValueError:
                 raise ValueError(
                     "Tag " + tag +

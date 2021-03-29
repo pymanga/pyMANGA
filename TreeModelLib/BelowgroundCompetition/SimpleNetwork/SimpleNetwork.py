@@ -7,7 +7,6 @@
 import numpy as np
 from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 
-
 class SimpleNetwork(BelowgroundCompetition):
     #########
     # BASIC #
@@ -115,17 +114,19 @@ class SimpleNetwork(BelowgroundCompetition):
         self._xe.append(x)
         self._ye.append(y)
         self.n_trees = len(self._xe)
-        self._tree_names = np.concatenate(
-            (self._tree_names, [str(tree.group_name) + str(tree.tree_id)]))
+        self._tree_names = np.concatenate((self._tree_names,
+                                           [str(tree.group_name) + str(
+                                               tree.tree_id)]))
 
         self._below_graft_resistance = np.concatenate(
-            (self._below_graft_resistance, [
-                self.belowGraftResistance(parameter["lp"], parameter["k_geom"],
-                                          parameter["kf_sap"],
-                                          geometry["r_root"],
-                                          geometry["h_root"],
-                                          geometry["r_stem"])
-            ]))
+            (self._below_graft_resistance,
+             [self.belowGraftResistance(parameter["lp"],
+                                        parameter["k_geom"],
+                                        parameter["kf_sap"],
+                                        geometry["r_root"],
+                                        geometry["h_root"],
+                                        geometry["r_stem"])]
+             ))
         self._above_graft_resistance = np.concatenate(
             (self._above_graft_resistance, [
                 self.aboveGraftResistance(parameter["kf_sap"],
@@ -156,9 +157,10 @@ class SimpleNetwork(BelowgroundCompetition):
         self.groupFormation()
         self.rootGraftFormation()
         self.calculateBGresourcesTree()
-        res_b_noSal = self.getBGresourcesIndividual(
-            self._psi_top, np.array([0] * self.n_trees),
-            self._above_graft_resistance, self._below_graft_resistance)
+        res_b_noSal = self.getBGresourcesIndividual(self._psi_top,
+                                              np.array([0] * self.n_trees),
+                                              self._above_graft_resistance,
+                                              self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b_noSal
         self.updateNetworkParametersForGrowthAndDeath()
 
@@ -205,7 +207,8 @@ class SimpleNetwork(BelowgroundCompetition):
             raise KeyError(
                 "Tag(s) " + string +
                 "are not given for below-ground initialisation in project "
-                "file.")
+                "file."
+            )
 
     '''
     ##############################
@@ -707,7 +710,8 @@ class SimpleNetwork(BelowgroundCompetition):
                 # water_available corresponds to SimpleBettina water uptake
                 # and water_exchange is 0
                 self._water_absorb[members] = self.getBGresourcesIndividual(
-                    self._psi_top[members], self._psi_osmo[members],
+                    self._psi_top[members],
+                    self._psi_osmo[members],
                     self._above_graft_resistance[members],
                     self._below_graft_resistance[members])
                 self._water_avail[members] = self._water_absorb[members]

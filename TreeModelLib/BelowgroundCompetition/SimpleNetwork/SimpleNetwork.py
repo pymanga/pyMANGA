@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2020-Today
+@date: 2021-Today
 @author: marie-christin.wimmler@tu-dresden.de
 """
 import numpy as np
 from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
-
 
 class SimpleNetwork(BelowgroundCompetition):
     #########
@@ -63,10 +62,11 @@ class SimpleNetwork(BelowgroundCompetition):
         # of rgf
         self._rgf_counter = []
 
-        self._r_gr_min = []
-        self._r_gr_rgf = []
-        self._l_gr_rgf = []
-        self._weight_gr = []
+        if self.variant == "V2":
+            self._r_gr_min = []
+            self._r_gr_rgf = []
+            self._l_gr_rgf = []
+            self._weight_gr = []
 
         ## Dictionary that represents the network of grafted trees (= nodes).
         # Trees are the keys and Links are the adjacent tree(s)
@@ -97,16 +97,17 @@ class SimpleNetwork(BelowgroundCompetition):
         self._partner_names.append(self.network['partner'])
         self._potential_partner.append(self.network['potential_partner'])
 
-        # list with min./current grafted root radius of each pair; same
-        # structure as potential_partner
+        # Only valid for Variant V2: list with min./current grafted root radius
+        # of each pair; same structure as potential_partner
         # required for rgf
-        self._r_gr_min.append(self.network['r_gr_min'])
-        self._r_gr_rgf.append(self.network['r_gr_rgf'])
-        self._l_gr_rgf.append(self.network['l_gr_rgf'])
+        if self.variant == "V2":
+            self._r_gr_min.append(self.network['r_gr_min'])
+            self._r_gr_rgf.append(self.network['r_gr_rgf'])
+            self._l_gr_rgf.append(self.network['l_gr_rgf'])
 
-        # List with grafted root radius; same structure as partner_names
-        # required for water exchange
-        self._weight_gr.append(self.network['weight_gr'])
+            # List with grafted root radius; same structure as partner_names
+            # required for water exchange
+            self._weight_gr.append(self.network['weight_gr'])
 
         self._xe.append(x)
         self._ye.append(y)
@@ -168,9 +169,6 @@ class SimpleNetwork(BelowgroundCompetition):
             network = {}
             # Parameters related to the root graft formation process
             network['potential_partner'] = self._potential_partner[i]
-            network['r_gr_rgf'] = self._r_gr_rgf[i]
-            network['r_gr_min'] = self._r_gr_min[i]
-            network['l_gr_rgf'] = self._l_gr_rgf[i]
             network['rgf'] = self._rgf_counter[i]
             # Parameter related to water exchange
             network['partner'] = self._partner_names[i]
@@ -178,17 +176,22 @@ class SimpleNetwork(BelowgroundCompetition):
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]
             network['psi_osmo'] = self._psi_osmo[i]
-            network['weight_gr'] = self._weight_gr[i]
+            if self.variant == "V2":
+                network['weight_gr'] = self._weight_gr[i]
+                network['r_gr_rgf'] = self._r_gr_rgf[i]
+                network['r_gr_min'] = self._r_gr_min[i]
+                network['l_gr_rgf'] = self._l_gr_rgf[i]
 
             tree.setNetwork(network)
 
     def getInputParameters(self, args):
-        missing_tags = ["type", "f_gr"]
+        missing_tags = ["type", "variant", "f_radius"]
         for arg in args.iterdescendants():
             tag = arg.tag
-            if tag == "f_gr":
-                self.f_gr = float(args.find("f_gr").text)
-
+            if tag == "f_radius":
+                self.f_radius = float(args.find("f_radius").text)
+            if tag == "variant":
+                self.variant = args.find("variant").text
             try:
                 missing_tags.remove(tag)
             except ValueError:
@@ -203,6 +206,11 @@ class SimpleNetwork(BelowgroundCompetition):
                 "Tag(s) " + string +
                 "are not given for below-ground initialisation in project "
                 "file."
+            )
+        if self.variant not in ["V0", "V1", "V2"]:
+            raise KeyError(
+                "SimpleNetwork variant " + self.variant +
+                " is not defined. Existing variants are 'V0', 'V1' and 'V2'."
             )
 
     '''
@@ -247,8 +255,43 @@ class SimpleNetwork(BelowgroundCompetition):
                     h.append(a)
                 self._partner_indices.append(h)
 
-    ## This function creates a graph dictionary from the partner indices.
+    ## Function that adds keys and values to dictionary
+    def setKeyDictionary(self, dictionary, key, value):
+        if key not in dictionary:
+            dictionary[key] = value
+        elif len(dictionary[key]) == 0:
+            dictionary[key] = {value}
+        else:
+            dictionary[key] = dictionary[key] | {value}
+
+    ## Funktion that makes a graph dictionary only with functional grafts,
+    # i.e. both involved trees have finished root graft formation
     def makeGraphDictionary(self):
+        graph_dict_incomplete = {}
+        # dictionary contains all links, no matter if they are functional
+        for i in range(0, len(self._partner_indices)):
+            graph_dict_incomplete[i] = set(self._partner_indices[i])
+        if self.variant == "V0":
+            self.graph_dict = graph_dict_incomplete
+        else:
+            # helper
+            link_list = []
+            link_list2 = []
+            for vertex in graph_dict_incomplete:
+                self.setKeyDictionary(self.graph_dict, vertex, set())
+                for neighbour in graph_dict_incomplete[vertex]:
+                    if {neighbour, vertex} not in link_list2:
+                        link_list2.append({vertex, neighbour})
+                    else:
+                        # trees are only put in the dict. if the occur more than
+                        # ones, i.e. both partners have finished rgf
+                        link_list.append({vertex, neighbour})
+                        self.setKeyDictionary(self.graph_dict, vertex, neighbour)
+
+    ## This function creates a graph dictionary from the partner indices.
+    # Includes all links, i.e. also if not both partners finished rgf
+    # NOT USED
+    def makeGraphDictionaryAll(self):
         for i in range(0, len(self._partner_indices)):
             self.graph_dict[i] = set(self._partner_indices[i])
 
@@ -407,23 +450,26 @@ class SimpleNetwork(BelowgroundCompetition):
                 l1, l2 = pair[0], pair[1]
                 self._rgf_counter[l1], self._rgf_counter[l2] = 1, 1
                 self._potential_partner[l1], self._potential_partner[l2] = \
-                self._tree_names[l2], self._tree_names[l1]
+                    self._tree_names[l2], self._tree_names[l1]
 
-                # Set initial size of grafted root radius
-                self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
-                # Get min. radius of grafted roots
-                r_gr_min = self.f_gr * min(self._r_stem[l1], self._r_stem[l2])
-                self._r_gr_min[l1], self._r_gr_min[l2] = [r_gr_min], [r_gr_min]
+                if self.variant == "V2":
+                    # Set initial size of grafted root radius
+                    self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
+                    # Get min. radius of grafted roots
+                    r_gr_min = self.f_radius * min(self._r_stem[l1],
+                                                   self._r_stem[l2])
+                    self._r_gr_min[l1], self._r_gr_min[l2] = [r_gr_min], \
+                                                             [r_gr_min]
 
-                # Get length of grafted root section
-                distance = self.getDistance(self._xe[l1], self._xe[l2],
-                                            self._ye[l1], self._ye[l2])
-                root_sums = self._r_root[l1] + self._r_root[l2]
-                l_gr = (distance + root_sums) / 2
-                self._l_gr_rgf[l1], self._l_gr_rgf[l2] = self._r_root[l1] / \
-                                                         root_sums * l_gr,  \
-                                                         self._r_root[l2] / \
-                                                         root_sums * l_gr,
+                    # Get length of grafted root section
+                    distance = self.getDistance(self._xe[l1], self._xe[l2],
+                                                self._ye[l1], self._ye[l2])
+                    root_sums = self._r_root[l1] + self._r_root[l2]
+                    l_gr = (distance + root_sums) / 2
+                    self._l_gr_rgf[l1], self._l_gr_rgf[l2] = self._r_root[l1] / \
+                                                             root_sums * l_gr,  \
+                                                             self._r_root[l2] / \
+                                                             root_sums * l_gr,
 
 
     ## Function that calls all the sub procedures to initialize root graft
@@ -579,16 +625,17 @@ class SimpleNetwork(BelowgroundCompetition):
         distances = ((x_mesh[0] - x_mesh[1]) ** 2 + (
                 y_mesh[0] - y_mesh[1]) ** 2) ** .5
         r_stem = np.array(np.meshgrid(self._r_stem, self._r_stem))
+        r_root = np.array(np.meshgrid(self._r_root, self._r_root))
+
         # @mcwimm: at the moment the grafted root radius grows proportional to
         #  the stem radius. This might be updated to grow based on avail.
         #  resources.
-        r_grafts = self.f_gr * np.minimum(r_stem[0], r_stem[1])
-
+        r_grafts = self.f_radius * np.minimum(r_stem[0], r_stem[1])
+        l_gr = (r_root[0] + r_root[1] + distances) / 2
         kf_sap = np.array(np.meshgrid(self._kf_sap, self._kf_sap))
         kf_saps = (kf_sap[0] + kf_sap[1]) / 2
-
         graft_resistance = self.getGraftResistance(r_grafts[from_IDs, to_IDs],
-                                                   distances[from_IDs, to_IDs],
+                                                   l_gr[from_IDs, to_IDs],
                                                    kf_saps[from_IDs, to_IDs])
         matrix[link_rows, from_index] = -self._below_graft_resistance[from_IDs]
         matrix[link_rows, to_index] = self._below_graft_resistance[to_IDs]

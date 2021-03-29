@@ -47,8 +47,8 @@ class NetworkBettinaVar(SimpleBettina):
             network['r_gr_min'] = self.r_gr_min
             network['r_gr_rgf'] = self.r_gr_rgf
             network['l_gr_rgf'] = self.l_gr_rgf
-            network['weight_gr'] = self.weight_gr # ToDo muss weight_gr
-            # wirklich in network sein?
+            network['weight_gr'] = self.weight_gr   # only required for csv
+            # output
 
         tree.setNetwork(network)
         if self.survive == 1:

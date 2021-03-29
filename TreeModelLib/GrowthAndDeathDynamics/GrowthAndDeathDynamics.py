@@ -19,8 +19,6 @@ class GrowthAndDeathDynamics(TreeModel):
             self.iniSimpleKiwi(args)
         elif case == "NetworkBettina":
             self.iniNetworkBettina(args)
-        elif case == "NetworkBettinaVar":
-            self.iniNetworkBettinaVar(args)
         else:
             raise KeyError("Required growth and death not implemented.")
         print(case + " growth and death dynamics initiated.")
@@ -40,10 +38,6 @@ class GrowthAndDeathDynamics(TreeModel):
     def iniNetworkBettina(self, args):
         from .NetworkBettina import NetworkBettina
         self.concept = NetworkBettina(args)
-
-    def iniNetworkBettinaVar(self, args):
-        from .NetworkBettinaVar import NetworkBettinaVar
-        self.concept = NetworkBettinaVar(args)
 
     def getConceptType(self):
         return "growth and death dynamics"

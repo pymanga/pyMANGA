@@ -16,7 +16,7 @@ class NetworkFixedSalinity(SimpleNetwork):
     def __init__(self, args):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
-        self.GetSalinity(args)
+        self.getInputParameters(args)
 
     ## This functions prepares the computation of water uptake
     #  by porewater salinity. Only tree height and leaf
@@ -51,6 +51,7 @@ class NetworkFixedSalinity(SimpleNetwork):
         self._t_ini = t_ini
         self._t_end = t_end
         self.time = t_end - t_ini
+
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
@@ -135,9 +136,11 @@ class NetworkFixedSalinity(SimpleNetwork):
                          self._salinity[0])
         self._psi_osmo = -85000000 * salinity_tree
 
-    ## This function reads salinity from the control file.\n
-    def GetSalinity(self, args):
-        missing_tags = ["salinity", "type", "max_x", "min_x"]
+    ## This function reads input parameters, e.g. salinity from the control
+    # file.
+    def getInputParameters(self, args):
+        missing_tags = ["salinity", "type", "max_x", "min_x",
+                        "variant", "f_radius"]
 
         for arg in args.iterdescendants():
             tag = arg.tag
@@ -152,7 +155,10 @@ class NetworkFixedSalinity(SimpleNetwork):
                 self._min_x = float(args.find("min_x").text)
             if tag == "max_x":
                 self._max_x = float(args.find("max_x").text)
-
+            if tag == "f_radius":
+                self.f_radius = float(args.find("f_radius").text)
+            if tag == "variant":
+                self.variant = args.find("variant").text
             try:
                 missing_tags.remove(tag)
             except ValueError:

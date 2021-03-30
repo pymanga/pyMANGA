@@ -96,6 +96,7 @@ class Tree:
         self.network['r_gr_min'] = []
         self.network['r_gr_rgf'] = []
         self.network['l_gr_rgf'] = []
+        self.network['variant'] = None
 
 
     def getNetwork(self):

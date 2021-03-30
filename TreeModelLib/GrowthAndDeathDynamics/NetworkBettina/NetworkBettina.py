@@ -28,27 +28,28 @@ class NetworkBettina(SimpleBettina):
         self.potential_partner = network['potential_partner']
         self.psi_osmo = network["psi_osmo"]
 
-        if self.variant == "V2":
-            self.r_gr_min = network['r_gr_min']
-            self.r_gr_rgf = network['r_gr_rgf']
-            self.l_gr_rgf = network['l_gr_rgf']
-            self.weight_gr = network['weight_gr']
+        # parameters for rgf variant "V2"
+        self.r_gr_min = network['r_gr_min']
+        self.r_gr_rgf = network['r_gr_rgf']
+        self.l_gr_rgf = network['l_gr_rgf']
+        self.weight_gr = network['weight_gr']
 
         self.name = str(tree.group_name) + str(tree.tree_id)
         # Simple bettina tree progress
         SimpleBettina.progressTree(self, tree, aboveground_resources,
                                    belowground_resources)
 
+        network['variant'] = self.variant
         network['rgf'] = self.rgf
         network['potential_partner'] = self.potential_partner
         network['partner'] = self.partner
 
-        if self.variant == "V2":
-            network['r_gr_min'] = self.r_gr_min
-            network['r_gr_rgf'] = self.r_gr_rgf
-            network['l_gr_rgf'] = self.l_gr_rgf
-            network['weight_gr'] = self.weight_gr   # only required for csv
-            # output
+        # parameters for rgf variant "V2"
+        network['r_gr_min'] = self.r_gr_min
+        network['r_gr_rgf'] = self.r_gr_rgf
+        network['l_gr_rgf'] = self.l_gr_rgf
+        network['weight_gr'] = self.weight_gr   # only required for csv
+        # output
 
         tree.setNetwork(network)
         if self.survive == 1:

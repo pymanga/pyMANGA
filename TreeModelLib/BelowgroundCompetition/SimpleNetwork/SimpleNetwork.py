@@ -62,11 +62,12 @@ class SimpleNetwork(BelowgroundCompetition):
         # of rgf
         self._rgf_counter = []
 
-        if self.variant == "V2":
-            self._r_gr_min = []
-            self._r_gr_rgf = []
-            self._l_gr_rgf = []
-            self._weight_gr = []
+        self.variant = None
+        # parameters for rgf variant "V2"
+        self._r_gr_min = []
+        self._r_gr_rgf = []
+        self._l_gr_rgf = []
+        self._weight_gr = []
 
         ## Dictionary that represents the network of grafted trees (= nodes).
         # Trees are the keys and Links are the adjacent tree(s)
@@ -97,17 +98,18 @@ class SimpleNetwork(BelowgroundCompetition):
         self._partner_names.append(self.network['partner'])
         self._potential_partner.append(self.network['potential_partner'])
 
+        self.variant = self.network['variant']
         # Only valid for Variant V2: list with min./current grafted root radius
         # of each pair; same structure as potential_partner
         # required for rgf
-        if self.variant == "V2":
-            self._r_gr_min.append(self.network['r_gr_min'])
-            self._r_gr_rgf.append(self.network['r_gr_rgf'])
-            self._l_gr_rgf.append(self.network['l_gr_rgf'])
+        # parameters for rgf variant "V2"
+        self._r_gr_min.append(self.network['r_gr_min'])
+        self._r_gr_rgf.append(self.network['r_gr_rgf'])
+        self._l_gr_rgf.append(self.network['l_gr_rgf'])
 
-            # List with grafted root radius; same structure as partner_names
-            # required for water exchange
-            self._weight_gr.append(self.network['weight_gr'])
+        # List with grafted root radius; same structure as partner_names
+        # required for water exchange
+        self._weight_gr.append(self.network['weight_gr'])
 
         self._xe.append(x)
         self._ye.append(y)
@@ -176,22 +178,21 @@ class SimpleNetwork(BelowgroundCompetition):
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]
             network['psi_osmo'] = self._psi_osmo[i]
-            if self.variant == "V2":
-                network['weight_gr'] = self._weight_gr[i]
-                network['r_gr_rgf'] = self._r_gr_rgf[i]
-                network['r_gr_min'] = self._r_gr_min[i]
-                network['l_gr_rgf'] = self._l_gr_rgf[i]
+            # parameters for rgf variant "V2"
+            network['weight_gr'] = self._weight_gr[i]
+            network['r_gr_rgf'] = self._r_gr_rgf[i]
+            network['r_gr_min'] = self._r_gr_min[i]
+            network['l_gr_rgf'] = self._l_gr_rgf[i]
 
             tree.setNetwork(network)
 
     def getInputParameters(self, args):
-        missing_tags = ["type", "variant", "f_radius"]
+        missing_tags = ["type", #"variant",
+                        "f_radius"]
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "f_radius":
                 self.f_radius = float(args.find("f_radius").text)
-            if tag == "variant":
-                self.variant = args.find("variant").text
             try:
                 missing_tags.remove(tag)
             except ValueError:
@@ -206,11 +207,6 @@ class SimpleNetwork(BelowgroundCompetition):
                 "Tag(s) " + string +
                 "are not given for below-ground initialisation in project "
                 "file."
-            )
-        if self.variant not in ["V0", "V1", "V2"]:
-            raise KeyError(
-                "SimpleNetwork variant " + self.variant +
-                " is not defined. Existing variants are 'V0', 'V1' and 'V2'."
             )
 
     '''

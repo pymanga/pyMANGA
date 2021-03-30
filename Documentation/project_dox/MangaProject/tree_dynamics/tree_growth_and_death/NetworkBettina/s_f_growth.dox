@@ -1,0 +1,4 @@
+/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__NetworkBettina__f_growth &emsp;[spec]f_growth
+Growth reduction factor (during root graft formation). 
+
+Numeric between 0 and 1.*/

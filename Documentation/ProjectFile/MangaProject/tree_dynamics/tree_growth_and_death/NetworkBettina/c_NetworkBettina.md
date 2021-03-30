@@ -25,3 +25,5 @@ Available network information for output (<network_output > ... </network_output
 - water_available ... available water for growth and maintenance in litre per timestep;  
 - water_absorbed ... water absorbed from the soil in litre per timestep;  
 - water_exchanged ... water exchanged between connected trees in litre per timestep 
+- variant ... variant for root graft formation
+- psi_osmo ... osmotic potential

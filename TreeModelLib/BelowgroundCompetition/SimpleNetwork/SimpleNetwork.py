@@ -198,7 +198,7 @@ class SimpleNetwork(BelowgroundCompetition):
                 missing_tags.remove(tag)
             except:
                 print("WARNING: Tag " + tag +
-                      " not specified for 'SimpleNetwork' below-ground "
+                      " not specified for 'SimpleNetwork' below-ground " +
                       "initialisation!")
         if len(missing_tags) > 0:
             string = ""

@@ -32,7 +32,8 @@ class FixedSalinity(BelowgroundCompetition):
         self.belowground_resources = psi_sali / psi_zero
 
     ## This function reads salinity from the control file.\n
-    def GetSalinity(self, args):
+    def GetSalinity(self, args):  # , missing_tags=None
+        # if not missing_tags:
         missing_tags = ["salinity", "type", "max_x", "min_x"]
 
         for arg in args.iterdescendants():
@@ -51,10 +52,10 @@ class FixedSalinity(BelowgroundCompetition):
 
             try:
                 missing_tags.remove(tag)
-            except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
-                    " not specified for below-ground initialisation!")
+            except:
+                print("WARNING: Tag " + tag +
+                      " not specified for 'FixedSalinity' below-ground "
+                      "initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:

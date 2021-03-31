@@ -7,6 +7,7 @@
 
 import numpy as np
 from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
+from TreeModelLib.BelowgroundCompetition.FixedSalinity import FixedSalinity
 
 
 class NetworkFixedSalinity(SimpleNetwork):
@@ -53,42 +54,5 @@ class NetworkFixedSalinity(SimpleNetwork):
     ## This function reads input parameters, e.g. salinity from the control
     # file.
     def getInputParameters(self, args):
-        missing_tags = ["salinity", "type", "max_x", "min_x",
-                        "variant", "f_radius"]
-
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "salinity":
-                self._salinity = arg.text.split()
-                if len(self._salinity) != 2:
-                    raise (
-                        KeyError("Two salinity values need to be specified"))
-                self._salinity[0] = float(self._salinity[0])
-                self._salinity[1] = float(self._salinity[1])
-            if tag == "min_x":
-                self._min_x = float(args.find("min_x").text)
-            if tag == "max_x":
-                self._max_x = float(args.find("max_x").text)
-            if tag == "f_radius":
-                self.f_radius = float(args.find("f_radius").text)
-            if tag == "variant":
-                self.variant = args.find("variant").text
-            try:
-                missing_tags.remove(tag)
-            except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
-                    " not specified for below-ground initialisation!")
-        if len(missing_tags) > 0:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Tag(s) " + string +
-                "are not given for below-ground initialisation in project file."
-            )
-        if self.variant not in ["V0", "V1", "V2"]:
-            raise KeyError(
-                "SimpleNetwork variant " + self.variant +
-                " is not defined. Existing variants are 'V0', 'V1' and 'V2'."
-            )
+        SimpleNetwork.getInputParameters(self, args)
+        FixedSalinity.GetSalinity(self, args)

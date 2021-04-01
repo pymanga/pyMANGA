@@ -1,1 +1,1 @@
-Belowground concept combining *FixedSalinity* and *SimpleNetwork*. See corresponding documentation for input parameters.
+Belowground concept combining *FixedSalinity* and *SimpleNetwork*. See corresponding documentations for input parameters.

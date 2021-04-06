@@ -28,7 +28,7 @@ class NetworkBettina(SimpleBettina):
         self.potential_partner = network['potential_partner']
         self.psi_osmo = network["psi_osmo"]
 
-        # parameters for rgf variant "V2"
+        # parameters for rgf variant "V2_adapted"
         self.r_gr_min = network['r_gr_min']
         self.r_gr_rgf = network['r_gr_rgf']
         self.l_gr_rgf = network['l_gr_rgf']
@@ -44,11 +44,11 @@ class NetworkBettina(SimpleBettina):
         network['potential_partner'] = self.potential_partner
         network['partner'] = self.partner
 
-        # parameters for rgf variant "V2"
+        # parameters for rgf variant "V2_adapted"
         network['r_gr_min'] = self.r_gr_min
         network['r_gr_rgf'] = self.r_gr_rgf
         network['l_gr_rgf'] = self.l_gr_rgf
-        network['weight_gr'] = self.weight_gr   # only required for csv
+        network['weight_gr'] = self.weight_gr  # only required for csv
         # output
 
         tree.setNetwork(network)
@@ -58,19 +58,17 @@ class NetworkBettina(SimpleBettina):
             tree.setSurvival(0)
 
     def treeGrowthWeights(self):
-        if self.variant == 'V2':
+        if self.variant == 'V2_adapted':
             self.treeGrowthWeightsV2()
         else:
             SimpleBettina.treeGrowthWeights(self)
 
     def growthResources(self):
         SimpleBettina.growthResources(self)
-        if self.variant == "V0":
+        if self.variant == "V0_instant":
             self.rootGraftFormationV0()
-        if self.variant == "V1":
+        if self.variant == "V1_fixed":
             self.growthResourcesV1()
-
-
 
     ## This functions calculates the growths weights for distributing
     # biomass increment to the geometric (allometric) tree measures as
@@ -93,7 +91,7 @@ class NetworkBettina(SimpleBettina):
     # formation manager
     def growthResourcesV1(self):
         # Simple bettina get growth resources
-        #SimpleBettina.growthResources(self)
+        # SimpleBettina.growthResources(self)
         self.rootGraftFormationV1()
 
     def rootGraftFormationV0(self):
@@ -161,8 +159,9 @@ class NetworkBettina(SimpleBettina):
                 "are not given for growth and death initialisation in "
                 "project file."
             )
-        if self.variant not in ["V0", "V1", "V2"]:
+        if self.variant not in ["V0_instant", "V1_fixed", "V2_adapted"]:
             raise KeyError(
                 "NetworkBettina variant " + self.variant +
-                " is not defined. Existing variants are 'V0', 'V1' and 'V2'."
+                " is not defined. Existing variants are 'V0_instant', "
+                "'V1_fixed' and 'V2_adapted'."
             )

@@ -63,7 +63,7 @@ class SimpleNetwork(BelowgroundCompetition):
         self._rgf_counter = []
 
         self.variant = None
-        # parameters for rgf variant "V2"
+        # parameters for rgf variant "V2_adapted"
         self._r_gr_min = []
         self._r_gr_rgf = []
         self._l_gr_rgf = []
@@ -99,10 +99,10 @@ class SimpleNetwork(BelowgroundCompetition):
         self._potential_partner.append(self.network['potential_partner'])
 
         self.variant = self.network['variant']
-        # Only valid for Variant V2: list with min./current grafted root radius
+        # Only valid for Variant V2_adapted: list with min./current grafted root radius
         # of each pair; same structure as potential_partner
         # required for rgf
-        # parameters for rgf variant "V2"
+        # parameters for rgf variant "V2_adapted"
         self._r_gr_min.append(self.network['r_gr_min'])
         self._r_gr_rgf.append(self.network['r_gr_rgf'])
         self._l_gr_rgf.append(self.network['l_gr_rgf'])
@@ -178,7 +178,7 @@ class SimpleNetwork(BelowgroundCompetition):
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]
             network['psi_osmo'] = self._psi_osmo[i]
-            # parameters for rgf variant "V2"
+            # parameters for rgf variant "V2_adapted"
             network['weight_gr'] = self._weight_gr[i]
             network['r_gr_rgf'] = self._r_gr_rgf[i]
             network['r_gr_min'] = self._r_gr_min[i]
@@ -267,7 +267,7 @@ class SimpleNetwork(BelowgroundCompetition):
         # dictionary contains all links, no matter if they are functional
         for i in range(0, len(self._partner_indices)):
             graph_dict_incomplete[i] = set(self._partner_indices[i])
-        if self.variant == "V0":
+        if self.variant == "V0_instant":
             self.graph_dict = graph_dict_incomplete
         else:
             # helper
@@ -448,7 +448,7 @@ class SimpleNetwork(BelowgroundCompetition):
                 self._potential_partner[l1], self._potential_partner[l2] = \
                     self._tree_names[l2], self._tree_names[l1]
 
-                if self.variant == "V2":
+                if self.variant == "V2_adapted":
                     # Set initial size of grafted root radius
                     self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
                     # Get min. radius of grafted roots

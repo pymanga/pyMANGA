@@ -6,12 +6,11 @@
 """
 
 import numpy as np
-from TreeModelLib.BelowgroundCompetition.SimpleNetworkVar import \
-    SimpleNetworkVar
+from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
 from TreeModelLib.BelowgroundCompetition.SimpleHydro import SimpleHydro
 
 
-class NetworkHydro(SimpleNetworkVar):
+class NetworkHydro(SimpleNetwork, SimpleHydro):
     ## Simple approach to reduce water availability due to osmotic potential.
     #  Processes are gradient flow, salinisation by plant transpiration,
     #  dilution by tides and horizontal mixing (diffusion).\n
@@ -28,7 +27,7 @@ class NetworkHydro(SimpleNetworkVar):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        SimpleNetworkVar.prepareNextTimeStep(self, t_ini, t_end)
+        SimpleNetwork.prepareNextTimeStep(self, t_ini, t_end)
         # Hydro parameters
         self._resistance = []
         self._potential_nosal = []
@@ -38,7 +37,7 @@ class NetworkHydro(SimpleNetworkVar):
     #  timestep.
     #  @param: tree
     def addTree(self, tree):
-        SimpleNetworkVar.addTree(self, tree)
+        SimpleNetwork.addTree(self, tree)
         # Hydro parameters
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
@@ -70,7 +69,7 @@ class NetworkHydro(SimpleNetworkVar):
     #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
         self.calculatePsiOsmo()
-        SimpleNetworkVar.calculateBelowgroundResources(self)
+        SimpleNetwork.calculateBelowgroundResources(self)
 
     def calculatePsiOsmo(self):
         SimpleHydro.transpire(self)

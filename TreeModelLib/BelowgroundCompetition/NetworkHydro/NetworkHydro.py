@@ -73,7 +73,7 @@ class NetworkHydro(SimpleNetwork, SimpleHydro):
 
     def calculatePsiOsmo(self):
         SimpleHydro.transpire(self)
-        self._psi_osmo = self.salinity * -85000
+        self._psi_osmo = np.array(self._salinity) * -85000
 
     ## This function reads the input parameters and initialises the mesh.\n
     def getInputParameters(self, args):

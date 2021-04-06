@@ -141,14 +141,13 @@ class SimpleHydro(BelowgroundCompetition):
         self.salinity = salinity_new
 
     ## This function initialises the mesh.\n
-    def makeGrid(self, args, missing_tags=None):
-        if not missing_tags:
-            missing_tags = [
-                "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
-                "y_resolution", "depth", "porosity", "dilution_frac_upper",
-                "dilution_frac_lower", "diffusion_frac", "sea_salinity", "ini_sal",
-                "up_sal", "slope", "k_f", "flooding_duration"
-            ]
+    def makeGrid(self, args):
+        missing_tags = [
+            "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
+            "y_resolution", "depth", "porosity", "dilution_frac_upper",
+            "dilution_frac_lower", "diffusion_frac", "sea_salinity", "ini_sal",
+            "up_sal", "slope", "k_f", "flooding_duration"
+        ]
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "x_resolution":
@@ -188,9 +187,9 @@ class SimpleHydro(BelowgroundCompetition):
                 self._flooding_duration = np.array(literal_eval(arg.text))
             try:
                 missing_tags.remove(tag)
-            except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
+            except:
+                print(
+                    "WARNING: Tag " + tag +
                     " not specified for below-ground grid initialisation!")
         if len(missing_tags) > 0:
             string = ""
@@ -198,7 +197,8 @@ class SimpleHydro(BelowgroundCompetition):
                 string += tag + " "
             raise KeyError(
                 "Tag(s) " + string +
-                "are not given for below-ground grid initialisation in project file."
+                "are not given for below-ground grid initialisation in "
+                "project file."
             )
         l_x = x_2 - x_1
         l_y = y_2 - y_1

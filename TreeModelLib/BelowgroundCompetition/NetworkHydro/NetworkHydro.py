@@ -78,12 +78,5 @@ class NetworkHydro(SimpleNetworkVar):
 
     ## This function reads the input parameters and initialises the mesh.\n
     def getInputParameters(self, args):
-        missing_tags = [
-            "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
-            "y_resolution", "depth", "porosity", "dilution_frac_upper",
-            "dilution_frac_lower", "diffusion_frac", "sea_salinity", "ini_sal",
-            "up_sal", "slope", "k_f", "flooding_duration",
-            "variant", "f_radius"
-        ]
-        SimpleHydro.makeGrid(self, args, missing_tags)
-        SimpleNetworkVar.getInputParameters(self, args, missing_tags)
+        SimpleHydro.makeGrid(self, args)
+        SimpleNetwork.getInputParameters(self, args)

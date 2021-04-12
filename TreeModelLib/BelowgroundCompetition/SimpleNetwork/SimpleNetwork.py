@@ -284,13 +284,6 @@ class SimpleNetwork(BelowgroundCompetition):
                         link_list.append({vertex, neighbour})
                         self.setKeyDictionary(self.graph_dict, vertex, neighbour)
 
-    ## This function creates a graph dictionary from the partner indices.
-    # Includes all links, i.e. also if not both partners finished rgf
-    # NOT USED
-    def makeGraphDictionaryAll(self):
-        for i in range(0, len(self._partner_indices)):
-            self.graph_dict[i] = set(self._partner_indices[i])
-
     ## This function finds all subcomponents of a graph, i.e. groups of
     # grafted trees.
     # The function is based on jimifiki's code

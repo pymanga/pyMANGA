@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<MangaProject>
+    <random_seed> 10 </random_seed>
+    <tree_dynamics>
+        <aboveground_competition>
+            <type> SimpleTest </type>
+        </aboveground_competition>
+        <belowground_competition>
+            <type> SimpleNetwork </type>
+            <f_radius> 0.25 </f_radius>
+        </belowground_competition>
+        <tree_growth_and_death>
+            <type> NetworkBettina </type>
+            <variant> V2_adapted </variant>
+            <f_growth> 0.25 </f_growth>
+        </tree_growth_and_death>
+    </tree_dynamics>
+    <initial_population>
+        <group>
+            <name> Initial </name>
+            <species> Avicennia </species>
+            <distribution>
+                <type> Random </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 10 </x_2>
+                    <y_2> 10 </y_2>
+                </domain>
+                <n_individuals> 9 </n_individuals>
+            </distribution>
+        </group>
+    </initial_population>
+    <tree_time_loop>
+        <type> Simple </type>
+        <t_start> 0 </t_start>
+        <t_end> 946080000 </t_end>
+        <delta_t> 6307200 </delta_t>
+    </tree_time_loop>
+    <visualization>
+        <type> NONE </type>
+    </visualization>
+    <tree_output>
+        <type> OneTimestepOneFile </type>
+        <allow_previous_output> True </allow_previous_output>
+        <output_each_nth_timestep> 15 </output_each_nth_timestep>
+        <output_dir> test/testoutputs/ </output_dir>
+        <geometry_output> r_stem </geometry_output>
+        <network_output> partner </network_output>
+        <network_output> potential_partner </network_output>
+    </tree_output>
+</MangaProject>
+

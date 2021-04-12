@@ -156,10 +156,11 @@ class SimpleNetwork(BelowgroundCompetition):
         self.groupFormation()
         self.rootGraftFormation()
         self.calculateBGresourcesTree()
-        res_b = self.getBGresourcesIndividual(self._psi_top, self._psi_osmo,
+        res_b_noSal = self.getBGresourcesIndividual(self._psi_top,
+                                              np.array([0] * self.n_trees),
                                               self._above_graft_resistance,
                                               self._below_graft_resistance)
-        self.belowground_resources = self._water_avail / res_b
+        self.belowground_resources = self._water_avail / res_b_noSal
         self.updateNetworkParametersForGrowthAndDeath()
 
     ## This function updates the network parameters that are required in the

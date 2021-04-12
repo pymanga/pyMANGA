@@ -260,7 +260,7 @@ class SimpleNetwork(BelowgroundCompetition):
         else:
             dictionary[key] = dictionary[key] | {value}
 
-    ## Funktion that makes a graph dictionary only with functional grafts,
+    ## Function that makes a graph dictionary only with functional grafts,
     # i.e. both involved trees have finished root graft formation
     def makeGraphDictionary(self):
         graph_dict_incomplete = {}

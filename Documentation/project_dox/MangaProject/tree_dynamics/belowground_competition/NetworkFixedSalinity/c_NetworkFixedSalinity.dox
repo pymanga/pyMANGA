@@ -1,0 +1,12 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__NetworkFixedSalinity__NetworkFixedSalinity &emsp;[case]NetworkFixedSalinity
+Belowground concept combining *FixedSalinity* and *SimpleNetwork*. 
+
+All inputs from the corresponding concepts are required.
+
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__NetworkFixedSalinity__f_radius
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__NetworkFixedSalinity__max_x
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__NetworkFixedSalinity__min_x
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__NetworkFixedSalinity__salinty
+*/

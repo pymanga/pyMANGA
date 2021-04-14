@@ -25,9 +25,9 @@ The formation of root grafts between a pair of trees will be initialized when th
 
 In this concept, three volume flows describe the water flow in the tree:
 
-- *water_absorbed* that is the water absorbed by the tree from the soil column
-- *water_available* that is the water available for tree growth and maintenance, which corresponds to water uptake in the SimpleBettina model
-- *water_exchanged* that is the water exchanged between connected trees
+- *water_absorbed*  that is the water absorbed by the tree from the soil column
+- *water_available*  that is the water available for tree growth and maintenance, which corresponds to water uptake in the SimpleBettina model
+- *water_exchanged*  that is the water exchanged between connected trees
 
 The volume flows are calculated utilizing the electronic-hydraulic analogy. This allows the application of the Kirchhoff's laws, resulting in a set of linear equations.
 

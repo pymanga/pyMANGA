@@ -69,6 +69,14 @@ class SimpleBettina(GrowthAndDeathDynamics):
         growth_concept_information["psi_zero"] = psi_zero
         growth_concept_information["salinity"] = (
             (belowground_resources * psi_zero - psi_zero) / 85000000.)
+        growth_concept_information["weight_girthgrowth"] = \
+            self.weight_girthgrowth
+        growth_concept_information["weight_stemgrowth"] = \
+            self.weight_stemgrowth
+        growth_concept_information["weight_crowngrowth"] = \
+            self.weight_crowngrowth
+        growth_concept_information["weight_rootgrowth"] = \
+            self.weight_rootgrowth
 
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)

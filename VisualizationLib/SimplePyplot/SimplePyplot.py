@@ -7,6 +7,7 @@
 from matplotlib import patches as patch
 from matplotlib import cm
 from matplotlib import pyplot as plt
+from matplotlib import lines
 from matplotlib.collections import PatchCollection
 from VisualizationLib.Visualization import Visualization
 
@@ -40,7 +41,7 @@ class SimplePyplot(Visualization):
         rigth, top = -99999, -99999
         colors = cm.get_cmap('viridis', len(tree_groups.items()))
         i = 0
-        patches, group_names = [], []
+        patches, group_names, we = [], [], []
         for group_name, tree_group in tree_groups.items():
             patches_group = []
             for tree in tree_group.getTrees():
@@ -52,11 +53,24 @@ class SimplePyplot(Visualization):
                 geo = tree.getGeometry()
                 r = geo["r_crown"]
                 patches_group.append(patch.Circle((x, y), r))
+                # network
+                network = tree.getNetwork()
+                partners = network['partner']
+                we.append(network['water_exchanged'])
+                for partner in partners:
+                    for group_name, tree_group in tree_groups.items():
+                        for tree in tree_group.getTrees():
+                            foundpartner = str(tree.group_name) + str(
+                                tree.tree_id)
+                            if partner == foundpartner:
+                                x2, y2 = tree.getPosition()
+                                line = lines.Line2D([x, x2], [y, y2])
+                                self._ax.add_line(line)
+
             patches.append(patches_group)
             group_names.append(group_name)
         handles = []
         for patches_group, group_name in zip(patches, group_names):
-
             p = PatchCollection(patches_group,
                                 alpha=1,
                                 linewidths=1,
@@ -68,6 +82,7 @@ class SimplePyplot(Visualization):
 
             i += 1
             self._ax.add_collection(p)
+
         plt.legend(handles=handles, loc=1)
 
         timestring = self.createTimestring(time)

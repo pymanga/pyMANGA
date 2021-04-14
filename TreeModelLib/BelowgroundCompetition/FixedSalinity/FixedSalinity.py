@@ -32,8 +32,7 @@ class FixedSalinity(BelowgroundCompetition):
         self.belowground_resources = psi_sali / psi_zero
 
     ## This function reads salinity from the control file.\n
-    def GetSalinity(self, args):  # , missing_tags=None
-        # if not missing_tags:
+    def GetSalinity(self, args):
         missing_tags = ["salinity", "type", "max_x", "min_x"]
 
         for arg in args.iterdescendants():

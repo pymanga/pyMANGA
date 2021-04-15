@@ -1,3 +1,3 @@
 
 
-seawater salinity in ppt.
+seawater salinity in kg/kg.

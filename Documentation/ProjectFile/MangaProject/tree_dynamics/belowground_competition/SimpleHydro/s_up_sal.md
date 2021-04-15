@@ -1,3 +1,3 @@
 
 
-groundwater salinity in ppt.
+groundwater salinity in kg/kg.

@@ -19,9 +19,9 @@
             <dilution_frac_upper> 0.0 </dilution_frac_upper>
             <dilution_frac_lower> 0.2 </dilution_frac_lower>
             <diffusion_frac> 0.05 </diffusion_frac>
-            <sea_salinity> 35 </sea_salinity>
-            <ini_sal> 45 </ini_sal>
-            <up_sal> 10 </up_sal>
+            <sea_salinity> 0.035 </sea_salinity>
+            <ini_sal> 0.045 </ini_sal>
+            <up_sal> 0.010 </up_sal>
             <slope> 0.005 </slope>
             <k_f> 0.00025 </k_f>
             <flooding_duration> 7.0, 4.1, 2.0, 1.2, 0.8, 0.6, 0.4, 0.2, 0.0  </flooding_duration>

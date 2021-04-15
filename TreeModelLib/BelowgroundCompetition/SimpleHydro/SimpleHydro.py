@@ -26,7 +26,7 @@ class SimpleHydro(BelowgroundCompetition):
     def calculateBelowgroundResources(self):
         self.transpire()
         self.belowground_resources = ((np.array(self._potential_nosal) +
-                                       np.array(self._salinity) * 85000) /
+                                       np.array(self._salinity) * 85000000) /
                                       np.array(self._potential_nosal))
 
     ## This function calculates the water balance of each grid cell.
@@ -67,7 +67,7 @@ class SimpleHydro(BelowgroundCompetition):
                                    np.sum(presence[:, :, ii])))
             ### transpiration for the tree
             self.transpiration.append(
-                (-self._potential_nosal[ii] - self._salinity[ii] * 85000) /
+                (-self._potential_nosal[ii] - self._salinity[ii] * 85000000) /
                 self._resistance[ii] / np.pi * tsl)
             ### transpiration per grid cell
             water_loss += (self.transpiration[ii] /

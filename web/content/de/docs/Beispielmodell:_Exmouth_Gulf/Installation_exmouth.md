@@ -22,7 +22,7 @@ Ein Beispiel für den Ausgabeort der Ergebnisse und dem Ordner mit den OGS-Input
 
 Die Grundwassermodellierung mit OGS wird mit Hilfe eines zusätzlichen Python-Scripts detaillierter ausgeführt. Dieses Skript stellt für OGS unter anderem Werte zum Tidenhub aus der Datei "EXM_Jan-Jul_2019.txt" bereit, setzt diese Daten ein eine Schleife (da der Modellierungszeitraum deutlich länger als der Zeitraum der Tide-Daten ist) und sorgt für eine Anpassung des mittleren Wasserspiegels. Im Python-Script findet sich ein Verweis auf den Dateispeicherort dieser Datei, in Zeile 140 f. muss der Dateispeicherort der "EXM_Jan-Jul_2019.txt"-Datei an das jeweilige Dateisystem angepasste werden.
 
-Das Programm lässt sich jetzt durch das Öffnen eines Terminals in der Hauptebene von pyMANGA durch Eingabe des Befehls 
+Das Setup lässt sich jetzt durch das Öffnen eines Terminals in der Hauptebene von pyMANGA durch Eingabe des Befehls 
 
 	python3 main.py -i /Model_Exmouth_Gulf/setup_pymanga.xml
 

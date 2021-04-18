@@ -10,8 +10,8 @@ Der Exmouth-Golf befindet sich an der Westküste Australiens im Bundesstaat West
 
 <figure>
 <a name="Abbildung_1"></a>
-<img src="/pictures/exmouth_gulf/Lage.jpg"/>
-<figcaption><font size = "1"><i><b>Abbildung 1:</b> Lage in Australien (Quelle: <a href="https://www.google.de/maps">Google Maps</a>)</i></font></figcaption>
+<img src="/pictures/exmouth_gulf/lage_uebersicht.jpg"/>
+<figcaption><font size = "1"><i><b>Abbildung 1:</b> Lage des Modellgebiets im Exmouth-Golf Western Australien (&copy; <a href="https://www.google.de/maps">Google Maps</a>)</i></font></figcaption>
 </figure><p>
 &nbsp;
 <p>
@@ -24,14 +24,14 @@ Die <a href="/de/docs/beispielmodell_exmouth_gulf/der_exmouth_golf/#Abbildung_2"
 <figure>
 <a name="Abbildung_2"></a>
 <img src="/pictures/exmouth_gulf/mangroven_luftbild_1.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 2:</b> Luftbild Exmouth-Golf</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 2:</b> Luftbild Exmouth-Golf, &copy; Ruth Reef</i></font></figcaption>
 </figure><p>
 &nbsp;
 
 <figure>
 <a name="Abbildung_3"></a>
 <img src="/pictures/exmouth_gulf/mangroven_luftbild_2.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 3:</b> Luftbild Exmouth-Golf</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 3:</b> Luftbild Exmouth-Golf, &copy; Ruth Reef</i></font></figcaption>
 </figure><p>
 &nbsp;
 
@@ -43,5 +43,5 @@ Die <a href="/de/docs/beispielmodell_exmouth_gulf/der_exmouth_golf/#Abbildung_2"
 <figure>
 <a name="Abbildung_4"></a>
 <img src="/pictures/exmouth_gulf/mangroven_wurzeln.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 4:</b> Luftbild Wurzelsystem der grauen Mangroven</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 4:</b> Luftbild Wurzelsystem der grauen Mangroven, &copy; Ruth Reef</i></font></figcaption>
 </figure><p>

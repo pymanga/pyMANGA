@@ -7,8 +7,8 @@ Case selector for different types of aboveground competition.
 
 # Available cases 
  
-- NetworkBettina
-- SimpleBettina
 - SimpleKiwi
 - SimpleTest
+- NetworkBettina
+- SimpleBettina
 */

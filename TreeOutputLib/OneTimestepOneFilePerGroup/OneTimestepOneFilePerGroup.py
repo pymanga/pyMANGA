@@ -9,8 +9,8 @@ from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import \
 import os
 
 
-## Output class. This class creates one file per timestep per group at a 
-#  defined location. A line containing time, position, desired geometric 
+## Output class. This class creates one file per timestep per group at a
+#  defined location. A line containing time, position, desired geometric
 #  measures and desired parameters is written at every nth timestep.
 class OneTimestepOneFilePerGroup(OneTimestepOneFile):
     ## Writes output to predefined folder
@@ -42,9 +42,8 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
                     growth_information = tree.getGrowthConceptInformation()
                     string = ""
                     string += (group_name + "_" + "%09.0d" % (tree.getId()) +
-                               delimiter + str(time) + delimiter + str(
-                                tree.x) +
-                               delimiter + str(tree.y))
+                               delimiter + str(time) + delimiter +
+                               str(tree.x) + delimiter + str(tree.y))
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:

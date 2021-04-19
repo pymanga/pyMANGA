@@ -1,3 +1,3 @@
 
 
-initial salinity in the soil in ppt.
+initial salinity in the soil in kg/kg.

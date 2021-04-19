@@ -24,9 +24,10 @@ class OneTimestepOneFile(TreeOutput):
         ## Check if overwrite of previous output is allowed
         allow_previous_output = args.find("allow_previous_output")
         if allow_previous_output is not None:
-            allow_previous_output = bool(allow_previous_output.text)
+            allow_previous_output = eval(allow_previous_output.text)
         else:
             allow_previous_output = False
+
         ## Geometric measures included in output
         self.geometry_outputs = []
         ## Parameters included in output

@@ -51,10 +51,10 @@ class FixedSalinity(BelowgroundCompetition):
 
             try:
                 missing_tags.remove(tag)
-            except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
-                    " not specified for below-ground initialisation!")
+            except:
+                print("WARNING: Tag " + tag +
+                      " not specified for 'FixedSalinity' below-ground "
+                      "initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:

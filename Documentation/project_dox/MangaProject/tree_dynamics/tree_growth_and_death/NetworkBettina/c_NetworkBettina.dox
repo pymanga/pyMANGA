@@ -16,7 +16,7 @@ Available growth information for output (<growth_output > ... </growth_output>):
 - growth
 - available_resources
 - psi_zero
-- salinity
+- salinity - **NOTE if trees are grafted this output is not correct. Use network output psi_osmo instead!**
 
 Available network information for output (<network_output > ... </network_output>):
   

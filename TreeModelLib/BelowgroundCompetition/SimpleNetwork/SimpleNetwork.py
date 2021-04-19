@@ -7,6 +7,7 @@
 import numpy as np
 from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
 
+
 class SimpleNetwork(BelowgroundCompetition):
     #########
     # BASIC #
@@ -188,18 +189,17 @@ class SimpleNetwork(BelowgroundCompetition):
             tree.setNetwork(network)
 
     def getInputParameters(self, args):
-        missing_tags = ["type", #"variant",
-                        "f_radius"]
+        missing_tags = ["type", "f_radius"]
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "f_radius":
                 self.f_radius = float(args.find("f_radius").text)
             try:
                 missing_tags.remove(tag)
-            except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
-                    " not specified for below-ground initialisation!")
+            except:
+                print("WARNING: Tag " + tag +
+                      " not specified for 'SimpleNetwork' below-ground " +
+                      "initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:
@@ -283,7 +283,8 @@ class SimpleNetwork(BelowgroundCompetition):
                         # trees are only put in the dict. if the occur more than
                         # ones, i.e. both partners have finished rgf
                         link_list.append({vertex, neighbour})
-                        self.setKeyDictionary(self.graph_dict, vertex, neighbour)
+                        self.setKeyDictionary(self.graph_dict, vertex,
+                                              neighbour)
 
     ## This function finds all subcomponents of a graph, i.e. groups of
     # grafted trees.
@@ -314,7 +315,7 @@ class SimpleNetwork(BelowgroundCompetition):
                         myMin = myRoot_myJ
                         myMax = myRoot_myI
                     myRoot[myMax] = (
-                    myMax, max(myRoot[myMin][1] + 1, myRoot[myMax][1]))
+                        myMax, max(myRoot[myMin][1] + 1, myRoot[myMax][1]))
                     myRoot[myMin] = (myRoot[myMax][0], -1)
         myToRet = {}
         for myI in graph_dictionary:
@@ -367,7 +368,7 @@ class SimpleNetwork(BelowgroundCompetition):
         y_mesh = np.array(np.meshgrid(self._ye, self._ye))
         # calculate distances between all trees
         distances = ((x_mesh[0] - x_mesh[1]) ** 2 + (
-                    y_mesh[0] - y_mesh[1]) ** 2) ** .5
+                y_mesh[0] - y_mesh[1]) ** 2) ** .5
 
         roots = np.array(np.meshgrid(self._r_root, self._r_root))
         root_sums = roots[0] + roots[1]
@@ -415,8 +416,8 @@ class SimpleNetwork(BelowgroundCompetition):
         ## ... find out if they are currently within the root graft formation
         # process, if yes jump to next pair
         condition2 = True if (
-                    self._rgf_counter[l1] == -1 and self._rgf_counter[
-                l2] == -1) else False
+                self._rgf_counter[l1] == -1 and self._rgf_counter[
+            l2] == -1) else False
         # @mcwimm: here another condition could/ should be included that
         # checks whether the trees have enough energy to start root graft
         # formation. A meaningful condition/ threshold is still missing.
@@ -457,10 +458,9 @@ class SimpleNetwork(BelowgroundCompetition):
                     root_sums = self._r_root[l1] + self._r_root[l2]
                     l_gr = (distance + root_sums) / 2
                     self._l_gr_rgf[l1], self._l_gr_rgf[l2] = self._r_root[l1] / \
-                                                             root_sums * l_gr,  \
+                                                             root_sums * l_gr, \
                                                              self._r_root[l2] / \
                                                              root_sums * l_gr,
-
 
     ## Function that calls all the sub procedures to initialize root graft
     # formation.
@@ -491,9 +491,9 @@ class SimpleNetwork(BelowgroundCompetition):
     # @param r_stem - stem radius
     def belowGraftResistance(self, lp, k_geom, kf_sap, r_root, h_root, r_stem):
         below_graft_resistance = 1 / (
-                    lp * k_geom * np.pi * r_root ** 2 * h_root) + \
+                lp * k_geom * np.pi * r_root ** 2 * h_root) + \
                                  (0.5 ** 0.5 * r_root) / (
-                                             kf_sap * np.pi * r_stem ** 2)
+                                         kf_sap * np.pi * r_stem ** 2)
         return below_graft_resistance
 
     ## Function that calculates the above-graft resistance (i.e. stem and
@@ -505,7 +505,7 @@ class SimpleNetwork(BelowgroundCompetition):
     # @param r_stem - stem radius
     def aboveGraftResistance(self, kf_sap, r_crown, h_stem, r_stem):
         above_graft_resistance = (2 * r_crown + h_stem) / (
-                    kf_sap * np.pi * r_stem ** 2)
+                kf_sap * np.pi * r_stem ** 2)
         return above_graft_resistance
 
     ## Function that calculates the xylem resistance in the grafted roots.
@@ -631,7 +631,7 @@ class SimpleNetwork(BelowgroundCompetition):
         matrix[link_rows, to_index] = self._below_graft_resistance[to_IDs]
         matrix[link_rows, g_col] = graft_resistance
         matrix[link_rows, size] = self._psi_osmo[to_IDs] - self._psi_osmo[
-            from_IDs]      # y
+            from_IDs]  # y
         return matrix
 
     ## Function that calculates water uptake of an individual tree,
@@ -645,7 +645,7 @@ class SimpleNetwork(BelowgroundCompetition):
     def getBGresourcesIndividual(self, psi_top, psi_osmo, ag_resistance,
                                  bg_resistance):
         res_b = -(psi_top - psi_osmo) / (
-                    (ag_resistance + bg_resistance) * np.pi) * self.time
+                (ag_resistance + bg_resistance) * np.pi) * self.time
         return res_b
 
     ## Function that calculates water absorbed, water available and water
@@ -682,8 +682,8 @@ class SimpleNetwork(BelowgroundCompetition):
         linkList_group_list = [list(links) for links in link_list_group]
         # reshape link_list_group to shape = [2, n_l]
         reshape_llg = np.transpose(linkList_group_list)
-        from_IDs = reshape_llg[0, :]    # from IDs
-        to_IDs = reshape_llg[1, :]      # to IDs
+        from_IDs = reshape_llg[0, :]  # from IDs
+        to_IDs = reshape_llg[1, :]  # to IDs
         np.add.at(self._water_exchanged_trees, from_IDs, water_exchanged)
         np.add.at(self._water_exchanged_trees, to_IDs,
                   -1 * np.array(water_exchanged))

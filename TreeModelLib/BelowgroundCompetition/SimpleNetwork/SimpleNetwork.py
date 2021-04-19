@@ -115,25 +115,24 @@ class SimpleNetwork(BelowgroundCompetition):
         self._xe.append(x)
         self._ye.append(y)
         self.n_trees = len(self._xe)
-        self._tree_names = np.concatenate((self._tree_names,
-                                           [str(tree.group_name) + str(
-                                               tree.tree_id)]))
+        self._tree_names = np.concatenate(
+            (self._tree_names, [str(tree.group_name) + str(tree.tree_id)]))
 
         self._below_graft_resistance = np.concatenate(
-            (self._below_graft_resistance,
-             [self.belowGraftResistance(parameter["lp"],
-                                        parameter["k_geom"],
-                                        parameter["kf_sap"],
-                                        geometry["r_root"],
-                                        geometry["h_root"],
-                                        geometry["r_stem"])]
-             ))
+            (self._below_graft_resistance, [
+                self.belowGraftResistance(parameter["lp"], parameter["k_geom"],
+                                          parameter["kf_sap"],
+                                          geometry["r_root"],
+                                          geometry["h_root"],
+                                          geometry["r_stem"])
+            ]))
         self._above_graft_resistance = np.concatenate(
-            (self._above_graft_resistance,
-             [self.aboveGraftResistance(
-                 parameter["kf_sap"], geometry["r_crown"],
-                 geometry["h_stem"], geometry["r_stem"])]
-             ))
+            (self._above_graft_resistance, [
+                self.aboveGraftResistance(parameter["kf_sap"],
+                                          geometry["r_crown"],
+                                          geometry["h_stem"],
+                                          geometry["r_stem"])
+            ]))
 
         self._r_root.append(geometry["r_root"])
         self._r_stem.append(geometry["r_stem"])
@@ -157,10 +156,9 @@ class SimpleNetwork(BelowgroundCompetition):
         self.groupFormation()
         self.rootGraftFormation()
         self.calculateBGresourcesTree()
-        res_b_noSal = self.getBGresourcesIndividual(self._psi_top,
-                                              np.array([0] * self.n_trees),
-                                              self._above_graft_resistance,
-                                              self._below_graft_resistance)
+        res_b_noSal = self.getBGresourcesIndividual(
+            self._psi_top, np.array([0] * self.n_trees),
+            self._above_graft_resistance, self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b_noSal
         self.updateNetworkParametersForGrowthAndDeath()
 
@@ -207,8 +205,7 @@ class SimpleNetwork(BelowgroundCompetition):
             raise KeyError(
                 "Tag(s) " + string +
                 "are not given for below-ground initialisation in project "
-                "file."
-            )
+                "file.")
 
     '''
     ##############################
@@ -314,8 +311,9 @@ class SimpleNetwork(BelowgroundCompetition):
                     if myDepthMyI > myDepthMyJ:
                         myMin = myRoot_myJ
                         myMax = myRoot_myI
-                    myRoot[myMax] = (
-                        myMax, max(myRoot[myMin][1] + 1, myRoot[myMax][1]))
+                    myRoot[myMax] = (myMax,
+                                     max(myRoot[myMin][1] + 1,
+                                         myRoot[myMax][1]))
                     myRoot[myMin] = (myRoot[myMax][0], -1)
         myToRet = {}
         for myI in graph_dictionary:
@@ -357,7 +355,7 @@ class SimpleNetwork(BelowgroundCompetition):
     ## This function calculates the distance between two trees in meter.
     # @return a scalar
     def getDistance(self, x1, x2, y1, y2):
-        return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+        return ((x1 - x2)**2 + (y1 - y2)**2)**0.5
 
     ## This function returns a matrix indicating whether roots of trees are
     # in contact or not
@@ -367,8 +365,8 @@ class SimpleNetwork(BelowgroundCompetition):
         x_mesh = np.array(np.meshgrid(self._xe, self._xe))
         y_mesh = np.array(np.meshgrid(self._ye, self._ye))
         # calculate distances between all trees
-        distances = ((x_mesh[0] - x_mesh[1]) ** 2 + (
-                y_mesh[0] - y_mesh[1]) ** 2) ** .5
+        distances = ((x_mesh[0] - x_mesh[1])**2 +
+                     (y_mesh[0] - y_mesh[1])**2)**.5
 
         roots = np.array(np.meshgrid(self._r_root, self._r_root))
         root_sums = roots[0] + roots[1]
@@ -415,17 +413,16 @@ class SimpleNetwork(BelowgroundCompetition):
         condition1 = False if l2 in self._partner_indices[l1] else True
         ## ... find out if they are currently within the root graft formation
         # process, if yes jump to next pair
-        condition2 = True if (
-                self._rgf_counter[l1] == -1 and self._rgf_counter[
-            l2] == -1) else False
+        condition2 = True if (self._rgf_counter[l1] == -1
+                              and self._rgf_counter[l2] == -1) else False
         # @mcwimm: here another condition could/ should be included that
         # checks whether the trees have enough energy to start root graft
         # formation. A meaningful condition/ threshold is still missing.
         condition3 = True
 
         # ... find out if the grafting conditions are met, if yes set rgf = 1
-        start_rgf = True if ((condition1 and condition2 and
-                              condition3) == True) else False
+        start_rgf = True if ((condition1 and condition2
+                              and condition3) == True) else False
         return start_rgf
 
     ## Function that modifies the tree-own vairable 'rgf_counter'.
@@ -504,8 +501,8 @@ class SimpleNetwork(BelowgroundCompetition):
     # @param h_stem - stem height
     # @param r_stem - stem radius
     def aboveGraftResistance(self, kf_sap, r_crown, h_stem, r_stem):
-        above_graft_resistance = (2 * r_crown + h_stem) / (
-                kf_sap * np.pi * r_stem ** 2)
+        above_graft_resistance = (2 * r_crown + h_stem) / (kf_sap * np.pi *
+                                                           r_stem**2)
         return above_graft_resistance
 
     ## Function that calculates the xylem resistance in the grafted roots.
@@ -514,7 +511,7 @@ class SimpleNetwork(BelowgroundCompetition):
     # @param r_graft - radius of grafted roots
     # @param kf_sap - hydraulic conductivity of xylem
     def getGraftResistance(self, distance, r_graft, kf_sap):
-        graft_resistance = distance / (kf_sap * np.pi * r_graft ** 2)
+        graft_resistance = distance / (kf_sap * np.pi * r_graft**2)
         return graft_resistance
 
     ## Function that returns an array with the links of a specific tree.
@@ -594,8 +591,9 @@ class SimpleNetwork(BelowgroundCompetition):
         from_IDs = reshape_llg[0, :]  # from IDs
         to_IDs = reshape_llg[1, :]  # to IDs
         # Get indices, i.e. rows, corresponding to from and to tree IDs
-        from_index = node_row[
-            np.searchsorted(members, from_IDs, sorter=node_row)]
+        from_index = node_row[np.searchsorted(members,
+                                              from_IDs,
+                                              sorter=node_row)]
         to_index = node_row[np.searchsorted(members, to_IDs, sorter=node_row)]
         # Set graft in- and outflow
         matrix[from_index, g_col] = 1
@@ -605,15 +603,15 @@ class SimpleNetwork(BelowgroundCompetition):
 
         matrix[tree_rows, bg_col] = self._below_graft_resistance[members]
         matrix[tree_rows, ag_col] = self._above_graft_resistance[members]
-        matrix[tree_rows, size] = self._psi_osmo[members] - self._psi_top[
-            members]
+        matrix[tree_rows,
+               size] = self._psi_osmo[members] - self._psi_top[members]
 
         ## Kirchhoff's 2nd law: flow between two connected trees
         x_mesh = np.array(np.meshgrid(self._xe, self._xe))
         y_mesh = np.array(np.meshgrid(self._ye, self._ye))
         # calculate distances between all trees of the group
-        distances = ((x_mesh[0] - x_mesh[1]) ** 2 + (
-                y_mesh[0] - y_mesh[1]) ** 2) ** .5
+        distances = ((x_mesh[0] - x_mesh[1])**2 +
+                     (y_mesh[0] - y_mesh[1])**2)**.5
         r_stem = np.array(np.meshgrid(self._r_stem, self._r_stem))
         r_root = np.array(np.meshgrid(self._r_root, self._r_root))
 
@@ -645,7 +643,7 @@ class SimpleNetwork(BelowgroundCompetition):
     def getBGresourcesIndividual(self, psi_top, psi_osmo, ag_resistance,
                                  bg_resistance):
         res_b = -(psi_top - psi_osmo) / (
-                (ag_resistance + bg_resistance) * np.pi) * self.time
+            (ag_resistance + bg_resistance) * np.pi) * self.time
         return res_b
 
     ## Function that calculates water absorbed, water available and water
@@ -709,8 +707,7 @@ class SimpleNetwork(BelowgroundCompetition):
                 # water_available corresponds to SimpleBettina water uptake
                 # and water_exchange is 0
                 self._water_absorb[members] = self.getBGresourcesIndividual(
-                    self._psi_top[members],
-                    self._psi_osmo[members],
+                    self._psi_top[members], self._psi_osmo[members],
                     self._above_graft_resistance[members],
                     self._below_graft_resistance[members])
                 self._water_avail[members] = self._water_absorb[members]

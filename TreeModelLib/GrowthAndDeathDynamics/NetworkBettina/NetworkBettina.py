@@ -157,11 +157,9 @@ class NetworkBettina(SimpleBettina):
             raise KeyError(
                 "Tag(s) " + string +
                 "are not given for growth and death initialisation in "
-                "project file."
-            )
+                "project file.")
         if self.variant not in ["V0_instant", "V1_fixed", "V2_adapted"]:
             raise KeyError(
                 "NetworkBettina variant " + self.variant +
                 " is not defined. Existing variants are 'V0_instant', "
-                "'V1_fixed' and 'V2_adapted'."
-            )
+                "'V1_fixed' and 'V2_adapted'.")

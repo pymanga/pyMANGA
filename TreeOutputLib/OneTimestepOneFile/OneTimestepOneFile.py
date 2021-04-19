@@ -49,8 +49,8 @@ class OneTimestepOneFile(TreeOutput):
             dir_files = len(os.listdir(self.output_dir))
         except FileNotFoundError:
             print("No such directory: '" + self.output_dir +
-                "' as defined in the project file." +
-                " Creating directory...")
+                  "' as defined in the project file." +
+                  " Creating directory...")
             os.mkdir(self.output_dir)
             dir_files = 0
         if (dir_files > 0 and allow_previous_output == False):
@@ -93,9 +93,8 @@ class OneTimestepOneFile(TreeOutput):
                     growth_information = tree.getGrowthConceptInformation()
                     string = ""
                     string += (group_name + "_" + "%09.0d" % (tree.getId()) +
-                               delimiter + str(time) + delimiter + str(
-                                tree.x) +
-                               delimiter + str(tree.y))
+                               delimiter + str(time) + delimiter +
+                               str(tree.x) + delimiter + str(tree.y))
                     if (len(self.geometry_outputs) > 0):
                         geometry = tree.getGeometry()
                         for geometry_output in self.geometry_outputs:

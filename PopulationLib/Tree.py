@@ -9,7 +9,12 @@ import importlib.util
 
 
 class Tree:
-    def __init__(self, x, y, species, tree_id, initial_geometry=False,
+    def __init__(self,
+                 x,
+                 y,
+                 species,
+                 tree_id,
+                 initial_geometry=False,
                  group_name=""):
         self.tree_id = tree_id
         self.species = species
@@ -97,7 +102,6 @@ class Tree:
         self.network['r_gr_rgf'] = []
         self.network['l_gr_rgf'] = []
         self.network['variant'] = None
-
 
     def getNetwork(self):
         return self.network

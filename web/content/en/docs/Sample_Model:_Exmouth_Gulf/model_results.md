@@ -1,6 +1,6 @@
 ---
-title: "The Model (Arbeitstitel)"
-linkTitle: "The Model (Arbeitstitel)"
+title: "The Model"
+linkTitle: "The Model"
 weight: 3
 description:
 ---
@@ -35,8 +35,22 @@ Allometry data from a transect measurement, as well as measurement results from 
 <figcaption><font size = "1"><i><b>Figure 1:</b> Diagram of model abstraction from site conditions in the Exmouth Gulf</i></font></figcaption>
 </figure><br>
 
+The model shows the mangrove growth at the location in the Exmouth Gulf shown in the following figure.
 
-# Modeling (Arbeitstitel)
+<iframe src="https://www.google.com/maps/d/embed?mid=1EiX5yyZGJgVSu7pueUi5_jK160ndg0tG" width="640" height="480"></iframe>
+
+<br>
+<br>
+
+Elevation profiles from the digital elevation model of the five transects (<a href="/en/docs/example-model_exmouth_gulf/results/#Figure_2">Figure 2 A</a>) were overlaid and the top of the terrain from the five signals (<a href="/en/docs/example_exmouth_gulf/results/#Figure_2">Figure 2 B</a>) was interpolated from the baseline of the signals. This DEM was used for descretization of the groundwater model  (<a href="/en/docs/example_exmouth_gulf/results/#Figure_2">Figure 2 C</a>).
+
+<figure>
+<a name="Figure_2"></a>
+<img src="/pictures/exmouth_gulf/dem.png" style="width:75%">
+<figcaption><font size = "1"><i><b>Figure 2:</b> Elevation profiles along transect lines.</i></font></figcaption>
+</figure><br>
+
+# Modeling
 
 ## Model variants
 
@@ -141,7 +155,7 @@ Since each mangrove is represented as a single individual, a spatial discretizat
 
 ## Boundary conditions groundwater model
 
-The salinity of the seawater was set at 50 g/kg, the porewater at the landward end of the transect was assigned a salinity of 70 g/kg. The transpiration of the mangroves locally increases the salinity. The water level is determined in terms of hydrostatic pressure at the seaward and landward ends of the model area. In order to represent the tides, the lake-side water level was integrated into the model as a dynamic Dirichlet boundary condition. The water level measurements of the Department of Transport of the Government of Western Australia served as data basis. The land-based water level is represented by a constant boundary condition of the 1st type. MARKER Inflows in the form of precipitation were not mapped as a separate boundary condition, but is integrated with the boundary condition of 1st type at the land-based model end. The model sites not mentioned here are all defined as no-flow boundary conditions. <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_1">Figure 1</a> shows a schematic diagram of this.
+The salinity of the seawater was set at 50 g/kg, the porewater at the landward end of the transect was assigned a salinity of 70 g/kg. The transpiration of the mangroves locally increases the salinity. The water level is determined in terms of hydrostatic pressure at the seaward and landward ends of the model area. In order to represent the tides, the lake-side water level was integrated into the model as a dynamic Dirichlet boundary condition. The water level measurements of the Department of Transport of the Government of Western Australia served as data basis. The land-based water level is represented by a constant boundary condition of the 1st type. The evparation of the trees is integrated as sinks in the area of the roots (see also <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_3">Figure 3</a>). Inflow in the form of precipitation is indirectly considered via salinity at the landward edge of the model area. The model boundaries not mentioned here are all defined as no-flow boundary conditions. <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_1">Figure 1</a> shows a schematic diagram of this.
 
 
 ## Parameterization
@@ -337,7 +351,7 @@ For representing the mangroves in the model area, it is necessary to establish a
 
 # Results
 
-In this project, two processes were examined more closely with the help of the MANGA model. On the one hand, the development of typical structures in mangrove forests should be mapped, on the other hand, the growth behavior of the two mangrove species under different environmental conditions should be investigated. In the following, the results of the project are briefly summarized.
+In this research MARKER, two processes were examined more closely with the help of the MANGA model. On the one hand, the development of typical structures in mangrove forests should be mapped, on the other hand, the growth behavior of the two mangrove species under different environmental conditions should be investigated. In the following, the results of the research MARKER are briefly summarized.
 
 # Forest structure
 
@@ -405,12 +419,12 @@ In the following video, the model area was divided into ten sectors. The dynamic
 
 <figure>
 <iframe src="https://player.vimeo.com/video/481362688" width="640" height="360" frameborder="1" allow="autoplay; fullscreen" allowfullscreen></iframe>
-<figcaption><font size = "1"><i><b>Video 1:</b> Dynamische Entwicklung der Mangrovenpopulation und Salzkonzentration im Bodenwasser über die Modellierungszeit</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Video 1:</b> Dynamic development of mangrove population and salinity concentration in porewater over the modeling period.</i></font></figcaption>
 </figure>
 
 <br>
 
-The results of the "<b>Full Model</b>" are in qualitative agreement with the measured field data (see <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4</a>). This is true for both the tree height profile (see <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 A</a>) and for the pore water salinity profile (see <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 B</a>) in the studied transect. In particular, the variation in pore water salinity was well mapped (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 A</a>). A comparison of the results of the "Full Model" with the results of the two model variants "Model Without Feedback" and "Model Without Tide" shows a significantly worse reproduction of the measured field data by the two simpler models (see <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 C and 4 D</a>).
+The results of the "<b>Full Model</b>" are in qualitative agreement with the measured field data (see <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4</a>). This is true for both the tree height profile (see <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 A</a>) and for the pore water salinity profile (see <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 B</a>) in the studied transect. In particular, the variation in pore water salinity was well mapped (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 A</a>). The coefficient of determination of the Bravais-Pearson correlation is R²&nbsp;=&nbsp;0.64 for tree height and R²&nbsp;=&nbsp;0.88 for porewater salinity. A comparison of the results of the "Full Model" with the results of the two model variants "Model Without Feedback" and "Model Without Tide" shows a significantly worse reproduction of the measured field data by the two simpler models (see <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 C and 4 D</a>).
 
 
 <figure>
@@ -443,23 +457,18 @@ The Model "<b>Without Feedback</b>" has problems mapping mangrove growth height 
 
 ## Species dominance
 
-In the previous section, it was shown that MANGA, with the consideration of salinity in the bottom water and the tidal range, is able to represent the forest structures typical for mangrove forests. Using the extensive parameterization capabilities of the tree growth model (see <a href="/docs/sample_setup_exmouth_gulf/model_results/#Parametrization">this section</a>), MANGA can also be used to study the growth of single specific individual species. For example, different mangrove species have different tolerances to excessive salinity. In this project, the growth behavior of two species, Avicennia marina and Rhizophora mangle, was studied in more detail.
+In the previous section, it was shown that MANGA, with the consideration of salinity in the bottom water and the tidal range, is able to represent the forest structures typical for mangrove forests. Using the extensive parameterization capabilities of the tree growth model (see also the section<a href="/docs/sample_setup_exmouth_gulf/model_results/#Parametrization">parametrization</a>), MANGA can also be used to study the growth of single specific individual species. For example, different mangrove species have different tolerances to excessive salinity. In this project, the growth behavior of two species, Avicennia marina and Rhizophora mangle, was studied in more detail.
 
 <a href="/docs/sample_setup_exmouth_gulf/model_results/#Figure_6">Figure 6</a> shows the species dominance of these two mangrove species at different salinity concentrations (see <a href="/docs/sample_setup_exmouth_gulf/model_results/#Table_6">Table 6</a>) in porewater. The different setups shown in the figure differ only with respect to the boundary conditions of the seaward and landward salinity concentrations of the porewater. For the consideration of species dominance in the model domain, we introduce the species dominance d and define it as follows:
-
-<figure style="width:75%">
-<div align="center">
-<img src="/pictures/exmouth_gulf/formel_normierung_speziendominanz.jpg" style="width:45%">
-</div>
-</figure><p>
-
-Here, V<sub>i</sub>(x,t) represent the volume of mangrove species Rhizophora mangle (V<sub>Rhi</sub>(x,t)) and Avicennia marina (V<sub>Avi</sub>(x,t)) present at the time step (t) and X coordinate (x) under consideration. In <a href="/en/docs/example_model_exmouth_gulf/results/#Figure_6">Figure 6</a>, this species dominance was averaged over time and space as follows:
 
 <figure style="width:75%">
 <div align="center">
 <img src="/pictures/exmouth_gulf/formel_normierung_speziendominanz_2.jpg" style="width:70%">
 </div>
 </figure><p>
+
+Here, V<sub>i</sub>(x,t) represent the volume of mangrove species Rhizophora mangle (V<sub>Rhi</sub>(x,t)) and Avicennia marina (V<sub>Avi</sub>(x,t)) present at the time step (t) and X coordinate (x) under consideration.
+
 
 <table>
 <tablecaption align="top"><font size = "1"><i><b>Table 6:</b> Setup configuration</i></font></tablecaption>
@@ -530,6 +539,6 @@ Using the sensitivity analysis of the model with respect to species dominance, i
 
 # Outlook
 
-There is evidence in the literature that mangroves adapt to their environmental conditions over time. A lower salt concentration in the bottom water provides higher xylem conductance and thus greater transpiration. At the same time, however, a low salt concentration in the subsurface also provides higher leaf water potentials that inhibit transpiration. These mutually balancing processes provide overall approximately constant transpiration rates at different pore water salinities. A more detailed study of these processes may help MARKER physiological plasticity MARKER
+There is evidence in the literature that mangroves adapt to their environmental conditions over time. A lower salt concentration in the bottom water provides higher xylem conductance and thus greater transpiration. At the same time, however, a low salt concentration in the subsurface also provides higher leaf water potentials that inhibit transpiration. These mutually balancing processes provide overall approximately constant transpiration rates at different pore water salinities. A more detailed study of these processes may help to understand the ability of mangroves to adapt their physiology to appropriate sites prevailing environmental conditions.
 
 Precipitation was not dynamically integrated as a separate process in this project, as described above, but is represented by the land-based constant boundary condition of water level and salinity. The Exmouth Gulf is generally a region of very low annual precipitation sums. However, the variability of individual rainfall events is very high. Due to cyclones, heavy rainfall events occur regularly and account for a not insignificant portion of the total precipitation. The influence of precipitation on the mangrove population was studied indirectly by setting different values of the boundary condition of landward pore water salinity. Since this boundary condition was shown to be a very sensitive variable, it follows that precipitation also has an influence on mangrove species composition and, in general, the formation of typical mangrove forest structures. In the course of climate change, it can be assumed that heavy rainfall events or extreme weather situations will increase and that sea level will rise. Since the model was able to represent the populations according to reality, it could also be used to investigate the effects of climate change on the sensitive ecosystems of the mangrove forests. Further, the model can provide important clues in the study of all relationships between forest structures and plant characteristics. Models that represent the processes based on more conceptual approaches than MANGA can be calibrated and verified with MANGA.

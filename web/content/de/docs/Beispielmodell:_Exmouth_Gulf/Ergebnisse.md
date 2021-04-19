@@ -41,17 +41,18 @@ Das Modell bildet das Mangrovenwachstum an der in nachfolgender Darstellung zu s
 
 <br>
 <br>
-<br>
 
-Die Höhenprofile aus dem digitalen Oberflächenmodell der fünf Transekte (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2"> Abbildung 2 A</a>) wurden übereinander gelegt und aus den fünf Signalen (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2 B</a>) die Geländeoberkante mit Hilfe eines digitalen Geländemodells (abgebildet/interpoliert/extrahiert MARKER) (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2 C</a>)
+Die Höhenprofile aus dem digitalen Oberflächenmodell der fünf Transekte (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2"> Abbildung 2 A</a>) wurden übereinander gelegt und aus den fünf Signalen (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2 B</a>) die Geländeoberkante aus der Grundlinie der Signals interpoliert (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2 C</a>)
 
 <figure>
 <a name="Abbildung_2"></a>
 <img src="/pictures/exmouth_gulf/dem.png" style="width:75%">
-<figcaption><font size = "1"><i><b>Abbildung 2:</b> MARKER</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 2:</b> Geländehöhen entland der Transekte</i></font></figcaption>
 </figure><br>
 
-# Modellierung (Arbeitstitel)
+# Modellierung
+
+MARKER Formatierungsproblematik schwer zu beheben, da Vorschau aktuell gar nicht mehr funktioniert und lokal alles normal aussieht MARKER
 
 ## Modellvarianten
 
@@ -155,7 +156,7 @@ Da jede Mangrove als einzelnes Individuum abgebildet wird findet eine räumliche
 
 ## Randbedingungen Grundwassermodell
 
-Der Salzgehalt des Meerwassers wurde mit 50 g/kg festgelegt, das Bodenwasser am landseitigem Ende des Transsekts bekam eine Salinität von 70 g/kg zugewiesen. Durch die Transpiration der Mangroven erhöhen diese lokal den Salzgehalt. Der Wasserstand wird in Form des hydrostatischen Drucks an der see- und landseitigen Kante des Modellgebiebts bestimmt. Zur Abbildung der Gezeiten wurde der seeseitige Wasserstand dabei als dynamische Randbedingung 1. Art in das Modell integriert. Als Datengrundlage dienten hier die Wasserstandsmessungen des Deparment of Transport der Government of Western Australia. Der landseitige Wasserstand wird über eine konstante Randbedingung 1. Art abgebildet. MARKER Wird die Evaporation nur in Form der landseitigen RB abgebildet? Oder gibt es zusätzlich flächige RB 2. Art oder Senken die die Verdunstung abbilden? Zufluss in Form von Niederschlag wird nur über landseitige RB mitberücksichtigt oder? MARKER Zuflüsse in Form von Niederschlag wurden nicht als eigene Randbedingung abgebildet, sondern sollen mit über die Randbedingung 1. Art am landseitigen Modellende integriert werden. Die hier nicht erwähnten Modellseiten werden alle als No-Flow-Randbedingung definiert. Eine schematische Darstellung des Modellgebiets stellt auch <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_1">Abbildung 1</a>
+Der Salzgehalt des Meerwassers wurde mit 50 g/kg festgelegt, das Bodenwasser am landseitigem Ende des Transsekts bekam eine Salinität von 70 g/kg zugewiesen. Durch die Transpiration der Mangroven erhöhen diese lokal den Salzgehalt. Der Wasserstand wird in Form des hydrostatischen Drucks an der see- und landseitigen Kante des Modellgebiebts bestimmt. Zur Abbildung der Gezeiten wurde der seeseitige Wasserstand dabei als dynamische Randbedingung 1. Art in das Modell integriert. Als Datengrundlage dienen hier die Wasserstandsmessungen des Department of Transport der Government of Western Australia. Der landseitige Wasserstand wird über eine konstante Randbedingung 1. Art abgebildet. Die Evapotranspiration der Bäume wird durch Senken im Bereich der Wurzeln abgebildet (vgl. <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_3">Abbildung 3</a>). Zufluss in Form von Niederschlag wird indirekt über den Salzgehalt am landseitige Rand des Modellgebiets berücksichtigt. Die hier nicht erwähnten Modellseiten werden alle als No-Flow-Randbedingung definiert. Eine schematische Darstellung des Modellgebiets stellt auch <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_1">Abbildung 1</a> dar.
 
 
 
@@ -514,12 +515,12 @@ In den nachfolgenden Tabellen finden sich die Parametrisierungen des Untergrunds
 
 # Ressourcenkonkurrenz
 
-Um die Mangroven im Modellgebiet abzubilden, bedarf es der Herstellung einer stabilen Population, also dem Erreichen von quasi-stationären Verhältnissen. Hierzu werden zunächst 30 Mangroven zufällig im Modellgebiet als Setzlinge positioniert. In jedem Zeitschritt (Länge: halbes Jahr) kommen nun 30 neue Mangroven hinzu, die ebenfalls zufällig im Modellgebiet positioniert werden. Aufgrund des wettbewerbsbasierten Baumwachstumsmodells sterben diese neuen Mangroven mehr oder weniger schnell wieder ab. So ist die Wahrscheinlichkeit, dass eine junge Mangrove im Einzugsgebiet einer bereits älteren sehr schnell wieder stirbt sehr hoch. Ursächlich hierfür ist die überirdische Konkurenz betreffend vor allem das fehlende Sonnenlicht. Durch die Aufkonzentrierung des Salzgehalts, bedingt durch die Entnahme von Frischwasser der anderen Mangroven, entstehen im Porenwasser Salzfahnen. Diese sorgen für schlechtere Wachstumsbedingungen der sich im Abstrom befindenden (jungen) Mangroven. Unterschiedliche Mangrovenarten haben eine jeweils höhere oder niedrigere Toleranz gegenüber hohen Salzkonzentrationen. In diesem Projekt wurden in diesem Zusammenhang die beiden Arten Avicennia marina (<a href="https://www.biologie-seite.de/Biologie/Avicennia_marina">"graue Mangrove"</a>) und Rhizophora mangle (<a href="https://www.biologie-seite.de/Biologie/Rote_Mangrove">"rote Mangrove"</a>) genauer betrachtet.
+Um die Mangroven im Modellgebiet abzubilden, bedarf es der Herstellung einer stabilen Population, also dem Erreichen von quasi-stationären Verhältnissen. Hierzu werden zunächst 30 Mangroven zufällig im Modellgebiet als Setzlinge positioniert. In jedem Zeitschritt (Länge: halbes Jahr) kommen nun 30 neue Mangroven hinzu, die ebenfalls zufällig im Modellgebiet positioniert werden. Aufgrund des wettbewerbsbasierten Baumwachstumsmodells sterben diese neuen Mangroven mehr oder weniger schnell wieder ab. So ist die Wahrscheinlichkeit, dass eine junge Mangrove im Einzugsgebiet einer bereits älteren sehr schnell wieder stirbt sehr hoch. Ursächlich hierfür ist die überirdische Konkurenz betreffend vor allem das fehlende Sonnenlicht. Durch die Aufkonzentrierung des Salzgehalts, bedingt durch die Entnahme von Frischwasser der anderen Mangroven, entstehen im Porenwasser Salzfahnen. Diese sorgen für schlechtere Wachstumsbedingungen der sich im Abstrom befindenden (jungen) Mangroven. Unterschiedliche Mangrovenarten haben eine jeweils höhere oder niedrigere Toleranz gegenüber hohen Salzkonzentrationen. In dieser Arbeit wurden in diesem Zusammenhang die beiden Arten Avicennia marina (<a href="https://www.biologie-seite.de/Biologie/Avicennia_marina">"graue Mangrove"</a>) und Rhizophora mangle (<a href="https://www.biologie-seite.de/Biologie/Rote_Mangrove">"rote Mangrove"</a>) genauer betrachtet.
 
 
 # Ergebnisse
 
-In diesem Projekt wurden mit Hilfe des pyMANGA-Modells zwei Prozesse genauer Betrachtet. Zum einen sollte die Entwicklung der typischen Strukturen in Mangrovenwäldern abgebildet werden, zum anderen sollte das Wachstumsverhalten der beiden Mangrovenarten unter verschiedenen Umweltbedingungen Untersucht werden. Im nachfolgenden werden die Ergebnisse des Projekts kurz zusammengefasst.
+In dieser Arbeit wurden mit Hilfe des MANGA-Modells zwei Prozesse genauer Betrachtet. Zum einen sollte die Entwicklung der typischen Strukturen in Mangrovenwäldern abgebildet werden, zum anderen sollte das Wachstumsverhalten der beiden Mangrovenarten unter verschiedenen Umweltbedingungen Untersucht werden. Im nachfolgenden werden die Ergebnisse des Projekts kurz zusammengefasst.
 
 ## Waldstruktur
 
@@ -563,7 +564,7 @@ Im nachfolgenden Video wurde das Modellgebiet in zehn Sektoren unterteilt. Darge
 
 <br>
 
-Die Ergebnisse des "<b>Full Models</b>" stimmen mit den gemessenen Felddaten qualitativ überein (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4</a>). Dies trifft sowohl auf das Baumhöhenprofil (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 A</a>) als auch auf das Profil des Salzgehalts des Porenwassers (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 B</a>) in dem untersuchten Transekt zu. Insbesondere die Variation des Porenwassersalzgehalts konnte gut abgebildet werden (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 A</a>). Ein Vergleich der Ergebnisse des "Full Models" mit den Ergebnissen der beiden Modellvarianten "Model Without Feedback" und "Model Without Tide" zeigt eine deutlich schlechtere Wiedergabe der gemessenen Felddaten durch die beiden einfacheren Modelle (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 C und 4 D</a>). 
+Die Ergebnisse des "<b>Full Models</b>" stimmen mit den gemessenen Felddaten qualitativ überein (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4</a>). Dies trifft sowohl auf das Baumhöhenprofil (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 A</a>) als auch auf das Profil des Salzgehalts des Porenwassers (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 B</a>) in dem untersuchten Transekt zu. Insbesondere die Variation des Porenwassersalzgehalts konnte gut abgebildet werden (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 A</a>). Das Bestimmtheitsmaß der Bravais-Pearson-Korellation beträgt für die Baumhöhe R²&nbsp;=&nbsp;0,64 und für die Salinität des Porenwassers R²&nbsp;=&nbsp;0,88. Ein Vergleich der Ergebnisse des "Full Models" mit den Ergebnissen der beiden Modellvarianten "Model Without Feedback" und "Model Without Tide" zeigt eine deutlich schlechtere Wiedergabe der gemessenen Felddaten durch die beiden einfacheren Modelle (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 C und 4 D</a>). 
 
 <figure>
 <a name="Abbildung_4"></a>
@@ -589,29 +590,25 @@ Diese relativen Auswirkungen sind in nachfolgender <a href="/de/docs/beispielmod
 <figcaption><font size = "1"><i><b>Abbildung 5:</b> Relative Auswirkung der Nichtberücksichtigung des Tidenhubs ("Model Wihtout Tide") und der Pflanzenwasserentnahme ("Model Without Feedback")</i></font></figcaption>
 </figure><p>
 
-Aufgrund der größeren Auswirkungen des Tidenhubs im seenahen Bereich kann das Modell "<b>Without Tide</b>" sowohl die Bäumhöhen als auch den Porenwassersalzgehalt hier nur mit reltiv großer Abweichung im Vergleich zum "<b>Full Model</b>" abbilden. Je weiter man sich aber in Richtung Festland bewergt, desto geringer werden die Wasserstandsschwankungen aufgrund der Gezeiten. Die Baumhöhen und Salzgehalte können in diesem Bereich (x > 75 m) mit geringeren relativen Abweichungen zum Full Model abgebildet werden.
+Aufgrund der größeren Auswirkungen des Tidenhubs im seenahen Bereich kann das Modell "<b>Without Tide</b>" sowohl die Bäumhöhen als auch den Porenwassersalzgehalt hier nur mit relativ großer Abweichung im Vergleich zum "<b>Full Model</b>" abbilden. Je weiter man sich aber in Richtung Festland bewegt, desto geringer werden die Wasserstandsschwankungen aufgrund der Gezeiten. Die Baumhöhen und Salzgehalte können in diesem Bereich (x > 75 m) mit geringeren relativen Abweichungen zum "<b>Full Model</b>" abgebildet werden.
 
 Das Modell "<b>Without Feedback</b>" hat insbesondere im mittleren bis landseitigem Bereich (60 m < x < 165 m) des Transsekts Probleme, die Wachstumshöhe der Mangroven so abzubilden, wie es das "<b>Full Model</b>" macht. 
 
 ## Speziendominanz
 
-Im vorangegangenem Abschnitt wurde gezeigt, dass pyMANGA mit der Berücksichtigung von Salzkonzentration im Bodenwasser und des Tidenhubs in der Lage ist, die für Mangrovenwälder typischen Waldstrukturen abzubilden. Mit Hilfe der umfangreichen Parametrisierungsmöglichkeiten des Baumwachstumsmodells (siehe hierzu auch <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Parametrisierung">diesen Abschnitt</a>) kann mit pyMANGA auch das Wachstum einzelner bestimmter Individuenarten untersucht werden. Verschiedene Mangrovenarten zum Beispiel weisen verschiedene Toleranzen gegenüber zu hohen Salzgehalten auf. In diesem Projekt wurde das Wachstumsverhalten der beiden Arten Avicennia marina (<a href="https://www.biologie-seite.de/Biologie/Avicennia_marina">"graue Mangrove"</a>) und Rhizophora mangle (<a href="https://www.biologie-seite.de/Biologie/Rote_Mangrove">"rote Mangrove"</a>) genauer betrachtet.
+Im vorangegangenem Abschnitt wurde gezeigt, dass MANGA mit der Berücksichtigung von Salzkonzentration im Bodenwasser und des Tidenhubs in der Lage ist, die für Mangrovenwälder typischen Waldstrukturen abzubilden. Mit Hilfe der umfangreichen Parametrisierungsmöglichkeiten des Baumwachstumsmodells (siehe hierzu auch den Abschnitt <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Parametrisierung">Parametrisierung</a>) kann mit MANGA auch das Wachstum einzelner bestimmter Individuenarten untersucht werden. Verschiedene Mangrovenarten zum Beispiel weisen verschiedene Toleranzen gegenüber zu hohen Salzgehalten auf. In diesem Projekt wurde das Wachstumsverhalten der beiden Arten Avicennia marina (<a href="https://www.biologie-seite.de/Biologie/Avicennia_marina">"graue Mangrove"</a>) und Rhizophora mangle (<a href="https://www.biologie-seite.de/Biologie/Rote_Mangrove">"rote Mangrove"</a>) genauer betrachtet.
 
 <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abbildung 6</a> zeigt die Speziendominanz dieser beiden Mangrovenarten bei unterschiedlichen Salzkonzentration (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_6">Tabelle 6</a>) im Bodenwasser. Die verschiedenen in der Abbildung dargestellten Setups unterscheiden sich nur hinsichtlich der Randbedingungen der seeseitigen und landseitigen Salzkonzentrationen des Bodenwassers. Für die Betrachtung der Speziendominanz im Modellgebiet wir die Speziendominanz d eingeführt und wie folgt definiert:
-
-<figure style="width:75%">
-<div align="center">
-<img src="/pictures/exmouth_gulf/formel_normierung_speziendominanz.jpg" style="width:45%">
-</div>
-</figure><p>
-
-V<sub>i</sub>(x,t) stehen hierbei für das Volumen der im betrachteten Zeitschritt (t) und X-Koordinatenabschnitt (x) vorhandenen Mangrovenarten Rhizophora mangle (V<sub>Rhi</sub>(x,t)) und Avicennia marina (V<sub>Avi</sub>(x,t)). In <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abbildung 6</a> wurde diese Speziendominanz über Zeit und Raum folgendermaßen gemittelt betrachtet:
 
 <figure style="width:75%">
 <div align="center">
 <img src="/pictures/exmouth_gulf/formel_normierung_speziendominanz_2.jpg" style="width:70%">
 </div>
 </figure><p>
+
+V<sub>i</sub>(x,t) stehen hierbei für das Volumen der im betrachteten Zeitschritt (t) und X-Koordinatenabschnitt (x) vorhandenen Mangrovenarten Rhizophora mangle (V<sub>Rhi</sub>(x,t)) und Avicennia marina (V<sub>Avi</sub>(x,t)).
+
+
 
 <!--
 <table>
@@ -620,8 +617,8 @@ V<sub>i</sub>(x,t) stehen hierbei für das Volumen der im betrachteten Zeitschri
 <thead>
 <tr class="header">
 <th style="text-align: left;">Setup</th>
-<th style="text-align: left;">seeseitige Salinität [g/l]</th>
-<th style="text-align: left;">landseitige Salinität [g/l]</th>
+<th style="text-align: left;">seeseitige Salinität [gkgl]</th>
+<th style="text-align: left;">landseitige Salinität [g/kg]</th>
 </tr>
 </thead>
 <tbody>
@@ -674,7 +671,7 @@ V<sub>i</sub>(x,t) stehen hierbei für das Volumen der im betrachteten Zeitschri
 		<td style="text-align: center;">F</td>
             </tr>
             <tr>
-                <th>seeseitige Salinität [g/l]</th>
+                <th>seeseitige Salinität [g/kg]</th>
                 <td>15</td>
 		<td>15</td>
 		<td>25</td>
@@ -683,7 +680,7 @@ V<sub>i</sub>(x,t) stehen hierbei für das Volumen der im betrachteten Zeitschri
 		<td>35</td>
             </tr>
             <tr>
-                <th>landseitige Salinität [g/l]</th>
+                <th>landseitige Salinität [g/kg]</th>
                 <td>25</td>
 		<td>40</td>
 		<td>55</td>
@@ -720,7 +717,7 @@ Wie auch in <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_
 <figcaption><font size = "1"><i><b>Abbildung 8:</b> Vergleich von Feldmessungen und Modellergebnissen</i></font></figcaption>
 </figure><p>
 
-Die Modellsoftware pyMANGA ist folglich in der Lage nicht nur die sich entwickelnde Struktur eines Mangrovenwaldes abzubilden, sondern auch dessen Zusammensetzung aus verschiedenen Spezien.
+Die Modellsoftware MANGA ist folglich in der Lage nicht nur die sich entwickelnde Struktur eines Mangrovenwaldes abzubilden, sondern auch dessen Zusammensetzung aus verschiedenen Spezien.
 
 
 # Fazit
@@ -733,6 +730,6 @@ Mit Hilfe der Sensitivtätsanalyse des Modells hinsichtlich der Speziendominanz 
 
 #Ausblick
 
-In der Literatur gibt es Hinweise darauf, dass sich Mangroven über die Zeit an ihre Umweltbedingungen anpassen. Eine niedrigere Salzkonzentration im Bodenwasser sorgt für eine höhere Xylemleitfähigkeit und damit einer größeren Transpiration. Gleichzeitig sorgt eine geringe Salzkonzentration im Untergrund aber auch für höhere Blattwasserpotential, die die Transpiration hemmen. Diese sich gegenseitig ausgleichenden Prozesse sorgen für insgesamt etwa gleichbleibende Transpirationsraten bei unterschiedlichen Salinitäten des Porenwassers. Eine genauere Untersuchung dieser Prozesse kann dabei helfen, MARKER nicht sicher, was physiological plasticity genau ist. Die Fähigkeit des Baumes Prozesse an die Umwelt anzupassen? MARKER
+In der Literatur gibt es Hinweise darauf, dass sich Mangroven über die Zeit an ihre Umweltbedingungen anpassen. Eine niedrigere Salzkonzentration im Bodenwasser sorgt für eine höhere Xylemleitfähigkeit und damit einer größeren Transpiration. Gleichzeitig sorgt eine geringe Salzkonzentration im Untergrund aber auch für höhere Blattwasserpotential, die die Transpiration hemmen. Diese sich gegenseitig ausgleichenden Prozesse sorgen für insgesamt etwa gleichbleibende Transpirationsraten bei unterschiedlichen Salinitäten des Porenwassers. Eine genauere Untersuchung dieser Prozesse kann dabei helfen, die Fähigkeit der Mangroven ihre Physiologie an entsprechenden Standorten vorherrschende Umweltbedingungen anzupassen.
 
 Der Niederschlag wurde in diesem Projekt, wie bereits weiter oben beschrieben, nicht dynamisch und als eigener Prozess integriert, sondern wird über die landseitige konstante Randbedingung des Wasserstands und Salzgehalts abgebildet. Der Exmouth-Gulf ist im Allgemeinen eine Region mit sehr niedrigen Jahrsniederschlagssummen. Die Variabilität der einzelnen Regenereignisse ist jedoch sehr hoch. Durch Zyklone kommt es regelmäßig zu ausgeprägten Starkregenereignissen, die einen nicht unerheblichen Anteil an der Gesamtsumme des Niederschlags ausmachen. Der Einfluss des Niederschlags auf die Mangrovenpopulation wurde indirekt durch das Setzen unterschiedlicher Werte der Randbedingung der landseitigen Porenwassersalinität untersucht. Da sich diese Randbedingung als sehr sensitive Größe gezeigt hat, folgt daraus, dass auch der Niederschlag einen Einfluss auf die Zusammensetzung der Mangrovenarten und im Allgemeinen die Ausbildung der typischen Mangrovenwaldstrukturen hat. Im Zuge des Klimawandels ist davon auszugehen, dass Starkregenereignisse bzw. Extremwettersituationen im Allgemeinen zunehmen werden und der Meeresspiegel ansteigt. Da das Modell in der Lage war, die Populationen der Realität entsprechend abzubilden, könnte es auch dafür verwendet werden die Auswirkungen des Klimawandels auf die empfindlichen Ökosysteme der Mangrovenwälder zu untersuchen. Weiter kann das Modell wichtige Hinweise bei der Untersuchung sämtlicher Zusammenhänge zwischen Waldstrukturen und Pflanzenmerkmalen liefern. Modelle, die die Prozesse auf konzeptionelleren Ansätzen basierend abbildet als es bei MANGA der Fall ist, können mit letzterem kalibriert und verifiziert werden.

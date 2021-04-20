@@ -9,3 +9,9 @@ Ein Modell zur Simulierung des Mangroven-Wachstums in einer vom Tidenhub beeinfl
 <figure>
 <img src="/pictures/exmouth_gulf/Transect_Sketch.png">
 </figure><br>
+
+MARKER Alternativvorschlag:
+
+<figure>
+<img src="/pictures/exmouth_gulf/gif.gif">
+</figure><br>

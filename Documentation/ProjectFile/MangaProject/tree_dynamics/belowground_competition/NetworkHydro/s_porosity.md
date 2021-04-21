@@ -1,0 +1,3 @@
+
+
+porosity of the soil [-].

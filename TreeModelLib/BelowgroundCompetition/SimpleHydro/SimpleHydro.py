@@ -187,9 +187,9 @@ class SimpleHydro(BelowgroundCompetition):
                 self._flooding_duration = np.array(literal_eval(arg.text))
             try:
                 missing_tags.remove(tag)
-            except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
+            except:
+                print(
+                    "WARNING: Tag " + tag +
                     " not specified for below-ground grid initialisation!")
         if len(missing_tags) > 0:
             string = ""
@@ -197,7 +197,8 @@ class SimpleHydro(BelowgroundCompetition):
                 string += tag + " "
             raise KeyError(
                 "Tag(s) " + string +
-                "are not given for below-ground grid initialisation in project file."
+                "are not given for below-ground grid initialisation in "
+                "project file."
             )
         l_x = x_2 - x_1
         l_y = y_2 - y_1

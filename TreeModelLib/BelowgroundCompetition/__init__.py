@@ -14,4 +14,5 @@ from .OGSLargeScale3D import OGSLargeScale3D
 from .OGS.helpers import CellInformation
 from .FixedSalinity import FixedSalinity
 from .SimpleNetwork import SimpleNetwork
+from .NetworkHydro import NetworkHydro
 from .NetworkFixedSalinity import NetworkFixedSalinity

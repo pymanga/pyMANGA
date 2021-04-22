@@ -1,4 +1,5 @@
 ---
+title: "Das Modell"
 linkTitle: "Das Modell"
 weight: 3
 description:
@@ -18,10 +19,6 @@ description:
 -->
 </style>
 </head>
-
-
-
-
 
 # Modellgebiet
 
@@ -50,8 +47,6 @@ Die Höhenprofile aus dem digitalen Oberflächenmodell der fünf Transekte (<a h
 </figure><br>
 
 # Modellierung
-
-MARKER Formatierungsproblematik schwer zu beheben, da Vorschau aktuell gar nicht mehr funktioniert und lokal alles normal aussieht MARKER
 
 ## Modellvarianten
 
@@ -144,7 +139,7 @@ Die Mangroven entnehmen dem Untergrund Bodenwasser aus einer Tiefe von 40&nbsp;c
 <figure>
 <a name="Abbildung_3"></a>
 <img src="/pictures/exmouth_gulf/model_area_legend.png">
-<figcaption><font size = "1"><i><b>Abbildung 3:</b> Bereich der Wasserentnahme durch Mangroven</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Abbildung 3:</b> Bereich der Porenwasserentnahme durch Mangroven</i></font></figcaption>
 </figure><p>
 
 Zeitlich diskretisiert wird das Grundwassermodell mit einer Zeitschrittlänge von einer Stunde. Der Tidenhub als dynamische Randbedingung wird mit der Zeitreihe der Jahre 1991 bis 1993, die über die gesamte Modelllaufzeit immer wieder wiederholt wird, abgebildet.
@@ -251,7 +246,7 @@ In den nachfolgenden Tabellen finden sich die Parametrisierungen des Untergrunds
 </tr>
 <tr class="even">
 <td style="text-align: left;"><span class="math inline"><em>k</em><sub><em>m</em></sub></span></td>
-<td style="text-align: left;">Maintenance cost per biomass MARKER: Übersetzung</td>
+<td style="text-align: left;">Resourcenbedarf zur Biomasseerhaltung</td>
 <td style="text-align: left;">1.4 × 10<sup>-6</sup> kg/s/m<sup>3</sup></td>
 <td style="text-align: left;">1.4 × 10<sup>-6</sup> kg/s/m<sup>3</sup></td>
 </tr>
@@ -461,7 +456,7 @@ In den nachfolgenden Tabellen finden sich die Parametrisierungen des Untergrunds
 
 # Ressourcenkonkurrenz
 
-Um die Mangroven im Modellgebiet abzubilden, bedarf es der Herstellung einer stabilen Population, also dem Erreichen von quasi-stationären Verhältnissen. Hierzu werden zunächst 30 Mangroven zufällig im Modellgebiet als Setzlinge positioniert. In jedem Zeitschritt (Länge: halbes Jahr) kommen nun 30 neue Mangroven hinzu, die ebenfalls zufällig im Modellgebiet positioniert werden. Aufgrund des wettbewerbsbasierten Baumwachstumsmodells sterben diese neuen Mangroven mehr oder weniger schnell wieder ab. So ist die Wahrscheinlichkeit, dass eine junge Mangrove im Einzugsgebiet einer bereits älteren sehr schnell wieder stirbt sehr hoch. Ursächlich hierfür ist die überirdische Konkurenz betreffend vor allem das fehlende Sonnenlicht. Durch die Aufkonzentrierung des Salzgehalts, bedingt durch die Entnahme von Frischwasser der anderen Mangroven, entstehen im Porenwasser Salzfahnen. Diese sorgen für schlechtere Wachstumsbedingungen der sich im Abstrom befindenden (jungen) Mangroven. Unterschiedliche Mangrovenarten haben eine jeweils höhere oder niedrigere Toleranz gegenüber hohen Salzkonzentrationen. In dieser Arbeit wurden in diesem Zusammenhang die beiden Arten Avicennia marina (&bdquo;<a href="https://www.biologie-seite.de/Biologie/Avicennia_marina">graue Mangrove</a>&ldquo;) und Rhizophora mangle (&bdquo;<a href="https://www.biologie-seite.de/Biologie/Rote_Mangrove">rote Mangrove</a>&ldquo;) genauer betrachtet.
+Um die Mangroven im Modellgebiet abzubilden, bedarf es der Herstellung einer stabilen Population, also dem Erreichen von quasi-stationären Verhältnissen. Hierzu werden zunächst 30 Mangroven zufällig im Modellgebiet als Setzlinge positioniert. In jedem Zeitschritt (Länge: halbes Jahr) kommen nun 30 neue Mangroven hinzu, die ebenfalls zufällig im Modellgebiet positioniert werden. Aufgrund des wettbewerbsbasierten Baumwachstumsmodells sterben diese neuen Mangroven mehr oder weniger schnell wieder ab. So ist die Wahrscheinlichkeit, dass eine junge Mangrove im Einzugsgebiet einer bereits älteren sehr schnell wieder stirbt sehr hoch. Ursächlich hierfür ist die überirdische Konkurenz betreffend vor allem das fehlende Sonnenlicht. Durch die Aufkonzentrierung des Salzgehalts, bedingt durch die Entnahme von Frischwasser der anderen Mangroven, entstehen im Porenwasser Salzfahnen. Diese sorgen für schlechtere Wachstumsbedingungen der sich im Abstrom befindenden (jungen) Mangroven. Unterschiedliche Mangrovenarten haben eine jeweils höhere oder niedrigere Toleranz gegenüber hohen Salzkonzentrationen. In dieser Arbeit wurden in diesem Zusammenhang die beiden Arten Avicennia marina (&bdquo;<a href="https://www.biologie-seite.de/Biologie/Avicennia_marina" target="_blank">graue Mangrove</a>&ldquo;) und Rhizophora mangle (&bdquo;<a href="https://www.biologie-seite.de/Biologie/Rote_Mangrove" target="_blank">rote Mangrove</a>&ldquo;) genauer betrachtet.
 
 
 # Ergebnisse

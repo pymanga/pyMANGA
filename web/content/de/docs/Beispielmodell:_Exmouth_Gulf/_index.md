@@ -4,14 +4,11 @@ linkTitle: "Beispielmodell: Exmouth-Golf"
 weight: 3
 description:
 ---
+
 Ein Modell zur Simulierung des Mangroven-Wachstums in einer vom Tidenhub beeinflussten Golfregion im westlichen Australien.
 
 <figure>
-<img src="/pictures/exmouth_gulf/Transect_Sketch.png">
-</figure><br>
+<img src="/pictures/exmouth_gulf/Transect_Sketch.png" style="width:40%">
 
-MARKER Alternativvorschlag:
-
-<figure>
-<img src="/pictures/exmouth_gulf/gif.gif">
-</figure><br>
+<img src="/pictures/exmouth_gulf/gif.gif" style="width:55%">
+</figure>

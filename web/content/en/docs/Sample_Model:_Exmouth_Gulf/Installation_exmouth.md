@@ -1,31 +1,37 @@
 ---
-title: "Installation of the model setup"
-linkTitle: "Installation of the model setup"
+title: "Do it yourself ARBEITSTITEL"
+linkTitle: "Do it yourself ARBEITSTITEL"
 weight: 4
 description:
 ---
 
-The model setup can be downloaded here !!!link will follow after consultation!!!. The folder can be unzipped at any place, but for example the main level of the pyMANGA installation is suitable.
+The model setup of the "Full Model" is located in the following folder in the current version of pyMANGA:
 
-In order to start a model run with the setup on your own computer, file paths references to input files have to be adjusted in the XML control file. All file paths in the control file are specified absolutely, so each path starts with "/home/..." under Ubuntu and with the letter of the drive under Windows. If you install the setup folder into the pyMANGA main level, you will find the file under the path
+	./Benchmarks/Exmouth_Gulf/full_model
 
-	./Study_Site_Exmouth_Gulf/setup_pymanga.xml.
+In order to start a model run with the setup on your own computer, file paths references to input files have to be adjusted in the XML control file. All file paths in the control file are specified absolutely, so each path starts with "/home/..." under Ubuntu and with the letter of the drive under Windows. If the location of the setup is not changed, the control file is located under the following path:
 
-In the control file (setup_pymanga.xml) you have to specify the file path for the output of the model results (line 76) and the folder with the OGS input files (line 18). As output location you can choose an individual file location; it is only important that this folder also exists and is empty - pyMANGA does not automatically create non-existing output locations.
+	./Benchmarks/Exmouth_Gulf/full_model/setup_pymanga.xml
 
-So an example output location for the results (1) and the folder containing the OGS input files (2) might look like the following:
+In the control file ("setup_pymanga.xml") you have to specify the file path of the folder with the OGS input files (line 18), the file with the parameterization of the tree growth model (line 36) and the folder for the output of the model results (line 62). You can also choose an individual file location as output location; it is only important that this folder also exists and is empty - pyMANGA does not automatically create non-existing output locations and does not delete existing files in this.
 
-	/home/Dokumente/pyMANGA-master/Study_Site_Exmouth_Gulf/output	  (1)
+So an example of the file paths in the order mentioned above might look like the following:
 
-	/home/Dokumente/pyMANGA-master/Study_Site_Exmouth_Gulf/Input_OGS  (2)
+	/home/Dokumente/pyMANGA-master/Benchmarks/Exmouth_Gulf/full_model/TreeOutput
+
+	/home/Dokumente/pyMANGA-master/Benchmarks/Exmouth_Gulf/full_model/Avicennia.py
+
+	/home/Dokumente/pyMANGA-master/Benchmarks/Exmouth_Gulf/full_model
 
 
-Groundwater modeling with OGS is performed in more detail using an additional Python script. Among other things, this script provides values for the tidal range from the file "EXM_Jan-Jul_2019.txt" for OGS, puts these data into a loop (since the modeling period is significantly longer than the period of the tidal data), and provides for an adjustment of the mean water level. In the Python script there is a reference to the file location of this file, in line 140 f. the file location of the "EXM_Jan-Jul_2019.txt" file must be adapted to the respective file system.
+Groundwater modeling with OGS is performed using an additional Python script. Among other things, this script provides values for the tidal range from the file &bdquo;EXM_Jan-Jul_2019.txt&ldquo; for OGS, puts these data into a loop (since the modeling period is significantly longer than the period of the tidal data) and provides an adjustment of the mean water level. In the script (&bdquo;python_script.py&ldquo;) in line 140 f. the file location of the &bdquo;EXM_Jan-Jul_2019.txt&ldquo;-file must be adapted to the local folder structure.
 
-The setup can now be started by opening a terminal in the main level of pyMANGA by entering the command: 
+The setup can now be started by opening a terminal in the main level of pyMANGA by entering the command
 
-	python3 main.py -i /Model_Exmouth_Gulf/setup_pymanga.xml
+	python3 main.py -i /Benchmarks/Exmouth_Gulf/full_model/setup_pymanga.xml
 
-If the default name of the setup's folder ("Model_Exmouth_Gulf") has been changed or the setup has not been installed in the pyMANGA main level the reference to the control file's file location must be adjusted accordingly. So the general form would look like this:
+The general form would be as follows:
 
-	python3 absolute/path/to/main.py -i absolute/path/to/Model_Exmouth_Gulf/setup_pymanga.xml
+	python3 absolute/path/to/main.py -i absolute/path/to/full_model/setup_pymanga.xml
+
+If you have any questions or problems, please feel free to contact us.

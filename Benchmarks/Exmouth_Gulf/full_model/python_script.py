@@ -138,7 +138,7 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
 
 
 file = open(
-    "/work/bathmann/pymanga_runs/giralia/setup_pymanga/EXM_Jan-Jul_2019.txt"
+    "path/to/pyMANGA/Benchmarks/Exmouth_Gulf/full_model/EXM_Jan-Jul_2019.txt"
 )
 t_base = 0
 h_s = []

@@ -15,7 +15,7 @@
 
         <belowground_competition>
             <type> OGSLargeScale3D </type>
-            <ogs_project_folder> /work/bathmann/pymanga_runs/200406/setup_pymanga </ogs_project_folder>
+            <ogs_project_folder> /your/path/to/pyMANGA/Benchmarks/Exmouth_Gulf/full_model </ogs_project_folder>
             <ogs_project_file> testmodel.prj </ogs_project_file>
             <abiotic_drivers>
                 <seaward_salinity> 0.05 </seaward_salinity>
@@ -33,7 +33,7 @@
     <initial_population>
         <group>
             <name> Recruiting </name>
-            <species> /work/bathmann/pymanga_runs/200406/setup_pymanga/Avicennia.py </species>
+            <species> /your/path/to/pyMANGA/Benchmarks/Exmouth_Gulf/full_model/Avicennia.py </species>
             <distribution>
                 <type> Random </type>
                 <domain>
@@ -59,7 +59,7 @@
     <tree_output>
         <type> OneTimestepOneFile </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
-        <output_dir> /work/bathmann/pymanga_runs/giralia/setup_pymanga/TreeOutput/ </output_dir>
+        <output_dir> /your/path/to/pyMANGA/Benchmarks/Exmouth_Gulf/full_model/TreeOutput </output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <geometry_output> r_crown </geometry_output>

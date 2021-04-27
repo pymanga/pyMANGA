@@ -1,7 +1,0 @@
-TODOS:
-
-Projektpfade anpassen für eigenes Betriebssystem:
---Im python-script den Pfad für die tidendaten
---Im pymanga-Projekt den Pfad fürs output (glaub ich)
---Externe Speciesparameter bereitstellen, damit das ganze konstant bleibt (Liegt als Avicennia py drin, kann unter tree-group im projectfile angepasst werden)
---Seed setzen

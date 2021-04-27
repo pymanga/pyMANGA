@@ -9,7 +9,7 @@ The model setup of the "Full Model" is located in the following folder in the cu
 
 	./Benchmarks/Exmouth_Gulf/full_model
 
-In order to start a model run with the setup on your own computer, file paths references to input files have to be adjusted in the XML control file. All file paths in the control file are specified absolutely, so each path starts with "/home/..." under Ubuntu and with the letter of the drive under Windows. If the location of the setup is not changed, the control file is located under the following path:
+In order to start a model run with the setup on your own computer, file path references to input files have to be adjusted in the XML control file. All file paths in the control file are absolute, so each path starts with "/home/..." under Ubuntu and with the letter of the drive under Windows. If the location of the setup is not changed, the control file is located under the following path:
 
 	./Benchmarks/Exmouth_Gulf/full_model/setup_pymanga.xml
 
@@ -24,7 +24,7 @@ So an example of the file paths in the order mentioned above might look like the
 	/home/Dokumente/pyMANGA-master/Benchmarks/Exmouth_Gulf/full_model
 
 
-Groundwater modeling with OGS is performed using an additional Python script. Among other things, this script provides values for the tidal range from the file &bdquo;EXM_Jan-Jul_2019.txt&ldquo; for OGS, puts these data into a loop (since the modeling period is significantly longer than the period of the tidal data) and provides an adjustment of the mean water level. In the script (&bdquo;python_script.py&ldquo;) in line 140 f. the file location of the &bdquo;EXM_Jan-Jul_2019.txt&ldquo;-file must be adapted to the local folder structure.
+Groundwater modeling with OGS is performed using an additional Python script. Among other things, this script provides values for the tidal range from the file "EXM_Jan-Jul_2019.txt" for OGS, puts these data into a loop (since the modeling period is significantly longer than the period of the tidal data) and provides an adjustment of the mean water level. The file location of the "EXM_Jan-Jul_2019.txt"-file must be adapted to the local folder structure, in the script ("python_script.py") at line 140 f.
 
 The setup can now be started by opening a terminal in the main level of pyMANGA by entering the command
 

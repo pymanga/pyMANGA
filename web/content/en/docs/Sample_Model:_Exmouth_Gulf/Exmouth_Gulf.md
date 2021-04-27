@@ -5,17 +5,17 @@ weight: 1
 description:
 ---
 
-The Exmouth Gulf is located on the west coast of Australia in the state Western Australia (see also <a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_1">Figure 1</a>). The bay is a semi-arid estuarine system with extensive coastal wetlands. The area is very important because of its great biodiversity, including migrating whales and seabirds. It is considered one of the largest largely anthropologically unchanged estuarine systems in the world. Therefore, tourism, recreation and commercial fishing play an important role in the area. Numerous mangroves grow on the approx. 2600 km² large headland, which consists of numerous inlets and is crossed by tidal creeks. With an average tidal range of about 1.8 meters, the mangroves are flooded daily with salt water.
+The Exmouth Gulf is at the west coast of Australia in the state Western Australia (see also <a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_1">Figure 1</a>). The bay is a semi-arid estuarine system with extensive coastal wetlands. The area is very important because of its great biodiversity, including migrating whales and seabirds. It is considered as one of the largest mostly anthropologically unchanged estuarine systems in the world. Therefore, tourism, recreation and commercial fishing play an important role in the area. Numerous mangroves grow on the approx. 2600 km² large headland, which consists of numerous inlets and is crossed by tidal creeks. With an average tidal range of about 1.8 meters, the mangroves are exposed to tidal flooding with salt water.
 
 <figure>
 <a name="Figure_1"></a>
 <img src="/pictures/exmouth_gulf/lage_uebersicht.jpg"/>
-<figcaption><font size = "1"><i><b>Figure 1:</b> Location of study area in Exmouth Gulf in Western Australia (&copy; <a href="https://www.google.de/maps">Google Maps</a>)</i></font></figcaption>
+<figcaption><font size = "1"><i><b>Figure 1:</b> Location of study site in the Exmouth Gulf in Western Australia (&copy; <a href="https://www.google.de/maps">Google Maps</a>)</i></font></figcaption>
 </figure><p>
 &nbsp;
 <p>
 
-The <a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_2">Figure 2</a> und <a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_3">3</a> show the same section of the Exmouth Gulf from different perspectives. The system of rivers and smaller streams in the mangrove forests can be seen well.
+<a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_2">Figure 2</a> and <a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_3">3</a> show the same section of the Exmouth Gulf from different perspectives. The system of rivers and smaller streams in the mangrove forests can be seen as well.
 &nbsp;
 <p>
 
@@ -33,7 +33,7 @@ The <a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_2">Figure 2</a
 </figure><p>
 &nbsp;
 
-<a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_4">Figure 4</a> shows the root system formed by the gray mangroves. Due to the anoxic conditions in the subsoil of the mangrove forests, the gray mangrove forms roots, which some lie above the water surface even at high tide and so they can be used for respiration.
+<a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_4">Figure 4</a> shows the root system formed by the gray mangroves. As an adaption to the anoxic conditions in the subsoil of the mangrove forests, the gray mangrove have pneumatophores. Those are aerial roots, which partly lie above the water surface Thereby, they allow plant respiration even at high tide.
 &nbsp;
 <p>
 

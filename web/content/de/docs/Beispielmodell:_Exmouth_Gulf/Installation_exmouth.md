@@ -1,6 +1,6 @@
 ---
-title: "Setup selbst berechnen ARBEITSTITEL"
-linkTitle: "Setup selbst berechnen ARBEITSTITEL"
+title: "Setup selbst berechnen"
+linkTitle: "Setup selbst berechnen"
 weight: 4
 description:
 ---

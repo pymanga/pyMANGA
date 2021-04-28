@@ -1,6 +1,6 @@
 ---
-title: "Do it yourself ARBEITSTITEL"
-linkTitle: "Do it yourself ARBEITSTITEL"
+title: "Do it yourself"
+linkTitle: "Do it yourself"
 weight: 4
 description:
 ---

@@ -443,10 +443,12 @@ class SimpleNetwork(BelowgroundCompetition):
     # partners.
     # @param pair - a 2d array with tree indices of connected trees (format:
     # from, to)
-    # ToDo: nicht straight durch-loopen sondern erst zufällige Reihenfolge
-    #  erstellen
     def getRGFforGrowthAndDeath(self, pairs):
-        for i in range(0, len(pairs)):
+        # Create a list of length pairs with random integers to iterate
+        # randomly through the list of pairs
+        shuffled_indices = np.random.choice(len(pairs), len(pairs),
+                                            replace=False)
+        for i in shuffled_indices:
             pair = pairs[i]
             if self.checkRgfAbility(pair=pairs[i]):
                 l1, l2 = pair[0], pair[1]

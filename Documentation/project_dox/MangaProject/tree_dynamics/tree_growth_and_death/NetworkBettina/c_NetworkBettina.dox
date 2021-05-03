@@ -27,7 +27,10 @@ Available network information for output (<network_output > ... </network_output
 - water_absorbed ... water absorbed from the soil in litre per timestep;  
 - water_exchanged ... water exchanged between connected trees in litre per timestep 
 - variant ... variant for root graft formation
-- psi_osmo ... osmotic potential# Required inputs: 
+- psi_osmo ... osmotic potential
+
+
+# Required inputs:
  
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__NetworkBettina__f_growth
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__NetworkBettina__variant

@@ -234,6 +234,17 @@ class SimpleNetwork(BelowgroundCompetition):
                 for p in partners_delete:
                     self._partner_names[i].remove(p)
 
+    ## This function removes trees from potential partners list if they died in
+    # the previous time step.
+    def updatedPotentialPartnerNames(self):
+        for i in range(0, len(self._potential_partner)):
+            ## If the name of the _potential_partner isn't in the list
+            # of tree names anymore it will be removed from the partner
+            # list
+            if (self._potential_partner[i]) and (self._potential_partner[i]
+                                                 not in self._tree_names):
+                self._potential_partner[i] = []
+
     ## This function gets the current indices of partners from their names.
     def updatePartnerIdices(self):
         ## In order to access the partners by their indices the current
@@ -335,6 +346,7 @@ class SimpleNetwork(BelowgroundCompetition):
     # and their unique IDs.
     def groupFormation(self):
         self.updatedPartnerNames()
+        self.updatedPotentialPartnerNames()
         self.updatePartnerIdices()
         self.makeGraphDictionary()
         self.assignGroupIDs()
@@ -431,6 +443,8 @@ class SimpleNetwork(BelowgroundCompetition):
     # partners.
     # @param pair - a 2d array with tree indices of connected trees (format:
     # from, to)
+    # ToDo: nicht straight durch-loopen sondern erst zufällige Reihenfolge
+    #  erstellen
     def getRGFforGrowthAndDeath(self, pairs):
         for i in range(0, len(pairs)):
             pair = pairs[i]

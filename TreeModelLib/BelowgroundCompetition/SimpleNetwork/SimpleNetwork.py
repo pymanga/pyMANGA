@@ -429,10 +429,10 @@ class SimpleNetwork(BelowgroundCompetition):
         # process, if yes jump to next pair
         condition2 = True if (self._rgf_counter[l1] == -1
                               and self._rgf_counter[l2] == -1) else False
-        # @mcwimm: here another condition could/ should be included that
-        # checks whether the trees have enough energy to start root graft
-        # formation. A meaningful condition/ threshold is still missing.
-        condition3 = True
+        # ... check if both trees have a certain size (i.e. DBH > 1.5 cm) in
+        # order to avoid that freshly recruited trees start grafting
+        condition3 = True if (self._r_stem[l1] > 0.0075
+                              and self._r_stem[l2] > 0.0075) else False
 
         # ... find out if the grafting conditions are met, if yes set rgf = 1
         start_rgf = True if ((condition1 and condition2 and condition3)

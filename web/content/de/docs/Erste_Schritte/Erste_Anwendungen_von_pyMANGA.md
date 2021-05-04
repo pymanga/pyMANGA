@@ -13,7 +13,7 @@ details summary {color: white; background: #00305E; margin-bottom: 1em;}
 </style>
 </head>
 
-Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie, falls noch nicht geschehen, die <a href="/de/docs/erste_schritte/installation">Anleitungen zur Installation und Vorbereitung</a> für ihr entsprechendes Betriebssystem durchgehen.
+Bevor Sie mit den ersten Anwendungen beginnen, sollten Sie, falls noch nicht geschehen, die <a href="/de/docs/erste_schritte/installation">Anleitungen zur Installation und Vorbereitung</a> für ihr entsprechendes Betriebssystem lesen.
 Diese wird vor allem für Anfänger empfohlen, welche wenig Erfahrung mit **Python** und der Eingabekonsole haben.
 Diese Anleitung ist grundsätzlich für alle drei Betriebsyteme (MacOS, Unbunt, Windows) geeignet.
 Der nachfolgende Absatz ist basierend auf der Ausführung in Windows beschrieben.
@@ -34,7 +34,7 @@ für Ubuntu wird **pyMANGA** gestartet und alle verfügbaren Eingabeoptionen aus
 
 <figure>
 <a name="Abbildung_1"></a>
-<img src="/pictures/ausgefuehrte_main_py_Datei_in_der_Eingabekonsole.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/running_pymanga.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 1:</b> Ausgeführte main.py Datei in der Windows-Eingabekonsole.</i></font></figcaption>
 </figure><p>
 
@@ -49,7 +49,7 @@ Beachten Sie, dass die Verwendung von Bachslashes im Dateipfad nur für die Wind
 
 <figure>
 <a name="Abbildung_2"></a>
-<img src="/pictures/Fehlermeldung_beim_Aufuehren_von_py-main.py.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/error_output.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 2:</b> Fehlermeldung beim Auführen von <b>py main.py -i .\test\SmallTests\Test_Setups_small\AllSimple_WithOutput.xml.</b></i></font></figcaption>
 </figure><p>
 
@@ -71,7 +71,7 @@ Dazu folgen Sie dem in <a href="/de/docs/erste_schritte/erste_anwendungen_von_py
 
 <figure>
 <a name="Abbildung_3"></a>
-<img src="/pictures/Inhalt_von_AllSimple_WithOutput.xml,_geoeffnet_mit_dem_Text_Editor.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/control_file.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 3:</b> Inhalt von </b>AllSimple_WithOutput.xml</b>, geöffnet mit dem Text Editor.</i></font></figcaption>
 </figure><p>
 
@@ -81,7 +81,7 @@ Dazu machen Sie einen **Rechtsklick** in den Unterordner ***C:\Users\chris\Deskt
 
 <figure>
 <a name="Abbildung_4"></a>
-<img src="/pictures/Erstellung_des_neuen_Ordners_testoutputs.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/create_output_folder.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 4:</b> Erstellung des neuen Ordners <b>testoutputst</b>.</i></font></figcaption>
 </figure><p>
 
@@ -95,13 +95,13 @@ Damit haben Sie erfolgreich das erste Beispiel ausgeführt.
 
 <figure>
 <a name="Abbildung_5"></a>
-<img src="/pictures/Widerholte_Ausfuehrung_von_py_main.py_-i_ProjectLibExampleSetupsAllSimple_WithOutput.xml_nach_erstellung_den_neuen_Ordner_testoutputs.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/running_pymanga_output_exists.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 5:</b> Widerholte Auführung von  <b>py main.py -i ProjectLib\ExampleSetups\AllSimple_WithOutput.xmlt</b> nach Erstellung des neuen Ordners <b>testoutputs</b>.</i></font></figcaption>
 </figure><p>
 
 <figure>
 <a name="Abbildung_6"></a>
-<img src="/pictures/Visuelle_Ergebnisse_der_Simulation.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/results_matplotlib.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 6:</b> Visuelle Ergebnisse der Simulation.</i></font></figcaption>
 </figure><p>
 
@@ -178,13 +178,13 @@ Um **OGS** zu installieren gehen Sie auf die folgende [Homepage](https://www.ope
 
 <figure>
 <a name="Abbildung_7"></a>
-<img src="/pictures/Versionsauswahl_von_OGS.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/download_ogs_windows.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 7:</b> Versionsauswahl von <b>OGS</b>.</i></font></figcaption>
 </figure><p>
 
 <figure>
 <a name="Abbildung_8"></a>
-<img src="/pictures/Download_von_OGS 6.3.0.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/Download_von_OGS 6.3.0.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 8:</b> Download von OGS 6.3.0.</i></font></figcaption>
 </figure><p>
 
@@ -195,7 +195,7 @@ Anschließend entpacken Sie die Zip Datei, kopieren den ***Bin*** Ordner und fü
 
 <figure>
 <a name="Abbildung_9"></a>
-<img src="/pictures/Einfuegen_von_OGS_in_den_pyMANGA-master_Ordner.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/ogs_path.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 9:</b> Einfügen von OGS in den pyMANGA-master Ordner.</i></font></figcaption>
 </figure><p>
 
@@ -204,8 +204,8 @@ Um zu testen ob es ordnungsgemäß funktioniert, öffnen Sie den ***Bin*** Ordne
 
 <figure>
 <a name="Abbildung_10"></a>
-<img src="/pictures/Test_ob_OGS_Ordnungsgemaeß_funktioniert.jpg">
-<figcaption><font size = "1"><i><b>Abbildung 10:</b> Test ob OGS Ordnungsgemaeß funktioniert.</i></font></figcaption>
+<img src="/pictures/getting_started/first_applications_of_pymanga/ogs_powershell.jpg">
+<figcaption><font size = "1"><i><b>Abbildung 10:</b> Öffnen eines PowerShell-Terminals</i></font></figcaption>
 </figure><p>
 
 Kopieren Sie den Pfad, der im **PowerShell-Fenster** angezeigt wird, und hängen Sie ***\OGS*** an und führen dies mit der **Eingabetaste** aus.
@@ -213,7 +213,7 @@ In der folgenden <a href="/de/docs/erste_schritte/erste_anwendungen_von_pymanga/
 
 <figure>
 <a name="Abbildung_11"></a>
-<img src="/pictures/Ausgabe_bei_Ordnungsgemaeßer_Funktion_von_OGS.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/output_ogs_runs.jpg">
 <figcaption><font size = "1"><i><b> Abbildung 11:</b> Ausgabe bei Ordnungsgemäßer Funktion von OGS.</i></font></figcaption>
 </figure><p>
 
@@ -224,7 +224,7 @@ Anschließend geben Sie den nachfolgenden Befehl ein (siehe <a href="/de/docs/er
 
 <figure>
 <a name="Abbildung_12"></a>
-<img src="/pictures/zeigt_die_Ausfuehrung_des_Anwendungsbeispiels_mit_OGS.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/run_ogs_sample_setup.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 12:</b> zeigt die Ausführung des Anwendungsbeispiels mit OGS.</i></font></figcaption>
 </figure><p>
 
@@ -243,7 +243,7 @@ Folglich muss dieser Parameter sehr vorsichtig verwendet werden, ist aber ein Mi
 
 <figure>
 <a name="Abbildung_13"></a>
-<img src="/pictures/Anpassung_zur_Rechenzeit_Verkuerzung.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/set_timestep_length.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 13:</b> Anpassung zur Verkürzung der Rechenzeit.</i></font></figcaption>
 </figure><p>
 

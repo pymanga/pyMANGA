@@ -36,7 +36,7 @@ In der Langzeitstudie werden die Auswirkungen von Düngung auf das Wachstum von 
 <br>
 <figure>
 <a name="Abbildung_1"></a>
-<img src="/pictures/exmouth_gulf/Transect_Sketch.png">
+<img src="/pictures/exmouth_gulf/the_model/Transect_Sketch.png">
 <figcaption><font size = "1"><i><b>Abbildung 1:</b> Vereinfachte Darstellung der Standortbedingungen und des konzeptionellen Modells</i></font></figcaption>
 </figure><br>
 
@@ -54,7 +54,7 @@ Das so entstehende DGM wurde für die Diskretisierung des Grundwassermodells gen
 <br>
 <figure>
 <a name="Abbildung_2"></a>
-<img src="/pictures/exmouth_gulf/dem.png" style="width:75%">
+<img src="/pictures/exmouth_gulf/the_model/dem_building.png" style="width:75%">
 <figcaption><font size = "1"><i><b>Abbildung 2:</b> Geländehöhen entland der Transekte</i></font></figcaption>
 </figure><br>
 
@@ -140,24 +140,24 @@ Nachfolgende <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_1
 <h3>Grundwassermodell</h3> 
 
 Das Grundwassermodell bildet den Untergrund mit einem Gitter der Ausmaße 10&nbsp;m&nbsp;x&nbsp;230&nbsp;m&nbsp;x&nbsp;3&nbsp;m auf fünf FEM-Layern mit insgesamt 5880 Zellen ab.
-Nachfolgende <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_2">Abbildung 2</a> zeigt die räumliche Diskretisierung aus seeseitiger Perspektive.
-
-<br>
-<figure>
-<a name="Abbildung_2"></a>
-<img src="/pictures/exmouth_gulf/dis.png">
-<figcaption><font size = "1"><i><b>Abbildung 2:</b> Räumliche Diskretisierung des Grundwassermodells</i></font></figcaption>
-</figure><br>
-
-Die Mangroven entnehmen dem Untergrund Bodenwasser aus einer Tiefe von 40&nbsp;cm bis 80&nbsp;cm unter der Geländeoberkante.
-<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_3">Abbildung 3</a> zeigt das Modellgebiet (Grau) und den Bereich der Wasserentnahme durch die Mangroven (Blau).
-Zu beachten ist die 50-fache vertikale Skalierung. 
+Nachfolgende <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_3">Abbildung 3</a> zeigt die räumliche Diskretisierung aus seeseitiger Perspektive.
 
 <br>
 <figure>
 <a name="Abbildung_3"></a>
-<img src="/pictures/exmouth_gulf/model_area_legend.png">
-<figcaption><font size = "1"><i><b>Abbildung 3:</b> Bereich der Porenwasserentnahme durch Mangroven</i></font></figcaption>
+<img src="/pictures/exmouth_gulf/the_model/discretization.png">
+<figcaption><font size = "1"><i><b>Abbildung 3:</b> Räumliche Diskretisierung des Grundwassermodells</i></font></figcaption>
+</figure><br>
+
+Die Mangroven entnehmen dem Untergrund Bodenwasser aus einer Tiefe von 40&nbsp;cm bis 80&nbsp;cm unter der Geländeoberkante.
+<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_3">Abbildung 4</a> zeigt das Modellgebiet (Grau) und den Bereich der Wasserentnahme durch die Mangroven (Blau).
+Zu beachten ist die 50-fache vertikale Skalierung. 
+
+<br>
+<figure>
+<a name="Abbildung_4"></a>
+<img src="/pictures/exmouth_gulf/the_model/model_subsurface.png">
+<figcaption><font size = "1"><i><b>Abbildung 4:</b> Bereich der Porenwasserentnahme durch Mangroven</i></font></figcaption>
 </figure><br>
 
 Zeitlich diskretisiert wird das Grundwassermodell mit einer Zeitschrittlänge von einer Stunde.
@@ -176,7 +176,7 @@ Der Wasserstand wird in Form des hydrostatischen Drucks an der see- und landseit
 Zur Abbildung der Gezeiten wurde der seeseitige Wasserstand dabei als dynamische Randbedingung 1. Art in das Modell integriert.
 Als Datengrundlage dienen hier die Wasserstandsmessungen des Department of Transport der Government of Western Australia.
 Der landseitige Wasserstand wird über eine konstante Randbedingung 1. Art abgebildet.
-Die Evapotranspiration der Bäume wird durch Senken im Bereich der Wurzeln abgebildet (vgl. <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_3">Abbildung 3</a>).
+Die Evapotranspiration der Bäume wird durch Senken im Bereich der Wurzeln abgebildet (vgl. <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4</a>).
 Zufluss in Form von Niederschlag wird indirekt über den Salzgehalt am landseitigen Rand des Modellgebiets berücksichtigt.
 Die hier nicht erwähnten Modellränder werden alle als No-Flow-Randbedingungen definiert.
 Eine schematische Übersicht des Modellgebiets stellt auch <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_1">Abbildung 1</a> dar.
@@ -371,118 +371,6 @@ In den nachfolgenden Tabellen finden sich die Parametrisierungen des Untergrunds
 </tbody>
 </table>
 
-
-<!--english version
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Symbol</th>
-<th style="text-align: left;">Species parameter</th>
-<th style="text-align: left;">Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline"><em>D</em><sub><em>m</em></sub></span></td>
-<td style="text-align: left;">Leaf water potential</td>
-<td style="text-align: left;">8.15 × 10<sup>6</sup> kg/s<sup>2</sup>/m</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline"><em>k</em><sub><em>f</em></sub></span></td>
-<td style="text-align: left;">Xylem conductivity</td>
-<td style="text-align: left;">1.04e-10 kg/s/m<sup>2</sup></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline"><em>L</em><sub><em>p</em></sub> ⋅ <em>k</em><sub><em>g</em><em>e</em><em>o</em></sub></span></td>
-<td style="text-align: left;">Fine root permeability <span class="math inline">⋅</span> scaling factor</td>
-<td style="text-align: left;">1.32e-11 kg/s/m<sup>4</sup></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline"><em>k</em><sub><em>m</em></sub></span></td>
-<td style="text-align: left;">Maintenance cost per biomass</td>
-<td style="text-align: left;">1.4e-6 kg/s/m<sup>3</sup></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline"><em>k</em><sub><em>g</em><em>r</em><em>o</em><em>w</em><em>t</em><em>h</em></sub></span></td>
-<td style="text-align: left;">Growth speed scaling</td>
-<td style="text-align: left;">2.5e-3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Symbol</td>
-<td style="text-align: left;">Global weighting factor</td>
-<td style="text-align: left;">Value</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline"><em>C</em><sub><em>S</em></sub></span></td>
-<td style="text-align: left;">Solar resource inputs</td>
-<td style="text-align: left;">5e-8 kg/s/m<sup>2</sup></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline"><em>σ</em></span></td>
-<td style="text-align: left;">First sigmoidal slope</td>
-<td style="text-align: left;">1.5e-2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline"><em>σ</em><sub><em>h</em></sub></span></td>
-<td style="text-align: left;">Second sigmoidal slope</td>
-<td style="text-align: left;">5e-2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline"><em>ω</em><sub><em>h</em></sub></span></td>
-<td style="text-align: left;">Heigth growth scaling factor</td>
-<td style="text-align: left;">0.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Symbol</td>
-<td style="text-align: left;">Geometric measure</td>
-<td style="text-align: left;">Value</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline"><em>r</em><sub><em>R</em></sub></span></td>
-<td style="text-align: left;">Root radius</td>
-<td style="text-align: left;">0.26 m</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline"><em>r</em><sub><em>C</em></sub></span></td>
-<td style="text-align: left;">Crown radius</td>
-<td style="text-align: left;">0.2 m</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline"><em>r</em><sub><em>S</em></sub></span></td>
-<td style="text-align: left;">Stem radius</td>
-<td style="text-align: left;">0.005 m</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline"><em>h</em><sub><em>R</em></sub></span></td>
-<td style="text-align: left;">Root depth</td>
-<td style="text-align: left;">0.004 m</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline"><em>h</em><sub><em>C</em></sub></span></td>
-<td style="text-align: left;">Crown depth</td>
-<td style="text-align: left;">0.004 m</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline"><em>h</em><sub><em>S</em></sub></span></td>
-<td style="text-align: left;">Stem heigth</td>
-<td style="text-align: left;">0.015 m</td>
-</tr>
-</tbody>
-</table>
-
--->
-
 <h1>Ressourcenkonkurrenz</h1>
 
 Um die Mangroven im Modellgebiet abzubilden, bedarf es der Herstellung einer stabilen Population, also dem Erreichen von quasi-stationären Verhältnissen.
@@ -552,16 +440,20 @@ Bereits ab 100 Jahren ist die sich langsam ausbildende, für Mangrovenwälder ty
 <figcaption><font size = "1"><i><b>Video 1:</b> Dynamische Entwicklung der Mangrovenpopulation und Salzkonzentration im Bodenwasser über die Modellierungszeit</i></font></figcaption>
 </figure><br>
 
-Die Ergebnisse des &bdquo;<b>Full Models</b>&ldquo; stimmen mit den gemessenen Felddaten qualitativ überein (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4</a>). Dies trifft sowohl auf das Baumhöhenprofil (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 A</a>) als auch auf das Profil des Salzgehalts des Porenwassers (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 B</a>) in dem untersuchten Transekt zu. Insbesondere die Variation des Porenwassersalzgehalts konnte gut abgebildet werden (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 A</a>). Das Bestimmtheitsmaß der Bravais-Pearson-Korellation beträgt für die Baumhöhe R²&nbsp;=&nbsp;0,64 und für die Salinität des Porenwassers R²&nbsp;=&nbsp;0,88. Ein Vergleich der Ergebnisse des &bdquo;<b>Full Models</b>&ldquo; mit den Ergebnissen der beiden Modellvarianten &bdquo;<b>Model Without Feedback</b>&ldquo; und &bdquo;<b>Model Without Tide</b>&ldquo; zeigt eine deutlich schlechtere Wiedergabe der gemessenen Felddaten durch die beiden einfacheren Modelle (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4 C und 4 D</a>). 
+Die Ergebnisse des &bdquo;<b>Full Models</b>&ldquo; stimmen mit den gemessenen Felddaten qualitativ überein (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_5">Abbildung 5</a>).
+Dies trifft sowohl auf das Baumhöhenprofil (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_5">Abbildung 5 A</a>) als auch auf das Profil des Salzgehalts des Porenwassers (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_5">Abbildung 5 B</a>) in dem untersuchten Transekt zu.
+Insbesondere die Variation des Porenwassersalzgehalts konnte gut abgebildet werden (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_5">Abbildung 5 A</a>).
+Das Bestimmtheitsmaß der Bravais-Pearson-Korellation beträgt für die Baumhöhe R²&nbsp;=&nbsp;0,64 und für die Salinität des Porenwassers R²&nbsp;=&nbsp;0,88.
+Ein Vergleich der Ergebnisse des &bdquo;<b>Full Models</b>&ldquo; mit den Ergebnissen der beiden Modellvarianten &bdquo;<b>Model Without Feedback</b>&ldquo; und &bdquo;<b>Model Without Tide</b>&ldquo; zeigt eine deutlich schlechtere Wiedergabe der gemessenen Felddaten durch die beiden einfacheren Modelle (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_5">Abbildung 5 C und 5 D</a>). 
 
 <br>
 <figure>
 <a name="Abbildung_4"></a>
-<img src="/pictures/exmouth_gulf/Figure_3.png">
-<figcaption><font size = "1"><i><b>Abbildung 4:</b> Simulierte und gemessene Baumhöhen des Mangrovenbestands und Porenwassersalinität</i></font></figcaption>
+<img src="/pictures/exmouth_gulf/the_model/results_diff_model_types.png">
+<figcaption><font size = "1"><i><b>Abbildung 5:</b> Simulierte und gemessene Baumhöhen des Mangrovenbestands und Porenwassersalinität</i></font></figcaption>
 </figure><br>
 
-Die in der <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_4">Abbildung 4</a> eingezeichneten &bdquo;Treatment Averages&ldquo; sind zwei Bereiche, in denen schon seit längerer Zeit die dort wachsenden Mangroven genauer untersucht werden.
+Die in der <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_5">Abbildung 5</a> eingezeichneten &bdquo;Treatment Averages&ldquo; sind zwei Bereiche, in denen schon seit längerer Zeit die dort wachsenden Mangroven genauer untersucht werden.
 Ein Vergleich der Ergebnisse dieser Beobachtungen mit den Ergebnissen der Modellierung zeigt ebenfalls eine hohe Übereinstimmung.
 
 Um die Auswirkungen der Berücksichtung der zeitlichen Dynamik der Gezeiten und der Pflanzenwasserentnahme auf den Salzgehalt im Porenwasser zu untersuchen, wurde diese mit folgender Formel normiert:
@@ -569,19 +461,19 @@ Um die Auswirkungen der Berücksichtung der zeitlichen Dynamik der Gezeiten und 
 <br>
 <figure>
 <div align="center">
-<img src="/pictures/exmouth_gulf/formel.png" width="50%">
+<img src="/pictures/exmouth_gulf/the_model/formula_standardization.png" width="50%">
 </div>
 </figure><br>
 
-Diese relativen Auswirkungen sind in nachfolgender <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_5">Abbildung 5</a> für die Baumhöhe und den Porenwassersalzgehalt abgebildet.
+Diese relativen Auswirkungen sind in nachfolgender <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abbildung 6</a> für die Baumhöhe und den Porenwassersalzgehalt abgebildet.
 Ein Wert von Null würde bedeuten, dass sich die Ergebnisse zwischen Full Model und dem jeweiligen vereinfachtem Modelltyp nicht unterscheiden.
 Je größer der Wert wird, umso höher ist die Abweichung.
 
 <br>
 <figure>
-<a name="Abbildung_5"></a>
-<img src="/pictures/exmouth_gulf/Figure_3_2.png">
-<figcaption><font size = "1"><i><b>Abbildung 5:</b> Relative Auswirkung der Nichtberücksichtigung des Tidenhubs ("Model Wihtout Tide") und der Pflanzenwasserentnahme ("Model Without Feedback")</i></font></figcaption>
+<a name="Abbildung_6"></a>
+<img src="/pictures/exmouth_gulf/the_model/results_standardization.png">
+<figcaption><font size = "1"><i><b>Abbildung 6:</b> Relative Auswirkung der Nichtberücksichtigung des Tidenhubs ("Model Wihtout Tide") und der Pflanzenwasserentnahme ("Model Without Feedback")</i></font></figcaption>
 </figure><br>
 
 Aufgrund der größeren Auswirkungen des Tidenhubs im seenahen Bereich kann das Modell &bdquo;<b>Without Tide</b>&ldquo; sowohl die Bäumhöhen als auch den Porenwassersalzgehalt hier nur mit relativ großer Abweichung im Vergleich zum &bdquo;<b>Full Model</b>&ldquo; abbilden.
@@ -598,14 +490,14 @@ Mit Hilfe der umfangreichen Parametrisierungsmöglichkeiten des Baumwachstumsmod
 Verschiedene Mangrovenarten zum Beispiel weisen verschiedene Toleranzen gegenüber zu hohen Salzgehalten auf.
 In diesem Projekt wurde das Wachstumsverhalten der beiden Arten Avicennia marina (&bdquo;<a href="https://www.biologie-seite.de/Biologie/Avicennia_marina">graue Mangrove</a>&ldquo;) und Rhizophora mangle (&bdquo;<a href="https://www.biologie-seite.de/Biologie/Rote_Mangrove">rote Mangrove</a>&ldquo;) genauer betrachtet.
 
-<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abbildung 6</a> zeigt die Speziendominanz dieser beiden Mangrovenarten bei unterschiedlichen Salzkonzentration (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_6">Tabelle 6</a>) im Bodenwasser.
+<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abbildung 7</a> zeigt die Speziendominanz dieser beiden Mangrovenarten bei unterschiedlichen Salzkonzentration (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Tabelle_6">Tabelle 6</a>) im Bodenwasser.
 Die verschiedenen in der Abbildung dargestellten Setups unterscheiden sich nur hinsichtlich der Randbedingungen der seeseitigen und landseitigen Salzkonzentrationen des Bodenwassers.
 Für die Betrachtung der Speziendominanz im Modellgebiet wir die Speziendominanz d eingeführt und wie folgt definiert:
 
 <br>
 <figure style="width:75%">
 <div align="center">
-<img src="/pictures/exmouth_gulf/formel_normierung_speziendominanz_2.jpg" style="width:70%">
+<img src="/pictures/exmouth_gulf/the_model/formula_dominance.jpg" style="width:70%">
 </div>
 </figure><br>
 
@@ -646,23 +538,23 @@ V<sub>i</sub>(x,t) stehen hierbei für das Volumen der im betrachteten Zeitschri
 
 <br>
 <figure>
-<a name="Abbildung_6"></a>
-<img src="/pictures/exmouth_gulf/Spezien_1.png" style="width:75%">
-<figcaption><font size = "1"><i><b>Abbildung 6:</b> Zusammenhang zwischen Salinität des Bodenwassers und Speziendominanz </i></font></figcaption>
+<a name="Abbildung_7"></a>
+<img src="/pictures/exmouth_gulf/the_model/result_dominance_1.png" style="width:75%">
+<figcaption><font size = "1"><i><b>Abbildung 7:</b> Zusammenhang zwischen Salinität des Bodenwassers und Speziendominanz </i></font></figcaption>
 </figure><br>
 
-Dabei zeigen die <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abb. 6A bis 6D</a> einen zunächst bedingt durch sowohl seeseitige sowie landseitige niedrigen Salzkonzentrationen monospezifischen Rhizophora-Wald (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abb. 6A</a>).
-Mit steigender Salinität stellt sich ein Mischwald aus beiden Arten ein (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abb. 6B und 6C</a>).
-<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abb. 6D</a> bildet dann aufgrund der hohen Salzkonzentrationen einen monospezifischen Avicennia marina Wald ab.
-Die beiden <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abb. 6E und 6F</a> sind den Setup-Konfigurationen <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abb. 6B und 6C</a> dahingehend ähnlich, dass die Werte der Salinitäten an land- bzw. seeseitiger Seite des Transsekts in etwa den jeweils anderen Wert annehmen.
+Dabei zeigen die <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abb. 7A bis 7D</a> einen zunächst bedingt durch sowohl seeseitige sowie landseitige niedrigen Salzkonzentrationen monospezifischen Rhizophora-Wald (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abb. 7A</a>).
+Mit steigender Salinität stellt sich ein Mischwald aus beiden Arten ein (<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abb. 7B und 7C</a>).
+<a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abb. 7D</a> bildet dann aufgrund der hohen Salzkonzentrationen einen monospezifischen Avicennia marina Wald ab.
+Die beiden <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abb. 7E und 7F</a> sind den Setup-Konfigurationen <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abb. 7B und 7C</a> dahingehend ähnlich, dass die Werte der Salinitäten an land- bzw. seeseitiger Seite des Transsekts in etwa den jeweils anderen Wert annehmen.
 Auch sie bilden somit einen Mischwald aus beiden Arten ab.
-Diese Ergebnisse werden in folgender <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abbildung 7</a> noch einmal auf eine andere Art dargestellt.
+Diese Ergebnisse werden in folgender <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_8">Abbildung 8</a> noch einmal auf eine andere Art dargestellt.
 
 <br>
 <figure>
-<a name="Abbildung_7"></a>
-<img src="/pictures/exmouth_gulf/Spezien_2.png" style="width:75%">
-<figcaption><font size = "1"><i><b>Abbildung 7:</b> Speziendominanz bei unterschiedlicher Salinität</i></font></figcaption>
+<a name="Abbildung_8"></a>
+<img src="/pictures/exmouth_gulf/the_model/result_dominance_2.png" style="width:75%">
+<figcaption><font size = "1"><i><b>Abbildung 8:</b> Speziendominanz bei unterschiedlicher Salinität</i></font></figcaption>
 </figure><br>
 
 Bei der Betrachtung der Mischwälder fällt auf, dass sich nur in einzelnen Abschnitten wirkliche Mischpopulationen einstellen.
@@ -673,19 +565,19 @@ Zu Beachten ist hier, dass der Salzgehalt im Bodenwasser auch durch die Individu
 Diese beiden Kennwerte werden wiederum von eben jenen individuenspezifischen Parametern beeinflusst. 
 
 Die Kopplung zwischen Pflanzenwasserhaushalt und Porenwasser beeinflusst folglich die Ausbildung der Waldstruktur maßgeblich.
-In den Setups die zur Ausbildung eines Mischwaldes führen entstehen entweder zwei- (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abbildungen 6C und 6E</a>) oder dreizonige (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_6">Abbildungen 6B und 6F</a>) Mischwälder.
+In den Setups die zur Ausbildung eines Mischwaldes führen entstehen entweder zwei- (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abbildungen 7C und 7E</a>) oder dreizonige (siehe <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_7">Abbildungen 7B und 7F</a>) Mischwälder.
 Die beiden Zonen an see- und landseitigem Modellrand werden dabei maßgeblich durch die Parameter der Salinität als Randbedingung definiert.
 In der Modellmitte kommt es durch die Transpiration der Mangroven zu einer Aufkonzentration des Porenwassersalzgehalts.
 Überschreitet diese einen gewissen Wert, dominiert die salzresistentere Art Avicennia marina.
 
 
-Wie auch in <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_8">Abbildung 8</a> dargestellt, stimmen die Ergebnisse der Betrachtung der Speziendominanz im Modell mit den gemessenen Felddaten in denen im Projekt betrachteten Transsekten überein.
+Wie auch in <a href="/de/docs/beispielmodell_exmouth_gulf/ergebnisse/#Abbildung_9">Abbildung 9</a> dargestellt, stimmen die Ergebnisse der Betrachtung der Speziendominanz im Modell mit den gemessenen Felddaten in denen im Projekt betrachteten Transsekten überein.
 
 <br>
 <figure>
-<a name="Abbildung_5"></a>
-<img src="/pictures/exmouth_gulf/Spezien_3.png" style="width:75%">
-<figcaption><font size = "1"><i><b>Abbildung 8:</b> Vergleich von Feldmessungen und Modellergebnissen</i></font></figcaption>
+<a name="Abbildung_9"></a>
+<img src="/pictures/exmouth_gulf/the_model/result_dominance_3.png" style="width:75%">
+<figcaption><font size = "1"><i><b>Abbildung 9:</b> Vergleich von Feldmessungen und Modellergebnissen</i></font></figcaption>
 </figure><br>
 
 Die Modellsoftware MANGA ist folglich in der Lage nicht nur die sich entwickelnde Struktur eines Mangrovenwaldes abzubilden, sondern auch dessen Zusammensetzung aus verschiedenen Spezien.

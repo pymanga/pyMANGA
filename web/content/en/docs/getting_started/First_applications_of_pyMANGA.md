@@ -34,7 +34,7 @@ starts **pyMANGA** and displays all available input options (-h stands for help)
 
 <figure>
 <a name="Figure_1"></a>
-<img src="/pictures/ausgefuehrte_main_py_Datei_in_der_Eingabekonsole.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/running_pymanga.jpg">
 <figcaption><font size = "1"><i><b>Figure 1: </b>Executed main.py file in the windows input console.</i></font></figcaption>
 </figure><p>
 
@@ -53,7 +53,7 @@ Note that the use of backslashes in the file path only applies to the Windows va
 
 <figure>
 <a name="Figure_2"></a>
-<img src="/pictures/Fehlermeldung_beim_Aufuehren_von_py-main.py.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/error_output.jpg">
 <figcaption><font size = "1"><i><b>Figure 2:</b> Error message when trying to <b>py main.py -i .\test\SmallTests\Test_Setups_small\AllSimple_WithOutput.xml.</b></i></font></figcaption>
 </figure><p>
 
@@ -75,7 +75,7 @@ Right-click on the file, click ***Open with*** and select the editor (see <a hre
 
 <figure>
 <a name="Figure_3"></a>
-<img src="/pictures/Inhalt_von_AllSimple_WithOutput.xml,_geoeffnet_mit_dem_Text_Editor.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/control_file.jpg">
 <figcaption><font size = "1"><i><b>Figure 3:</b> Content of </b>AllSimple_WithOutput.xml</b>, opened with the Text Editor.</i></font></figcaption>
 </figure><p>
 
@@ -85,7 +85,7 @@ To do this, right-click in the subfolder ***C:\Users\chris\Desktop\pyMANGA-maste
 
 <figure>
 <a name="Figure_4"></a>
-<img src="/pictures/Erstellung_des_neuen_Ordners_testoutputs.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/create_output_folder.jpg">
 <figcaption><font size = "1"><i><b>Figure 4:</b> Creating the new folder <b>testoutputst</b>.</i></font></figcaption>
 </figure><p>
 
@@ -98,13 +98,13 @@ You have successfully executed the first example.
 
 <figure>
 <a name="Figure_5"></a>
-<img src="/pictures/Widerholte_Ausfuehrung_von_py_main.py_-i_ProjectLibExampleSetupsAllSimple_WithOutput.xml_nach_erstellung_den_neuen_Ordner_testoutputs.jpg">
-<figcaption><font size = "1"><i><b>Figure 5:</b> Repeated performance of <b>py main.py -i ProjectLib\ExampleSetups\AllSimple_WithOutput.xmlt</b> After creating the new folder  <b>testoutputst</b>.</i></font></figcaption>
+<img src="/pictures/getting_started/first_applications_of_pymanga/running_pymanga_output_exists.jpg">
+<figcaption><font size = "1"><i><b>Figure 5:</b> Repeated performance of <b>py main.py -i ProjectLib\ExampleSetups\AllSimple_WithOutput.xmlt</b> After creating the new folder <b>testoutputst</b>.</i></font></figcaption>
 </figure><p>
 
 <figure>
 <a name="Figure_6"></a>
-<img src="/pictures/Visuelle_Ergebnisse_der_Simulation.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/results_matplotlib.jpg">
 <figcaption><font size = "1"><i><b>Figure 6:</b> Visual results of the simulation.</i></font></figcaption>
 </figure><p>
 
@@ -117,7 +117,7 @@ Use the [website](https://jbathmann.github.io/pyMANGA/project_dox__MangaProject_
 	• py -3.7 main.py -i test\SmallTests\Test_Setups_small\FIXEDSAL_BETTINA.xml   [3] 
 	• py -3.7 main.py -i test\SmallTests\Test_Setups_small\FON_SAZOI_KIWI.xml     [4]
 
-Due to other project configurations (in ***FIXEDSAL_BETTINA.xml and FON_SAZOI_KIWI.xml***) there is no visual representation in the code 3 example (compare <a href="/docs/getting_started/first_applications_of_pymanga/#Figure_4">Figure 6</a>).
+Due to other project configurations (in ***FIXEDSAL_BETTINA.xml and FON_SAZOI_KIWI.xml***) there is no visual representation in the code 3 example (compare <a href="/docs/getting_started/first_applications_of_pymanga/#Figure_6">Figure 6</a>).
 
 ## More complex sample setups with OpenGeoSys
 
@@ -183,24 +183,24 @@ To do so, go to the following [website](https://www.opengeosys.org/releases/ "ht
 
 <figure>
 <a name="Figure_7"></a>
-<img src="/pictures/Versionsauswahl_von_OGS.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/version_ogs_windows.jpg">
 <figcaption><font size = "1"><i><b>Figure 7:</b> Version selection of OGS.</i></font></figcaption>
 </figure><p>
 
 <figure>
 <a name="Figure_8"></a>
-<img src="/pictures/Download_von_OGS 6.3.0.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/download_ogs_windows.jpg">
 <figcaption><font size = "1"><i><b>Figure 8:</b> Download OGS 6.3.0.</i></font></figcaption>
 </figure><p>
 
 Select the file to be downloaded according to your operating system.
 Then unzip the zip file, copy the ***bin*** folder and paste it into the ***pyMANGA-master*** folder in the following path (see <a href="/docs/getting_started/first_applications_of_pymanga/#Figure_9">Figure 9</a>).
 
-	• pyMANGA-master\TreeModelLib\BelowgroundCompetition\OGS					 [5]
+	• pyMANGA-master\TreeModelLib\BelowgroundCompetition\OGS				 [5]
 
 <figure>
 <a name="Figure_9"></a>
-<img src="/pictures/Einfuegen_von_OGS_in_den_pyMANGA-master_Ordner.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/ogs_path.jpg">
 <figcaption><font size = "1"><i><b>Figure 9:</b> Insert OGS into the pyMANGA-master folder.</i></font></figcaption>
 </figure><p>
 
@@ -208,8 +208,8 @@ Then unzip the zip file, copy the ***bin*** folder and paste it into the ***pyMA
 
 <figure>
 <a name="Figure_10"></a>
-<img src="/pictures/Test_ob_OGS_Ordnungsgemaeß_funktioniert.jpg">
-<figcaption><font size = "1"><i><b>Figure 10:</b> Test if OGS works properly.</i></font></figcaption>
+<img src="/pictures/getting_started/first_applications_of_pymanga/ogs_powershell.jpg">
+<figcaption><font size = "1"><i><b>Figure 10:</b> Open PowerShell</i></font></figcaption>
 </figure><p>
 
 Copy the path that appears in the **PowerShell window** and append ***\OGS*** and press Enter.
@@ -217,7 +217,7 @@ The following <a href="/docs/getting_started/first_applications_of_pymanga/#Figu
 
 <figure>
 <a name="Figure_11"></a>
-<img src="/pictures/Ausgabe_bei_Ordnungsgemaeßer_Funktion_von_OGS.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/output_ogs_runs.jpg">
 <figcaption><font size = "1"><i><b> Figure 11:</b> Output if OGS functions properly.</i></font></figcaption>
 </figure><p>
 
@@ -228,7 +228,7 @@ Then enter the following command (see <a href="/docs/getting_started/first_appli
 
 <figure>
 <a name="Figure_12"></a>
-<img src="/pictures/zeigt_die_Ausfuehrung_des_Anwendungsbeispiels_mit_OGS.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/run_ogs_sample_setup.jpg">
 <figcaption><font size = "1"><i><b>Figure 12:</b> shows the execution of the application example with OGS.</i></font></figcaption>
 </figure><p>
 
@@ -248,7 +248,7 @@ Consequently, this parameter has to be used very carefully but is a means to sig
 
 <figure>
 <a name="Figure_13"></a>
-<img src="/pictures/Anpassung_zur_Rechenzeit_Verkuerzung.jpg">
+<img src="/pictures/getting_started/first_applications_of_pymanga/set_timestep_length.jpg">
 <figcaption><font size = "1"><i><b>Figure 13:</b> Adaptation to the computing time reduction.</i></font></figcaption>
 </figure><p>
 

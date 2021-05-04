@@ -12,7 +12,7 @@ details summary {color: white; background: #00305E; margin-bottom: 1em;}
 </style>
 </head>
 
-The software pyMANGA represents a coupling between a tree growth and a groundwater modelling program.
+The software **pyMANGA** represents a coupling between a tree growth and a groundwater modelling program.
 The software "Bettina" is used for the modeling of plant growth and the software <a href="https://www.opengeosys.org/" target="_blank">**OpenGeoSys**</a> for the modeling of groundwater.
 
 Since the tree growth model and the coupling between the two programs are written in **Python**, a **Python compiler** is required to run the **pyMANGA** program.
@@ -21,7 +21,7 @@ These modules contain source code that is difficult to formulate or frequently u
 Because the installation differs between operating systems, please select your operating system below.
 
 
-In order to run **MANGA**, some modules for the **Python compiler** must be installed.
+In order to run **pyMANGA**, some modules for the **Python compiler** must be installed.
 Since the system requirements differ greatly between the various operating systems, the installation is described separately for each one.
 
 <details>
@@ -59,20 +59,20 @@ to (re)install the package.
 <summary>Installation of Python in Windows</summary>
 <p>
 
-To run **MANGA** (Mangrove groundwater salinity feedback model), you must first obtain an **interpreter** for the **Python** programming language.
+To run **pyMANGA** (Mangrove groundwater salinity feedback model), you must first obtain an **interpreter** for the **Python** programming language.
 An example would be **python<sup>T</sup><sup>M</sup>**.
 To do this, open your browser and go to ***Python.org***.
 In the drop-down menu under ***Download*** you will find the current release version for your operating system of **Python** (this manual describes the procedure for Windows, see <a href="/docs/getting_started/installation/#Figure_1">Figure 1</a>).
 
 <figure>
 <a name="Figure_1"></a>
-<img src="/pictures/Auswahl_Menue_zum_Downloaden_der_Windows_Variante_von_pythonTM.jpg">
+<img src="/pictures/getting_started/installation_of_pymanga/download_python_windows_1.jpg">
 <figcaption><font size = "1"><i><b>Figure 1: </b>Selection menu for downloading the Windows variant of python<sup>T</sup><sup>M</sup>.</i></font></figcaption>
 </figure><p>
 
 <figure>
 <a name="Figure_2"></a>
-<img src="/pictures/zu_waehlender_Link_für_das_Downloaden_von_python-3_7_7.jpg">
+<img src="/pictures/getting_started/installation_of_pymanga/download_python_windows_2.jpg">
 <figcaption><font size = "1"><i><b>Figure 2: </b>link to be chosen for downloading python-3.7.7</i></font></figcaption>
 </figure><p>
 
@@ -80,12 +80,12 @@ Execute the downloaded file (***python-3.7.7-amd64.exe***) like a normal Windows
 
 <figure>
 <a name="Figure_3"></a>
-<img src="/pictures/Ausfuehrung_der_Windows_exe_von_Python_3_7_7.jpg">
+<img src="/pictures/getting_started/installation_of_pymanga/installation_python_windows.jpg">
 <figcaption><font size = "1"><i><b>Figure 3: </b>Running the Windows exe of Python 3.7.7.</i></font></figcaption>
 </figure><p>
 
 This completes the **Python** installation. 
-<!-- To start **MANGA** some additional preparations have to be made. Go to the subdirectory Preparation and select the appropriate file before your operating system. -->
+<!-- To start **pyMANGA** some additional preparations have to be made. Go to the subdirectory Preparation and select the appropriate file before your operating system. -->
 </p>
 </details>
 
@@ -107,7 +107,7 @@ Download the source code of the program as shown in <a href="/docs/getting_start
 
 <figure>
 <a name="Figure_4"></a>
-<img src="/pictures/ubuntu_download.png">
+<img src="/pictures/getting_started/installation_of_pymanga/download_pymanga_ubuntu.png">
 <figcaption><font size = "1"><i><b>Figure 4: </b>Download of <b>pyMANGA</b> as zip-file
 
 </i></font></figcaption>
@@ -120,12 +120,6 @@ The program is now executable.
 Open a terminal window with the key combination **Ctrl + Alt + T** and navigate to the main level of the program.
 Alternatively, you can also choose the graphical way by navigating to the location via Files.
 There you can open the console by right-clicking and in the menu that opens, you have to use the field "Open in Terminal" to open a terminal window, where you are already in the main level of the program.
-
-<figure>
-<a name="Figure_5"></a>
-<img src="/pictures/ubuntu_Hauptebene_pyMANGA.png">
-<figcaption><font size = "1"><i><b>Figure 5: </b> Main level of pyMANGA</i></font></figcaption>
-</figure><p>
 
 By typing 
 
@@ -186,27 +180,27 @@ The calculation of a first example setup is explained in the section  <a href="/
 <summary>Installation of pyMANGA in Windows</summary>
 <p>
 
-To be able to run **MANGA**, some modules for the **Python Compiler** must be installed.
+To be able to run **pyMANGA**, some modules for the **Python Compiler** must be installed.
 You have to open the **prompt** for this.
 You can easily find it by searching for it by typing **"Command Prompt"** and opening it with a **mouse click**.
-Since MANGA is a line program, everything happens at the command prompt (see <a href="/docs/getting_started/installation/#Figure_6">Figure 6</a>).
+Since pyMANGA is a line program, everything happens at the command prompt (see <a href="/docs/getting_started/installation/#Figure_5">Figure 5</a>).
 
 <figure>
-<a name="Figure_6"></a>
-<img src="/pictures/oeffnen_der_Eingabeaufforderung.jpg">
-<figcaption><font size = "1"><i><b>Figure 6 :</b>open the command prompt.</i></font></figcaption>
+<a name="Figure_5"></a>
+<img src="/pictures/getting_started/installation_of_pymanga/open_command_prompt.jpg">
+<figcaption><font size = "1"><i><b>Figure 5:</b> open the command prompt.</i></font></figcaption>
 </figure><p>
 
 Now the following modules ***numpy***, ***vtk***, ***lxml*** and ***matplotlib*** must be installed.
 We start with the **module** ***numpy***.
-Type the code shown in the **prompt** to install the **module** (see <a href="/docs/getting_started/installation/#Figure_7">Figure 7</a>).
+Type the code shown in the **prompt** to install the **module** (see <a href="/docs/getting_started/installation/#Figure_6">Figure 6</a>).
 
 	• py -3.7 -m pip install numpy						     		[1]
 
 <figure>
-<a name="Figure_7"></a>
-<img src="/pictures/Beispielhafte_Installation_des_Moduls_numpy.jpg">
-<figcaption><font size = "1"><i><b>Figure 7: </b> Exemplary installation of the numpy module.</i></font></figcaption>
+<a name="Figure_6"></a>
+<img src="/pictures/getting_started/installation_of_pymanga/install_numpy_windows.jpg">
+<figcaption><font size = "1"><i><b>Figure 6: </b> Exemplary installation of the numpy module.</i></font></figcaption>
 </figure><p>
 
 Do the same for the other three **modules** with the following code
@@ -223,27 +217,27 @@ Where **-3.7** is the version you are using.
 ***-m*** means you are calling a module, in this case ***pip***, which is used to install other **modules**.
 Finally, the **module** **name** of the **module** to be installed follows.
 Now the preparations for using the **compiler** are finished.
-As a next step you have to download the program **MANGA***, if you haven't done so already.
-To do this, go to the following website [**Link**](https://github.com/jbathmann/pyMANGA/ "https://github.com/jbathmann/pyMANGA/") and download the program as a zip file and save it on your computer (see <a href="/docs/getting_started/installation/#Figure_8">Figure 8</a>).
+As a next step you have to download the program **pyMANGA***, if you haven't done so already.
+To do this, go to the following website [**Link**](https://github.com/jbathmann/pyMANGA/ "https://github.com/jbathmann/pyMANGA/") and download the program as a zip file and save it on your computer (see <a href="/docs/getting_started/installation/#Figure_7">Figure 7</a>).
 
 <figure>
-<a name="Figure_8"></a>
-<img src="/pictures/Download_von_pyMANGA.jpg">
-<figcaption><font size = "1"><i><b>Figure 8: </b> Download from pyMANGA.</i></font></figcaption>
+<a name="Figure_7"></a>
+<img src="/pictures/getting_started/installation_of_pymanga/download_pymanga_windows.jpg">
+<figcaption><font size = "1"><i><b>Figure 7: </b> Download from pyMANGA.</i></font></figcaption>
 </figure><p>
 
 Then unzip the file (***pyMANGA-master.zip***) to your desktop.
-It contains all the program components of **MANGA**, including ***main.py***, which is the execution file that must be called to execute the program.
-To do so, open the **folder** and **right-click** in an empty area of the **folder** to open the command **prompt** (see <a href="/docs/getting_started/installation/#Figure_9">Figure 9</a>) and enter the following code.
+It contains all the program components of **pyMANGA**, including ***main.py***, which is the execution file that must be called to execute the program.
+To do so, open the **folder** and **right-click** in an empty area of the **folder** to open the command **prompt** (see <a href="/docs/getting_started/installation/#Figure_8">Figure 8</a>) and enter the following code.
 
 	• py main.py -h								     		[5]
 
 Again, ***py*** means Python is called, ***main.py*** represents the file to be called, and ***-h*** calls the help.
 
 <figure>
-<a name="Figure_9"></a>
-<img src="/pictures/oeffnen_der_Eingabeaufforderung_im_pyMANGA_Ordner.jpg">
-<figcaption><font size = "1"><i><b>Figure 9: </b> open the command prompt in the pyMANGA folder.</i></font></figcaption>
+<a name="Figure_8"></a>
+<img src="/pictures/getting_started/installation_of_pymanga/open_command_prompt_folder.jpg">
+<figcaption><font size = "1"><i><b>Figure 8: </b> open the command prompt in the pyMANGA folder.</i></font></figcaption>
 </figure><p>
 
 Note: The command **prompt** is called in the **folder** so that the **folder path** does not have to be entered each time.

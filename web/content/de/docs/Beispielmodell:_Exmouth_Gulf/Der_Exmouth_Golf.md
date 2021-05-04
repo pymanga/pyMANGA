@@ -15,7 +15,7 @@ Mit einem mittleren Tidenhub von ca. 1,8 Metern werden die Mangroven täglich mi
 
 <figure>
 <a name="Abbildung_1"></a>
-<img src="/pictures/exmouth_gulf/lage_uebersicht.jpg"/>
+<img src="/pictures/exmouth_gulf/exmouth_gulf/overview_site.jpg"/>
 <figcaption><font size = "1"><i><b>Abbildung 1:</b> Lage des Modellgebiets im Exmouth-Golf in Western Australia &copy; <a href="https://www.google.de/maps">Google Maps</a></i></font></figcaption>
 </figure><p>
 &nbsp;
@@ -28,14 +28,14 @@ Gut zu erkennen ist das System aus Flüssen und kleineren Bächen in den Mangrov
 
 <figure>
 <a name="Abbildung_2"></a>
-<img src="/pictures/exmouth_gulf/mangroven_luftbild_1.jpg">
+<img src="/pictures/exmouth_gulf/exmouth_gulf/pic_mangroves_1.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 2:</b> Luftbild Exmouth-Golf &copy; Ruth Reef</i></font></figcaption>
 </figure><p>
 &nbsp;
 
 <figure>
 <a name="Abbildung_3"></a>
-<img src="/pictures/exmouth_gulf/mangroven_luftbild_2.jpg">
+<img src="/pictures/exmouth_gulf/exmouth_gulf/pic_mangroves_2.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 3:</b> Luftbild Exmouth-Golf &copy; Ruth Reef</i></font></figcaption>
 </figure><p>
 &nbsp;
@@ -47,6 +47,6 @@ Aufgrund der anoxischen Verhältnisse im Untergrund der Mangrovenwälder bildet 
 
 <figure>
 <a name="Abbildung_4"></a>
-<img src="/pictures/exmouth_gulf/mangroven_wurzeln.jpg">
+<img src="/pictures/exmouth_gulf/exmouth_gulf/pic_mangroves_3.jpg">
 <figcaption><font size = "1"><i><b>Abbildung 4:</b> Luftbild Wurzelsystem der grauen Mangroven &copy; Ruth Reef</i></font></figcaption>
 </figure><p>

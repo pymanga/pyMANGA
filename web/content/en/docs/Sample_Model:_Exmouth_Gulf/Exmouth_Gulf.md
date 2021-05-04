@@ -15,7 +15,7 @@ With an average tidal range of about 1.8 meters, the mangroves are exposed to ti
 
 <figure>
 <a name="Figure_1"></a>
-<img src="/pictures/exmouth_gulf/lage_uebersicht.jpg"/>
+<img src="/pictures/exmouth_gulf/exmouth_gulf/overview_site.jpg"/>
 <figcaption><font size = "1"><i><b>Figure 1:</b> Location of study site in the Exmouth Gulf in Western Australia (&copy; <a href="https://www.google.de/maps">Google Maps</a>)</i></font></figcaption>
 </figure><p>
 &nbsp;
@@ -28,14 +28,14 @@ The system of rivers and smaller streams in the mangrove forests can be seen as 
 
 <figure>
 <a name="Figure_2"></a>
-<img src="/pictures/exmouth_gulf/mangroven_luftbild_1.jpg">
+<img src="/pictures/exmouth_gulf/exmouth_gulf/pic_mangroves_1.jpg">
 <figcaption><font size = "1"><i><b>Figure 2:</b> Aerial view of Exmouth Gulf &copy; Ruth Reef</i></font></figcaption>
 </figure><p>
 &nbsp;
 
 <figure>
 <a name="Figure_3"></a>
-<img src="/pictures/exmouth_gulf/mangroven_luftbild_2.jpg">
+<img src="/pictures/exmouth_gulf/exmouth_gulf/pic_mangroves_2.jpg">
 <figcaption><font size = "1"><i><b>Figure 3:</b> Aerial view of Exmouth Gulf &copy; Ruth Reef</i></font></figcaption>
 </figure><p>
 &nbsp;
@@ -48,6 +48,6 @@ Those are aerial roots, which partly lie above the water surface Thereby, they a
 
 <figure>
 <a name="Figure_4"></a>
-<img src="/pictures/exmouth_gulf/mangroven_wurzeln.jpg">
+<img src="/pictures/exmouth_gulf/exmouth_gulf/pic_mangroves_3.jpg">
 <figcaption><font size = "1"><i><b>Figure 4:</b> Aerial view of the root system of gray mangroves &copy; Ruth Reef</i></font></figcaption>
 </figure><p>

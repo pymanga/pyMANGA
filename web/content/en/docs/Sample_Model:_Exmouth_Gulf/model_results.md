@@ -29,12 +29,14 @@ This chapter describes the composition of the model, the basics of modeling with
 
 <h1>Model Domain</h1>
 
-A 185 m long and 10 m wide transect is represented in the model (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_1">Figure 1</a>). Allometry data from a transect measurements, as well as measurement results from a long-term study, are used to evaluate the model results. The long-term study documents the effects of fertilization on the growth of 72 mangroves, half of them are located on the landward and half of them on the seaward side of the transect (see also <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4</a>).
+A 185 m long and 10 m wide transect is represented in the model (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_1">Figure 1</a>).
+Allometry data from a transect measurements, as well as measurement results from a long-term study, are used to evaluate the model results.
+The long-term study documents the effects of fertilization on the growth of 72 mangroves, half of them are located on the landward and half of them on the seaward side of the transect (see also <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4</a>).
 
 <br>
 <figure>
 <a name="Figure_1"></a>
-<img src="/pictures/exmouth_gulf/Transect_Sketch.png">
+<img src="/pictures/exmouth_gulf/the_model/Transect_Sketch.png">
 <figcaption><font size = "1"><i><b>Figure 1:</b> Diagram of model abstraction from site conditions in the Exmouth Gulf</i></font></figcaption>
 </figure><br>
 
@@ -52,7 +54,7 @@ This DEM was used for descretization of the groundwater model (<a href="/en/docs
 <br>
 <figure>
 <a name="Figure_2"></a>
-<img src="/pictures/exmouth_gulf/dem.png" style="width:75%">
+<img src="/pictures/exmouth_gulf/the_model/dem_building.png" style="width:75%">
 <figcaption><font size = "1"><i><b>Figure 2:</b> Elevation profiles along transect lines</i></font></figcaption>
 </figure><br>
 
@@ -138,24 +140,24 @@ The following <a href="/docs/sample_model_exmouth_gulf/model_results/#Table_1">T
 <h3>Groundwater model</h3>
 
 The groundwater model represents the subsurface with a grid of dimensions of 10 m x 230 m x 3 m on five FEM layers with 5880 cells.
-The following <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_2">Figure 2</a> shows the spatial discretization from the seaward perspective.
-
-<br>
-<figure>
-<a name="Figure_2"></a>
-<img src="/pictures/exmouth_gulf/dis.png">
-<figcaption><font size = "1"><i><b>Figure 2:</b> Spatial discretization of the groundwater model</i></font></figcaption>
-</figure><br>
-
-The mangroves extract soil water from the subsurface from a depth of 40 cm to 80 cm below the ground surface.
-<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_3">Figure 3</a> shows the model area (gray) and the area of water extraction by the mangroves (blue).
-Note the 50-fold vertical scaling.
+The following <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_3">Figure 3</a> shows the spatial discretization from the seaward perspective.
 
 <br>
 <figure>
 <a name="Figure_3"></a>
-<img src="/pictures/exmouth_gulf/model_area_legend.png">
-<figcaption><font size = "1"><i><b>Figure 3:</b> Area of water extraction by mangroves</i></font></figcaption>
+<img src="/pictures/exmouth_gulf/the_model/discretization.png">
+<figcaption><font size = "1"><i><b>Figure 3:</b> Spatial discretization of the groundwater model</i></font></figcaption>
+</figure><br>
+
+The mangroves extract soil water from the subsurface from a depth of 40 cm to 80 cm below the ground surface.
+<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4</a> shows the model area (gray) and the area of water extraction by the mangroves (blue).
+Note the 50-fold vertical scaling.
+
+<br>
+<figure>
+<a name="Figure_4"></a>
+<img src="/pictures/exmouth_gulf/the_model/model_subsurface.png">
+<figcaption><font size = "1"><i><b>Figure 4:</b> Area of water extraction by mangroves</i></font></figcaption>
 </figure><br>
 
 The groundwater model is discretized in time with a step length of one hour.
@@ -174,7 +176,7 @@ The water level is determined in terms of hydrostatic pressure at the seaward an
 In order to represent the tides, the lake-side water level was integrated into the model as a dynamic Dirichlet boundary condition.
 The water level measurements of the Department of Transport of the Government of Western Australia served as data basis.
 The land-based water level is represented by a constant Dirichlet boundary condition.
-Evaporation of the trees is integrated by sink terms in the area of the roots (see also <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_3">Figure 3</a>).
+Evaporation of the trees is integrated by sink terms in the area of the roots (see also <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4</a>).
 Inflow in the form of precipitation is indirectly considered via salinity at the landward edge of the model area.
 The model boundaries which are not mentioned explicitly, are all defined as no flow boundary conditions.
 <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_1">Figure 1</a> shows a schematic diagram of this.
@@ -421,36 +423,6 @@ After a certain time, a quasi-stationary state of the mangrove population is rea
 <figcaption><font size = "1"><i><b>Visualisation 1:</b> Dynamic development of the mangrove population over the modeling period</i></font></figcaption>
 <br>
 
-<!--
-<p>
-<input type="button" value="click to go fullscreen" onclick="toggleFullScreen()">
-</p>
-
-<script type="text/javascript">
- /*<![CDATA[*/
-function toggleFullScreen() {
-  if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
-   (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-    if (document.documentElement.requestFullScreen) {  
-      document.documentElement.requestFullScreen();  
-    } else if (document.documentElement.mozRequestFullScreen) {  
-      document.documentElement.mozRequestFullScreen();  
-    } else if (document.documentElement.webkitRequestFullScreen) {  
-      document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
-    }  
-  } else {  
-    if (document.cancelFullScreen) {  
-      document.cancelFullScreen();  
-    } else if (document.mozCancelFullScreen) {  
-      document.mozCancelFullScreen();  
-    } else if (document.webkitCancelFullScreen) {  
-      document.webkitCancelFullScreen();  
-    }  
-  }  
-}
-
-</script>
--->
 
 In the following video the model area was divided into ten sectors.
 The dynamic development of the mangrove population and the salt concentration in the bottom water as well as the biomass of the mangroves in the individual sectors are shown.
@@ -464,20 +436,20 @@ Already from 100 years, the structure of typical mangrove forests is recognizabl
 <figcaption><font size = "1"><i><b>Video 1:</b> Dynamic development of mangrove population and salinity concentration in porewater over the modeling period.</i></font></figcaption>
 </figure><br>
 
-The results of the "<b>Full Model</b>" are in qualitative agreement with the measured field data (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4</a>).
-This is true for both the tree height profile (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 A</a>) and for the porewater salinity profile (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 B</a>) in the studied transect.
-In particular, the variation in porewater salinity was well mapped (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 A</a>).
+The results of the "<b>Full Model</b>" are in qualitative agreement with the measured field data (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_5">Figure 5</a>).
+This is true for both the tree height profile (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 5 A</a>) and for the porewater salinity profile (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_5">Figure 5 B</a>) in the studied transect.
+In particular, the variation in porewater salinity was well mapped (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_5">Figure 5 A</a>).
 The coefficient of determination of the Bravais-Pearson correlation is R²&nbsp;=&nbsp;0.64 for tree height and R²&nbsp;=&nbsp;0.88 for porewater salinity.
-A comparison of the results of the "<b>Full Model</b>" with the results of the two model variants "<b>Model Without Feedback</b>" and "<b>Model Without Tide</b>" shows a significantly worse reproduction of the measured field data by the two simpler models (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4 C and 4 D</a>).
+A comparison of the results of the "<b>Full Model</b>" with the results of the two model variants "<b>Model Without Feedback</b>" and "<b>Model Without Tide</b>" shows a significantly worse reproduction of the measured field data by the two simpler models (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_5">Figure 5 C and 5 D</a>).
 
 <br>
 <figure>
-<a name="Figure_4"></a>
-<img src="/pictures/exmouth_gulf/Figure_3.png">
-<figcaption><font size = "1"><i><b>Figure 4:</b> Simulated and measured mangrove stand properties along transect</i></font></figcaption>
+<a name="Figure_5"></a>
+<img src="/pictures/exmouth_gulf/the_model/results_diff_model_types.png">
+<figcaption><font size = "1"><i><b>Figure 5:</b> Simulated and measured mangrove stand properties along transect</i></font></figcaption>
 </figure><br>
 
-The "Treatment Averages" plotted in <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_4">Figure 4</a> are from mangroves that have been studied in more detail in long-term experiments.
+The "Treatment Averages" plotted in <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_5">Figure 5</a> are from mangroves that have been studied in more detail in long-term experiments.
 A comparison of the results of these observations with the modeling results also shows a high degree of agreement.
 
 In order to investigate the effects of the temporal dynamics of tides and plant water extraction on the salinity in the pore water, this effect was normalized using the following formula:
@@ -485,19 +457,19 @@ In order to investigate the effects of the temporal dynamics of tides and plant 
 <br>
 <figure>
 <div align="center">
-<img src="/pictures/exmouth_gulf/formel.png" width="50%">
+<img src="/pictures/exmouth_gulf/the_model/formula_standardization.png" width="50%">
 </div>
 </figure><br>
 
-These relative effects are shown in the following <a href="/docs/sample_setup_exmouth_gulf/model_results/#Figure_5">Figure 5</a> for tree height and porewater salinity.
+These relative effects are shown in the following <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_6">Figure 6</a> for tree height and porewater salinity.
 A value of zero would mean that there is no difference in results between Full Model and the respective simplified model type.
 The larger the value becomes, the higher the deviation.
 
 <br>
 <figure>
-<a name="Figure_5"></a>
-<img src="/pictures/exmouth_gulf/Figure_3_2.png">
-<figcaption><font size = "1"><i><b>Figure 5:</b> Relative impact of not considering tidal range ("Model Wihtout Tide") and plant water extraction ("Model Without Feedback").</i></font></figcaption>
+<a name="Figure_6"></a>
+<img src="/pictures/exmouth_gulf/the_model/results_standardization.png">
+<figcaption><font size = "1"><i><b>Figure 6:</b> Relative impact of not considering tidal range ("Model Wihtout Tide") and plant water extraction ("Model Without Feedback").</i></font></figcaption>
 </figure><br>
 
 Due to the greater effects of the tidal range in the area close to the sea, the model "<b>Without Tide</b>" can only represent the tree heights and the porewater salinity here with a relatively large deviation compared to the "<b>Full Model</b>".
@@ -509,18 +481,18 @@ The Model "<b>Without Feedback</b>" fails to predict mangrove growth height as t
 <h2>Species dominance</h2>
 
 In the previous section, it was shown that MANGA, with the consideration of salinity in the bottom water and the tidal range, is able to represent the forest structures typical for mangrove forests.
-Using the extensive parameterization capabilities of the tree growth model (see also the section <a href="/docs/sample_setup_exmouth_gulf/model_results/#Parametrization">parametrization</a>), MANGA can also be used to study the growth of single specific individual species.
+Using the extensive parameterization capabilities of the tree growth model (see also the section <a href="/docs/sample_model_exmouth_gulf/model_results/#Parametrization">parametrization</a>), MANGA can also be used to study the growth of single specific individual species.
 For example, different mangrove species have different tolerances to excessive salinity.
 In this project, the growth behavior of two species, Avicennia marina and Rhizophora mangle, was studied in more detail.
 
-<a href="/docs/sample_setup_exmouth_gulf/model_results/#Figure_6">Figure 6</a> shows the species dominance of these two mangrove species at different salinity concentrations (see <a href="/docs/sample_setup_exmouth_gulf/model_results/#Table_6">Table 6</a>) in porewater.
+<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 7</a> shows the species dominance of these two mangrove species at different salinity concentrations (see <a href="/docs/sample_model_exmouth_gulf/model_results/#Table_6">Table 6</a>) in porewater.
 The different setups shown in the figure differ only with respect to the boundary conditions of the seaward and landward salinity concentrations of the porewater.
 For the consideration of species dominance in the model domain, we introduce the species dominance d and define it as follows:
 
 <br>
 <figure style="width:75%">
 <div align="center">
-<img src="/pictures/exmouth_gulf/formel_normierung_speziendominanz_2.jpg" style="width:70%">
+<img src="/pictures/exmouth_gulf/the_model/formula_dominance.jpg" style="width:70%">
 </div>
 </figure><br>
 
@@ -561,22 +533,22 @@ Here, V<sub>i</sub>(x,t) represent the volume of mangrove species Rhizophora man
 
 <br>
 <figure>
-<a name="Figure_6"></a>
-<img src="/pictures/exmouth_gulf/Spezien_1.png" style="width:75%">
-<figcaption><font size = "1"><i><b>Figure 6:</b> Resulting simulated forest properties from all simulated setups presented in dependence on established porewater salinity</i></font></figcaption>
+<a name="Figure_7"></a>
+<img src="/pictures/exmouth_gulf/the_model/result_dominance_1.png" style="width:75%">
+<figcaption><font size = "1"><i><b>Figure 7:</b> Resulting simulated forest properties from all simulated setups presented in dependence on established porewater salinity</i></font></figcaption>
 </figure><br>
 
-<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_6">Figure 6A to 6D</a> show an initially monospecific Rhizophora forest (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_6">Figure 6A</a>) due to both seaward and landward low salinity concentrations.
-As salinity increases, a mixed forest of both species is established (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_6">Figure 6B and 6C</a>). <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_6">Figure 6D</a> then depicts a monospecific Avicennia marina forest due to the high salt concentrations.
-Both <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_6">Figure 6E and 6F</a> are similar to setup configurations <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_6">Figure 6B and 6C</a> in that the values of salinities on landward and seaward sides of the transect, respectively, assume approximately the other value.
+<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 7A to 7D</a> show an initially monospecific Rhizophora forest (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 7A</a>) due to both seaward and landward low salinity concentrations.
+As salinity increases, a mixed forest of both species is established (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 7B and 7C</a>). <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 6D</a> then depicts a monospecific Avicennia marina forest due to the high salt concentrations.
+Both <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 7E and 7F</a> are similar to setup configurations <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 7B and 7C</a> in that the values of salinities on landward and seaward sides of the transect, respectively, assume approximately the other value.
 Thus, they too represent a mixed forest of both species.
-These results are shown again in a different way in the following <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 7</a>.
+These results are shown again in a different way in the following <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_8">Figure 8</a>.
 
 <br>
 <figure>
-<a name="Figure_7"></a>
-<img src="/pictures/exmouth_gulf/Spezien_2.png" style="width:75%">
-<figcaption><font size = "1"><i><b>Figure 7:</b> Dependence of species dominance on landward (x-axis) and seaward (y-axis) salinity.</i></font></figcaption>
+<a name="Figure_8"></a>
+<img src="/pictures/exmouth_gulf/the_model/result_dominance_2.png" style="width:75%">
+<figcaption><font size = "1"><i><b>Figure 8:</b> Dependence of species dominance on landward (x-axis) and seaward (y-axis) salinity.</i></font></figcaption>
 </figure><br>
 
 When looking at the mixed forests, real mixed populations are existing only in a few individual sections.
@@ -587,18 +559,18 @@ Soil water salinity is also affected by the number of individuals per area and t
 These two parameters are in turn influenced by the same individual-specific parameters.
 
 Consequently, the coupling between plant water balance and porewater significantly influences the formation of forest structure.
-In the setups that result to the formation of a mixed forest, either two-zone (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_6">Figure 6C and 6E</a>) or three-zone (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_6">Figure 6B and 6F</a>) mixed forests are formed.
+In the setups that result to the formation of a mixed forest, either two-zone (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 7C and 7E</a>) or three-zone (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_7">Figure 7B and 7F</a>) mixed forests are formed.
 The two zones at the seaward and landward end of the model are mainly controlled by the parameters of salinity as boundary condition.
 In the model center, the transpiration of the mangroves leads to a concentration of the porewater salinity.
 If this exceeds a certain value, the more salt-resistant species Avicennia marina dominates.
 
-As also shown in <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_8">Figure 8</a>, the results of considering species dominance in the model are consistent with the measured field data in those transects considered in the project.
+As also shown in <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_9">Figure 9</a>, the results of considering species dominance in the model are consistent with the measured field data in those transects considered in the project.
 
 <br>
 <figure>
-<a name="Figure_8"></a>
-<img src="/pictures/exmouth_gulf/Spezien_3.png" style="width:75%">
-<figcaption><font size = "1"><i><b>Figure 8:</b> Resulting simulated forest properties from all simulated setups presented in dependence on established porewater salinity</i></font></figcaption>
+<a name="Figure_9"></a>
+<img src="/pictures/exmouth_gulf/the_model/result_dominance_3.png" style="width:75%">
+<figcaption><font size = "1"><i><b>Figure 9:</b> Resulting simulated forest properties from all simulated setups presented in dependence on established porewater salinity</i></font></figcaption>
 </figure><br>
 
 Consequently, the MANGA model software is able to represent not only the evolving structure of a mangrove forest, but also its composition of different species.

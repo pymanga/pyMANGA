@@ -405,24 +405,20 @@ Nach einer gewissen Zeit stellt sich dann ein quasi-stationärer Zustand der Man
 <figure id="vis">
 <a name="Visualisierung_1"></a>
 <form oninput="x.value=parseInt(a.value)" id="slider" >
-<script type="application/javascript" script-src='strict-dynamic'>
-  document.getElementById("slider").addEventListener("input", aktualisiere);
-   function aktualisiere() {
-	  var TS = (document.querySelector("input[name=a]"));
-	  var b = '/pictures/exmouth_gulf/TS/ts_'+TS.value+'.png';
-          document.getElementById("abb").setAttribute('src', b);
-}
-</script>
 <img src='/pictures/exmouth_gulf/TS/ts_0.png' id="abb">
+
 </br>
 <p align="left">
 <font size = "6">&nbsp;  Zeitschritt:&nbsp;&nbsp;&nbsp;&nbsp; </font>
   <input type="range" name="a" value="0" min="0" max="1650" step="50"> &nbsp;
 <font size = "6">  <output name="x" for="a">0</output> </font>&nbsp;&nbsp;
 </p>
+</form>
 </figure>
 <figcaption><font size = "1"><i><b>Visualisierung 1:</b> Dynamische Entwicklung der Mangrovenpopulation über die Modellierungszeit</i></font></figcaption>
 <br>
+
+
 
 MARKER TEST
 
@@ -625,3 +621,12 @@ Extremwettersituationen im Allgemeinen zunehmen werden und der Meeresspiegel ans
 Da das Modell in der Lage war, die Populationen der Realität entsprechend abzubilden, könnte es auch dafür verwendet werden die Auswirkungen des Klimawandels auf die empfindlichen Ökosysteme der Mangrovenwälder zu untersuchen.
 Weiter kann das Modell wichtige Hinweise bei der Untersuchung sämtlicher Zusammenhänge zwischen Waldstrukturen und Pflanzenmerkmalen liefern.
 Modelle, die die Prozesse auf konzeptionelleren Ansätzen basierend abbildet als es bei MANGA der Fall ist, können mit letzterem kalibriert und verifiziert werden.
+
+<script type="application/javascript">
+  document.getElementById("slider").addEventListener("input", aktualisiere);
+   function aktualisiere() {
+	  var TS = (document.querySelector("input[name=a]"));
+	  var b = '/pictures/exmouth_gulf/TS/ts_'+TS.value+'.png';
+          document.getElementById("abb").setAttribute("src", b);
+}
+</script>

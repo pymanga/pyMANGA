@@ -402,14 +402,12 @@ After a certain time, a quasi-stationary state of the mangrove population is rea
 <a name="Visualisierung_1"></a>
 <form oninput="x.value=parseInt(a.value)" id="slider" >
 <script type="text/javascript">
- /*<![CDATA[*/
   document.getElementById("slider").addEventListener("input", aktualisiere);
    function aktualisiere() {
 	  var TS = (document.querySelector("output[name=x]")) ;
 	  var a = '/pictures/exmouth_gulf/TS/ts_'+TS.value+'.png' ;
           document.getElementById("abb").setAttribute('src', a) ;
 }
-/*]]>*/
 </script>
 <img src='/pictures/exmouth_gulf/TS/ts_0.png' id="abb">
 </br>

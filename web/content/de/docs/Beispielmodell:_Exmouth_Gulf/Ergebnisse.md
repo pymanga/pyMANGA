@@ -405,7 +405,7 @@ Nach einer gewissen Zeit stellt sich dann ein quasi-stationärer Zustand der Man
 <figure id="vis">
 <a name="Visualisierung_1"></a>
 <form oninput="x.value=parseInt(a.value)" id="slider" >
-<script type="text/javascript" script-src='strict-dynamic'>
+<script type="application/javascript" script-src='strict-dynamic'>
   document.getElementById("slider").addEventListener("input", aktualisiere);
    function aktualisiere() {
 	  var TS = (document.querySelector("input[name=a]"));
@@ -424,6 +424,7 @@ Nach einer gewissen Zeit stellt sich dann ein quasi-stationärer Zustand der Man
 <figcaption><font size = "1"><i><b>Visualisierung 1:</b> Dynamische Entwicklung der Mangrovenpopulation über die Modellierungszeit</i></font></figcaption>
 <br>
 
+MARKER TEST
 
 Im nachfolgenden Video wurde das Modellgebiet in zehn Sektoren unterteilt.
 Dargestellt wird die dynamische Entwicklung der Mangrovenpopulation und der Salzkonzentration im Bodenwasser sowie die Biomasse der Mangroven in den einzelnen Sektoren.

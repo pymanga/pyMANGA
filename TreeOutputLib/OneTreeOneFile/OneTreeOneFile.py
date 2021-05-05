@@ -13,6 +13,16 @@ import os
 #  A line containing time, position, desired geometric measures and desired
 #  parameters is written at every nth timestep.
 class OneTreeOneFile(OneTimestepOneFile):
+    
+## Constructor of dummy objects in order to drop output
+    #  @param args xml element parsed from project to this constructor.
+    def __init__(self, args):
+        OneTimestepOneFile.__init__(self, args)
+        for path in os.listdir(self.output_dir):
+            full_path = os.path.join(self.output_dir, path)
+            if os.path.isfile(full_path):
+                os.remove(full_path)
+                
     ## Writes output to predefined folder
     #  For each tree a file is created and updated throughout the simulation.
     #  This function is only able to work, if the output directory exists and

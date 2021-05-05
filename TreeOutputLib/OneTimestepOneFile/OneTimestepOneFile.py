@@ -106,15 +106,19 @@ class OneTimestepOneFile(TreeOutput):
                         for parameter_output in self.parameter_outputs:
                             string += delimiter + str(
                                 parameter[parameter_output])
-                    if (len(growth_information) > 0):
+                    if (len(self.growth_outputs) > 0):
                         for growth_output_key in self.growth_outputs:
                             try:
                                 string += delimiter + str(
                                     growth_information[growth_output_key])
                             except KeyError:
-                                raise KeyError(
+                                growth_information[growth_output_key] = "NaN"
+                                string += delimiter + str(
+                                    growth_information[growth_output_key])
+                                print(
                                     "Key " + growth_output_key +
-                                    " not available in growth concept!" +
+                                    " might be not available in growth "+
+                                    "concept!" +
                                     " Please read growth concept documentation."
                                 )
                     if len(self.network_outputs) > 0:
@@ -123,6 +127,8 @@ class OneTimestepOneFile(TreeOutput):
                             string += delimiter + str(network[network_output])
                     string += "\n"
                     file.write(string)
+                    for growth_output in self.growth_outputs:
+                        del(growth_information[growth_output])
             file.close()
         self._output_counter += 1
 

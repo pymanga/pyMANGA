@@ -188,9 +188,8 @@ class SimpleHydro(BelowgroundCompetition):
             try:
                 missing_tags.remove(tag)
             except:
-                print(
-                    "WARNING: Tag " + tag +
-                    " not specified for below-ground grid initialisation!")
+                print("WARNING: Tag " + tag +
+                      " not specified for below-ground grid initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:
@@ -198,8 +197,7 @@ class SimpleHydro(BelowgroundCompetition):
             raise KeyError(
                 "Tag(s) " + string +
                 "are not given for below-ground grid initialisation in "
-                "project file."
-            )
+                "project file.")
         l_x = x_2 - x_1
         l_y = y_2 - y_1
         x_step = l_x / self.x_resolution

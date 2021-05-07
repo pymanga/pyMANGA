@@ -44,7 +44,7 @@
         <type> OneTimestepOneFile </type>
         <allow_previous_output> True </allow_previous_output>
         <output_each_nth_timestep> 15 </output_each_nth_timestep>
-        <output_dir> test/testoutputs/ </output_dir>
+        <output_dir> test/SmallTests/comparison_files/SimpleNetwork_Network_Bettina.xml </output_dir>
         <geometry_output> r_stem </geometry_output>
         <network_output> partner </network_output>
         <network_output> potential_partner </network_output>

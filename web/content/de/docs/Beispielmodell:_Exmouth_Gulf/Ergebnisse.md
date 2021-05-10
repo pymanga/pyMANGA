@@ -405,28 +405,17 @@ Nach einer gewissen Zeit stellt sich dann ein quasi-stationärer Zustand der Man
 <figure id="vis">
 <a name="Visualisierung_1"></a>
 <form oninput="x.value=parseInt(a.value)" id="slider" >
-<script type="text/javascript">
- /*<![CDATA[*/
-  document.getElementById("slider").addEventListener("input", aktualisiere);
-   function aktualisiere() {
-	  var TS = (document.querySelector("output[name=x]")) ;
-	  var a = '/pictures/exmouth_gulf/TS/ts_'+TS.value+'.png' ;
-          document.getElementById("abb").setAttribute('src', a) ;
-}
-/*]]>*/
-</script>
+ <script src="/js/slider.js"></script> 
 <img src='/pictures/exmouth_gulf/TS/ts_0.png' id="abb">
-</br>
 </br>
 <p align="left">
 <font size = "6">&nbsp;  Zeitschritt:&nbsp;&nbsp;&nbsp;&nbsp; </font>
-  <input type="range" id="a" min="0" max="1650" step="50"> &nbsp;
+  <input type="range" name="a" value="0" min="0" max="1650" step="50"> &nbsp;
 <font size = "6">  <output name="x" for="a">0</output> </font>&nbsp;&nbsp;
 </p>
 </figure>
 <figcaption><font size = "1"><i><b>Visualisierung 1:</b> Dynamische Entwicklung der Mangrovenpopulation über die Modellierungszeit</i></font></figcaption>
 <br>
-
 
 Im nachfolgenden Video wurde das Modellgebiet in zehn Sektoren unterteilt.
 Dargestellt wird die dynamische Entwicklung der Mangrovenpopulation und der Salzkonzentration im Bodenwasser sowie die Biomasse der Mangroven in den einzelnen Sektoren.

@@ -13,6 +13,16 @@ import os
 #  A line containing time, position, desired geometric measures and desired
 #  parameters is written at every nth timestep.
 class OneTreeOneFile(OneTimestepOneFile):
+    
+## Constructor of dummy objects in order to drop output
+    #  @param args xml element parsed from project to this constructor.
+    def __init__(self, args):
+        OneTimestepOneFile.__init__(self, args)
+        for path in os.listdir(self.output_dir):
+            full_path = os.path.join(self.output_dir, path)
+            if os.path.isfile(full_path):
+                os.remove(full_path)
+                
     ## Writes output to predefined folder
     #  For each tree a file is created and updated throughout the simulation.
     #  This function is only able to work, if the output directory exists and
@@ -38,6 +48,7 @@ class OneTreeOneFile(OneTimestepOneFile):
                             string += delimiter + parameter_output
                         for growth_output in self.growth_outputs:
                             string += delimiter + growth_output
+                            growth_information[growth_output] = "NaN"
                         for network_output in self.network_outputs:
                             string += delimiter + network_output
                         string += "\n"
@@ -57,20 +68,22 @@ class OneTreeOneFile(OneTimestepOneFile):
                                 parameter[parameter_output])
                     if (len(growth_information) > 0):
                         for growth_output_key in self.growth_outputs:
-                            try:
-                                string += delimiter + str(
-                                    growth_information[growth_output_key])
-                            except KeyError:
-                                raise KeyError(
-                                    "Key " + growth_output_key +
-                                    " not available in growth concept!" +
-                                    " Please read growth concept documentation."
-                                )
+                            string += delimiter + str(
+                                growth_information[growth_output_key])
                     if len(self.network_outputs) > 0:
                         network = tree.getNetwork()
                         for network_output in self.network_outputs:
                             string += delimiter + str(network[network_output])
                     string += "\n"
+                    for growth_output in self.growth_outputs:
+                        try:
+                            del(growth_information[growth_output])
+                        except KeyError:
+                            raise KeyError(
+                                "Key " + growth_output_key +
+                                " not available in growth concept!" +
+                                " Please read growth concept documentation."
+                            )
                     file.write(string)
                     file.close()
         self._output_counter += 1

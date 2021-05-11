@@ -360,7 +360,7 @@ class SimpleNetwork(BelowgroundCompetition):
 
     The sub-model root graft formation initializes the formation process.  
     Therefore, it requires a the x-, y-positions of trees, the root radii, 
-    the rgf-value and the partner_indexes (sm: group-formatio).
+    the rgf-value and the partner_indexes (sm: group-formation).
     The sub-model returns an array with booleans indicating whether the root 
     graft formation of a tree starts or not. Based on the array it updates
     the tree attribute 'rgf_counter'.

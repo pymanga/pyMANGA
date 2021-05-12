@@ -45,8 +45,8 @@ class SimpleAsymmetricZOI(AbovegroundCompetition):
         #define array to count wins
         wins = np.zeros_like(my_height)
         #indicate, where tree is highest
-        wins[np.where(np.equal(my_height,
-                               canopy_height[:, :, np.newaxis]))] += 1
+        wins[np.where(np.equal(my_height, canopy_height[:, :,
+                                                        np.newaxis]))] += 1
 
         #Account for shared wins
         cumwins = wins.sum(axis=-1)

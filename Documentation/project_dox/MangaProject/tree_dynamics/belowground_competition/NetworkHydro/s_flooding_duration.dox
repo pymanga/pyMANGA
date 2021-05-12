@@ -1,4 +1,5 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__NetworkHydro__flooding_duration &emsp;[spec]flooding_duration
 
 
 flooding duration along y-direction, first value at first grid cell from sea, last one at last gridcell from sea (h/day). Equal distances between points are assumed.
-At least two coma seperated values are needed as input.
+*/

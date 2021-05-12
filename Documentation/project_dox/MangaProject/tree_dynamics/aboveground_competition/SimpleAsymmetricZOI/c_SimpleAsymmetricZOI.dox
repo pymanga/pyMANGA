@@ -1,16 +1,16 @@
 /*! \page project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__SimpleAsymmetricZOI &emsp;[case]SimpleAsymmetricZOI
 
 
-SimpleAsymmetricZOI aboveground competition concept. This concept returns a factor 0..1 for each tree specifying the unshaded proportion of the crown area.
+SimpleAsymmetricZOI aboveground competition concept. This concept returns a factor 0...1 for each tree specifying the unshaded proportion of the crown area.
 
-
+Number of individuals (_n_individuals_) in *initial_population* must be >= 1.
 
 # Required inputs: 
  
-- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__x_2
-- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__y_resolution
-- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__y_2
 - \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__x_1
-- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__y_1
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__x_2
 - \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__x_resolution
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__y_1
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__y_2
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__y_resolution
 */

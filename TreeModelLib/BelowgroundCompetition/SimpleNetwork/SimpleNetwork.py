@@ -63,7 +63,7 @@ class SimpleNetwork(BelowgroundCompetition):
         # of rgf
         self._rgf_counter = []
 
-        self.variant = None
+        self._variant = []
         # parameters for rgf variant "V2_adapted"
         self._r_gr_min = []
         self._r_gr_rgf = []
@@ -99,7 +99,8 @@ class SimpleNetwork(BelowgroundCompetition):
         self._partner_names.append(self.network['partner'])
         self._potential_partner.append(self.network['potential_partner'])
 
-        self.variant = self.network['variant']
+        self._variant.append(self.network['variant'])
+
         # Only valid for Variant V2_adapted: list with min./current grafted root radius
         # of each pair; same structure as potential_partner
         # required for rgf
@@ -234,6 +235,18 @@ class SimpleNetwork(BelowgroundCompetition):
                 for p in partners_delete:
                     self._partner_names[i].remove(p)
 
+    ## This function removes trees from potential partners list if they died in
+    # the previous time step.
+    def updatedPotentialPartnerNames(self):
+        for i in range(0, len(self._potential_partner)):
+            ## If the name of the _potential_partner isn't in the list
+            # of tree names anymore it will be removed from the partner
+            # list
+            if (self._potential_partner[i]) and (self._potential_partner[i]
+                                                 not in self._tree_names):
+                self._potential_partner[i] = []
+                self._rgf_counter[i] = -1
+
     ## This function gets the current indices of partners from their names.
     def updatePartnerIdices(self):
         ## In order to access the partners by their indices the current
@@ -265,7 +278,7 @@ class SimpleNetwork(BelowgroundCompetition):
         # dictionary contains all links, no matter if they are functional
         for i in range(0, len(self._partner_indices)):
             graph_dict_incomplete[i] = set(self._partner_indices[i])
-        if self.variant == "V0_instant":
+        if self._variant[0] == "V0_instant":
             self.graph_dict = graph_dict_incomplete
         else:
             # helper
@@ -335,6 +348,7 @@ class SimpleNetwork(BelowgroundCompetition):
     # and their unique IDs.
     def groupFormation(self):
         self.updatedPartnerNames()
+        self.updatedPotentialPartnerNames()
         self.updatePartnerIdices()
         self.makeGraphDictionary()
         self.assignGroupIDs()
@@ -346,7 +360,7 @@ class SimpleNetwork(BelowgroundCompetition):
 
     The sub-model root graft formation initializes the formation process.  
     Therefore, it requires a the x-, y-positions of trees, the root radii, 
-    the rgf-value and the partner_indexes (sm: group-formatio).
+    the rgf-value and the partner_indexes (sm: group-formation).
     The sub-model returns an array with booleans indicating whether the root 
     graft formation of a tree starts or not. Based on the array it updates
     the tree attribute 'rgf_counter'.
@@ -415,10 +429,10 @@ class SimpleNetwork(BelowgroundCompetition):
         # process, if yes jump to next pair
         condition2 = True if (self._rgf_counter[l1] == -1
                               and self._rgf_counter[l2] == -1) else False
-        # @mcwimm: here another condition could/ should be included that
-        # checks whether the trees have enough energy to start root graft
-        # formation. A meaningful condition/ threshold is still missing.
-        condition3 = True
+        # ... check if both trees have a certain size (i.e. DBH > 1.5 cm) in
+        # order to avoid that freshly recruited trees start grafting
+        condition3 = True if (self._r_stem[l1] > 0.0075
+                              and self._r_stem[l2] > 0.0075) else False
 
         # ... find out if the grafting conditions are met, if yes set rgf = 1
         start_rgf = True if ((condition1 and condition2 and condition3)
@@ -432,15 +446,19 @@ class SimpleNetwork(BelowgroundCompetition):
     # @param pair - a 2d array with tree indices of connected trees (format:
     # from, to)
     def getRGFforGrowthAndDeath(self, pairs):
-        for i in range(0, len(pairs)):
+        # Create a list of length pairs with random integers to iterate
+        # randomly through the list of pairs
+        shuffled_indices = np.random.choice(len(pairs), len(pairs),
+                                            replace=False)
+        for i in shuffled_indices:
             pair = pairs[i]
             if self.checkRgfAbility(pair=pairs[i]):
                 l1, l2 = pair[0], pair[1]
                 self._rgf_counter[l1], self._rgf_counter[l2] = 1, 1
                 self._potential_partner[l1], self._potential_partner[l2] = \
                     self._tree_names[l2], self._tree_names[l1]
-
-                if self.variant == "V2_adapted":
+                if (self._variant[l1] == "V2_adapted") and \
+                        (self._variant[l2] == "V2_adapted") :
                     # Set initial size of grafted root radius
                     self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
                     # Get min. radius of grafted roots

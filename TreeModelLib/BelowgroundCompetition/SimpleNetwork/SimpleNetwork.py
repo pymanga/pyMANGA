@@ -142,8 +142,12 @@ class SimpleNetwork(TreeModel):
         self._psi_height.append(
             -(2 * geometry["r_crown"] + geometry["h_stem"]) * 9810)
         self._psi_top = np.array(self._psi_leaf) - np.array(self._psi_height)
-        self._psi_osmo = np.array(
-            [0] * self.n_trees)  # Salinity is 0 ppt is the basic scenario
+
+        # psi osmo is added separately in below-ground competition concept
+        # 'NetworkOGSLargeScale3D'
+        if self.bg_concept != "NetworkOGSLargeScale3D":
+            self._psi_osmo = np.array(
+                [0] * self.n_trees)  # Salinity is 0 ppt is the basic scenario
 
         self._kf_sap.append(parameter["kf_sap"])
 
@@ -193,6 +197,8 @@ class SimpleNetwork(TreeModel):
             tag = arg.tag
             if tag == "f_radius":
                 self.f_radius = float(args.find("f_radius").text)
+            if tag == "type":
+                self.bg_concept = args.find("type").text
             try:
                 missing_tags.remove(tag)
             except:

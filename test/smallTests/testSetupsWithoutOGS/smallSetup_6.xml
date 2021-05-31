@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<MangaProject>
+    <tree_dynamics>
+        <aboveground_competition>
+            <type> SimpleTest </type>
+        </aboveground_competition>
+        <belowground_competition>
+            <type> SimpleHydro </type>
+		<domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 20 </x_2>
+                    <y_2> 20 </y_2>
+                </domain>
+		<x_resolution> 4 </x_resolution>
+		<y_resolution> 4 </y_resolution>
+	        <depth> 1 </depth>
+                <porosity> 0.3 </porosity>
+                <dilution_frac_upper> 0.2 </dilution_frac_upper>
+                <dilution_frac_lower> 0.1 </dilution_frac_lower>
+                <diffusion_frac> 0.05 </diffusion_frac>
+		<sea_salinity> 0.03 </sea_salinity>
+		<ini_sal> 0.02 </ini_sal>
+		<up_sal> 0.002 </up_sal>
+		<slope> 0.002 </slope>
+		<k_f> 0.0001 </k_f>
+		<flooding_duration> 12,12,12,12 </flooding_duration>
+		<f_radius> 1 </f_radius>
+        </belowground_competition>
+        <tree_growth_and_death>
+            <type> SimpleTest </type>
+        </tree_growth_and_death>
+    </tree_dynamics>
+    <initial_population>
+        <group>
+            <name> Recruiting </name>
+            <species> Avicennia </species>
+            <distribution>
+                <type> GroupFromFile </type>
+		<n_recruitment_per_step> 5 </n_recruitment_per_step>
+		<filename> test/smallTests/inputFiles/Population_t_0000043200.0.csv </filename>
+            </distribution>
+        </group>
+        <group>
+            <name> Initial </name>
+            <species> Avicennia </species>
+            <distribution>
+                <type> GroupFromFile </type>
+		<filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
+                <n_individuals> 5 </n_individuals>
+            </distribution>
+        </group>
+    </initial_population>
+    <tree_time_loop>
+        <type> Simple </type>
+        <t_start> 0 </t_start>
+        <t_end> 86400 </t_end>
+        <delta_t> 43200 </delta_t>
+    </tree_time_loop>
+    <visualization>
+        <type> NONE </type>
+    </visualization>
+    <tree_output>
+        <type> OneTimestepOneFile </type>
+        <output_each_nth_timestep> 1 </output_each_nth_timestep>
+        <output_dir> test/testoutputs/ </output_dir>
+        <geometry_output> r_stem </geometry_output>
+        <geometry_output> h_stem </geometry_output>
+        <parameter_output> k_geom </parameter_output>
+    </tree_output>
+</MangaProject>
+

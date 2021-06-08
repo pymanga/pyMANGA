@@ -15,8 +15,8 @@
                 	<y_1> 0 </y_1>
                 	<x_2> 20 </x_2>
                 	<y_2> 20 </y_2>
-			<x_resolution> 100 </x_resolution>
-			<y_resolution> 100 </y_resolution>
+			<x_resolution> 80 </x_resolution>
+			<y_resolution> 80 </y_resolution>
 		</domain>
         </belowground_competition>
         <tree_growth_and_death>
@@ -38,8 +38,8 @@
             <species> Avicennia </species>
             <distribution>
                 <type> GroupFromFile </type>
+		<n_recruitment_per_step> 5 </n_recruitment_per_step>
 		<filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
-                <n_individuals> 5 </n_individuals>
             </distribution>
         </group>
     </initial_population>

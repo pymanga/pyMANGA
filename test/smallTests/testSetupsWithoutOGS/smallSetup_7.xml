@@ -29,8 +29,8 @@
             <species> Avicennia </species>
             <distribution>
                 <type> GroupFromFile </type>
+		<n_recruitment_per_step> 5 </n_recruitment_per_step>
 		<filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
-                <n_individuals> 5 </n_individuals>
             </distribution>
         </group>
     </initial_population>

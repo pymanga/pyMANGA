@@ -14,7 +14,7 @@
         </aboveground_competition>
         <belowground_competition>
             <type> FixedSalinity </type>
-		<salinity> 0.02 0.02 </salinity>
+		<salinity> 0.02 0.03 </salinity>
 		<max_x> 20 </max_x>
 		<min_x> 0 </min_x>
         </belowground_competition>

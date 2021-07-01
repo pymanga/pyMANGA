@@ -8,7 +8,16 @@ from ProjectLib import XMLtoProject
 from TimeLoopLib import TreeDynamicTimeStepping
 
 
+class Model():
+    def __init__(self):
+        pass
+        
+    def call(self):
+        pass
+
 def main(argv):
+    #sys.path.append(path.abspath(path.dirname(__file__)))
+
     try:
         opts, args = getopt.getopt(argv, "hi:", ["project_file="])
     except getopt.GetoptError:

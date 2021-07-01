@@ -9,11 +9,25 @@ from TimeLoopLib import TreeDynamicTimeStepping
 
 
 class Model():
-    def __init__(self):
-        pass
-        
-    def call(self):
-        pass
+    ## Class to run the model from other programs
+    #  @param project_file: path to pymanga project file.
+    #  @date: 2021 - Today
+    #  @author: jasper.bathmann@ufz.de
+    def __init__(self, project_file):
+        self.prj = XMLtoProject(xml_project_file=project_file)
+        self.t_step_begin = 0
+
+    def createExternalTimeStepper(self, t_0=0):
+        from TimeLoopLib import ExternalDynamicTimeStepping
+        self.timestepper = ExternalDynamicTimeStepping(self.prj, t_0)
+
+    ## This call propagates the model from the last timestep.
+    #  Default starting point is t=0 and will be updated with every call
+    #  @param t: time, for end of next timestep
+    def propagateModel(self, t):
+        self.timestepper.step()
+        self.t_step_begin = t
+
 
 def main(argv):
     #sys.path.append(path.abspath(path.dirname(__file__)))

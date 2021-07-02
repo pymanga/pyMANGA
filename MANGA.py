@@ -25,8 +25,15 @@ class Model():
     #  Default starting point is t=0 and will be updated with every call
     #  @param t: time, for end of next timestep
     def propagateModel(self, t):
-        self.timestepper.step()
+        self.timestepper.step(t)
         self.t_step_begin = t
+
+    def setBelowgroundInformation(self, **args):
+        self.prj.getBelowgroundCompetition().setExternalInformation(**args)
+
+    ## Getter for external information
+    def getBelowgroundInformation(self):
+        return self.prj.getBelowgroundCompetition().getExternalInformation()
 
 
 def main(argv):

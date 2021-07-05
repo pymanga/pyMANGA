@@ -5,6 +5,9 @@
 
 import sys
 from os import path
+import os
+
+os.chdir('/home/jonas/Dokumente/WHK/Marzipan/Quellcode/pyMANGA')
 
 sys.path.append(
     path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
@@ -17,6 +20,7 @@ import os
 from lxml import etree
 import shutil
 from pathlib import Path
+import pandas as pd
 
 manga_root_directory = path.dirname(
     path.dirname(path.dirname(path.abspath(__file__))))
@@ -34,6 +38,8 @@ output_exist = str
 global seperator
 
 seperator = "/"
+
+# MARKER:
 
 if xml:
     for xmlfile in xml:
@@ -100,20 +106,23 @@ if xml:
 #               If a reference file is available, it will be compared with the
 #               calculated results
                 else:
-                    files_result = glob.glob(path.join(output_dir, "*.*"))
-                    for file_comparison, file_result in zip(
-                            (files_comparison), (files_result)):
-                        try:
-                            assert (Path(file_comparison).read_bytes() ==
-                                    Path(file_result).read_bytes()), \
-                                f"{file_comparison!r} != {file_result!r}"
-                        except:
-                            self.fail(errors_compare.append(xmlfile))
-
+                    global compare_list
+                    global files_result
+                    files_result = glob.glob(path.join(output_dir, "*"))
+                    if files_result:
+                        global test
+                        for y in range(len(files_result)):
+                            test = (pd.read_csv(files_result[y], delimiter='\t').drop('tree', axis=1) -
+                                pd.read_csv(files_comparison[y], delimiter='\t').drop('tree', axis=1)).values.any() == 0
+                            try:
+                                assert test is True
+                            except:
+                                self.fail(errors_compare.append(xmlfile))
         if __name__ == "__main__":
             unittest.main(exit=False)
 
         # remove created output
+        print(errors_empty_comparison)
         if not output_type == "NONE":
             if not output_exist:
                 shutil.rmtree((output_dir[:-1]), ignore_errors=True)
@@ -162,7 +171,7 @@ if xml:
             print(errors[x])
         print("")
     else:
-        print("The tests of all example setups were successful.")
+        print("The first test of all example setups were successful.")
 
     print("________________________________________________")
     print("________________________________________________")
@@ -170,12 +179,26 @@ if xml:
     print("Result of the second test:")
     print("")
 
-    if errors_empty_comparison:
+    if errors_empty_comparison and errors_compare:
+        print('An error occured when comparing the result of the following '
+              'example setup:')
+        for x in range(len(errors_compare)):
+            print("")
+            print(errors_compare[x])
+            print("")
+        print('It should be noted further:')
+        print('There are missing files for the comparison of the result '
+              'of the following example-setups:')
+        for x in range(len(errors_empty_comparison)):
+            print("")
+            print(errors_empty_comparison[x])
+            print("")
+    elif errors_empty_comparison:
         if len(errors_empty_comparison) == 1:
             print("There are no files with which the result of the setup",
                   errors_empty_comparison, "could be compared.")
         else:
-            print("There are missing files for the comparison of the result ",
+            print("There are missing files for the comparison of the result "
                   "of the following example-setups:")
             print("")
             n = range(len(errors_empty_comparison))
@@ -193,8 +216,7 @@ if xml:
                 print("An error occurred when comparing the result of the "
                       "following example setups with the comparison files:")
                 print("")
-            n = range(len(errors_compare))
-            for x in n:
+            for x in range(len(errors_compare)):
                 print("")
                 print(errors_compare[x])
                 print("")
@@ -242,3 +264,27 @@ if xml:
     print("________________________________________________")
 else:
     print("Unfortunately no project-file could be found.")
+
+
+# bu:
+                            # compare_list.append(
+                            #     [pd.read_csv(files_result[y], delimiter='\t').drop('tree', axis=1)])
+                            # compare_list[y].append(
+                            #     pd.read_csv(files_comparison[y], delimiter='\t').drop('tree', axis=1))
+                            
+                            #test_list.append(compare_list[y][0]-compare_list[y][0])
+#                        test = test_list[0].isnull().values.any()
+
+                            # test_list.append(
+                            #     pd.read_csv(files_result[y], delimiter='\t').drop('tree', axis=1) -
+                            #     pd.read_csv(files_comparison[y], delimiter='\t').drop('tree', axis=1))
+                            # test = test_list[0].values.any() == 0
+                            
+                                                # for file_comparison, file_result in zip(
+                    #         (files_comparison), (files_result)):
+                    #     try:
+                    #         assert (Path(file_comparison).read_bytes() ==
+                    #                 Path(file_result).read_bytes()), \
+                    #             f"{file_comparison!r} != {file_result!r}"
+                    #     except:
+                    #         self.fail(errors_compare.append(xmlfile))

@@ -6,18 +6,18 @@
         </aboveground_competition>
         <belowground_competition>
             <type> FON </type>
-		<aa> 1 </aa>
-		<bb> 1 </bb>
-		<fmin> 1 </fmin>
-		<salinity> 0.2 </salinity>
-		<domain>
-			<x_1> 0 </x_1>
-                	<y_1> 0 </y_1>
-                	<x_2> 20 </x_2>
-                	<y_2> 20 </y_2>
-			<x_resolution> 80 </x_resolution>
-			<y_resolution> 80 </y_resolution>
-		</domain>
+            <aa> 1 </aa>
+            <bb> 1 </bb>
+            <fmin> 1 </fmin>
+            <salinity> 0.2 </salinity>
+            <domain>
+                <x_1> 0 </x_1>
+                <y_1> 0 </y_1>
+                <x_2> 20 </x_2>
+                <y_2> 20 </y_2>
+                <x_resolution> 80 </x_resolution>
+                <y_resolution> 80 </y_resolution>
+            </domain>
         </belowground_competition>
         <tree_growth_and_death>
             <type> SimpleBettina </type>
@@ -29,17 +29,17 @@
             <species> Avicennia </species>
             <distribution>
                 <type> GroupFromFile </type>
-		<n_recruitment_per_step> 5 </n_recruitment_per_step>
-		<filename> test/smallTests/inputFiles/Population_t_0000043200.0.csv </filename>
-            </distribution>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
+                <filename> test/smallTests/inputFiles/Population_t_0000043200.0.csv </filename>
+                </distribution>
         </group>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
             <distribution>
                 <type> GroupFromFile </type>
-		<n_recruitment_per_step> 5 </n_recruitment_per_step>
-		<filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
+                <filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
             </distribution>
         </group>
     </initial_population>
@@ -61,4 +61,3 @@
         <parameter_output> k_geom </parameter_output>
     </tree_output>
 </MangaProject>
-

@@ -6,31 +6,31 @@
         </aboveground_competition>
         <belowground_competition>
             <type> NetworkHydro </type>
-		<domain>
-                    <x_1> 0 </x_1>
-                    <y_1> 0 </y_1>
-                    <x_2> 20 </x_2>
-                    <y_2> 20 </y_2>
-                </domain>
-		<x_resolution> 4 </x_resolution>
-		<y_resolution> 4 </y_resolution>
-	        <depth> 1 </depth>
-                <porosity> 0.3 </porosity>
-                <dilution_frac_upper> 0.2 </dilution_frac_upper>
-                <dilution_frac_lower> 0.1 </dilution_frac_lower>
-                <diffusion_frac> 0.05 </diffusion_frac>
-		<sea_salinity> 0.03 </sea_salinity>
-		<ini_sal> 0.02 </ini_sal>
-		<up_sal> 0.002 </up_sal>
-		<slope> 0.002 </slope>
-		<k_f> 0.0001 </k_f>
-		<flooding_duration> 12,12,12,12 </flooding_duration>
-		<f_radius> 1 </f_radius>
+            <domain>
+                <x_1> 0 </x_1>
+                <y_1> 0 </y_1>
+                <x_2> 20 </x_2>
+                <y_2> 20 </y_2>
+            </domain>
+            <x_resolution> 4 </x_resolution>
+            <y_resolution> 4 </y_resolution>
+            <depth> 1 </depth>
+            <porosity> 0.3 </porosity>
+            <dilution_frac_upper> 0.2 </dilution_frac_upper>
+            <dilution_frac_lower> 0.1 </dilution_frac_lower>
+            <diffusion_frac> 0.05 </diffusion_frac>
+            <sea_salinity> 0.03 </sea_salinity>
+            <ini_sal> 0.02 </ini_sal>
+            <up_sal> 0.002 </up_sal>
+            <slope> 0.002 </slope>
+            <k_f> 0.0001 </k_f>
+            <flooding_duration> 12,12,12,12 </flooding_duration>
+            <f_radius> 1 </f_radius>
         </belowground_competition>
         <tree_growth_and_death>
             <type> NetworkBettina </type>
-		<f_growth> 1 </f_growth>
-		<variant> V1_fixed </variant>
+            <f_growth> 1 </f_growth>
+            <variant> V1_fixed </variant>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>
@@ -39,8 +39,8 @@
             <species> Avicennia </species>
             <distribution>
                 <type> GroupFromFile </type>
-		<n_recruitment_per_step> 5 </n_recruitment_per_step>
-		<filename> test/smallTests/inputFiles/Population_t_0000043200.0.csv </filename>
+            <n_recruitment_per_step> 5 </n_recruitment_per_step>
+            <filename> test/smallTests/inputFiles/Population_t_0000043200.0.csv </filename>
             </distribution>
         </group>
         <group>
@@ -48,8 +48,8 @@
             <species> Avicennia </species>
             <distribution>
                 <type> GroupFromFile </type>
-		<n_recruitment_per_step> 5 </n_recruitment_per_step>
-		<filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
+                <filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
             </distribution>
         </group>
     </initial_population>
@@ -71,4 +71,3 @@
         <parameter_output> k_geom </parameter_output>
     </tree_output>
 </MangaProject>
-

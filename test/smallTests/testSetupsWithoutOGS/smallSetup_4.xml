@@ -6,10 +6,10 @@
         </aboveground_competition>
         <belowground_competition>
             <type> NetworkFixedSalinity </type>
-		<f_radius> 1 </f_radius>
-		<max_x> 0.3 </max_x>
-		<min_x> 0.1 </min_x>
-		<salinity> 0.02 0.02 </salinity>
+            <f_radius> 1 </f_radius>
+            <max_x> 0.3 </max_x>
+            <min_x> 0.1 </min_x>
+            <salinity> 0.02 0.02 </salinity>
         </belowground_competition>
         <tree_growth_and_death>
             <type> SimpleKiwi </type>
@@ -21,8 +21,8 @@
             <species> Avicennia </species>
             <distribution>
                 <type> GroupFromFile </type>
-		<n_recruitment_per_step> 5 </n_recruitment_per_step>
-		<filename> test/smallTests/inputFiles/Population_t_0000043200.0.csv </filename>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
+                <filename> test/smallTests/inputFiles/Population_t_0000043200.0.csv </filename>
             </distribution>
         </group>
         <group>
@@ -30,8 +30,8 @@
             <species> Avicennia </species>
             <distribution>
                 <type> GroupFromFile </type>
-		<n_recruitment_per_step> 5 </n_recruitment_per_step>
-		<filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
+                <filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
             </distribution>
         </group>
     </initial_population>
@@ -53,4 +53,3 @@
         <parameter_output> k_geom </parameter_output>
     </tree_output>
 </MangaProject>
-

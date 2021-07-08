@@ -39,7 +39,7 @@
                     <y_2> 20 </y_2>
                 </domain>
                 <n_individuals> 5 </n_individuals>
-		<n_recruitment_per_step> 5 </n_recruitment_per_step>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
             </distribution>
         </group>
     </initial_population>
@@ -61,4 +61,3 @@
         <parameter_output> k_geom </parameter_output>
     </tree_output>
 </MangaProject>
-

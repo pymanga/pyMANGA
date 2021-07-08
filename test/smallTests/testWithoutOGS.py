@@ -7,8 +7,6 @@ import sys
 from os import path
 import os
 
-os.chdir('/home/jonas/Dokumente/WHK/Marzipan/Quellcode/pyMANGA')
-
 sys.path.append(
     path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
 
@@ -134,16 +132,16 @@ if xml:
         print("The setup", xmlfile, "was tested.")
         print("________________________________________________")
 
+    print("""
+    The testing of all example setups is finished.
     print("")
-    print("The testing of all example setups is finished.")
-    print("")
-    print("________________________________________________")
-    print("________________________________________________")
-    print("")
-    print("Report")
-    print("________________________________________________")
-    print("________________________________________________")
-    print("")
+    ________________________________________________
+    ________________________________________________
+    
+    Report
+    ________________________________________________
+    ________________________________________________
+    """)
     if not len(example_setups) == 1:
         print("The following sample setups have been tested:")
     else:
@@ -194,69 +192,45 @@ if xml:
             print(errors_empty_comparison[x])
             print("")
     elif errors_empty_comparison:
-        if len(errors_empty_comparison) == 1:
-            print("There are no files with which the result of the setup",
-                  errors_empty_comparison, "could be compared.")
-        else:
-            print("There are missing files for the comparison of the result "
-                  "of the following example-setups:")
+        print("There is/are missing file(s) for the comparison of the result "
+              "of the following example-setup(s):")
+        print("")
+        n = range(len(errors_empty_comparison))
+        for x in n:
             print("")
-            n = range(len(errors_empty_comparison))
-            for x in n:
-                print("")
-                print(errors_empty_comparison[x])
-                print("")
+            print(errors_empty_comparison[x])
+            print("")
     else:
         if errors_compare:
-            if len(errors_compare) == 1:
-                print("An error occurred when comparing the result of the "
-                      "following example setup with the comparison files:")
-                print("")
-            else:
-                print("An error occurred when comparing the result of the "
-                      "following example setups with the comparison files:")
-                print("")
+            print("An error occurred when comparing the result(s) of the "
+                  "following example setup(s) with the comparison file(s):")
+            print("")
             for x in range(len(errors_compare)):
                 print("")
                 print(errors_compare[x])
                 print("")
             if errors_empty_results:
-                if len(errors_empty_results) == 1:
-                    print("Please also note that the following sample setup "
-                          "does not save model results and therefore could "
-                          "not be checked:")
-                else:
-                    print("Please also note that the following sample setups "
-                          "do not save model results and therefore could not "
-                          "be checked:")
-                    print("")
+                print("Please also note that the following sample setup(s) "
+                      "do not save model results and therefore could not "
+                      "be checked:")
+                print("")
                 n = len(errors_empty_results)
                 for x in n:
                     print(errors_empty_results[x])
                     print("")
         else:
             if errors_empty_results:
-                if len(errors_empty_results) == 1:
-                    print("The comparison of the result of the example setup "
-                          "with the comparison files was successful. Please "
-                          "note, however, that the following sample setup do "
-                          "not save model results and therefore could not be "
-                          "checked:")
-                else:
-                    print("The comparison of the result of the example setups "
-                          "with the comparison files was successful. Please "
-                          "note, however, that the following sample setups do "
-                          "not save model results and therefore could not be "
-                          "checked:")
-                    print("")
+                print("""The comparison of the result of the example setups
+                      with the comparison files was successful. Please
+                      note, however, that the following sample setups do
+                      not save model results and therefore could not be
+                      "checked:""")
+                print("")
                 n = len(errors_empty_results)
                 for x in n:
                     print("")
                     print(errors_compare[x])
                     print("")
-                else:
-                    print("The comparison of the result of the example setups "
-                          "with the comparison files was successful.")
             else:
                 print("The comparison of the result of the example setups "
                       "with the comparison files was successful.")
@@ -264,27 +238,3 @@ if xml:
     print("________________________________________________")
 else:
     print("Unfortunately no project-file could be found.")
-
-
-# bu:
-                            # compare_list.append(
-                            #     [pd.read_csv(files_result[y], delimiter='\t').drop('tree', axis=1)])
-                            # compare_list[y].append(
-                            #     pd.read_csv(files_comparison[y], delimiter='\t').drop('tree', axis=1))
-                            
-                            #test_list.append(compare_list[y][0]-compare_list[y][0])
-#                        test = test_list[0].isnull().values.any()
-
-                            # test_list.append(
-                            #     pd.read_csv(files_result[y], delimiter='\t').drop('tree', axis=1) -
-                            #     pd.read_csv(files_comparison[y], delimiter='\t').drop('tree', axis=1))
-                            # test = test_list[0].values.any() == 0
-                            
-                                                # for file_comparison, file_result in zip(
-                    #         (files_comparison), (files_result)):
-                    #     try:
-                    #         assert (Path(file_comparison).read_bytes() ==
-                    #                 Path(file_result).read_bytes()), \
-                    #             f"{file_comparison!r} != {file_result!r}"
-                    #     except:
-                    #         self.fail(errors_compare.append(xmlfile))

@@ -25,12 +25,13 @@ manga_root_directory = path.dirname(
 filepath_examplesetups = path.join(path.dirname(path.abspath(__file__)),
                                    "testSetupsWithoutOGS/*.xml")
 xml = glob.glob(filepath_examplesetups)
+xml.sort()
 example_setups = []
 errors = []
 errors_compare = []
 errors_empty_comparison = []
 errors_empty_results = []
-
+testlist = []
 global output_exist
 output_exist = str
 global seperator
@@ -48,9 +49,6 @@ if xml:
         def findChild(parent, key):
             child = parent.find(key)
             return child
-
-        global output_dir
-        global output_type
 
         tree = etree.parse(xmlfile)
         root = tree.getroot()
@@ -104,23 +102,24 @@ if xml:
 #               If a reference file is available, it will be compared with the
 #               calculated results
                 else:
-                    global compare_list
-                    global files_result
                     files_result = glob.glob(path.join(output_dir, "*"))
                     if files_result:
-                        global test
                         for y in range(len(files_result)):
-                            test = (pd.read_csv(files_result[y], delimiter='\t').drop('tree', axis=1) -
-                                pd.read_csv(files_comparison[y], delimiter='\t').drop('tree', axis=1)).values.any() == 0
+                            test = (pd.read_csv(files_result[y],
+                                                delimiter='\t').drop(
+                                                    'tree', axis=1) -
+                                pd.read_csv(files_comparison[y],
+                                            delimiter='\t').drop(
+                                                'tree',
+                                                axis=1)).values.any() == 0
                             try:
-                                assert test is True
+                                assert test == True
                             except:
                                 self.fail(errors_compare.append(xmlfile))
         if __name__ == "__main__":
             unittest.main(exit=False)
 
         # remove created output
-        print(errors_empty_comparison)
         if not output_type == "NONE":
             if not output_exist:
                 shutil.rmtree((output_dir[:-1]), ignore_errors=True)
@@ -133,12 +132,13 @@ if xml:
         print("________________________________________________")
 
     print("""
-    The testing of all example setups is finished.
+    The testing of all setups is finished.
     print("")
     ________________________________________________
     ________________________________________________
-    
-    Report
+    ########
+    #Report#
+    ########
     ________________________________________________
     ________________________________________________
     """)
@@ -158,18 +158,15 @@ if xml:
     print("")
 
     if errors:
-        if len(errors) == 1:
-            print(
-                "An error occured while testing the following example setup:")
-        else:
-            print("Errors occured while testing the following example setups:")
+        print(
+            "An error occured while testing the following setup(s):")
         n = range(len(errors))
         for x in n:
             print("")
             print(errors[x])
         print("")
     else:
-        print("The first test of all example setups were successful.")
+        print("The first test of all setups were successful.")
 
     print("________________________________________________")
     print("________________________________________________")
@@ -179,31 +176,33 @@ if xml:
 
     if errors_empty_comparison and errors_compare:
         print('An error occured when comparing the result of the following '
-              'example setup:')
+              'setup:')
         for x in range(len(errors_compare)):
             print("")
             print(errors_compare[x])
             print("")
         print('It should be noted further:')
         print('There are missing files for the comparison of the result '
-              'of the following example-setups:')
+              'of the following setups:')
         for x in range(len(errors_empty_comparison)):
             print("")
             print(errors_empty_comparison[x])
             print("")
     elif errors_empty_comparison:
         print("There is/are missing file(s) for the comparison of the result "
-              "of the following example-setup(s):")
+              "of the following setup(s):")
         print("")
         n = range(len(errors_empty_comparison))
         for x in n:
             print("")
             print(errors_empty_comparison[x])
             print("")
+        print("The comparison of the result of the other setups "
+              "with the comparison files was successful.")
     else:
         if errors_compare:
             print("An error occurred when comparing the result(s) of the "
-                  "following example setup(s) with the comparison file(s):")
+                  "following setup(s) with the comparison file(s):")
             print("")
             for x in range(len(errors_compare)):
                 print("")
@@ -220,7 +219,7 @@ if xml:
                     print("")
         else:
             if errors_empty_results:
-                print("""The comparison of the result of the example setups
+                print("""The comparison of the result of the setups
                       with the comparison files was successful. Please
                       note, however, that the following sample setups do
                       not save model results and therefore could not be
@@ -232,7 +231,7 @@ if xml:
                     print(errors_compare[x])
                     print("")
             else:
-                print("The comparison of the result of the example setups "
+                print("The comparison of the result of the setups "
                       "with the comparison files was successful.")
     print("________________________________________________")
     print("________________________________________________")

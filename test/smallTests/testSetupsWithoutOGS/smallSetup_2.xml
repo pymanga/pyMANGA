@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <MangaProject>
+    <random_seed> 10 </random_seed>
     <tree_dynamics>
         <aboveground_competition>
             <type> SimpleAsymmetricZOI </type>
@@ -32,7 +33,7 @@
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 5 </n_recruitment_per_step>
                 <filename> test/smallTests/inputFiles/Population_t_0000043200.0.csv </filename>
-                </distribution>
+            </distribution>
         </group>
         <group>
             <name> Initial </name>

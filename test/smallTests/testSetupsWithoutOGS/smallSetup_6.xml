@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <MangaProject>
+    <random_seed> 10 </random_seed>
     <tree_dynamics>
         <aboveground_competition>
             <type> SimpleTest </type>

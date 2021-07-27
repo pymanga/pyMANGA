@@ -5,29 +5,10 @@
             <type> SimpleTest </type>
         </aboveground_competition>
         <belowground_competition>
-            <type> SimpleHydro </type>
-            <domain>
-                <x_1> 0 </x_1>
-                <y_1> 0 </y_1>
-                <x_2> 6 </x_2>
-                <y_2> 100 </y_2>
-	        <x_resolution> 3 </x_resolution>
-	        <y_resolution> 50 </y_resolution>
-            </domain>
-            <depth> 1 </depth>
-            <porosity> 0.5 </porosity>
-            <dilution_frac_upper> 0.0 </dilution_frac_upper>
-            <dilution_frac_lower> 0.2 </dilution_frac_lower>
-            <diffusion_frac> 0.05 </diffusion_frac>
-            <sea_salinity> 0.035 </sea_salinity>
-            <ini_sal> 0.045 </ini_sal>
-            <up_sal> 0.010 </up_sal>
-            <slope> 0.005 </slope>
-            <k_f> 0.00025 </k_f>
-            <flooding_duration> 7.0, 4.1, 2.0, 1.2, 0.8, 0.6, 0.4, 0.2, 0.0  </flooding_duration>
+            <type> SimpleTest </type>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> SimpleBettina </type>
+            <type> SimpleTest </type>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>
@@ -39,11 +20,11 @@
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 6 </x_2>
+                    <x_2> 20 </x_2>
                     <y_2> 20 </y_2>
                 </domain>
                 <n_individuals> 0 </n_individuals>
-                <n_recruitment_per_step> 0 </n_recruitment_per_step>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
             </distribution>
         </group>
         <group>
@@ -54,24 +35,29 @@
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 6 </x_2>
-                    <y_2> 100 </y_2>
+                    <x_2> 20 </x_2>
+                    <y_2> 20 </y_2>
                 </domain>
-                <n_individuals> 1000 </n_individuals>
+                <n_individuals> 5 </n_individuals>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
             </distribution>
         </group>
     </initial_population>
     <tree_time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 3153600000 </t_end>
-        <delta_t> 432000 </delta_t>
+        <t_end> 86400 </t_end> 
+        <delta_t> 43200 </delta_t> <!--Time step length and time span arbitrarily chosen, target: short model runtime-->
     </tree_time_loop>
     <visualization>
-        <type> NONE </type>
+        <type> SimplePyplot </type>
     </visualization>
     <tree_output>
-        <type> NONE </type>
+        <type> OneTreeOneFile </type>
+        <output_each_nth_timestep> 1 </output_each_nth_timestep>
+        <output_dir> test/testoutputs/ </output_dir>
+        <geometry_output> r_stem </geometry_output>
+        <geometry_output> h_stem </geometry_output>
+        <parameter_output> k_geom </parameter_output>
     </tree_output>
 </MangaProject>
-

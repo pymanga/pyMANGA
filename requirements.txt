@@ -3,3 +3,11 @@ numpy
 lxml
 matplotlib
 vtk == 8.1.2
+sys
+os
+unittest
+glob
+lxml
+shutil
+pathlib
+pandas

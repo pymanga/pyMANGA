@@ -13,8 +13,8 @@ import os
 #  A line containing time, position, desired geometric measures and desired
 #  parameters is written at every nth timestep.
 class OneTreeOneFile(OneTimestepOneFile):
-    
-## Constructor of dummy objects in order to drop output
+
+    ## Constructor of dummy objects in order to drop output
     #  @param args xml element parsed from project to this constructor.
     def __init__(self, args):
         OneTimestepOneFile.__init__(self, args)
@@ -22,7 +22,7 @@ class OneTreeOneFile(OneTimestepOneFile):
             full_path = os.path.join(self.output_dir, path)
             if os.path.isfile(full_path):
                 os.remove(full_path)
-                
+
     ## Writes output to predefined folder
     #  For each tree a file is created and updated throughout the simulation.
     #  This function is only able to work, if the output directory exists and
@@ -77,13 +77,12 @@ class OneTreeOneFile(OneTimestepOneFile):
                     string += "\n"
                     for growth_output in self.growth_outputs:
                         try:
-                            del(growth_information[growth_output])
+                            del (growth_information[growth_output])
                         except KeyError:
                             raise KeyError(
                                 "Key " + growth_output_key +
                                 " not available in growth concept!" +
-                                " Please read growth concept documentation."
-                            )
+                                " Please read growth concept documentation.")
                     file.write(string)
                     file.close()
         self._output_counter += 1

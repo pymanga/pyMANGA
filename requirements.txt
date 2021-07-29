@@ -1,0 +1,6 @@
+pytest
+numpy
+lxml
+matplotlib
+vtk == 8.1.2
+pandas

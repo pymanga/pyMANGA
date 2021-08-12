@@ -29,6 +29,8 @@ class BelowgroundCompetition(TreeModel):
             self.iniNetworkHydro(args)
         elif case == "NetworkFixedSalinity":
             self.iniNetworkFixedSalinity(args)
+        elif case == "OGSLargeScale3DExternal":
+            self.iniOGSLargeScale3DExternal(args)
         else:
             raise KeyError("Required belowground competition case " + case +
                            " not implemented.")
@@ -69,6 +71,10 @@ class BelowgroundCompetition(TreeModel):
     def iniNetworkFixedSalinity(self, args):
         from .NetworkFixedSalinity import NetworkFixedSalinity
         self.concept = NetworkFixedSalinity(args)
+
+    def iniOGSLargeScale3DExternal(self, args):
+        from .OGSLargeScale3DExternal import OGSLargeScale3DExternal
+        self.concept = OGSLargeScale3DExternal(args)
 
     def getBelowgroundResources(self):
         return self.belowground_resources

@@ -69,7 +69,6 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         # Calculate salinity below tree
         self.calculateTreeSalinity()
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
-        print(np.mean(self._psi_osmo))
         self.belowground_resources = -(self._psi_leaf - self._psi_height -
                                   self._psi_osmo) / self._R_total / np.pi * \
                                       1000 # kg/s
@@ -84,9 +83,6 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         # information about cell salinity from OGS
         self.cumsum_salinity = args["cumsum_salinity"]
         self.calls_per_cell = args["calls_per_cell"]
-        print('IN setExternalInformation: ' +
-              str(np.max(self.cumsum_salinity/self.calls_per_cell)*1000))
-
 
     ## Getter for external information
     def getExternalInformation(self):

@@ -79,7 +79,7 @@ class OneTimestepOneFile(TreeOutput):
             string = ""
             string += 'tree' + delimiter + 'time' + delimiter + 'x' + \
                       delimiter + 'y'
-            string = self.getSelectedHeadings(string, delimiter)
+            string = self.addSelectedHeadings(string, delimiter)
 
             string += "\n"
             file.write(string)
@@ -117,7 +117,7 @@ class OneTimestepOneFile(TreeOutput):
     def getOutputDir(self):
         return self.output_dir
 
-    def getSelectedHeadings(self, string, delimiter):
+    def addSelectedHeadings(self, string, delimiter):
         for geometry_output in self.geometry_outputs:
             string += delimiter + geometry_output
         for parameter_output in self.parameter_outputs:

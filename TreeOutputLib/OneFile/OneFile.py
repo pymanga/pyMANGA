@@ -30,7 +30,7 @@ class OneFile(OneTimestepOneFile):
                 string = ""
                 string += 'tree' + delimiter + 'time' + delimiter + 'x' + \
                           delimiter + 'y'
-                string = self.getSelectedHeadings(string, delimiter)
+                string = self.addSelectedHeadings(string, delimiter)
 
                 string += "\n"
                 file.write(string)

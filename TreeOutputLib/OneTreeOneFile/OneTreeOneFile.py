@@ -42,7 +42,7 @@ class OneTreeOneFile(OneTimestepOneFile):
                     if filename not in files_in_folder:
                         string = ""
                         string += 'time' + delimiter + 'x' + delimiter + 'y'
-                        string = OneTimestepOneFile.getSelectedHeadings(
+                        string = OneTimestepOneFile.addSelectedHeadings(
                             self, string, delimiter)
                         string += "\n"
                         file.write(string)

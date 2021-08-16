@@ -33,6 +33,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
 
         self._tree_cell_ids = []
         self._tree_salinity = []
+        self.tree_water_uptake = []
         self.belowground_resources = []
 
         # arrays with length no. of cells
@@ -69,9 +70,14 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         # Calculate salinity below tree
         self.calculateTreeSalinity()
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
-        self.belowground_resources = -(self._psi_leaf - self._psi_height -
+        self.tree_water_uptake = -(self._psi_leaf - self._psi_height -
                                   self._psi_osmo) / self._R_total / np.pi * \
                                       1000 # kg/s
+        tree_water_uptake_noSal = -(self._psi_leaf - self._psi_height - 0) / \
+                                  self._R_total / np.pi * \
+                                      1000 # kg/s
+        self.belowground_resources = self.tree_water_uptake / \
+                                     tree_water_uptake_noSal
 
         # Calculate contribution per cell
         self.calculateTreeContribution()
@@ -90,7 +96,6 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
 
     def calculateTreeSalinity(self):
         salinity = self.cumsum_salinity / self.calls_per_cell
-
         for tree_id in range(self.no_trees):
             ids = self._tree_cell_ids[tree_id]
             mean_salinity_for_tree = np.mean(salinity[ids])
@@ -105,5 +110,5 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
                 v_i = self._volumes.GetTuple(cell_id)[0]
                 v += v_i
             per_volume = 1. / v
-            tree_contribution = self.belowground_resources[tree_id]
+            tree_contribution = self.tree_water_uptake[tree_id]
             self.tree_contributions[ids] = tree_contribution * per_volume

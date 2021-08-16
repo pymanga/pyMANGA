@@ -42,47 +42,16 @@ class OneTreeOneFile(OneTimestepOneFile):
                     if filename not in files_in_folder:
                         string = ""
                         string += 'time' + delimiter + 'x' + delimiter + 'y'
-                        for geometry_output in self.geometry_outputs:
-                            string += delimiter + geometry_output
-                        for parameter_output in self.parameter_outputs:
-                            string += delimiter + parameter_output
-                        for growth_output in self.growth_outputs:
-                            string += delimiter + growth_output
-                            growth_information[growth_output] = "NaN"
-                        for network_output in self.network_outputs:
-                            string += delimiter + network_output
+                        string = OneTimestepOneFile.getSelectedHeadings(
+                            self, string, delimiter)
                         string += "\n"
                         file.write(string)
                     string = ""
                     string += (str(time) + delimiter + str(tree.x) +
                                delimiter + str(tree.y))
-                    if (len(self.geometry_outputs) > 0):
-                        geometry = tree.getGeometry()
-                        for geometry_output in self.geometry_outputs:
-                            string += delimiter + str(
-                                geometry[geometry_output])
-                    if (len(self.parameter_outputs) > 0):
-                        parameter = tree.getParameter()
-                        for parameter_output in self.parameter_outputs:
-                            string += delimiter + str(
-                                parameter[parameter_output])
-                    if (len(growth_information) > 0):
-                        for growth_output_key in self.growth_outputs:
-                            string += delimiter + str(
-                                growth_information[growth_output_key])
-                    if len(self.network_outputs) > 0:
-                        network = tree.getNetwork()
-                        for network_output in self.network_outputs:
-                            string += delimiter + str(network[network_output])
+                    string = OneTimestepOneFile.addSelectedOutputs(self,
+                        tree, string, delimiter, growth_information)
                     string += "\n"
-                    for growth_output in self.growth_outputs:
-                        try:
-                            del (growth_information[growth_output])
-                        except KeyError:
-                            raise KeyError(
-                                "Key " + growth_output_key +
-                                " not available in growth concept!" +
-                                " Please read growth concept documentation.")
                     file.write(string)
                     file.close()
         self._output_counter += 1

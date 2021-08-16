@@ -32,7 +32,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         self._hstem = []
 
         self._tree_cell_ids = []
-        self._tree_salinity = []
+        self._tree_salinity = np.empty(0)
         self.tree_water_uptake = []
         self.belowground_resources = []
 
@@ -58,27 +58,31 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         R = root_surface_resistance + xylem_resistance
         self._R_total.append(R)
         self._psi_leaf = np.concatenate((self._psi_leaf,
-                        [(parameter["leaf_water_potential"])]))
+                                         [(
+                                          parameter["leaf_water_potential"])]))
         self._psi_height = np.concatenate((self._psi_height,
-                        [-(2 * geometry["r_crown"] + geometry["h_stem"]) *
-                         9810]))
+                                           [-(2 * geometry["r_crown"] +
+                                              geometry["h_stem"]) *
+                                            9810]))
 
         self.no_trees = len(self._R_total)
         self._tree_salinity = np.empty(self.no_trees)
 
     def calculateBelowgroundResources(self):
+        if self.no_trees <= 0:
+            print("WARNING: All trees are dead.")
         # Calculate salinity below tree
         self.calculateTreeSalinity()
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
+
         self.tree_water_uptake = -(self._psi_leaf - self._psi_height -
-                                  self._psi_osmo) / self._R_total / np.pi * \
-                                      1000 # kg/s
+                                   self._psi_osmo) / self._R_total / np.pi * \
+                                 1000  # kg/s
         tree_water_uptake_noSal = -(self._psi_leaf - self._psi_height - 0) / \
                                   self._R_total / np.pi * \
-                                      1000 # kg/s
+                                  1000  # kg/s
         self.belowground_resources = self.tree_water_uptake / \
                                      tree_water_uptake_noSal
-
         # Calculate contribution per cell
         self.calculateTreeContribution()
 

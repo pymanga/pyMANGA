@@ -19,6 +19,7 @@ ogs_project_folder = os.path.join(manga_dir,
 ogs_project_file = os.path.join(ogs_project_folder, "testmodel.prj")
 
 # Run OGS
+# info: generate OGS output with 'all' instead of 'error'
 print("Running ogs...")
 if not (os.system(ogs_exe + " " + ogs_project_file + " -o " +
                   ogs_project_folder + " -l error")

@@ -76,13 +76,11 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
 
         self.tree_water_uptake = -(self._psi_leaf - self._psi_height -
-                                   self._psi_osmo) / self._R_total / np.pi * \
-                                 1000  # kg/s
-        tree_water_uptake_noSal = -(self._psi_leaf - self._psi_height - 0) / \
-                                  self._R_total / np.pi * \
-                                  1000  # kg/s
-        self.belowground_resources = self.tree_water_uptake / \
-                                     tree_water_uptake_noSal
+                                   self._psi_osmo) / \
+                                 self._R_total / np.pi * 1000  # kg/s
+        self.belowground_resources = 1 - (self._psi_osmo /
+                                          (self._psi_leaf - self._psi_height))
+
         # Calculate contribution per cell
         self.calculateTreeContribution()
 

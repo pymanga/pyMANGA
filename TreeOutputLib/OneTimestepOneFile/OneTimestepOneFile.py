@@ -63,6 +63,8 @@ class OneTimestepOneFile(TreeOutput):
             " and geometric" + " measures ", self.geometry_outputs,
             " at every " + str(self.output_each_nth_timestep) +
             " timesteps initialized.")
+        print("Outputs are written to: " +
+              str(os.path.join(os.getcwd(), self.output_dir)))
 
     ## Writes output to predefined folder
     #  For each timestep a file is created throughout the simulation.

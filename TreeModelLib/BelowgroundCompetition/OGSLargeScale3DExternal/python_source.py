@@ -4,7 +4,6 @@
 @date: 2021-Today
 @author: marie-christin.wimmler@tu-dresden.de
 """
-
 import OpenGeoSys
 import sys
 import numpy as np
@@ -14,16 +13,23 @@ sys.path.append("/Users/admin/Documents/GRIN/git_repos/")
 import pyMANGA
 
 
+# approx. of MANGA time step size in days
+manga_timestep_days = 1  # 10
+
 # initialize MANGA model
-xml_file = "ExternalOGS.xml"    # AllSimple
-model = pyMANGA.Model("/Users/admin/Documents/GRIN/git_repos/pyMANGA/" +
-                      "test/SmallTests/Test_Setups_small/"
-                      + xml_file)
+xml_dir = "/Users/admin/Documents/GRIN/git_repos/pyMANGA/" \
+          "test/SmallTests/Test_Setups_small/"
+xml_file = "ExternalOGS.xml"  # AllSimple
+
+model = pyMANGA.Model(xml_dir + xml_file)
 model.createExternalTimeStepper()
 
-print('MODEL  ' + str(model))
 # OGS stuff
 seaward_salinity = 0.035
+# read source mesh
+source_mesh = '/Users/admin/Documents/GRIN/git_repos/pyMANGA' \
+              '/test/LargeTests/Test_Setups_large/external_setup' \
+              '/source_domain.vtu'
 
 
 class CellInformation:
@@ -51,51 +57,47 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
     def getFlux(self, t, coords, primary_vars):
         global tree_contributions
         global i
-        # OGS Kram berechnen - Aufruf pro Zeitschritt und Zelle
+        global t_before
+        # OGS stuff - call per time step and cell
         salinity = primary_vars[1]
         cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])
         calls[cell_id] += 1
         cumsum_salinity[cell_id] += salinity
 
-        # MANGA Kram berechnen - Aufruf pro Zeitschritt
+        # MANGA stuff - ones each time step
+        # calculation in last call of las cell
         no_cells = cell_information.getCellNo()
 
-        # letzter Aufruf der letzten Zelle
-#        if cell_id == 0 and calls[0] % 5 == 1: #np.max(calls):
-        if cell_id == no_cells-1 and calls[no_cells-1] == np.max(calls[0]):
-            i += 1
-            if i % 2 == 0:
-                print(">>>< t: " + str(t/3600/24) + " d, cell id: " + str(
-                    cell_id) +
-                      ", np.max(calls[0]): " + str(calls[no_cells-1]) +
-                      ", css/call:  " + str(np.mean(cumsum_salinity/calls)))
-                model.setBelowgroundInformation(cumsum_salinity=cumsum_salinity,
-                                                calls_per_cell=calls)
-
+        if cell_id == no_cells - 1 and calls[no_cells - 1] == np.max(calls[0]):
+            # update MANGA-BC only if time increased
+            # if t > t_before:
+            # update MANGA-BC only after a certain time
+            time_diff = t - t_before
+            if time_diff >= manga_timestep_days * 3600 * 24:
+                print(">> MANGA step: " + str(i) + ", t: " +
+                      str(np.round(t / 3600 / 24, 1)) +
+                      ", max. S: " + str(np.round(np.max(
+                      cumsum_salinity / calls) * 1000, 1)))
+                model.setBelowgroundInformation(
+                    cumsum_salinity=cumsum_salinity,
+                    calls_per_cell=calls)
                 model.propagateModel(t)
-                tree_contributions = []
                 tree_contributions = model.getBelowgroundInformation()
-                print("Mean tree contr " + str(np.mean(tree_contributions)))
+                t_before = t
+                i += 1
 
         positive_flux = tree_contributions[cell_id]
         Jac = [0.0, 0.0]
 
-        # if positive_flux != 0:
-        #     print(str(cell_id) +
-        #           ", call: " + str(calls[cell_id]) +
-        #           " - positive_flux " + str(positive_flux*3600*24))
         return -positive_flux, Jac
 
 
-# counter to reduce MANGA runs - not working correctly
+# counter to monitor number of MANGA executions
 i = 1
+# time of last time step
+t_before = 0
 
-# read source mesh
-source_mesh = '/Users/admin/Documents/GRIN/git_repos/pyMANGA' \
-              '/test/LargeTests/Test_Setups_large/external_setup' \
-              '/source_domain.vtu'
-
-# define global variables/ cell infromation
+# define global variables/ cell information
 cell_information = CellInformation(source_mesh)
 no_cells = cell_information.getCellNo()
 cumsum_salinity = np.zeros(no_cells) + seaward_salinity

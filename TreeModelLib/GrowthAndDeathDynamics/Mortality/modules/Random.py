@@ -10,11 +10,8 @@ import numpy as np
 
 class Random:
     def __init__(self, args, case):
-        #case = args.find("mortality").text
-        #print("Initiate mortality of type " + case + ".")
-
         self.survive = 1
-        self.threshold = 0.1
+        self.threshold = 0.05
         self.getThreshold(args)
 
         print("Initiate mortality of type " + case +

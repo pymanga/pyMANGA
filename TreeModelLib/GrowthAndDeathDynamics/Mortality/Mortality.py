@@ -12,9 +12,18 @@ class Mortality:
     def __init__(self, args):
         self.mortality_concept = []
         self.survive = 1
-        cases = args.find("mortality").text
-        cases = cases.split()
 
+        # Check if mortality concept is defined in project xml
+        # Otherwise use default concept
+        default_case = "NoGrowth"
+        try:
+            cases = args.find("mortality").text
+        except AttributeError:
+            cases = default_case
+            print("WARNING: Default Mortality concept '" + default_case +
+                  "' is used.")
+
+        cases = cases.split()
         for case in cases:
             if not case or case == "NoGrowth":
                 self.iniNoGrowth(args, case)

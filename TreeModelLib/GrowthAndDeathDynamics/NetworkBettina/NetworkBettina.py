@@ -7,6 +7,7 @@
 
 from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina
 import numpy as np
+from TreeModelLib.GrowthAndDeathDynamics import Mortality
 
 
 class NetworkBettina(SimpleBettina):
@@ -17,6 +18,9 @@ class NetworkBettina(SimpleBettina):
         case = args.find("type").text
         print("Growth and death dynamics of type " + case + ".")
         self.getInputParameters(args)
+
+        M = Mortality.Mortality(args)
+        self.mortality_concept = M.getMortConcept()
 
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         network = tree.getNetwork()
@@ -136,7 +140,8 @@ class NetworkBettina(SimpleBettina):
             self.rgf += 1
 
     def getInputParameters(self, args):
-        missing_tags = ["type", "variant", "f_growth"]
+        missing_tags = ["type", "variant", "f_growth",
+                        "mortality", "threshold", "period"]
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "variant":
@@ -153,7 +158,7 @@ class NetworkBettina(SimpleBettina):
             string = ""
             for tag in missing_tags:
                 string += tag + " "
-            raise KeyError(
+            print(
                 "Tag(s) " + string +
                 "are not given for growth and death initialisation in "
                 "project file.")

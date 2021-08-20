@@ -6,6 +6,7 @@
 """
 from TreeModelLib import TreeModel
 import numpy as np
+from TreeModelLib.GrowthAndDeathDynamics import Mortality
 
 
 class SimpleBettina(TreeModel):
@@ -17,6 +18,9 @@ class SimpleBettina(TreeModel):
     def __init__(self, args):
         case = args.find("type").text
         print("Growth and death dynamics of type " + case + ".")
+
+        M = Mortality.Mortality(args)
+        self.mortality_concept = M.getMortConcept()
 
     ## This functions prepares the growth and death concept.
     #  In the SimpleBettina concept, trees are saved in a simple list
@@ -45,6 +49,17 @@ class SimpleBettina(TreeModel):
         self.r_stem = geometry["r_stem"]
         self.h_stem = geometry["h_stem"]
         self.survive = 1
+
+        # Define variables that are only required for 'Memory' Mortality
+        if self.mortality_concept.getConceptName() == "Memory":
+            try:
+                self.grow = growth_concept_information["growth"]
+                self.grow_memory = growth_concept_information["grow_memory"]
+            except KeyError:
+                self.grow = 0
+                self.grow_memory = []
+            self.grow_before = self.grow
+
         self.flowLength()
         self.treeVolume()
         self.treeMaintenance()
@@ -80,9 +95,15 @@ class SimpleBettina(TreeModel):
         growth_concept_information["weight_rootgrowth"] = \
             self.weight_rootgrowth
 
+        if self.mortality_concept.getConceptName() == "Memory":
+            growth_inc = self.grow - self.grow_before
+            self.grow_memory.append(growth_inc)
+            growth_concept_information["grow_memory"] = \
+                self.grow_memory
+
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)
-        if (self.survive == 1):
+        if self.survive == 1:
             tree.setSurvival(1)
         else:
             tree.setSurvival(0)
@@ -187,6 +208,5 @@ class SimpleBettina(TreeModel):
         self.available_resources = min(self.ag_resources, self.bg_resources)
         self.grow = (self.parameter["growth_factor"] *
                      (self.available_resources - self.maint))
-        if (self.grow < 0):
-            self.grow = 0
-            self.survive = 0
+        self.survive = self.mortality_concept.getSurvival(self)
+

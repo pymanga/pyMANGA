@@ -9,9 +9,7 @@ import numpy as np
 
 
 class Memory:
-    def __init__(self, args):
-        case = args.find("mortality").text
-
+    def __init__(self, args, case):
         self.survive = 1
         self.threshold = 0.5
         self.period = 5
@@ -22,6 +20,7 @@ class Memory:
               str(self.threshold) + ".")
 
     def getSurvival(self, args):
+        self.survive = 1
         # get the number of values representing the memory period
         period_in_sec = self.period * 3600 * 24 * 365
         steps = period_in_sec / args.time

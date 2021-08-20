@@ -21,6 +21,9 @@ class NetworkBettina(SimpleBettina):
 
         M = Mortality.Mortality(args)
         self.mortality_concept = M.getMortConcept()
+        self.mortality_concept_names = []
+        for concept in self.mortality_concept:
+            self.mortality_concept_names.append(concept.getConceptName())
 
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         network = tree.getNetwork()

@@ -21,6 +21,9 @@ class SimpleBettina(TreeModel):
 
         M = Mortality.Mortality(args)
         self.mortality_concept = M.getMortConcept()
+        self.mortality_concept_names = []
+        for concept in self.mortality_concept:
+            self.mortality_concept_names.append(concept.getConceptName())
 
     ## This functions prepares the growth and death concept.
     #  In the SimpleBettina concept, trees are saved in a simple list
@@ -51,7 +54,8 @@ class SimpleBettina(TreeModel):
         self.survive = 1
 
         # Define variables that are only required for 'Memory' Mortality
-        if self.mortality_concept.getConceptName() == "Memory":
+        #if self.mortality_concept.getConceptName() == "Memory":
+        if "Memory" in self.mortality_concept_names:
             try:
                 self.grow = growth_concept_information["growth"]
                 self.grow_memory = growth_concept_information["grow_memory"]
@@ -95,7 +99,7 @@ class SimpleBettina(TreeModel):
         growth_concept_information["weight_rootgrowth"] = \
             self.weight_rootgrowth
 
-        if self.mortality_concept.getConceptName() == "Memory":
+        if "Memory" in self.mortality_concept_names:
             growth_inc = self.grow - self.grow_before
             self.grow_memory.append(growth_inc)
             growth_concept_information["grow_memory"] = \
@@ -208,5 +212,12 @@ class SimpleBettina(TreeModel):
         self.available_resources = min(self.ag_resources, self.bg_resources)
         self.grow = (self.parameter["growth_factor"] *
                      (self.available_resources - self.maint))
-        self.survive = self.mortality_concept.getSurvival(self)
 
+        # Iterate through mortality concepts
+        # if tree dies in one of them he's dead
+        survive = []
+        for mortality_concept in self.mortality_concept:
+            survive.append(mortality_concept.getSurvival(self))
+
+        if 0 in survive:
+            self.survive = 0

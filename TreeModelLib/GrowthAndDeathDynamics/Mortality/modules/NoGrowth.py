@@ -9,25 +9,17 @@
 
 
 class NoGrowth:
-    def __init__(self, args):
-        # case = args.find("mortality").text
-        # print("Mortality concept of type " + case + ".")
-
+    def __init__(self, args, case):
         self.survive = 1
 
+        print("Initiate mortality of type " + case + " .")
+
     def getSurvival(self, args):
+        self.survive = 1
         if args.grow <= 0:
             self.survive = 0
-            print("\t\t Tree died.")
-
+            print("\t\t Tree died because growth was <= 0.")
         return self.survive
 
-    # # functions to pass the method check
-    # def progressTree(self):
-    #     pass
-    #
-    # def addTree(self):
-    #     pass
-    #
-    # def prepareNextTimestep(self):
-    #     pass
+    def getConceptName(self):
+        return "NoGrowth"

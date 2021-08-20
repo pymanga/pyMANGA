@@ -9,9 +9,9 @@ import numpy as np
 
 
 class Random:
-    def __init__(self, args):
-        case = args.find("mortality").text
-        print("Initiate mortality of type " + case + ".")
+    def __init__(self, args, case):
+        #case = args.find("mortality").text
+        #print("Initiate mortality of type " + case + ".")
 
         self.survive = 1
         self.threshold = 0.1
@@ -22,10 +22,11 @@ class Random:
               str(self.threshold*100) + " %.")
 
     def getSurvival(self, args):
+        self.survive = 1
         r = np.random.random(1)
         if r < self.threshold:
             self.survive = 0
-            print("\t\t Tree died randomly.")
+            print("\t Tree died randomly. Random number: " + str(r[0]))
 
         return self.survive
 

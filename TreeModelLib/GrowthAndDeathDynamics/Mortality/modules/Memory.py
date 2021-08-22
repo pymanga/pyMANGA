@@ -50,7 +50,7 @@ class Memory:
         return "Memory"
 
     def getMemoryPeriod(self, args):
-        missing_tags = ["mortality", "threshold", "period",
+        missing_tags = ["mortality", "threshold", "period", "probability",
                         "type", "variant", "f_growth"]
         for arg in args.iterdescendants():
             tag = arg.tag

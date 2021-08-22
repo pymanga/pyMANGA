@@ -11,17 +11,17 @@ import numpy as np
 class Random:
     def __init__(self, args, case):
         self.survive = 1
-        self.threshold = 0.05
-        self.getThreshold(args)
+        self.probability = 0.01
+        self.getProbability(args)
 
         print("Initiate mortality of type " + case +
               " with a random mortality of " +
-              str(self.threshold*100) + " %.")
+              str(self.probability*100) + " %.")
 
     def getSurvival(self, args):
         self.survive = 1
         r = np.random.random(1)
-        if r < self.threshold:
+        if r < self.probability:
             self.survive = 0
             print("\t Tree died randomly. Random number: " + str(r[0]))
 
@@ -30,13 +30,13 @@ class Random:
     def getConceptName(self):
         return "Random"
 
-    def getThreshold(self, args):
-        missing_tags = ["mortality", "threshold",
+    def getProbability(self, args):
+        missing_tags = ["mortality", "probability", "threshold", "period",
                         "type", "variant", "f_growth"]
         for arg in args.iterdescendants():
             tag = arg.tag
-            if tag == "threshold":
-                self.threshold = float(args.find("threshold").text)
+            if tag == "probability":
+                self.probability = float(args.find("probability").text)
             try:
                 missing_tags.remove(tag)
             except ValueError:

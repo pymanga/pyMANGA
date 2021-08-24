@@ -9,6 +9,10 @@ import numpy as np
 
 
 class Mortality:
+    ## This class initializes the mortality concept defined in the xml input
+    # file.
+    # See growth-and-death-concept SimpleBettina for integration in
+    # existing concepts.
     def __init__(self, args):
         self.mortality_concept = []
         self.survive = 1
@@ -31,6 +35,8 @@ class Mortality:
                 self.iniRandom(args, case)
             elif case == "Memory":
                 self.iniMemory(args, case)
+            elif case == "MinGirthGrowth":
+                self.iniMinGirthGrowth(args, case)
             else:
                 raise KeyError("Required mortality not implemented.")
             print("Mortality concept of type " + case + " successfully "
@@ -47,6 +53,11 @@ class Mortality:
     def iniMemory(self, args, case):
         from .modules import Memory
         self.mortality_concept.append(Memory.Memory(args, case))
+
+    def iniMinGirthGrowth(self, args, case):
+        from .modules import MinGirthGrowth
+        self.mortality_concept.append(MinGirthGrowth.MinGirthGrowth(args,
+                                                                    case))
 
     def getMortConcept(self):
         return self.mortality_concept

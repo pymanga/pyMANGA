@@ -22,10 +22,10 @@ class Random:
         self.survive = 1
         r = np.random.random(1)
         # Number of time steps per year
-        ts_per_year = int(args.time / (3600 * 24 * 365))
+        steps_per_year = (3600 * 24 * 365) / args.time
         ## Multiply r with the number of time steps per year to induce a
         # yearly mortality
-        if r * ts_per_year < self.probability:
+        if r * steps_per_year < self.probability:
             self.survive = 0
             print("\t Tree died randomly. Random number: " + str(r[0]))
 

@@ -25,7 +25,7 @@ class MinGirthGrowth:
 
         # get the number of values representing the memory period
         period_in_sec = self.period * 3600 * 24 * 365
-        steps = period_in_sec / args.time
+        steps = int(period_in_sec / args.time)
 
         # slice grow_memory array to get only relevant data
         r_stem_inc = args.r_stem_memory[-int(steps):]
@@ -35,7 +35,7 @@ class MinGirthGrowth:
         if len(r_stem_inc) >= steps:
             # calculate current growth increment
             avg_girth_growth = np.mean(r_stem_inc)
-            steps_per_year = args.time / (3600 * 24 * 365)
+            steps_per_year = (3600 * 24 * 365) / args.time
             avg_girth_growth_y = avg_girth_growth * steps_per_year
 
             # transform yearly DBH increment rate in r_stem in m

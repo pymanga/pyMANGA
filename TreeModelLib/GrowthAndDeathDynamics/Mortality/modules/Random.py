@@ -11,7 +11,7 @@ import numpy as np
 class Random:
     def __init__(self, args, case):
         self.survive = 1
-        self.probability = 0.01
+        self.probability = 0.002
         self.getProbability(args)
 
         print("Initiate mortality of type " + case +
@@ -21,7 +21,11 @@ class Random:
     def getSurvival(self, args):
         self.survive = 1
         r = np.random.random(1)
-        if r < self.probability:
+        # Number of time steps per year
+        ts_per_year = int(args.time / (3600 * 24 * 365))
+        ## Multiply r with the number of time steps per year to induce a
+        # yearly mortality
+        if r * ts_per_year < self.probability:
             self.survive = 0
             print("\t Tree died randomly. Random number: " + str(r[0]))
 

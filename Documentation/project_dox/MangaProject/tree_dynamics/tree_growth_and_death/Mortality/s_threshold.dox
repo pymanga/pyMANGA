@@ -1,0 +1,8 @@
+/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__threshold &emsp;[spec]threshold
+
+`Threshold` defines the percentages of the moving average biomass increment that must be exceeded to survive.
+
+> if biomass_increment < `threshold` * avg(biomass_increment): tree dies
+
+
+*/

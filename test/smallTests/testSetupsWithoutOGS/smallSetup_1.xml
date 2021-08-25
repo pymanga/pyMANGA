@@ -5,14 +5,10 @@
             <type> SimpleTest </type>
         </aboveground_competition>
         <belowground_competition>
-            <type> FixedSalinity </type>
-            <salinity> 0.08 0.09 </salinity>
-            <min_x>0</min_x>
-            <max_x>20</max_x>
+            <type> SimpleTest </type>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> SimpleBettina </type>
-            <mortality>MinGirthGrowth Random </mortality>
+            <type> SimpleTest </type>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>
@@ -50,14 +46,14 @@
     <tree_time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 315360000 </t_end>
-        <delta_t> 31536000 </delta_t> <!--Time step length and time span arbitrarily chosen, target: short model runtime-->
+        <t_end> 86400 </t_end> 
+        <delta_t> 43200 </delta_t> <!--Time step length and time span arbitrarily chosen, target: short model runtime-->
     </tree_time_loop>
     <visualization>
         <type> SimplePyplot </type>
     </visualization>
     <tree_output>
-        <type> NONE </type>
+        <type> OneTreeOneFile </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
         <output_dir> test/testoutputs/ </output_dir>
         <geometry_output> r_stem </geometry_output>

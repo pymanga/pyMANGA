@@ -146,6 +146,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
             self, self._psi_top, np.array([0] * self.no_trees),
             self._above_graft_resistance, self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b_noSal
+        self.belowground_resources = self.getBGfactor()
 
 
         # Update network parameters
@@ -160,6 +161,15 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
 
             if name.text.strip() == "p_ini":
                 parameter.find("field_name").text = "pressure"
+
+    def getBGfactor(self):
+        ## SimpleNetwork stuff
+        # Calculate bg resource factor
+        res_b_noSal = self.getBGresourcesIndividual(
+            self._psi_top, np.array([0] * self.n_trees),
+            self._above_graft_resistance, self._below_graft_resistance)
+        return self._water_avail / res_b_noSal
+
 
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.

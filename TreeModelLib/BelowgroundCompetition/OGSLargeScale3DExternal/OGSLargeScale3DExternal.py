@@ -39,6 +39,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
 
         self._psi_leaf = np.empty(0)
         self._psi_height = np.empty(0)
+        self._psi_osmo = np.empty(0)
         self._rcrown = []
         self._hstem = []
 

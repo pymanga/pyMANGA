@@ -30,9 +30,9 @@ class MinGirthGrowth:
         # slice grow_memory array to get only relevant data
         r_stem_inc = args.r_stem_memory[-int(steps):]
 
-        # exclude the very first time step if included in the relevant data
-        # as this increment value is an outlier
-        if len(r_stem_inc) >= steps:
+        # exclude the first time steps as the stem does not grow in the
+        # beginning in BETTINA
+        if len(r_stem_inc) >= int(steps):
             # calculate current growth increment
             avg_girth_growth = np.mean(r_stem_inc)
             steps_per_year = (3600 * 24 * 365) / args.time

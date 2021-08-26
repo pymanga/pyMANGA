@@ -166,6 +166,7 @@ class OGSLargeScale3D(TreeModel):
         R = root_surface_resistance + xylem_resistance
 
         # Calculate tree water uptake without salinity and salinity factor
+        # Unit: kg per sec
         constant_contribution = -(
             (parameter["leaf_water_potential"] +
              (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R *

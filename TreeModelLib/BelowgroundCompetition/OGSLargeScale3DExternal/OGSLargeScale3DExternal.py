@@ -9,11 +9,11 @@ from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D
 import numpy as np
 
 
-# Child class of  OGSLargeScale3DExternal to use external time stepping
+# Child class of OGSLargeScale3DExternal to use external time stepping
 # E.g. to run MANGA as OGS boundary condition
-# To function, the concept needs an array with cumulated cell salinity and
+# The concept needs an array with cumulated cell salinity and
 # the number of calls for each cell. It returns an array describing water
-# withdrawal in each cell.
+# withdrawal in each cell as rate in kg per sec per cell volume.
 class OGSLargeScale3DExternal(OGSLargeScale3D):
     def __init__(self, args):
         super().__init__(args)
@@ -30,7 +30,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     #  @param t_ini: initial time of next time step
     #  @param t_end: end time of next time step
     def prepareNextTimeStep(self, t_ini, t_end):
-        self.no_trees = 0
+        self.n_trees = 0
 
         # Arrays with length 'no. of trees'
         self._x = []
@@ -43,6 +43,10 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         self._rcrown = []
         self._hstem = []
 
+        self.prepareOGSparameters()
+
+    ## This function initializes variables required in OGSExternal concepts.
+    def prepareOGSparameters(self):
         self._tree_cell_ids = []
         self._tree_salinity = np.empty(0)
         self.tree_water_uptake = []
@@ -54,8 +58,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next time step.
     #  Here, in the OGS case, each tree is represented by a contribution to
-    #  python source terms in OGS. To this end, their constant and salinity
-    #  dependent resource uptake is saved in numpy arrays.
+    #  python source terms in OGS.
     #  @param tree
     def addTree(self, tree):
         x, y = tree.getPosition()

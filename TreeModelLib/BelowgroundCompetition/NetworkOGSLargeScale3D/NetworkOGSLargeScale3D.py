@@ -22,8 +22,6 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     # @date: 2021 - Today
     def __init__(self, args):
         OGSLargeScale3D.__init__(self, args)
-        case = args.find("type").text
-        print("Initiate below-ground competition of type " + case + ".")
         SimpleNetwork.getInputParameters(self, args)
 
     ## This functions prepares the tree variables for the
@@ -140,12 +138,6 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         # Calculate salinity below each tree
         OGSLargeScale3D.calculateTreeSalinity(self)
 
-        ## SimpleNetwork stuff
-        # Calculate bg resource factor
-        res_b_noSal = SimpleNetwork.getBGresourcesIndividual(
-            self, self._psi_top, np.array([0] * self.no_trees),
-            self._above_graft_resistance, self._below_graft_resistance)
-        self.belowground_resources = self._water_avail / res_b_noSal
         self.belowground_resources = self.getBGfactor()
 
 

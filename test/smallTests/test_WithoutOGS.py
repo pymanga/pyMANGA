@@ -3,6 +3,7 @@
 # errors
 # The second test compares the calculated results with reference results
 
+
 import sys
 from os import path
 import os
@@ -10,8 +11,8 @@ import os
 sys.path.append(
     path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
 
-from ProjectLib import XMLtoProject
-from TimeLoopLib import TreeDynamicTimeStepping
+from pyMANGA.ProjectLib.XMLtoProject import XMLtoProject
+from pyMANGA.TimeLoopLib.TreeDynamicTimeStepping import TreeDynamicTimeStepping
 import unittest
 import glob
 import os
@@ -19,9 +20,13 @@ from lxml import etree
 import shutil
 from pathlib import Path
 import pandas as pd
+import platform
+
+os.chdir ('/home/jonas/Dokumente/WHK/Marzipan/Quellcode/pyMANGA')
 
 manga_root_directory = path.dirname(
     path.dirname(path.dirname(path.abspath(__file__))))
+
 filepath_examplesetups = path.join(path.dirname(path.abspath(__file__)),
                                    "testSetupsWithoutOGS/*.xml")
 xml = glob.glob(filepath_examplesetups)
@@ -36,7 +41,11 @@ global output_exist
 output_exist = str
 global seperator
 
-seperator = "/"
+if platform.system() == 'Linux' or platform.system() == 'Darwin':
+    seperator = "/"
+elif platform.system() == 'Windows':
+    seperator = '\\'
+
 
 # MARKER:
 

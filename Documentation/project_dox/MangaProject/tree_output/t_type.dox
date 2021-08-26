@@ -5,6 +5,7 @@ Case selector for tree output.
 # Available cases 
  
 - NONE
+- OneFile
 - OneTimestepOneFile
 - OneTimestepOneFilePerGroup
 - OneTreeOneFile

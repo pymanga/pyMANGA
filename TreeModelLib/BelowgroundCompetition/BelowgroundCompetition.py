@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from TreeModelLib import TreeModel
+from pyMANGA.TreeModelLib import TreeModel
 
 
 class BelowgroundCompetition(TreeModel):
@@ -63,11 +63,11 @@ class BelowgroundCompetition(TreeModel):
         self.concept = SimpleNetwork(args)
 
     def iniNetworkHydro(self, args):
-        from .NetworkHydro import NetworkHydro
+        from pyMANGA.TreeModelLib.BelowgroundCompetition.NetworkHydro.NetworkHydro import NetworkHydro
         self.concept = NetworkHydro(args)
 
     def iniNetworkFixedSalinity(self, args):
-        from .NetworkFixedSalinity import NetworkFixedSalinity
+        from pyMANGA.TreeModelLib.BelowgroundCompetition.NetworkFixedSalinity.NetworkFixedSalinity import NetworkFixedSalinity
         self.concept = NetworkFixedSalinity(args)
 
     def getBelowgroundResources(self):

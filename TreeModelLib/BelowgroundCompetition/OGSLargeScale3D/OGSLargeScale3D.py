@@ -5,8 +5,8 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
-from TreeModelLib.BelowgroundCompetition.OGS.helpers import CellInformation
+from pyMANGA.TreeModelLib.BelowgroundCompetition.BelowgroundCompetition import BelowgroundCompetition
+from pyMANGA.TreeModelLib.BelowgroundCompetition.OGS.helpers.CellInformation import CellInformation
 import vtk as vtk
 from lxml import etree
 from os import path

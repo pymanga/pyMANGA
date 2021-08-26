@@ -43,7 +43,7 @@ class TreeOutput:
 
     ## Constructor for output which generates one file per group per timestep.
     def iniOneTimestepOneFilePerGroup(self, args):
-        from .OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup
+        from pyMANGA.TreeOutputLib.OneTimestepOneFilePerGroup.OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup
         self.output = OneTimestepOneFilePerGroup(args)
 
     ## Dummy for write output function

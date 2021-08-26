@@ -4,7 +4,7 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
+from pyMANGA.TreeModelLib.GrowthAndDeathDynamics.GrowthAndDeathDynamics import GrowthAndDeathDynamics
 
 
 class SimpleTest(GrowthAndDeathDynamics):

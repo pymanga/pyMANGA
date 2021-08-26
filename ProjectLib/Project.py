@@ -5,13 +5,13 @@
 @author: jasper.bathmann@ufz.de
 """
 
-from TreeModelLib import AbovegroundCompetition
-from TreeModelLib import BelowgroundCompetition
-from TreeModelLib import GrowthAndDeathDynamics
-from VisualizationLib import Visualization
-from TreeOutputLib import TreeOutput
-import PopulationLib
-from TimeLoopLib import TreeDynamicTimeLoop
+from pyMANGA.TreeModelLib.AbovegroundCompetition.AbovegroundCompetition import AbovegroundCompetition
+from pyMANGA.TreeModelLib.BelowgroundCompetition.BelowgroundCompetition import BelowgroundCompetition
+from pyMANGA.TreeModelLib.GrowthAndDeathDynamics.GrowthAndDeathDynamics import GrowthAndDeathDynamics
+from pyMANGA.VisualizationLib.Visualization import Visualization
+from pyMANGA.TreeOutputLib.TreeOutput import TreeOutput
+from pyMANGA.PopulationLib.Population import Population
+from pyMANGA.TimeLoopLib.TreeDynamicTimeLoop import TreeDynamicTimeLoop
 import numpy as np
 
 
@@ -57,7 +57,7 @@ class MangaProject:
 
     def iniPopulation(self):
         arg = self.args["initial_population"]
-        self.population = (PopulationLib.Population(arg))
+        self.population = (Population(arg))
 
     def getPopulation(self):
         return self.population

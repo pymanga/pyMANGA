@@ -4,7 +4,7 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from VisualizationLib.Visualization import Visualization
+from pyMANGA.VisualizationLib.Visualization import Visualization
 
 
 class NONE(Visualization):

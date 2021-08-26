@@ -5,4 +5,4 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from .NetworkHydro import NetworkHydro
+from pyMANGA.TreeModelLib.BelowgroundCompetition.NetworkHydro.NetworkHydro import NetworkHydro

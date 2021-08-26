@@ -6,8 +6,8 @@
 """
 
 import numpy as np
-from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
-from TreeModelLib.BelowgroundCompetition.FixedSalinity import FixedSalinity
+from pyMANGA.TreeModelLib.BelowgroundCompetition.SimpleNetwork.SimpleNetwork import SimpleNetwork
+from pyMANGA.TreeModelLib.BelowgroundCompetition.FixedSalinity.FixedSalinity import FixedSalinity
 
 
 class NetworkFixedSalinity(SimpleNetwork):

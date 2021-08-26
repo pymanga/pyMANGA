@@ -9,7 +9,7 @@ from matplotlib import cm
 from matplotlib import pyplot as plt
 from matplotlib import lines
 from matplotlib.collections import PatchCollection
-from VisualizationLib.Visualization import Visualization
+from pyMANGA.VisualizationLib.Visualization import Visualization
 
 
 class SimplePyplot(Visualization):

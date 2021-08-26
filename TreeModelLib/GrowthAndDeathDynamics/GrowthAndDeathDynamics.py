@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from TreeModelLib import TreeModel
+from pyMANGA.TreeModelLib.TreeModel import TreeModel
 
 
 class GrowthAndDeathDynamics(TreeModel):
@@ -36,7 +36,7 @@ class GrowthAndDeathDynamics(TreeModel):
         self.concept = SimpleKiwi(args)
 
     def iniNetworkBettina(self, args):
-        from .NetworkBettina import NetworkBettina
+        from pyMANGA.TreeModelLib.GrowthAndDeathDynamics.NetworkBettina.NetworkBettina import NetworkBettina
         self.concept = NetworkBettina(args)
 
     def getConceptType(self):

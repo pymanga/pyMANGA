@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from TreeModelLib import TreeModel
+from pyMANGA.TreeModelLib.TreeModel import TreeModel
 
 
 class AbovegroundCompetition(TreeModel):

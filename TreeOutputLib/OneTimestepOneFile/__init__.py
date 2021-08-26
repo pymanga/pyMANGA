@@ -6,4 +6,4 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 
-from .OneTimestepOneFile import OneTimestepOneFile
+from pyMANGA.TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import OneTimestepOneFile

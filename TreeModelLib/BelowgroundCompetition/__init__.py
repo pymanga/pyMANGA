@@ -6,13 +6,13 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 
-from .BelowgroundCompetition import BelowgroundCompetition
-from .SimpleTest import SimpleTest
-from .FON import FON
-from .OGSWithoutFeedback import OGSWithoutFeedback
-from .OGSLargeScale3D import OGSLargeScale3D
-from .OGS.helpers import CellInformation
-from .FixedSalinity import FixedSalinity
-from .SimpleNetwork import SimpleNetwork
-from .NetworkHydro import NetworkHydro
-from .NetworkFixedSalinity import NetworkFixedSalinity
+from pyMANGA.TreeModelLib.BelowgroundCompetition.BelowgroundCompetition import BelowgroundCompetition
+from pyMANGA.TreeModelLib.BelowgroundCompetition.SimpleTest.SimpleTest import SimpleTest
+from pyMANGA.TreeModelLib.BelowgroundCompetition.FON.FON import FON
+from pyMANGA.TreeModelLib.BelowgroundCompetition.OGSWithoutFeedback.OGSWithoutFeedback import OGSWithoutFeedback
+from pyMANGA.TreeModelLib.BelowgroundCompetition.OGSLargeScale3D.OGSLargeScale3D import OGSLargeScale3D
+from pyMANGA.TreeModelLib.BelowgroundCompetition.OGS.helpers.CellInformation import CellInformation
+from pyMANGA.TreeModelLib.BelowgroundCompetition.FixedSalinity.FixedSalinity import FixedSalinity
+from pyMANGA.TreeModelLib.BelowgroundCompetition.SimpleNetwork.SimpleNetwork import SimpleNetwork
+from pyMANGA.TreeModelLib.BelowgroundCompetition.NetworkHydro.NetworkHydro import NetworkHydro
+from pyMANGA.TreeModelLib.BelowgroundCompetition.NetworkFixedSalinity.NetworkFixedSalinity import NetworkFixedSalinity

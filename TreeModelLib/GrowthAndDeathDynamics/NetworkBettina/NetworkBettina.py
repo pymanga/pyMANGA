@@ -5,8 +5,8 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
-from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina
+from pyMANGA.TreeModelLib.GrowthAndDeathDynamics.GrowthAndDeathDynamics import GrowthAndDeathDynamics
+from pyMANGA.TreeModelLib.GrowthAndDeathDynamics.SimpleBettina.SimpleBettina import SimpleBettina
 import numpy as np
 
 

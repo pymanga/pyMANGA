@@ -4,7 +4,7 @@
 @date: 2018-Today
 @author: ronny.peters@tu-dresden.de
 """
-from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
+from pyMANGA.TreeModelLib.GrowthAndDeathDynamics.GrowthAndDeathDynamics import GrowthAndDeathDynamics
 
 
 class SimpleKiwi(GrowthAndDeathDynamics):

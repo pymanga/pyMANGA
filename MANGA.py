@@ -8,7 +8,37 @@ from ProjectLib import XMLtoProject
 from TimeLoopLib import TreeDynamicTimeStepping
 
 
+class Model():
+    ## Class to run the model from other programs
+    #  @param project_file: path to pymanga project file.
+    #  @date: 2021 - Today
+    #  @author: jasper.bathmann@ufz.de
+    def __init__(self, project_file):
+        self.prj = XMLtoProject(xml_project_file=project_file)
+        self.t_step_begin = 0
+
+    def createExternalTimeStepper(self, t_0=0):
+        from TimeLoopLib import ExternalDynamicTimeStepping
+        self.timestepper = ExternalDynamicTimeStepping(self.prj, t_0)
+
+    ## This call propagates the model from the last timestep.
+    #  Default starting point is t=0 and will be updated with every call
+    #  @param t: time, for end of next timestep
+    def propagateModel(self, t):
+        self.timestepper.step(t)
+        self.t_step_begin = t
+
+    def setBelowgroundInformation(self, **args):
+        self.prj.getBelowgroundCompetition().setExternalInformation(**args)
+
+    ## Getter for external information
+    def getBelowgroundInformation(self):
+        return self.prj.getBelowgroundCompetition().getExternalInformation()
+
+
 def main(argv):
+    #sys.path.append(path.abspath(path.dirname(__file__)))
+
     try:
         opts, args = getopt.getopt(argv, "hi:", ["project_file="])
     except getopt.GetoptError:

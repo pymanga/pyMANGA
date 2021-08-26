@@ -7,7 +7,7 @@ Created on Thu Nov  8 15:25:03 2018
 """
 #from XMLtoProject import XMLtoProject
 
-from .TreeOutput import TreeOutput
-from .OneTimestepOneFile import OneTimestepOneFile
-from .OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup
-from .NONE import NONE
+from pyMANGA.TreeOutputLib.TreeOutput import TreeOutput
+from pyMANGA.TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import OneTimestepOneFile
+from pyMANGA.TreeOutputLib.OneTimestepOneFilePerGroup.OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup
+from pyMANGA.TreeOutputLib.NONE.NONE import NONE

@@ -5,7 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D
+from pyMANGA.TreeModelLib.BelowgroundCompetition.OGSLargeScale3D.OGSLargeScale3D import OGSLargeScale3D
 from lxml import etree
 from os import path
 import os

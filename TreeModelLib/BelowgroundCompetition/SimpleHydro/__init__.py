@@ -6,4 +6,4 @@ Created on Thu Nov  8 15:25:03 2018
 @author: Peters
 """
 
-from .SimpleHydro import SimpleHydro
+from pyMANGA.TreeModelLib.BelowgroundCompetition.SimpleHydro.SimpleHydro import SimpleHydro

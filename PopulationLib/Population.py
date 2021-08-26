@@ -5,8 +5,8 @@
 @author: jasper.bathmann@ufz.de
 """
 
-import PopulationLib as PLib
-from PopulationLib import TreeGroup
+import pyMANGA.PopulationLib
+from pyMANGA.PopulationLib.TreeGroup import TreeGroup
 
 
 class Population(TreeGroup):
@@ -18,7 +18,7 @@ class Population(TreeGroup):
             self.addTreeGroup(arg)
 
     def addTreeGroup(self, args):
-        tree_group = PLib.GroupPlanting(args)
+        tree_group = pyMANGA.PopulationLib.GroupPlanting(args)
         self.tree_groups[tree_group.name] = tree_group
         self.max_id += tree_group.getNumberOfTrees()
 

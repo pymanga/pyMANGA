@@ -4,7 +4,7 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeOutputLib.TreeOutput import TreeOutput
+from pyMANGA.TreeOutputLib.TreeOutput import TreeOutput
 import os
 
 

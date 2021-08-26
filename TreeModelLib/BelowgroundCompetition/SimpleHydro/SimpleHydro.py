@@ -6,7 +6,7 @@
 """
 import numpy as np
 import math
-from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
+from pyMANGA.TreeModelLib.BelowgroundCompetition.BelowgroundCompetition import BelowgroundCompetition
 
 
 class SimpleHydro(BelowgroundCompetition):

@@ -5,7 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 
-from TimeLoopLib import TreeDynamicTimeStepping
+from pyMANGA.TimeLoopLib.TreeDynamicTimeStepping import TreeDynamicTimeStepping
 
 
 class TreeDynamicTimeLoop:

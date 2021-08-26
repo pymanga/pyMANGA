@@ -6,4 +6,4 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 
-from .NONE import NONE
+from pyMANGA.TreeOutputLib.NONE.NONE import NONE

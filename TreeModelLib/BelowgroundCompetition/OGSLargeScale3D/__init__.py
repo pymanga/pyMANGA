@@ -6,4 +6,4 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 
-from .OGSLargeScale3D import OGSLargeScale3D
+from pyMANGA.TreeModelLib.BelowgroundCompetition.OGSLargeScale3D.OGSLargeScale3D import OGSLargeScale3D

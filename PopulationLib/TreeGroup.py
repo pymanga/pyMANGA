@@ -4,7 +4,7 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-import PopulationLib as PLib
+import pyMANGA.PopulationLib
 
 if __name__ == '__main__' and __package__ is None:
     from os import sys, path
@@ -26,7 +26,7 @@ class TreeGroup:
     def addTree(self, x, y, initial_geometry=False):
         self.max_id += 1
         self.trees.append(
-            PLib.Tree(x,
+            pyMANGA.PopulationLib.Tree(x,
                       y,
                       self.species,
                       self.max_id,

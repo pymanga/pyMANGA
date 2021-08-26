@@ -6,6 +6,6 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 
-from .Visualization import Visualization
-from .SimplePyplot import SimplePyplot
-from .NONE import NONE
+from pyMANGA.VisualizationLib.Visualization import Visualization
+from pyMANGA.VisualizationLib.SimplePyplot.SimplePyplot import SimplePyplot
+from pyMANGA.VisualizationLib.NONE.NONE import NONE

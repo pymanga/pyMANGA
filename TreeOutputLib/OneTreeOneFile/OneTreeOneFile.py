@@ -4,7 +4,7 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import \
+from pyMANGA.TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import \
     OneTimestepOneFile
 import os
 

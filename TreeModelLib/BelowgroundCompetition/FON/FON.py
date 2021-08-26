@@ -5,7 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
+from pyMANGA.TreeModelLib.BelowgroundCompetition.BelowgroundCompetition import BelowgroundCompetition
 
 
 class FON(BelowgroundCompetition):

@@ -6,8 +6,8 @@
 """
 
 import numpy as np
-from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
-from TreeModelLib.BelowgroundCompetition.SimpleHydro import SimpleHydro
+from pyMANGA.TreeModelLib.BelowgroundCompetition.SimpleNetwork.SimpleNetwork import SimpleNetwork
+from pyMANGA.TreeModelLib.BelowgroundCompetition.SimpleHydro.SimpleHydro import SimpleHydro
 
 
 class NetworkHydro(SimpleNetwork, SimpleHydro):

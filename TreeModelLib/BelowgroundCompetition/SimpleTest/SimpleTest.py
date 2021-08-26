@@ -5,7 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
+from pyMANGA.TreeModelLib.BelowgroundCompetition.BelowgroundCompetition import BelowgroundCompetition
 
 
 class SimpleTest(BelowgroundCompetition):
@@ -43,3 +43,18 @@ class SimpleTest(BelowgroundCompetition):
     #  @param: position, geometry, parameter
     def addTree(self, tree):
         self.trees.append(1)
+
+    ## Test for external timestepper, whether the concept is optimized for ex-
+    #  ternal communication
+    def getOGSAccessible(self):
+        return True
+
+    ## Setter for external information - specify and document argument for each
+    #  concept application
+    #  (See XMLtoProject.py as example)
+    def setExternalInformation(self, **args):
+        self.external_information = args
+
+    ## Getter for external information
+    def getExternalInformation(self):
+        return self.external_information

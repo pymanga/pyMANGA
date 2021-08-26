@@ -5,7 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from TreeModelLib.AbovegroundCompetition import AbovegroundCompetition
+from pyMANGA.TreeModelLib.AbovegroundCompetition.AbovegroundCompetition import AbovegroundCompetition
 
 
 class SimpleTest(AbovegroundCompetition):

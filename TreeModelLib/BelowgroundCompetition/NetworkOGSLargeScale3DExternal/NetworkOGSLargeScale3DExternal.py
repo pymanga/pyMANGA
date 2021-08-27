@@ -39,10 +39,8 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
         # OGSLargeScale3DExternal
         NetworkOGSLargeScale3D.prepareNextTimeStep(self, t_ini, t_end)
 
-        # Arrays with length equal number of trees
-        self._x = []
-        self._y = []
-        self._R_total = []
+        # Parameters required for NetworkOGSLargeScale3D
+        self._tree_cell_volume = []
 
         # Load parameters that are required to get/ process information from
         # OGS

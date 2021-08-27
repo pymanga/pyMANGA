@@ -109,30 +109,17 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
                 # source rate (kg per volume per s)
                 self._contributions[cell_id] += contribution * (1 / volume)
 
-        # OGS stuff
+        ## OGS stuff
+        # Copy scripts, write bc inputs, run OGS
         self.copyPythonScript()
-
         np.save(path.join(self._ogs_project_folder, "contributions.npy"),
                 self._contributions)
+        self.runOGSandWriteFiles()
 
-        current_project_file = path.join(
-            self._ogs_project_folder,
-            str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
-        print("Running ogs...")
-        bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
-        if not (os.system(bc_path + "/OGS/bin/ogs " + current_project_file +
-                          " -o " + self._ogs_project_folder + " -l error")
-                == 0):
-            raise ValueError("Ogs calculation failed!")
-        print("OGS-calculation done.")
+        # Read salinity from OGS output files
+        salinity = self.getSalinityFromFile()
 
-        OGSLargeScale3D.writePVDCollection(self)
-        files = os.listdir(self._ogs_project_folder)
-        for file in files:
-            if (self._ogs_prefix.text in file
-                    and ("_" + str(self._t_end)) in file):
-                self._ogs_bulk_mesh.text = str(file)
-
+        # Calculate bg factor
         # Get cell salinity array from external files
         OGSLargeScale3D.getSalinity(self)
         # Calculate salinity below each tree
@@ -145,65 +132,4 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         SimpleNetwork.updateNetworkParametersForGrowthAndDeath(self)
 
         # OGS stuff - update ogs parameters
-        parameters = self._tree.find("parameters")
-        for parameter in parameters.iterchildren():
-            name = parameter.find("name")
-            if name.text.strip() == "c_ini":
-                parameter.find("field_name").text = "concentration"
-
-            if name.text.strip() == "p_ini":
-                parameter.find("field_name").text = "pressure"
-
-    def getBGfactor(self):
-        ## SimpleNetwork stuff
-        # Calculate bg resource factor
-        res_b_noSal = self.getBGresourcesIndividual(
-            self._psi_top, np.array([0] * self.n_trees),
-            self._above_graft_resistance, self._below_graft_resistance)
-        return self._water_avail / res_b_noSal
-
-
-    ## This function copies the python script which defines BC and source terms
-    #  to the ogs project folder.
-    def copyPythonScript(self):
-        if self._use_external_python_script:
-            source = open(
-                path.join(self._ogs_project_folder,
-                          self._external_python_script), "r")
-        else:
-            source = open(
-                path.join(path.dirname(path.abspath(__file__)),
-                          "python_source.py"), "r")
-        target = open(path.join(self._ogs_project_folder, "python_source.py"),
-                      "w")
-        contributions_filename = path.join(self._ogs_project_folder,
-                                           "contributions.npy")
-        cumsum_filename = path.join(self._ogs_project_folder,
-                                    "cumsum_salinity.npy")
-        calls_filename = path.join(self._ogs_project_folder,
-                                   "calls_in_last_timestep.npy")
-
-        for line in source.readlines():
-            if self._abiotic_drivers:
-                for abiotic_factor in self._abiotic_drivers.iterchildren():
-                    if (abiotic_factor.tag + " = ") in line:
-                        line = (abiotic_factor.tag + " = " +
-                                abiotic_factor.text + "\n")
-            if "contributions.npy" in line:
-                line = line.replace("contributions.npy",
-                                    contributions_filename)
-            if "cumsum_salinity.npy" in line:
-                line = line.replace("cumsum_salinity.npy", cumsum_filename)
-            if "calls_in_last_timestep.npy" in line:
-                line = line.replace("calls_in_last_timestep.npy",
-                                    calls_filename)
-            if "CellInformation(source_mesh)" in line:
-                line = line.replace(
-                    "source_mesh",
-                    "'" + path.join(self._ogs_project_folder,
-                                    self._source_mesh_name) + "'")
-            if "t_write = t_end" in line:
-                line = line.replace("t_end", str(self._t_end))
-            target.write(line)
-        source.close()
-        target.close()
+        self.renameParameters()

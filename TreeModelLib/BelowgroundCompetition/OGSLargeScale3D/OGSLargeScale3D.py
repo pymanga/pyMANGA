@@ -68,30 +68,15 @@ class OGSLargeScale3D(TreeModel):
         self.no_trees = len(self._tree_constant_contribution)
 
         self.copyPythonScript()
-
+        # Write contributions to file
         np.save(
             path.join(self._ogs_project_folder, "constant_contributions.npy"),
             self._constant_contributions)
         np.save(path.join(self._ogs_project_folder, "salinity_prefactors.npy"),
                 self._salinity_prefactors)
-        current_project_file = path.join(
-            self._ogs_project_folder,
-            str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
-        print("Running ogs...")
-        bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
-        if not (os.system(bc_path + "/OGS/bin/ogs " + current_project_file +
-                          " -o " + self._ogs_project_folder + " -l error")
-                == 0):
-            raise ValueError("Ogs calculation failed!")
-        print("OGS-calculation done.")
-        self.writePVDCollection()
-        files = os.listdir(self._ogs_project_folder)
-        for file in files:
-            if (self._ogs_prefix.text in file
-                    and ("_" + str(self._t_end)) in file):
-                self._ogs_bulk_mesh.text = str(file)
-
-        # Get cell salinity array from external files
+        # Start OGS
+        self.runOGSandWriteFiles()
+        # Read salinity from OGS results file
         self.getSalinity()
         # Calculate salinity below each tree
         self.calculateTreeSalinity()
@@ -103,14 +88,8 @@ class OGSLargeScale3D(TreeModel):
         self.belowground_resources = self.tree_water_uptake / \
                                      self._tree_constant_contribution
 
-        parameters = self._tree.find("parameters")
-        for parameter in parameters.iterchildren():
-            name = parameter.find("name")
-            if name.text.strip() == "c_ini":
-                parameter.find("field_name").text = "concentration"
+        self.renameParameters()
 
-            if name.text.strip() == "p_ini":
-                parameter.find("field_name").text = "pressure"
 
     ## This functions prepares the next timestep for the competition
     #  concept. In the OGS concept, information on t_ini and t_end is stored.
@@ -141,7 +120,7 @@ class OGSLargeScale3D(TreeModel):
         filename = path.join(
             self._ogs_project_folder,
             str(t_ini).replace(".", "_") + "_" + self._ogs_project_file)
-        self._tree.write(filename)
+        self._tree.write(filename) # ToDo @JB: Was passiert hier?
         ## List containing reduction factor for each tree
         self.belowground_resources = []
         self._tree_salinity = []
@@ -251,27 +230,45 @@ class OGSLargeScale3D(TreeModel):
                           "python_source.py"), "r")
         target = open(path.join(self._ogs_project_folder, "python_source.py"),
                       "w")
-        constants_filename = path.join(self._ogs_project_folder,
-                                       "constant_contributions.npy")
-        prefactors_filename = path.join(self._ogs_project_folder,
-                                        "salinity_prefactors.npy")
+        # OGS
+        try:
+            constants_filename = path.join(self._ogs_project_folder,
+                                           "constant_contributions.npy")
+            prefactors_filename = path.join(self._ogs_project_folder,
+                                            "salinity_prefactors.npy")
+
+        except:
+            pass
+
+        # Network
+        try:
+            contributions_filename = path.join(self._ogs_project_folder,
+                                               "contributions.npy")
+        except:
+            pass
+
         cumsum_filename = path.join(self._ogs_project_folder,
                                     "cumsum_salinity.npy")
         calls_filename = path.join(self._ogs_project_folder,
                                    "calls_in_last_timestep.npy")
-
         for line in source.readlines():
             if self._abiotic_drivers:
                 for abiotic_factor in self._abiotic_drivers.iterchildren():
                     if (abiotic_factor.tag + " = ") in line:
                         line = (abiotic_factor.tag + " = " +
                                 abiotic_factor.text + "\n")
+            # OGS
             if "constant_contributions.npy" in line:
                 line = line.replace("constant_contributions.npy",
                                     constants_filename)
             if "salinity_prefactors.npy" in line:
                 line = line.replace("salinity_prefactors.npy",
                                     prefactors_filename)
+            # Network
+            if "contributions.npy" in line:
+                line = line.replace("contributions.npy",
+                                    contributions_filename)
+            # Both
             if "cumsum_salinity.npy" in line:
                 line = line.replace("cumsum_salinity.npy", cumsum_filename)
             if "calls_in_last_timestep.npy" in line:
@@ -314,3 +311,32 @@ class OGSLargeScale3D(TreeModel):
         pvd_file.write("\t</Collection>\n")
         pvd_file.write("</VTKFile>\n")
         pvd_file.close()
+
+    def runOGSandWriteFiles(self):
+        current_project_file = path.join(
+            self._ogs_project_folder,
+            str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
+        print("Running ogs...")
+        bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
+        if not (os.system(bc_path + "/OGS/bin/ogs " + current_project_file +
+                          " -o " + self._ogs_project_folder + " -l error")
+                == 0):
+            raise ValueError("Ogs calculation failed!")
+        print("OGS-calculation done.")
+        self.writePVDCollection()
+        # ToDo: @JB: Was passiert hier?
+        files = os.listdir(self._ogs_project_folder)
+        for file in files:
+            if (self._ogs_prefix.text in file
+                    and ("_" + str(self._t_end)) in file):
+                self._ogs_bulk_mesh.text = str(file)
+
+    def renameParameters(self):
+        parameters = self._tree.find("parameters")
+        for parameter in parameters.iterchildren():
+            name = parameter.find("name")
+            if name.text.strip() == "c_ini":
+                parameter.find("field_name").text = "concentration"
+
+            if name.text.strip() == "p_ini":
+                parameter.find("field_name").text = "pressure"

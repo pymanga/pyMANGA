@@ -35,9 +35,8 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  @param t_ini - initial time for next time step \n
     #  @param t_end - end time for next time step
     def prepareNextTimeStep(self, t_ini, t_end):
-        # Load init method of NetworkOGSLargeScale3D and
-        # OGSLargeScale3DExternal
-        NetworkOGSLargeScale3D.prepareNextTimeStep(self, t_ini, t_end)
+        # Load init method of SimpleNetwork = super(NetworkOGSLargeScale3D)
+        super(NetworkOGSLargeScale3D, self).prepareNextTimeStep(t_ini, t_end)
 
         # Parameters required for NetworkOGSLargeScale3D
         self._tree_cell_volume = []

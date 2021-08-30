@@ -13,9 +13,6 @@ from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import OneTimestepOneFi
 # A line contains time, tree, position, desired geometric measures
 # and parameters for every nth time step.
 class OneFile(OneTimestepOneFile):
-    def __init__(self, args):
-        OneTimestepOneFile.__init__(self, args)
-
     def writeOutput(self, tree_groups, time):
         self._output_counter = (self._output_counter %
                                 self.output_each_nth_timestep)

@@ -58,13 +58,12 @@ class OneTimestepOneFile(TreeOutput):
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
         print(
-            "Output to '" + self.output_dir + "' of tree positions, the " +
+            "Output to '" + os.path.join(os.getcwd(), self.output_dir) +
+            "' of tree positions, the " +
             "parameters ", self.parameter_outputs,
             " and geometric" + " measures ", self.geometry_outputs,
             " at every " + str(self.output_each_nth_timestep) +
             " timesteps initialized.")
-        print("Outputs are written to: " +
-              str(os.path.join(os.getcwd(), self.output_dir)))
 
     ## Writes output to predefined folder
     #  For each timestep a file is created throughout the simulation.

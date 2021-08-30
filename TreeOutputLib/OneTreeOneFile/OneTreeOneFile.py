@@ -17,7 +17,7 @@ class OneTreeOneFile(OneTimestepOneFile):
     ## Constructor of dummy objects in order to drop output
     #  @param args xml element parsed from project to this constructor.
     def __init__(self, args):
-        OneTimestepOneFile.__init__(self, args)
+        super().__init__(args)
         for path in os.listdir(self.output_dir):
             full_path = os.path.join(self.output_dir, path)
             if os.path.isfile(full_path):
@@ -42,15 +42,15 @@ class OneTreeOneFile(OneTimestepOneFile):
                     if filename not in files_in_folder:
                         string = ""
                         string += 'time' + delimiter + 'x' + delimiter + 'y'
-                        string = OneTimestepOneFile.addSelectedHeadings(
-                            self, string, delimiter)
+                        string = super().addSelectedHeadings(string, delimiter)
                         string += "\n"
                         file.write(string)
                     string = ""
                     string += (str(time) + delimiter + str(tree.x) +
                                delimiter + str(tree.y))
-                    string = OneTimestepOneFile.addSelectedOutputs(self,
-                        tree, string, delimiter, growth_information)
+                    string = super().addSelectedOutputs(tree, string,
+                                                        delimiter,
+                                                        growth_information)
                     string += "\n"
                     file.write(string)
                     file.close()

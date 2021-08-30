@@ -25,8 +25,7 @@ class TreeOutput:
             self.iniOneFile(args)
         else:
             raise KeyError("Required tree_output of type '" + self.case +
-                           "' not "
-                           "implemented!")
+                           "' not implemented!")
         print(self.case + " tree output sucesscully initiated.")
 
     ## Constructor for no output generation.

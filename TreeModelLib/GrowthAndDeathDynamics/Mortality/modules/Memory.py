@@ -12,7 +12,7 @@ class Memory:
     def __init__(self, args, case):
         self.survive = 1
         self.threshold = 0.5
-        self.period = 5
+        self.period = 5 * 365.25 * 24 * 3600
         self.getMemoryPeriod(args)
 
         print("Initiate mortality of type " + case + " with a memory period "
@@ -22,11 +22,10 @@ class Memory:
     def getSurvival(self, args):
         self.survive = 1
         # get the number of values representing the memory period
-        period_in_sec = self.period * 3600 * 24 * 365
-        steps = period_in_sec / args.time
+        steps = int(self.period / args.time)
 
         # slice grow_memory array to get only relevant data
-        relevant_grow_memory = args.grow_memory[-int(steps):]
+        relevant_grow_memory = args.grow_memory[-steps:]
 
         # exclude the very first time step if included in the relevant data
         # as this increment value is an outlier

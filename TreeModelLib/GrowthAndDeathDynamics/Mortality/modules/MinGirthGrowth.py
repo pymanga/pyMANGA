@@ -12,7 +12,7 @@ class MinGirthGrowth:
     def __init__(self, args, case):
         self.survive = 1
         self.min_girth_growth = 0.05   # cm per year (Grueters et al. 2021)
-        self.period = 5
+        self.period = 5 * 365.25 * 24 * 3600
         self.getMinGrowthValue(args)
 
         print("Initiate mortality of type " + case +
@@ -24,11 +24,10 @@ class MinGirthGrowth:
         self.survive = 1
 
         # get the number of values representing the memory period
-        period_in_sec = self.period * 3600 * 24 * 365
-        steps = int(period_in_sec / args.time)
+        steps = int(self.period / args.time)
 
         # slice grow_memory array to get only relevant data
-        r_stem_inc = args.r_stem_memory[-int(steps):]
+        r_stem_inc = args.r_stem_memory[-steps:]
 
         # exclude the first time steps as the stem does not grow in the
         # beginning in BETTINA

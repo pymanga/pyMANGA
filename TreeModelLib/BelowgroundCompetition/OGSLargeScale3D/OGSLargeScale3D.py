@@ -156,21 +156,15 @@ class OGSLargeScale3D(BelowgroundCompetition):
         parameter = tree.getParameter()
 
         affected_cells = self._cell_information.getCellIDsAtXY(x, y)
-        v = 0
         self._tree_cell_ids.append(affected_cells)
-        for cell_id in affected_cells:
-            v_i = self._volumes.GetTuple(cell_id)[0]
 
-            v += v_i
         root_surface_resistance = self.rootSurfaceResistance(
-            parameter["lp"], parameter["k_geom"], geometry["r_root"],
-            geometry["h_root"])
-        xylem_resistance = self.xylemResistance(geometry["r_crown"],
-                                                geometry["h_stem"],
-                                                geometry["r_root"],
-                                                parameter["kf_sap"],
-                                                geometry["r_stem"])
+            parameter, geometry)
+        xylem_resistance = self.xylemResistance(
+            parameter, geometry)
         R = root_surface_resistance + xylem_resistance
+
+        # Calculate tree water uptake without salinity and salinity factor
         constant_contribution = -(
             (parameter["leaf_water_potential"] +
              (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R *
@@ -178,6 +172,9 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self._tree_constant_contribution.append(constant_contribution)
         salinity_prefactor = -85000 * 1000 / R * 1000 / np.pi
         self._tree_salinity_prefactor.append(salinity_prefactor)
+
+        # Get volume of affected cells
+        v = self.getVolume(affected_cells)
         per_volume = 1. / v
         for cell_id in affected_cells:
             self._constant_contributions[
@@ -186,25 +183,39 @@ class OGSLargeScale3D(BelowgroundCompetition):
                 cell_id] += salinity_prefactor * per_volume
 
     ## This function calculates the root surface resistance.
-    #  @param lp: lp value must exist in tree parameters
-    #  @param k_geom: k_geom value must exist in tree parameters
-    #  @param r_root: r_root value must exist in tree geometry
-    #  @param h_root: h_root value must exist in tree geometry
-    def rootSurfaceResistance(self, lp, k_geom, r_root, h_root):
+    #  @param parameter: list of hydraulic and initial tree parameters
+    #  @param geometry: tree geometry
+    def rootSurfaceResistance(self, parameter, geometry):
+        lp = parameter["lp"]
+        k_geom = parameter["k_geom"]
+        r_root = geometry["r_root"]
+        h_root = geometry["h_root"]
         root_surface_resistance = (1 / lp / k_geom / np.pi / r_root**2 /
                                    h_root)
         return root_surface_resistance
 
     ## This function calculates the root surface resistance.
-    #  @param r_crown: r_crown value must exist in tree geometry
-    #  @param h_stem: r_stem value must exist in tree geometry
-    #  @param r_root: r_root value must exist in tree geometry
-    #  @param kf_sap: kf_sap value must exist in tree parameters
-    #  @param r_stem: r_stem value must exist in tree geometry
-    def xylemResistance(self, r_crown, h_stem, r_root, kf_sap, r_stem):
+    #  @param parameter: list of hydraulic and initial tree parameters
+    #  @param geometry: tree geometry
+    def xylemResistance(self, parameter, geometry):
+        r_crown = geometry["r_crown"]
+        h_stem = geometry["h_stem"]
+        r_root = geometry["r_root"]
+        kf_sap = parameter["kf_sap"]
+        r_stem = geometry["r_stem"]
         flow_length = (2 * r_crown + h_stem + 0.5**0.5 * r_root)
         xylem_resistance = (flow_length / kf_sap / np.pi / r_stem**2)
         return xylem_resistance
+
+    ## This function calculates the volume of the cells affected by one tree.
+    # @param affected_cells: IDs of affected cells
+    # @return: numeric
+    def getVolume(self, affected_cells):
+        v = 0
+        for cell_id in affected_cells:
+            v_i = self._volumes.GetTuple(cell_id)[0]
+            v += v_i
+        return v
 
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.

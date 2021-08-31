@@ -10,7 +10,6 @@
             <ogs_project_file> testmodel.prj </ogs_project_file>
             <source_mesh> source_domain.vtu </source_mesh>
             <bulk_mesh> testbulk.vtu </bulk_mesh>
-            <delta_t_ogs> 1e6 </delta_t_ogs>
             <abiotic_drivers>
                 <seaward_salinity> 0.035 </seaward_salinity>
             </abiotic_drivers>
@@ -45,7 +44,7 @@
         <type> NONE </type>
     </visualization>
     <tree_output>
-        <type> OneTimestepOneFile </type>
+        <type> NONE </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
         <output_dir> external_setup_tree_output/ </output_dir>
         <allow_previous_output>True</allow_previous_output>

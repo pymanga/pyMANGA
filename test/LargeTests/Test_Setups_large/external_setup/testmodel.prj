@@ -107,20 +107,9 @@
                     <type>BackwardEuler</type>
                 </time_discretization>
                 <time_stepping>
-<!--                    <type>FixedTimeStepping</type>-->
-<!--                    <t_end> 864000 </t_end> &lt;!&ndash;5 a &ndash;&gt;-->
-<!--                    <t_initial> 0 </t_initial>-->
-<!--                    <timesteps>-->
-<!--                        <pair>-->
-<!--                            <delta_t>86400</delta_t> &lt;!&ndash;24 h &ndash;&gt;-->
-<!--                            <repeat>1</repeat>-->
-<!--                        </pair>-->
-<!--                    </timesteps>-->
-
                     <type>IterationNumberBasedTimeStepping</type>
                     <t_initial>0</t_initial>
                     <t_end> 3153600000 </t_end>
-<!--                    <t_end>1e8</t_end>-->
                     <initial_dt>3600</initial_dt>
                     <minimum_dt>3600</minimum_dt>
                     <maximum_dt>8640000</maximum_dt>
@@ -135,7 +124,7 @@
             <timesteps>
                 <pair>
                     <repeat>1</repeat>
-                    <each_steps>1</each_steps> <!-- every 0.5 years -->
+                    <each_steps>100</each_steps> <!-- every 0.5 years -->
                 </pair>
             </timesteps>
             <!--

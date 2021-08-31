@@ -82,15 +82,14 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
                                               geometry["h_stem"]) *
                                             9810]))
 
-        # Number of trees
-        self.no_trees = len(self._total_resistance)
-        # Salinity below each tree
-        self._tree_salinity = np.empty(self.no_trees)
-
     ## This function updates and returns BelowgroundResources in the current
     #  time step. For each tree a reduction factor is calculated which is
     #  defined as: resource uptake at zero salinity/ real resource uptake.
     def calculateBelowgroundResources(self):
+        # Number of trees
+        self.no_trees = len(self._total_resistance)
+        # Salinity below each tree
+        self._tree_salinity = np.empty(self.no_trees)
         if self.no_trees <= 0:
             print("WARNING: All trees are dead.")
 

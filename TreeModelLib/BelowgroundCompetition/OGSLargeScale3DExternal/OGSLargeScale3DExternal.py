@@ -16,7 +16,7 @@ import numpy as np
 # withdrawal in each cell.
 class OGSLargeScale3DExternal(OGSLargeScale3D):
     def __init__(self, args):
-        OGSLargeScale3D.__init__(self, args)
+        super().__init__(args)
 
     # allow external communication
     def getOGSAccessible(self):
@@ -66,9 +66,9 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         self._tree_cell_ids.append(affected_cells)
 
         # Resistances against water flow in tree
-        root_surface_resistance = self.rootSurfaceResistance(
+        root_surface_resistance = super().rootSurfaceResistance(
             parameter, geometry)
-        xylem_resistance = self.xylemResistance(
+        xylem_resistance = super().xylemResistance(
             parameter, geometry)
         R = root_surface_resistance + xylem_resistance
         self._R_total.append(R)
@@ -138,7 +138,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         self.tree_contributions = np.zeros(len(self.cumsum_salinity))
         for tree_id in range(self.no_trees):
             ids = self._tree_cell_ids[tree_id]
-            v = self.getVolume(affected_cells=ids)
+            v = super().getVolume(affected_cells=ids)
             per_volume = 1. / v
             tree_contribution = self.tree_water_uptake[tree_id]
             self.tree_contributions[ids] = tree_contribution * per_volume

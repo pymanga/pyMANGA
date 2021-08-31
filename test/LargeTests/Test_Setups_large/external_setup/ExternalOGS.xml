@@ -44,13 +44,13 @@
         <type> NONE </type>
     </visualization>
     <tree_output>
-        <type> NONE </type>
+        <type> OneTreeOneFile </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
         <output_dir> external_setup_tree_output/ </output_dir>
         <allow_previous_output>True</allow_previous_output>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
-        <parameter_output> k_geom </parameter_output>
+        <growth_output> growth </growth_output>
     </tree_output>
 </MangaProject>
 

@@ -35,7 +35,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         # Arrays with length 'no. of trees'
         self._x = []
         self._y = []
-        self._R_total = []
+        self._total_resistance = []
 
         self._psi_leaf = np.empty(0)
         self._psi_height = np.empty(0)
@@ -70,8 +70,8 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
             parameter, geometry)
         xylem_resistance = super().xylemResistance(
             parameter, geometry)
-        R = root_surface_resistance + xylem_resistance
-        self._R_total.append(R)
+        total_resistance = root_surface_resistance + xylem_resistance
+        self._total_resistance.append(total_resistance)
 
         # Water potentials
         self._psi_leaf = np.concatenate((self._psi_leaf,
@@ -83,7 +83,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
                                             9810]))
 
         # Number of trees
-        self.no_trees = len(self._R_total)
+        self.no_trees = len(self._total_resistance)
         # Salinity below each tree
         self._tree_salinity = np.empty(self.no_trees)
 
@@ -100,7 +100,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
 
         self.tree_water_uptake = -(self._psi_leaf - self._psi_height -
                                    self._psi_osmo) / \
-                                 self._R_total / np.pi * 1000  # kg/s
+                                 self._total_resistance / np.pi * 1000  # kg/s
         self.belowground_resources = 1 - (self._psi_osmo /
                                           (self._psi_leaf - self._psi_height))
 

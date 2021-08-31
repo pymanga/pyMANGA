@@ -43,3 +43,18 @@ class SimpleTest(BelowgroundCompetition):
     #  @param: position, geometry, parameter
     def addTree(self, tree):
         self.trees.append(1)
+
+    ## Test for external timestepper, whether the concept is optimized for ex-
+    #  ternal communication
+    def getOGSAccessible(self):
+        return True
+
+    ## Setter for external information - specify and document argument for each
+    #  concept application
+    #  (See examples from test directory)
+    def setExternalInformation(self, **args):
+        self.external_information = args
+
+    ## Getter for external information
+    def getExternalInformation(self):
+        return self.external_information

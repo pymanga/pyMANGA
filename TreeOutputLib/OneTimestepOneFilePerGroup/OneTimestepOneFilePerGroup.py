@@ -65,7 +65,7 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
                                     growth_information[growth_output_key])
                                 print(
                                     "Key " + growth_output_key +
-                                    " might be not available in growth "+
+                                    " might be not available in growth " +
                                     "concept!" +
                                     " Please read growth concept documentation."
                                 )
@@ -76,6 +76,6 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
                     string += "\n"
                     file.write(string)
                     for growth_output in self.growth_outputs:
-                        del(growth_information[growth_output])
+                        del (growth_information[growth_output])
                 file.close()
         self._output_counter += 1

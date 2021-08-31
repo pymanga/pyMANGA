@@ -448,7 +448,8 @@ class SimpleNetwork(BelowgroundCompetition):
     def getRGFforGrowthAndDeath(self, pairs):
         # Create a list of length pairs with random integers to iterate
         # randomly through the list of pairs
-        shuffled_indices = np.random.choice(len(pairs), len(pairs),
+        shuffled_indices = np.random.choice(len(pairs),
+                                            len(pairs),
                                             replace=False)
         for i in shuffled_indices:
             pair = pairs[i]

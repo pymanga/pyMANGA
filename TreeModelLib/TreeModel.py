@@ -30,3 +30,23 @@ class TreeModel:
         raise AttributeError("Function '" + string + "' is " +
                              "required for " + self.getConceptType() +
                              " but not implemented!")
+
+    def getOGSAccessible(self):
+        try:
+            self.concept.getOGSAccessible()
+        except AttributeError:
+            self.raiseAttributeError("getOGSAccessible")
+
+    ## Setter for external information
+    def setExternalInformation(self, **args):
+        try:
+            self.concept.setExternalInformation(**args)
+        except AttributeError:
+            self.raiseAttributeError("setExternalInformation")
+
+    ## Getter for external information
+    def getExternalInformation(self):
+        try:
+            return self.concept.getExternalInformation()
+        except AttributeError:
+            self.raiseAttributeError("getExternalInformation")

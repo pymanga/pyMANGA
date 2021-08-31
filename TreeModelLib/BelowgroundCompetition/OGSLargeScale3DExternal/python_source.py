@@ -4,6 +4,10 @@
 @date: 2021-Today
 @author: marie-christin.wimmler@tu-dresden.de
 """
+
+## This is an example file for an OGS boundary condition using MANGA external
+# Directories and file names need to be updated
+
 import OpenGeoSys
 import sys
 import numpy as np

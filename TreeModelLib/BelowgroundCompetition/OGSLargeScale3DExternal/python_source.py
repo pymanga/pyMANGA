@@ -16,14 +16,16 @@ import vtk as vtk
 sys.path.append("/Users/admin/Documents/GRIN/git_repos/")
 import pyMANGA
 
-
 # approx. of MANGA time step size in days
-manga_timestep_days = 1  # 10
+# if 0 MANGA is evaluated with each OGS time step greater than the time step
+# before: t > t_before
+manga_timestep_days = 30
 
 # initialize MANGA model
-xml_dir = "/Users/admin/Documents/GRIN/git_repos/pyMANGA/" \
-          "test/SmallTests/Test_Setups_small/"
-xml_file = "ExternalOGS.xml"  # AllSimple
+xml_dir = '/Users/admin/Documents/GRIN/git_repos/pyMANGA' \
+              '/test/LargeTests/Test_Setups_large/external_setup/'
+xml_file = "ExternalOGS.xml"
+print(" >> XML directory: " + xml_dir + xml_file)
 
 model = pyMANGA.Model(xml_dir + xml_file)
 model.createExternalTimeStepper()
@@ -31,9 +33,7 @@ model.createExternalTimeStepper()
 # OGS stuff
 seaward_salinity = 0.035
 # read source mesh
-source_mesh = '/Users/admin/Documents/GRIN/git_repos/pyMANGA' \
-              '/test/LargeTests/Test_Setups_large/external_setup' \
-              '/source_domain.vtu'
+source_mesh = xml_dir + '/source_domain.vtu'
 
 
 class CellInformation:
@@ -73,14 +73,21 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         no_cells = cell_information.getCellNo()
 
         if cell_id == no_cells - 1 and calls[no_cells - 1] == np.max(calls[0]):
-            # update MANGA-BC only if time increased
-            # if t > t_before:
-            # update MANGA-BC only after a certain time
-            time_diff = t - t_before
-            if time_diff >= manga_timestep_days * 3600 * 24:
+            progress_Manga = False
+            if manga_timestep_days == 0:
+                # update MANGA-BC only if time increased
+                if t > t_before:
+                    progress_Manga = True
+            else:
+                # update MANGA-BC only after a certain time
+                time_diff = t - t_before
+                if time_diff >= manga_timestep_days * 3600 * 24:
+                    progress_Manga = True
+
+            if progress_Manga:
                 print(">> MANGA step: " + str(i) + ", t: " +
-                      str(np.round(t / 3600 / 24, 1)) +
-                      ", max. S: " + str(np.round(np.max(
+                      str(np.round(t / 3600 / 24 / 365, 1)) +
+                      " years, max. S: " + str(np.round(np.max(
                       cumsum_salinity / calls) * 1000, 1)))
                 model.setBelowgroundInformation(
                     cumsum_salinity=cumsum_salinity,

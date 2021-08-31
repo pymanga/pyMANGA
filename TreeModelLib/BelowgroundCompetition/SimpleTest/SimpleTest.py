@@ -51,7 +51,7 @@ class SimpleTest(BelowgroundCompetition):
 
     ## Setter for external information - specify and document argument for each
     #  concept application
-    #  (See XMLtoProject.py as example)
+    #  (See examples from test directory)
     def setExternalInformation(self, **args):
         self.external_information = args
 

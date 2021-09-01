@@ -58,7 +58,8 @@ class OneTimestepOneFile(TreeOutput):
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
         print(
-            "Output to '" + self.output_dir + "' of tree positions, the " +
+            "Output to '" + os.path.join(os.getcwd(), self.output_dir) +
+            "' of tree positions, the " +
             "parameters ", self.parameter_outputs,
             " and geometric" + " measures ", self.geometry_outputs,
             " at every " + str(self.output_each_nth_timestep) +
@@ -79,14 +80,8 @@ class OneTimestepOneFile(TreeOutput):
             string = ""
             string += 'tree' + delimiter + 'time' + delimiter + 'x' + \
                       delimiter + 'y'
-            for geometry_output in self.geometry_outputs:
-                string += delimiter + geometry_output
-            for parameter_output in self.parameter_outputs:
-                string += delimiter + parameter_output
-            for growth_output in self.growth_outputs:
-                string += delimiter + growth_output
-            for network_output in self.network_outputs:
-                string += delimiter + network_output
+            string = self.addSelectedHeadings(string, delimiter)
+
             string += "\n"
             file.write(string)
             for group_name, tree_group in tree_groups.items():
@@ -96,39 +91,12 @@ class OneTimestepOneFile(TreeOutput):
                     string += (group_name + "_" + "%09.0d" % (tree.getId()) +
                                delimiter + str(time) + delimiter +
                                str(tree.x) + delimiter + str(tree.y))
-                    if (len(self.geometry_outputs) > 0):
-                        geometry = tree.getGeometry()
-                        for geometry_output in self.geometry_outputs:
-                            string += delimiter + str(
-                                geometry[geometry_output])
-                    if (len(self.parameter_outputs) > 0):
-                        parameter = tree.getParameter()
-                        for parameter_output in self.parameter_outputs:
-                            string += delimiter + str(
-                                parameter[parameter_output])
-                    if (len(self.growth_outputs) > 0):
-                        for growth_output_key in self.growth_outputs:
-                            try:
-                                string += delimiter + str(
-                                    growth_information[growth_output_key])
-                            except KeyError:
-                                growth_information[growth_output_key] = "NaN"
-                                string += delimiter + str(
-                                    growth_information[growth_output_key])
-                                print(
-                                    "Key " + growth_output_key +
-                                    " might be not available in growth " +
-                                    "concept!" +
-                                    " Please read growth concept documentation."
-                                )
-                    if len(self.network_outputs) > 0:
-                        network = tree.getNetwork()
-                        for network_output in self.network_outputs:
-                            string += delimiter + str(network[network_output])
+                    string = self.addSelectedOutputs(tree, string, delimiter,
+                                                     growth_information)
                     string += "\n"
                     file.write(string)
                     for growth_output in self.growth_outputs:
-                        del (growth_information[growth_output])
+                        del(growth_information[growth_output])
             file.close()
         self._output_counter += 1
 
@@ -149,3 +117,46 @@ class OneTimestepOneFile(TreeOutput):
     ## This function returns the output directory
     def getOutputDir(self):
         return self.output_dir
+
+    def addSelectedHeadings(self, string, delimiter):
+        for geometry_output in self.geometry_outputs:
+            string += delimiter + geometry_output
+        for parameter_output in self.parameter_outputs:
+            string += delimiter + parameter_output
+        for growth_output in self.growth_outputs:
+            string += delimiter + growth_output
+        for network_output in self.network_outputs:
+            string += delimiter + network_output
+        return string
+
+    def addSelectedOutputs(self, tree, string, delimiter, growth_information):
+        if len(self.geometry_outputs) > 0:
+            geometry = tree.getGeometry()
+            for geometry_output in self.geometry_outputs:
+                string += delimiter + str(
+                    geometry[geometry_output])
+        if len(self.parameter_outputs) > 0:
+            parameter = tree.getParameter()
+            for parameter_output in self.parameter_outputs:
+                string += delimiter + str(
+                    parameter[parameter_output])
+        if len(self.growth_outputs) > 0:
+            for growth_output_key in self.growth_outputs:
+                try:
+                    string += delimiter + str(
+                        growth_information[growth_output_key])
+                except KeyError:
+                    growth_information[growth_output_key] = "NaN"
+                    string += delimiter + str(
+                        growth_information[growth_output_key])
+                    print(
+                        "Key " + growth_output_key +
+                        " might be not available in growth " +
+                        "concept!" +
+                        " Please read growth concept documentation."
+                    )
+        if len(self.network_outputs) > 0:
+            network = tree.getNetwork()
+            for network_output in self.network_outputs:
+                string += delimiter + str(network[network_output])
+        return string

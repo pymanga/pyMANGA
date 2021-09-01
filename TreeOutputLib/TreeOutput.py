@@ -21,9 +21,11 @@ class TreeOutput:
             self.iniOneTimestepOneFile(args)
         elif self.case == "OneTimestepOneFilePerGroup":
             self.iniOneTimestepOneFilePerGroup(args)
+        elif self.case == "OneFile":
+            self.iniOneFile(args)
         else:
-            raise KeyError("Required tree_output of type '" + case + "' not "
-                           "implemented!")
+            raise KeyError("Required tree_output of type '" + self.case +
+                           "' not implemented!")
         print(self.case + " tree output sucesscully initiated.")
 
     ## Constructor for no output generation.
@@ -45,6 +47,11 @@ class TreeOutput:
     def iniOneTimestepOneFilePerGroup(self, args):
         from .OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup
         self.output = OneTimestepOneFilePerGroup(args)
+
+    ## Constructor for output which generates one file per simulation.
+    def iniOneFile(self, args):
+        from .OneFile import OneFile
+        self.output = OneFile(args)
 
     ## Dummy for write output function
     def writeOutput(self, tree_groups, time):

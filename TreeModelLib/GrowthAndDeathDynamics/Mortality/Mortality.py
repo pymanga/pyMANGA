@@ -43,16 +43,16 @@ class Mortality:
                                                         "initiated.")
 
     def iniNoGrowth(self, args, case):
-        from .modules import NoGrowth
-        self.mortality_concept.append(NoGrowth.NoGrowth(args, case))
+        from .NoGrowth import NoGrowth
+        self.mortality_concept.append(NoGrowth(args, case))
 
     def iniRandom(self, args, case):
-        from .modules import Random
-        self.mortality_concept.append(Random.Random(args, case))
+        from .Random import Random
+        self.mortality_concept.append(Random(args, case))
 
     def iniMemory(self, args, case):
-        from .modules import Memory
-        self.mortality_concept.append(Memory.Memory(args, case))
+        from .Memory import Memory
+        self.mortality_concept.append(Memory(args, case))
 
     def getMortConcept(self):
         return self.mortality_concept

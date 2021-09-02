@@ -6,7 +6,7 @@
 """
 
 import numpy as np
-from .NoGrowth import NoGrowth
+from TreeModelLib.GrowthAndDeathDynamics.Mortality.NoGrowth import NoGrowth
 
 
 class Random(NoGrowth):

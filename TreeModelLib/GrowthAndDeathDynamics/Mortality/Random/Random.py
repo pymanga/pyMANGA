@@ -19,7 +19,7 @@ class Random(NoGrowth):
             self.probability
         except:
             # Threshold for biomass increment: 0.5 %
-            self.probability = 0.002
+            self.probability = 0.0016
             print("NOTE: Use default `probability`: " + str(self.probability) +
                   ".")
 

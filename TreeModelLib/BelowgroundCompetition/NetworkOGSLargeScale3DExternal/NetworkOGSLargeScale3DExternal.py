@@ -60,10 +60,13 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  Before resource uptake is calculated, this function calls
     #  SimpleNetwork functions to develop the root graft network
     def calculateBelowgroundResources(self):
+        # Salinity below each tree
+        self._tree_salinity = np.empty(self.no_trees)
+        if self.no_trees <= 0:
+            print("WARNING: All trees are dead.")
+
         # Get salinity information from OGS in kg/kg
         OGSLargeScale3DExternal.calculateTreeSalinity(self)
-        # Calculate osmotic potential in Pa
-        self._psi_osmo = -self._tree_salinity * 1000 * 85000
 
         ## NetworkOGSLargeScale3D stuff
         # Convert psi_osmo to np array in order to use in

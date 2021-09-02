@@ -37,8 +37,12 @@ class Mortality:
                 self.iniMemory(args, case)
             elif case == "MinGirthGrowth":
                 self.iniMinGirthGrowth(args, case)
+            elif case == "BiomassMemory":
+                self.iniBiomassMemory(args, case)
             else:
-                raise KeyError("Required mortality not implemented.")
+                raise KeyError("Required mortality not implemented. "
+                               "Available concepts: `NoGrowth`, `Random`, "
+                               "`Memory`, `MinGirthGrowth`")
             print("Mortality concept of type " + case + " successfully "
                                                         "initiated.")
 
@@ -58,6 +62,10 @@ class Mortality:
         from .modules import MinGirthGrowth
         self.mortality_concept.append(MinGirthGrowth.MinGirthGrowth(args,
                                                                     case))
+
+    def iniBiomassMemory(self, args, case):
+        from .modules import BiomassMemory
+        self.mortality_concept.append(BiomassMemory.BiomassMemory(args, case))
 
     def getMortConcept(self):
         return self.mortality_concept

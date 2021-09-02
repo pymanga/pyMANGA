@@ -6,11 +6,11 @@
 """
 
 import numpy as np
+from .NoGrowth import NoGrowth
 
 
-class Memory:
+class Memory(NoGrowth):
     def __init__(self, args, case):
-        self.survive = 1
         self.threshold = 0.5
         self.period = 5 * 365.25 * 24 * 3600
         self.getMemoryPeriod(args)
@@ -25,14 +25,14 @@ class Memory:
         steps = int(self.period / args.time)
 
         # slice grow_memory array to get only relevant data
-        relevant_grow_memory = args.grow_memory[-steps:]
+        relevant_grow_memory = args.grow_inc_memory[-steps:]
 
         # exclude the very first time step if included in the relevant data
         # as this increment value is an outlier
         if len(relevant_grow_memory) < steps:
             relevant_grow_memory = relevant_grow_memory[1:]
 
-        # if no memory exists fill the array to avail run time errors
+        # if no memory exists fill the array to avoid run time errors
         if not relevant_grow_memory:
             relevant_grow_memory.append(0)
 
@@ -45,8 +45,21 @@ class Memory:
 
         return self.survive
 
-    def getConceptName(self):
-        return "Memory"
+    def getMortalityVariables(self, args, growth_concept_information):
+        try:
+            args.grow = growth_concept_information["growth"]
+            args.grow_inc_memory = growth_concept_information["grow_inc_memory"]
+        except KeyError:
+            args.grow = 0
+            args.grow_inc_memory = []
+        args.grow_before = args.grow
+
+    def setMortalityVariables(self, args, growth_concept_information):
+        growth_inc = args.grow - args.grow_before
+        args.grow_inc_memory.append(growth_inc)
+        growth_concept_information["grow_inc_memory"] = \
+            args.grow_inc_memory
+        return growth_concept_information
 
     def getMemoryPeriod(self, args):
         missing_tags = ["mortality", "threshold", "period", "probability",

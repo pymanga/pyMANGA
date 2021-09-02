@@ -6,11 +6,11 @@
 """
 
 import numpy as np
+from .NoGrowth import NoGrowth
 
 
-class MinGirthGrowth:
+class MinGirthGrowth(NoGrowth):
     def __init__(self, args, case):
-        self.survive = 1
         self.min_girth_growth = 0.05   # cm per year (Grueters et al. 2021)
         self.period = 5 * 365.25 * 24 * 3600
         self.getMinGrowthValue(args)
@@ -46,8 +46,19 @@ class MinGirthGrowth:
 
         return self.survive
 
-    def getConceptName(self):
-        return "MinGirthGrowth"
+    def getMortalityVariables(self, args, growth_concept_information):
+        try:
+            args.r_stem_memory = growth_concept_information["r_stem_memory"]
+        except:
+            args.r_stem_memory = []
+        args.r_stem_before = args.r_stem
+
+    def setMortalityVariables(self, args, growth_concept_information):
+        r_stem_inc = args.r_stem - args.r_stem_before
+        args.r_stem_memory.append(r_stem_inc)
+        growth_concept_information["r_stem_memory"] = \
+            args.r_stem_memory
+        return growth_concept_information
 
     def getMinGrowthValue(self, args):
         missing_tags = ["mortality", "min_girth_growth", "period",

@@ -6,17 +6,22 @@
 """
 
 import numpy as np
+from .NoGrowth import NoGrowth
 
 
-class Random:
+class Random(NoGrowth):
     def __init__(self, args, case):
-        self.survive = 1
-        self.probability = 0.002
-        self.getProbability(args)
-
-        print("Initiate mortality of type " + case +
-              " with a random mortality of " +
-              str(self.probability*100) + " %.")
+        super().__init__(args, case)
+        # Read input parameters from xml file
+        self.getInputParameters(args)
+        # Default values if no inputs are given
+        try:
+            self.probability
+        except:
+            # Threshold for biomass increment: 0.5 %
+            self.probability = 0.002
+            print("NOTE: Use default `probability`: " + str(self.probability) +
+                  ".")
 
     def getSurvival(self, args):
         self.survive = 1
@@ -31,10 +36,8 @@ class Random:
 
         return self.survive
 
-    def getConceptName(self):
-        return "Random"
-
-    def getProbability(self, args):
+    def getInputParameters(self, args):
+        # All tags are optional
         missing_tags = ["mortality", "probability", "threshold", "period",
                         "type", "variant", "f_growth"]
         for arg in args.iterdescendants():

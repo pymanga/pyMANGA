@@ -115,7 +115,7 @@ class SimpleNetwork(TreeModel):
 
         self._xe.append(x)
         self._ye.append(y)
-        self.n_trees = len(self._xe)
+        self.no_trees = len(self._xe)
         self._tree_names = np.concatenate(
             (self._tree_names, [str(tree.group_name) + str(tree.tree_id)]))
 
@@ -147,7 +147,7 @@ class SimpleNetwork(TreeModel):
         # 'NetworkOGSLargeScale3D'
         if self.bg_concept != "NetworkOGSLargeScale3D":
             self._psi_osmo = np.array(
-                [0] * self.n_trees)  # Salinity is 0 ppt is the basic scenario
+                [0] * self.no_trees)  # Salinity is 0 ppt is the basic scenario
 
         self._kf_sap.append(parameter["kf_sap"])
 
@@ -162,7 +162,7 @@ class SimpleNetwork(TreeModel):
         self.rootGraftFormation()
         self.calculateBGresourcesTree()
         res_b_noSal = self.getBGresourcesIndividual(
-            self._psi_top, np.array([0] * self.n_trees),
+            self._psi_top, np.array([0] * self.no_trees),
             self._above_graft_resistance, self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b_noSal
         self.updateNetworkParametersForGrowthAndDeath()
@@ -172,7 +172,7 @@ class SimpleNetwork(TreeModel):
     def updateNetworkParametersForGrowthAndDeath(self):
         # Update the parameter belonging to the tree and are needed in the
         # growth- and-death-concept
-        for i, tree in zip(range(0, self.n_trees), self.trees):
+        for i, tree in zip(range(0, self.no_trees), self.trees):
             network = {}
             # Parameters related to the root graft formation process
             network['potential_partner'] = self._potential_partner[i]
@@ -257,7 +257,7 @@ class SimpleNetwork(TreeModel):
     def updatePartnerIdices(self):
         ## In order to access the partners by their indices the current
         # indices must be updated in each time step.
-        tree_indices = np.array(range(0, self.n_trees))
+        tree_indices = np.array(range(0, self.no_trees))
         for i in self._partner_names:
             if not i:
                 self._partner_indices.append([])
@@ -346,7 +346,7 @@ class SimpleNetwork(TreeModel):
     # dictionary.
     def assignGroupIDs(self):
         components = self.getComponents(self.graph_dict)
-        self._gIDs = np.zeros(self.n_trees, dtype='object')
+        self._gIDs = np.zeros(self.no_trees, dtype='object')
         for i in components.keys():
             self._gIDs[components[i]] = 'gID_' + str(i)
 
@@ -715,10 +715,10 @@ class SimpleNetwork(TreeModel):
     # all trees. Depending on the graft status of a tree, i.e. grafted vs.
     # non-grafted, this function calls the corresponding BG-resource function.
     def calculateBGresourcesTree(self):
-        ids = np.array(range(0, self.n_trees))
-        self._water_avail = np.zeros(self.n_trees)
-        self._water_absorb = np.zeros(self.n_trees)
-        self._water_exchanged_trees = np.zeros(self.n_trees)
+        ids = np.array(range(0, self.no_trees))
+        self._water_avail = np.zeros(self.no_trees)
+        self._water_absorb = np.zeros(self.no_trees)
+        self._water_exchanged_trees = np.zeros(self.no_trees)
         for gID in set(self._gIDs):
             # get tree indices of group members
             members = ids[np.where(self._gIDs == gID)]

@@ -93,9 +93,8 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         if self.no_trees <= 0:
             print("WARNING: All trees are dead.")
 
-        # Calculate salinity below tree
-        self.calculateTreeSalinity()
-        self._psi_osmo = -self._tree_salinity * 1000 * 85000
+        # Calculate salinity (and psi_osmo) below tree
+        super().calculateTreeSalinity()
 
         self.tree_water_uptake = -(self._psi_leaf - self._psi_height -
                                    self._psi_osmo) / \
@@ -104,28 +103,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
                                           (self._psi_leaf - self._psi_height))
 
         # Calculate contribution per cell
-        self.calculateTreeContribution()
-
-    ## This function calculates the salinity below each tree as the mean of
-    # all tree-affected cells
-    def calculateTreeSalinity(self):
-        salinity = self.cumsum_salinity / self.calls_per_cell
-        for tree_id in range(self.no_trees):
-            ids = self._tree_cell_ids[tree_id]
-            mean_salinity_for_tree = np.mean(salinity[ids])
-            self._tree_salinity[tree_id] = mean_salinity_for_tree
-
-    ## This function calculates the water withdrawal in each cell based on
-    # individual tree water uptake.
-    # Unit: kg per sec per cell volume
-    def calculateTreeContribution(self):
-        self.tree_contributions = np.zeros(len(self.cumsum_salinity))
-        for tree_id in range(self.no_trees):
-            ids = self._tree_cell_ids[tree_id]
-            v = super().getVolume(affected_cells=ids)
-            per_volume = 1. / v
-            tree_contribution = self.tree_water_uptake[tree_id]
-            self.tree_contributions[ids] = tree_contribution * per_volume
+        super().calculateTreeContribution()
 
     ## Setter for external information
     # This function sets the parameters 'cumsum_salinity' and 'calls_per_cell',
@@ -135,6 +113,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         # information about cell salinity from OGS
         self.cumsum_salinity = args["cumsum_salinity"]
         self.calls_per_cell = args["calls_per_cell"]
+        self._salinity = self.cumsum_salinity / self.calls_per_cell
 
     ## Getter for external information
     # This function returns the estimated water withdrawal in each cell

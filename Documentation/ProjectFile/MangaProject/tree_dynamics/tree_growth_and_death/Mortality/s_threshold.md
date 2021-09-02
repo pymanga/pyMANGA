@@ -1,6 +1,4 @@
 
-`Threshold` defines the percentages of the moving average biomass increment that must be exceeded to survive.
-
-> if biomass_increment < `threshold` * avg(biomass_increment): tree dies
+`Threshold` defines the minimum relative growth of tree over a certain period, e.g. 0.5 % (0.005) of biomass increment per year.
 
 

@@ -33,8 +33,8 @@ class Mortality:
                 self.iniNoGrowth(args, case)
             elif case == "Random":
                 self.iniRandom(args, case)
-            elif case == "BiomassMemory":
-                self.iniBiomassMemory(args, case)
+            elif case == "Memory":
+                self.iniMemory(args, case)
             else:
                 raise KeyError("Required mortality not implemented. "
                                "Available concepts: `NoGrowth`, `Random`, "
@@ -50,9 +50,9 @@ class Mortality:
         from .modules import Random
         self.mortality_concept.append(Random.Random(args, case))
 
-    def iniBiomassMemory(self, args, case):
-        from .modules import BiomassMemory
-        self.mortality_concept.append(BiomassMemory.BiomassMemory(args, case))
+    def iniMemory(self, args, case):
+        from .modules import Memory
+        self.mortality_concept.append(Memory.Memory(args, case))
 
     def getMortConcept(self):
         return self.mortality_concept

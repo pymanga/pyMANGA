@@ -5,7 +5,7 @@ The following concepts are available for `SimpleBettina` and `NetworkBettina`
 
 - `NoGrowth`: trees die if growth is <= 0
 - `Random`: trees die randomly with a defined probability
-- `BiomassMemory`: trees die if relative growth falls below a given threshold
+- `Memory`: trees die if relative growth falls below a given threshold
 
 Mortality concepts are defined using the tag `<mortality>`. 
 The default concept is `NoGrowth` (no specification in the input xml file required).
@@ -29,9 +29,9 @@ Use `<probability> 0.002 </probability>` to modify concept parameters.
 In this concept, a tree does not die of mechanistic reasons. It is useful to combine `Random` with `NoGrowth` or `Memory`.  
 
 
-### Concept `BiomassMemory`
+### Concept `Memory`
 
-In `BiomassMemory`, a tree remembers its relative growth of the preceding N years (in m³ per memory period). 
+In `Memory`, a tree remembers its relative growth of the preceding N years (in m³ per memory period). 
 Relative growth is defined as the fraction of growth in tree biomass (in m³ per m³).
 If the relative growth falls below a certain threshold, a tree dies.  
 

@@ -8,7 +8,7 @@
 from .NoGrowth import NoGrowth
 
 
-class BiomassMemory(NoGrowth):
+class Memory(NoGrowth):
     def __init__(self, args, case):
         super().__init__(args, case)
         # Read input parameters from xml file

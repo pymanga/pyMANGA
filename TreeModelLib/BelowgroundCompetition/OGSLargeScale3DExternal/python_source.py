@@ -13,7 +13,9 @@ import sys
 import numpy as np
 import vtk as vtk
 
-sys.path.append("/Users/admin/Documents/GRIN/git_repos/")
+# Please define the path to the directory holding pyMANGA
+directory_to_manga = "/path/to/directory/"
+sys.path.append(directory_to_manga)
 import pyMANGA
 
 # approx. of MANGA time step size in days
@@ -21,19 +23,20 @@ import pyMANGA
 # before: t > t_before
 manga_timestep_days = 30
 
-# initialize MANGA model
-xml_dir = '/Users/admin/Documents/GRIN/git_repos/pyMANGA' \
-              '/test/LargeTests/Test_Setups_large/external_setup/'
+## Initialize MANGA model
+# Please define the directory containing all setup files such as xml-project
+# file and the source mesh
+setup_dir = '/path/to/directory/containing/project/files/'
 xml_file = "ExternalOGS.xml"
-print(" >> XML directory: " + xml_dir + xml_file)
+print(" >> XML directory: " + setup_dir + xml_file)
 
-model = pyMANGA.Model(xml_dir + xml_file)
+model = pyMANGA.Model(setup_dir + xml_file)
 model.createExternalTimeStepper()
 
 # OGS stuff
 seaward_salinity = 0.035
 # read source mesh
-source_mesh = xml_dir + '/source_domain.vtu'
+source_mesh = setup_dir + '/source_domain.vtu'
 
 
 class CellInformation:

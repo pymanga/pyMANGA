@@ -64,6 +64,9 @@ class OGSLargeScale3D(BelowgroundCompetition):
     #  timestep. For each tree a reduction factor is calculated which is defined
     #  as: resource uptake at zero salinity/ real resource uptake.
     def calculateBelowgroundResources(self):
+        # Number of trees
+        self.no_trees = len(self._tree_constant_contribution)
+
         self.copyPythonScript()
 
         np.save(
@@ -88,20 +91,20 @@ class OGSLargeScale3D(BelowgroundCompetition):
                     and ("_" + str(self._t_end)) in file):
                 self._ogs_bulk_mesh.text = str(file)
 
-        cumsum_salinity = np.load(
-            path.join(self._ogs_project_folder, "cumsum_salinity.npy"))
-        calls_per_cell = np.load(
-            path.join(self._ogs_project_folder, "calls_in_last_timestep.npy"))
-        salinity = cumsum_salinity / calls_per_cell
-        for tree_id in range(len(self._tree_constant_contribution)):
-            ids = self._tree_cell_ids[tree_id]
-            mean_salinity_for_tree = np.mean(salinity[ids])
-            belowground_resource = (
-                (self._tree_constant_contribution[tree_id] +
-                 mean_salinity_for_tree *
-                 self._tree_salinity_prefactor[tree_id]) /
-                self._tree_constant_contribution[tree_id])
-            self.belowground_resources.append(belowground_resource)
+        # Get cell salinity array from external files
+        self.getSalinity()
+        # Calculate salinity below each tree
+        self.calculateTreeSalinity()
+        # Calculate tree water uptake in kg per sec
+        self.tree_water_uptake = self._tree_constant_contribution + \
+                                 self._tree_salinity_prefactor * \
+                                 self._tree_salinity
+        # Calculate below ground resource factor
+        self.belowground_resources = self.tree_water_uptake / \
+                                     self._tree_constant_contribution
+
+        # Calculate contribution per cell
+        self.calculateTreeContribution()
 
         parameters = self._tree.find("parameters")
         for parameter in parameters.iterchildren():
@@ -132,6 +135,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self._tree_salinity_prefactor = []
         self._constant_contributions = np.zeros_like(self._volumes)
         self._salinity_prefactors = np.zeros_like(self._volumes)
+        self._salinity = np.zeros_like(self._volumes)
         self._t_end_list.append(self._t_end)
         try:
             self._t_ini_zero
@@ -143,6 +147,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
         self._tree.write(filename)
         ## List containing reduction factor for each tree
         self.belowground_resources = []
+        self._tree_salinity = []
 
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next timestep.
@@ -216,6 +221,37 @@ class OGSLargeScale3D(BelowgroundCompetition):
             v_i = self._volumes.GetTuple(cell_id)[0]
             v += v_i
         return v
+
+    ## This function reads cumulated salinity and calls per cell from
+    # external files and calculates the salinity in each cell
+    def getSalinity(self):
+        cumsum_salinity = np.load(
+            path.join(self._ogs_project_folder, "cumsum_salinity.npy"))
+        calls_per_cell = np.load(
+            path.join(self._ogs_project_folder, "calls_in_last_timestep.npy"))
+        self._salinity = cumsum_salinity / calls_per_cell
+
+    ## This function calculates the salinity below each tree as the mean of
+    # all tree-affected cells
+    def calculateTreeSalinity(self):
+        self._tree_salinity = np.zeros(self.no_trees)
+        for tree_id in range(self.no_trees):
+            ids = self._tree_cell_ids[tree_id]
+            mean_salinity_for_tree = np.mean(self._salinity[ids])
+            self._tree_salinity[tree_id] = mean_salinity_for_tree
+        self._psi_osmo = -self._tree_salinity * 1000 * 85000
+
+    ## This function calculates the water withdrawal in each cell based on
+    # individual tree water uptake.
+    # Unit: kg per sec per cell volume
+    def calculateTreeContribution(self):
+        self.tree_contributions = np.zeros(len(self._salinity))
+        for tree_id in range(self.no_trees):
+            ids = self._tree_cell_ids[tree_id]
+            v = self.getVolume(affected_cells=ids)
+            per_volume = 1. / v
+            tree_contribution = self.tree_water_uptake[tree_id]
+            self.tree_contributions[ids] = tree_contribution * per_volume
 
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.

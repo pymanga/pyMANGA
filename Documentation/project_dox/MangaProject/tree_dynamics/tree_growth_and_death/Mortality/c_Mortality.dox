@@ -7,8 +7,6 @@ The following concepts are available for `SimpleBettina` and `NetworkBettina`
 - `NoGrowth`: trees die if growth is <= 0
 - `Random`: trees die randomly with a defined probability
 - `BiomassMemory`: trees die if relative growth falls below a given threshold
-- `Memory`: trees die if biomass increment falls below a threshold based on preceding growth
-- `MinGirthGrowth`: trees die if average preceding girth growth is less than a defined rate
 
 Mortality concepts are defined using the tag `<mortality>`. 
 The default concept is `NoGrowth` (no specification in the input xml file required).
@@ -44,35 +42,8 @@ The default memory period is 1 year (i.e. `<period> 31557600 </period>`).
 This concept is based on mechanistic causes, e.g. slowing down of growth due external perturbations. 
 A tree can survive a period of resource scarcity but if conditions do not improve, the tree dies.  
 No tree dies of random reasons.
-
-
-### Concept `Memory`
-
-In `Memory`, a tree remembers its biomass increment of the preceding N years.
-If the current biomass increment is below a certain percentage of average growth increment of the last N years the tree dies (similar to Berger & Hildenbrandt (2000)).
-The period the memory lasts (N) is defined with `<period> </period>` in the xml file (default: 5 years).
-The threshold (percentage) is defined with `<threshold> </threshold>` in the xml file (default: 0.5). The value must be a number between 0 and 1.  
-Use `<period> 2 </period>` and `<threshold> 0.5 </threshold>` to modify concept parameters.
-
-This concept is based on mechanistic causes, e.g. slowing down of growth due to tree age, and no tree dies of random reasons.
-
-
-### Concept `MinGirthGrowth`
-
-The concept is similar to `Memory` but uses girth growth as the relevant parameter to assess survival.  
-
-`MinGirthGrowth` requires a minimum yearly girth growth rate in [cm per year]. 
-If a trees moving average girth growth over the previous N years fell below the minimum rate, the tree dies.
-The default growth rate is 0.05 cm per year (Grueters et al. 2021 for Rhizophora).  
-Use `<period> 2 </period>` and `<min_girth_growth> 0.5 </min_girth_growth>` to modify concept parameters.
-
-NOTE: The concept is only applied to trees with age > N as otherwise trees will die immediately.  
-That is, the tree dies not immediately after recruitment.
-
-This concept is based on mechanistic causes, e.g. slowing down of growth due to tree age, and no tree dies of random reasons.
 # Required inputs: 
  
-- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__min_girth_growth
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__period
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__probability
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__threshold

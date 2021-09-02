@@ -33,10 +33,6 @@ class Mortality:
                 self.iniNoGrowth(args, case)
             elif case == "Random":
                 self.iniRandom(args, case)
-            elif case == "Memory":
-                self.iniMemory(args, case)
-            elif case == "MinGirthGrowth":
-                self.iniMinGirthGrowth(args, case)
             elif case == "BiomassMemory":
                 self.iniBiomassMemory(args, case)
             else:
@@ -54,19 +50,9 @@ class Mortality:
         from .modules import Random
         self.mortality_concept.append(Random.Random(args, case))
 
-    def iniMemory(self, args, case):
-        from .modules import Memory
-        self.mortality_concept.append(Memory.Memory(args, case))
-
-    def iniMinGirthGrowth(self, args, case):
-        from .modules import MinGirthGrowth
-        self.mortality_concept.append(MinGirthGrowth.MinGirthGrowth(args,
-                                                                    case))
-
     def iniBiomassMemory(self, args, case):
         from .modules import BiomassMemory
         self.mortality_concept.append(BiomassMemory.BiomassMemory(args, case))
 
     def getMortConcept(self):
         return self.mortality_concept
-

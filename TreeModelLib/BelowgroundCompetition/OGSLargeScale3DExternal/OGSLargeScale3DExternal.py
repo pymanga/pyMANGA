@@ -48,7 +48,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         self.belowground_resources = []
 
         # arrays with length 'no. of cells'
-        self.tree_contributions = []
+        self.tree_contribution_per_cell = []
 
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next time step.
@@ -100,7 +100,20 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
                                           (self._psi_leaf - self._psi_height))
 
         # Calculate contribution per cell
-        super().calculateTreeContribution()
+        self.calculateTreeContribution()
+
+    ## This function calculates the water withdrawal in each cell based on
+    # individual tree water uptake.
+    # Unit: kg per sec per cell volume
+    def calculateTreeContribution(self):
+        self.tree_contribution_per_cell = np.zeros(len(self._salinity))
+        for tree_id in range(self.no_trees):
+            ids = self._tree_cell_ids[tree_id]
+            v = self.getVolume(affected_cells=ids)
+            per_volume = 1. / v
+            tree_contribution = self.tree_water_uptake[tree_id]
+            self.tree_contribution_per_cell[ids] = tree_contribution * \
+                                                    per_volume
 
     ## Setter for external information
     # This function sets the parameters 'cumsum_salinity' and 'calls_per_cell',
@@ -116,4 +129,4 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     # This function returns the estimated water withdrawal in each cell
     # as rate (kg per sec per cell volume)
     def getExternalInformation(self):
-        return self.tree_contributions
+        return self.tree_contribution_per_cell

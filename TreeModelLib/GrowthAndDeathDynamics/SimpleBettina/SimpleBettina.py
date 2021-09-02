@@ -55,7 +55,9 @@ class SimpleBettina(TreeModel):
 
         # Define variables that are only required for specific Mortality
         # concepts
-        self.getMortalityVariables(growth_concept_information)
+        for mortality_concept in self.mortality_concept:
+            mortality_concept.getMortalityVariables(
+                self, growth_concept_information)
 
         self.flowLength()
         self.treeVolume()
@@ -93,8 +95,10 @@ class SimpleBettina(TreeModel):
             self.weight_rootgrowth
 
         # Set Mortality-related variables
-        growth_concept_information = self.setMortalityVariables(
-            growth_concept_information)
+        for mortality_concept in self.mortality_concept:
+            growth_concept_information = \
+                mortality_concept.setMortalityVariables(
+                    self, growth_concept_information)
 
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)
@@ -211,33 +215,3 @@ class SimpleBettina(TreeModel):
 
         if 0 in survive:
             self.survive = 0
-
-    def getMortalityVariables(self, growth_concept_information):
-        if "Memory" in self.mortality_concept_names:
-            try:
-                self.grow = growth_concept_information["growth"]
-                self.grow_memory = growth_concept_information["grow_memory"]
-            except KeyError:
-                self.grow = 0
-                self.grow_memory = []
-            self.grow_before = self.grow
-
-        if "MinGirthGrowth" in self.mortality_concept_names:
-            try:
-                self.r_stem_memory = growth_concept_information["r_stem_memory"]
-            except:
-                self.r_stem_memory = []
-            self.r_stem_before = self.r_stem
-
-    def setMortalityVariables(self, growth_concept_information):
-        if "Memory" in self.mortality_concept_names:
-            growth_inc = self.grow - self.grow_before
-            self.grow_memory.append(growth_inc)
-            growth_concept_information["grow_memory"] = \
-                self.grow_memory
-        if "MinGirthGrowth" in self.mortality_concept_names:
-            r_stem_inc = self.r_stem - self.r_stem_before
-            self.r_stem_memory.append(r_stem_inc)
-            growth_concept_information["r_stem_memory"] = \
-                self.r_stem_memory
-        return growth_concept_information

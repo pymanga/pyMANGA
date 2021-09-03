@@ -53,3 +53,6 @@ class TreeModel:
 
     def getAbovegroundResources(self):
         return self.aboveground_resources
+
+    def getBelowgroundResources(self):
+        return self.belowground_resources

@@ -39,7 +39,32 @@ class MangaProject:
 
     def iniBelowgroundCompetition(self):
         arg = self.args["belowground_competition"]
-        self.belowground_competition = (BelowgroundCompetition(arg))
+        case = arg.find("type").text
+        if case == "SimpleTest":
+            from TreeModelLib.BelowgroundCompetition.SimpleTest import SimpleTest as createBC
+        elif case == "SimpleHydro":
+            from TreeModelLib.BelowgroundCompetition.SimpleHydro import SimpleHydro as createBC
+        elif case == "OGSLargeScale3D":
+            from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D as createBC
+        elif case == "OGSWithoutFeedback":
+            from TreeModelLib.BelowgroundCompetition.OGSWithoutFeedback import OGSWithoutFeedback as createBC
+        elif case == "FON":
+            from TreeModelLib.BelowgroundCompetition.FON import FON as createBC
+        elif case == "FixedSalinity":
+            from TreeModelLib.BelowgroundCompetition.FixedSalinity import FixedSalinity as createBC
+        elif case == "SimpleNetwork":
+            from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork as createBC
+        elif case == "NetworkHydro":
+            from TreeModelLib.BelowgroundCompetition.NetworkHydro import NetworkHydro as createBC
+        elif case == "NetworkFixedSalinity":
+            from TreeModelLib.BelowgroundCompetition.NetworkFixedSalinity import NetworkFixedSalinity as createBC
+        elif case == "OGSLargeScale3DExternal":
+            from TreeModelLib.BelowgroundCompetition.OGSLargeScale3DExternal import OGSLargeScale3DExternal as createBC
+        else:
+            raise KeyError("Required belowground competition case " + case +
+                           " not implemented.")
+        self.belowground_competition = createBC(arg)
+        print(case + " belowground competition successfully initiated.")
 
     def getAbovegroundCompetition(self):
         return self.aboveground_competition
@@ -48,13 +73,12 @@ class MangaProject:
         arg = self.args["aboveground_competition"]
         case = arg.find("type").text
         if case == "SimpleTest":
-            from TreeModelLib.AbovegroundCompetition.SimpleTest import SimpleTest
-            self.aboveground_competition = SimpleTest(arg)
+            from TreeModelLib.AbovegroundCompetition.SimpleTest import SimpleTest as createAC
         elif case == "SimpleAsymmetricZOI":
-            from TreeModelLib.AbovegroundCompetition.SimpleAsymmetricZOI import SimpleAsymmetricZOI
-            self.aboveground_competition = SimpleAsymmetricZOI(arg)
+            from TreeModelLib.AbovegroundCompetition.SimpleAsymmetricZOI import SimpleAsymmetricZOI as createAC
         else:
             raise KeyError("Required aboveground competition not implemented.")
+        self.aboveground_competition = createAC(arg)
         print(case + " aboveground competition successfully initiated.")
 
     def getDeathAndGrowthConcept(self):

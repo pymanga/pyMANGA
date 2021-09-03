@@ -4,11 +4,11 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
+from TreeModelLib import TreeModel
 import numpy as np
 
 
-class SimpleBettina(GrowthAndDeathDynamics):
+class SimpleBettina(TreeModel):
     ## SimpleBettina for death and growth dynamics. This module is implements
     #  the BETTINA single tree model as described in the ODD, appendix of
     #  https://doi.org/10.1016/j.ecolmodel.2018.10.005 \n

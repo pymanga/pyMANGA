@@ -5,10 +5,10 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 import numpy as np
-from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
+from TreeModelLib import TreeModel
 
 
-class SimpleNetwork(BelowgroundCompetition):
+class SimpleNetwork(TreeModel):
     #########
     # BASIC #
     #########

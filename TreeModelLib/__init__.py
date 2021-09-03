@@ -6,5 +6,4 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 from .TreeModel import TreeModel
-from .BelowgroundCompetition import BelowgroundCompetition
 from .GrowthAndDeathDynamics import GrowthAndDeathDynamics

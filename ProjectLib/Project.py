@@ -46,7 +46,16 @@ class MangaProject:
 
     def iniAbovegroundCompetition(self):
         arg = self.args["aboveground_competition"]
-        self.aboveground_competition = (AbovegroundCompetition(arg))
+        case = arg.find("type").text
+        if case == "SimpleTest":
+            from TreeModelLib.AbovegroundCompetition.SimpleTest import SimpleTest
+            self.aboveground_competition = SimpleTest(arg)
+        elif case == "SimpleAsymmetricZOI":
+            from TreeModelLib.AbovegroundCompetition.SimpleAsymmetricZOI import SimpleAsymmetricZOI
+            self.aboveground_competition = SimpleAsymmetricZOI(arg)
+        else:
+            raise KeyError("Required aboveground competition not implemented.")
+        print(case + " aboveground competition successfully initiated.")
 
     def getDeathAndGrowthConcept(self):
         return self.growth_and_death_dynamics

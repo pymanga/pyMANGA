@@ -50,3 +50,6 @@ class TreeModel:
             return self.concept.getExternalInformation()
         except AttributeError:
             self.raiseAttributeError("getExternalInformation")
+
+    def getAbovegroundResources(self):
+        return self.aboveground_resources

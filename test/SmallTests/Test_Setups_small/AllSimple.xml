@@ -49,7 +49,7 @@
         <delta_t> 1e7 </delta_t>
     </tree_time_loop>
     <visualization>
-        <type> SimplePyplot </type>
+        <type> NONE </type>
     </visualization>
     <tree_output>
         <type> NONE </type>

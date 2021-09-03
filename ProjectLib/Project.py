@@ -86,7 +86,20 @@ class MangaProject:
 
     def iniDeathAndGrowthConcept(self):
         arg = self.args["tree_growth_and_death"]
-        self.growth_and_death_dynamics = (GrowthAndDeathDynamics(arg))
+        case = arg.find("type").text
+        if case == "SimpleTest":
+            print("here")
+            from TreeModelLib.GrowthAndDeathDynamics.SimpleTest import SimpleTest as createGD
+        elif case == "SimpleBettina":
+            from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina as createGD
+        elif case == "SimpleKiwi":
+            from TreeModelLib.GrowthAndDeathDynamics.SimpleKiwi import SimpleKiwi as createGD
+        elif case == "NetworkBettina":
+            from TreeModelLib.GrowthAndDeathDynamics.NetworkBettina import NetworkBettina as createGD
+        else:
+            raise KeyError("Required growth and death not implemented.")
+        self.growth_and_death_dynamics = createGD(arg)
+        print(case + " growth and death dynamics initiated.")
 
     def iniPopulation(self):
         arg = self.args["initial_population"]

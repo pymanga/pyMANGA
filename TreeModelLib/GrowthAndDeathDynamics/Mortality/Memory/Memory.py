@@ -68,18 +68,19 @@ class Memory(NoGrowth):
 
     def getInputParameters(self, args):
         # All tags are optional
-        missing_tags = ["mortality", "threshold", "period", "probability",
-                        "type", "variant", "f_growth"]
+        missing_tags = ["type", "mortality", "threshold", "period"]
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "threshold":
                 self.threshold = float(args.find("threshold").text)
             elif tag == "period":
                 self.period = float(args.find("period").text)
+            elif tag == "type":
+                case = args.find("type").text
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
-                    " not specified for mortality in growth and death "
-                    "initialisation!")
+                print("WARNING: Tag " + tag +
+                      " not specified for " + super().getConceptName() +
+                      " (" + case + ") " +
+                      "mortality initialisation!")

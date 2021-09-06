@@ -41,16 +41,17 @@ class Random(NoGrowth):
 
     def getInputParameters(self, args):
         # All tags are optional
-        missing_tags = ["mortality", "probability", "threshold", "period",
-                        "type", "variant", "f_growth"]
+        missing_tags = ["type", "mortality", "probability"]
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "probability":
                 self.probability = float(args.find("probability").text)
+            elif tag == "type":
+                case = args.find("type").text
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
-                    " not specified for mortality in growth and death "
-                    "initialisation!")
+                print("WARNING: Tag " + tag +
+                      " not specified for " + super().getConceptName() +
+                      " (" + case + ") " +
+                      "mortality initialisation!")

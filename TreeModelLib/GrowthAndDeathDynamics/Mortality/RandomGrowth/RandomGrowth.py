@@ -60,17 +60,17 @@ class RandomGrowth(Random):
 
     def getInputParameters(self, args):
         # All tags are optional
-        missing_tags = ["mortality", "k_die",
-                        "probability", "threshold", "period",
-                        "type", "variant", "f_growth"]
+        missing_tags = ["type", "mortality", "k_die"]
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "k_die":
                 self.k_die = float(args.find("k_die").text)
+            elif tag == "type":
+                case = args.find("type").text
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
-                    " not specified for mortality in growth and death "
-                    "initialisation!")
+                print("WARNING: Tag " + tag +
+                      " not specified for " + super().getConceptName() +
+                      " (" + case + ") " +
+                      "mortality initialisation!")

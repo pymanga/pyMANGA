@@ -143,9 +143,9 @@ class SimpleNetwork(TreeModel):
             -(2 * geometry["r_crown"] + geometry["h_stem"]) * 9810)
         self._psi_top = np.array(self._psi_leaf) - np.array(self._psi_height)
 
-        # psi osmo is added separately in below-ground competition concept
-        # 'NetworkOGSLargeScale3D'
-        if self.bg_concept != "NetworkOGSLargeScale3D":
+        # psi osmo is added separately in some below-ground competition concept
+        if self.bg_concept in ["SimpleNetwork", "NetworkFixedSalinity",
+                               "NetworkHydro"]:
             self._psi_osmo = np.array(
                 [0] * self.no_trees)  # Salinity is 0 ppt is the basic scenario
 
@@ -664,8 +664,8 @@ class SimpleNetwork(TreeModel):
                size] = self._psi_osmo[to_IDs] - self._psi_osmo[from_IDs]  # y
         return matrix
 
-    ## Function that calculates water uptake of an individual tree,
-    # see  SimpleBettina.
+    ## Function that calculates water uptake of an individual tree in m³ per
+    # time step, see  SimpleBettina.
     # @return a scalar
     # @param psi_top - difference between min. leaf water potential and
     # height potential

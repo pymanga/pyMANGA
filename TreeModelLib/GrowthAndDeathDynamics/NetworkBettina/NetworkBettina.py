@@ -15,15 +15,8 @@ class NetworkBettina(SimpleBettina):
     #  @param Tags to define SimpleBettina: type
     #  @date 2019 - Today
     def __init__(self, args):
-        case = args.find("type").text
-        print("Growth and death dynamics of type " + case + ".")
+        super().__init__(args)
         self.getInputParameters(args)
-
-        M = Mortality.Mortality(args)
-        self.mortality_concept = M.getMortConcept()
-        self.mortality_concept_names = []
-        for concept in self.mortality_concept:
-            self.mortality_concept_names.append(concept.getConceptName())
 
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         network = tree.getNetwork()

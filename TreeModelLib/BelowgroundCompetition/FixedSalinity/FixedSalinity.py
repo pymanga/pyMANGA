@@ -49,11 +49,13 @@ class FixedSalinity(TreeModel):
             if tag == "max_x":
                 self._max_x = float(args.find("max_x").text)
 
+            elif tag == "type":
+                case = args.find("type").text
             try:
                 missing_tags.remove(tag)
-            except:
+            except ValueError:
                 print("WARNING: Tag " + tag +
-                      " not specified for 'FixedSalinity' below-ground "
+                      " not specified for " + case + " below-ground " +
                       "initialisation!")
         if len(missing_tags) > 0:
             string = ""

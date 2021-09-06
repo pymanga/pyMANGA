@@ -207,21 +207,21 @@ class SimpleNetwork(TreeModel):
             tag = arg.tag
             if tag == "f_radius":
                 self.f_radius = float(args.find("f_radius").text)
-            if tag == "type":
-                self.bg_concept = args.find("type").text
+            elif tag == "type":
+                case = args.find("type").text
             try:
                 missing_tags.remove(tag)
-            except:
-                print(
-                    "WARNING: Tag " + str(tag) + " not specified for "
-                                             "'SimpleNetwork' below-ground initialisation!")
+            except ValueError:
+                print("WARNING: Tag " + tag +
+                      " not specified for " + case + " growth-and-death " +
+                      "initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:
                 string += tag + " "
             raise KeyError(
                 "Tag(s) " + string +
-                "are not given for below-ground initialisation in project "
+                "are missing for below-ground initialisation in project "
                 "file.")
 
     '''

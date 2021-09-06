@@ -27,7 +27,7 @@ class Random(NoGrowth):
         self.survive = 1
         r = np.random.random(1)
         # Number of time steps per year
-        steps_per_year = (3600 * 24 * 365) / args.time
+        steps_per_year = self.getStepsPerYear(args)
         ## Multiply r with the number of time steps per year to induce a
         # yearly mortality
         if r * steps_per_year < self.probability:
@@ -35,6 +35,9 @@ class Random(NoGrowth):
             print("\t Tree died randomly. Random number: " + str(r[0]))
 
         return self.survive
+
+    def getStepsPerYear(self, args):
+        return (3600 * 24 * 365.25) / args.time
 
     def getInputParameters(self, args):
         # All tags are optional

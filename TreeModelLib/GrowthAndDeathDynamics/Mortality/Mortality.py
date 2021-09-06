@@ -33,12 +33,14 @@ class Mortality:
                 self.iniNoGrowth(args, case)
             elif case == "Random":
                 self.iniRandom(args, case)
+            elif case == "RandomGrowth":
+                self.iniRandomGrowth(args, case)
             elif case == "Memory":
                 self.iniMemory(args, case)
             else:
                 raise KeyError("Required mortality not implemented. "
                                "Available concepts: `NoGrowth`, `Random`, "
-                               "`Memory`, `MinGirthGrowth`")
+                               "`RandomGrowth`, `Memory`")
             print("Mortality concept of type " + case + " successfully "
                                                         "initiated.")
 
@@ -49,6 +51,10 @@ class Mortality:
     def iniRandom(self, args, case):
         from .Random import Random
         self.mortality_concept.append(Random(args, case))
+
+    def iniRandomGrowth(self, args, case):
+        from .RandomGrowth import RandomGrowth
+        self.mortality_concept.append(RandomGrowth(args, case))
 
     def iniMemory(self, args, case):
         from .Memory import Memory

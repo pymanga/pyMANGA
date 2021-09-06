@@ -53,14 +53,15 @@ class SimpleBettina(TreeModel):
         self.h_stem = geometry["h_stem"]
         self.survive = 1
 
+        self.flowLength()
+        self.treeVolume()
+
         # Define variables that are only required for specific Mortality
         # concepts
         for mortality_concept in self.mortality_concept:
             mortality_concept.getMortalityVariables(
                 self, growth_concept_information)
 
-        self.flowLength()
-        self.treeVolume()
         self.treeMaintenance()
         self.bgResources(belowground_resources)
         self.agResources(aboveground_resources)

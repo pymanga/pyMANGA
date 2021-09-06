@@ -68,19 +68,16 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         # Resistances against water flow in tree
         root_surface_resistance = super().rootSurfaceResistance(
             parameter, geometry)
-        xylem_resistance = super().xylemResistance(
-            parameter, geometry)
+        xylem_resistance = super().xylemResistance(parameter, geometry)
         total_resistance = root_surface_resistance + xylem_resistance
         self._total_resistance.append(total_resistance)
 
         # Water potentials
-        self._psi_leaf = np.concatenate((self._psi_leaf,
-                                         [(
-                                          parameter["leaf_water_potential"])]))
-        self._psi_height = np.concatenate((self._psi_height,
-                                           [-(2 * geometry["r_crown"] +
-                                              geometry["h_stem"]) *
-                                            9810]))
+        self._psi_leaf = np.concatenate(
+            (self._psi_leaf, [(parameter["leaf_water_potential"])]))
+        self._psi_height = np.concatenate(
+            (self._psi_height,
+             [-(2 * geometry["r_crown"] + geometry["h_stem"]) * 9810]))
 
     ## This function updates and returns BelowgroundResources in the current
     #  time step. For each tree a reduction factor is calculated which is

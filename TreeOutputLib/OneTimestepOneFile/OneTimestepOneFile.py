@@ -59,11 +59,10 @@ class OneTimestepOneFile(TreeOutput):
                              "' is not empty.")
         print(
             "Output to '" + os.path.join(os.getcwd(), self.output_dir) +
-            "' of tree positions, the " +
-            "parameters ", self.parameter_outputs,
-            " and geometric" + " measures ", self.geometry_outputs,
-            " at every " + str(self.output_each_nth_timestep) +
-            " timesteps initialized.")
+            "' of tree positions, the " + "parameters ",
+            self.parameter_outputs, " and geometric" + " measures ",
+            self.geometry_outputs, " at every " +
+            str(self.output_each_nth_timestep) + " timesteps initialized.")
 
     ## Writes output to predefined folder
     #  For each timestep a file is created throughout the simulation.
@@ -96,7 +95,7 @@ class OneTimestepOneFile(TreeOutput):
                     string += "\n"
                     file.write(string)
                     for growth_output in self.growth_outputs:
-                        del(growth_information[growth_output])
+                        del (growth_information[growth_output])
             file.close()
         self._output_counter += 1
 
@@ -133,13 +132,11 @@ class OneTimestepOneFile(TreeOutput):
         if len(self.geometry_outputs) > 0:
             geometry = tree.getGeometry()
             for geometry_output in self.geometry_outputs:
-                string += delimiter + str(
-                    geometry[geometry_output])
+                string += delimiter + str(geometry[geometry_output])
         if len(self.parameter_outputs) > 0:
             parameter = tree.getParameter()
             for parameter_output in self.parameter_outputs:
-                string += delimiter + str(
-                    parameter[parameter_output])
+                string += delimiter + str(parameter[parameter_output])
         if len(self.growth_outputs) > 0:
             for growth_output_key in self.growth_outputs:
                 try:
@@ -149,12 +146,9 @@ class OneTimestepOneFile(TreeOutput):
                     growth_information[growth_output_key] = "NaN"
                     string += delimiter + str(
                         growth_information[growth_output_key])
-                    print(
-                        "Key " + growth_output_key +
-                        " might be not available in growth " +
-                        "concept!" +
-                        " Please read growth concept documentation."
-                    )
+                    print("Key " + growth_output_key +
+                          " might be not available in growth " + "concept!" +
+                          " Please read growth concept documentation.")
         if len(self.network_outputs) > 0:
             network = tree.getNetwork()
             for network_output in self.network_outputs:

@@ -165,8 +165,7 @@ class OGSLargeScale3D(TreeModel):
 
         root_surface_resistance = self.rootSurfaceResistance(
             parameter, geometry)
-        xylem_resistance = self.xylemResistance(
-            parameter, geometry)
+        xylem_resistance = self.xylemResistance(parameter, geometry)
         R = root_surface_resistance + xylem_resistance
 
         # Calculate tree water uptake without salinity and salinity factor

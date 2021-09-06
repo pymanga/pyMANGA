@@ -28,8 +28,8 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
                 string = ""
                 string += 'tree' + delimiter + 'time' + delimiter + 'x' +  \
                           delimiter + 'y'
-                string = OneTimestepOneFile.addSelectedHeadings(self, string,
-                                                                delimiter)
+                string = OneTimestepOneFile.addSelectedHeadings(
+                    self, string, delimiter)
                 string += "\n"
                 file.write(string)
                 for tree in tree_group.getTrees():

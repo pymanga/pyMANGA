@@ -161,11 +161,18 @@ class SimpleNetwork(TreeModel):
         self.groupFormation()
         self.rootGraftFormation()
         self.calculateBGresourcesTree()
+        self.belowground_resources = self.getBGfactor()
+        self.updateNetworkParametersForGrowthAndDeath()
+
+    ## This function calculates the below-ground resource factor,
+    # that is the fraction of water available in base water uptake (i.e. no
+    # salinity, no water exchange through root grafts)
+    def getBGfactor(self):
+        # Calculate water uptake with 0 ppt salinity
         res_b_noSal = self.getBGresourcesIndividual(
             self._psi_top, np.array([0] * self.no_trees),
             self._above_graft_resistance, self._below_graft_resistance)
-        self.belowground_resources = self._water_avail / res_b_noSal
-        self.updateNetworkParametersForGrowthAndDeath()
+        return self._water_avail / res_b_noSal
 
     ## This function updates the network parameters that are required in the
     # growth-and death concept NetworkBettina

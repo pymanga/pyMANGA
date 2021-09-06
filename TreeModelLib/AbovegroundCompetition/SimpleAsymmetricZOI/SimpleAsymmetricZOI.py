@@ -5,10 +5,10 @@
 @author: ronny.peters@tu-dresden.de
 """
 import numpy as np
-from TreeModelLib.AbovegroundCompetition import AbovegroundCompetition
+from TreeModelLib import TreeModel
 
 
-class SimpleAsymmetricZOI(AbovegroundCompetition):
+class SimpleAsymmetricZOI(TreeModel):
     ## SimpleAsymmetricZOI case for aboveground competition concept. Asymmetric
     #  Zone Of Influence with highest tree at a meshpoint gets all the light at
     #  this meshpoint (BETTINA geometry of a tree assumed).\n

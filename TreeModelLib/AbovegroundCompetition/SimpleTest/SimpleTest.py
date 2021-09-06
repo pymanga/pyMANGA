@@ -5,10 +5,10 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from TreeModelLib.AbovegroundCompetition import AbovegroundCompetition
+from TreeModelLib import TreeModel
 
 
-class SimpleTest(AbovegroundCompetition):
+class SimpleTest(TreeModel):
     def __init__(self, args):
         ## SimpleTest case for aboveground competition concept. This case is
         #  defined to test the passing of information between the instances.

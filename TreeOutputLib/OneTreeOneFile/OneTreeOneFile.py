@@ -48,9 +48,8 @@ class OneTreeOneFile(OneTimestepOneFile):
                     string = ""
                     string += (str(time) + delimiter + str(tree.x) +
                                delimiter + str(tree.y))
-                    string = super().addSelectedOutputs(tree, string,
-                                                        delimiter,
-                                                        growth_information)
+                    string = super().addSelectedOutputs(
+                        tree, string, delimiter, growth_information)
                     string += "\n"
                     file.write(string)
                     file.close()

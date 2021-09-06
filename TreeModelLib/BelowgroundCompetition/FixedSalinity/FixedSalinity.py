@@ -5,10 +5,10 @@
 @author: ronny.peters@tu-dresden.de
 """
 import numpy as np
-from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
+from TreeModelLib import TreeModel
 
 
-class FixedSalinity(BelowgroundCompetition):
+class FixedSalinity(TreeModel):
     ## Fixed salinityin belowground competition concept.
     #  @param: Tags to define FixedSalinity: type, salinity
     #  @date: 2020 - Today

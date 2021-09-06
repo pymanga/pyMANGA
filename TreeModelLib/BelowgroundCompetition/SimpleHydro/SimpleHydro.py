@@ -6,10 +6,10 @@
 """
 import numpy as np
 import math
-from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
+from TreeModelLib import TreeModel
 
 
-class SimpleHydro(BelowgroundCompetition):
+class SimpleHydro(TreeModel):
     ## Simple approach to reduce water availability due to osmotic potential.
     #  Processes are gradient flow, salinisation by plant transpiration,
     #  dilution by tides and horizontal mixing (diffusion).\n

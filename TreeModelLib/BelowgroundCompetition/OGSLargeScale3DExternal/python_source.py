@@ -90,11 +90,10 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
             if progress_Manga:
                 print(">> MANGA step: " + str(i) + ", t: " +
                       str(np.round(t / 3600 / 24 / 365, 1)) +
-                      " years, max. S: " + str(np.round(np.max(
-                      cumsum_salinity / calls) * 1000, 1)))
+                      " years, max. S: " +
+                      str(np.round(np.max(cumsum_salinity / calls) * 1000, 1)))
                 model.setBelowgroundInformation(
-                    cumsum_salinity=cumsum_salinity,
-                    calls_per_cell=calls)
+                    cumsum_salinity=cumsum_salinity, calls_per_cell=calls)
                 model.propagateModel(t)
                 tree_contributions = model.getBelowgroundInformation()
                 t_before = t

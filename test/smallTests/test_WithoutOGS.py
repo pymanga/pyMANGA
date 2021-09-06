@@ -78,8 +78,9 @@ if xml:
             errors_empty_results.append(xmlfile)
 
         e, filename = os.path.split(xmlfile)
-        comparison_file_dir_in_pieces = (path.join(path.dirname(
-            path.abspath(__file__))), "referenceFiles", filename, "*.*")
+        comparison_file_dir_in_pieces = (path.join(
+            path.dirname(path.abspath(__file__))), "referenceFiles", filename,
+                                         "*.*")
         comparison_file_dir = seperator.join(comparison_file_dir_in_pieces)
         files_comparison = glob.glob(comparison_file_dir)
         example_setups.append(filename)
@@ -105,17 +106,18 @@ if xml:
                     files_result = glob.glob(path.join(output_dir, "*"))
                     if files_result:
                         for y in range(len(files_result)):
-                            test = (pd.read_csv(files_result[y],
-                                                delimiter='\t').drop(
-                                                    'tree', axis=1) -
-                                pd.read_csv(files_comparison[y],
-                                            delimiter='\t').drop(
-                                                'tree',
-                                                axis=1)).values.any() == 0
+                            test = (
+                                pd.read_csv(files_result[y],
+                                            delimiter='\t').drop('tree',
+                                                                 axis=1) -
+                                pd.read_csv(
+                                    files_comparison[y], delimiter='\t').drop(
+                                        'tree', axis=1)).values.any() == 0
                             try:
                                 assert test == True
                             except:
                                 self.fail(errors_compare.append(xmlfile))
+
         if __name__ == "__main__":
             unittest.main(exit=False)
 
@@ -158,8 +160,7 @@ if xml:
     print("")
 
     if errors:
-        print(
-            "An error occured while testing the following setup(s):")
+        print("An error occured while testing the following setup(s):")
         n = range(len(errors))
         for x in n:
             print("")

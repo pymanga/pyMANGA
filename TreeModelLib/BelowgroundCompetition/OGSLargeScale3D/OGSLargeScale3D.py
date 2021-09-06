@@ -5,7 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
+from TreeModelLib import TreeModel
 from TreeModelLib.BelowgroundCompetition.OGS.helpers import CellInformation
 import vtk as vtk
 from lxml import etree
@@ -18,7 +18,7 @@ import os
 #  a detailed groundwater model.
 #  @param args: Please see input file tag documentation for details
 #  @date: 2019 - Today
-class OGSLargeScale3D(BelowgroundCompetition):
+class OGSLargeScale3D(TreeModel):
     def __init__(self, args):
         case = args.find("type").text
         self._abiotic_drivers = args.find("abiotic_drivers")
@@ -165,8 +165,7 @@ class OGSLargeScale3D(BelowgroundCompetition):
 
         root_surface_resistance = self.rootSurfaceResistance(
             parameter, geometry)
-        xylem_resistance = self.xylemResistance(
-            parameter, geometry)
+        xylem_resistance = self.xylemResistance(parameter, geometry)
         R = root_surface_resistance + xylem_resistance
 
         # Calculate tree water uptake without salinity and salinity factor

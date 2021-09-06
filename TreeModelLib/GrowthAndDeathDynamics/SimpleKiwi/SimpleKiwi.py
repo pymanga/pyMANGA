@@ -4,10 +4,10 @@
 @date: 2018-Today
 @author: ronny.peters@tu-dresden.de
 """
-from TreeModelLib.GrowthAndDeathDynamics import GrowthAndDeathDynamics
+from TreeModelLib import TreeModel
 
 
-class SimpleKiwi(GrowthAndDeathDynamics):
+class SimpleKiwi(TreeModel):
     ## SimpleKiwi for death and growth dynamics. For details see
     #  https://doi.org/10.1016/S0304-3800(00)00298-2 \n
     #  @param Tags to define SimpleKiwi, see tag documentation \n

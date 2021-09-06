@@ -5,10 +5,10 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from TreeModelLib.BelowgroundCompetition import BelowgroundCompetition
+from TreeModelLib import TreeModel
 
 
-class FON(BelowgroundCompetition):
+class FON(TreeModel):
     ## FON case for belowground competition concept. For details see
     #  (https://doi.org/10.1016/S0304-3800(00)00298-2). FON returns a list
     #  of multipliers for each tree for salinity and competition.\n

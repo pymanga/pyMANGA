@@ -64,14 +64,29 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
             v += v_i
         self._tree_cell_volume.append(v)
 
-    ## This function creates a (dummy) array to be filled with values of
-    # osmotic potential
+    ## This function creates an array with values of osmotic potential based
+    # on values saved in network attributes (this is the osmotic potential
+    # calculated at the end of the last time step). If a new tree with osmotic
+    # potential = 0 is recruited, the initial value is approximated by
+    # averaging the osmotic potential below the other trees. Note: this might
+    # lead to inaccurate starting values if (i) the time step length of MANGA
+    # is very large and (ii) if trees are recruited and no or not many trees
+    # exist.
     def addPsiOsmo(self):
         psi_osmo = self.network['psi_osmo']
+        # Case: self.network['psi_osmo'] is empty
         if psi_osmo:
             self._psi_osmo.append(np.array(psi_osmo))
+        # Case: self.network['psi_osmo'] is not empty
         else:
-            self._psi_osmo.append(0)
+            mean_of_others = np.mean(self._psi_osmo)
+            # Case: there are no other trees with osmotic potential yet
+            if np.isnan(mean_of_others):
+                self._psi_osmo.append(0)
+            # Case: starting value for this tree is the average osmotic
+            # potential of existing trees
+            else:
+                self._psi_osmo.append(mean_of_others)
 
     ## This function updates and returns BelowgroundResources in the current
     #  time step. For each tree a reduction factor is calculated which is

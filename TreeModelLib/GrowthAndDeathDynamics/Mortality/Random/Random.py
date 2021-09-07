@@ -25,7 +25,7 @@ class Random(NoGrowth):
 
     def getSurvival(self, args):
         self.survive = 1
-        r = np.random.random(1)
+        r = np.random.uniform(0, 1, 1)
         # Number of time steps per year
         steps_per_year = self.getStepsPerYear(args)
         ## Multiply r with the number of time steps per year to induce a

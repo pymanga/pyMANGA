@@ -46,9 +46,9 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
             counter[0] = counter[0] + 1
             # check if all cells have been called
             if (no_cells - 1) == cell_id:
-                # print('SAVE NOW ' + str(np.mean(max_calls)))
-                np.save(cumsum_savename, cumsum_salinity)
-                np.save(calls_savename, calls)
+                if counter[0] == len(cumsum_salinity):
+                    np.save(cumsum_savename, cumsum_salinity)
+                    np.save(calls_savename, calls)
         positive_flux = contributions[cell_id]
         Jac = [0.0, 0.0]
         return (-positive_flux, Jac)

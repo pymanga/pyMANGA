@@ -54,12 +54,6 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         # SimpleNetwork stuff
         SimpleNetwork.addTree(self, tree)
 
-        psi_osmo = self.network['psi_osmo']
-        if psi_osmo:
-            self._psi_osmo.append(np.array(psi_osmo))
-        else:
-            self._psi_osmo.append(0)
-
         # OGS stuff
         x, y = tree.getPosition()
         affected_cells = self._cell_information.getCellIDsAtXY(x, y)
@@ -69,6 +63,15 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
             v_i = self._volumes.GetTuple(cell_id)[0]
             v += v_i
         self._tree_cell_volume.append(v)
+
+    ## This function creates a (dummy) array to be filled with values of
+    # osmotic potential
+    def addPsiOsmo(self):
+        psi_osmo = self.network['psi_osmo']
+        if psi_osmo:
+            self._psi_osmo.append(np.array(psi_osmo))
+        else:
+            self._psi_osmo.append(0)
 
     ## This function updates and returns BelowgroundResources in the current
     #  time step. For each tree a reduction factor is calculated which is

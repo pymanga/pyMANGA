@@ -144,12 +144,15 @@ class SimpleNetwork(TreeModel):
         self._psi_top = np.array(self._psi_leaf) - np.array(self._psi_height)
 
         # psi osmo is added separately in some below-ground competition concept
-        if self.bg_concept in ["SimpleNetwork", "NetworkFixedSalinity",
-                               "NetworkHydro"]:
-            self._psi_osmo = np.array(
-                [0] * self.no_trees)  # Salinity is 0 ppt is the basic scenario
+        self.addPsiOsmo()
 
         self._kf_sap.append(parameter["kf_sap"])
+
+    ## This function creates a (dummy) array to be filled with values of
+    # osmotic potential
+    def addPsiOsmo(self):
+        # Salinity is 0 ppt is the basic scenario
+        self._psi_osmo = np.array([0] * self.no_trees)
 
     ## This function returns a list of the growth modification factors of
     # all trees. Calculated in the subsequent timestep.\n

@@ -115,7 +115,7 @@ class SimpleNetwork(TreeModel):
 
         self._xe.append(x)
         self._ye.append(y)
-        self.n_trees = len(self._xe)
+        self.no_trees = len(self._xe)
         self._tree_names = np.concatenate(
             (self._tree_names, [str(tree.group_name) + str(tree.tree_id)]))
 
@@ -142,10 +142,17 @@ class SimpleNetwork(TreeModel):
         self._psi_height.append(
             -(2 * geometry["r_crown"] + geometry["h_stem"]) * 9810)
         self._psi_top = np.array(self._psi_leaf) - np.array(self._psi_height)
-        self._psi_osmo = np.array(
-            [0] * self.n_trees)  # Salinity is 0 ppt is the basic scenario
+
+        # psi osmo is added separately in some below-ground competition concept
+        self.addPsiOsmo()
 
         self._kf_sap.append(parameter["kf_sap"])
+
+    ## This function creates a (dummy) array to be filled with values of
+    # osmotic potential
+    def addPsiOsmo(self):
+        # Salinity is 0 ppt is the basic scenario
+        self._psi_osmo = np.array([0] * self.no_trees)
 
     ## This function returns a list of the growth modification factors of
     # all trees. Calculated in the subsequent timestep.\n
@@ -157,18 +164,25 @@ class SimpleNetwork(TreeModel):
         self.groupFormation()
         self.rootGraftFormation()
         self.calculateBGresourcesTree()
-        res_b_noSal = self.getBGresourcesIndividual(
-            self._psi_top, np.array([0] * self.n_trees),
-            self._above_graft_resistance, self._below_graft_resistance)
-        self.belowground_resources = self._water_avail / res_b_noSal
+        self.belowground_resources = self.getBGfactor()
         self.updateNetworkParametersForGrowthAndDeath()
+
+    ## This function calculates the below-ground resource factor,
+    # that is the fraction of water available in base water uptake (i.e. no
+    # salinity, no water exchange through root grafts)
+    def getBGfactor(self):
+        # Calculate water uptake with 0 ppt salinity
+        res_b_noSal = self.getBGresourcesIndividual(
+            self._psi_top, np.array([0] * self.no_trees),
+            self._above_graft_resistance, self._below_graft_resistance)
+        return self._water_avail / res_b_noSal
 
     ## This function updates the network parameters that are required in the
     # growth-and death concept NetworkBettina
     def updateNetworkParametersForGrowthAndDeath(self):
         # Update the parameter belonging to the tree and are needed in the
         # growth- and-death-concept
-        for i, tree in zip(range(0, self.n_trees), self.trees):
+        for i, tree in zip(range(0, self.no_trees), self.trees):
             network = {}
             # Parameters related to the root graft formation process
             network['potential_partner'] = self._potential_partner[i]
@@ -193,12 +207,14 @@ class SimpleNetwork(TreeModel):
             tag = arg.tag
             if tag == "f_radius":
                 self.f_radius = float(args.find("f_radius").text)
+            if tag == "type":
+                self.bg_concept = args.find("type").text
             try:
                 missing_tags.remove(tag)
             except:
-                print("WARNING: Tag " + tag +
-                      " not specified for 'SimpleNetwork' below-ground " +
-                      "initialisation!")
+                print(
+                    "WARNING: Tag " + str(tag) + " not specified for "
+                                             "'SimpleNetwork' below-ground initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:
@@ -251,7 +267,7 @@ class SimpleNetwork(TreeModel):
     def updatePartnerIdices(self):
         ## In order to access the partners by their indices the current
         # indices must be updated in each time step.
-        tree_indices = np.array(range(0, self.n_trees))
+        tree_indices = np.array(range(0, self.no_trees))
         for i in self._partner_names:
             if not i:
                 self._partner_indices.append([])
@@ -340,7 +356,7 @@ class SimpleNetwork(TreeModel):
     # dictionary.
     def assignGroupIDs(self):
         components = self.getComponents(self.graph_dict)
-        self._gIDs = np.zeros(self.n_trees, dtype='object')
+        self._gIDs = np.zeros(self.no_trees, dtype='object')
         for i in components.keys():
             self._gIDs[components[i]] = 'gID_' + str(i)
 
@@ -369,7 +385,7 @@ class SimpleNetwork(TreeModel):
     ## This function calculates the distance between two trees in meter.
     # @return a scalar
     def getDistance(self, x1, x2, y1, y2):
-        return ((x1 - x2)**2 + (y1 - y2)**2)**0.5
+        return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
 
     ## This function returns a matrix indicating whether roots of trees are
     # in contact or not
@@ -379,8 +395,8 @@ class SimpleNetwork(TreeModel):
         x_mesh = np.array(np.meshgrid(self._xe, self._xe))
         y_mesh = np.array(np.meshgrid(self._ye, self._ye))
         # calculate distances between all trees
-        distances = ((x_mesh[0] - x_mesh[1])**2 +
-                     (y_mesh[0] - y_mesh[1])**2)**.5
+        distances = ((x_mesh[0] - x_mesh[1]) ** 2 +
+                     (y_mesh[0] - y_mesh[1]) ** 2) ** .5
 
         roots = np.array(np.meshgrid(self._r_root, self._r_root))
         root_sums = roots[0] + roots[1]
@@ -459,7 +475,7 @@ class SimpleNetwork(TreeModel):
                 self._potential_partner[l1], self._potential_partner[l2] = \
                     self._tree_names[l2], self._tree_names[l1]
                 if (self._variant[l1] == "V2_adapted") and \
-                        (self._variant[l2] == "V2_adapted") :
+                        (self._variant[l2] == "V2_adapted"):
                     # Set initial size of grafted root radius
                     self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
                     # Get min. radius of grafted roots
@@ -521,7 +537,7 @@ class SimpleNetwork(TreeModel):
     # @param r_stem - stem radius
     def aboveGraftResistance(self, kf_sap, r_crown, h_stem, r_stem):
         above_graft_resistance = (2 * r_crown + h_stem) / (kf_sap * np.pi *
-                                                           r_stem**2)
+                                                           r_stem ** 2)
         return above_graft_resistance
 
     ## Function that calculates the xylem resistance in the grafted roots.
@@ -530,7 +546,7 @@ class SimpleNetwork(TreeModel):
     # @param r_graft - radius of grafted roots
     # @param kf_sap - hydraulic conductivity of xylem
     def getGraftResistance(self, distance, r_graft, kf_sap):
-        graft_resistance = distance / (kf_sap * np.pi * r_graft**2)
+        graft_resistance = distance / (kf_sap * np.pi * r_graft ** 2)
         return graft_resistance
 
     ## Function that returns an array with the links of a specific tree.
@@ -629,8 +645,8 @@ class SimpleNetwork(TreeModel):
         x_mesh = np.array(np.meshgrid(self._xe, self._xe))
         y_mesh = np.array(np.meshgrid(self._ye, self._ye))
         # calculate distances between all trees of the group
-        distances = ((x_mesh[0] - x_mesh[1])**2 +
-                     (y_mesh[0] - y_mesh[1])**2)**.5
+        distances = ((x_mesh[0] - x_mesh[1]) ** 2 +
+                     (y_mesh[0] - y_mesh[1]) ** 2) ** .5
         r_stem = np.array(np.meshgrid(self._r_stem, self._r_stem))
         r_root = np.array(np.meshgrid(self._r_root, self._r_root))
 
@@ -651,8 +667,8 @@ class SimpleNetwork(TreeModel):
                size] = self._psi_osmo[to_IDs] - self._psi_osmo[from_IDs]  # y
         return matrix
 
-    ## Function that calculates water uptake of an individual tree,
-    # see  SimpleBettina.
+    ## Function that calculates water uptake of an individual tree in m³ per
+    # time step, see  SimpleBettina.
     # @return a scalar
     # @param psi_top - difference between min. leaf water potential and
     # height potential
@@ -662,7 +678,7 @@ class SimpleNetwork(TreeModel):
     def getBGresourcesIndividual(self, psi_top, psi_osmo, ag_resistance,
                                  bg_resistance):
         res_b = -(psi_top - psi_osmo) / (
-            (ag_resistance + bg_resistance) * np.pi) * self.time
+                (ag_resistance + bg_resistance) * np.pi) * self.time
         return res_b
 
     ## Function that calculates water absorbed, water available and water
@@ -709,11 +725,10 @@ class SimpleNetwork(TreeModel):
     # all trees. Depending on the graft status of a tree, i.e. grafted vs.
     # non-grafted, this function calls the corresponding BG-resource function.
     def calculateBGresourcesTree(self):
-        ids = np.array(range(0, self.n_trees))
-        self._water_avail = np.zeros(self.n_trees)
-        self._water_absorb = np.zeros(self.n_trees)
-        self._water_exchanged_trees = np.zeros(self.n_trees)
-
+        ids = np.array(range(0, self.no_trees))
+        self._water_avail = np.zeros(self.no_trees)
+        self._water_absorb = np.zeros(self.no_trees)
+        self._water_exchanged_trees = np.zeros(self.no_trees)
         for gID in set(self._gIDs):
             # get tree indices of group members
             members = ids[np.where(self._gIDs == gID)]

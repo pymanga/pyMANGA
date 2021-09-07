@@ -103,9 +103,6 @@ class OGSLargeScale3D(TreeModel):
         self.belowground_resources = self.tree_water_uptake / \
                                      self._tree_constant_contribution
 
-        # Calculate contribution per cell
-        self.calculateTreeContribution()
-
         parameters = self._tree.find("parameters")
         for parameter in parameters.iterchildren():
             name = parameter.find("name")
@@ -239,18 +236,6 @@ class OGSLargeScale3D(TreeModel):
             mean_salinity_for_tree = np.mean(self._salinity[ids])
             self._tree_salinity[tree_id] = mean_salinity_for_tree
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
-
-    ## This function calculates the water withdrawal in each cell based on
-    # individual tree water uptake.
-    # Unit: kg per sec per cell volume
-    def calculateTreeContribution(self):
-        self.tree_contributions = np.zeros(len(self._salinity))
-        for tree_id in range(self.no_trees):
-            ids = self._tree_cell_ids[tree_id]
-            v = self.getVolume(affected_cells=ids)
-            per_volume = 1. / v
-            tree_contribution = self.tree_water_uptake[tree_id]
-            self.tree_contributions[ids] = tree_contribution * per_volume
 
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.

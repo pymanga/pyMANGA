@@ -30,8 +30,10 @@ class SimpleBettina(TreeModel):
     ## This functions is the main routine for reading the tree geometry and
     #  parameters, scheduling the computations and updating the tree geometry.\n
     #  @param tree - object of type tree\n
-    #  @param aboveground_resources - fraction of maximum light interception (shading effect)\n
-    #  @param belowground_resources - fract of max water upt (compet and/or salinity > 0)
+    #  @param aboveground_resources - fraction of maximum light interception
+    #  (shading effect)\n
+    #  @param belowground_resources - fract of max water upt (compet and/or
+    #  salinity > 0)
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()
@@ -68,7 +70,7 @@ class SimpleBettina(TreeModel):
         psi_zero = self.deltaPsi()
         growth_concept_information["psi_zero"] = psi_zero
         growth_concept_information["salinity"] = (
-            (belowground_resources * psi_zero - psi_zero) / 85000000.)
+                (belowground_resources * psi_zero - psi_zero) / 85000000.)
         growth_concept_information["weight_girthgrowth"] = \
             self.weight_girthgrowth
         growth_concept_information["weight_stemgrowth"] = \
@@ -91,36 +93,36 @@ class SimpleBettina(TreeModel):
                       (2 * np.pi * self.r_stem * self.flow_length))
         self.r_stem += inc_r_stem
         inc_h_stem = (self.weight_stemgrowth * self.grow /
-                      (np.pi * self.r_stem**2))
+                      (np.pi * self.r_stem ** 2))
         self.h_stem += inc_h_stem
         inc_r_crown = (self.weight_crowngrowth * self.grow /
                        (2 * np.pi *
-                        (self.h_crown * self.r_crown + self.r_stem**2)))
+                        (self.h_crown * self.r_crown + self.r_stem ** 2)))
         self.r_crown += inc_r_crown
         inc_r_root = (self.weight_rootgrowth * self.grow /
                       (2 * np.pi * self.r_root * self.h_root +
-                       0.5**0.5 * np.pi * self.r_stem**2))
+                       0.5 ** 0.5 * np.pi * self.r_stem ** 2))
         self.r_root += inc_r_root
 
     ## This functions calculates the growths weights for distributing
     # biomass increment to the geometric (allometric) tree measures.
     def treeGrowthWeights(self):
         self.weight_stemgrowth = (
-            self.parameter["half_max_h_growth_weight"] /
-            (1 + np.exp(-(self.r_crown - self.r_root) /
-                        (self.r_crown + self.r_root) /
-                        self.parameter["h_sigmo_slope"])))
+                self.parameter["half_max_h_growth_weight"] /
+                (1 + np.exp(-(self.r_crown - self.r_root) /
+                            (self.r_crown + self.r_root) /
+                            self.parameter["h_sigmo_slope"])))
         self.weight_crowngrowth = ((1 - self.weight_stemgrowth) / (1 + np.exp(
             (self.ag_resources - self.bg_resources) /
             (self.ag_resources + self.bg_resources) /
             self.parameter["sigmo_slope"])))
 
         self.weight_girthgrowth = (
-            (1 - self.weight_stemgrowth - self.weight_crowngrowth) /
-            (1 + np.exp(
-                (self.root_surface_resistance - self.xylem_resistance) /
-                (self.root_surface_resistance + self.xylem_resistance) /
-                self.parameter["sigmo_slope"])))
+                (1 - self.weight_stemgrowth - self.weight_crowngrowth) /
+                (1 + np.exp(
+                    (self.root_surface_resistance - self.xylem_resistance) /
+                    (self.root_surface_resistance + self.xylem_resistance) /
+                    self.parameter["sigmo_slope"])))
 
         self.weight_rootgrowth = (1 - self.weight_stemgrowth -
                                   self.weight_crowngrowth -
@@ -133,23 +135,28 @@ class SimpleBettina(TreeModel):
     ## This function calculates the flow length from fine roots to leaves.
     def flowLength(self):
         self.flow_length = (2 * self.r_crown + self.h_stem +
-                            0.5**0.5 * self.r_root)
+                            0.5 ** 0.5 * self.r_root)
 
     ## This function calculates the total tree volume.
     def treeVolume(self):
-        self.volume = (self.h_root * np.pi * self.r_root**2 +
-                       self.flow_length * np.pi * self.r_stem**2 +
-                       self.h_crown * np.pi * self.r_crown**2)
+        self.volume = (self.h_root * np.pi * self.r_root ** 2 +
+                       self.flow_length * np.pi * self.r_stem ** 2 +
+                       self.h_crown * np.pi * self.r_crown ** 2)
 
-    ## This function calculates the available aboveground resources (intercepted light
-    # measured equivalent to respective water uptake).
-    #  @param aboveground_resources - fraction of maximum light interception (shading effect)\n
+    ## This function calculates the available aboveground resources (
+    #  intercepted light
+    #  measured equivalent to respective water uptake).
+    #  @param aboveground_resources - fraction of maximum light interception
+    #  (shading effect)\n
     def agResources(self, aboveground_resources):
         self.ag_resources = aboveground_resources * (
-            np.pi * self.r_crown**2 * self.parameter["sun_c"] * self.time)
+                np.pi * self.r_crown ** 2 * self.parameter[
+            "sun_c"] * self.time)
 
-    ## This function calculates the available belowground resources (m³ water).
-    #  @param belowground_resources - fract of max water upt (compet and/or salinity > 0)
+    ## This function calculates the available belowground resources (m³
+    # water per time step).
+    #  @param belowground_resources - fract of max water upt (compet and/or
+    #  salinity > 0)
     def bgResources(self, belowground_resources):
         self.rootSurfaceResistance()
         self.xylemResistance()
@@ -161,19 +168,21 @@ class SimpleBettina(TreeModel):
     def rootSurfaceResistance(self):
         self.root_surface_resistance = (1 / self.parameter["lp"] /
                                         self.parameter["k_geom"] / np.pi /
-                                        self.r_root**2 / self.h_root)
+                                        self.r_root ** 2 / self.h_root)
 
     ## This function calculates the xylem resistance.
     def xylemResistance(self):
         self.xylem_resistance = (self.flow_length / self.parameter["kf_sap"] /
-                                 np.pi / self.r_stem**2)
+                                 np.pi / self.r_stem ** 2)
 
-    ## This function calculates the potential gradient with soil water potential = 0.
+    ## This function calculates the potential gradient with soil water
+    # potential = 0.
     def deltaPsi(self):
         return (self.parameter["leaf_water_potential"] +
                 (2 * self.r_crown + self.h_stem) * 9810)
 
-    ## This function calculates the available resources and the biomass increment.
+    ## This function calculates the available resources and the biomass
+    # increment.
     def growthResources(self):
         self.available_resources = min(self.ag_resources, self.bg_resources)
         self.grow = (self.parameter["growth_factor"] *

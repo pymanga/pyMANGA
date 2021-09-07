@@ -17,4 +17,5 @@ Concepts can be combined by listing them in `<mortality>`, separated by a whites
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__Memory__Memory
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__NoGrowth__NoGrowth
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__Random__Random
+- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__RandomGrowth__RandomGrowth
 */

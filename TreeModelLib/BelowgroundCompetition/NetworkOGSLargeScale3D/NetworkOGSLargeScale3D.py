@@ -133,7 +133,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         ## SimpleNetwork stuff
         # Calculate bg resource factor
         res_b_noSal = self.getBGresourcesIndividual(
-            self._psi_top, np.array([0] * self.n_trees),
+            self._psi_top, np.array([0] * self.no_trees),
             self._above_graft_resistance, self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b_noSal
 

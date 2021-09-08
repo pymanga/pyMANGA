@@ -135,12 +135,10 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
                     and ("_" + str(self._t_end)) in file):
                 self._ogs_bulk_mesh.text = str(file)
 
-        cumsum_salinity = np.load(
-            path.join(self._ogs_project_folder, "cumsum_salinity.npy"))
-        calls_per_cell = np.load(
-            path.join(self._ogs_project_folder, "calls_in_last_timestep.npy"))
-
-        salinity = cumsum_salinity / calls_per_cell
+        # Get cell salinity array from external files
+        OGSLargeScale3D.getSalinity(self)
+        # Calculate salinity below each tree
+        OGSLargeScale3D.calculateTreeSalinity(self)
 
         ## SimpleNetwork stuff
         # Calculate bg resource factor
@@ -149,11 +147,6 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
             self._above_graft_resistance, self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b_noSal
 
-        # Calculate osmotic potential below tree for next time step
-        for tree_id in range(len(self._tree_contribution)):
-            ids = self._tree_cell_ids[tree_id]
-            mean_salinity_for_tree = np.mean(salinity[ids])
-            self._psi_osmo[tree_id] = -85 * 10 ** 6 * mean_salinity_for_tree
 
         # Update network parameters
         SimpleNetwork.updateNetworkParametersForGrowthAndDeath(self)

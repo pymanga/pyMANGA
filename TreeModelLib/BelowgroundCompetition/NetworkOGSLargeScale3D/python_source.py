@@ -1,9 +1,18 @@
+## This is an example for an OGS python boundary condition
+# The setup can be ran with:
+# test/LargeTests/Test_Setups_large/ogs_example_setup/NetwOGS3D_SAZOI_BETTINA
+# .xml
+# In this example, 2 trees are placed in the center of a 20 x 10 m domain.
+# Contrary to OGSLargeScale3D, trees can establish root grafts and exchange
+# water through them.
+# Boundary conditions are defined on the left and right sight as 'Dirichlet'
+# boundary conditions for pressure and salinity concentration.
+# Tidal activity is not considered.
+
 import OpenGeoSys
 
 import vtk as vtk
 import numpy as np
-from math import pi, sin
-import os
 
 seaward_salinity = 0.035
 
@@ -39,14 +48,12 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         calls[cell_id] += 1
         cumsum_salinity[cell_id] += salinity
 
-        # control variable to count how many times each cell was called
-        max_calls[cell_id] = np.max(calls[cell_id])
-
         if t == t_write:
-            counter[0] = counter[0] + 1
             # check if all cells have been called
             if (no_cells - 1) == cell_id:
-                if counter[0] == len(cumsum_salinity):
+                # control variable to count how many times each cell was called
+                max_calls = np.max(calls[cell_id - 1])
+                if calls[cell_id] == max_calls:
                     np.save(cumsum_savename, cumsum_salinity)
                     np.save(calls_savename, calls)
         positive_flux = contributions[cell_id]

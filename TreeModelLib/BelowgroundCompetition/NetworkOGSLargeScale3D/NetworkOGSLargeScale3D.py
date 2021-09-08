@@ -24,7 +24,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         OGSLargeScale3D.__init__(self, args)
         case = args.find("type").text
         print("Initiate below-ground competition of type " + case + ".")
-        self.getInputParameters(args)
+        SimpleNetwork.getInputParameters(self, args)
 
     ## This functions prepares the tree variables for the
     # NetworkOGSLargeScale3D concept.\n
@@ -58,7 +58,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         x, y = tree.getPosition()
         affected_cells = self._cell_information.getCellIDsAtXY(x, y)
         self._tree_cell_ids.append(affected_cells)
-        v = OGSLargeScale3D.getVolume(affected_cells)
+        v = OGSLargeScale3D.getVolume(self, affected_cells)
         self._tree_cell_volume.append(v)
 
     ## This function creates an array with values of osmotic potential based
@@ -95,9 +95,9 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         # Convert psi_osmo to np array in order to use in
         # calculateBGresourcesTree()
         self._psi_osmo = np.array(self._psi_osmo)
-        self.groupFormation()
-        self.rootGraftFormation()
-        self.calculateBGresourcesTree()
+        SimpleNetwork.groupFormation(self)
+        SimpleNetwork.rootGraftFormation(self)
+        SimpleNetwork.calculateBGresourcesTree(self)
 
         # Map water absorbed as contribution to respective cells
         # Convert water_abs from m³/time step to kg/s
@@ -128,7 +128,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
             raise ValueError("Ogs calculation failed!")
         print("OGS-calculation done.")
 
-        self.writePVDCollection()
+        OGSLargeScale3D.writePVDCollection(self)
         files = os.listdir(self._ogs_project_folder)
         for file in files:
             if (self._ogs_prefix.text in file
@@ -144,8 +144,8 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
 
         ## SimpleNetwork stuff
         # Calculate bg resource factor
-        res_b_noSal = self.getBGresourcesIndividual(
-            self._psi_top, np.array([0] * self.no_trees),
+        res_b_noSal = SimpleNetwork.getBGresourcesIndividual(
+            self, self._psi_top, np.array([0] * self.no_trees),
             self._above_graft_resistance, self._below_graft_resistance)
         self.belowground_resources = self._water_avail / res_b_noSal
 
@@ -156,7 +156,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
             self._psi_osmo[tree_id] = -85 * 10 ** 6 * mean_salinity_for_tree
 
         # Update network parameters
-        self.updateNetworkParametersForGrowthAndDeath()
+        SimpleNetwork.updateNetworkParametersForGrowthAndDeath(self)
 
         # OGS stuff - update ogs parameters
         parameters = self._tree.find("parameters")

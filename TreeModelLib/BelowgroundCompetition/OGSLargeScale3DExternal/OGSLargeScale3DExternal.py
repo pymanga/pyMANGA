@@ -43,17 +43,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         self._rcrown = []
         self._hstem = []
 
-        self.prepareOGSparameters()
-
-    ## This function initializes variables required in OGSExternal concepts.
-    def prepareOGSparameters(self):
-        self._tree_cell_ids = []
-        self._tree_salinity = np.empty(0)
-        self._tree_water_uptake = []
-        self.belowground_resources = []
-
-        # arrays with length 'no. of cells'
-        self.tree_contribution_per_cell = []
+        super().prepareOGSparameters()
 
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next time step.

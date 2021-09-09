@@ -35,13 +35,6 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         SimpleNetwork.prepareNextTimeStep(self, t_ini, t_end)
         OGSLargeScale3D.prepareNextTimeStep(self, t_ini, t_end)
 
-        # Initialize new variables for this concept
-        self._tree_water_uptake = []
-        self.tree_contribution_per_cell = np.zeros_like(self._volumes)
-        self._tree_cell_volume = []
-
-        self._psi_osmo = []
-
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next time step.
     #  Here, in the OGS case, each tree is represented by a contribution to

@@ -120,9 +120,17 @@ class OGSLargeScale3D(TreeModel):
             self._ogs_project_folder,
             str(t_ini).replace(".", "_") + "_" + self._ogs_project_file)
         self._tree.write(filename) # ToDo @JB: Was passiert hier?
-        ## List containing reduction factor for each tree
+
+        self.prepareOGSparameters()
+
+    ## This function initializes variables required also in OGSExternal
+    # concepts.
+    def prepareOGSparameters(self):
+        self._total_resistance = []
         self.belowground_resources = []
-        self._tree_salinity = []
+        self._tree_cell_ids = []
+        self._tree_salinity = np.empty(0)
+        self._tree_cell_volume = []
 
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next timestep.

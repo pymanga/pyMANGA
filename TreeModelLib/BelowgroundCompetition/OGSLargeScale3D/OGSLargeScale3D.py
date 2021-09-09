@@ -235,13 +235,13 @@ class OGSLargeScale3D(TreeModel):
             source = open(source_dir, "r")
         target = open(path.join(self._ogs_project_folder, "python_source.py"),
                       "w")
+
         # OGS
         try:
             constants_filename = path.join(self._ogs_project_folder,
                                            "constant_contributions.npy")
             prefactors_filename = path.join(self._ogs_project_folder,
                                             "salinity_prefactors.npy")
-
         except:
             pass
 
@@ -256,6 +256,8 @@ class OGSLargeScale3D(TreeModel):
                                     "cumsum_salinity.npy")
         calls_filename = path.join(self._ogs_project_folder,
                                    "calls_in_last_timestep.npy")
+        # Iterates through each line in the python_source.py to replace
+        # directories
         for line in source.readlines():
             if self._abiotic_drivers:
                 for abiotic_factor in self._abiotic_drivers.iterchildren():
@@ -324,6 +326,7 @@ class OGSLargeScale3D(TreeModel):
             str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
         print("Running ogs...")
         bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
+
         if not (os.system(bc_path + "/OGS/bin/ogs " + current_project_file +
                           " -o " + self._ogs_project_folder + " -l error")
                 == 0):

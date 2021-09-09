@@ -36,8 +36,8 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         OGSLargeScale3D.prepareNextTimeStep(self, t_ini, t_end)
 
         # Initialize new variables for this concept
-        self._tree_contribution = []
-        self._contributions = np.zeros_like(self._volumes)
+        self._tree_water_uptake = []
+        self.tree_contribution_per_cell = np.zeros_like(self._volumes)
         self._tree_cell_volume = []
 
         self._psi_osmo = []
@@ -99,7 +99,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
 
         # Map water absorbed as contribution to respective cells
         # Convert water_abs from m³/time step to kg/s
-        self._tree_contribution = self._water_absorb * 1000 / self.time
+        self._tree_water_uptake = self._water_absorb * 1000 / self.time
 
         for cell_ids, volume, contribution in zip(self._tree_cell_ids,
                                                   self._tree_cell_volume,
@@ -112,8 +112,9 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         ## OGS stuff
         # Copy scripts, write bc inputs, run OGS
         OGSLargeScale3D.copyPythonScript(self)
-        np.save(path.join(self._ogs_project_folder, "complete_contributions.npy"),
-                self._contributions)
+        np.save(path.join(self._ogs_project_folder,
+                          "complete_contributions.npy"),
+                self.tree_contribution_per_cell)
         self.runOGSandWriteFiles()
 
         # Calculate bg factor

@@ -81,15 +81,14 @@ class OGSLargeScale3D(TreeModel):
         # Calculate salinity below each tree
         self.calculateTreeSalinity()
         # Calculate tree water uptake in kg per sec
-        self.tree_water_uptake = self._tree_constant_contribution + \
+        self._tree_water_uptake = self._tree_constant_contribution + \
                                  self._tree_salinity_prefactor * \
                                  self._tree_salinity
         # Calculate below ground resource factor
-        self.belowground_resources = self.tree_water_uptake / \
+        self.belowground_resources = self._tree_water_uptake / \
                                      self._tree_constant_contribution
 
         self.renameParameters()
-
 
     ## This functions prepares the next timestep for the competition
     #  concept. In the OGS concept, information on t_ini and t_end is stored.

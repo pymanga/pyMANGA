@@ -49,7 +49,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     def prepareOGSparameters(self):
         self._tree_cell_ids = []
         self._tree_salinity = np.empty(0)
-        self.tree_water_uptake = []
+        self._tree_water_uptake = []
         self.belowground_resources = []
 
         # arrays with length 'no. of cells'
@@ -97,7 +97,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         # Calculate salinity (and psi_osmo) below tree
         super().calculateTreeSalinity()
 
-        self.tree_water_uptake = -(self._psi_leaf - self._psi_height -
+        self._tree_water_uptake = -(self._psi_leaf - self._psi_height -
                                    self._psi_osmo) / \
                                  self._total_resistance / np.pi * 1000  # kg/s
         self.belowground_resources = 1 - (self._psi_osmo /

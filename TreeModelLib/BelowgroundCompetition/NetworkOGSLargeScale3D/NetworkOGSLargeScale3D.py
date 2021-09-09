@@ -95,15 +95,14 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         self._tree_water_uptake = self._water_absorb * 1000 / self.time
 
         # Calculate water withdrawal per cell
-        OGSLargeScale3D.calculateTreeContribution(self)
-
+        OGSLargeScale3D.calculateCompleteTreeContribution(self)
 
         ## OGS stuff
         # Copy scripts, write bc inputs, run OGS
         OGSLargeScale3D.copyPythonScript(self)
         np.save(path.join(self._ogs_project_folder,
                           "complete_contributions.npy"),
-                self.tree_contribution_per_cell)
+                self._tree_contribution_per_cell)
         self.runOGSandWriteFiles()
 
         ## Calculate bg factor

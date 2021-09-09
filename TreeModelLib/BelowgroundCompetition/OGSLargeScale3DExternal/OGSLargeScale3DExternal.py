@@ -94,7 +94,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
                                           (self._psi_leaf - self._psi_height))
 
         # Calculate contribution per cell
-        super().calculateTreeContribution()
+        super().calculateCompleteTreeContribution()
 
     ## Setter for external information
     # This function sets the parameters 'cumsum_salinity' and 'calls_per_cell',
@@ -110,4 +110,4 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     # This function returns the estimated water withdrawal in each cell
     # as rate (kg per sec per cell volume)
     def getExternalInformation(self):
-        return self.tree_contribution_per_cell
+        return self._tree_contribution_per_cell

@@ -116,12 +116,9 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
                 self._contributions)
         self.runOGSandWriteFiles()
 
-        # Read salinity from OGS output files
-        salinity = self.getSalinityFromFile()
-
         # Calculate bg factor
         # Get cell salinity array from external files
-        OGSLargeScale3D.getSalinity(self)
+        OGSLargeScale3D.getCellSalinity(self)
         # Calculate salinity below each tree
         OGSLargeScale3D.calculateTreeSalinity(self)
 

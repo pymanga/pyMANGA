@@ -77,7 +77,7 @@ class OGSLargeScale3D(TreeModel):
         # Start OGS
         self.runOGSandWriteFiles()
         # Read salinity from OGS results file
-        self.getSalinity()
+        self.getCellSalinity()
         # Calculate salinity below each tree
         self.calculateTreeSalinity()
         # Calculate tree water uptake in kg per sec
@@ -200,7 +200,7 @@ class OGSLargeScale3D(TreeModel):
 
     ## This function reads cumulated salinity and calls per cell from
     # external files and calculates the salinity in each cell
-    def getSalinity(self):
+    def getCellSalinity(self):
         cumsum_salinity = np.load(
             path.join(self._ogs_project_folder, "cumsum_salinity.npy"))
         calls_per_cell = np.load(

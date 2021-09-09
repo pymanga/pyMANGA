@@ -101,13 +101,9 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         # Convert water_abs from m³/time step to kg/s
         self._tree_water_uptake = self._water_absorb * 1000 / self.time
 
-        for cell_ids, volume, contribution in zip(self._tree_cell_ids,
-                                                  self._tree_cell_volume,
-                                                  self._tree_contribution):
-            for cell_id in cell_ids:
-                # a trees contribution to each cell in the grid is added a
-                # source rate (kg per volume per s)
-                self._contributions[cell_id] += contribution * (1 / volume)
+        # Calculate water withdrawal per cell
+        OGSLargeScale3D.calculateTreeContribution(self)
+
 
         ## OGS stuff
         # Copy scripts, write bc inputs, run OGS
@@ -117,7 +113,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
                 self.tree_contribution_per_cell)
         self.runOGSandWriteFiles()
 
-        # Calculate bg factor
+        ## Calculate bg factor
         # Get cell salinity array from external files
         OGSLargeScale3D.getCellSalinity(self)
         # Calculate salinity below each tree

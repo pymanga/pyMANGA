@@ -216,6 +216,21 @@ class OGSLargeScale3D(TreeModel):
             self._tree_salinity[tree_id] = mean_salinity_for_tree
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
 
+    ## This function calculates the water withdrawal in each cell based on
+    # individual tree water uptake.
+    # Unit: kg per sec per cell volume
+    # The function is not called in this concept (OGSLargeScale3D) but
+    # required for various child concepts
+    def calculateTreeContribution(self):
+        self.tree_contribution_per_cell = np.zeros(len(self._salinity))
+        for tree_id in range(self.no_trees):
+            ids = self._tree_cell_ids[tree_id]
+            v = self.getVolume(affected_cells=ids)
+            per_volume = 1. / v
+            tree_contribution = self._tree_water_uptake[tree_id]
+            self.tree_contribution_per_cell[ids] = tree_contribution * \
+                                                    per_volume
+
     ## This function returns the directory of the python_source file in the
     # directory of the concept if no external source file is provided.
     def getSourceDir(self):

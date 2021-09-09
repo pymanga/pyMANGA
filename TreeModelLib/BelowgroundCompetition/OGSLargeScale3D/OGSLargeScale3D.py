@@ -143,8 +143,7 @@ class OGSLargeScale3D(TreeModel):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
 
-        affected_cells = self._cell_information.getCellIDsAtXY(x, y)
-        self._tree_cell_ids.append(affected_cells)
+        self.addCellCharateristics(x, y)
 
         root_surface_resistance = self.rootSurfaceResistance(
             parameter, geometry)
@@ -161,6 +160,13 @@ class OGSLargeScale3D(TreeModel):
         salinity_prefactor = -85000 * 1000 / R * 1000 / np.pi
         self._tree_salinity_prefactor.append(salinity_prefactor)
 
+    ## This function extracts the cells affected by each tree and the
+    # respective volume of these cells in tree-own variables.
+    # @param x: x-coordinate of tree
+    # @param y: y-coordinate of tree
+    def addCellCharateristics(self, x, y):
+        affected_cells = self._cell_information.getCellIDsAtXY(x, y)
+        self._tree_cell_ids.append(affected_cells)
         # Get volume of affected cells
         v = self.getVolume(affected_cells)
         per_volume = 1. / v

@@ -56,16 +56,16 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
                 if calls[cell_id] == max_calls:
                     np.save(cumsum_savename, cumsum_salinity)
                     np.save(calls_savename, calls)
-        positive_flux = contributions[cell_id]
+        positive_flux = complete_contributions[cell_id]
         Jac = [0.0, 0.0]
         return (-positive_flux, Jac)
 
 
-contributions = np.load("contributions.npy")
+complete_contributions = np.load("complete_contributions.npy")
 
-cumsum_salinity = np.zeros_like(contributions)
-calls = np.zeros_like(contributions)
-max_calls = np.zeros_like(contributions)
+cumsum_salinity = np.zeros_like(complete_contributions)
+calls = np.zeros_like(complete_contributions)
+max_calls = np.zeros_like(complete_contributions)
 counter = np.zeros(1, dtype=int)
 
 cumsum_savename = "cumsum_salinity.npy"

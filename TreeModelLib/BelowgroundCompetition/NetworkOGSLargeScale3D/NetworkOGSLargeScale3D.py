@@ -111,8 +111,8 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
 
         ## OGS stuff
         # Copy scripts, write bc inputs, run OGS
-        self.copyPythonScript()
-        np.save(path.join(self._ogs_project_folder, "contributions.npy"),
+        OGSLargeScale3D.copyPythonScript(self)
+        np.save(path.join(self._ogs_project_folder, "complete_contributions.npy"),
                 self._contributions)
         self.runOGSandWriteFiles()
 

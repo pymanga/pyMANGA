@@ -242,8 +242,8 @@ class OGSLargeScale3D(TreeModel):
 
         # Network
         try:
-            contributions_filename = path.join(self._ogs_project_folder,
-                                               "contributions.npy")
+            complete_filename = path.join(self._ogs_project_folder,
+                                               "complete_contributions.npy")
         except:
             pass
 
@@ -257,6 +257,7 @@ class OGSLargeScale3D(TreeModel):
                     if (abiotic_factor.tag + " = ") in line:
                         line = (abiotic_factor.tag + " = " +
                                 abiotic_factor.text + "\n")
+
             # OGS
             if "constant_contributions.npy" in line:
                 line = line.replace("constant_contributions.npy",
@@ -265,9 +266,9 @@ class OGSLargeScale3D(TreeModel):
                 line = line.replace("salinity_prefactors.npy",
                                     prefactors_filename)
             # Network
-            if "contributions.npy" in line:
-                line = line.replace("contributions.npy",
-                                    contributions_filename)
+            if "complete_contributions.npy" in line:
+                line = line.replace("complete_contributions.npy",
+                                    complete_filename)
             # Both
             if "cumsum_salinity.npy" in line:
                 line = line.replace("cumsum_salinity.npy", cumsum_filename)

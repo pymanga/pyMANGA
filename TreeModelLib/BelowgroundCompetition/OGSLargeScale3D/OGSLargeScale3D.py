@@ -105,12 +105,13 @@ class OGSLargeScale3D(TreeModel):
             self._t_end = t_end
         self._xml_t_initial.text = str(self._t_ini)
         self._xml_t_end.text = str(self._t_end)
-        self._tree_cell_ids = []
         self._tree_constant_contribution = []
         self._tree_salinity_prefactor = []
+        self._tree_water_uptake = []
         self._constant_contributions = np.zeros_like(self._volumes)
         self._salinity_prefactors = np.zeros_like(self._volumes)
         self._salinity = np.zeros_like(self._volumes)
+        self._tree_contribution_per_cell = np.zeros_like(self._volumes)
         self._t_end_list.append(self._t_end)
         try:
             self._t_ini_zero

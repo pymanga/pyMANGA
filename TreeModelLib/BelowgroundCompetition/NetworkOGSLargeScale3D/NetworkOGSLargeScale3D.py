@@ -111,8 +111,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         # Calculate salinity below each tree
         OGSLargeScale3D.calculateTreeSalinity(self)
 
-        self.belowground_resources = self.getBGfactor()
-
+        self.belowground_resources = SimpleNetwork.getBGfactor(self)
 
         # Update network parameters
         SimpleNetwork.updateNetworkParametersForGrowthAndDeath(self)

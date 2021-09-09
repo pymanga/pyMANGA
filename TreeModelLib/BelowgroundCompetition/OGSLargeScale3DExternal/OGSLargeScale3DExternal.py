@@ -59,10 +59,8 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         super().addCellCharateristics(x, y)
 
         # Resistances against water flow in tree
-        root_surface_resistance = super().rootSurfaceResistance(
-            parameter, geometry)
-        xylem_resistance = super().xylemResistance(parameter, geometry)
-        total_resistance = root_surface_resistance + xylem_resistance
+        # Calculate total tree resistance
+        total_resistance = super().totalTreeResistance(parameter, geometry)
         self._total_resistance.append(total_resistance)
 
         # Water potentials

@@ -145,10 +145,9 @@ class OGSLargeScale3D(TreeModel):
 
         self.addCellCharateristics(x, y)
 
-        root_surface_resistance = self.rootSurfaceResistance(
-            parameter, geometry)
-        xylem_resistance = self.xylemResistance(parameter, geometry)
-        R = root_surface_resistance + xylem_resistance
+        # Calculate total tree resistance
+        total_resistance = self.totalTreeResistance(parameter, geometry)
+        self._total_resistance.append(total_resistance)
 
         # Calculate tree water uptake without salinity and salinity factor
         # Unit: kg per sec
@@ -169,12 +168,13 @@ class OGSLargeScale3D(TreeModel):
         self._tree_cell_ids.append(affected_cells)
         # Get volume of affected cells
         v = self.getVolume(affected_cells)
-        per_volume = 1. / v
-        for cell_id in affected_cells:
-            self._constant_contributions[
-                cell_id] += constant_contribution * per_volume
-            self._salinity_prefactors[
-                cell_id] += salinity_prefactor * per_volume
+        self._tree_cell_volume.append(v)
+
+    def totalTreeResistance(self, parameter, geometry):
+        root_surface_resistance = self.rootSurfaceResistance(
+            parameter, geometry)
+        xylem_resistance = self.xylemResistance(parameter, geometry)
+        return root_surface_resistance + xylem_resistance
 
     ## This function calculates the root surface resistance.
     #  @param parameter: list of hydraulic and initial tree parameters

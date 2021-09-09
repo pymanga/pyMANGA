@@ -217,6 +217,12 @@ class OGSLargeScale3D(TreeModel):
             self._tree_salinity[tree_id] = mean_salinity_for_tree
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
 
+    ## This function returns the directory of the python_source file in the
+    # directory of the concept if no external source file is provided.
+    def getSourceDir(self):
+        return path.join(path.dirname(path.abspath(__file__)),
+                          "python_source.py")
+
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.
     def copyPythonScript(self):
@@ -225,9 +231,8 @@ class OGSLargeScale3D(TreeModel):
                 path.join(self._ogs_project_folder,
                           self._external_python_script), "r")
         else:
-            source = open(
-                path.join(path.dirname(path.abspath(__file__)),
-                          "python_source.py"), "r")
+            source_dir = self.getSourceDir()
+            source = open(source_dir, "r")
         target = open(path.join(self._ogs_project_folder, "python_source.py"),
                       "w")
         # OGS

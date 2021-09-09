@@ -67,6 +67,9 @@ class OGSLargeScale3D(TreeModel):
         # Number of trees
         self.no_trees = len(self._tree_constant_contribution)
 
+        # Calculate contribution and salinity prefactors
+        self.calculateSplittedTreeContribution()
+
         self.copyPythonScript()
         # Write contributions to file
         np.save(
@@ -233,7 +236,7 @@ class OGSLargeScale3D(TreeModel):
     ## This function calculates the water withdrawal in each cell splitted
     # in a constant contribution and a salinity prefactor.
     # Unit: kg per sec per cell volume
-    def calculateSpliitedTreeContribution(self):
+    def calculateSplittedTreeContribution(self):
         self._constant_contributions = np.zeros(len(self._salinity))
         self._salinity_prefactors = np.zeros(len(self._salinity))
 

@@ -151,12 +151,11 @@ class OGSLargeScale3D(TreeModel):
 
         # Calculate tree water uptake without salinity and salinity factor
         # Unit: kg per sec
-        constant_contribution = -(
-            (parameter["leaf_water_potential"] +
-             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R *
-            1000) / np.pi
+        delta_psi = parameter["leaf_water_potential"] +\
+                    (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810
+        constant_contribution = -(delta_psi / total_resistance * np.pi) * 1000
         self._tree_constant_contribution.append(constant_contribution)
-        salinity_prefactor = -85000 * 1000 / R * 1000 / np.pi
+        salinity_prefactor = -85000 * 1000 / total_resistance * 1000 / np.pi
         self._tree_salinity_prefactor.append(salinity_prefactor)
 
     ## This function extracts the cells affected by each tree and the

@@ -7,7 +7,6 @@
 
 from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina
 import numpy as np
-from TreeModelLib.GrowthAndDeathDynamics import Mortality
 
 
 class NetworkBettina(SimpleBettina):

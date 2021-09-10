@@ -6,7 +6,6 @@
 """
 from TreeModelLib import TreeModel
 import numpy as np
-from TreeModelLib.GrowthAndDeathDynamics import Mortality
 
 
 class SimpleBettina(TreeModel):

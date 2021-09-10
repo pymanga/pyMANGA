@@ -60,6 +60,9 @@ class MangaProject:
             from TreeModelLib.BelowgroundCompetition.NetworkFixedSalinity import NetworkFixedSalinity as createBC
         elif case == "OGSLargeScale3DExternal":
             from TreeModelLib.BelowgroundCompetition.OGSLargeScale3DExternal import OGSLargeScale3DExternal as createBC
+        elif case == "NetworkOGSLargeScale3D":
+            from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3D import \
+                NetworkOGSLargeScale3D as createBC
         else:
             raise KeyError("Required belowground competition case " + case +
                            " not implemented.")

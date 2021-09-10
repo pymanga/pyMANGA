@@ -18,12 +18,7 @@ class SimpleBettina(TreeModel):
     def __init__(self, args):
         case = args.find("type").text
         print("Growth and death dynamics of type " + case + ".")
-
-        M = Mortality.Mortality(args)
-        self.mortality_concept = M.getMortConcept()
-        self.mortality_concept_names = []
-        for concept in self.mortality_concept:
-            self.mortality_concept_names.append(concept.getConceptName())
+        super().iniMortalityConcept(args)
 
     ## This functions prepares the growth and death concept.
     #  In the SimpleBettina concept, trees are saved in a simple list
@@ -58,9 +53,7 @@ class SimpleBettina(TreeModel):
 
         # Define variables that are only required for specific Mortality
         # concepts
-        for mortality_concept in self.mortality_concept:
-            mortality_concept.getMortalityVariables(
-                self, growth_concept_information)
+        super().getMortalityVariables(growth_concept_information)
 
         self.treeMaintenance()
         self.bgResources(belowground_resources)
@@ -96,10 +89,7 @@ class SimpleBettina(TreeModel):
             self.weight_rootgrowth
 
         # Set Mortality-related variables
-        for mortality_concept in self.mortality_concept:
-            growth_concept_information = \
-                mortality_concept.setMortalityVariables(
-                    self, growth_concept_information)
+        super().setMortalityVariables(growth_concept_information)
 
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)
@@ -208,11 +198,5 @@ class SimpleBettina(TreeModel):
         self.available_resources = min(self.ag_resources, self.bg_resources)
         self.grow = (self.parameter["growth_factor"] *
                      (self.available_resources - self.maint))
-        # Iterate through mortality concepts
-        # if tree dies in one of them he's dead
-        survive = []
-        for mortality_concept in self.mortality_concept:
-            survive.append(mortality_concept.getSurvival(self))
-
-        if 0 in survive:
-            self.survive = 0
+        # Check if trees survive based on selected mortality concepts
+        super().getSurvival()

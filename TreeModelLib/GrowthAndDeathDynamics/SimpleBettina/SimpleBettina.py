@@ -17,6 +17,7 @@ class SimpleBettina(TreeModel):
     def __init__(self, args):
         case = args.find("type").text
         print("Growth and death dynamics of type " + case + ".")
+        super().iniMortalityConcept(args)
 
     ## This functions prepares the growth and death concept.
     #  In the SimpleBettina concept, trees are saved in a simple list
@@ -45,8 +46,14 @@ class SimpleBettina(TreeModel):
         self.r_stem = geometry["r_stem"]
         self.h_stem = geometry["h_stem"]
         self.survive = 1
+
         self.flowLength()
         self.treeVolume()
+
+        # Define variables that are only required for specific Mortality
+        # concepts
+        super().getMortalityVariables(growth_concept_information)
+
         self.treeMaintenance()
         self.bgResources(belowground_resources)
         self.agResources(aboveground_resources)
@@ -80,9 +87,12 @@ class SimpleBettina(TreeModel):
         growth_concept_information["weight_rootgrowth"] = \
             self.weight_rootgrowth
 
+        # Set Mortality-related variables
+        super().setMortalityVariables(growth_concept_information)
+
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)
-        if (self.survive == 1):
+        if self.survive == 1:
             tree.setSurvival(1)
         else:
             tree.setSurvival(0)
@@ -187,6 +197,5 @@ class SimpleBettina(TreeModel):
         self.available_resources = min(self.ag_resources, self.bg_resources)
         self.grow = (self.parameter["growth_factor"] *
                      (self.available_resources - self.maint))
-        if (self.grow < 0):
-            self.grow = 0
-            self.survive = 0
+        # Check if trees survive based on selected mortality concepts
+        super().getSurvival()

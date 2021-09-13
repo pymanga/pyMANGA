@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+@date: 2021-Today
+@author: marie-christin.wimmler@tu-dresden.de
+"""
+
+import numpy as np
+from TreeModelLib.GrowthAndDeathDynamics.Mortality.NoGrowth import NoGrowth
+
+
+class Random(NoGrowth):
+    def __init__(self, args, case):
+        super().__init__(args, case)
+        # Read input parameters from xml file
+        self.getInputParameters(args)
+        # Default values if no inputs are given
+        try:
+            self.probability
+        except:
+            # Threshold for biomass increment: 0.5 %
+            self.probability = 0.0016
+            print("NOTE: Use default `probability`: " + str(self.probability) +
+                  ".")
+
+    def getSurvival(self, args):
+        self.survive = 1
+        r = np.random.uniform(0, 1, 1)
+        # Number of time steps per year
+        steps_per_year = self.getStepsPerYear(args)
+        ## Multiply r with the number of time steps per year to induce a
+        # yearly mortality
+        if r * steps_per_year < self.probability:
+            self.survive = 0
+            print("\t Tree died randomly. Random number: " + str(r[0]))
+
+        return self.survive
+
+    def getStepsPerYear(self, args):
+        return (3600 * 24 * 365.25) / args.time
+
+    def getInputParameters(self, args):
+        # All tags are optional
+        missing_tags = ["type", "mortality", "probability"]
+        for arg in args.iterdescendants():
+            tag = arg.tag
+            if tag == "probability":
+                self.probability = float(args.find("probability").text)
+            elif tag == "type":
+                case = args.find("type").text
+            try:
+                missing_tags.remove(tag)
+            except ValueError:
+                print("WARNING: Tag " + tag +
+                      " not specified for " + super().getConceptName() +
+                      " (" + case + ") " +
+                      "mortality initialisation!")

@@ -12,6 +12,7 @@ Case selector for different types of belowground competition.
 - NetworkFixedSalinity
 - NetworkHydro
 - OGSLargeScale3D
+- OGSLargeScale3DExternal
 - OGSWithoutFeedback
 - SimpleHydro
 - SimpleNetwork

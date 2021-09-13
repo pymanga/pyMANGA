@@ -14,8 +14,7 @@ class NetworkBettina(SimpleBettina):
     #  @param Tags to define SimpleBettina: type
     #  @date 2019 - Today
     def __init__(self, args):
-        case = args.find("type").text
-        print("Growth and death dynamics of type " + case + ".")
+        super().__init__(args)
         self.getInputParameters(args)
 
     def progressTree(self, tree, aboveground_resources, belowground_resources):
@@ -141,21 +140,23 @@ class NetworkBettina(SimpleBettina):
             tag = arg.tag
             if tag == "variant":
                 self.variant = args.find("variant").text
-            if tag == "f_growth":
+            elif tag == "f_growth":
                 self.f_growth = float(args.find("f_growth").text)
+            elif tag == "type":
+                case = args.find("type").text
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
-                    " not specified for growth and death initialisation!")
+                print("WARNING: Tag " + tag +
+                      " not specified for " + case + " below-ground " +
+                      "initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:
                 string += tag + " "
             raise KeyError(
-                "Tag(s) " + string +
-                "are not given for growth and death initialisation in "
+                "Tag(s) '" + string +
+                "' are missing for growth and death initialisation in "
                 "project file.")
         if self.variant not in ["V0_instant", "V1_fixed", "V2_adapted"]:
             raise KeyError(

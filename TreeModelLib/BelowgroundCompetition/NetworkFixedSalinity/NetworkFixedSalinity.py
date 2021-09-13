@@ -25,20 +25,20 @@ class NetworkFixedSalinity(SimpleNetwork):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        SimpleNetwork.prepareNextTimeStep(self, t_ini=t_ini, t_end=t_end)
+        super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
     #  @param: tree
     def addTree(self, tree):
-        SimpleNetwork.addTree(self, tree=tree)
+        super().addTree(tree=tree)
 
     def calculateBelowgroundResources(self):
         # FixedSalinity start
         self.calculatePsiOsmo()
         # FixedSalinity end
 
-        SimpleNetwork.calculateBelowgroundResources(self)
+        super().calculateBelowgroundResources()
 
     ## This function returns a list of the growth reduction factors of all trees.
     #  calculated in the subsequent timestep.\n
@@ -54,5 +54,5 @@ class NetworkFixedSalinity(SimpleNetwork):
     ## This function reads input parameters, e.g. salinity from the control
     # file.
     def getInputParameters(self, args):
-        SimpleNetwork.getInputParameters(self, args=args)
+        super().getInputParameters(args=args)
         FixedSalinity.GetSalinity(self, args=args)

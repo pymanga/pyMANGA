@@ -1,0 +1,5 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__OGSLargeScale3DExternal__abiotic_drivers__tide_monthy_period &emsp;[spec]tide_monthy_period
+
+
+Optional: Period of monthly tide. Default value is 24*60*60*15, i.e. the monthly tide has a cyclus of 15 days. 
+*/

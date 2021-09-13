@@ -11,6 +11,7 @@ Case selector for different types of belowground competition.
 - FON
 - NetworkFixedSalinity
 - NetworkHydro
+- NetworkOGSLargeScale3D
 - OGSLargeScale3D
 - OGSLargeScale3DExternal
 - OGSWithoutFeedback

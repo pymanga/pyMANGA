@@ -1,0 +1,5 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__OGSLargeScale3DExternal__bulk_mesh &emsp;[spec]bulk_mesh
+
+
+Name of bulk mesh which needs to be saved in the ogs project folder.
+*/

@@ -21,7 +21,7 @@ class SimpleNetwork(TreeModel):
     def __init__(self, args):
         case = args.find("type").text
         print("Initiate below-ground competition of type " + case + ".")
-        self.getInputParameters(args)
+        self.getInputParameters(args=args)
 
     ## This functions prepares the tree variables for the NetworkHydro
     #  concept.\n
@@ -121,18 +121,19 @@ class SimpleNetwork(TreeModel):
 
         self._below_graft_resistance = np.concatenate(
             (self._below_graft_resistance, [
-                self.belowGraftResistance(parameter["lp"], parameter["k_geom"],
-                                          parameter["kf_sap"],
-                                          geometry["r_root"],
-                                          geometry["h_root"],
-                                          geometry["r_stem"])
+                self.belowGraftResistance(lp=parameter["lp"],
+                                          k_geom=parameter["k_geom"],
+                                          kf_sap=parameter["kf_sap"],
+                                          r_root=geometry["r_root"],
+                                          h_root=geometry["h_root"],
+                                          r_stem=geometry["r_stem"])
             ]))
         self._above_graft_resistance = np.concatenate(
             (self._above_graft_resistance, [
-                self.aboveGraftResistance(parameter["kf_sap"],
-                                          geometry["r_crown"],
-                                          geometry["h_stem"],
-                                          geometry["r_stem"])
+                self.aboveGraftResistance(kf_sap=parameter["kf_sap"],
+                                          r_crown=geometry["r_crown"],
+                                          h_stem=geometry["h_stem"],
+                                          r_stem=geometry["r_stem"])
             ]))
 
         self._r_root.append(geometry["r_root"])
@@ -173,8 +174,10 @@ class SimpleNetwork(TreeModel):
     def getBGfactor(self):
         # Calculate water uptake with 0 ppt salinity
         res_b_noSal = self.getBGresourcesIndividual(
-            self._psi_top, np.array([0] * self.no_trees),
-            self._above_graft_resistance, self._below_graft_resistance)
+            psi_top=self._psi_top,
+            psi_osmo=np.array([0] * self.no_trees),
+            ag_resistance=self._above_graft_resistance,
+            bg_resistance=self._below_graft_resistance)
         return self._water_avail / res_b_noSal
 
     ## This function updates the network parameters that are required in the
@@ -301,7 +304,9 @@ class SimpleNetwork(TreeModel):
             link_list = []
             link_list2 = []
             for vertex in graph_dict_incomplete:
-                self.setKeyDictionary(self.graph_dict, vertex, set())
+                self.setKeyDictionary(dictionary=self.graph_dict,
+                                      key=vertex,
+                                      value=set())
                 for neighbour in graph_dict_incomplete[vertex]:
                     if {neighbour, vertex} not in link_list2:
                         link_list2.append({vertex, neighbour})
@@ -309,8 +314,9 @@ class SimpleNetwork(TreeModel):
                         # trees are only put in the dict. if the occur more than
                         # ones, i.e. both partners have finished rgf
                         link_list.append({vertex, neighbour})
-                        self.setKeyDictionary(self.graph_dict, vertex,
-                                              neighbour)
+                        self.setKeyDictionary(dictionary=self.graph_dict,
+                                              key=vertex,
+                                              value=neighbour)
 
     ## This function finds all subcomponents of a graph, i.e. groups of
     # grafted trees.
@@ -355,7 +361,7 @@ class SimpleNetwork(TreeModel):
     ## This function assigns unique component/ group IDs based on the graph
     # dictionary.
     def assignGroupIDs(self):
-        components = self.getComponents(self.graph_dict)
+        components = self.getComponents(graph_dictionary=self.graph_dict)
         self._gIDs = np.zeros(self.no_trees, dtype='object')
         for i in components.keys():
             self._gIDs[components[i]] = 'gID_' + str(i)
@@ -485,8 +491,10 @@ class SimpleNetwork(TreeModel):
                                                              [r_gr_min]
 
                     # Get length of grafted root section
-                    distance = self.getDistance(self._xe[l1], self._xe[l2],
-                                                self._ye[l1], self._ye[l2])
+                    distance = self.getDistance(x1=self._xe[l1],
+                                                x2=self._xe[l2],
+                                                y1=self._ye[l1],
+                                                y2=self._ye[l2])
                     root_sums = self._r_root[l1] + self._r_root[l2]
                     l_gr = (distance + root_sums) / 2
                     self._l_gr_rgf[l1], self._l_gr_rgf[l2] = self._r_root[l1] / \
@@ -498,8 +506,8 @@ class SimpleNetwork(TreeModel):
     # formation.
     def rootGraftFormation(self):
         contact_matrix = self.getContactMatrix()
-        pairs = self.getPairsFromMatrix(contact_matrix)
-        self.getRGFforGrowthAndDeath(pairs)
+        pairs = self.getPairsFromMatrix(contact_matrix=contact_matrix)
+        self.getRGFforGrowthAndDeath(pairs=pairs)
 
     '''
     #####################################
@@ -691,7 +699,8 @@ class SimpleNetwork(TreeModel):
         ## Get the system of linear equations (matrix) for the group of
         # grafted trees;
         # linear equation Ax=B in matrix form
-        matrix = self.getBGresourcesMatrixGroup(members, link_list_group)
+        matrix = self.getBGresourcesMatrixGroup(members=members,
+                                                link_list=link_list_group)
 
         n_t = len(members)
         n_l = len(link_list_group)
@@ -736,15 +745,18 @@ class SimpleNetwork(TreeModel):
             # make a graph dictionary of the group
             graph_dict_group = {i: self.graph_dict[i] for i in members}
             # make a list with indices of connected trees of the group
-            link_list_group = np.array(self.getLinkList(graph_dict_group))
+            link_list_group = np.array(
+                self.getLinkList(graph_dict=graph_dict_group))
             if len(link_list_group) == 0:
                 ## if the tree is not grafted water_absorbed and
                 # water_available corresponds to SimpleBettina water uptake
                 # and water_exchange is 0
                 self._water_absorb[members] = self.getBGresourcesIndividual(
-                    self._psi_top[members], self._psi_osmo[members],
-                    self._above_graft_resistance[members],
-                    self._below_graft_resistance[members])
+                    psi_top=self._psi_top[members],
+                    psi_osmo=self._psi_osmo[members],
+                    ag_resistance=self._above_graft_resistance[members],
+                    bg_resistance=self._below_graft_resistance[members])
                 self._water_avail[members] = self._water_absorb[members]
             else:
-                self.calculateBGresourcesGroup(members, link_list_group)
+                self.calculateBGresourcesGroup(members=members,
+                                               link_list_group=link_list_group)

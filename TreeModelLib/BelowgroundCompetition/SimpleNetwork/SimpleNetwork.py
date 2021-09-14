@@ -657,9 +657,10 @@ class SimpleNetwork(TreeModel):
         l_gr = (r_root[0] + r_root[1] + distances) / 2
         kf_sap = np.array(np.meshgrid(self._kf_sap, self._kf_sap))
         kf_saps = (kf_sap[0] + kf_sap[1]) / 2
-        graft_resistance = self.getGraftResistance(r_grafts[from_IDs, to_IDs],
-                                                   l_gr[from_IDs, to_IDs],
-                                                   kf_saps[from_IDs, to_IDs])
+        graft_resistance = self.getGraftResistance(
+            distance=l_gr[from_IDs, to_IDs],
+            r_graft=r_grafts[from_IDs, to_IDs],
+            kf_sap=kf_saps[from_IDs, to_IDs])
         matrix[link_rows, from_index] = -self._below_graft_resistance[from_IDs]
         matrix[link_rows, to_index] = self._below_graft_resistance[to_IDs]
         matrix[link_rows, g_col] = graft_resistance

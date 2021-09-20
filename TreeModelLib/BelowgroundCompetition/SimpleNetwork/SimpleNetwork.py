@@ -190,8 +190,9 @@ class SimpleNetwork(TreeModel):
             # Parameters related to the root graft formation process
             network['potential_partner'] = self._potential_partner[i]
             network['rgf'] = self._rgf_counter[i]
-            # Parameter related to water exchange
             network['partner'] = self._partner_names[i]
+            network['groupID'] = self._gIDs[i]
+            # Parameter related to water exchange
             network['water_available'] = self._water_avail[i]
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]

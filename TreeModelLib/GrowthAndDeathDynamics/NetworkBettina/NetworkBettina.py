@@ -14,8 +14,8 @@ class NetworkBettina(SimpleBettina):
     #  @param Tags to define SimpleBettina: type
     #  @date 2019 - Today
     def __init__(self, args):
-        super().__init__(args)
-        self.getInputParameters(args)
+        super().__init__(args=args)
+        self.getInputParameters(args=args)
 
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         network = tree.getNetwork()
@@ -34,8 +34,10 @@ class NetworkBettina(SimpleBettina):
 
         self.name = str(tree.group_name) + str(tree.tree_id)
         # Simple bettina tree progress
-        SimpleBettina.progressTree(self, tree, aboveground_resources,
-                                   belowground_resources)
+        SimpleBettina.progressTree(self,
+                                   tree=tree,
+                                   aboveground_resources=aboveground_resources,
+                                   belowground_resources=belowground_resources)
 
         network['variant'] = self.variant
         network['rgf'] = self.rgf
@@ -49,7 +51,7 @@ class NetworkBettina(SimpleBettina):
         network['weight_gr'] = self.weight_gr  # only required for csv
         # output
 
-        tree.setNetwork(network)
+        tree.setNetwork(network=network)
         if self.survive == 1:
             tree.setSurvival(1)
         else:

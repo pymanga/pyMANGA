@@ -123,7 +123,11 @@ class OGSLargeScale3D(TreeModel):
         filename = path.join(
             self._ogs_project_folder,
             str(t_ini).replace(".", "_") + "_" + self._ogs_project_file)
-        self._tree.write(filename) # ToDo @JB: Was passiert hier?
+
+        ## self._tree is the xml-tree from the ogs project file
+        # above (e.g. line 108) the xml tree is updated
+        # here, the new project file for ogs is saved
+        self._tree.write(filename)
 
         self.prepareOGSparameters()
 

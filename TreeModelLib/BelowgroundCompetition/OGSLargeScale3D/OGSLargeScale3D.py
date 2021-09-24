@@ -286,21 +286,15 @@ class OGSLargeScale3D(TreeModel):
                       "w")
 
         # OGS
-        try:
-            constants_filename = path.join(self._ogs_project_folder,
-                                           "constant_contributions.npy")
-            prefactors_filename = path.join(self._ogs_project_folder,
-                                            "salinity_prefactors.npy")
-        except:
-            pass
-
+        constants_filename = path.join(self._ogs_project_folder,
+                                       "constant_contributions.npy")
+        prefactors_filename = path.join(self._ogs_project_folder,
+                                        "salinity_prefactors.npy")
         # Network
-        try:
-            complete_filename = path.join(self._ogs_project_folder,
-                                               "complete_contributions.npy")
-        except:
-            pass
+        complete_filename = path.join(self._ogs_project_folder,
+                                      "complete_contributions.npy")
 
+        # Both
         cumsum_filename = path.join(self._ogs_project_folder,
                                     "cumsum_salinity.npy")
         calls_filename = path.join(self._ogs_project_folder,

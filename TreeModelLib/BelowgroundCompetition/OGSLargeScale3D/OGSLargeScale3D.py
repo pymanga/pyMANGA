@@ -367,6 +367,13 @@ class OGSLargeScale3D(TreeModel):
         pvd_file.write("</VTKFile>\n")
         pvd_file.close()
 
+        # write each file name in pvd-file
+        files = os.listdir(self._ogs_project_folder)
+        for file in files:
+            if (self._ogs_prefix.text in file
+                    and ("_" + str(self._t_end)) in file):
+                self._ogs_bulk_mesh.text = str(file)
+
     def runOGSandWriteFiles(self):
         current_project_file = path.join(
             self._ogs_project_folder,
@@ -380,12 +387,7 @@ class OGSLargeScale3D(TreeModel):
             raise ValueError("Ogs calculation failed!")
         print("OGS-calculation done.")
         self.writePVDCollection()
-        # ToDo: @JB: Was passiert hier?
-        files = os.listdir(self._ogs_project_folder)
-        for file in files:
-            if (self._ogs_prefix.text in file
-                    and ("_" + str(self._t_end)) in file):
-                self._ogs_bulk_mesh.text = str(file)
+
 
     def renameParameters(self):
         parameters = self._tree.find("parameters")

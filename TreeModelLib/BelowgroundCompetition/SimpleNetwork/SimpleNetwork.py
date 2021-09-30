@@ -318,7 +318,7 @@ class SimpleNetwork(TreeModel):
                         link_list2.append({vertex, neighbour})
                     else:
                         # trees are only put in the dict. if they occur more
-                        # than ones, i.e. both partners have finished rgf
+                        # than once, i.e. both partners have finished rgf
                         link_list.append({vertex, neighbour})
                         self.setKeyDictionary(dictionary=self.graph_dict,
                                               key=vertex,

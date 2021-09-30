@@ -67,50 +67,31 @@ class OGSLargeScale3D(TreeModel):
         # Number of trees
         self.no_trees = len(self._tree_constant_contribution)
 
-        self.copyPythonScript()
+        # Calculate contribution and salinity prefactors
+        self.calculateSplittedTreeContribution()
 
+        self.copyPythonScript()
+        # Write contributions to file
         np.save(
             path.join(self._ogs_project_folder, "constant_contributions.npy"),
             self._constant_contributions)
         np.save(path.join(self._ogs_project_folder, "salinity_prefactors.npy"),
                 self._salinity_prefactors)
-        current_project_file = path.join(
-            self._ogs_project_folder,
-            str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
-        print("Running ogs...")
-        bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
-        if not (os.system(bc_path + "/OGS/bin/ogs " + current_project_file +
-                          " -o " + self._ogs_project_folder + " -l error")
-                == 0):
-            raise ValueError("Ogs calculation failed!")
-        print("OGS-calculation done.")
-        self.writePVDCollection()
-        files = os.listdir(self._ogs_project_folder)
-        for file in files:
-            if (self._ogs_prefix.text in file
-                    and ("_" + str(self._t_end)) in file):
-                self._ogs_bulk_mesh.text = str(file)
-
-        # Get cell salinity array from external files
-        self.getSalinity()
+        # Start OGS
+        self.runOGSandWriteFiles()
+        # Read salinity from OGS results file
+        self.getCellSalinity()
         # Calculate salinity below each tree
         self.calculateTreeSalinity()
         # Calculate tree water uptake in kg per sec
-        self.tree_water_uptake = self._tree_constant_contribution + \
+        self._tree_water_uptake = self._tree_constant_contribution + \
                                  self._tree_salinity_prefactor * \
                                  self._tree_salinity
         # Calculate below ground resource factor
-        self.belowground_resources = self.tree_water_uptake / \
+        self.belowground_resources = self._tree_water_uptake / \
                                      self._tree_constant_contribution
 
-        parameters = self._tree.find("parameters")
-        for parameter in parameters.iterchildren():
-            name = parameter.find("name")
-            if name.text.strip() == "c_ini":
-                parameter.find("field_name").text = "concentration"
-
-            if name.text.strip() == "p_ini":
-                parameter.find("field_name").text = "pressure"
+        self.renameParameters()
 
     ## This functions prepares the next timestep for the competition
     #  concept. In the OGS concept, information on t_ini and t_end is stored.
@@ -127,12 +108,13 @@ class OGSLargeScale3D(TreeModel):
             self._t_end = t_end
         self._xml_t_initial.text = str(self._t_ini)
         self._xml_t_end.text = str(self._t_end)
-        self._tree_cell_ids = []
         self._tree_constant_contribution = []
         self._tree_salinity_prefactor = []
+        self._tree_water_uptake = []
         self._constant_contributions = np.zeros_like(self._volumes)
         self._salinity_prefactors = np.zeros_like(self._volumes)
         self._salinity = np.zeros_like(self._volumes)
+        self._tree_contribution_per_cell = np.zeros_like(self._volumes)
         self._t_end_list.append(self._t_end)
         try:
             self._t_ini_zero
@@ -141,10 +123,22 @@ class OGSLargeScale3D(TreeModel):
         filename = path.join(
             self._ogs_project_folder,
             str(t_ini).replace(".", "_") + "_" + self._ogs_project_file)
+
+        ## self._tree is the xml-tree from the ogs project file
+        # above (e.g. line 108) the xml tree is updated
+        # here, the new project file for ogs is saved
         self._tree.write(filename)
-        ## List containing reduction factor for each tree
+
+        self.prepareOGSparameters()
+
+    ## This function initializes variables required also in OGSExternal
+    # concepts.
+    def prepareOGSparameters(self):
+        self._total_resistance = []
         self.belowground_resources = []
-        self._tree_salinity = []
+        self._tree_cell_ids = []
+        self._tree_salinity = np.empty(0)
+        self._tree_cell_volume = []
 
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next timestep.
@@ -157,31 +151,37 @@ class OGSLargeScale3D(TreeModel):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
 
+        self.addCellCharateristics(x, y)
+
+        # Calculate total tree resistance
+        total_resistance = self.totalTreeResistance(parameter, geometry)
+        self._total_resistance.append(total_resistance)
+
+        # Calculate tree water uptake without salinity and salinity factor
+        # Unit: kg per sec
+        delta_psi = parameter["leaf_water_potential"] +\
+                    (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810
+        constant_contribution = -(delta_psi / total_resistance * np.pi) * 1000
+        self._tree_constant_contribution.append(constant_contribution)
+        salinity_prefactor = -85000 * 1000 / total_resistance * 1000 / np.pi
+        self._tree_salinity_prefactor.append(salinity_prefactor)
+
+    ## This function extracts the cells affected by each tree and the
+    # respective volume of these cells in tree-own variables.
+    # @param x: x-coordinate of tree
+    # @param y: y-coordinate of tree
+    def addCellCharateristics(self, x, y):
         affected_cells = self._cell_information.getCellIDsAtXY(x, y)
         self._tree_cell_ids.append(affected_cells)
+        # Get volume of affected cells
+        v = self.getVolume(affected_cells)
+        self._tree_cell_volume.append(v)
 
+    def totalTreeResistance(self, parameter, geometry):
         root_surface_resistance = self.rootSurfaceResistance(
             parameter, geometry)
         xylem_resistance = self.xylemResistance(parameter, geometry)
-        R = root_surface_resistance + xylem_resistance
-
-        # Calculate tree water uptake without salinity and salinity factor
-        constant_contribution = -(
-            (parameter["leaf_water_potential"] +
-             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810) / R *
-            1000) / np.pi
-        self._tree_constant_contribution.append(constant_contribution)
-        salinity_prefactor = -85000 * 1000 / R * 1000 / np.pi
-        self._tree_salinity_prefactor.append(salinity_prefactor)
-
-        # Get volume of affected cells
-        v = self.getVolume(affected_cells)
-        per_volume = 1. / v
-        for cell_id in affected_cells:
-            self._constant_contributions[
-                cell_id] += constant_contribution * per_volume
-            self._salinity_prefactors[
-                cell_id] += salinity_prefactor * per_volume
+        return root_surface_resistance + xylem_resistance
 
     ## This function calculates the root surface resistance.
     #  @param parameter: list of hydraulic and initial tree parameters
@@ -220,7 +220,7 @@ class OGSLargeScale3D(TreeModel):
 
     ## This function reads cumulated salinity and calls per cell from
     # external files and calculates the salinity in each cell
-    def getSalinity(self):
+    def getCellSalinity(self):
         cumsum_salinity = np.load(
             path.join(self._ogs_project_folder, "cumsum_salinity.npy"))
         calls_per_cell = np.load(
@@ -237,6 +237,45 @@ class OGSLargeScale3D(TreeModel):
             self._tree_salinity[tree_id] = mean_salinity_for_tree
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
 
+    ## This function calculates the water withdrawal in each cell splitted
+    # in a constant contribution and a salinity prefactor.
+    # Unit: kg per sec per cell volume
+    def calculateSplittedTreeContribution(self):
+        self._constant_contributions = np.zeros(len(self._salinity))
+        self._salinity_prefactors = np.zeros(len(self._salinity))
+
+        for tree_id in range(self.no_trees):
+            ids = self._tree_cell_ids[tree_id]
+            v = self._tree_cell_volume[tree_id]
+            per_volume = 1. / v
+            constant_contribution = self._constant_contributions[tree_id]
+            self._constant_contributions[ids] = constant_contribution * \
+                                                per_volume
+            salinity_prefactor = self._salinity_prefactors[tree_id]
+            self._salinity_prefactors[ids] = salinity_prefactor * \
+                                             per_volume
+
+    ## This function calculates the water withdrawal in each cell based on
+    # individual tree water uptake.
+    # Unit: kg per sec per cell volume
+    # The function is not called in this concept (OGSLargeScale3D) but
+    # required for various child concepts
+    def calculateCompleteTreeContribution(self):
+        self._tree_contribution_per_cell = np.zeros(len(self._salinity))
+        for tree_id in range(self.no_trees):
+            ids = self._tree_cell_ids[tree_id]
+            v = self._tree_cell_volume[tree_id]
+            per_volume = 1. / v
+            tree_contribution = self._tree_water_uptake[tree_id]
+            self._tree_contribution_per_cell[ids] = tree_contribution * \
+                                                    per_volume
+
+    ## This function returns the directory of the python_source file in the
+    # directory of the concept if no external source file is provided.
+    def getSourceDir(self):
+        return path.join(path.dirname(path.abspath(__file__)),
+                          "python_source.py")
+
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.
     def copyPythonScript(self):
@@ -245,32 +284,46 @@ class OGSLargeScale3D(TreeModel):
                 path.join(self._ogs_project_folder,
                           self._external_python_script), "r")
         else:
-            source = open(
-                path.join(path.dirname(path.abspath(__file__)),
-                          "python_source.py"), "r")
+            source_dir = self.getSourceDir()
+            source = open(source_dir, "r")
         target = open(path.join(self._ogs_project_folder, "python_source.py"),
                       "w")
+
+        # OGS
         constants_filename = path.join(self._ogs_project_folder,
                                        "constant_contributions.npy")
         prefactors_filename = path.join(self._ogs_project_folder,
                                         "salinity_prefactors.npy")
+        # Network
+        complete_filename = path.join(self._ogs_project_folder,
+                                      "complete_contributions.npy")
+
+        # Both
         cumsum_filename = path.join(self._ogs_project_folder,
                                     "cumsum_salinity.npy")
         calls_filename = path.join(self._ogs_project_folder,
                                    "calls_in_last_timestep.npy")
-
+        # Iterates through each line in the python_source.py to replace
+        # directories
         for line in source.readlines():
             if self._abiotic_drivers:
                 for abiotic_factor in self._abiotic_drivers.iterchildren():
                     if (abiotic_factor.tag + " = ") in line:
                         line = (abiotic_factor.tag + " = " +
                                 abiotic_factor.text + "\n")
+
+            # OGS
             if "constant_contributions.npy" in line:
                 line = line.replace("constant_contributions.npy",
                                     constants_filename)
             if "salinity_prefactors.npy" in line:
                 line = line.replace("salinity_prefactors.npy",
                                     prefactors_filename)
+            # Network
+            if "complete_contributions.npy" in line:
+                line = line.replace("complete_contributions.npy",
+                                    complete_filename)
+            # Both
             if "cumsum_salinity.npy" in line:
                 line = line.replace("cumsum_salinity.npy", cumsum_filename)
             if "calls_in_last_timestep.npy" in line:
@@ -313,3 +366,35 @@ class OGSLargeScale3D(TreeModel):
         pvd_file.write("\t</Collection>\n")
         pvd_file.write("</VTKFile>\n")
         pvd_file.close()
+
+        # write each file name in pvd-file
+        files = os.listdir(self._ogs_project_folder)
+        for file in files:
+            if (self._ogs_prefix.text in file
+                    and ("_" + str(self._t_end)) in file):
+                self._ogs_bulk_mesh.text = str(file)
+
+    def runOGSandWriteFiles(self):
+        current_project_file = path.join(
+            self._ogs_project_folder,
+            str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
+        print("Running ogs...")
+        bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
+
+        if not (os.system(bc_path + "/OGS/bin/ogs " + current_project_file +
+                          " -o " + self._ogs_project_folder + " -l error")
+                == 0):
+            raise ValueError("Ogs calculation failed!")
+        print("OGS-calculation done.")
+        self.writePVDCollection()
+
+
+    def renameParameters(self):
+        parameters = self._tree.find("parameters")
+        for parameter in parameters.iterchildren():
+            name = parameter.find("name")
+            if name.text.strip() == "c_ini":
+                parameter.find("field_name").text = "concentration"
+
+            if name.text.strip() == "p_ini":
+                parameter.find("field_name").text = "pressure"

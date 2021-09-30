@@ -9,11 +9,11 @@ from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D
 import numpy as np
 
 
-# Child class of  OGSLargeScale3DExternal to use external time stepping
+# Child class of OGSLargeScale3DExternal to use external time stepping
 # E.g. to run MANGA as OGS boundary condition
-# To function, the concept needs an array with cumulated cell salinity and
+# The concept needs an array with cumulated cell salinity and
 # the number of calls for each cell. It returns an array describing water
-# withdrawal in each cell.
+# withdrawal in each cell as rate in kg per sec per cell volume.
 class OGSLargeScale3DExternal(OGSLargeScale3D):
     def __init__(self, args):
         super().__init__(args)
@@ -30,7 +30,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     #  @param t_ini: initial time of next time step
     #  @param t_end: end time of next time step
     def prepareNextTimeStep(self, t_ini, t_end):
-        self.no_trees = 0
+        self.n_trees = 0
 
         # Arrays with length 'no. of trees'
         self._x = []
@@ -39,22 +39,16 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
 
         self._psi_leaf = np.empty(0)
         self._psi_height = np.empty(0)
+        self._psi_osmo = np.empty(0)
         self._rcrown = []
         self._hstem = []
 
-        self._tree_cell_ids = []
-        self._tree_salinity = np.empty(0)
-        self.tree_water_uptake = []
-        self.belowground_resources = []
-
-        # arrays with length 'no. of cells'
-        self.tree_contribution_per_cell = []
+        super().prepareOGSparameters()
 
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next time step.
     #  Here, in the OGS case, each tree is represented by a contribution to
-    #  python source terms in OGS. To this end, their constant and salinity
-    #  dependent resource uptake is saved in numpy arrays.
+    #  python source terms in OGS.
     #  @param tree
     def addTree(self, tree):
         x, y = tree.getPosition()
@@ -62,14 +56,11 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         parameter = tree.getParameter()
 
         # Cells affected by tree water uptake
-        affected_cells = self._cell_information.getCellIDsAtXY(x, y)
-        self._tree_cell_ids.append(affected_cells)
+        super().addCellCharateristics(x, y)
 
         # Resistances against water flow in tree
-        root_surface_resistance = super().rootSurfaceResistance(
-            parameter, geometry)
-        xylem_resistance = super().xylemResistance(parameter, geometry)
-        total_resistance = root_surface_resistance + xylem_resistance
+        # Calculate total tree resistance
+        total_resistance = super().totalTreeResistance(parameter, geometry)
         self._total_resistance.append(total_resistance)
 
         # Water potentials
@@ -93,27 +84,14 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         # Calculate salinity (and psi_osmo) below tree
         super().calculateTreeSalinity()
 
-        self.tree_water_uptake = -(self._psi_leaf - self._psi_height -
+        self._tree_water_uptake = -(self._psi_leaf - self._psi_height -
                                    self._psi_osmo) / \
                                  self._total_resistance / np.pi * 1000  # kg/s
         self.belowground_resources = 1 - (self._psi_osmo /
                                           (self._psi_leaf - self._psi_height))
 
         # Calculate contribution per cell
-        self.calculateTreeContribution()
-
-    ## This function calculates the water withdrawal in each cell based on
-    # individual tree water uptake.
-    # Unit: kg per sec per cell volume
-    def calculateTreeContribution(self):
-        self.tree_contribution_per_cell = np.zeros(len(self._salinity))
-        for tree_id in range(self.no_trees):
-            ids = self._tree_cell_ids[tree_id]
-            v = self.getVolume(affected_cells=ids)
-            per_volume = 1. / v
-            tree_contribution = self.tree_water_uptake[tree_id]
-            self.tree_contribution_per_cell[ids] = tree_contribution * \
-                                                    per_volume
+        super().calculateCompleteTreeContribution()
 
     ## Setter for external information
     # This function sets the parameters 'cumsum_salinity' and 'calls_per_cell',
@@ -129,4 +107,4 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     # This function returns the estimated water withdrawal in each cell
     # as rate (kg per sec per cell volume)
     def getExternalInformation(self):
-        return self.tree_contribution_per_cell
+        return self._tree_contribution_per_cell

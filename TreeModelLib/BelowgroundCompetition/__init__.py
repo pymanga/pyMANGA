@@ -15,4 +15,5 @@ from .FixedSalinity import FixedSalinity
 from .SimpleNetwork import SimpleNetwork
 from .NetworkHydro import NetworkHydro
 from .NetworkFixedSalinity import NetworkFixedSalinity
+from .NetworkOGSLargeScale3D import NetworkOGSLargeScale3D
 from .OGSLargeScale3DExternal import OGSLargeScale3DExternal

@@ -34,10 +34,9 @@ class NetworkBettina(SimpleBettina):
 
         self.name = str(tree.group_name) + str(tree.tree_id)
         # Simple bettina tree progress
-        SimpleBettina.progressTree(self,
-                                   tree=tree,
-                                   aboveground_resources=aboveground_resources,
-                                   belowground_resources=belowground_resources)
+        super().progressTree(tree=tree,
+                             aboveground_resources=aboveground_resources,
+                             belowground_resources=belowground_resources)
 
         network['variant'] = self.variant
         network['rgf'] = self.rgf
@@ -63,10 +62,10 @@ class NetworkBettina(SimpleBettina):
         if self.variant == 'V2_adapted':
             self.treeGrowthWeightsV2()
         else:
-            SimpleBettina.treeGrowthWeights(self)
+            super().treeGrowthWeights()
 
     def growthResources(self):
-        SimpleBettina.growthResources(self)
+        super().growthResources()
         if self.variant == "V0_instant":
             self.rootGraftFormationV0()
         if self.variant == "V1_fixed":
@@ -79,7 +78,7 @@ class NetworkBettina(SimpleBettina):
     # root graft formation.
     def treeGrowthWeightsV2(self):
         # Simple bettina get growth weigths
-        SimpleBettina.treeGrowthWeights(self)
+        super().treeGrowthWeights()
 
         # If self.r_gr_min exists the tree is currently in the process of rgf
         if self.r_gr_min:

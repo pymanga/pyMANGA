@@ -43,6 +43,8 @@ class NetworkBettina(SimpleBettina):
         network['rgf'] = self.rgf
         network['potential_partner'] = self.potential_partner
         network['partner'] = self.partner
+        network['node_degree'] = len(self.partner)
+
 
         # parameters for rgf variant "V2_adapted"
         network['r_gr_min'] = self.r_gr_min

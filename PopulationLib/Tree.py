@@ -90,6 +90,8 @@ class Tree:
         self.network['potential_partner'] = []
         # List with the names of trees (tree_name) with which it is connected
         self.network['partner'] = []
+        self.network['groupID'] = []
+        self.network['node_degree'] = 0
         self.network['water_absorbed'] = []
         self.network['water_available'] = []
         self.network['water_exchanged'] = []

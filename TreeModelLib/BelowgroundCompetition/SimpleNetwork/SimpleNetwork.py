@@ -190,8 +190,9 @@ class SimpleNetwork(TreeModel):
             # Parameters related to the root graft formation process
             network['potential_partner'] = self._potential_partner[i]
             network['rgf'] = self._rgf_counter[i]
-            # Parameter related to water exchange
             network['partner'] = self._partner_names[i]
+            network['groupID'] = self._gIDs[i]
+            # Parameter related to water exchange
             network['water_available'] = self._water_avail[i]
             network['water_absorbed'] = self._water_absorb[i]
             network['water_exchanged'] = self._water_exchanged_trees[i]
@@ -308,11 +309,16 @@ class SimpleNetwork(TreeModel):
                                       key=vertex,
                                       value=set())
                 for neighbour in graph_dict_incomplete[vertex]:
+                    # Iterate through all trees and the neighbours
+                    # If a new pair occurs it will be appended in link_list2
+                    # If the pair occurs again it wll be appended in link_list
+                    # This means that the link (or rgf process) is finished
+                    # for both trees
                     if {neighbour, vertex} not in link_list2:
                         link_list2.append({vertex, neighbour})
                     else:
-                        # trees are only put in the dict. if the occur more than
-                        # ones, i.e. both partners have finished rgf
+                        # trees are only put in the dict. if they occur more
+                        # than once, i.e. both partners have finished rgf
                         link_list.append({vertex, neighbour})
                         self.setKeyDictionary(dictionary=self.graph_dict,
                                               key=vertex,

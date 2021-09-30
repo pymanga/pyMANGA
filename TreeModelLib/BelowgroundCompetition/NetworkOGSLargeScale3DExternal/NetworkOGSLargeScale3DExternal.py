@@ -85,8 +85,8 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
         # Calculate contribution per cell
         # Map water absorbed as contribution to respective cells
         # Convert water_abs from m³/time step to kg/s
-        self.tree_water_uptake = self._water_absorb * 1000 / self.time
-        OGSLargeScale3DExternal.calculateTreeContribution(self)
+        self._tree_water_uptake = self._water_absorb * 1000 / self.time
+        OGSLargeScale3DExternal.calculateCompleteTreeContribution(self)
 
     ## Setter for external information
     # This function sets the parameters 'cumsum_salinity' and 'calls_per_cell',
@@ -99,4 +99,5 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     # This function returns the estimated water withdrawal in each cell
     # as rate (kg per sec per cell volume)
     def getExternalInformation(self):
-        return self.tree_contribution_per_cell
+        return self._tree_contribution_per_cell
+

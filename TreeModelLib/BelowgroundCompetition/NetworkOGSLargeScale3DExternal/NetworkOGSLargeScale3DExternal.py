@@ -19,12 +19,16 @@ from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3D import \
 # The withdrawal is the amount of water absorbed from the soil column,
 # and can be different from the amount of water available to the tree du to
 # root graft mediated water exchange (see SimpleNetwork).
+# mro of this class: [<class 'NetworkOGSLargeScale3DExternal'>, <class
+# 'NetworkOGSLargeScale3D'>, <class 'SimpleNetwork'>, <class
+# 'OGSLargeScale3DExternal'>, <class 'OGSLargeScale3D'>, <class 'TreeModel'>,
+# <class 'object'>]
 class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
                                      OGSLargeScale3DExternal):
     def __init__(self, args):
         # Load init method from NetworkOGSLargeScale3D, which includes init
         # method of OGSLargeScale3D and reading of network import parameters
-        NetworkOGSLargeScale3D.__init__(self, args)
+        super().__init__(args)
 
     # This function allows external communication
     def getOGSAccessible(self):
@@ -35,7 +39,8 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  @param t_ini - initial time for next time step \n
     #  @param t_end - end time for next time step
     def prepareNextTimeStep(self, t_ini, t_end):
-        # Load init method of SimpleNetwork = super(NetworkOGSLargeScale3D)
+        # Load init method of SimpleNetwork, which is super of
+        # NetworkOGSLargeScale3D
         super(NetworkOGSLargeScale3D, self).prepareNextTimeStep(t_ini, t_end)
 
         # Parameters required for NetworkOGSLargeScale3D
@@ -43,7 +48,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
 
         # Load parameters that are required to get/ process information from
         # OGS
-        OGSLargeScale3DExternal.prepareOGSparameters(self)
+        super().prepareNextTimeStep(t_ini, t_end)
 
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next time step.
@@ -51,7 +56,8 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  python source terms in OGS.
     #  @param tree
     def addTree(self, tree):
-        NetworkOGSLargeScale3D.addTree(self, tree)
+        # Use addTree of NetworkOGSLargeScale3D
+        super().addTree(tree)
 
     ## This function updates and returns BelowgroundResources in the current
     #  time step. For each tree a reduction factor is calculated which is
@@ -65,39 +71,40 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
         if self.no_trees <= 0:
             print("WARNING: All trees are dead.")
 
-        # Get salinity information from OGS in kg/kg
-        OGSLargeScale3DExternal.calculateTreeSalinity(self)
+        # Get salinity information from OGS in kg/kg (defined in
+        # OGSLargeScale3D.py)
+        super().calculateTreeSalinity()
 
-        ## NetworkOGSLargeScale3D stuff
+        ## NetworkOGSLargeScale3D stuff (defined in SimpleNetwork.py)
         # Convert psi_osmo to np array in order to use in
         self._psi_osmo = np.array(self._psi_osmo)
         # Calculate amount of water absorbed from soil column
-        NetworkOGSLargeScale3D.groupFormation(self)
-        NetworkOGSLargeScale3D.rootGraftFormation(self)
-        NetworkOGSLargeScale3D.calculateBGresourcesTree(self)
+        super().groupFormation()
+        super().rootGraftFormation()
+        super().calculateBGresourcesTree()
 
-        # Calculate bg resource factor
-        self.belowground_resources = NetworkOGSLargeScale3D.getBGfactor(self)
+        # Calculate bg resource factor (defined in SimpleNetwork)
+        self.belowground_resources = super().getBGfactor()
 
-        # Update network parameters
-        NetworkOGSLargeScale3D.updateNetworkParametersForGrowthAndDeath(self)
+        # Update network parameters (defined in SimpleNetwork)
+        super().updateNetworkParametersForGrowthAndDeath()
 
         # Calculate contribution per cell
         # Map water absorbed as contribution to respective cells
         # Convert water_abs from m³/time step to kg/s
         self._tree_water_uptake = self._water_absorb * 1000 / self.time
-        OGSLargeScale3DExternal.calculateCompleteTreeContribution(self)
+        super().calculateCompleteTreeContribution()
 
     ## Setter for external information
     # This function sets the parameters 'cumsum_salinity' and 'calls_per_cell',
     # which contain information about the cumulated salinity in each cell and
     # the number of calls, calculated by OGS
     def setExternalInformation(self, **args):
-        OGSLargeScale3DExternal.setExternalInformation(self, **args)
+        # set external information as defined in OGSLargeScale3DExternal.py
+        super().setExternalInformation(**args)
 
     ## Getter for external information
     # This function returns the estimated water withdrawal in each cell
     # as rate (kg per sec per cell volume)
     def getExternalInformation(self):
         return self._tree_contribution_per_cell
-

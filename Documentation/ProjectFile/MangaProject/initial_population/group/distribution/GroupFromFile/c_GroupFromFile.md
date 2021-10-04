@@ -1,5 +1,9 @@
 
 
-Input population case for initial tree distribution. Here, the initial tree locations and geometries are loaded from an given input file. The file needs to contain rows with the information on: tree position (x,y-coordinates), r_crown, r_root, r_stem and h_stem. Input files can be pyMANGA output of the type "OneTimestepOneFile" which includes the mentioned information.
+Input population case for initial tree distribution. 
+Here, the initial tree locations and geometries are loaded from a given input file (csv).
+The file needs to contain rows with the information on: tree position (x,y-coordinates), r_crown, r_root, r_stem and h_stem.
+Positions must be comma-separated.
+Input files can be pyMANGA output of the type "OneTimestepOneFile" which includes the mentioned information.
 
 

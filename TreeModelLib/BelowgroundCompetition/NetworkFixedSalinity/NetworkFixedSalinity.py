@@ -5,13 +5,13 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-import numpy as np
 from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
 from TreeModelLib.BelowgroundCompetition.FixedSalinity import FixedSalinity
 from ProjectLib.Logger import method_logger
 
 
-class NetworkFixedSalinity(SimpleNetwork):
+# MRO: NetworkFixedSalinity, SimpleNetwork, FixedSalinity, TreeModel, object
+class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
     ## Fixed salinityin belowground competition concept.
     #  @param: Tags to define FixedSalinity: type, salinity
     #  @date: 2020 - Today
@@ -54,11 +54,7 @@ class NetworkFixedSalinity(SimpleNetwork):
     #  calculated in the subsequent timestep.\n
     #  @return: np.array with $N_tree$ scalars
     def calculatePsiOsmo(self):
-        self._xe = np.array(self._xe)
-        salinity_tree = ((self._xe - self._min_x) /
-                         (self._max_x - self._min_x) *
-                         (self._salinity[1] - self._salinity[0]) +
-                         self._salinity[0])
+        salinity_tree = super().getTreeSalinity()
         self._psi_osmo = -85000000 * salinity_tree
 
     ## This function reads input parameters, e.g. salinity from the control
@@ -66,4 +62,4 @@ class NetworkFixedSalinity(SimpleNetwork):
     @method_logger
     def getInputParameters(self, args):
         super().getInputParameters(args=args)
-        FixedSalinity.GetSalinity(self, args=args)
+        super().GetSalinity(args=args)

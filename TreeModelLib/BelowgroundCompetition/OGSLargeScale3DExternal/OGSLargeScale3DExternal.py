@@ -33,8 +33,6 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         self.n_trees = 0
 
         # Arrays with length 'no. of trees'
-        self._x = []
-        self._y = []
         self._total_resistance = []
 
         self._psi_leaf = np.empty(0)

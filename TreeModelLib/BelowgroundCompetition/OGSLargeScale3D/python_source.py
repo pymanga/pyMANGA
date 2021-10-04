@@ -107,15 +107,15 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         return (-positive_flux, Jac)
 
 
-constant_contributions = np.load("constant_contributions.npy")
-salinity_prefactors = np.load("salinity_prefactors.npy")
+constant_contributions = np.load("test/LargeTests/Test_Setups_large/ogs_example_setup/constant_contributions.npy")
+salinity_prefactors = np.load("test/LargeTests/Test_Setups_large/ogs_example_setup/salinity_prefactors.npy")
 cumsum_salinity = np.zeros_like(salinity_prefactors)
 calls = np.zeros_like(salinity_prefactors)
 counter = np.zeros((1), dtype=int)
 max_calls = np.zeros_like(constant_contributions)
 
-cumsum_savename = "cumsum_salinity.npy"
-calls_savename = "calls_in_last_timestep.npy"
+cumsum_savename = "test/LargeTests/Test_Setups_large/ogs_example_setup/cumsum_salinity.npy"
+calls_savename = "test/LargeTests/Test_Setups_large/ogs_example_setup/calls_in_last_timestep.npy"
 
 t_write = t_end
 cell_information = CellInformation(source_mesh)

@@ -1,0 +1,18 @@
+/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__RandomGrowth__RandomGrowth &emsp;[input]RandomGrowth
+
+
+`RandomGrowth` is a mortality concept.
+
+In `RandomGrowth`, a tree dies with a biomass-dependent probability.
+If a random number fall below this defined probability, the tree dies.
+This probability is a function of relative biomass increment per time step, and a calibration factor `k_die`.
+As relative biomass increment decreases over time, the probability to die increases.
+
+Use `<k_die> 1e-11 </k_die>` to modify concept parameters.
+
+In this concept, a tree does not die of semi-mechanistic reasons.
+
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__RandomGrowth__k_die
+*/

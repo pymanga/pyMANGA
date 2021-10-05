@@ -1,0 +1,9 @@
+/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__NoGrowth__NoGrowth &emsp;[input]NoGrowth
+
+`NoGrowth` is a mortality concept.
+
+In `NoGrowth`, a tree dies if the growth variable is equal or below 0, i.e. no growth happens. 
+
+This concept is based on mechanistic causes, e.g. resource deficit, and no tree dies of random reasons.
+
+*/

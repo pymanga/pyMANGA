@@ -11,6 +11,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+## Decorator to enable logging of function name, class name and self
+# Can be set by importing the function in the respective concept and add
+# `@method_logger` above the function(s)
 def method_logger(method):
     def inner(self, *args, **kwargs):
         ret = method(self, *args, **kwargs)

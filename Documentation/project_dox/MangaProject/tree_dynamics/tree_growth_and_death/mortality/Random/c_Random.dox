@@ -1,4 +1,4 @@
-/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__Random__Random &emsp;[case]Random
+/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__Random__Random &emsp;[case]Random
 
 `Random` is a mortality concept.
 
@@ -11,5 +11,5 @@ In this concept, a tree does not die of mechanistic reasons. It is useful to com
 
 # Required inputs: 
  
-- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__Random__probability
+- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__Random__probability
 */

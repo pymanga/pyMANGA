@@ -94,7 +94,6 @@ class MangaProject:
         arg = self.args["tree_growth_and_death"]
         case = arg.find("type").text
         if case == "SimpleTest":
-            print("here")
             from TreeModelLib.GrowthAndDeathDynamics.SimpleTest import SimpleTest as createGD
         elif case == "SimpleBettina":
             from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina as createGD

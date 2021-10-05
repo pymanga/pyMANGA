@@ -6,7 +6,9 @@ The following concepts are available for `SimpleBettina` and `NetworkBettina`
 
 - `NoGrowth`: trees die if growth is <= 0
 - `Random`: trees die randomly with a defined probability
+- `RandomGrowth`: trees die randomly with a biomass-increment-dependent probability, thus, the probability to die increases with tree age   
 - `Memory`: trees die if relative growth falls below a given threshold
+
 
 Mortality concepts are defined using the tag `<mortality>`. 
 The default concept is `NoGrowth` (no specification in the input xml file required).
@@ -14,8 +16,8 @@ Concepts can be combined by listing them in `<mortality>`, separated by a whites
 
  # Possible cases: 
  
+- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__Memory__Memory
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__NoGrowth__NoGrowth
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__Random__Random
-- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__Memory__Memory
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__RandomGrowth__RandomGrowth
 */

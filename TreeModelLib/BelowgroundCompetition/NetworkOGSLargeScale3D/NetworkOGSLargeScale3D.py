@@ -14,8 +14,9 @@ from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D
 from ProjectLib.Logger import method_logger
 
 
+# MRO: NetworkOGSLargeScale3D, SimpleNetwork, OGSLargeScale3D, TreeModel,
+# object
 class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
-
     ## OGS integration and network approach (root grafting) for below-ground
     # competition concept. This case is using OGSLargeScale3D and
     # SimpleNetwork as parent classes.
@@ -24,7 +25,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     @method_logger
     def __init__(self, args):
         OGSLargeScale3D.__init__(self, args)
-        SimpleNetwork.getInputParameters(self, args)
+        super().getInputParameters(args)
 
     ## This functions prepares the tree variables for the
     # NetworkOGSLargeScale3D concept.\n
@@ -35,7 +36,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         ## Load both prepartNextTimeStep methods
         # The only parameters occurring in both are t_ini and t_end and as
         # the ones from OGS are needed, OGS needs to be loaded after network
-        SimpleNetwork.prepareNextTimeStep(self, t_ini, t_end)
+        super().prepareNextTimeStep(t_ini, t_end)
         OGSLargeScale3D.prepareNextTimeStep(self, t_ini, t_end)
 
     ## Before being able to calculate the resources, all tree enteties need
@@ -47,12 +48,12 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     @method_logger
     def addTree(self, tree):
         # SimpleNetwork stuff
-        SimpleNetwork.addTree(self, tree)
+        super().addTree(tree)
 
         # OGS stuff
         x, y = tree.getPosition()
         # add cell IDs and cell volume to tree
-        OGSLargeScale3D.addCellCharateristics(self, x, y)
+        super().addCellCharateristics(x, y)
 
     ## This function creates an array with values of osmotic potential based
     # on values saved in network attributes (this is the osmotic potential
@@ -89,20 +90,20 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         # Convert psi_osmo to np array in order to use in
         # calculateBGresourcesTree()
         self._psi_osmo = np.array(self._psi_osmo)
-        SimpleNetwork.groupFormation(self)
-        SimpleNetwork.rootGraftFormation(self)
-        SimpleNetwork.calculateBGresourcesTree(self)
+        super().groupFormation()
+        super().rootGraftFormation()
+        super().calculateBGresourcesTree()
 
         # Map water absorbed as contribution to respective cells
         # Convert water_abs from m³/time step to kg/s
         self._tree_water_uptake = self._water_absorb * 1000 / self.time
 
         # Calculate water withdrawal per cell
-        OGSLargeScale3D.calculateCompleteTreeContribution(self)
+        super().calculateCompleteTreeContribution()
 
         ## OGS stuff
         # Copy scripts, write bc inputs, run OGS
-        OGSLargeScale3D.copyPythonScript(self)
+        super().copyPythonScript()
         np.save(path.join(self._ogs_project_folder,
                           "complete_contributions.npy"),
                 self._tree_contribution_per_cell)
@@ -110,14 +111,14 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
 
         ## Calculate bg factor
         # Get cell salinity array from external files
-        OGSLargeScale3D.getCellSalinity(self)
+        super().getCellSalinity()
         # Calculate salinity below each tree
-        OGSLargeScale3D.calculateTreeSalinity(self)
+        super().calculateTreeSalinity()
 
         self.belowground_resources = SimpleNetwork.getBGfactor(self)
 
         # Update network parameters
-        SimpleNetwork.updateNetworkParametersForGrowthAndDeath(self)
+        super().updateNetworkParametersForGrowthAndDeath(self)
 
         # OGS stuff - update ogs parameters
         self.renameParameters()

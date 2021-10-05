@@ -20,10 +20,8 @@ from ProjectLib.Logger import method_logger
 # The withdrawal is the amount of water absorbed from the soil column,
 # and can be different from the amount of water available to the tree du to
 # root graft mediated water exchange (see SimpleNetwork).
-# mro of this class: [<class 'NetworkOGSLargeScale3DExternal'>, <class
-# 'NetworkOGSLargeScale3D'>, <class 'SimpleNetwork'>, <class
-# 'OGSLargeScale3DExternal'>, <class 'OGSLargeScale3D'>, <class 'TreeModel'>,
-# <class 'object'>]
+# MRO: NetworkOGSLargeScale3DExternal, NetworkOGSLargeScale3D,
+# SimpleNetwork, OGSLargeScale3DExternal, OGSLargeScale3D, TreeModel, object
 class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
                                      OGSLargeScale3DExternal):
     @method_logger

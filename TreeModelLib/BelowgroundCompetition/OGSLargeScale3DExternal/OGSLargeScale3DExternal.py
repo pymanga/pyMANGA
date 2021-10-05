@@ -15,6 +15,7 @@ import numpy as np
 # The concept needs an array with cumulated cell salinity and
 # the number of calls for each cell. It returns an array describing water
 # withdrawal in each cell as rate in kg per sec per cell volume.
+# MRO: OGSLargeScale3DExternal, OGSLargeScale3D, TreeModel, object
 class OGSLargeScale3DExternal(OGSLargeScale3D):
     @method_logger
     def __init__(self, args):

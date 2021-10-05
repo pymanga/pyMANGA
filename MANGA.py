@@ -6,6 +6,7 @@ import sys
 from os import path
 from ProjectLib import XMLtoProject
 from TimeLoopLib import TreeDynamicTimeStepping
+import logging
 
 
 class Model():
@@ -37,10 +38,8 @@ class Model():
 
 
 def main(argv):
-    #sys.path.append(path.abspath(path.dirname(__file__)))
-
     try:
-        opts, args = getopt.getopt(argv, "hi:", ["project_file="])
+        opts, args = getopt.getopt(argv, "hi:l:", ["project_file=", "logging"])
     except getopt.GetoptError:
         print("""pyMANGA wrong usage. Type "python main.py -h"
   for additional help.""")
@@ -52,6 +51,13 @@ def main(argv):
             sys.exit()
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)
+        elif opt in ("-l", "--project_file"):
+            project_file = str(arg)
+            logging.basicConfig(filename='MANGA.log',
+                                level=logging.INFO,
+                                filemode='w',   # overwrite existing log file
+                                format='%(asctime)s %(message)s')
+            print('Logging mode\n')
     try:
         prj = XMLtoProject(xml_project_file=project_file)
     except UnboundLocalError:

@@ -40,15 +40,11 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  @param t_end - end time for next time step
     @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
-        # Load init method of SimpleNetwork, which is super of
-        # NetworkOGSLargeScale3D
-        super(NetworkOGSLargeScale3D, self).prepareNextTimeStep(t_ini, t_end)
-
         # Parameters required for NetworkOGSLargeScale3D
         self._tree_cell_volume = []
 
-        # Load parameters that are required to get/ process information from
-        # OGS
+        # Load init and parameters that are required to get/ process
+        # information from OGS and SimpleNetwork
         super().prepareNextTimeStep(t_ini, t_end)
 
     ## Before being able to calculate the resources, all tree enteties need

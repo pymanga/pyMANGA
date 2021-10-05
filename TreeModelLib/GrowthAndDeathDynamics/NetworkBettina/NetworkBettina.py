@@ -6,6 +6,7 @@
 """
 
 from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina
+from TreeModelLib.Logger import method_logger
 import numpy as np
 
 
@@ -13,10 +14,19 @@ class NetworkBettina(SimpleBettina):
     ## NetworkBettina for death and growth dynamics. This module is implements ...
     #  @param Tags to define SimpleBettina: type
     #  @date 2019 - Today
+    @method_logger
     def __init__(self, args):
         super().__init__(args=args)
         self.getInputParameters(args=args)
 
+    ## This functions is the main routine for reading the tree geometry and
+    #  parameters, scheduling the computations and updating the tree geometry.\n
+    #  @param tree - object of type tree\n
+    #  @param aboveground_resources - fraction of maximum light interception
+    #  (shading effect)\n
+    #  @param belowground_resources - fraction of max water uptake (competition
+    #  and/or salinity > 0)
+    @method_logger
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         network = tree.getNetwork()
         ## counter to track or define the time required for root graft formation,
@@ -58,12 +68,14 @@ class NetworkBettina(SimpleBettina):
         else:
             tree.setSurvival(0)
 
+    @method_logger
     def treeGrowthWeights(self):
         if self.variant == 'V2_adapted':
             self.treeGrowthWeightsV2()
         else:
             super().treeGrowthWeights()
 
+    @method_logger
     def growthResources(self):
         super().growthResources()
         if self.variant == "V0_instant":
@@ -76,6 +88,7 @@ class NetworkBettina(SimpleBettina):
     # defined in SimpleBettina. In addition, the function calls the root
     # graft formation function, if the tree is currently in the process of
     # root graft formation.
+    @method_logger
     def treeGrowthWeightsV2(self):
         # Simple bettina get growth weigths
         super().treeGrowthWeights()

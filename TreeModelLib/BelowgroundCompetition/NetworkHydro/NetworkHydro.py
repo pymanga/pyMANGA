@@ -8,6 +8,7 @@
 import numpy as np
 from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
 from TreeModelLib.BelowgroundCompetition.SimpleHydro import SimpleHydro
+from TreeModelLib.Logger import method_logger
 
 
 class NetworkHydro(SimpleNetwork, SimpleHydro):
@@ -26,6 +27,7 @@ class NetworkHydro(SimpleNetwork, SimpleHydro):
     #  water potential is needed\n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
+    @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
         SimpleNetwork.prepareNextTimeStep(self, t_ini, t_end)
         # Hydro parameters
@@ -36,6 +38,7 @@ class NetworkHydro(SimpleNetwork, SimpleHydro):
     #  to be added with their relevant allometric measures for the next
     #  timestep.
     #  @param: tree
+    @method_logger
     def addTree(self, tree):
         SimpleNetwork.addTree(self, tree)
         # Hydro parameters
@@ -57,15 +60,21 @@ class NetworkHydro(SimpleNetwork, SimpleHydro):
     # trees.
     #  calculated in the subsequent timestep.\n
     #  @return: np.array with $N_tree$ scalars
+    @method_logger
     def calculateBelowgroundResources(self):
         self.calculatePsiOsmo()
         SimpleNetwork.calculateBelowgroundResources(self)
 
+    ## This function calculates the water balance and salinity of each grid
+    # cell as defined in SimpleHydro, and calculates the osmotic water
+    # potential.
+    @method_logger
     def calculatePsiOsmo(self):
         SimpleHydro.transpire(self)
         self._psi_osmo = np.array(self._salinity) * -85000000
 
     ## This function reads the input parameters and initialises the mesh.\n
+    @method_logger
     def getInputParameters(self, args):
         SimpleHydro.makeGrid(self, args)
         SimpleNetwork.getInputParameters(self, args)

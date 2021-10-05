@@ -6,6 +6,7 @@
 """
 import numpy as np
 from TreeModelLib import TreeModel
+from TreeModelLib.Logger import method_logger
 
 
 class SimpleNetwork(TreeModel):
@@ -27,6 +28,7 @@ class SimpleNetwork(TreeModel):
     #  concept.\n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
+    @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
         # Parameters associated with the SimpleBettina model
         self.trees = []
@@ -87,6 +89,7 @@ class SimpleNetwork(TreeModel):
     #  to be added with their relevant allometric measures for the next
     #  timestep.
     #  @param: tree
+    @method_logger
     def addTree(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
@@ -161,6 +164,7 @@ class SimpleNetwork(TreeModel):
     #  < 1 if the lose water to the adjacent tree; or = 1 if no exchange
     #  happens
     #  @return: np.array with $N_tree$ scalars
+    @method_logger
     def calculateBelowgroundResources(self):
         self.groupFormation()
         self.rootGraftFormation()
@@ -182,6 +186,7 @@ class SimpleNetwork(TreeModel):
 
     ## This function updates the network parameters that are required in the
     # growth-and death concept NetworkBettina
+    @method_logger
     def updateNetworkParametersForGrowthAndDeath(self):
         # Update the parameter belonging to the tree and are needed in the
         # growth- and-death-concept
@@ -205,6 +210,9 @@ class SimpleNetwork(TreeModel):
 
             tree.setNetwork(network)
 
+    ## This function reads input parameters, i.e. proportion of grafted root
+    # radius of stem radius, from the control file.
+    @method_logger
     def getInputParameters(self, args):
         missing_tags = ["type", "f_radius"]
         for arg in args.iterdescendants():
@@ -374,6 +382,7 @@ class SimpleNetwork(TreeModel):
 
     ## This function calls all the sub-functions to get the current groups
     # and their unique IDs.
+    @method_logger
     def groupFormation(self):
         self.updatedPartnerNames()
         self.updatedPotentialPartnerNames()
@@ -510,6 +519,7 @@ class SimpleNetwork(TreeModel):
 
     ## Function that calls all the sub procedures to initialize root graft
     # formation.
+    @method_logger
     def rootGraftFormation(self):
         contact_matrix = self.getContactMatrix()
         pairs = self.getPairsFromMatrix(contact_matrix=contact_matrix)
@@ -740,6 +750,7 @@ class SimpleNetwork(TreeModel):
     ## Function that calculates water absorbed, available and exchanged for
     # all trees. Depending on the graft status of a tree, i.e. grafted vs.
     # non-grafted, this function calls the corresponding BG-resource function.
+    @method_logger
     def calculateBGresourcesTree(self):
         ids = np.array(range(0, self.no_trees))
         self._water_avail = np.zeros(self.no_trees)

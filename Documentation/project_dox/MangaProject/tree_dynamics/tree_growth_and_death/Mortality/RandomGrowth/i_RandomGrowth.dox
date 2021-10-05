@@ -1,4 +1,4 @@
-/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__RandomGrowth__RandomGrowth &emsp;[input]RandomGrowth
+/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__RandomGrowth__RandomGrowth &emsp;[input]RandomGrowth
 
 
 `RandomGrowth` is a mortality concept.
@@ -14,5 +14,5 @@ In this concept, a tree does not die of semi-mechanistic reasons.
 
 # Required inputs: 
  
-- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__RandomGrowth__k_die
+- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__RandomGrowth__k_die
 */

@@ -6,11 +6,11 @@ On this level, the trees Growth-And-Death-Concept, i.e. the dynamical concept ca
 
 # Required inputs: 
  
+- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__mortality
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__type
 
  # Possible cases: 
  
-- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__Mortality__Mortality
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__NetworkBettina__NetworkBettina
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__SimpleBettina__SimpleBettina
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__SimpleKiwi__SimpleKiwi

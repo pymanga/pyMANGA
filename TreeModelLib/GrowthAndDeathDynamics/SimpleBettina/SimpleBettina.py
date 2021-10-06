@@ -5,7 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 from TreeModelLib import TreeModel
-from TreeModelLib.Logger import method_logger
+from ProjectLib.Logger import method_logger
 import numpy as np
 
 

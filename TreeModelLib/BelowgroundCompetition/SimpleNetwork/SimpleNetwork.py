@@ -6,7 +6,7 @@
 """
 import numpy as np
 from TreeModelLib import TreeModel
-from TreeModelLib.Logger import method_logger
+from ProjectLib.Logger import method_logger
 
 
 class SimpleNetwork(TreeModel):

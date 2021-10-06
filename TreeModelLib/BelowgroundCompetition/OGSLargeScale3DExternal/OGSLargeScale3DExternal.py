@@ -6,7 +6,7 @@
 """
 
 from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D
-from TreeModelLib.Logger import method_logger
+from ProjectLib.Logger import method_logger
 import numpy as np
 
 

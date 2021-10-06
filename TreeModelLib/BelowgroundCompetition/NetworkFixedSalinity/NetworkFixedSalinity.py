@@ -8,7 +8,7 @@
 import numpy as np
 from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
 from TreeModelLib.BelowgroundCompetition.FixedSalinity import FixedSalinity
-from TreeModelLib.Logger import method_logger
+from ProjectLib.Logger import method_logger
 
 
 class NetworkFixedSalinity(SimpleNetwork):

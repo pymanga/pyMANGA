@@ -6,7 +6,7 @@
 """
 
 from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina
-from TreeModelLib.Logger import method_logger
+from ProjectLib.Logger import method_logger
 import numpy as np
 
 

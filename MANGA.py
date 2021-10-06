@@ -39,7 +39,7 @@ class Model():
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "hi:l:", ["project_file=", "logging"])
+        opts, args = getopt.getopt(argv, "hi:l", ["project_file=", "logging"])
     except getopt.GetoptError:
         print("""pyMANGA wrong usage. Type "python main.py -h"
   for additional help.""")
@@ -51,8 +51,7 @@ def main(argv):
             sys.exit()
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)
-        elif opt in ("-l", "--project_file"):
-            project_file = str(arg)
+        elif opt in ("-l", "--logging"):
             logging.basicConfig(filename='MANGA.log',
                                 level=logging.INFO,
                                 filemode='w',   # overwrite existing log file

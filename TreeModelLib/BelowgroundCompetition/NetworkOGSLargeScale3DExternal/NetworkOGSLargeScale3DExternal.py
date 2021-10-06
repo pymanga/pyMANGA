@@ -9,6 +9,7 @@ from TreeModelLib.BelowgroundCompetition.OGSLargeScale3DExternal import \
      OGSLargeScale3DExternal
 from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3D import \
     NetworkOGSLargeScale3D
+from ProjectLib.Logger import method_logger
 
 
 # Child class of OGSLargeScale3DExternal and NetworkOGSLargeScale3D to use
@@ -25,6 +26,7 @@ from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3D import \
 # <class 'object'>]
 class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
                                      OGSLargeScale3DExternal):
+    @method_logger
     def __init__(self, args):
         # Load init method from NetworkOGSLargeScale3D, which includes init
         # method of OGSLargeScale3D and reading of network import parameters
@@ -38,6 +40,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     # NetworkOGSLargeScale3D concept.\n
     #  @param t_ini - initial time for next time step \n
     #  @param t_end - end time for next time step
+    @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
         # Load init method of SimpleNetwork, which is super of
         # NetworkOGSLargeScale3D
@@ -55,6 +58,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  Here, in the OGS case, each tree is represented by a contribution to
     #  python source terms in OGS.
     #  @param tree
+    @method_logger
     def addTree(self, tree):
         # Use addTree of NetworkOGSLargeScale3D
         super().addTree(tree)
@@ -65,6 +69,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  sharing (root grafting)/ actual resource uptake.
     #  Before resource uptake is calculated, this function calls
     #  SimpleNetwork functions to develop the root graft network
+    @method_logger
     def calculateBelowgroundResources(self):
         # Salinity below each tree
         self._tree_salinity = np.empty(self.no_trees)
@@ -99,6 +104,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     # This function sets the parameters 'cumsum_salinity' and 'calls_per_cell',
     # which contain information about the cumulated salinity in each cell and
     # the number of calls, calculated by OGS
+    @method_logger
     def setExternalInformation(self, **args):
         # set external information as defined in OGSLargeScale3DExternal.py
         super().setExternalInformation(**args)

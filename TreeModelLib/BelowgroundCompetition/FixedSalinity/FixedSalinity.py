@@ -21,15 +21,21 @@ class FixedSalinity(TreeModel):
     #  calculated in the subsequent timestep.\n
     #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
+        salinity_tree = self.getTreeSalinity()
+        psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
+                                               np.array(self._h_stem)) * 9810
+        psi_sali = np.array(psi_zero) + 85000000 * salinity_tree
+        self.belowground_resources = psi_sali / psi_zero
+
+    ## This function returns a list of salinity values for each tree,
+    # obtained by interpolation along a defined gradient
+    def getTreeSalinity(self):
         self._xe = np.array(self._xe)
         salinity_tree = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
                          (self._salinity[1] - self._salinity[0]) +
                          self._salinity[0])
-        psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
-                                               np.array(self._h_stem)) * 9810
-        psi_sali = np.array(psi_zero) + 85000000 * salinity_tree
-        self.belowground_resources = psi_sali / psi_zero
+        return salinity_tree
 
     ## This function reads salinity from the control file.\n
     def GetSalinity(self, args):

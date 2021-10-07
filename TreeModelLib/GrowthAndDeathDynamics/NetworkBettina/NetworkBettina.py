@@ -10,8 +10,12 @@ from ProjectLib.Logger import method_logger
 import numpy as np
 
 
+# MRO: NetworkBettina, SimpleBettina, TreeModel, object
 class NetworkBettina(SimpleBettina):
-    ## NetworkBettina for death and growth dynamics. This module is implements ...
+    ## NetworkBettina for death and growth dynamics.
+    # This module inherits the tree growth functionality of SimpleBettina,
+    # but can account for resource loss and water transfer through root
+    # grafting.
     #  @param Tags to define SimpleBettina: type
     #  @date 2019 - Today
     @method_logger
@@ -68,6 +72,10 @@ class NetworkBettina(SimpleBettina):
         else:
             tree.setSurvival(0)
 
+    ## This functions calculates the growths weights for distributing
+    # biomass increment to the geometric (allometric) tree measures as
+    # defined in SimpleBettina. If resources are required for root graft
+    # formation, the respective module is called.
     @method_logger
     def treeGrowthWeights(self):
         if self.variant == 'V2_adapted':
@@ -75,6 +83,10 @@ class NetworkBettina(SimpleBettina):
         else:
             super().treeGrowthWeights()
 
+    ## This function calculates the available resources and the biomass
+    # increment as defined in SimpleBettina. If resources are required for
+    # root graft formation, the respective root-graft-formation method is
+    # called.
     @method_logger
     def growthResources(self):
         super().growthResources()
@@ -108,6 +120,10 @@ class NetworkBettina(SimpleBettina):
         # SimpleBettina.growthResources(self)
         self.rootGraftFormationV1()
 
+    ## This function handles immediate root graft formation. That is,
+    # if the roots of two trees are in contact (determined by the
+    # below-ground concept), they are considered as grafted together without
+    # using any resources for the process of graft formation.
     def rootGraftFormationV0(self):
         if self.rgf != -1:
             self.rgf = -1
@@ -150,6 +166,8 @@ class NetworkBettina(SimpleBettina):
                                                                  self.f_growth)
             self.rgf += 1
 
+    ## This function reads the input parameters defined in the project xml
+    # file.
     def getInputParameters(self, args):
         missing_tags = ["type", "variant", "f_growth"]
         for arg in args.iterdescendants():

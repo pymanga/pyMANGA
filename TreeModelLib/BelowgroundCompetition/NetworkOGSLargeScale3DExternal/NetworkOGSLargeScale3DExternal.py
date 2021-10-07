@@ -20,10 +20,8 @@ from ProjectLib.Logger import method_logger
 # The withdrawal is the amount of water absorbed from the soil column,
 # and can be different from the amount of water available to the tree du to
 # root graft mediated water exchange (see SimpleNetwork).
-# mro of this class: [<class 'NetworkOGSLargeScale3DExternal'>, <class
-# 'NetworkOGSLargeScale3D'>, <class 'SimpleNetwork'>, <class
-# 'OGSLargeScale3DExternal'>, <class 'OGSLargeScale3D'>, <class 'TreeModel'>,
-# <class 'object'>]
+# MRO: NetworkOGSLargeScale3DExternal, NetworkOGSLargeScale3D,
+# SimpleNetwork, OGSLargeScale3DExternal, OGSLargeScale3D, TreeModel, object
 class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
                                      OGSLargeScale3DExternal):
     @method_logger
@@ -42,15 +40,11 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  @param t_end - end time for next time step
     @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
-        # Load init method of SimpleNetwork, which is super of
-        # NetworkOGSLargeScale3D
-        super(NetworkOGSLargeScale3D, self).prepareNextTimeStep(t_ini, t_end)
-
         # Parameters required for NetworkOGSLargeScale3D
         self._tree_cell_volume = []
 
-        # Load parameters that are required to get/ process information from
-        # OGS
+        # Load init and parameters that are required to get/ process
+        # information from OGS and SimpleNetwork
         super().prepareNextTimeStep(t_ini, t_end)
 
     ## Before being able to calculate the resources, all tree enteties need

@@ -11,6 +11,7 @@ from TreeModelLib.BelowgroundCompetition.SimpleHydro import SimpleHydro
 from ProjectLib.Logger import method_logger
 
 
+# MRO: NetworkHydro, SimpleNetwork, SimpleHydro, TreeModel, object
 class NetworkHydro(SimpleNetwork, SimpleHydro):
     ## Simple approach to reduce water availability due to osmotic potential.
     #  Processes are gradient flow, salinisation by plant transpiration,
@@ -29,7 +30,7 @@ class NetworkHydro(SimpleNetwork, SimpleHydro):
     #  @param t_end - end time for next timestep
     @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
-        SimpleNetwork.prepareNextTimeStep(self, t_ini, t_end)
+        super().prepareNextTimeStep(t_ini, t_end)
         # Hydro parameters
         self._resistance = []
         self._potential_nosal = []
@@ -40,16 +41,16 @@ class NetworkHydro(SimpleNetwork, SimpleHydro):
     #  @param: tree
     @method_logger
     def addTree(self, tree):
-        SimpleNetwork.addTree(self, tree)
+        super().addTree(tree)
         # Hydro parameters
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
 
-        root_surface_resistance = SimpleHydro.rootSurfaceResistance(
-            self, parameter["lp"], parameter["k_geom"], geometry["r_root"],
+        root_surface_resistance = super().rootSurfaceResistance(
+            parameter["lp"], parameter["k_geom"], geometry["r_root"],
             geometry["h_root"])
-        xylem_resistance = SimpleHydro.xylemResistance(
-            self, geometry["r_crown"], geometry["h_stem"], geometry["r_root"],
+        xylem_resistance = super().xylemResistance(
+            geometry["r_crown"], geometry["h_stem"], geometry["r_root"],
             parameter["kf_sap"], geometry["r_stem"])
         self._resistance.append(root_surface_resistance + xylem_resistance)
         self._potential_nosal.append(
@@ -63,18 +64,18 @@ class NetworkHydro(SimpleNetwork, SimpleHydro):
     @method_logger
     def calculateBelowgroundResources(self):
         self.calculatePsiOsmo()
-        SimpleNetwork.calculateBelowgroundResources(self)
+        super().calculateBelowgroundResources()
 
     ## This function calculates the water balance and salinity of each grid
     # cell as defined in SimpleHydro, and calculates the osmotic water
     # potential.
     @method_logger
     def calculatePsiOsmo(self):
-        SimpleHydro.transpire(self)
+        super().transpire()
         self._psi_osmo = np.array(self._salinity) * -85000000
 
     ## This function reads the input parameters and initialises the mesh.\n
     @method_logger
     def getInputParameters(self, args):
-        SimpleHydro.makeGrid(self, args)
-        SimpleNetwork.getInputParameters(self, args)
+        super().makeGrid(args)
+        super().getInputParameters(args)

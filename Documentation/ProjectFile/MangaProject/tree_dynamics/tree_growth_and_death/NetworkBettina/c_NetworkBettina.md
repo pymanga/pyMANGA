@@ -27,3 +27,7 @@ Available network information for output (<network_output > ... </network_output
 - water_exchanged ... water exchanged between connected trees in litre per timestep 
 - variant ... variant for root graft formation
 - psi_osmo ... osmotic potential
+- groupID ... unique group ID indicating which trees belong to the same group
+- node_degree ... node degree indicates how many partners a tree has
+
+

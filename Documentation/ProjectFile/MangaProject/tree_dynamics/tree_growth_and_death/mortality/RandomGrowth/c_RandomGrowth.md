@@ -9,5 +9,5 @@ As relative biomass increment decreases over time, the probability to die increa
 
 Use `<k_die> 1e-11 </k_die>` to modify concept parameters.
 
-In this concept, a tree does not die of semi-mechanistic reasons.
+In this concept, a tree dies of semi-mechanistic reasons.
 

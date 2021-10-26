@@ -22,7 +22,6 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     # SimpleNetwork as parent classes.
     # @param args: Please see input file tag documentation for details
     # @date: 2021 - Today
-    @method_logger
     def __init__(self, args):
         OGSLargeScale3D.__init__(self, args)
         super().getInputParameters(args)
@@ -31,7 +30,6 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     # NetworkOGSLargeScale3D concept.\n
     #  @param t_ini - initial time for next time step \n
     #  @param t_end - end time for next time step
-    @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
         ## Load both prepartNextTimeStep methods
         # The only parameters occurring in both are t_ini and t_end and as
@@ -45,7 +43,6 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     #  python source terms in OGS. To this end, their resource uptake is
     #  saved in numpy arrays.
     #  @param tree
-    @method_logger
     def addTree(self, tree):
         # SimpleNetwork stuff
         super().addTree(tree)
@@ -83,7 +80,6 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     #  time step. For each tree a reduction factor is calculated which is
     #  defined as: resource uptake at zero salinity and without resource
     #  sharing (root grafting)/ actual resource uptake.
-    @method_logger
     def calculateBelowgroundResources(self):
         ## SimpleNetwork stuff - calculate amount of water absorbed from
         # soil column

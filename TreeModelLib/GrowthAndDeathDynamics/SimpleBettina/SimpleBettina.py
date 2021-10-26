@@ -5,7 +5,6 @@
 @author: jasper.bathmann@ufz.de
 """
 from TreeModelLib import TreeModel
-from ProjectLib.Logger import method_logger
 import numpy as np
 
 
@@ -15,7 +14,6 @@ class SimpleBettina(TreeModel):
     #  https://doi.org/10.1016/j.ecolmodel.2018.10.005 \n
     #  @param Tags to define SimpleBettina: type
     #  @date 2019 - Today
-    @method_logger
     def __init__(self, args):
         case = args.find("type").text
         print("Growth and death dynamics of type " + case + ".")
@@ -37,7 +35,6 @@ class SimpleBettina(TreeModel):
     #  (shading effect)\n
     #  @param belowground_resources - fraction of max water uptake (competition
     #  and/or salinity > 0)
-    @method_logger
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()
@@ -119,7 +116,6 @@ class SimpleBettina(TreeModel):
 
     ## This functions calculates the growths weights for distributing
     # biomass increment to the geometric (allometric) tree measures.
-    @method_logger
     def treeGrowthWeights(self):
         self.weight_stemgrowth = (
                 self.parameter["half_max_h_growth_weight"] /
@@ -197,7 +193,6 @@ class SimpleBettina(TreeModel):
 
     ## This function calculates the available resources and the biomass
     # increment.
-    @method_logger
     def growthResources(self):
         self.available_resources = min(self.ag_resources, self.bg_resources)
         self.grow = (self.parameter["growth_factor"] *

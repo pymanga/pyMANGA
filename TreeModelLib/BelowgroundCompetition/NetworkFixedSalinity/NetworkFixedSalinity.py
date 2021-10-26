@@ -7,7 +7,6 @@
 
 from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
 from TreeModelLib.BelowgroundCompetition.FixedSalinity import FixedSalinity
-from ProjectLib.Logger import method_logger
 
 
 # MRO: NetworkFixedSalinity, SimpleNetwork, FixedSalinity, TreeModel, object
@@ -25,14 +24,12 @@ class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
     #  water potential is needed\n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
-    @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
         super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
     #  @param: tree
-    @method_logger
     def addTree(self, tree):
         super().addTree(tree=tree)
 
@@ -42,7 +39,6 @@ class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
     #  < 1 if the lose water to the adjacent tree; or = 1 if no exchange
     #  happens
     #  @return: np.array with $N_tree$ scalars
-    @method_logger
     def calculateBelowgroundResources(self):
         # FixedSalinity start
         self.calculatePsiOsmo()
@@ -59,7 +55,6 @@ class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
 
     ## This function reads input parameters, e.g. salinity from the control
     # file.
-    @method_logger
     def getInputParameters(self, args):
         super().getInputParameters(args=args)
         super().GetSalinity(args=args)

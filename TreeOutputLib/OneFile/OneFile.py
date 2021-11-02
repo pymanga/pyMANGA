@@ -13,38 +13,46 @@ from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import OneTimestepOneFi
 # A line contains time, tree, position, desired geometric measures
 # and parameters for every nth time step.
 class OneFile(OneTimestepOneFile):
+    def __init__(self, args):
+        super().__init__(args)
+
+        # Check if csv file exists in directory
+        # If not, create file
+        files_in_folder = os.listdir(self.output_dir)
+        self.delimiter = "\t"
+        self.filename = "Population.csv"
+        file = open(os.path.join(self.output_dir, self.filename), "a")
+
+        string = ""
+        if self.filename not in files_in_folder:
+            string += 'tree' + self.delimiter + 'time' + self.delimiter + 'x' + \
+                      self.delimiter + 'y'
+            string = self.addSelectedHeadings(string, self.delimiter)
+
+            string += "\n"
+            file.write(string)
+        file.close()
+
     def writeOutput(self, tree_groups, time):
         self._output_counter = (self._output_counter %
                                 self.output_each_nth_timestep)
-        files_in_folder = os.listdir(self.output_dir)
 
         if self._output_counter == 0:
-            delimiter = "\t"
-            filename = "Population.csv"
-            file = open(os.path.join(self.output_dir, filename), "a")
-
-            if filename not in files_in_folder:
-                string = ""
-                string += 'tree' + delimiter + 'time' + delimiter + 'x' + \
-                          delimiter + 'y'
-                string = self.addSelectedHeadings(string, delimiter)
-
-                string += "\n"
-                file.write(string)
-
+            file = open(os.path.join(self.output_dir, self.filename), "a")
+            string = ""
             for group_name, tree_group in tree_groups.items():
                 for tree in tree_group.getTrees():
                     growth_information = tree.getGrowthConceptInformation()
-                    string = ""
                     string += (group_name + "_" + "%09.0d" % (tree.getId()) +
-                               delimiter + str(time) + delimiter +
-                               str(tree.x) + delimiter + str(tree.y))
-                    string = self.addSelectedOutputs(tree, string, delimiter,
+                               self.delimiter + str(time) + self.delimiter +
+                               str(tree.x) + self.delimiter + str(tree.y))
+                    string = self.addSelectedOutputs(tree, string,
+                                                     self.delimiter,
                                                      growth_information)
                     string += "\n"
-                    file.write(string)
                     for growth_output in self.growth_outputs:
                         del (growth_information[growth_output])
+            file.write(string)
             file.close()
 
         self._output_counter += 1

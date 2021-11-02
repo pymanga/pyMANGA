@@ -4,7 +4,6 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-import numpy as np
 from TreeModelLib import TreeModel
 
 

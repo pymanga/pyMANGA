@@ -5,9 +5,6 @@
 @author: jasper.bathmann@ufz.de
 """
 
-from TreeModelLib import AbovegroundCompetition
-from TreeModelLib import BelowgroundCompetition
-from TreeModelLib import GrowthAndDeathDynamics
 from VisualizationLib import Visualization
 from TreeOutputLib import TreeOutput
 import PopulationLib

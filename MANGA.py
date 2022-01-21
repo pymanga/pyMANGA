@@ -10,7 +10,6 @@ import sys
 from os import path
 from ProjectLib import XMLtoProject
 from TimeLoopLib import TreeDynamicTimeStepping
-import logging
 
 
 class Model():
@@ -62,13 +61,6 @@ def main(argv):
             sys.exit()
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)
-        elif opt in ("-l", "--logging"):
-            logging.basicConfig(
-                filename='MANGA.log',
-                level=logging.INFO,
-                filemode='w',  # overwrite existing log file
-                format='%(asctime)s %(message)s')
-            print('Logging mode\n')
     try:
         prj = XMLtoProject(xml_project_file=project_file)
     except UnboundLocalError:

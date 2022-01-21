@@ -22,6 +22,15 @@ class Model():
         from TimeLoopLib import ExternalDynamicTimeStepping
         self.timestepper = ExternalDynamicTimeStepping(self.prj, t_0)
 
+    def setSteps(self, step_ag, step_bg, step_gd):
+        self.timestepper.setSteps(step_ag, step_bg, step_gd)
+
+    def setResources(self, ag_resources, bg_resources):
+        self.timestepper.setResources(ag_resources, bg_resources)
+
+    def getResources(self):
+        return self.timestepper.getResources()
+
     ## This call propagates the model from the last timestep.
     #  Default starting point is t=0 and will be updated with every call
     #  @param t: time, for end of next timestep

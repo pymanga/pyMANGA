@@ -17,10 +17,14 @@ class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
         try:
             self.belowground_competition.getOGSAccessible()
         except AttributeError:
-            raise AttributeError(
-                """In order to use MANGA as OGS python boundary condition,
+            print("""
+                    #####################WARNING###########################
+                    
+                    In order to use MANGA as OGS python boundary condition,
                     one has to use a corresponding belowground competition
-                    concept. Please see documentation for further details!""")
+                    concept. Please see documentation for further details!
+                    
+                    #####################WARNING###########################""")
 
     ## This functions sets the step size defined externally, as nth time
     # step for each concept.

@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 @date: 2018-Today
-@author: jasper.bathmann@ufz.de
+@author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
 """
-
-from TimeLoopLib import TreeDynamicTimeStepping
 
 
 class TreeDynamicTimeLoop:
@@ -33,7 +31,7 @@ class TreeDynamicTimeLoop:
             print("Next time step to propagate" +
                   " tree population with starting time " + str(self.t_ini) +
                   " and end time " + str(self.t_end) + ".")
-            time_stepper.step(self.t_ini, self.t_end, 
-                              self.update_ag, self.update_bg, self.update_gd)
+            time_stepper.step(self.t_ini, self.t_end, self.update_ag,
+                              self.update_bg, self.update_gd)
             self.getNextTimeStepBoundaries()
         time_stepper.finish(self.t_ini)

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+@date: 2018-Today
+@author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
+"""
 
 import getopt
 import sys
@@ -61,10 +65,11 @@ def main(argv):
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)
         elif opt in ("-l", "--logging"):
-            logging.basicConfig(filename='MANGA.log',
-                                level=logging.INFO,
-                                filemode='w',   # overwrite existing log file
-                                format='%(asctime)s %(message)s')
+            logging.basicConfig(
+                filename='MANGA.log',
+                level=logging.INFO,
+                filemode='w',  # overwrite existing log file
+                format='%(asctime)s %(message)s')
             print('Logging mode\n')
     try:
         prj = XMLtoProject(xml_project_file=project_file)

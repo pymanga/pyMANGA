@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @date: 2018-Today
-@author: jasper.bathmann@ufz.de
+@author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
 """
 from TimeLoopLib.TreeDynamicTimeStepping import TreeDynamicTimeStepping
 
@@ -21,7 +21,7 @@ class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
                 """In order to use MANGA as OGS python boundary condition,
                     one has to use a corresponding belowground competition
                     concept. Please see documentation for further details!""")
-            
+
     ## This functions sets the step size defined externally, as nth time
     # step for each concept.
     # If, for example, steps are defined as follows: n_step_ag = 2,

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @date: 2018-Today
-@author: jasper.bathmann@ufz.de
+@author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
 """
 
 
@@ -19,7 +19,7 @@ class TreeDynamicTimeStepping:
 
         self.aboveground_resources = []
         self.belowground_resources = []
-        
+
     def step(self, t_start, t_end, update_ag, update_bg, update_gd):
         if update_ag:
             self.aboveground_competition.prepareNextTimeStep(t_start, t_end)
@@ -28,7 +28,7 @@ class TreeDynamicTimeStepping:
         if update_gd:
             self.death_and_growth_concept.prepareNextTimeStep(t_start, t_end)
         tree_groups = self.population.getTreeGroups()
-        
+
         self.tree_output.writeOutput(tree_groups, t_start)
         for group_name, tree_group in tree_groups.items():
             for tree in tree_group.getTrees():

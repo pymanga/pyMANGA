@@ -18,8 +18,19 @@ class Loop:
         self.t_end = float(args.find("t_end").text)
         self.t_current = self.t_start
         self.delta_t = float(args.find("delta_t").text)
+        self.n_step_ag, self.n_step_bg, self.n_step_gd = 1, 1, 1
+        if args.find("n_step_ag"):
+            self.n_step_ag = int(args.find("n_step_ag").text)
+        if args.find("n_step_bg"):
+            self.n_step_bg = int(args.find("n_step_bg").text)
+        if args.find("n_step_ag"):
+            self.n_step_gd = int(args.find("n_step_gd").text)
+        self.step_counter = 0
 
     def getNextTimeStep(self):
+        update_ag = True if self.step_counter % self.n_step_ag == 0 else False
+        update_bg = True if self.step_counter % self.n_step_bg == 0 else False
+        update_gd = True if self.step_counter % self.n_step_gd == 0 else False
         t_1 = self.t_current
         t_2 = t_1 + self.delta_t
         self.t_current = t_2
@@ -29,4 +40,5 @@ class Loop:
                 t_2 = self.t_end
         elif (t_1 >= self.t_end):
             step_on = False
-        return t_1, t_2, step_on
+        self.step_counter += 1
+        return t_1, t_2, step_on, update_ag, update_bg, update_gd

@@ -17,6 +17,9 @@ class TreeDynamicTimeStepping:
         ## Output configuration
         self.tree_output = project.getTreeOutput()
 
+        self.aboveground_resources = []
+        self.belowground_resources = []
+        
     def step(self, t_start, t_end, update_ag, update_bg, update_gd):
         if update_ag:
             self.aboveground_competition.prepareNextTimeStep(t_start, t_end)
@@ -72,3 +75,10 @@ class TreeDynamicTimeStepping:
         tree_groups = self.population.getTreeGroups()
 
         self.tree_output.writeOutput(tree_groups, time)
+
+    def setResources(self, ag_resources, bg_resources):
+        self.aboveground_resources = ag_resources
+        self.belowground_resources = bg_resources
+
+    def getResources(self):
+        return [self.aboveground_resources, self.belowground_resources]

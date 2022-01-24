@@ -35,10 +35,20 @@ class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
         self.n_step_ag = n_step_ag
         self.n_step_bg = n_step_bg
         self.n_step_gd = n_step_gd
+        self.step_counter = 0
+
+    def getUpdateBools(self):
+        update_ag = True if self.step_counter % self.n_step_ag == 0 else False
+        update_bg = True if self.step_counter % self.n_step_bg == 0 else False
+        update_gd = True if self.step_counter % self.n_step_gd == 0 else False
+        return update_ag, update_bg, update_gd
 
     ## This progresses one time step, by updating tree population and above-
     # and below-ground resources depending on the associated bools
-    def step(self, t_end, update_ag, update_bg, update_gd):
+    def step(self, t_end):
+        update_ag, update_bg, update_gd = self.getUpdateBools()
+
         t_start = self.t_step_begin
         super().step(t_start, t_end, update_ag, update_bg, update_gd)
         t_end = self.t_step_begin
+        self.step_counter += 1

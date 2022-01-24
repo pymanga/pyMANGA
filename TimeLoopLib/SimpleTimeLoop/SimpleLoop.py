@@ -27,10 +27,14 @@ class Loop:
             self.n_step_gd = int(args.find("n_step_gd").text)
         self.step_counter = 0
 
-    def getNextTimeStep(self):
+    def getUpdateBools(self):
         update_ag = True if self.step_counter % self.n_step_ag == 0 else False
         update_bg = True if self.step_counter % self.n_step_bg == 0 else False
         update_gd = True if self.step_counter % self.n_step_gd == 0 else False
+        return update_ag, update_bg, update_gd
+
+    def getNextTimeStep(self):
+        update_ag, update_bg, update_gd = self.getUpdateBools()
         t_1 = self.t_current
         t_2 = t_1 + self.delta_t
         self.t_current = t_2

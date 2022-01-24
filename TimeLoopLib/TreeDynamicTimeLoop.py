@@ -12,7 +12,7 @@ class TreeDynamicTimeLoop:
         if case == "Simple":
             self.iniSimpleTimeStepping(args)
         else:
-            raise KeyError("Required timestepping not implemented.")
+            raise KeyError("Required time stepping not implemented.")
         print(case + " time stepping successfully initiated.")
         self.step_on = True
 

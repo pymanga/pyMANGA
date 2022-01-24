@@ -20,6 +20,9 @@ class TreeDynamicTimeStepping:
         self.aboveground_resources = []
         self.belowground_resources = []
 
+    ## This progresses one time step, by updating tree population and above-
+    # and below-ground resources. Not all concepts have to be called with
+    # the same frequency (i.e. only if update_x is true).
     def step(self, t_start, t_end, update_ag, update_bg, update_gd):
         if update_ag:
             self.aboveground_competition.prepareNextTimeStep(t_start, t_end)
@@ -50,7 +53,7 @@ class TreeDynamicTimeStepping:
                 kill_indices = []
                 for tree, i in zip(tree_group.getTrees(),
                                    range(tree_group.getNumberOfTrees())):
-                    # if a new tree is recruited in the current time step and
+                    ## If a new tree is recruited in the current time step and
                     # the respective resource was not updated, set survival of
                     # the new tree to 1
                     try:

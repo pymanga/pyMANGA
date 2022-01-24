@@ -18,6 +18,9 @@ class Loop:
         self.t_end = float(args.find("t_end").text)
         self.t_current = self.t_start
         self.delta_t = float(args.find("delta_t").text)
+
+        ## The following variables determine the frequencies when to
+        # update particular concepts (e.g. below-ground c.)
         self.n_step_ag, self.n_step_bg, self.n_step_gd = 1, 1, 1
         if args.find("n_step_ag"):
             self.n_step_ag = int(args.find("n_step_ag").text)

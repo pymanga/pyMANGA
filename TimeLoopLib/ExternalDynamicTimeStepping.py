@@ -21,7 +21,7 @@ class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
                     #####################WARNING###########################
                     
                     In order to use MANGA as OGS python boundary condition,
-                    one has to use a corresponding belowground competition
+                    one has to use a corresponding below-ground competition
                     concept. Please see documentation for further details!
                     
                     #####################WARNING###########################""")

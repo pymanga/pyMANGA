@@ -38,8 +38,8 @@ class Model():
     ## This call propagates the model from the last timestep.
     #  Default starting point is t=0 and will be updated with every call
     #  @param t: time, for end of next timestep
-    def propagateModel(self, t):
-        self.timestepper.step(t)
+    def propagateModel(self, t_end):
+        self.timestepper.step(t_end)
         self.t_step_begin = t
 
     def setBelowgroundInformation(self, **args):

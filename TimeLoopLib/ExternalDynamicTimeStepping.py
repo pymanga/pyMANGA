@@ -13,7 +13,6 @@ class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
         ## Usability for OGS & check if BG concept works with OGS
         self.t_step_begin = t_0
 
-        #TODO: We need a nice check for ogs usability?!
         try:
             self.belowground_competition.getOGSAccessible()
         except AttributeError:

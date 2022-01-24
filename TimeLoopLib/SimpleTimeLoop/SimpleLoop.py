@@ -22,11 +22,11 @@ class Loop:
         ## The following variables determine the frequencies when to
         # update particular concepts (e.g. below-ground c.)
         self.n_step_ag, self.n_step_bg, self.n_step_gd = 1, 1, 1
-        if args.find("n_step_ag"):
+        if args.find("n_step_ag") is not None:
             self.n_step_ag = int(args.find("n_step_ag").text)
-        if args.find("n_step_bg"):
+        if args.find("n_step_bg") is not None:
             self.n_step_bg = int(args.find("n_step_bg").text)
-        if args.find("n_step_ag"):
+        if args.find("n_step_gd") is not None:
             self.n_step_gd = int(args.find("n_step_gd").text)
         self.step_counter = 0
 

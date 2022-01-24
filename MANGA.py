@@ -20,7 +20,6 @@ class Model():
     #  @author: jasper.bathmann@ufz.de
     def __init__(self, project_file):
         self.prj = XMLtoProject(xml_project_file=project_file)
-        self.t_step_begin = 0
 
     def createExternalTimeStepper(self, t_0=0):
         from TimeLoopLib import ExternalDynamicTimeStepping
@@ -40,7 +39,6 @@ class Model():
     #  @param t: time, for end of next timestep
     def propagateModel(self, t_end):
         self.timestepper.step(t_end)
-        self.t_step_begin = t
 
     def setBelowgroundInformation(self, **args):
         self.prj.getBelowgroundCompetition().setExternalInformation(**args)

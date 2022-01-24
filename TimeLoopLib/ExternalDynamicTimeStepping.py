@@ -50,5 +50,5 @@ class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
 
         t_start = self.t_step_begin
         super().step(t_start, t_end, update_ag, update_bg, update_gd)
-        t_end = self.t_step_begin
+        self.t_step_begin = t_end
         self.step_counter += 1

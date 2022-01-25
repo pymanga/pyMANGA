@@ -23,13 +23,12 @@ class TreeDynamicTimeStepping:
     ## This progresses one time step, by updating tree population and above-
     # and below-ground resources. Not all concepts have to be called with
     # the same frequency (i.e. only if update_x is true).
-    def step(self, t_start, t_end, update_ag, update_bg, update_gd):
+    def step(self, t_start, t_end, update_ag, update_bg):
         if update_ag:
             self.aboveground_competition.prepareNextTimeStep(t_start, t_end)
         if update_bg:
             self.belowground_competition.prepareNextTimeStep(t_start, t_end)
-        if update_gd:
-            self.death_and_growth_concept.prepareNextTimeStep(t_start, t_end)
+        self.death_and_growth_concept.prepareNextTimeStep(t_start, t_end)
         tree_groups = self.population.getTreeGroups()
 
         self.tree_output.writeOutput(tree_groups, t_start)
@@ -48,29 +47,28 @@ class TreeDynamicTimeStepping:
             self.belowground_competition.calculateBelowgroundResources()
             self.belowground_resources = (
                 self.belowground_competition.getBelowgroundResources())
-        if update_gd:
-            j = 0
-            for group_name, tree_group in tree_groups.items():
-                kill_indices = []
-                for tree, i in zip(tree_group.getTrees(),
-                                   range(tree_group.getNumberOfTrees())):
-                    ## If a new tree is recruited in the current time step and
-                    # the respective resource was not updated, set survival of
-                    # the new tree to 1
-                    try:
-                        ag = self.aboveground_resources[j]
-                        bg = self.belowground_resources[j]
-                        self.death_and_growth_concept.progressTree(
-                            tree, ag, bg)
-                    except IndexError:
-                        tree.setSurvival(1)
+        j = 0
+        for group_name, tree_group in tree_groups.items():
+            kill_indices = []
+            for tree, i in zip(tree_group.getTrees(),
+                               range(tree_group.getNumberOfTrees())):
+                ## If a new tree is recruited in the current time step and
+                # the respective resource was not updated, set survival of
+                # the new tree to 1
+                try:
+                    ag = self.aboveground_resources[j]
+                    bg = self.belowground_resources[j]
+                    self.death_and_growth_concept.progressTree(
+                        tree, ag, bg)
+                except IndexError:
+                    tree.setSurvival(1)
 
-                    if not tree.getSurvival():
-                        kill_indices.append(i)
+                if not tree.getSurvival():
+                    kill_indices.append(i)
 
-                    j += 1
-                tree_group.removeTreesAtIndices(kill_indices)
-                tree_group.recruitTrees()
+                j += 1
+            tree_group.removeTreesAtIndices(kill_indices)
+            tree_group.recruitTrees()
         self.visualization.update(tree_groups, t_end)
 
     ## Last action, when timeloop is done

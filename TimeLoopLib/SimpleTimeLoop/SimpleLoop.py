@@ -26,18 +26,15 @@ class Loop:
             self.n_step_ag = int(args.find("n_step_ag").text)
         if args.find("n_step_bg") is not None:
             self.n_step_bg = int(args.find("n_step_bg").text)
-        if args.find("n_step_gd") is not None:
-            self.n_step_gd = int(args.find("n_step_gd").text)
         self.step_counter = 0
 
     def getUpdateBools(self):
         update_ag = True if self.step_counter % self.n_step_ag == 0 else False
         update_bg = True if self.step_counter % self.n_step_bg == 0 else False
-        update_gd = True if self.step_counter % self.n_step_gd == 0 else False
-        return update_ag, update_bg, update_gd
+        return update_ag, update_bg
 
     def getNextTimeStep(self):
-        update_ag, update_bg, update_gd = self.getUpdateBools()
+        update_ag, update_bg = self.getUpdateBools()
         t_1 = self.t_current
         t_2 = t_1 + self.delta_t
         self.t_current = t_2
@@ -48,4 +45,4 @@ class Loop:
         elif (t_1 >= self.t_end):
             step_on = False
         self.step_counter += 1
-        return t_1, t_2, step_on, update_ag, update_bg, update_gd
+        return t_1, t_2, step_on, update_ag, update_bg

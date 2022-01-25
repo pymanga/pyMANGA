@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+@date: 2018-Today
+@author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
+"""
 
 import getopt
 import sys
@@ -16,18 +20,25 @@ class Model():
     #  @author: jasper.bathmann@ufz.de
     def __init__(self, project_file):
         self.prj = XMLtoProject(xml_project_file=project_file)
-        self.t_step_begin = 0
 
     def createExternalTimeStepper(self, t_0=0):
         from TimeLoopLib import ExternalDynamicTimeStepping
         self.timestepper = ExternalDynamicTimeStepping(self.prj, t_0)
 
+    def setSteps(self, step_ag, step_bg, step_gd):
+        self.timestepper.setSteps(step_ag, step_bg, step_gd)
+
+    def setResources(self, ag_resources, bg_resources):
+        self.timestepper.setResources(ag_resources, bg_resources)
+
+    def getResources(self):
+        return self.timestepper.getResources()
+
     ## This call propagates the model from the last timestep.
     #  Default starting point is t=0 and will be updated with every call
     #  @param t: time, for end of next timestep
-    def propagateModel(self, t):
-        self.timestepper.step(t)
-        self.t_step_begin = t
+    def propagateModel(self, t_end):
+        self.timestepper.step(t_end)
 
     def setBelowgroundInformation(self, **args):
         self.prj.getBelowgroundCompetition().setExternalInformation(**args)
@@ -52,10 +63,11 @@ def main(argv):
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)
         elif opt in ("-l", "--logging"):
-            logging.basicConfig(filename='MANGA.log',
-                                level=logging.INFO,
-                                filemode='w',   # overwrite existing log file
-                                format='%(asctime)s %(message)s')
+            logging.basicConfig(
+                filename='MANGA.log',
+                level=logging.INFO,
+                filemode='w',  # overwrite existing log file
+                format='%(asctime)s %(message)s')
             print('Logging mode\n')
     try:
         prj = XMLtoProject(xml_project_file=project_file)

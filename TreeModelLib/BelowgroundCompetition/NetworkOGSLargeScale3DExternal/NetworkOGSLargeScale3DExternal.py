@@ -9,7 +9,6 @@ from TreeModelLib.BelowgroundCompetition.OGSLargeScale3DExternal import \
      OGSLargeScale3DExternal
 from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3D import \
     NetworkOGSLargeScale3D
-from ProjectLib.Logger import method_logger
 
 
 # Child class of OGSLargeScale3DExternal and NetworkOGSLargeScale3D to use

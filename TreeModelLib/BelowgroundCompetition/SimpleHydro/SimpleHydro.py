@@ -7,7 +7,6 @@
 import numpy as np
 import math
 from TreeModelLib import TreeModel
-from ProjectLib.Logger import method_logger
 
 
 class SimpleHydro(TreeModel):

@@ -11,7 +11,6 @@ from os import path
 
 from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
 from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D
-from ProjectLib.Logger import method_logger
 
 
 # MRO: NetworkOGSLargeScale3D, SimpleNetwork, OGSLargeScale3D, TreeModel,

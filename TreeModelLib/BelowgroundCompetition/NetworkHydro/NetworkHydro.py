@@ -8,7 +8,6 @@
 import numpy as np
 from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork
 from TreeModelLib.BelowgroundCompetition.SimpleHydro import SimpleHydro
-from ProjectLib.Logger import method_logger
 
 
 # MRO: NetworkHydro, SimpleNetwork, SimpleHydro, TreeModel, object

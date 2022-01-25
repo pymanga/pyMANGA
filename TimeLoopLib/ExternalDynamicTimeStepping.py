@@ -28,9 +28,9 @@ class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
     ## This functions sets the step size defined externally, as nth time
     # step for each concept.
     # If, for example, steps are defined as follows: n_step_ag = 2,
-    # n_step_bg = 1, n_step_gd = 1, then above-ground competition is updated
+    # n_step_bg = 1, then above-ground competition is updated
     # every 2nd step while the other concepts are updated in each time step.
-    def setSteps(self, n_step_ag, n_step_bg, n_step_gd):
+    def setSteps(self, n_step_ag, n_step_bg):
         self.n_step_ag = n_step_ag
         self.n_step_bg = n_step_bg
         self.step_counter = 0

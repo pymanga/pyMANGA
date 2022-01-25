@@ -7,7 +7,6 @@
 import numpy as np
 import math
 from TreeModelLib import TreeModel
-from ProjectLib.Logger import method_logger
 
 
 class SimpleHydro(TreeModel):
@@ -33,7 +32,6 @@ class SimpleHydro(TreeModel):
     ## This function calculates the water balance of each grid cell.
     # Transpiration, dilution (tidal flooding), exchange between neighbouring
     # grid cells and gradient flow is regarded for.
-    @method_logger
     def transpire(self):
         ## time step length
         tsl = (self._t_end - self._t_ini)

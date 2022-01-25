@@ -6,7 +6,6 @@
 """
 
 from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina
-from ProjectLib.Logger import method_logger
 import numpy as np
 
 
@@ -18,7 +17,6 @@ class NetworkBettina(SimpleBettina):
     # grafting.
     #  @param Tags to define SimpleBettina: type
     #  @date 2019 - Today
-    @method_logger
     def __init__(self, args):
         super().__init__(args=args)
         self.getInputParameters(args=args)
@@ -30,7 +28,6 @@ class NetworkBettina(SimpleBettina):
     #  (shading effect)\n
     #  @param belowground_resources - fraction of max water uptake (competition
     #  and/or salinity > 0)
-    @method_logger
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         network = tree.getNetwork()
         ## counter to track or define the time required for root graft formation,
@@ -76,7 +73,6 @@ class NetworkBettina(SimpleBettina):
     # biomass increment to the geometric (allometric) tree measures as
     # defined in SimpleBettina. If resources are required for root graft
     # formation, the respective module is called.
-    @method_logger
     def treeGrowthWeights(self):
         if self.variant == 'V2_adapted':
             self.treeGrowthWeightsV2()
@@ -87,7 +83,6 @@ class NetworkBettina(SimpleBettina):
     # increment as defined in SimpleBettina. If resources are required for
     # root graft formation, the respective root-graft-formation method is
     # called.
-    @method_logger
     def growthResources(self):
         super().growthResources()
         if self.variant == "V0_instant":
@@ -100,7 +95,6 @@ class NetworkBettina(SimpleBettina):
     # defined in SimpleBettina. In addition, the function calls the root
     # graft formation function, if the tree is currently in the process of
     # root graft formation.
-    @method_logger
     def treeGrowthWeightsV2(self):
         # Simple bettina get growth weigths
         super().treeGrowthWeights()

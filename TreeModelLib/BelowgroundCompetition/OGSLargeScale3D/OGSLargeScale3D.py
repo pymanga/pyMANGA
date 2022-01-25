@@ -7,7 +7,6 @@
 import numpy as np
 from TreeModelLib import TreeModel
 from TreeModelLib.BelowgroundCompetition.OGS.helpers import CellInformation
-from ProjectLib.Logger import method_logger
 import vtk as vtk
 from lxml import etree
 from os import path
@@ -20,7 +19,6 @@ import os
 #  @param args: Please see input file tag documentation for details
 #  @date: 2019 - Today
 class OGSLargeScale3D(TreeModel):
-    @method_logger
     def __init__(self, args):
         case = args.find("type").text
         self._abiotic_drivers = args.find("abiotic_drivers")
@@ -102,7 +100,6 @@ class OGSLargeScale3D(TreeModel):
     #  timestep is updated and saved in the ogs-project folder.
     #  @param t_ini: initial time of next timestep
     #  @param t_end: end time of next timestep
-    @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
         self._t_ini = t_ini
         if self._use_fixed_ogs_delta_t:
@@ -136,7 +133,6 @@ class OGSLargeScale3D(TreeModel):
 
     ## This function initializes variables required also in OGSExternal
     # concepts.
-    @method_logger
     def prepareOGSparameters(self):
         self._total_resistance = []
         self.belowground_resources = []
@@ -174,7 +170,6 @@ class OGSLargeScale3D(TreeModel):
     # respective volume of these cells in tree-own variables.
     # @param x: x-coordinate of tree
     # @param y: y-coordinate of tree
-    @method_logger
     def addCellCharateristics(self, x, y):
         affected_cells = self._cell_information.getCellIDsAtXY(x, y)
         self._tree_cell_ids.append(affected_cells)
@@ -184,7 +179,6 @@ class OGSLargeScale3D(TreeModel):
 
     ## This function calculates the total resistance against water flow,
     # including the resistance at the root surface and the xylem resistance
-    @method_logger
     def totalTreeResistance(self, parameter, geometry):
         root_surface_resistance = self.rootSurfaceResistance(
             parameter, geometry)
@@ -228,7 +222,6 @@ class OGSLargeScale3D(TreeModel):
 
     ## This function reads cumulated salinity and calls per cell from
     # external files and calculates the salinity in each cell
-    @method_logger
     def getCellSalinity(self):
         cumsum_salinity = np.load(
             path.join(self._ogs_project_folder, "cumsum_salinity.npy"))
@@ -238,7 +231,6 @@ class OGSLargeScale3D(TreeModel):
 
     ## This function calculates the salinity below each tree as the mean of
     # all tree-affected cells
-    @method_logger
     def calculateTreeSalinity(self):
         self._tree_salinity = np.zeros(self.no_trees)
         for tree_id in range(self.no_trees):
@@ -270,7 +262,6 @@ class OGSLargeScale3D(TreeModel):
     # Unit: kg per sec per cell volume
     # The function is not called in this concept (OGSLargeScale3D) but
     # required for various child concepts
-    @method_logger
     def calculateCompleteTreeContribution(self):
         self._tree_contribution_per_cell = np.zeros(len(self._salinity))
         for tree_id in range(self.no_trees):
@@ -289,7 +280,6 @@ class OGSLargeScale3D(TreeModel):
 
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.
-    @method_logger
     def copyPythonScript(self):
         if self._use_external_python_script:
             source = open(

@@ -6,7 +6,6 @@
 """
 
 from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D
-from ProjectLib.Logger import method_logger
 import numpy as np
 
 
@@ -17,7 +16,6 @@ import numpy as np
 # withdrawal in each cell as rate in kg per sec per cell volume.
 # MRO: OGSLargeScale3DExternal, OGSLargeScale3D, TreeModel, object
 class OGSLargeScale3DExternal(OGSLargeScale3D):
-    @method_logger
     def __init__(self, args):
         super().__init__(args)
 
@@ -32,7 +30,6 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     #  time step is updated and saved in the ogs-project folder.
     #  @param t_ini: initial time of next time step
     #  @param t_end: end time of next time step
-    @method_logger
     def prepareNextTimeStep(self, t_ini, t_end):
         self.n_trees = 0
 
@@ -52,7 +49,6 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     #  Here, in the OGS case, each tree is represented by a contribution to
     #  python source terms in OGS.
     #  @param tree
-    @method_logger
     def addTree(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
@@ -76,7 +72,6 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     ## This function updates and returns BelowgroundResources in the current
     #  time step. For each tree a reduction factor is calculated which is
     #  defined as: resource uptake at zero salinity/ real resource uptake.
-    @method_logger
     def calculateBelowgroundResources(self):
         # Number of trees
         self.no_trees = len(self._total_resistance)
@@ -101,7 +96,6 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     # This function sets the parameters 'cumsum_salinity' and 'calls_per_cell',
     # which contain information about the cumulated salinity in each cell and
     # the number of calls, calculated by OGS
-    @method_logger
     def setExternalInformation(self, **args):
         # information about cell salinity from OGS
         self.cumsum_salinity = args["cumsum_salinity"]

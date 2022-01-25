@@ -25,8 +25,8 @@ class Model():
         from TimeLoopLib import ExternalDynamicTimeStepping
         self.timestepper = ExternalDynamicTimeStepping(self.prj, t_0)
 
-    def setSteps(self, step_ag, step_bg, step_gd):
-        self.timestepper.setSteps(step_ag, step_bg, step_gd)
+    def setSteps(self, step_ag, step_bg):
+        self.timestepper.setSteps(step_ag, step_bg)
 
     def setResources(self, ag_resources, bg_resources):
         self.timestepper.setResources(ag_resources, bg_resources)

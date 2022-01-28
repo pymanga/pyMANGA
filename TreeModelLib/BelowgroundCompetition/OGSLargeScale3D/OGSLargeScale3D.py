@@ -276,7 +276,7 @@ class OGSLargeScale3D(TreeModel):
     # directory of the concept if no external source file is provided.
     def getSourceDir(self):
         return path.join(path.dirname(path.abspath(__file__)),
-                          "python_source.py")
+                         "python_source.py")
 
     ## This function copies the python script which defines BC and source terms
     #  to the ogs project folder.
@@ -389,7 +389,6 @@ class OGSLargeScale3D(TreeModel):
             raise ValueError("Ogs calculation failed!")
         print("OGS-calculation done.")
         self.writePVDCollection()
-
 
     def renameParameters(self):
         parameters = self._tree.find("parameters")

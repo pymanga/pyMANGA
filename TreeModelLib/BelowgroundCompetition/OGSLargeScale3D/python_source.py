@@ -97,7 +97,7 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
             # check if all cells have been called
             if (no_cells - 1) == cell_id:
                 # control variable to count how many times each cell was called
-                max_calls = np.max(calls[cell_id-1])
+                max_calls = np.max(calls[cell_id - 1])
                 if calls[cell_id] == max_calls:
                     np.save(cumsum_savename, cumsum_salinity)
                     np.save(calls_savename, calls)
@@ -107,8 +107,12 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         return (-positive_flux, Jac)
 
 
-constant_contributions = np.load("test/LargeTests/Test_Setups_large/ogs_example_setup/constant_contributions.npy")
-salinity_prefactors = np.load("test/LargeTests/Test_Setups_large/ogs_example_setup/salinity_prefactors.npy")
+constant_contributions = np.load(
+    "test/LargeTests/Test_Setups_large/ogs_example_setup/constant_contributions.npy"
+)
+salinity_prefactors = np.load(
+    "test/LargeTests/Test_Setups_large/ogs_example_setup/salinity_prefactors.npy"
+)
 cumsum_salinity = np.zeros_like(salinity_prefactors)
 calls = np.zeros_like(salinity_prefactors)
 counter = np.zeros((1), dtype=int)

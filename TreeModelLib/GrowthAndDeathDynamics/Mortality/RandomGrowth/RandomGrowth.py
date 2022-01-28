@@ -20,8 +20,7 @@ class RandomGrowth(Random):
         except:
             # Calibration factor default: 1e-12
             self.k_die = 1e-12
-            print("NOTE: Use default `probability`: " + str(self.k_die) +
-                  ".")
+            print("NOTE: Use default `probability`: " + str(self.k_die) + ".")
 
     def getSurvival(self, args):
         self.survive = 1
@@ -71,7 +70,6 @@ class RandomGrowth(Random):
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                print("WARNING: Tag " + tag +
-                      " not specified for " + super().getConceptName() +
-                      " (" + case + ") " +
+                print("WARNING: Tag " + tag + " not specified for " +
+                      super().getConceptName() + " (" + case + ") " +
                       "mortality initialisation!")

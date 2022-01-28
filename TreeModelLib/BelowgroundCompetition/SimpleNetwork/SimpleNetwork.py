@@ -218,9 +218,8 @@ class SimpleNetwork(TreeModel):
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                print("WARNING: Tag " + tag +
-                      " not specified for " + case + " growth-and-death " +
-                      "initialisation!")
+                print("WARNING: Tag " + tag + " not specified for " + case +
+                      " growth-and-death " + "initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:
@@ -399,7 +398,7 @@ class SimpleNetwork(TreeModel):
     ## This function calculates the distance between two trees in meter.
     # @return a scalar
     def getDistance(self, x1, x2, y1, y2):
-        return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+        return ((x1 - x2)**2 + (y1 - y2)**2)**0.5
 
     ## This function returns a matrix indicating whether roots of trees are
     # in contact or not
@@ -409,8 +408,8 @@ class SimpleNetwork(TreeModel):
         x_mesh = np.array(np.meshgrid(self._xe, self._xe))
         y_mesh = np.array(np.meshgrid(self._ye, self._ye))
         # calculate distances between all trees
-        distances = ((x_mesh[0] - x_mesh[1]) ** 2 +
-                     (y_mesh[0] - y_mesh[1]) ** 2) ** .5
+        distances = ((x_mesh[0] - x_mesh[1])**2 +
+                     (y_mesh[0] - y_mesh[1])**2)**.5
 
         roots = np.array(np.meshgrid(self._r_root, self._r_root))
         root_sums = roots[0] + roots[1]
@@ -553,7 +552,7 @@ class SimpleNetwork(TreeModel):
     # @param r_stem - stem radius
     def aboveGraftResistance(self, kf_sap, r_crown, h_stem, r_stem):
         above_graft_resistance = (2 * r_crown + h_stem) / (kf_sap * np.pi *
-                                                           r_stem ** 2)
+                                                           r_stem**2)
         return above_graft_resistance
 
     ## Function that calculates the xylem resistance in the grafted roots.
@@ -562,7 +561,7 @@ class SimpleNetwork(TreeModel):
     # @param r_graft - radius of grafted roots
     # @param kf_sap - hydraulic conductivity of xylem
     def getGraftResistance(self, distance, r_graft, kf_sap):
-        graft_resistance = distance / (kf_sap * np.pi * r_graft ** 2)
+        graft_resistance = distance / (kf_sap * np.pi * r_graft**2)
         return graft_resistance
 
     ## Function that returns an array with the links of a specific tree.
@@ -661,8 +660,8 @@ class SimpleNetwork(TreeModel):
         x_mesh = np.array(np.meshgrid(self._xe, self._xe))
         y_mesh = np.array(np.meshgrid(self._ye, self._ye))
         # calculate distances between all trees of the group
-        distances = ((x_mesh[0] - x_mesh[1]) ** 2 +
-                     (y_mesh[0] - y_mesh[1]) ** 2) ** .5
+        distances = ((x_mesh[0] - x_mesh[1])**2 +
+                     (y_mesh[0] - y_mesh[1])**2)**.5
         r_stem = np.array(np.meshgrid(self._r_stem, self._r_stem))
         r_root = np.array(np.meshgrid(self._r_root, self._r_root))
 
@@ -673,10 +672,12 @@ class SimpleNetwork(TreeModel):
         l_gr = (r_root[0] + r_root[1] + distances) / 2
         kf_sap = np.array(np.meshgrid(self._kf_sap, self._kf_sap))
         kf_saps = (kf_sap[0] + kf_sap[1]) / 2
-        graft_resistance = self.getGraftResistance(
-            distance=l_gr[from_IDs, to_IDs],
-            r_graft=r_grafts[from_IDs, to_IDs],
-            kf_sap=kf_saps[from_IDs, to_IDs])
+        graft_resistance = self.getGraftResistance(distance=l_gr[from_IDs,
+                                                                 to_IDs],
+                                                   r_graft=r_grafts[from_IDs,
+                                                                    to_IDs],
+                                                   kf_sap=kf_saps[from_IDs,
+                                                                  to_IDs])
         matrix[link_rows, from_index] = -self._below_graft_resistance[from_IDs]
         matrix[link_rows, to_index] = self._below_graft_resistance[to_IDs]
         matrix[link_rows, g_col] = graft_resistance
@@ -695,7 +696,7 @@ class SimpleNetwork(TreeModel):
     def getBGresourcesIndividual(self, psi_top, psi_osmo, ag_resistance,
                                  bg_resistance):
         res_b = -(psi_top - psi_osmo) / (
-                (ag_resistance + bg_resistance) * np.pi) * self.time
+            (ag_resistance + bg_resistance) * np.pi) * self.time
         return res_b
 
     ## Function that calculates water absorbed, water available and water

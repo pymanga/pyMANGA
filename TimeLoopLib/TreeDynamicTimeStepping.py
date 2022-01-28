@@ -58,8 +58,7 @@ class TreeDynamicTimeStepping:
                 try:
                     ag = self.aboveground_resources[j]
                     bg = self.belowground_resources[j]
-                    self.death_and_growth_concept.progressTree(
-                        tree, ag, bg)
+                    self.death_and_growth_concept.progressTree(tree, ag, bg)
                 except IndexError:
                     tree.setSurvival(1)
 

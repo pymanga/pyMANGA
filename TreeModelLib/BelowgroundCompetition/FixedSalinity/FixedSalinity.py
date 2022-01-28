@@ -60,9 +60,8 @@ class FixedSalinity(TreeModel):
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                print("WARNING: Tag " + tag +
-                      " not specified for " + case + " below-ground " +
-                      "initialisation!")
+                print("WARNING: Tag " + tag + " not specified for " + case +
+                      " below-ground " + "initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:

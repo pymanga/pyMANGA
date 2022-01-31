@@ -14,23 +14,21 @@ class TreeDynamicTimeLoop:
         else:
             raise KeyError("Required time stepping not implemented.")
         print(case + " time stepping successfully initiated.")
-        self.step_on = True
 
     def iniSimpleTimeStepping(self, args):
         from .SimpleTimeLoop import SimpleLoop
         self.loop = SimpleLoop.Loop(args)
 
     def getNextTimeStepBoundaries(self):
-        self.t_ini, self.t_end, self.step_on, \
-            self.update_ag, self.update_bg = self.loop.getNextTimeStep()
+        self.loop.getNextTimeStep()
 
     def runTimeLoop(self, time_stepper):
         self.getNextTimeStepBoundaries()
-        while (self.step_on):
+        while (self.loop.step_on):
             print("Next time step to propagate" +
-                  " tree population with starting time " + str(self.t_ini) +
-                  " and end time " + str(self.t_end) + ".")
-            time_stepper.step(self.t_ini, self.t_end, self.update_ag,
-                              self.update_bg)
+                  " tree population with starting time " + str(self.loop.t_1) +
+                  " and end time " + str(self.loop.t_2) + ".")
+            time_stepper.step(self.loop.t_1, self.loop.t_2,
+                              self.loop.update_ag, self.loop.update_bg)
             self.getNextTimeStepBoundaries()
-        time_stepper.finish(self.t_ini)
+        time_stepper.finish(self.loop.t_1)

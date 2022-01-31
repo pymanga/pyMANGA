@@ -27,22 +27,21 @@ class Loop:
         if args.find("n_step_bg") is not None:
             self.n_step_bg = int(args.find("n_step_bg").text)
         self.step_counter = 0
+        self.t_1 = self.t_start
 
     def getUpdateBools(self):
-        update_ag = True if self.step_counter % self.n_step_ag == 0 else False
-        update_bg = True if self.step_counter % self.n_step_bg == 0 else False
-        return update_ag, update_bg
+        self.update_ag = True if self.step_counter % self.n_step_ag == 0 else False
+        self.update_bg = True if self.step_counter % self.n_step_bg == 0 else False
 
     def getNextTimeStep(self):
-        update_ag, update_bg = self.getUpdateBools()
-        t_1 = self.t_current
-        t_2 = t_1 + self.delta_t
-        self.t_current = t_2
-        if (t_1 < self.t_end):
-            step_on = True
-            if (t_2 > self.t_end):
-                t_2 = self.t_end
-        elif (t_1 >= self.t_end):
-            step_on = False
+        self.getUpdateBools()
+        self.t_1 = self.t_current
+        self.t_2 = self.t_1 + self.delta_t
+        self.t_current = self.t_2
+        if (self.t_1 < self.t_end):
+            self.step_on = True
+            if (self.t_2 > self.t_end):
+                self.t_2 = self.t_end
+        elif (self.t_1 >= self.t_end):
+            self.step_on = False
         self.step_counter += 1
-        return t_1, t_2, step_on, update_ag, update_bg

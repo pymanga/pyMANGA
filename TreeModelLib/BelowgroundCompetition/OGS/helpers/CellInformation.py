@@ -43,6 +43,13 @@ class CellInformation:
     #  @param y: y-coordinate for tree search
     def getCellIDsAtXY(self, x, y):
         bounds = self._grid.GetBounds()
+        # Check if the mesh is 2D in 
+        # x-z plane
+        if bounds[2]==bounds[3]:
+            y = 0
+        # y-z plane
+        elif bounds[0]==bounds[1]:
+            x = 0
         p1 = [x, y, bounds[-1]]
         p2 = [x, y, bounds[-2]]
         cell_ids = vtk.vtkIdList()

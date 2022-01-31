@@ -42,7 +42,7 @@ class Mortality:
                                "Available concepts: `NoGrowth`, `Random`, "
                                "`RandomGrowth`, `Memory`")
             print("Mortality concept of type " + case + " successfully "
-                                                        "initiated.")
+                  "initiated.")
 
     def iniNoGrowth(self, args, case):
         from .NoGrowth import NoGrowth

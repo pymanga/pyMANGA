@@ -55,7 +55,6 @@ class NetworkBettina(SimpleBettina):
         network['partner'] = self.partner
         network['node_degree'] = len(self.partner)
 
-
         # parameters for rgf variant "V2_adapted"
         network['r_gr_min'] = self.r_gr_min
         network['r_gr_rgf'] = self.r_gr_rgf
@@ -175,9 +174,8 @@ class NetworkBettina(SimpleBettina):
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                print("WARNING: Tag " + tag +
-                      " not specified for " + case + " below-ground " +
-                      "initialisation!")
+                print("WARNING: Tag " + tag + " not specified for " + case +
+                      " below-ground " + "initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:

@@ -46,9 +46,11 @@ class NetworkHydro(SimpleNetwork, SimpleHydro):
         root_surface_resistance = super().rootSurfaceResistance(
             parameter["lp"], parameter["k_geom"], geometry["r_root"],
             geometry["h_root"])
-        xylem_resistance = super().xylemResistance(
-            geometry["r_crown"], geometry["h_stem"], geometry["r_root"],
-            parameter["kf_sap"], geometry["r_stem"])
+        xylem_resistance = super().xylemResistance(geometry["r_crown"],
+                                                   geometry["h_stem"],
+                                                   geometry["r_root"],
+                                                   parameter["kf_sap"],
+                                                   geometry["r_stem"])
         self._resistance.append(root_surface_resistance + xylem_resistance)
         self._potential_nosal.append(
             (parameter["leaf_water_potential"] +

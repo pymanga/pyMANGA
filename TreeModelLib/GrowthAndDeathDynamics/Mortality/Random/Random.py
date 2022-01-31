@@ -51,7 +51,6 @@ class Random(NoGrowth):
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                print("WARNING: Tag " + tag +
-                      " not specified for " + super().getConceptName() +
-                      " (" + case + ") " +
+                print("WARNING: Tag " + tag + " not specified for " +
+                      super().getConceptName() + " (" + case + ") " +
                       "mortality initialisation!")

@@ -48,8 +48,9 @@ class Memory(NoGrowth):
             # Check if relative growth is below a certain threshold
             if relative_grow < self.threshold:
                 self.survive = 0
-                print("\t Tree died because because biomass increment fall below "
-                      "threshold.")
+                print(
+                    "\t Tree died because because biomass increment fall below "
+                    "threshold.")
 
         return self.survive
 
@@ -80,7 +81,6 @@ class Memory(NoGrowth):
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                print("WARNING: Tag " + tag +
-                      " not specified for " + super().getConceptName() +
-                      " (" + case + ") " +
+                print("WARNING: Tag " + tag + " not specified for " +
+                      super().getConceptName() + " (" + case + ") " +
                       "mortality initialisation!")

@@ -16,7 +16,7 @@ class Loop:
         print("Initiate time loop of type " + case + ".")
         self.t_start = float(args.find("t_start").text)
         self.t_end = float(args.find("t_end").text)
-        self.t_current = self.t_start
+        self.t_2 = self.t_start
         self.delta_t = float(args.find("delta_t").text)
 
         ## The following variables determine the frequencies when to
@@ -29,15 +29,18 @@ class Loop:
         self.step_counter = 0
         self.t_1 = self.t_start
 
+    ## This checks and stores whether above- and belowground competition should
+    #  be recalculated in the following timestep.
     def getUpdateBools(self):
         self.update_ag = True if self.step_counter % self.n_step_ag == 0 else False
         self.update_bg = True if self.step_counter % self.n_step_bg == 0 else False
 
+    ## Calculates the initial and end time of next timestep and evaluates which 
+    #  concepts are supposed to be updated
     def getNextTimeStep(self):
         self.getUpdateBools()
-        self.t_1 = self.t_current
+        self.t_1 = self.t_2  # assigns t2 from previous timestep as new t1
         self.t_2 = self.t_1 + self.delta_t
-        self.t_current = self.t_2
         if (self.t_1 < self.t_end):
             self.step_on = True
             if (self.t_2 > self.t_end):

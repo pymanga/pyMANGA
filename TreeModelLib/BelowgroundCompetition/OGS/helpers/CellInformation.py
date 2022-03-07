@@ -52,6 +52,9 @@ class CellInformation:
             x = 0
         p1 = [x, y, bounds[-1]]
         p2 = [x, y, bounds[-2]]
+        if np.abs(bounds[-1]-bounds[-2])<0.01:
+            p1 = [x, bounds[2], bounds[-1]]
+            p2 = [x, bounds[3], bounds[-2]]
         cell_ids = vtk.vtkIdList()
         self._cell_finder.FindCellsAlongLine(p1, p2, 1, cell_ids)
 

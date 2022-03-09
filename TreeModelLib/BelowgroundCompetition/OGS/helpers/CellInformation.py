@@ -43,15 +43,27 @@ class CellInformation:
     #  @param y: y-coordinate for tree search
     def getCellIDsAtXY(self, x, y):
         bounds = self._grid.GetBounds()
-        # Check if the mesh is 2D in 
-        # x-z plane
-        if bounds[2]==bounds[3]:
-            y = 0
-        # y-z plane
-        elif bounds[0]==bounds[1]:
-            x = 0
-        p1 = [x, y, bounds[-1]]
-        p2 = [x, y, bounds[-2]]
+        # TODO: find better solution
+        # If the mesh is in 2D and in the x-y plane, it is probably so as OGS
+        # only processes 2D meshes in the x-y- plane. Hence, a rotation is per-
+        # formed here.
+        if np.abs(bounds[-1] - bounds[-2]) < 0.0001:
+            p1 = [x, bounds[2], bounds[-1]]
+            p2 = [x, bounds[3], bounds[-2]]
+            print("""WARNING! pyMANGA is transforming the subsurface mesh in a
+                  vertical slice. In case one would like to provide a 2d 
+                  horizontal mesh, please review code! """)
+        else:
+            # Check if the mesh is 2D in
+            # x-z plane
+            if np.abs(bounds[2] - bounds[3]) < 0.0001:
+                y = 0
+            # y-z plane
+            elif np.abs(bounds[0] - bounds[1]) < 0.0001:
+                x = 0
+            p1 = [x, y, bounds[-1]]
+            p2 = [x, y, bounds[-2]]
+
         cell_ids = vtk.vtkIdList()
         self._cell_finder.FindCellsAlongLine(p1, p2, 1, cell_ids)
 

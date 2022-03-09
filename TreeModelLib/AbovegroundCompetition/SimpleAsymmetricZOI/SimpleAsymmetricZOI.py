@@ -150,6 +150,10 @@ class SimpleAsymmetricZOI(TreeModel):
                 "Please refine mesh or increase initial crown radius above " +
                 str(self.min_r_crown) + "m !")
             exit()
+        if not ((self.x_1 < x < self.x_2) and (self.y_1 < y < self.y_2)):
+            raise ValueError("""It appears as a tree is located outside of the
+                             domain, where AC is defined. Please check domains 
+                             in project file!!""")
         self.xe.append(x)
         self.ye.append(y)
         self.h_stem.append(geometry["h_stem"])

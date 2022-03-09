@@ -52,6 +52,9 @@ class CellInformation:
             x = 0
         p1 = [x, y, bounds[-1]]
         p2 = [x, y, bounds[-2]]
+        # If the mesh is in 2D and in the x-y plane, it is probably so as OGS
+        # only processes 2D meshes in the x-y- plane. Hence, a rotation is per-
+        # formed here.
         if np.abs(bounds[-1]-bounds[-2])<0.0001:
             p1 = [x, bounds[2], bounds[-1]]
             p2 = [x, bounds[3], bounds[-2]]

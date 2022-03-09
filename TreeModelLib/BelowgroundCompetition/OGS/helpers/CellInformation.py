@@ -43,19 +43,19 @@ class CellInformation:
     #  @param y: y-coordinate for tree search
     def getCellIDsAtXY(self, x, y):
         bounds = self._grid.GetBounds()
-        # Check if the mesh is 2D in 
+        # Check if the mesh is 2D in
         # x-z plane
-        if bounds[2]==bounds[3]:
+        if bounds[2] == bounds[3]:
             y = 0
         # y-z plane
-        elif bounds[0]==bounds[1]:
+        elif bounds[0] == bounds[1]:
             x = 0
         p1 = [x, y, bounds[-1]]
         p2 = [x, y, bounds[-2]]
         # If the mesh is in 2D and in the x-y plane, it is probably so as OGS
         # only processes 2D meshes in the x-y- plane. Hence, a rotation is per-
         # formed here.
-        if np.abs(bounds[-1]-bounds[-2])<0.0001:
+        if np.abs(bounds[-1] - bounds[-2]) < 0.0001:
             p1 = [x, bounds[2], bounds[-1]]
             p2 = [x, bounds[3], bounds[-2]]
         cell_ids = vtk.vtkIdList()

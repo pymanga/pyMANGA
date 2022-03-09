@@ -161,9 +161,9 @@ class OGSLargeScale3D(TreeModel):
         # Unit: kg per sec
         delta_psi = parameter["leaf_water_potential"] +\
                     (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810
-        constant_contribution = - delta_psi / total_resistance * 1000 / np.pi
+        constant_contribution = -delta_psi / total_resistance * 1000 / np.pi
         self._tree_constant_contribution.append(constant_contribution)
-        salinity_prefactor = - 85000 * 1000 / total_resistance * 1000 / np.pi
+        salinity_prefactor = -85000 * 1000 / total_resistance * 1000 / np.pi
         self._tree_salinity_prefactor.append(salinity_prefactor)
 
     ## This function extracts the cells affected by each tree and the

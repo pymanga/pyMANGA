@@ -32,21 +32,25 @@ class TreeDynamicTimeStepping:
         tree_groups = self.population.getTreeGroups()
 
         self.tree_output.writeOutput(tree_groups, t_start)
+        # Initialize tree counter variable
+        number_of_trees = 0
         for group_name, tree_group in tree_groups.items():
             for tree in tree_group.getTrees():
+                number_of_trees += 1
                 if update_ag:
                     self.aboveground_competition.addTree(tree)
                 if update_bg:
                     self.belowground_competition.addTree(tree)
-
-        if update_ag:
-            self.aboveground_competition.calculateAbovegroundResources()
-            self.aboveground_resources = (
-                self.aboveground_competition.getAbovegroundResources())
-        if update_bg:
-            self.belowground_competition.calculateBelowgroundResources()
-            self.belowground_resources = (
-                self.belowground_competition.getBelowgroundResources())
+        # Only update resources if trees exist
+        if number_of_trees > 0:
+            if update_ag:
+                self.aboveground_competition.calculateAbovegroundResources()
+                self.aboveground_resources = (
+                    self.aboveground_competition.getAbovegroundResources())
+            if update_bg:
+                self.belowground_competition.calculateBelowgroundResources()
+                self.belowground_resources = (
+                    self.belowground_competition.getBelowgroundResources())
         j = 0
         for group_name, tree_group in tree_groups.items():
             kill_indices = []
@@ -68,6 +72,14 @@ class TreeDynamicTimeStepping:
                 j += 1
             tree_group.removeTreesAtIndices(kill_indices)
             tree_group.recruitTrees()
+            # Add number of recruited trees to counter
+            number_of_trees += tree_group.getNumberOfTrees()
+
+        # Stop MANGA execution if no trees exist or were recruited
+        if number_of_trees == 0:
+            print("INFO: MANGA execution stopped because all trees died and "
+                  "no new tree were recruited.")
+            exit()
         self.visualization.update(tree_groups, t_end)
 
     ## Last action, when timeloop is done

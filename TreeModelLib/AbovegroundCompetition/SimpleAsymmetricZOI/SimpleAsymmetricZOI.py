@@ -85,13 +85,13 @@ class SimpleAsymmetricZOI(TreeModel):
             if tag == "y_resolution":
                 y_resolution = int(arg.text)
             elif tag == "x_1":
-                x_1 = float(arg.text)
+                self._x_1 = float(arg.text)
             elif tag == "x_2":
-                x_2 = float(arg.text)
+                self._x_2 = float(arg.text)
             elif tag == "y_1":
-                y_1 = float(arg.text)
+                self._y_1 = float(arg.text)
             elif tag == "y_2":
-                y_2 = float(arg.text)
+                self._y_2 = float(arg.text)
             try:
                 missing_tags.remove(tag)
             except ValueError:
@@ -106,17 +106,17 @@ class SimpleAsymmetricZOI(TreeModel):
                 "Tag(s) " + string +
                 "are not given for above-ground grid initialisation in project file."
             )
-        l_x = x_2 - x_1
-        l_y = y_2 - y_1
+        l_x = self._x_2 - self._x_1
+        l_y = self._y_2 - self._y_1
         x_step = l_x / x_resolution
         y_step = l_y / y_resolution
         self.min_r_crown = np.max([x_step, y_step]) * 1 / 2**0.5
-        xe = np.linspace(x_1 + x_step / 2.,
-                         x_2 - x_step / 2.,
+        xe = np.linspace(self._x_1 + x_step / 2.,
+                         self._x_2 - x_step / 2.,
                          x_resolution,
                          endpoint=True)
-        ye = np.linspace(y_1 + y_step / 2.,
-                         y_2 - y_step / 2.,
+        ye = np.linspace(self._y_1 + y_step / 2.,
+                         self._y_2 - y_step / 2.,
                          y_resolution,
                          endpoint=True)
         self.my_grid = np.meshgrid(xe, ye)
@@ -150,7 +150,8 @@ class SimpleAsymmetricZOI(TreeModel):
                 "Please refine mesh or increase initial crown radius above " +
                 str(self.min_r_crown) + "m !")
             exit()
-        if not ((self.x_1 < x < self.x_2) and (self.y_1 < y < self.y_2)):
+        if not ((self._x_1 < x < self._x_2) and 
+                (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a tree is located outside of the
                              domain, where AC is defined. Please check domains 
                              in project file!!""")

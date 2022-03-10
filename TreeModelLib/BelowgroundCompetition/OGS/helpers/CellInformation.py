@@ -26,6 +26,7 @@ class CellInformation:
         self._cell_finder.LazyEvaluationOn()
         cells = self._grid.GetCellData()
         self._volumes = cells.GetArray("Volume")
+        self._warning_sent = False
 
     ## Lookup funktion for cell_id
     #  @param x: x-coordinate
@@ -50,9 +51,11 @@ class CellInformation:
         if np.abs(bounds[-1] - bounds[-2]) < 0.0001:
             p1 = [x, bounds[2], bounds[-1]]
             p2 = [x, bounds[3], bounds[-2]]
-            print("""WARNING! pyMANGA is transforming the subsurface mesh in a
-                  vertical slice. In case one would like to provide a 2d 
-                  horizontal mesh, please review code! """)
+            if not (self._warning_sent):
+                print("""WARNING! pyMANGA is transforming the subsurface mesh 
+                      in a vertical slice. In case one would like to provide a
+                      2d horizontal mesh, please review code! """)
+                self._warning_sent = True
         else:
             # Check if the mesh is 2D in
             # x-z plane

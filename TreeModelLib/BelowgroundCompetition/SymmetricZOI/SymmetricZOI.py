@@ -65,8 +65,8 @@ class SymmetricZOI(TreeModel):
                       np.array(self.xe)[np.newaxis, np.newaxis, :])**2 +
                      (self.my_grid[1][:, :, np.newaxis] -
                       np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5)
-        # Array of shape distance, indicating which cells are occupied by
-        # tree root plates
+        # Array of shape distance [res_x, res_y, n_trees], indicating which
+        # cells are occupied by tree root plates
         root_radius = np.array(self.r_root)
         trees_present = root_radius[np.newaxis, np.newaxis, :] > distance
 

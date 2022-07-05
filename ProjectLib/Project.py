@@ -63,6 +63,9 @@ class MangaProject:
         elif case == "NetworkOGSLargeScale3DExternal":
             from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3DExternal\
                 import NetworkOGSLargeScale3DExternal as createBC
+        elif case == "SymmetricZOI":
+            from TreeModelLib.BelowgroundCompetition.SymmetricZOI import \
+                SymmetricZOI as createBC
         else:
             raise KeyError("Required belowground competition case " + case +
                            " not implemented.")

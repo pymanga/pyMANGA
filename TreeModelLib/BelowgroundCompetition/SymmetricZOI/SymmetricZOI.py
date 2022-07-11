@@ -44,7 +44,7 @@ class SymmetricZOI(TreeModel):
         if geometry["r_root"] < self.min_r_root:
             print("Error: mesh not fine enough for crown dimensions!")
             print(
-                "Please refine mesh or increase initial crown radius above " +
+                "Please refine mesh or increase initial root radius above " +
                 str(self.min_r_root) + "m !")
             exit()
         if not ((self._x_1 < x < self._x_2) and
@@ -116,14 +116,15 @@ class SymmetricZOI(TreeModel):
                 missing_tags.remove(tag)
             except ValueError:
                 print("WARNING: Tag " + tag +
-                    " not specified for above-ground grid initialisation!")
+                    " not specified for below-ground grid initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:
                 string += tag + " "
             raise KeyError(
                 "Tag(s) " + string +
-                "are not given for above-ground grid initialisation in project file."
+                "are not given for below-ground grid initialisation in "
+                "project file."
             )
         l_x = self._x_2 - self._x_1
         l_y = self._y_2 - self._y_1

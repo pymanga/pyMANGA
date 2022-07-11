@@ -19,3 +19,4 @@ from .NetworkOGSLargeScale3D import NetworkOGSLargeScale3D
 from .OGSLargeScale3DExternal import OGSLargeScale3DExternal
 from .NetworkOGSLargeScale3DExternal import NetworkOGSLargeScale3DExternal
 from .SymmetricZOI import SymmetricZOI
+from .SZoiFixedSalinity import SZoiFixedSalinity

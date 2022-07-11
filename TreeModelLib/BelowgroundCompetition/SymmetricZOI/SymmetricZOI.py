@@ -115,8 +115,7 @@ class SymmetricZOI(TreeModel):
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
+                print("WARNING: Tag " + tag +
                     " not specified for above-ground grid initialisation!")
         if len(missing_tags) > 0:
             string = ""

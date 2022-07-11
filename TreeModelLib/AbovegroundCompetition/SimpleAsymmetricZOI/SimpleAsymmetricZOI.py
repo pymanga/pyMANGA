@@ -23,13 +23,13 @@ class SimpleAsymmetricZOI(TreeModel):
     #  subsequent timestep.\n
     #  @return: np.array with $N_tree$ scalars
     def calculateAbovegroundResources(self):
-        #Array to save value of highest tree
+        #Array to save value of highest tree with shape = (res_x, res_y)
         canopy_height = np.zeros_like(self.my_grid[0])
-        #Array to safe index of highest tree
+        #Array to safe index of highest tree with shape = (res_x, res_y)
         highest_tree = np.full_like(self.my_grid[0], fill_value=-99999)
-        #Array to safe number of wins per tree
+        #Array to safe number of wins per tree with shape = (n_trees)
         wins = np.zeros_like(self.xe)
-        #Array to safe number of grid_points per tree
+        #Array to safe number of grid_points per tree with shape = (n_trees)
         crown_areas = np.zeros_like(self.xe)
         #Iteration over trees
         for i in range(len(self.xe)):

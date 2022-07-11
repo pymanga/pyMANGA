@@ -48,5 +48,3 @@ class SZoiFixedSalinity(SymmetricZOI, FixedSalinity):
 
         self.belowground_resources = bg_factor_fixed_salinity * \
                                      bg_factor_symmetric_ZOI
-        # print("ZOI: ", bg_factor_symmetric_ZOI, ", Sal: ",
-        #       bg_factor_fixed_salinity, ' All: ', self.belowground_resources)

@@ -31,10 +31,11 @@ class SimpleAsymmetricZOI(TreeModel):
         wins = np.zeros_like(self.xe)
         #Array to safe number of grid_points per tree with shape = (n_trees)
         crown_areas = np.zeros_like(self.xe)
-        #Iteration over trees
+        #Iteration over trees to identify highest tree at gridpoint
         for i in range(len(self.xe)):
             distance = (((self.my_grid[0] - np.array(self.xe)[i])**2 +
                          (self.my_grid[1] - np.array(self.ye)[i])**2)**0.5)
+            # As the geometry is "complex", my_height is position dependent
             my_height, canopy_bools = self.calculateHeightFromDistance(
                     np.array([self.h_stem[i]]), np.array([self.r_crown[i]]),
                     distance)
@@ -42,19 +43,21 @@ class SimpleAsymmetricZOI(TreeModel):
             indices = np.where(np.less(canopy_height, my_height))
             canopy_height[indices] = my_height[indices]
             highest_tree[indices] = i
+        #Check for each tree, at which gridpoint it is the highest plant
         for i in range(len(self.xe)):
             wins[i] = len(np.where(highest_tree == i)[0])
         self.aboveground_resources = wins / crown_areas
 
     ## This function calculates the tree height at a (mesh-)point depending
     #  on the distance from the tree position.\n
-    #  @param stem_height - stem height\n
-    #  @param crown_radius - crown radius\n
-    #  @param distance - distance from the stem position
+    #  @param stem_height - stem height (shape: (n_trees))\n 
+    #  @param crown_radius - crown radius (shape: (n_trees))\n
+    #  @param distance - distance from the stem position(shape: (x_res, y_res))
     def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
         bools = crown_radius > distance
         idx = np.where(bools)
         height = np.zeros_like(distance)
+        #Here, the curved top of the tree is considered..
         height[idx] = stem_height + (4 * crown_radius**2 -
                                              distance[idx]**2)**0.5
         return height, bools

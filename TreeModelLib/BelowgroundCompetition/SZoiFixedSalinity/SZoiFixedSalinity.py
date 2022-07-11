@@ -41,10 +41,10 @@ class SZoiFixedSalinity(SymmetricZOI, FixedSalinity):
     #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
         super().calculateBelowgroundResources()
-        bg_factor_symmetric_ZOI = self.belowground_resources
+        bg_factor_symmetric_ZOI = self.getBelowgroundResources()
 
         FixedSalinity.calculateBelowgroundResources(self)
-        bg_factor_fixed_salinity = self.belowground_resources
+        bg_factor_fixed_salinity = FixedSalinity.getBelowgroundResources(self)
 
-        self.belowground_resources = bg_factor_fixed_salinity * \
-                                     bg_factor_symmetric_ZOI
+        self.belowground_resources = bg_factor_symmetric_ZOI * \
+                                     bg_factor_fixed_salinity

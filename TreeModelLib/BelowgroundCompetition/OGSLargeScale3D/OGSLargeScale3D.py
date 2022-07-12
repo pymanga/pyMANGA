@@ -11,6 +11,7 @@ import vtk as vtk
 from lxml import etree
 from os import path
 import os
+import platform
 
 
 ## OGS integration for belowground competition concept. This case is
@@ -383,11 +384,18 @@ class OGSLargeScale3D(TreeModel):
             str(self._t_ini).replace(".", "_") + "_" + self._ogs_project_file)
         print("Running ogs...")
         bc_path = (path.dirname(path.dirname(path.abspath(__file__))))
-
-        if not (os.system(bc_path + "/OGS/bin/ogs " + current_project_file +
-                          " -o " + self._ogs_project_folder + " -l error")
-                == 0):
-            raise ValueError("Ogs calculation failed!")
+        if platform.system() == "Windows":
+            if not (os.system(bc_path + "/OGS/bin/ogs " +
+                              current_project_file + " -o " +
+                              self._ogs_project_folder + " -l error") == 0):
+                raise ValueError("Ogs calculation failed!")
+        elif platform.system() == "Linux":
+            if not (os.system("singularity exec --home " +
+                              self._ogs_project_folder + " " + bc_path +
+                              "/OGS/container/ogs_container.sif ogs " +
+                              current_project_file + " -o " +
+                              self._ogs_project_folder + " -l error") == 0):
+                raise ValueError("Ogs calculation failed!")
         print("OGS-calculation done.")
         self.writePVDCollection()
 

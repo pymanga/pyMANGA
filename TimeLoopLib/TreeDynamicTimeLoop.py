@@ -5,14 +5,14 @@
 @author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
 """
 
-
 class TreeDynamicTimeLoop:
-    def __init__(self, args):
+    def __init__(self, args, terminal_print):
         case = args.find("type").text
         if case == "Simple":
             self.iniSimpleTimeStepping(args)
         else:
             raise KeyError("Required time stepping not implemented.")
+<<<<<<< HEAD
         try:
             self.terminal_print = args.find('terminal_print').text
             print('worked')
@@ -20,6 +20,10 @@ class TreeDynamicTimeLoop:
             self.terminal_print = False
             print('did not work')
         print(case + " time stepping successfully initiated.")
+=======
+
+        self.terminal_print = terminal_print
+>>>>>>> edf8074a (Making the terminal output optionally)
 
     def iniSimpleTimeStepping(self, args):
         from .SimpleTimeLoop import SimpleLoop

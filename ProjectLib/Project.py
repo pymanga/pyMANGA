@@ -118,7 +118,8 @@ class MangaProject:
 
     def iniTreeTimeLoop(self):
         arg = self.args["tree_time_loop"]
-        self.tree_time_stepping = (TreeDynamicTimeLoop(arg))
+        terminal_print = self.args["terminal_prints"]
+        self.tree_time_stepping = (TreeDynamicTimeLoop(arg, terminal_print))
 
     def getTreeTimeStepping(self):
         return self.tree_time_stepping

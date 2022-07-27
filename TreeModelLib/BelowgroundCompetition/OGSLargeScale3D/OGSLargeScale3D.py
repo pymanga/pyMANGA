@@ -7,7 +7,6 @@
 import numpy as np
 from TreeModelLib import TreeModel
 from TreeModelLib.BelowgroundCompetition.OGS.helpers import CellInformation
-import vtk as vtk
 from lxml import etree
 from os import path
 import os

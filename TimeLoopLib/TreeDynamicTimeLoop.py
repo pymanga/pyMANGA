@@ -7,6 +7,7 @@
 
 
 class TreeDynamicTimeLoop:
+
     def __init__(self, args):
         case = args.find("type").text
         if case == "Simple":
@@ -29,7 +30,8 @@ class TreeDynamicTimeLoop:
             print("Next time step to propagate" +
                   " tree population with starting time " + str(self.loop.t_1) +
                   " and end time " + str(self.loop.t_2) + ".")
-            time_stepper.step(t_start=self.loop.t_1, t_end=self.loop.t_2,
+            time_stepper.step(t_start=self.loop.t_1,
+                              t_end=self.loop.t_2,
                               update_ag=self.loop.update_ag,
                               update_bg=self.loop.update_bg)
             self.getNextTimeStepBoundaries()

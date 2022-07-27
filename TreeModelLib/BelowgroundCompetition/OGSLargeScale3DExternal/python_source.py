@@ -40,6 +40,7 @@ source_mesh = setup_dir + '/source_domain.vtu'
 
 
 class CellInformation:
+
     def __init__(self, source_mesh):
         meshReader = vtk.vtkXMLUnstructuredGridReader()
         meshReader.SetFileName(source_mesh)
@@ -61,6 +62,7 @@ class CellInformation:
 
 
 class FluxToTrees(OpenGeoSys.SourceTerm):
+
     def getFlux(self, t, coords, primary_vars):
         global tree_contributions
         global i

@@ -10,6 +10,7 @@ from TreeModelLib.GrowthAndDeathDynamics.Mortality.NoGrowth import NoGrowth
 
 
 class Random(NoGrowth):
+
     def __init__(self, args, case):
         super().__init__(args, case)
         # Read input parameters from xml file

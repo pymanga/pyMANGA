@@ -335,6 +335,7 @@ class SimpleNetwork(TreeModel):
     # @return a dictionary defining groups by an ID (key) and the indices of
     # the corresponding trees (value)
     def getComponents(self, graph_dictionary):
+
         def findRoot(aNode, aRoot):
             while aNode != aRoot[aNode][0]:
                 aNode = aRoot[aNode][0]

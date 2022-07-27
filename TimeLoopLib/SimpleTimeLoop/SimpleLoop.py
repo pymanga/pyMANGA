@@ -7,6 +7,7 @@
 
 
 class Loop:
+
     def __init__(self, args):
         ## SimpleTest case for aboveground competition concept. This case is
         #  defined to test the passing of information between the instances.
@@ -35,7 +36,7 @@ class Loop:
         self.update_ag = True if self.step_counter % self.n_step_ag == 0 else False
         self.update_bg = True if self.step_counter % self.n_step_bg == 0 else False
 
-    ## Calculates the initial and end time of next timestep and evaluates which 
+    ## Calculates the initial and end time of next timestep and evaluates which
     #  concepts are supposed to be updated
     def getNextTimeStep(self):
         self.getUpdateBools()

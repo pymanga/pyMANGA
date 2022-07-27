@@ -9,6 +9,7 @@
 ## This class is the super class of all mortality concepts, containing all
 # required methods.
 class NoGrowth:
+
     def __init__(self, args, case):
         print("Initiate mortality of type `" + case + "`.")
 

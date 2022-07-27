@@ -37,6 +37,7 @@ def evaporation(salinity):
 
 ## Dirichlet BCs
 class BCSea_p_D(OpenGeoSys.BoundaryCondition):
+
     def __init__(self):
         OpenGeoSys.BoundaryCondition.__init__(self)
         self.t_check = 0
@@ -55,6 +56,7 @@ class BCSea_p_D(OpenGeoSys.BoundaryCondition):
 
 
 class BCSea_p_N(OpenGeoSys.BoundaryCondition):
+
     def __init__(self):
         OpenGeoSys.BoundaryCondition.__init__(self)
         self.t_check = 0
@@ -77,6 +79,7 @@ class BCSea_p_N(OpenGeoSys.BoundaryCondition):
 
 ## Dirichlet BCs
 class BCSea_C(OpenGeoSys.BoundaryCondition):
+
     def __init__(self):
         OpenGeoSys.BoundaryCondition.__init__(self)
         self.t_check = 0
@@ -95,6 +98,7 @@ class BCSea_C(OpenGeoSys.BoundaryCondition):
 
 
 class CellInformation:
+
     def __init__(self, source_mesh):
         meshReader = vtk.vtkXMLUnstructuredGridReader()
         meshReader.SetFileName(source_mesh)
@@ -121,6 +125,7 @@ def salinityContribution(cell_id, salinity):
 
 ##Source Terms
 class FluxToTrees(OpenGeoSys.SourceTerm):
+
     def getFlux(self, t, coords, primary_vars):
         salinity = primary_vars[1]
         cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])

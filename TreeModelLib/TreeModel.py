@@ -7,6 +7,7 @@
 
 
 class TreeModel:
+
     def getAbovegroundResources(self):
         return self.aboveground_resources
 

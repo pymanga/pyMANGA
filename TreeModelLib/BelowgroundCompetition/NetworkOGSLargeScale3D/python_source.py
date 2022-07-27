@@ -18,6 +18,7 @@ seaward_salinity = 0.035
 
 
 class CellInformation:
+
     def __init__(self, source_mesh):
         meshReader = vtk.vtkXMLUnstructuredGridReader()
         meshReader.SetFileName(source_mesh)
@@ -40,6 +41,7 @@ class CellInformation:
 
 ## Source Terms
 class FluxToTrees(OpenGeoSys.SourceTerm):
+
     def getFlux(self, t, coords, primary_vars):
         salinity = primary_vars[1]
         cell_id = cell_information.getCellId(coords[0], coords[1], coords[2])

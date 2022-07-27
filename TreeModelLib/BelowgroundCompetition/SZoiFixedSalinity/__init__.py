@@ -5,4 +5,4 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from. SZoiFixedSalinity import SZoiFixedSalinity
+from .SZoiFixedSalinity import SZoiFixedSalinity

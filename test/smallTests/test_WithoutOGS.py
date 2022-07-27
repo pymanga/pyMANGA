@@ -86,6 +86,7 @@ if xml:
         example_setups.append(filename)
 
         class MyTest(unittest.TestCase):
+
             def test1(self):
                 # Test of MANGA project file and the correct calculation of its
                 try:

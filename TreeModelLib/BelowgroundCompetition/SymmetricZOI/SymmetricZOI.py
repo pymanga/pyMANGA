@@ -43,12 +43,10 @@ class SymmetricZOI(TreeModel):
 
         if geometry["r_root"] < self.min_r_root:
             print("Error: mesh not fine enough for crown dimensions!")
-            print(
-                "Please refine mesh or increase initial root radius above " +
-                str(self.min_r_root) + "m !")
+            print("Please refine mesh or increase initial root radius above " +
+                  str(self.min_r_root) + "m !")
             exit()
-        if not ((self._x_1 < x < self._x_2) and
-                (self._y_1 < y < self._y_2)):
+        if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a tree is located outside of the
                              domain, where BC is defined. Please check domains 
                              in project file!!""")
@@ -84,8 +82,8 @@ class SymmetricZOI(TreeModel):
         n_trees = len(trees_present[0, 0, :])
         tree_wins = np.zeros(n_trees)
         for i in range(n_trees):
-            tree_wins[i] = np.sum(trees_present_reci[np.where(trees_present[
-                                                              :, :, i])])
+            tree_wins[i] = np.sum(trees_present_reci[np.where(
+                trees_present[:, :, i])])
 
         self.belowground_resources = tree_wins / tree_counts
 
@@ -116,7 +114,7 @@ class SymmetricZOI(TreeModel):
                 missing_tags.remove(tag)
             except ValueError:
                 print("WARNING: Tag " + tag +
-                    " not specified for below-ground grid initialisation!")
+                      " not specified for below-ground grid initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:
@@ -124,8 +122,7 @@ class SymmetricZOI(TreeModel):
             raise KeyError(
                 "Tag(s) " + string +
                 "are not given for below-ground grid initialisation in "
-                "project file."
-            )
+                "project file.")
         l_x = self._x_2 - self._x_1
         l_y = self._y_2 - self._y_1
         x_step = l_x / x_resolution

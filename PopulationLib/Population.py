@@ -10,6 +10,7 @@ from PopulationLib import TreeGroup
 
 
 class Population(TreeGroup):
+
     def __init__(self, args):
         self.tree_groups = {}
         self.trees = []

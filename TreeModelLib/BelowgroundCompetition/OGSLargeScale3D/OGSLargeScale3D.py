@@ -26,6 +26,9 @@ class OGSLargeScale3D(TreeModel):
         self._abiotic_drivers = args.find("abiotic_drivers")
         print("Initiate belowground competition of type " + case + ".")
         self._ogs_project_folder = args.find("ogs_project_folder").text.strip()
+        if not path.isabs(self._ogs_project_folder):
+            self._ogs_project_folder = \
+                path.join(path.abspath("./"), self._ogs_project_folder)
         self._ogs_project_file = args.find("ogs_project_file").text.strip()
         self._ogs_source_mesh = args.find("source_mesh").text.strip()
         self._tree = etree.parse(
@@ -390,6 +393,7 @@ class OGSLargeScale3D(TreeModel):
                               self._ogs_project_folder + " -l error") == 0):
                 raise ValueError("Ogs calculation failed!")
         elif platform.system() == "Linux":
+            print(self._ogs_project_folder)
             if not (os.system("singularity exec --home " +
                               self._ogs_project_folder + " " + bc_path +
                               "/OGS/container/ogs_container.sif ogs " +

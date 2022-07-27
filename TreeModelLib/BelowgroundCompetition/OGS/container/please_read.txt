@@ -1,0 +1,14 @@
+Using a linux-based system, you need to download and safe the ogs-container here. Please safe it with the filename "ogs_container.sif"
+The current container is stored at:
+
+https://cloudstore.zih.tu-dresden.de/index.php/s/BpW7bp8EzHTQ3cL
+
+Please also make sure singularity is installed.
+For installation run:
+
+
+> wget http://ftp.us.debian.org/debian/pool/main/s/singularity-container/singularity-container_3.10.1+ds1-1_amd64.deb
+> sudo apt install containernetworking-plugins squashfs-tools
+> sudo dpkg -i singularity-container_3.9.6+ds1-1_amd64.deb
+
+

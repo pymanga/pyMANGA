@@ -395,7 +395,12 @@ class OGSLargeScale3D(TreeModel):
                               "/OGS/container/ogs_container.sif ogs " +
                               current_project_file + " -o " +
                               self._ogs_project_folder + " -l error") == 0):
-                raise ValueError("Ogs calculation failed!")
+                raise ValueError("""Ogs calculation failed! Please check 
+                                 whether the ogs container is downloaded.
+                                 Please also make sure that singularity is 
+                                 installed. Instructions are provided in 
+                                 pyMANGA/TreeModelLib/BelowgroundCompetition/OGS/container
+                                 """)
         print("OGS-calculation done.")
         self.writePVDCollection()
 

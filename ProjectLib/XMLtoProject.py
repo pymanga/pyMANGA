@@ -28,8 +28,6 @@ class XMLtoProject(Project.MangaProject):
         self.addTreeTimeLoop()
         self.addVisualization()
         self.addTreeOutput()
-        self.addTerminalPrints()
-
         self.argsToProject()
 
     def readProjectFile(self):
@@ -66,13 +64,6 @@ class XMLtoProject(Project.MangaProject):
     #  project arguments.
     def addTreeOutput(self):
         self.args["tree_output"] = self.findChild(self.root, "tree_output")
-
-    def addTerminalPrints(self):
-        try:
-            self.args["terminal_prints"] = self.findChild(
-                self.root, "terminal_prints").text
-        except:
-            self.args["terminal_prints"] = False
 
     def findChild(self, parent, key):
         child = parent.find(key)

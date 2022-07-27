@@ -12,6 +12,7 @@ if __name__ == '__main__' and __package__ is None:
 
 
 class TreeGroup:
+
     def __init__(self, name, species):
         self.name = name
         self.species = species

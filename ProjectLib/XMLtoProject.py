@@ -14,6 +14,7 @@ from ProjectLib import Project
 
 ## Creates MangaProject defined in corresponding xml-file
 class XMLtoProject(Project.MangaProject):
+
     def __init__(self, **args):
         try:
             self.prjfile = args["xml_project_file"]

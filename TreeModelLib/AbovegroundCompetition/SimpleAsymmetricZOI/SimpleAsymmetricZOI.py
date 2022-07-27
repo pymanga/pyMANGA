@@ -37,8 +37,8 @@ class SimpleAsymmetricZOI(TreeModel):
                          (self.my_grid[1] - np.array(self.ye)[i])**2)**0.5)
             # As the geometry is "complex", my_height is position dependent
             my_height, canopy_bools = self.calculateHeightFromDistance(
-                    np.array([self.h_stem[i]]), np.array([self.r_crown[i]]),
-                    distance)
+                np.array([self.h_stem[i]]), np.array([self.r_crown[i]]),
+                distance)
             crown_areas[i] = np.sum(canopy_bools)
             indices = np.where(np.less(canopy_height, my_height))
             canopy_height[indices] = my_height[indices]
@@ -50,7 +50,7 @@ class SimpleAsymmetricZOI(TreeModel):
 
     ## This function calculates the tree height at a (mesh-)point depending
     #  on the distance from the tree position.\n
-    #  @param stem_height - stem height (shape: (n_trees))\n 
+    #  @param stem_height - stem height (shape: (n_trees))\n
     #  @param crown_radius - crown radius (shape: (n_trees))\n
     #  @param distance - distance from the stem position(shape: (x_res, y_res))
     def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
@@ -59,7 +59,7 @@ class SimpleAsymmetricZOI(TreeModel):
         height = np.zeros_like(distance)
         #Here, the curved top of the tree is considered..
         height[idx] = stem_height + (4 * crown_radius**2 -
-                                             distance[idx]**2)**0.5
+                                     distance[idx]**2)**0.5
         return height, bools
 
     ## This function reads x- and y-domain and mesh resolution
@@ -142,8 +142,7 @@ class SimpleAsymmetricZOI(TreeModel):
                 "Please refine mesh or increase initial crown radius above " +
                 str(self.min_r_crown) + "m !")
             exit()
-        if not ((self._x_1 < x < self._x_2) and 
-                (self._y_1 < y < self._y_2)):
+        if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a tree is located outside of the
                              domain, where AC is defined. Please check domains 
                              in project file!!""")

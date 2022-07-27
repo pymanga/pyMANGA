@@ -23,6 +23,7 @@ from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3D import \
 # SimpleNetwork, OGSLargeScale3DExternal, OGSLargeScale3D, TreeModel, object
 class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
                                      OGSLargeScale3DExternal):
+
     def __init__(self, args):
         # Load init method from NetworkOGSLargeScale3D, which includes init
         # method of OGSLargeScale3D and reading of network import parameters

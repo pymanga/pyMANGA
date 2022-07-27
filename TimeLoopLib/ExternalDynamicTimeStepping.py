@@ -8,6 +8,7 @@ from TimeLoopLib.TreeDynamicTimeStepping import TreeDynamicTimeStepping
 
 
 class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
+
     def __init__(self, project, t_0):
         super().__init__(project)
         ## Usability for OGS & check if BG concept works with OGS

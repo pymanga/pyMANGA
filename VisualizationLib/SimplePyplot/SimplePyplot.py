@@ -13,6 +13,7 @@ from VisualizationLib.Visualization import Visualization
 
 
 class SimplePyplot(Visualization):
+
     def __init__(self, args):
         self.case = args.find("type").text
 

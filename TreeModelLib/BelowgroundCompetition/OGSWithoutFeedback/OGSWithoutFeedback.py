@@ -18,6 +18,7 @@ import os
 #  @date: 2019 - Today
 # MRO: OGSWithoutFeedback, OGSLargeScale3D, TreeModel, object
 class OGSWithoutFeedback(OGSLargeScale3D):
+
     def __init__(self, args):
         super().__init__(args)
         if args.find("use_old_ogs_results") is not None:

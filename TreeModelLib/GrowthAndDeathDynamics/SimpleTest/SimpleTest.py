@@ -8,6 +8,7 @@ from TreeModelLib import TreeModel
 
 
 class SimpleTest(TreeModel):
+
     def __init__(self, args):
         ## SimpleTest case for death and growth dynamics. This case is
         #  defined to test the passing of information between the instances.

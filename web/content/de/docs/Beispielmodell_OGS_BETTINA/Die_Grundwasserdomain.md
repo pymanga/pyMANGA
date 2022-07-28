@@ -65,6 +65,25 @@ Druck und Bodensalinität (in ppt) werden ebenfalls durch ortsabhängige Funktio
 	def c(point):
 	    return .035      
 
+Für später ist es noch notwendig eine Funktion zu definieren, die das Druck und das Konzentrationsfeld der Domain hinzufügt:
+
+	def addCandPtoMesh(mesh):
+	    points = mesh.GetPoints()
+	    # Preparing lists for initial conditions
+	    p_ini = vtk.vtkDoubleArray()
+	    p_ini.SetName("p_ini")
+	    c_ini = vtk.vtkDoubleArray()
+	    c_ini.SetName("c_ini")
+	    # Calculating initial conditions
+	    for point in range(points.GetNumberOfPoints()):
+		point = points.GetPoint(point)
+		c_ini.InsertNextTuple1(c(point))
+		p_ini.InsertNextTuple1(-(1000 * 9.81 *
+		                       (point[2] - transectElevation(x=point[0], m=1e-3))))
+	    mesh.GetPointData().AddArray(p_ini)
+	    mesh.GetPointData().AddArray(c_ini)
+
+
 Außerdem kann der Folgende Block verwendet werden, um ein quaderförmiges Gitter zu erstellen.
 Das Gitter ist in drei Schichten mit den Schichtdicken *l_z_top*, *l_z_bottom* und *l_z_mid* unterteilt.
 Für jede dieser Schichten kann eine vertikale Auflösung angegeben werden (*num_top*, *num_bottom*, *num_mid*).
@@ -74,7 +93,7 @@ Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgege
 *l_x* definiert die Länge des transects und *lcar* die charackteristische Länge des Gitters.
 
 			
-	## Generates a mesh for given parameters
+	# Generates a mesh for given parameters
 	#  @param z: shift in z-direction
 	#  @param l_z_top: depth of the top layer (if only one layer created, value
 	#  defines the depth)
@@ -91,6 +110,8 @@ Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgege
 	#  @param lcar: characteristic lengthscale in x-direction
 	#  @param points_in_y: resolution in y-direction
 	#  @param transect_elevation: Function, which returns a z-value for given x-val
+
+
 	def meshGen(z,
 		    l_z_top,
 		    l_z_bottom=0,
@@ -115,44 +136,47 @@ Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgege
 	    line_loops = []
 
 	    with pygmsh.occ.Geometry() as geom:
-	    	geom.characteristic_length_min = lcar / 20 
-	    	geom.characteristic_length_max = lcar * 20
+		geom.characteristic_length_min = lcar / 20
+		geom.characteristic_length_max = lcar * 20
 
-	    	for i in range(n_surfaces):
-	    	    # Creating the points as they are supposed to be later
-	    	    p1 = [x_array[i], 0., transect_elevation(x_array[i], m=m)]
-	    	    p2 = [x_array[i], y_extend, transect_elevation(x_array[i], m=m)]
-	    	    p3 = [x_array[i + 1], y_extend, transect_elevation(x_array[i + 1], m=m)]
-	    	    p4 = [x_array[i + 1], 0., transect_elevation(x_array[i + 1], m=m)]
-	    	    p1[2] = p1[2] + z
-	    	    p2[2] = p2[2] + z
-	    	    p2[1] = lcar * (points_in_y - 1)
-	    	    p3[2] = p3[2] + z
-	    	    p3[1] = lcar * (points_in_y - 1)
-	    	    p4[2] = p4[2] + z
-	    	    p1 = geom.add_point(p1, lcar)
-	    	    p2 = geom.add_point(p2, lcar)
-	    	    p3 = geom.add_point(p3, lcar)
-	    	    p4 = geom.add_point(p4, lcar)
-	    	    
-	    	    points = [p1,p2,p3,p4]
-	    
-	    	    lines = []
-	    	    lines.append(geom.add_line(points[0], points[3]))
-	    	    lines.append(geom.add_line(points[3], points[2]))
-	    	    lines.append(geom.add_line(points[2], points[1]))
-	    	    lines.append(geom.add_line(points[1], points[0]))
-	    
-	    	    line_loop = geom.add_curve_loop(lines)
-	    	    surface = geom.add_plane_surface(line_loop)
-	    	    line_loops.append(line_loop)
-	    	    surfaces.append(surface)
-	    
-	    	 # Extrude set of surfaces in third dimension (z)
-	    	surfaces_final = []
-	    	for surface, line_loop in zip(surfaces, line_loops):
+		for i in range(n_surfaces):
+		    # Creating the points as they are supposed to be later
+		    p1 = [x_array[i], 0., transect_elevation(x_array[i], m=m)]
+		    p2 = [x_array[i], y_extend,
+		          transect_elevation(x_array[i], m=m)]
+		    p3 = [x_array[i + 1], y_extend,
+		          transect_elevation(x_array[i + 1], m=m)]
+		    p4 = [x_array[i + 1], 0.,
+		          transect_elevation(x_array[i + 1], m=m)]
+		    p1[2] = p1[2] + z
+		    p2[2] = p2[2] + z
+		    p2[1] = lcar * (points_in_y - 1)
+		    p3[2] = p3[2] + z
+		    p3[1] = lcar * (points_in_y - 1)
+		    p4[2] = p4[2] + z
+		    p1 = geom.add_point(p1, lcar)
+		    p2 = geom.add_point(p2, lcar)
+		    p3 = geom.add_point(p3, lcar)
+		    p4 = geom.add_point(p4, lcar)
+
+		    points = [p1, p2, p3, p4]
+
+		    lines = []
+		    lines.append(geom.add_line(points[0], points[3]))
+		    lines.append(geom.add_line(points[3], points[2]))
+		    lines.append(geom.add_line(points[2], points[1]))
+		    lines.append(geom.add_line(points[1], points[0]))
+
+		    line_loop = geom.add_curve_loop(lines)
+		    surface = geom.add_plane_surface(line_loop)
+		    line_loops.append(line_loop)
+		    surfaces.append(surface)
+
+		# Extrude set of surfaces in third dimension (z)
+		surfaces_final = []
+		for surface, line_loop in zip(surfaces, line_loops):
 		    geom.extrude(surface, [0, 0, -l_z_top],
-		                 num_layers=num_top)  #, recombine = True)
+		                 num_layers=num_top)  # , recombine = True)
 		    surfaces_final.append(surface)
 		    # If two layers, varying resolution can be used for the two layers
 		    if two_layers:
@@ -161,31 +185,33 @@ Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgege
 		        geom.extrude(surface21, [0, 0, -l_z_bottom],
 		                     num_layers=num_bottom)
 		        surfaces_final.append(surface21)
-		    # If three layers, varying resolution can be used for the three layers
+		    # If three layers, varying resolution can be used for the three
+		    # layers
 		    if three_layers:
 		        surface21 = geom.add_plane_surface(line_loop)
 		        geom.translate(surface21, [0, 0, -l_z_top])
-		        geom.extrude(surface21, [0, 0, -l_z_mid], num_layers=num_mid)
+		        geom.extrude(
+		            surface21, [0, 0, -l_z_mid], num_layers=num_mid)
 		        surfaces_final.append(surface21)
 		        surface31 = geom.add_plane_surface(line_loop)
 		        geom.translate(surface31, [0, 0, -l_z_top - l_z_mid])
 		        geom.extrude(surface31, [0, 0, -l_z_bottom],
 		                     num_layers=num_bottom)
 		        surfaces_final.append(surface31)
-	    	# Combining all quaders (extruded surfaces)
-	    	geom.boolean_union(surfaces_final)
-	    	mesh = geom.generate_mesh()
+		# Combining all quaders (extruded surfaces)
+		geom.boolean_union(surfaces_final)
+		mesh = geom.generate_mesh()
 
-	    	# Rescaling y-coordinates of all points
-	    	points = mesh.points
-	    	for point, i in zip(points, range(len(points))):
-	    	    if point[1] > 0:
-	    	        point[1] = point[1] / (lcar * (points_in_y - 1)) * l_y
-	    	        points[i] = point
-	    	# Updating points
-	    	mesh.points = points
+		# Rescaling y-coordinates of all points
+		points = mesh.points
+		for point, i in zip(points, range(len(points))):
+		    if point[1] > 0:
+		        point[1] = point[1] / (lcar * (points_in_y - 1)) * l_y
+		        points[i] = point
+		# Updating points
+		mesh.points = points
 
-	    	return mesh
+		return mesh
 
 Nun geht es an das eigentliche erstellen des Meshes.
 Als erstes werden die Punkte unseres Meshes über die zuvor programmierte Funktion erzeugt.
@@ -213,7 +239,6 @@ Für später werden diese Punkte abgespeichert.
 Nun wird das meshio script, welches von pygmsh erzeugt wurde nochmals als vtk-grid erzeugt.
 Dabei werden auch gleich die bulk-node-ids als Eigenschaftsvektor abgespeichert.
 
-	bulk_name = "example_model_domain"
 	bulk = vtk.vtkUnstructuredGrid()
 	bulk_points = vtk.vtkPoints()
 	propertyvector = vtk.vtkDataArray.CreateDataArray(
@@ -251,20 +276,8 @@ Dazu gehört das Durchlässigkeitsfeld des Bodens und die Eigenschaft der Zellen
 Es fehlen noch das initiale Druckfeld und das initiale Konzentrationsfeld.
 Danach kann das bulk-mesh gespeichert werden.
 
-	# Extracting points in correct format (not from pygmsh)
-	points = bulk.GetPoints()
-	# Preparing lists for initial conditions
-	p_ini = vtk.vtkDoubleArray()
-	p_ini.SetName("p_ini")
-	c_ini = vtk.vtkDoubleArray()
-	c_ini.SetName("c_ini")
-	# Calculating initial conditions
-	for point in range(points.GetNumberOfPoints()):
-	    point = points.GetPoint(point)
-	    c_ini.InsertNextTuple1(c(point))
-	    p_ini.InsertNextTuple1(-(1000 * 9.81 * (point[2] - transectElevation(x=point[0],m=1e-3))))
-	bulk.GetPointData().AddArray(p_ini)
-	bulk.GetPointData().AddArray(c_ini)
+	# Adding pressure and concentration field to mesh
+	addCandPtoMesh(bulk)
 	# Output of bulk-mesh
 	writer = vtk.vtkXMLUnstructuredGridWriter()
 	writer.SetFileName("my_first_model.vtu")
@@ -272,6 +285,51 @@ Danach kann das bulk-mesh gespeichert werden.
 	writer.Write()
 
 Jetzt ist die Hauptdomain fertig und mit Eigenschaften belegt.
+Als nächstes wird der Layer gesampled, aus dem die Bäume Wasser entnehmen.
+Dafür wir wieder unser zuvor definiertes meshGen verwendet.
+Um die Eigenschaften, die wir der Hauptdomain zugewiesen haben, zu kopieren, wird der ResampleWithDataset Filter von vtk verwendet.
+
+	# Generating source mesh
+	sourcey = meshGen(z=-.4,
+		          l_z_top=0.4,
+		          l_z_bottom=0,
+		          num_top=1,
+		          num_bottom=0,
+		          two_layers=False,
+		          three_layers=False,
+		          m=1e-3,
+		          l_x=30,
+		          y_extend=10,
+		          points_in_y=10,
+		          lcar=1)
+	source = vtk.vtkUnstructuredGrid()
+	source_points = vtk.vtkPoints()
+	for i in range(len(sourcey.points)):
+	    point = sourcey.points[i]
+	    source_points.InsertNextPoint(point)
+	source.SetPoints(source_points)
+
+	source_cells = vtk.vtkCellArray()
+	for cell_point_ids in sourcey.cells[2].data:
+	    cell = vtk.vtkHexahedron()
+	    for i in range(4):
+		cell.GetPointIds().SetId(i, cell_point_ids[i])
+	    source_cells.InsertNextCell(cell)
+	source.SetCells(10, source_cells)
+
+	resample_filter = vtk.vtkResampleWithDataSet()
+	resample_filter.SetSourceData(bulk)
+	resample_filter.SetInputData(source)
+	resample_filter.Update()
+	source = resample_filter.GetOutput()
+
+	# Output of source-mesh
+	source_writer = vtk.vtkXMLUnstructuredGridWriter()
+	source_writer.SetFileName("my_first_source.vtu")
+	source_writer.SetInputData(source)
+	source_writer.Write()
+
+Am Ende fehlen nur noch die Boundary meshes.
 Zum extrahieren des Boundary Meshes kann die ExtractSurface Utility aus dem opengeosys-Projekt verwendet werden.
 Sollte ogs unter Ubuntu betrieben werden funktioniert das so:
 

@@ -271,3 +271,13 @@ Danach kann das bulk-mesh gespeichert werden.
 	writer.SetInputData(bulk)
 	writer.Write()
 
+Jetzt ist die Hauptdomain fertig und mit Eigenschaften belegt.
+Zum extrahieren des Boundary Meshes kann die ExtractSurface Utility aus dem opengeosys-Projekt verwendet werden.
+Sollte ogs unter Ubuntu betrieben werden funktioniert das so:
+
+	ogs_container_string = "singularity exec ABSOLUTER/PFAD/ZU/PYMANGA/pyMANGA/TreeModelLib/BelowgroundCompetition/OGS/container/ogs_container.sif "
+
+	subprocess.call(ogs_container_string + "ExtractSurface -x -1 -y 0 -z 0 -a 0. -i my_first_model.vtu -o right_boundary.vtu", shell=True)
+	subprocess.call(ogs_container_string + "ExtractSurface -x 1 -y 0 -z 0 -a 0. -i my_first_model.vtu -o left_boundary.vtu", shell=True)
+	subprocess.call(ogs_container_string + "ExtractSurface -x 0 -y 0 -z -1 -a 30. -i my_first_model.vtu -o top_boundary.vtu", shell=True)
+

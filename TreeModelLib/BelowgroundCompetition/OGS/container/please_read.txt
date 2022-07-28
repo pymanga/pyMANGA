@@ -1,14 +1,21 @@
-Using a linux-based system, you need to download and safe the ogs-container here. Please safe it with the filename "ogs_container.sif"
+Using a linux-based system, you need to download and safe the ogs-container here.
+Please safe it with the filename "ogs_container.sif" in this directory (pyMANGA/TreeModelLib/BelowgroundCompetition/OGS/container).
 The current container is stored at:
 
 https://cloudstore.zih.tu-dresden.de/index.php/s/BpW7bp8EzHTQ3cL
 
 Please also make sure singularity is installed.
-For installation run:
+Note that it is important to get singularity >= 3.x
+In order to install singularity check the following page for available versions.
 
+https://github.com/sylabs/singularity/releases
 
-> wget http://ftp.us.debian.org/debian/pool/main/s/singularity-container/singularity-container_3.10.1+ds1-1_amd64.deb
-> sudo apt install containernetworking-plugins squashfs-tools
-> sudo dpkg -i singularity-container_3.9.6+ds1-1_amd64.deb
+SINGULARITY.XX.deb is a namespace for the release for your system.
+link/to/package/
+With right click, the download link to the debian package should be copied (e.g. link/to/package/SINGULARITY.XX.deb=https://github.com/sylabs/singularity/releases/download/v3.10.2/singularity-ce_3.10.2-focal_amd64.deb for ubuntu 22.04-jammy jellyfish).
 
+Now you need to download and install the respective release using:
+
+> wget link/to/package/SINGULARITY.XX.deb
+> sudo apt install ./SINGULARITY.XX.deb
 

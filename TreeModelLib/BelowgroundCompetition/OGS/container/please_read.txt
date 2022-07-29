@@ -12,7 +12,7 @@ https://github.com/sylabs/singularity/releases
 
 SINGULARITY.XX.deb is a namespace for the release for your system.
 link/to/package/
-With right click, the download link to the debian package should be copied (e.g. link/to/package/SINGULARITY.XX.deb=https://github.com/sylabs/singularity/releases/download/v3.10.2/singularity-ce_3.10.2-focal_amd64.deb for ubuntu 22.04-jammy jellyfish).
+With right click, the download link to the debian package should be copied (e.g. link/to/package/SINGULARITY.XX.deb=https://github.com/sylabs/singularity/releases/download/v3.10.2/singularity-ce_3.10.2-jammy_amd64.deb for ubuntu 22.04-jammy jellyfish).
 
 Now you need to download and install the respective release using:
 

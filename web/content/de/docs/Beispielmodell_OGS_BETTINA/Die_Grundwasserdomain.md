@@ -63,7 +63,7 @@ Druck und Bodensalinität (in ppt) werden ebenfalls durch ortsabhängige Funktio
 
 	## Concentration at a given point. Here, c_ini is constant
 	def c(point):
-	    return .035      
+	    return .035
 
 Für später ist es noch notwendig eine Funktion zu definieren, die das Druck und das Konzentrationsfeld der Domain hinzufügt:
 
@@ -79,7 +79,9 @@ Für später ist es noch notwendig eine Funktion zu definieren, die das Druck un
 		point = points.GetPoint(point)
 		c_ini.InsertNextTuple1(c(point))
 		p_ini.InsertNextTuple1(-(1000 * 9.81 *
-		                       (point[2] - transectElevation(x=point[0], m=1e-3))))
+		                       (point[2] -
+		                        transectElevation(x=point[0],
+		                                          m=hydraulic_gradient))))
 	    mesh.GetPointData().AddArray(p_ini)
 	    mesh.GetPointData().AddArray(c_ini)
 
@@ -219,20 +221,21 @@ Für später werden diese Punkte abgespeichert.
 
 
 	# Generating bulk mesh
+	hydraulic_gradient = 1e-3
 	bulky = meshGen(z=0,
-		    l_z_top=0.4,
-		    l_z_bottom=1.8,
-		    num_top=3,
-		    num_bottom=1,
-		    l_z_mid=.8,
-		    num_mid=2,
-		    two_layers=False,
-		    three_layers=True,
-		    m=1e-3,
-		    l_x=30,
-		    y_extend=10,
-		    points_in_y=10,
-		    lcar=1)
+		        l_z_top=0.4,
+		        l_z_bottom=1.8,
+		        num_top=3,
+		        num_bottom=1,
+		        l_z_mid=.8,
+		        num_mid=2,
+		        two_layers=False,
+		        three_layers=True,
+		        m=hydraulic_gradient,
+		        l_x=30,
+		        y_extend=10,
+		        points_in_y=10,
+		        lcar=1)
 	# Extraction of Bulk Mesh points
 	points = (bulky.points)
     
@@ -297,7 +300,7 @@ Um die Eigenschaften, die wir der Hauptdomain zugewiesen haben, zu kopieren, wir
 		          num_bottom=0,
 		          two_layers=False,
 		          three_layers=False,
-		          m=1e-3,
+		          m=hydraulic_gradient,
 		          l_x=30,
 		          y_extend=10,
 		          points_in_y=10,

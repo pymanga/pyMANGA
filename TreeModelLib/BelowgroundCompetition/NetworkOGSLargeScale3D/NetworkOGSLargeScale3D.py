@@ -113,7 +113,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         self.belowground_resources = SimpleNetwork.getBGfactor(self)
 
         # Update network parameters
-        super().updateNetworkParametersForGrowthAndDeath(self)
+        super().updateNetworkParametersForGrowthAndDeath()
 
         # OGS stuff - update ogs parameters
         self.renameParameters()

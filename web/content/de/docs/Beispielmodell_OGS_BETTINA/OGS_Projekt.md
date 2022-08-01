@@ -288,28 +288,30 @@ Der Quellterm muss lediglich in der OGS-Projektdatei einmal definiert werden:
 Am Ende der Projektdatei müssen noch die Parameter für die numerischen Löser festgelegt werden.
 Im Allgemeinen bedürfen diese keiner Anpassung mehr.
 
-    <nonlinear_solvers>
-        <nonlinear_solver>
-            <name>basic_picard</name>
-            <type>Picard</type>
-            <max_iter>20</max_iter>
-            <linear_solver>general_linear_solver</linear_solver>
-        </nonlinear_solver>
-    </nonlinear_solvers>
-    <linear_solvers>
-        <linear_solver>
-            <name>general_linear_solver</name>
-            <lis>-i bicgstab -p ilut -tol 1e-12 -maxiter 20000</lis>
-            <eigen>
-                <solver_type>BiCGSTAB</solver_type>
-                <precon_type>DIAGONAL</precon_type>
-                <max_iteration_step>10000</max_iteration_step>
-                <error_tolerance>1e-12</error_tolerance>
-            </eigen>
-            <petsc>
-                <prefix>hc</prefix>
-                <parameters>-hc_ksp_type bcgs -hc_pc_type bjacobi -hc_ksp_rtol 1e-12 -hc_ksp_max_it 20000</parameters>
-            </petsc>
-        </linear_solver>
-    </linear_solvers>
-</OpenGeoSysProject>
+	    <nonlinear_solvers>
+		<nonlinear_solver>
+		    <name>basic_picard</name>
+		    <type>Picard</type>
+		    <max_iter>20</max_iter>
+		    <linear_solver>general_linear_solver</linear_solver>
+		</nonlinear_solver>
+	    </nonlinear_solvers>
+	    <linear_solvers>
+		<linear_solver>
+		    <name>general_linear_solver</name>
+		    <lis>-i bicgstab -p ilut -tol 1e-12 -maxiter 20000</lis>
+		    <eigen>
+		        <solver_type>BiCGSTAB</solver_type>
+		        <precon_type>DIAGONAL</precon_type>
+		        <max_iteration_step>10000</max_iteration_step>
+		        <error_tolerance>1e-12</error_tolerance>
+		    </eigen>
+		    <petsc>
+		        <prefix>hc</prefix>
+		        <parameters>-hc_ksp_type bcgs -hc_pc_type bjacobi -hc_ksp_rtol 1e-12 -hc_ksp_max_it 20000</parameters>
+		    </petsc>
+		</linear_solver>
+	    </linear_solvers>
+	</OpenGeoSysProject>
+
+

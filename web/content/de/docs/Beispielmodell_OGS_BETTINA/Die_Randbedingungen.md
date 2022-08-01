@@ -86,8 +86,9 @@ Für erste eigene Simulationen stellen wir den Tidenhub aus.
 	
 Nun gilt es nurnoch die Randbedingungen als Objekte für OpenGeoSys zu definieren:
 
-bc_tide_p = BCSea_p_D()
-bc_land_p = BCLand_p_D()
-bc_tide_C = BCSea_C()
-bc_land_C = BCLand_C()
+	bc_tide_p = BCSea_p_D()
+	bc_land_p = BCLand_p_D()
+	bc_tide_C = BCSea_C()
+	bc_land_C = BCLand_C()
 
+Der Rest des Randbedingungsscriptes wird automatisch hinzugefügt.

@@ -21,9 +21,9 @@ import platform
 class OGSLargeScale3D(TreeModel):
 
     def __init__(self, args):
-        case = args.find("type").text
+        self.case = args.find("type").text
         self._abiotic_drivers = args.find("abiotic_drivers")
-        print("Initiate belowground competition of type " + case + ".")
+        print("Initiate belowground competition of type " + self.case + ".")
         self._ogs_project_folder = args.find("ogs_project_folder").text.strip()
         if not path.isabs(self._ogs_project_folder):
             self._ogs_project_folder = \
@@ -284,7 +284,7 @@ class OGSLargeScale3D(TreeModel):
     # directory of the concept if no external source file is provided.
     def getSourceDir(self):
         return path.join(path.dirname(path.abspath(__file__)),
-                         "python_source.py")
+                         "python_source.txt")
 
     # This function copies the python script which defines BC and source terms
     #  to the ogs project folder.
@@ -294,10 +294,18 @@ class OGSLargeScale3D(TreeModel):
                 path.join(self._ogs_project_folder,
                           self._external_python_script), "r")
         else:
-            source_dir = self.getSourceDir()
-            source = open(source_dir, "r")
+            raise KeyError("No python boundary conditions have been defined.")
+
         target = open(path.join(self._ogs_project_folder, "python_source.py"),
                       "w")
+
+        for line in source.readlines():
+            target.write(line)
+        self.completePythonScript(target)
+        source.close()
+        target.close()
+
+    def completePythonScript(self, target):
 
         # OGS
         constants_filename = path.join(self._ogs_project_folder,
@@ -313,47 +321,41 @@ class OGSLargeScale3D(TreeModel):
                                     "cumsum_salinity.npy")
         calls_filename = path.join(self._ogs_project_folder,
                                    "calls_in_last_timestep.npy")
-        # Iterates through each line in the python_source.py to replace
-        # directories
-        for line in source.readlines():
-            if self._abiotic_drivers:
-                for abiotic_factor in self._abiotic_drivers.iterchildren():
-                    if (abiotic_factor.tag + " = ") in line:
-                        line = (abiotic_factor.tag + " = " +
-                                abiotic_factor.text + "\n")
 
-            # OGS
-            if "constant_contributions.npy" in line:
-                line = line.replace(line,
-                                    "constant_contributions = np.load(r'" +
-                                    constants_filename + "')\n")
-            if "salinity_prefactors.npy" in line:
-                line = line.replace(line,
-                                    "salinity_prefactors = np.load(r'" +
-                                    prefactors_filename + "')\n")
+        if self._abiotic_drivers:
+            for abiotic_factor in self._abiotic_drivers.iterchildren():
+                line = (abiotic_factor.tag + " = " +
+                        abiotic_factor.text + "\n")
+                target.write(line)
+
+        # OGS
+        target.write(
+            "constant_contributions = np.load(r'" +
+            constants_filename + "')\n")
+        target.write(
+            "salinity_prefactors = np.load(r'" +
+            prefactors_filename + "')\n")
+        if "Network" in self.case:
             # Network
-            if "complete_contributions.npy" in line:
-                line = line.replace(line,
-                                    "complete_contributions = np.load(r'" +
-                                    complete_filename + "')\n")
-            # Boths
-            if "cumsum_salinity.npy" in line:
-                line = line.replace(
-                    line, "cumsum_savename = r'" + cumsum_filename +
-                    "'\n")
-            if "calls_in_last_timestep.npy" in line:
-                line = line.replace(line, "calls_savename = r'" +
-                                    calls_filename + "'\n")
-            if "CellInformation(source_mesh)" in line:
-                line = line.replace(
-                    "source_mesh",
-                    "r'" + path.join(self._ogs_project_folder,
-                                    self._source_mesh_name) + "'")
-            if "t_write = t_end" in line:
-                line = line.replace("t_end", str(self._t_end))
+            target.write(
+                "complete_contributions = np.load(r'" +
+                complete_filename + "')\n")
+        # Boths
+        target.write(
+            "cumsum_savename = r'" + cumsum_filename +
+            "'\n")
+        target.write("calls_savename = r'" +
+                     calls_filename + "'\n")
+
+        target.write("t_write = " + str(self._t_end))
+        rest_of_script = open(self.getSourceDir(), "r")
+        for line in rest_of_script.readlines():
             target.write(line)
-        source.close()
-        target.close()
+        rest_of_script.close()
+        joined_source_mesh_name = "'" + path.join(self._ogs_project_folder,
+                                                  self._source_mesh_name) + "'"
+        target.write("cell_information = CellInformation(" +
+                     joined_source_mesh_name+")")
 
     # This function writes a pvd collection of the belowground grids at the
     #  tree model timesteps
@@ -406,10 +408,10 @@ class OGSLargeScale3D(TreeModel):
                               "/OGS/container/ogs_container.sif ogs " +
                               current_project_file + " -o " +
                               self._ogs_project_folder + " -l error") == 0):
-                raise ValueError("""Ogs calculation failed! Please check 
+                raise ValueError("""Ogs calculation failed! Please check
                                  whether the ogs container is downloaded.
-                                 Please also make sure that singularity is 
-                                 installed. Instructions are provided in 
+                                 Please also make sure that singularity is
+                                 installed. Instructions are provided in
                                  pyMANGA/TreeModelLib/BelowgroundCompetition/OGS/container
                                  """)
         print("OGS-calculation done.")

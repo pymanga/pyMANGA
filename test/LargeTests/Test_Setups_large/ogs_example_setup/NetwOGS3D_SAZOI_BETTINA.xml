@@ -24,6 +24,7 @@
             <abiotic_drivers>
                 <seaward_salinity>0.035</seaward_salinity>
             </abiotic_drivers>
+            <python_script>python_script.py</python_script>
         </belowground_competition>
         <tree_growth_and_death>
             <type>NetworkBettina</type>

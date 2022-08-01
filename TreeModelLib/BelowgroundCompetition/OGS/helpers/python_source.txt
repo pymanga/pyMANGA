@@ -1,0 +1,65 @@
+
+
+def constantContribution(cell_id):
+    return constant_contributions[cell_id]
+
+
+def salinityContribution(cell_id, salinity):
+    return salinity_prefactors[cell_id] * salinity
+    
+def completeContribution(cell_id, salinity):
+    if complete_contributions is not None:
+        return complete_contributions[cell_id]
+    else:
+        return (constantContribution(cell_id) + salinityContribution(
+            cell_id, salinity))
+        
+
+# Source Term Helper
+class SourceTermHelper(OpenGeoSys.BoundaryCondition):
+    def __init__(self):
+        super().__init__()
+        self.first_node = None
+            
+    def getDirichletBCValue(self, t, coords, node_id, primary_vars):
+        if self.first_node is None:
+            self.first_node = node_id
+        if node_id == self.first_node:
+            cell_information.setSourceCounter(0)
+        return (False, 0)
+
+
+# Source Terms
+class FluxToTrees(OpenGeoSys.SourceTerm):
+    def __init__(self):
+        super().__init__()
+        self.t = -999999
+        self.cumsum_salinity = np.zeros(cell_information.getNCells())
+        self.calls = np.zeros(cell_information.getNCells())
+
+    def getFlux(self, t, coords, primary_vars):
+        old_count = cell_information.getSourceCounter()
+        new_count = old_count + 1
+        cell_id = cell_information.getCellIdAtIntPoint(coords[0], coords[1], coords[2],
+                                             old_count)
+
+        cell_information.setSourceCounter(new_count)
+
+        salinity = primary_vars[1]
+        if t > self.t:
+            self.t = t
+            self.calls[cell_id] += 1
+            self.cumsum_salinity[cell_id] += salinity
+            if new_count > cell_information.getHighestNode():
+              cell_information.setHighestNode(new_count)
+            if t == t_write:
+                if cell_information.getHighestNode() == new_count:
+                    np.save(cumsum_savename, self.cumsum_salinity)
+                    np.save(calls_savename, self.calls)
+        positive_flux = completeContribution(cell_id, salinity)
+        Jac = [0.0, 0.0]
+        return (-positive_flux, Jac)
+
+flux_to_trees = FluxToTrees()
+bc_source_helper = SourceTermHelper()
+

@@ -26,6 +26,10 @@ class CellInformation:
         self._cell_finder.LazyEvaluationOn()
         cells = self._grid.GetCellData()
         self._volumes = cells.GetArray("Volume")
+        self._source_counter = None
+        self._highest_node = -9999
+        self._cell_ids = np.zeros((0), dtype=int)
+        self._n_cells = self._grid.GetNumberOfCells()
 
     ## Lookup funktion for cell_id
     #  @param x: x-coordinate
@@ -34,6 +38,21 @@ class CellInformation:
     #  @return int giving cell id
     def getCellId(self, x, y, z):
         cell_id = self._cell_finder.FindCell([x, y, z])
+        return cell_id
+
+    ## Alternative lookup funktion for cell_id
+    #  @param x: x-coordinate
+    #  @param y: y-coordinate
+    #  @param z: z-coordinate
+    #  @param int_point: number of integration point
+    #  @return int giving cell id
+    def getCellIdAtIntPoint(self, x, y, z, int_point):
+        if len(self._cell_ids) > int_point:
+            cell_id = self._cell_ids[int_point]
+        else:
+            cell_id = self._cell_finder.FindCell([x, y, z])
+            self._cell_ids = np.concatenate((self._cell_ids,
+                                             np.array([cell_id])))
         return cell_id
 
     ## This function returns all the cell ids of the grid at a given x,y-
@@ -45,7 +64,6 @@ class CellInformation:
     #                 within which the cell finder locates cells
     def getCellIDsAtXY(self, x, y, radius):
         bounds = self._grid.GetBounds()
-        # TODO: find better solution
         # If the mesh is in 2D and in the x-y plane, it is probably so as OGS
         # only processes 2D meshes in the x-y- plane. Hence, a rotation is per-
         # formed here.
@@ -53,7 +71,7 @@ class CellInformation:
             p1 = [x, bounds[2], bounds[-1]]
             p2 = [x, bounds[3], bounds[-2]]
             print("""WARNING! pyMANGA is transforming the subsurface mesh in a
-                  vertical slice. In case one would like to provide a 2d 
+                  vertical slice. In case one would like to provide a 2d
                   horizontal mesh, please review code! """)
         else:
             # Check if the mesh is 2D in
@@ -77,3 +95,28 @@ class CellInformation:
     #  @return np.array of shape = (len(cells))
     def getCellVolumes(self):
         return self._volumes
+
+    ## Helper for ogs-python-source terms
+    #  @param value: sets a counter for source nodes
+    def setSourceCounter(self, value):
+        self._source_counter = value
+
+    ## Helper for ogs-python-source terms
+    #  @return int value of internal counter for source nodes
+    def getSourceCounter(self):
+        return self._source_counter
+
+    ## Helper for ogs-python-source terms
+    #  @param value: sets a counter to identify highest node
+    def setHighestNode(self, value):
+        self._highest_node = value
+
+    ## Helper for ogs-python-source terms
+    #  @return int value of internal counter for highest node
+    def getHighestNode(self):
+        return self._highest_node
+
+    ## Helpter for ogs-python-source terms
+    #  @return number of cells in the source mesh
+    def getNCells(self):
+        return self._n_cells

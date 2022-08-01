@@ -26,9 +26,9 @@ Die zuvor definierte python Randbedingung wird unter dem Namen *python_script* e
 		<belowground_competition>
 		    <type>OGSLargeScale3D</type>
 		    <ogs_project_folder>path/to/ogs/project</ogs_project_folder>
-		    <ogs_project_file>testmodel.prj</ogs_project_file>
-		    <source_mesh>source_domain.vtu</source_mesh>
-		    <bulk_mesh>testbulk.vtu</bulk_mesh>
+		    <ogs_project_file>MODELNAME.prj</ogs_project_file>
+		    <source_mesh>my_first_source.vtu</source_mesh>
+		    <bulk_mesh>my_first_model.vtu</bulk_mesh>
 		    <delta_t_ogs>1000000</delta_t_ogs>
 		    <abiotic_drivers>
 		        <seaward_salinity>0.035</seaward_salinity>
@@ -53,16 +53,16 @@ Für das erste Beispiel wird eine Initiale Baumverteilung in das Programm herein
 		</group>
 	    </initial_population>
 	    <tree_time_loop>
-		<type>Simple</type>
-		<t_start>0</t_start>
-		<t_end> 3e9 </t_end> <!-- ~ 95 a-->
-		<delta_t> 3e6</delta_t> <!-- ~ 35 d-->
+	    	<type>Simple</type>
+		    <t_start>0</t_start>
+	    	<t_end> 3e9 </t_end> <!-- ~ 95 a-->
+    		<delta_t> 3e6</delta_t> <!-- ~ 35 d-->
 	    </tree_time_loop>
 	    <visualization>
-		<type>NONE</type>
+	    	<type>NONE</type>
 	    </visualization>
 	    <tree_output>
-		<type>NONE</type>
+	    	<type>NONE</type>
 	    </tree_output>
 	</MangaProject>
 

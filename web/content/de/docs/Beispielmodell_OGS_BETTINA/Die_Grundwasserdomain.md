@@ -53,7 +53,7 @@ Der Verlauf der Geländeoberkante wird ein einer Funktion beschrieben.
 In diesem Beispiel handelt es sich um ein konstant abfallendes Gelände.
 
     def transectElevation(x, m):
-        return float(m * x + .4)
+        return float(m * x)
 	    
 Druck und Bodensalinität (in ppt) werden ebenfalls durch ortsabhängige Funktionen beschrieben.
 
@@ -132,7 +132,7 @@ Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgege
 
         l_y = y_extend
         n_surfaces = int(l_x / lcar)
-        x_array = np.linspace(-20, -20 + l_x, num=int(n_surfaces + 1))
+        x_array = np.linspace(0, l_x, num=int(n_surfaces + 1))
 
         surfaces = []
         line_loops = []
@@ -263,7 +263,7 @@ Dazu gehört das Durchlässigkeitsfeld des Bodens und die Eigenschaft der Zellen
     propertyvector.SetName("permeability") 
     bulk_cells = vtk.vtkCellArray()
     for cell_point_ids in bulky.cells[2].data:
-        cell = vtk.vtkHexahedron()
+        cell = vtk.vtkTetra()
         for i in range(4):
             cell.GetPointIds().SetId(i, cell_point_ids[i])
 
@@ -287,7 +287,8 @@ Danach kann das bulk-mesh gespeichert werden.
 Jetzt ist die Hauptdomain fertig und mit Eigenschaften belegt.
 Als nächstes wird der Layer gesampled, aus dem die Bäume Wasser entnehmen.
 Dafür wir wieder unser zuvor definiertes meshGen verwendet.
-Um die Eigenschaften, die wir der Hauptdomain zugewiesen haben, zu kopieren, wird der ResampleWithDataset Filter von vtk verwendet.
+
+
 
     # Generating source mesh
     sourcey = meshGen(z=-.4,
@@ -311,17 +312,47 @@ Um die Eigenschaften, die wir der Hauptdomain zugewiesen haben, zu kopieren, wir
 
     source_cells = vtk.vtkCellArray()
     for cell_point_ids in sourcey.cells[2].data:
-        cell = vtk.vtkHexahedron()
+        cell = vtk.vtkTetra()
         for i in range(4):
             cell.GetPointIds().SetId(i, cell_point_ids[i])
-            source_cells.InsertNextCell(cell)
+        source_cells.InsertNextCell(cell)
     source.SetCells(10, source_cells)
+
+Für spätere Flussberechnungen muss das Volumen ein jeder Zelle berechnet und in einem Array im Grid gespeichert werden.
+
+    ncells = (source.GetCells().GetNumberOfCells())
+    cells = source.GetCells()
+    points = source.GetPoints()
+    cell_volumes = np.zeros(ncells)
+    pts = vtk.vtkIdList()
+    cells.InitTraversal()
+    propertyvector = vtk.vtkDoubleArray()
+    propertyvector.SetName("Volume")
+    # Calculating cell volume, as it is required by ogs
+    for i in range(ncells):
+        cells.GetNextCell(pts)
+        if pts.GetNumberOfIds() == 4:
+            p0 = np.array(points.GetPoint(pts.GetId(0)))
+            p1 = np.array(points.GetPoint(pts.GetId(1)))
+            p2 = np.array(points.GetPoint(pts.GetId(2)))
+            p3 = np.array(points.GetPoint(pts.GetId(3)))
+            v0 = (p1 - p0)
+            v1 = (p2 - p0)
+            v2 = (p3 - p0)
+            V = np.absolute(np.dot(v0, np.cross(v1, v2))) / 6.
+            cell_volumes[i] = V
+
+Um die Eigenschaften, die wir der Hauptdomain zugewiesen haben, zu kopieren, wird der ResampleWithDataset Filter von vtk verwendet.
 
     resample_filter = vtk.vtkResampleWithDataSet()
     resample_filter.SetSourceData(bulk)
     resample_filter.SetInputData(source)
     resample_filter.Update()
     source = resample_filter.GetOutput()
+
+    for value in cell_volumes:
+        propertyvector.InsertNextTuple1(value)
+    source.GetCellData().AddArray(propertyvector)
 
     # Output of source-mesh
     source_writer = vtk.vtkXMLUnstructuredGridWriter()

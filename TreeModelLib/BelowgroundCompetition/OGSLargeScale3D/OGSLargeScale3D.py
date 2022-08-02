@@ -321,29 +321,29 @@ class OGSLargeScale3D(TreeModel):
             # OGS
             if "constant_contributions.npy" in line:
                 line = line.replace(line,
-                                    "constant_contributions = np.load('" +
+                                    "constant_contributions = np.load(r'" +
                                     constants_filename + "')\n")
             if "salinity_prefactors.npy" in line:
                 line = line.replace(line,
-                                    "salinity_prefactors = np.load('" +
+                                    "salinity_prefactors = np.load(r'" +
                                     prefactors_filename + "')\n")
             # Network
             if "complete_contributions.npy" in line:
                 line = line.replace(line,
-                                    "complete_contributions = np.load('" +
+                                    "complete_contributions = np.load(r'" +
                                     complete_filename + "')\n")
             # Boths
             if "cumsum_salinity.npy" in line:
                 line = line.replace(
-                    line, "cumsum_savename = '" + cumsum_filename +
+                    line, "cumsum_savename = r'" + cumsum_filename +
                     "'\n")
             if "calls_in_last_timestep.npy" in line:
-                line = line.replace(line, "calls_savename = '" +
+                line = line.replace(line, "calls_savename = r'" +
                                     calls_filename + "'\n")
             if "CellInformation(source_mesh)" in line:
                 line = line.replace(
                     "source_mesh",
-                    "'" + path.join(self._ogs_project_folder,
+                    "r'" + path.join(self._ogs_project_folder,
                                     self._source_mesh_name) + "'")
             if "t_write = t_end" in line:
                 line = line.replace("t_end", str(self._t_end))

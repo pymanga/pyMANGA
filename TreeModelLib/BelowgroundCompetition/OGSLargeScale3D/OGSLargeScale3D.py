@@ -322,7 +322,7 @@ class OGSLargeScale3D(TreeModel):
         calls_filename = path.join(self._ogs_project_folder,
                                    "calls_in_last_timestep.npy")
 
-        if self._abiotic_drivers:
+        if len(self._abiotic_drivers) is not None:
             for abiotic_factor in self._abiotic_drivers.iterchildren():
                 line = (abiotic_factor.tag + " = " +
                         abiotic_factor.text + "\n")

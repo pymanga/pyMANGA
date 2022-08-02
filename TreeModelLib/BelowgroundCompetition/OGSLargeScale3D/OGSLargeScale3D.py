@@ -329,12 +329,13 @@ class OGSLargeScale3D(TreeModel):
                 target.write(line)
 
         # OGS
-        target.write(
-            "constant_contributions = np.load(r'" +
-            constants_filename + "')\n")
-        target.write(
-            "salinity_prefactors = np.load(r'" +
-            prefactors_filename + "')\n")
+        if "Network" not in self.case:
+            target.write(
+                "constant_contributions = np.load(r'" +
+                constants_filename + "')\n")
+            target.write(
+                "salinity_prefactors = np.load(r'" +
+                prefactors_filename + "')\n")
         if "Network" in self.case:
             # Network
             target.write(

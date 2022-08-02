@@ -354,7 +354,7 @@ class OGSLargeScale3D(TreeModel):
         rest_of_script.close()
         joined_source_mesh_name = "'" + path.join(self._ogs_project_folder,
                                                   self._source_mesh_name) + "'"
-        target.write("cell_information = CellInformation(" +
+        target.write("cell_information = CellInformation(r" +
                      joined_source_mesh_name+")")
 
     # This function writes a pvd collection of the belowground grids at the

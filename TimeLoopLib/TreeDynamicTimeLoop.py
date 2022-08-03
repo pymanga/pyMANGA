@@ -7,6 +7,7 @@
 
 
 class TreeDynamicTimeLoop:
+
     def __init__(self, args):
         case = args.find("type").text
         if case == "Simple":

@@ -28,7 +28,6 @@ class XMLtoProject(Project.MangaProject):
         self.addTreeTimeLoop()
         self.addVisualization()
         self.addTreeOutput()
-
         self.argsToProject()
 
     def readProjectFile(self):
@@ -69,7 +68,7 @@ class XMLtoProject(Project.MangaProject):
     def findChild(self, parent, key):
         child = parent.find(key)
         if child is None:
-            raise KeyError("key '" + key + "' is missing in project file")
+            raise KeyError("key " + key + " is missing in project file")
         return child
 
 

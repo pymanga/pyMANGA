@@ -133,7 +133,7 @@ Die einzige Größe, die uns eventuell interessiert ist, in welchem Intervall di
                     <t_initial> 0 </t_initial>
                     <timesteps>
                         <pair>
-                            <delta_t>7200</delta_t>
+                            <delta_t>14400</delta_t>
                             <repeat>1</repeat>
                         </pair>
                     </timesteps>

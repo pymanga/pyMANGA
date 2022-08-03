@@ -25,7 +25,7 @@ Die zuvor definierte python Randbedingung wird unter dem Namen *python_script* e
 
         <belowground_competition>
             <type>OGSLargeScale3D</type>
-            <ogs_project_folder>/home/bathmann/Documents/AGBerger/code/pyMANGA/test/website_test/</ogs_project_folder>
+            <ogs_project_folder>/ABSOLUTE/PATH/TO/pyMANGA/test/website_test/</ogs_project_folder>
             <ogs_project_file>ogs_projectfile.prj</ogs_project_file>
             <source_mesh>my_first_source.vtu</source_mesh>
             <bulk_mesh>my_first_model.vtu</bulk_mesh>
@@ -48,15 +48,15 @@ Für das erste Beispiel wird eine Initiale Baumverteilung in das Programm herein
                 <species>Avicennia</species>
                 <distribution>
                     <type>GroupFromFile</type>
-                    <filename>/home/bathmann/Documents/AGBerger/code/pyMANGA/test/website_test/initial_trees.csv</filename>
+                    <filename>/ABSOLUTE/PATH/TO/pyMANGA/test/website_test/initial_trees.csv</filename>
                 </distribution>
             </group>
         </initial_population>
             <tree_time_loop>
             <type>Simple</type>
             <t_start>0</t_start>
-            <t_end> 3e9 </t_end> <!-- ~ 95 a-->
-            <delta_t> 3e6</delta_t> <!-- ~ 35 d-->
+            <t_end> 3e9 </t_end>
+            <delta_t> 3e6</delta_t>
         </tree_time_loop>
         <visualization>
            <type>NONE</type>

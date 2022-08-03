@@ -397,7 +397,6 @@ class OGSLargeScale3D(TreeModel):
                               self._ogs_project_folder + " -l error") == 0):
                 raise ValueError("Ogs calculation failed!")
         elif platform.system() == "Linux":
-            print(self._ogs_project_folder)
             if not (os.system("singularity exec --home " +
                               self._ogs_project_folder + " " + bc_path +
                               "/OGS/container/ogs_container.sif ogs " +

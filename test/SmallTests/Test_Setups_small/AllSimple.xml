@@ -47,6 +47,7 @@
         <t_start> 0 </t_start>
         <t_end> 1e9 </t_end>
         <delta_t> 1e7 </delta_t>
+        <terminal_print> years </terminal_print>
     </tree_time_loop>
     <visualization>
         <type> NONE </type>

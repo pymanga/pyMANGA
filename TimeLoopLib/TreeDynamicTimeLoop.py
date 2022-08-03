@@ -13,14 +13,18 @@ class TreeDynamicTimeLoop:
             self.iniSimpleTimeStepping(args)
         else:
             raise KeyError("Required time stepping not implemented.")
+        # If terminal_print is defined as 'days' or 'years' the respective
+        # value for the conversion of time unit gets defined in 'print_unit'.
         try:
             self.terminal_print = args.find('terminal_print').text
-            print('worked')
+            if self.terminal_print == 'years':
+                self.print_unit = 86400/365.25
+            elif self.terminal_print == 'days':
+                self.print_unit = 86400
         except:
             self.terminal_print = False
-            print('did not work')
-        print(case + " time stepping successfully initiated.")
 
+        print(case + " time stepping successfully initiated.")
 
     def iniSimpleTimeStepping(self, args):
         from .SimpleTimeLoop import SimpleLoop
@@ -33,21 +37,23 @@ class TreeDynamicTimeLoop:
     def runTimeLoop(self, time_stepper):
         self.getNextTimeStepBoundaries()
         while (self.loop.step_on):
+            # If terminal_print is defined as 'years' or 'day' the
+            # respective text get's printed after each time step
             if self.terminal_print == 'years':
                 print("Next time step to propagate" +
                       " tree population with starting time " +
-                      '%4.2f' % (float(self.loop.t_1)/86400/365.25) +
+                      '%4.2f' % (float(self.loop.t_1)/self.print_unit) +
                       " a and end time " +
-                      '%4.2f' % (float(self.loop.t_2)/86400/365.25) + " a." +
-                      '\nCalculated timesteps: ' +
+                      '%4.2f' % (float(self.loop.t_2)/self.print_unit) +
+                      " a." + '\nCalculated timesteps: ' +
                       str(int((self.loop.t_2/self.loop.t_end)*100)) + ' %')
             elif self.terminal_print == 'days':
                 print("Next time step to propagate" +
                       " tree population with starting time " +
-                      '%4.2f' % (float(self.loop.t_1)/86400) +
+                      '%4.2f' % (float(self.loop.t_1)/self.print_unit) +
                       " d and end time " +
-                      '%4.2f' % (float(self.loop.t_2)/86400) + " d." +
-                      '\nCalculated timesteps: ' +
+                      '%4.2f' % (float(self.loop.t_2)/self.print_unit) +
+                      " d." + '\nCalculated timesteps: ' +
                       str(int((self.loop.t_1/self.loop.t_end)*100)) + ' %')
             time_stepper.step(t_start=self.loop.t_1, t_end=self.loop.t_2,
                               update_ag=self.loop.update_ag,

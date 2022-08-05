@@ -153,9 +153,10 @@ class OGSLargeScale3D(TreeModel):
     def addTree(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
+        root_radius = geometry["r_root"]
         parameter = tree.getParameter()
 
-        self.addCellCharateristics(x, y)
+        self.addCellCharateristics(x, y, root_radius)
 
         # Calculate total tree resistance
         total_resistance = self.totalTreeResistance(parameter, geometry)
@@ -174,8 +175,9 @@ class OGSLargeScale3D(TreeModel):
     # respective volume of these cells in tree-own variables.
     # @param x: x-coordinate of tree
     # @param y: y-coordinate of tree
-    def addCellCharateristics(self, x, y):
-        affected_cells = self._cell_information.getCellIDsAtXY(x, y)
+    def addCellCharateristics(self, x, y, root_radius):
+        affected_cells = self._cell_information.getCellIDsAtXY(x, y,
+                                                               root_radius)
         self._tree_cell_ids.append(affected_cells)
         # Get volume of affected cells
         v = self.getVolume(affected_cells)

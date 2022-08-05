@@ -5,10 +5,10 @@ weight: 4
 description:
 ---
 
-Wie bekannt wird pyMANGA über ein xml-File gesteuert.
+Wie bekannt wird pyMANGA über ein xml-File gesteuert (siehe hierzu auch <a href="/de/docs/steuerdatei/">diesen Abschnitt</a>).
 Hier wird der Inhalt des XML-Files präsentiert.
 OGS-Spezifische Anpassungen und Parameter werden erläutert.
-Eine Beschreibung aller anderen Konfigurationen kann der allgemeinen Dokumentation entnommen werden.
+Eine Beschreibung aller anderen Konfigurationen kann der <a href="https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html" target="_blank">allgemeinen Dokumentation</a> entnommen werden.
 
     <?xml version="1.0" encoding="ISO-8859-1"?>
         <MangaProject>
@@ -19,7 +19,7 @@ Eine Beschreibung aller anderen Konfigurationen kann der allgemeinen Dokumentati
             </aboveground_competition>
 
 Der Ort, an dem alle für OGS relevanten Dateien liegen ist als *ogs_project_folder* benannt.
-Das in "Das OGS Projekt" beschriebene ogs-Projekt muss als *ogs_project_file* angegeben werden.
+Das in <a href="/de/docs/beispielmodell_ogs_bettina/ogs_projekt/">Das OGS Projekt</a> beschriebene ogs-Projekt muss als *ogs_project_file* angegeben werden.
 Die zuvor definierte python Randbedingung wird unter dem Namen *python_script* eingefügt.
 *delta_t_ogs* definiert, für wie lange das Grundwasserströmungsmodell rechnet, bevor der Rest des BETTINA-Zeitschritts extrapoliert wird.
 
@@ -40,7 +40,7 @@ Die zuvor definierte python Randbedingung wird unter dem Namen *python_script* e
         </tree_growth_and_death>
         </tree_dynamics>
 	   
-Für das erste Beispiel wird eine Initiale Baumverteilung in das Programm hereingeladen.
+Für das erste Beispiel wird eine initiale Baumverteilung in das Programm hereingeladen.
 
         <initial_population>
             <group>

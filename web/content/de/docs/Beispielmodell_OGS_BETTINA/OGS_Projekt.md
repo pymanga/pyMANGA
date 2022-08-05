@@ -7,7 +7,7 @@ description:
 
 OGS wird über Projektdateien konfiguriert.
 Im folgenden wird Beispielhaft eine solche Datei erläutert.
-Nach dem Header werden direkt die benötigten meshes definiert.
+Nach dem Header werden direkt die benötigten Meshes definiert.
 Wir verwenden die Hauptdomain, das Mesh für die Wasserentnahme der Bäume und unsere Randmeshes.
 Dieser Teil muss ggf. angepasst werden.
 
@@ -216,11 +216,11 @@ Die verwendeten Parameter können in der Projektdatei spezifiziert werden.
         </parameters>
 
 Im Abschnitt *process_variables* werden nun die Randbedingungen definiert.
-Dies muss ggf angepasst werden.
+Dies muss ggf. angepasst werden.
 Zuerst werden die Randbedingungen für die Konzentration zugewiesen.
 Wir verwenden die zuvor definierten python-Randbedingungen.
-Jede Randbedingung ist auf einem mesh definiert und besteht aus einem zuvor definierten BC-Object.
-Siehe hierzu den Abschnitt "Die Randbedingungen".
+Jede Randbedingung ist auf einem Mesh definiert und besteht aus einem zuvor definierten BC-Object.
+Siehe hierzu den Abschnitt <a href="/de/docs/beispielmodell_ogs_bettina/die_randbedingungen">Die Randbedingungen</a>.
 
         <process_variables>
         <process_variable>

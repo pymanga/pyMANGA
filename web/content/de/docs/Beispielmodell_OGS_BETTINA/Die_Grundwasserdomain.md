@@ -10,9 +10,9 @@ Das Grundwasserströmungsmodell OGS arbeitet mit vtk-Gittern.
 In diesem Abschnitt wird eine Methode erläutert, wie ein solches Gitter erstellt werden kann.
 Hierfür wird ein Beispiel-Python Script genutzt und Abschnittsweise erkärt.
 
-Wir verwenden das Packet pygmsh als Hilfsmittel.
-Außerdem benötigen wir die Funktionalitäten von vtk, numpy, os, subprocess und absolute_import.
-Entsprechend müssen diese Packete zu Beginn des Scripts importiert werden:
+Wir verwenden das Paket pygmsh als Hilfsmittel.
+Außerdem benötigen wir die Funktionalitäten von *vtk, numpy, os, subprocess* und *absolute_import*.
+Entsprechend müssen diese Pakete zu Beginn des Scripts importiert werden:
 
 	from __future__ import absolute_import
 	import numpy as np
@@ -21,7 +21,7 @@ Entsprechend müssen diese Packete zu Beginn des Scripts importiert werden:
 	import vtk as vtk
 	import subprocess 
 
-Mit diesen Packeten ist es nun möglich die benötigten Funktionen und Klassen zu implementieren.
+Mit diesen Paketen ist es nun möglich die benötigten Funktionen und Klassen zu implementieren.
 Als erstes wird eine Klasse zum erleichterten Speichern und Ermitteln von Zellinformationen erstellt.
 
     class CellInformation:
@@ -68,7 +68,7 @@ Druck und Bodensalinität (in ppt) werden ebenfalls durch ortsabhängige Funktio
     def c(point):
         return .035
 
-Für später ist es noch notwendig eine Funktion zu definieren, die das Druck und das Konzentrationsfeld der Domain hinzufügt:
+Für später ist es noch notwendig eine Funktion zu definieren, die das Druck- und Konzentrationsfeld der Domain hinzufügt:
 
     def addCandPtoMesh(mesh):
         points = mesh.GetPoints()
@@ -269,7 +269,7 @@ Danach kann das bulk-mesh gespeichert werden.
 
 Jetzt ist die Hauptdomain fertig und mit Eigenschaften belegt.
 Als nächstes wird der Layer gesampled, aus dem die Bäume Wasser entnehmen.
-Dafür wir wieder unser zuvor definiertes meshGen verwendet.
+Dafür wird wieder unser zuvor definiertes meshGen verwendet.
 
 
 

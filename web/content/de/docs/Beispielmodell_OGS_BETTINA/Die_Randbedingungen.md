@@ -8,10 +8,10 @@ description:
 Für das Grundwasserströmungsmodell müssen Randbedingungen und Quelltherme festgelegt werden.
 In diesem Beispiel werden die Randbedingungen komplett über ein python-script definiert.
 Grundsätzlich gibt es auch andere Wege Randbedingungen zu definieren.
-Für Informationen, die über die präsentierten Beispiele hinaus gehen stellt die OGS-community eine ausführliche Dokumentation bereit (www.opengeosys.org).
+Für Informationen, die über die präsentierten Beispiele hinaus gehen stellt die OGS-Community <a href="https://www.opengeosys.org/" target="_blank">eine ausführliche Dokumentation</a> bereit.
 
-Das in diesem Beispiel genutzte Script beginnt wie üblich mit Packetimporten.
-Wir benötigen die Packete *OpenGeoSys, vtk, numpy, math* und *os*.
+Das in diesem Beispiel genutzte Script beginnt wie üblich mit Paketimporten.
+Wir benötigen die Pakete *OpenGeoSys, vtk, numpy, math* und *os*.
 
 	import OpenGeoSys
 	import vtk as vtk

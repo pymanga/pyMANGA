@@ -5,7 +5,8 @@ weight: 3
 description:
 ---
 
-In diesem Abschnitt wird Anhand eines Beispielmodells erklärt, wie das Grundwasserströmungsmodell OGS verwendet werden kann. Hierbei wird sich an dem Modellsetups aus Bathmann et al. 2020 orientiert.
+In diesem Abschnitt wird anhand eines Beispielmodells erklärt, wie das Grundwasserströmungsmodell OGS verwendet werden kann.
+Hierbei wird sich an dem Modellsetups aus <a href="https://linkinghub.elsevier.com/retrieve/pii/S0304380020300454" target="_blank">Bathmann et al. 2020</a> orientiert.
 
 <figure>
 <img src="/pictures/ogs_example/conceptual_setup.png" style="width:90%">

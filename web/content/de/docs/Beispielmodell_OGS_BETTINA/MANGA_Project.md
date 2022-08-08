@@ -18,7 +18,15 @@ Eine Beschreibung aller anderen Konfigurationen kann der <a href="https://jbathm
                 <type>SimpleTest</type>
             </aboveground_competition>
 
-Der Ort, an dem alle für OGS relevanten Dateien liegen ist als *ogs_project_folder* benannt.
+Für Simulationen mit dem Untergrundkonzept OGSLargeScale3D müssen folgende Konzeptspezifische Tags definiert werden:
+
+-     der absolute Pfad zum Ordner mit allen relevanten OGS-Dateien (*ogs_project_folder*)
+-     die OGS- Projektdatei (*ogs_project_file*)
+-     das Source Mesh (*source_mesh*)
+-     das Bulk Mesh (*bulk_mesh*)
+-     die Zeitschrittlänge, die angibt wie lange das Grundwasserströmungsmodell rechnet, bevor der Rest des BETTINA-Zeitschritts extrapoliert wird(*delta_t_ogs*)
+-     Skript mit Python-Randbedingungen (*python_script*)
+
 Das in <a href="/de/docs/beispielmodell_ogs_bettina/ogs_projekt/">Das OGS Projekt</a> beschriebene ogs-Projekt muss als *ogs_project_file* angegeben werden.
 Die zuvor definierte python Randbedingung wird unter dem Namen *python_script* eingefügt.
 *delta_t_ogs* definiert, für wie lange das Grundwasserströmungsmodell rechnet, bevor der Rest des BETTINA-Zeitschritts extrapoliert wird.

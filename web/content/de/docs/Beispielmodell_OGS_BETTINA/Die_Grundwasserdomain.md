@@ -8,7 +8,7 @@ description:
 Zur Simulation des Salztransports im Grundwasser muss eine Repräsentation der Modelldomain erstellt werden.
 Dazu benötigen wir eine Domain, in der die Wasserflüsse stattfinden und Randnetze, auf denen wir Randbedingungen definieren können.
 Zudem wird ein Gitter benötigt, welches die Subdomain repräentiert, in welcher Bäume über die Wurzeln Wasser aufnehmen.
-Das Grundwasserströmungsmodell OGS arbeitet mit vtk-Gittern <a href="https://www.vtk.org/" target="_blank">.
+Das Grundwasserströmungsmodell OGS arbeitet mit <a href="https://www.vtk.org/" target="_blank"> vtk-Gittern</a>.
 In diesem Abschnitt wird eine Methode erläutert, wie ein solches Gitter erstellt werden kann.
 Hierfür wird ein Beispiel-Python Script genutzt und Abschnittsweise erkärt.
 

@@ -6,7 +6,9 @@ description:
 ---
 
 OGS wird über Projektdateien konfiguriert.
-Im folgenden wird Beispielhaft eine solche Datei erläutert.
+Im folgenden wird beispielhaft eine solche Datei erläutert.
+
+
 Nach dem Header werden direkt die benötigten Meshes definiert.
 Wir verwenden die Hauptdomain, das Mesh für die Wasserentnahme der Bäume und unsere Randmeshes.
 Dieser Teil muss ggf. angepasst werden.
@@ -113,7 +115,7 @@ Dieser Teil bedarf meist keiner Anpassung.
         </media>
 
 Die Zeitschleife wird von pyMANGA automatisch aktualisiert.
-Die einzige Größe, die uns eventuell interessiert ist, in welchem Intervall die Grundwasserdomain gespeichert wird.
+Die einzige Größe, welche eventuell angepasst werden sollte, ist das Speicherintervall für die Grundwasserdomain.
 
         <time_loop>
         <processes>

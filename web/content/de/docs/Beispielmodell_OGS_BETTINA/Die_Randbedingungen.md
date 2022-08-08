@@ -10,6 +10,8 @@ In diesem Beispiel werden die Randbedingungen komplett über ein python-script d
 Grundsätzlich gibt es auch andere Wege Randbedingungen zu definieren.
 Für Informationen, die über die präsentierten Beispiele hinaus gehen stellt die OGS-Community <a href="https://www.opengeosys.org/" target="_blank">eine ausführliche Dokumentation</a> bereit.
 
+In diesem Beispiel werden entlang der yz-Grenzflächen der Domain Randbedingungen vorgegeben. 
+Außerdem wird - tidenabhängig - zeitlich begrenz ein Meerwasseranschluß an der Geländeoberfläche erzeugt.
 Das in diesem Beispiel genutzte Script beginnt wie üblich mit Paketimporten.
 Wir benötigen die Pakete *OpenGeoSys, vtk, numpy, math* und *os*.
 
@@ -36,7 +38,7 @@ Ein einfacher Ansatz wäre:
         return 1000 * 9.81 * (tidal_cycle - z + transectElevation(x))
 
 Mit dieser Hilfsfunktion kann nun der Druck entlang unserer Ränder definiert werden.
-Wir führen eine Randbedingung ein, die entweder keinen Fluss über die Grenzflächen zulässt oder bei Überspülung offene Durchmischung mit dem Meerwasser erlaubt.
+Wir führen jeweils eine Randbedingung ein, die entweder keinen Fluss über die Grenzflächen zulässt (kein Anschluss an das Meerwasser) oder bei Überspülung offene Durchmischung mit dem Meerwasser erlaubt.
 
     ## Dirichlet BCs
     class BCSea_p_D(OpenGeoSys.BoundaryCondition):
@@ -79,8 +81,9 @@ Für die Konzentrations-Randbedingungen wird angenommen, dass bei Überspülung 
             return (True, value)
 
 Nun muss nur noch die Meerwassersalinität zugewiesen werden.
-Ebenfalls können Periodendauern und Amplituden der Moden unserer Tide angepasst werden.
-Für erste eigene Simulationen stellen wir den Tidenhub aus (Amplitude = 0).
+Außerdem können Periodendauer und Amplitude den Moden der Tide angepasst werden.
+Für dieses Beispiel wird der Tidenhub deaktiviert (Amplitude = 0).
+Diese kann später durch Änderung der Parameter in der Funktion *tidal_cycle* hinzugefügt werden.
 Dies kann später angepasst werden.
 
     seaward_salinity = 0.035
@@ -89,7 +92,7 @@ Dies kann später angepasst werden.
     tide_daily_period = 60 * 60 * 12.
     tide_monthly_period = 60. * 60 * 24 * 31 / 2.
 	
-Nun gilt es nurnoch die Randbedingungen als Objekte für OpenGeoSys zu definieren:
+Nun gilt es nur noch die Randbedingungen als Objekte für OGS zu definieren:
 
     bc_tide_p = BCSea_p_D()
     bc_land_p = BCLand_p_D()

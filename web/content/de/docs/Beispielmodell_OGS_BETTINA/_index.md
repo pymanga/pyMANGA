@@ -6,7 +6,7 @@ description:
 ---
 
 In diesem Abschnitt wird anhand eines Beispielmodells erklärt, wie das Grundwasserströmungsmodell OGS verwendet werden kann.
-Hierbei wird sich an dem Modellsetups aus <a href="https://linkinghub.elsevier.com/retrieve/pii/S0304380020300454" target="_blank">Bathmann et al. 2020</a> orientiert.
+Hierbei orientieren wir uns an den Modellsetups aus <a href="https://linkinghub.elsevier.com/retrieve/pii/S0304380020300454" target="_blank">Bathmann et al. 2020</a>.
 
 <figure>
 <img src="/pictures/ogs_example/conceptual_setup.png" style="width:90%">

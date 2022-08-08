@@ -6,11 +6,13 @@ description:
 ---
 
 Zur Simulation des Salztransports im Grundwasser muss eine Repräsentation der Modelldomain erstellt werden.
-Das Grundwasserströmungsmodell OGS arbeitet mit vtk-Gittern.
+Dazu benötigen wir eine Domain, in der die Wasserflüsse stattfinden und Randnetze, auf denen wir Randbedingungen definieren können.
+Zudem wird ein Gitter benötigt, welches die Subdomain repräentiert, in welcher Bäume über die Wurzeln Wasser aufnehmen.
+Das Grundwasserströmungsmodell OGS arbeitet mit vtk-Gittern <a href="https://www.vtk.org/" target="_blank">.
 In diesem Abschnitt wird eine Methode erläutert, wie ein solches Gitter erstellt werden kann.
 Hierfür wird ein Beispiel-Python Script genutzt und Abschnittsweise erkärt.
 
-Wir verwenden das Paket pygmsh als Hilfsmittel.
+Wir verwenden das Paket *pygmsh* als Hilfsmittel.
 Außerdem benötigen wir die Funktionalitäten von *vtk, numpy, os, subprocess* und *absolute_import*.
 Entsprechend müssen diese Pakete zu Beginn des Scripts importiert werden:
 
@@ -49,12 +51,12 @@ Als erstes wird eine Klasse zum erleichterten Speichern und Ermitteln von Zellin
             return self.getCellVolumeFromId(self, cell_id)
 
 Der Verlauf der Geländeoberkante wird ein einer Funktion beschrieben.
-In diesem Beispiel handelt es sich um ein konstant abfallendes Gelände.
+In diesem Beispiel handelt es sich um ein entlang der x-Achse konstant abfallendes Gelände (Steigung *m* in Promille).
 
     def transectElevation(x, m):
         return float(m * x)
 	    
-Druck und Bodensalinität (in ppt) werden ebenfalls durch ortsabhängige Funktionen beschrieben.
+Druck  (in Pa) und Bodensalinität (in ppt) werden ebenfalls durch ortsabhängige Funktionen beschrieben.
 
     # Pressure at a given point. Here, pressure is 0 at the surface
 
@@ -62,13 +64,13 @@ Druck und Bodensalinität (in ppt) werden ebenfalls durch ortsabhängige Funktio
     def ini_pressure_function(point):
         return -(1000 * 9.81 * (point[2] - transectElevation(x=point[0])))
 
-    # Concentration at a given point. Here, c_ini is constant
+    # Concentration at a given point. Here, c_ini is constant 0.035 kg/kg.
 
 
     def c(point):
         return .035
 
-Für später ist es noch notwendig eine Funktion zu definieren, die das Druck- und Konzentrationsfeld der Domain hinzufügt:
+Mit der folgenden Funktion wird später das definierte Druck- und Konzentrationsfeld der Domain hinzufügt:
 
     def addCandPtoMesh(mesh):
         points = mesh.GetPoints()
@@ -89,10 +91,10 @@ Für später ist es noch notwendig eine Funktion zu definieren, die das Druck- u
         mesh.GetPointData().AddArray(c_ini)
 
 
-Außerdem kann der Folgende Block verwendet werden, um ein quaderförmiges Gitter zu erstellen.
-Das Gitter ist in drei Schichten mit den Schichtdicken *l_z_top*, *l_z_bottom* und *l_z_mid* unterteilt.
+Außerdem kann der folgende Block verwendet werden, um ein quaderförmiges Gitter zu erstellen.
+Das Gitter ist in drei Schichten mit den Schichtdicken *l_z_top*, *l_z_mid* und *l_z_bottom* unterteilt.
 Für jede dieser Schichten kann eine vertikale Auflösung angegeben werden (*num_top*, *num_bottom*, *num_mid*).
-Der Parameter *z* gibt die Verschiebung der Geländeoberkante vor.
+Der Parameter *z* gibt eine mögliche Verschiebung der Geländeoberkante, deren prinzipieller Verlauf in *TransectElevation* definiert ist, in Metern vor.
 *two_layers* und *three_layers* definiert, wieviele unterschiedliche Schichten vorliegen.
 Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgegeben.
 *l_x* definiert die Länge des transects und *lcar* die charackteristische Länge des Gitters.
@@ -187,9 +189,8 @@ Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgege
             mesh = geom.generate_mesh()
             return mesh
 
-Nun geht es an das eigentliche erstellen des Meshes.
-Als erstes werden die Punkte unseres Meshes über die zuvor programmierte Funktion erzeugt.
-Für später werden diese Punkte abgespeichert.
+Nun geht es an das eigentliche Erstellen des Meshes.
+Als erstes werden die Punkte unseres Meshes über die zuvor programmierte Funktion *meshGen* erzeugt und für später abgespeichert.
 
 
     # Generating bulk mesh
@@ -206,9 +207,9 @@ Für später werden diese Punkte abgespeichert.
                     l_y=10,
                     lcar=2)
     # Extraction of Bulk Mesh points
-    points = (bulky.points)
+    points = bulky.points
     
-Nun wird das meshio script, welches von pygmsh erzeugt wurde nochmals als vtk-grid erzeugt.
+Nun wird das zuvor mit *pygmsh* erzeugte Gitter nochmals als vtk-grid erzeugt.
 Dabei werden auch gleich die bulk-node-ids als Eigenschaftsvektor abgespeichert.
 
     bulk = vtk.vtkUnstructuredGrid()
@@ -220,7 +221,7 @@ Dabei werden auch gleich die bulk-node-ids als Eigenschaftsvektor abgespeichert.
     bulk.SetPoints(bulk_points)
 
         
-Im Folgenden werden noch Celldaten, die für die späteren Rechnungen mit OGS notwendig sind hinzugefügt.
+Im Folgenden werden noch Zelldaten, die für die späteren Rechnungen mit OGS notwendig sind, hinzugefügt.
 Dazu gehört das Durchlässigkeitsfeld des Bodens und die Eigenschaft der Zellen als Tetrahedrons.
 
     propertyvector = vtk.vtkDoubleArray()
@@ -237,8 +238,8 @@ Dazu gehört das Durchlässigkeitsfeld des Bodens und die Eigenschaft der Zellen
     bulk.SetCells(10, bulk_cells)
     bulk.GetCellData().AddArray(propertyvector)
 
-Da während der Mesherzeugung einige Punkte doppelt erzeugt wurden muss noch der vtkStaticCleanUnstructuredGrid Filter angewendet werden, um diese zu Mergen.
-Anschließend wird die Eigenschaft "bulk_node_ids", welche für OGS notwenig ist eingefügt.
+Da während der Mesherzeugung einige Punkte doppelt erzeugt wurden, muss noch der vtkStaticCleanUnstructuredGrid Filter angewendet werden, um diese zu zusammenzuführen.
+Anschließend wird die Eigenschaft "bulk_node_ids", welche für OGS notwendig ist, eingefügt.
 
     # Clean the data with non-zero tolerance
     clean1 = vtk.vtkStaticCleanUnstructuredGrid()
@@ -256,8 +257,7 @@ Anschließend wird die Eigenschaft "bulk_node_ids", welche für OGS notwenig ist
         propertyvector.InsertNextTuple1(i)
     bulk.GetPointData().AddArray(propertyvector)
 
-Es fehlen noch das initiale Druckfeld und das initiale Konzentrationsfeld.
-Danach kann das bulk-mesh gespeichert werden.
+Nachdem noch das initiale Druckfeld und das initiale Konzentrationsfeld. hinzugefügt wurden, kann das bulk-mesh gespeichert werden.
 
     # Adding pressure and concentration field to mesh
     addCandPtoMesh(bulk)
@@ -269,7 +269,7 @@ Danach kann das bulk-mesh gespeichert werden.
 
 Jetzt ist die Hauptdomain fertig und mit Eigenschaften belegt.
 Als nächstes wird der Layer gesampled, aus dem die Bäume Wasser entnehmen.
-Dafür wird wieder unser zuvor definiertes meshGen verwendet.
+Dafür wird wieder unser zuvor definiertes *meshGen* verwendet.
 
 
 
@@ -296,7 +296,7 @@ Dafür wird wieder unser zuvor definiertes meshGen verwendet.
         source_cells.InsertNextCell(cell)
     source.SetCells(10, source_cells)
 
-Für spätere Flussberechnungen muss das Volumen ein jeder Zelle berechnet und in einem Array im Grid gespeichert werden.
+Für spätere Flussberechnungen muss das Volumen einer jeder Zelle berechnet und in einem Array im Grid gespeichert werden.
 
     ncells = (source.GetCells().GetNumberOfCells())
     cells = source.GetCells()
@@ -320,7 +320,7 @@ Für spätere Flussberechnungen muss das Volumen ein jeder Zelle berechnet und i
             V = np.absolute(np.dot(v0, np.cross(v1, v2))) / 6.
             cell_volumes[i] = V
 
-Um die Eigenschaften, die wir der Hauptdomain zugewiesen haben, zu kopieren, wird der ResampleWithDataset Filter von vtk verwendet.
+Um die Eigenschaften, die wir der Hauptdomain zugewiesen haben, zu kopieren, wird der *ResampleWithDataset* Filter von vtk verwendet.
 
     resample_filter = vtk.vtkResampleWithDataSet()
     resample_filter.SetSourceData(bulk)
@@ -340,7 +340,7 @@ Um die Eigenschaften, die wir der Hauptdomain zugewiesen haben, zu kopieren, wir
 
 Am Ende fehlen nur noch die Boundary meshes.
 Zum extrahieren des Boundary Meshes kann die ExtractSurface Utility aus dem opengeosys-Projekt verwendet werden.
-Sollte ogs unter Ubuntu betrieben werden funktioniert das so:
+Sollte OGS unter Ubuntu betrieben werden funktioniert das so:
 
     ogs_container_string = "singularity exec ABSOLUTER/PFAD/ZU/PYMANGA/pyMANGA/TreeModelLib/BelowgroundCompetition/OGS/container/ogs_container.sif "
 

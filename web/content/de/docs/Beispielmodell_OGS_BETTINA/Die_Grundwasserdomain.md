@@ -347,4 +347,16 @@ Sollte OGS unter Ubuntu betrieben werden funktioniert das so:
     subprocess.call(ogs_container_string + "ExtractSurface -x -1 -y 0 -z 0 -a 0. -i my_first_model.vtu -o right_boundary.vtu", shell=True)
     subprocess.call(ogs_container_string + "ExtractSurface -x 1 -y 0 -z 0 -a 0. -i my_first_model.vtu -o left_boundary.vtu", shell=True)
     subprocess.call(ogs_container_string + "ExtractSurface -x 0 -y 0 -z -1 -a 30. -i my_first_model.vtu -o top_boundary.vtu", shell=True)
-
+Wird OGS unter Windows betrieben funktioniert das so (getestet mit OGS 6.4.0 & 6.4.2):
+gs_utilities_string = "ABSOLUTER/PFAD/ZU/PYMANGA/pyMANGA" \
+                       "/TreeModelLib/BelowgroundCompetition/OGS" \
+                       "/bin/"
+subprocess.call(ogs_utilities_string + "ExtractSurface -i "
+                                       "my_first_model.vtu -o "
+                                       "right_boundary.vtu -x -1 -y 0 -z 0 -a 0.")
+subprocess.call(ogs_utilities_string + "ExtractSurface -i "
+                                       "my_first_model.vtu -o "
+                                       "left_boundary.vtu -x 1 -y 0 -z 0 -a 0.")
+subprocess.call(ogs_utilities_string + "ExtractSurface -i "
+                                       "my_first_model.vtu -o "
+                                       "top_boundary.vtu -x 0 -y 0 -z -1 -a 30.")

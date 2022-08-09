@@ -74,7 +74,7 @@ Für das erste Beispiel wird eine initiale Baumverteilung in das Programm herein
         </tree_output>
     </MangaProject>
 
-Die Initiale Baumverteilung aus *initial_trees.csv* sollte in einer seperaten *.csv* Datei gespeichert werden:
+In diesem Beispiel wird eine initiale Baumverteilung in das Programm hereingeladen.
 
     tree,	time,	x,	y,	r_stem,	h_stem,	r_crown,	r_root	
     Initial_000000001,	0,	20,	5.0,	0.04,	3.5,	1.4,	0.7

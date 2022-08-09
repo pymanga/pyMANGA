@@ -24,31 +24,6 @@ Entsprechend müssen diese Pakete zu Beginn des Scripts importiert werden:
 	import subprocess 
 
 Mit diesen Paketen ist es nun möglich die benötigten Funktionen und Klassen zu implementieren.
-Als erstes wird eine Klasse zum erleichterten Speichern und Ermitteln von Zellinformationen erstellt.
-
-    class CellInformation:
-        def __init__(self, source_mesh):
-            meshReader = vtk.vtkXMLUnstructuredGridReader()
-            meshReader.SetFileName(source_mesh)
-            meshReader.Update()
-            self.grid = meshReader.GetOutput()
-            self.cell_finder = vtk.vtkCellLocator()
-            self.cell_finder.SetDataSet(self.grid)
-            self.cell_finder.LazyEvaluationOn()
-            cells = self.grid.GetCellData()
-            self.volumes = cells.GetArray("Volume")
-
-        def getCellId(self, x, y, z):
-            cell_id = self.cell_finder.FindCell([x, y, z])
-            return cell_id
-
-        def getCellVolumeFromId(self, cell_id):
-            cell_volume = self.volumes[cell_id]
-            return cell_volume
-
-        def getCellVolumeFromCoordinates(self, x, y, z):
-            cell_id = self.getCellId(self, x, y, z)
-            return self.getCellVolumeFromId(self, cell_id)
 
 Der Verlauf der Geländeoberkante wird ein einer Funktion beschrieben.
 In diesem Beispiel handelt es sich um ein entlang der x-Achse konstant abfallendes Gelände (Steigung *m* in Promille).
@@ -347,16 +322,18 @@ Sollte OGS unter Ubuntu betrieben werden funktioniert das so:
     subprocess.call(ogs_container_string + "ExtractSurface -x -1 -y 0 -z 0 -a 0. -i my_first_model.vtu -o right_boundary.vtu", shell=True)
     subprocess.call(ogs_container_string + "ExtractSurface -x 1 -y 0 -z 0 -a 0. -i my_first_model.vtu -o left_boundary.vtu", shell=True)
     subprocess.call(ogs_container_string + "ExtractSurface -x 0 -y 0 -z -1 -a 30. -i my_first_model.vtu -o top_boundary.vtu", shell=True)
+    
 Wird OGS unter Windows betrieben funktioniert das so (getestet mit OGS 6.4.0 & 6.4.2):
-gs_utilities_string = "ABSOLUTER/PFAD/ZU/PYMANGA/pyMANGA" \
-                       "/TreeModelLib/BelowgroundCompetition/OGS" \
-                       "/bin/"
-subprocess.call(ogs_utilities_string + "ExtractSurface -i "
-                                       "my_first_model.vtu -o "
-                                       "right_boundary.vtu -x -1 -y 0 -z 0 -a 0.")
-subprocess.call(ogs_utilities_string + "ExtractSurface -i "
-                                       "my_first_model.vtu -o "
-                                       "left_boundary.vtu -x 1 -y 0 -z 0 -a 0.")
-subprocess.call(ogs_utilities_string + "ExtractSurface -i "
-                                       "my_first_model.vtu -o "
-                                       "top_boundary.vtu -x 0 -y 0 -z -1 -a 30.")
+
+    gs_utilities_string = "ABSOLUTER/PFAD/ZU/PYMANGA/pyMANGA" \
+                           "/TreeModelLib/BelowgroundCompetition/OGS" \
+                           "/bin/"
+    subprocess.call(ogs_utilities_string + "ExtractSurface -i "
+                                           "my_first_model.vtu -o "
+                                           "right_boundary.vtu -x -1 -y 0 -z 0 -a 0.")
+    subprocess.call(ogs_utilities_string + "ExtractSurface -i "
+                                           "my_first_model.vtu -o "
+                                           "left_boundary.vtu -x 1 -y 0 -z 0 -a 0.")
+    subprocess.call(ogs_utilities_string + "ExtractSurface -i "
+                                           "my_first_model.vtu -o "
+                                           "top_boundary.vtu -x 0 -y 0 -z -1 -a 30.")

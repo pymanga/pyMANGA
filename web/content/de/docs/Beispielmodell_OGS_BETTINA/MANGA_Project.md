@@ -48,7 +48,7 @@ Die zuvor definierte python Randbedingung wird unter dem Namen *python_script* e
         </tree_growth_and_death>
         </tree_dynamics>
 	   
-Für das erste Beispiel wird eine initiale Baumverteilung in das Programm hereingeladen.
+Für dieses Beispiel verwenden wir eine zuvor abgespeicherte initiale Baumverteilung.
 
         <initial_population>
             <group>
@@ -75,6 +75,7 @@ Für das erste Beispiel wird eine initiale Baumverteilung in das Programm herein
     </MangaProject>
 
 In diesem Beispiel wird eine initiale Baumverteilung in das Programm hereingeladen.
+Diese sollte in einem externen File mit folgendem Inhalt liegen:
 
     tree,	time,	x,	y,	r_stem,	h_stem,	r_crown,	r_root	
     Initial_000000001,	0,	20,	5.0,	0.04,	3.5,	1.4,	0.7

@@ -251,7 +251,7 @@ Anschließend wird die Eigenschaft "bulk_node_ids", welche für OGS notwendig is
     clean1.Update()
     bulk = clean1.GetOutput()
     propertyvector = vtk.vtkDataArray.CreateDataArray(
-        vtk.VTK_UNSIGNED_LONG)
+        vtk.VTK_UNSIGNED_LONG_LONG)
     propertyvector.SetName("bulk_node_ids")
     for i in range(bulk.GetNumberOfPoints()):
         propertyvector.InsertNextTuple1(i)

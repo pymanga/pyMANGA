@@ -11,6 +11,7 @@ from lxml import etree
 from os import path
 import os
 import platform
+import inspect
 
 
 # OGS integration for belowground competition concept. This case is
@@ -283,8 +284,7 @@ class OGSLargeScale3D(TreeModel):
     # This function returns the directory of the python_source file in the
     # directory of the concept if no external source file is provided.
     def getSourceDir(self):
-        return path.join(path.dirname(path.abspath(__file__)),
-                         "python_source.txt")
+        return os.path.dirname(inspect.getfile(CellInformation))
 
     # This function copies the python script which defines BC and source terms
     #  to the ogs project folder.
@@ -336,6 +336,8 @@ class OGSLargeScale3D(TreeModel):
             target.write(
                 "salinity_prefactors = np.load(r'" +
                 prefactors_filename + "')\n")
+            target.write(
+                "complete_contributions = None\n")
         if "Network" in self.case:
             # Network
             target.write(
@@ -348,15 +350,24 @@ class OGSLargeScale3D(TreeModel):
         target.write("calls_savename = r'" +
                      calls_filename + "'\n")
 
-        target.write("t_write = " + str(self._t_end))
-        rest_of_script = open(self.getSourceDir(), "r")
-        for line in rest_of_script.readlines():
+        target.write("t_write = " + str(self._t_end) + "\n")
+
+
+
+        source_directories = self.getSourceDir()
+        cell_information_file = open(os.path.join(source_directories, "CellInformation.py"))
+        for line in cell_information_file.readlines():
             target.write(line)
-        rest_of_script.close()
+        cell_information_file.close()
         joined_source_mesh_name = "'" + path.join(self._ogs_project_folder,
                                                   self._source_mesh_name) + "'"
         target.write("cell_information = CellInformation(r" +
                      joined_source_mesh_name+")")
+        python_source_file = open(os.path.join(source_directories, "python_source.txt"))
+        for line in python_source_file.readlines():
+            target.write(line)
+        python_source_file.close()
+
 
     # This function writes a pvd collection of the belowground grids at the
     #  tree model timesteps

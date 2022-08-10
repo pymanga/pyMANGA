@@ -117,11 +117,3 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
 
         # OGS stuff - update ogs parameters
         self.renameParameters()
-
-    ## This function returns the directory of the python_source file in the
-    # directory of the concept if no external source file is provided.
-    # Although the same function exists in super(), it needs to be here as
-    # well to get the correct directory
-    def getSourceDir(self):
-        return path.join(path.dirname(path.abspath(__file__)),
-                         "python_source.txt")

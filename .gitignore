@@ -158,3 +158,4 @@ test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_
 test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0.pvd
 test/LargeTests/Test_Setups_large/ogs_example_setup/vtu_collection.pvd
 test/LargeTests/Test_Setups_large/ogs_example_setup/python_source.py
+TreeModelLib/BelowgroundCompetition/OGS/container/ogs_container.sif

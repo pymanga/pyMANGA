@@ -36,32 +36,35 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         self.t = -999999
         self._cumsum_salinity = np.zeros(cell_information.getNCells())
         self._calls = np.zeros(cell_information.getNCells())
+        self._first_iteration = False
 
     def getFlux(self, t, coords, primary_vars):
         old_count = cell_information.getSourceCounter()
         new_count = old_count + 1
         cell_id = cell_information.getCellIdAtIntPoint(coords[0], coords[1], coords[2],
                                              old_count)
-
         cell_information.setSourceCounter(new_count)
 
         salinity = primary_vars[1]
+
         if t > self.t:
             self.t = t
-            self._calls[cell_id] += 1
-            self._cumsum_salinity[cell_id] += salinity
+            self._first_iteration = True
+        if t == t_write:
+            if cell_information.getHighestNode() == new_count:
+                np.save(cumsum_savename, self._cumsum_salinity)
+                np.save(calls_savename, self._calls)
+        if self._first_iteration:
             if new_count > cell_information.getHighestNode():
               cell_information.setHighestNode(new_count)
-            if t == t_write:
-                print(new_count)
-                print(cell_information.getHighestNode())
-                if cell_information.getHighestNode() == new_count:
-                    np.save(cumsum_savename, self._cumsum_salinity)
-                    np.save(calls_savename, self._calls)
+            elif cell_information.getHighestNode() == new_count:
+                self._first_iteration = False
+            self._calls[cell_id] += 1
+            self._cumsum_salinity[cell_id] += salinity
+
         positive_flux = completeContribution(cell_id, salinity)
         Jac = [0.0, 0.0]
         return (-positive_flux, Jac)
 
 flux_to_trees = FluxToTrees()
 bc_source_helper = SourceTermHelper()
-

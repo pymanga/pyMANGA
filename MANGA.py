@@ -10,6 +10,7 @@ import sys
 from os import path
 from ProjectLib import XMLtoProject
 from TimeLoopLib import TreeDynamicTimeStepping
+import datetime
 
 
 class Model():
@@ -61,16 +62,22 @@ def main(argv):
             sys.exit()
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)
+    t_start = datetime.datetime.now()
+
     try:
         prj = XMLtoProject(xml_project_file=project_file)
+
     except UnboundLocalError:
         raise UnboundLocalError('Wrong usage of pyMANGA. Type "python' +
                                 ' main.py -h" for additional help.')
-    print('Running pyMANGA project ', project_file)
+    print("MANGA started at", t_start)
+    print('Running pyMANGA project', project_file)
     time_stepper = TreeDynamicTimeStepping(prj)
     prj.runProject(time_stepper)
-    print('pyMANGA project ', project_file, ' successfully evaluated.')
-
+    t_end = datetime.datetime.now()
+    print('pyMANGA project', project_file, ' successfully evaluated.')
+    print("MANGA finished at", t_end)
+    print("Total execution took", (t_end - t_start).seconds, " seconds")
 
 if __name__ == "__main__":
     sys.path.append((path.dirname(path.abspath(__file__))))

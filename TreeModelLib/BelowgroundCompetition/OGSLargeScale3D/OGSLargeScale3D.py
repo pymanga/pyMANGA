@@ -175,6 +175,8 @@ class OGSLargeScale3D(TreeModel):
     # respective volume of these cells in tree-own variables.
     # @param x: x-coordinate of tree
     # @param y: y-coordinate of tree
+    # @param radius: search radius around the previously given coordinates
+    #                within which the cell finder locates cells
     def addCellCharateristics(self, x, y, root_radius):
         affected_cells = self._cell_information.getCellIDsAtXY(x, y,
                                                                root_radius)

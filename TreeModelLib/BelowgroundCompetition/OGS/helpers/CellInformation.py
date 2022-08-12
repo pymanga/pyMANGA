@@ -41,6 +41,8 @@ class CellInformation:
     #  Suggestions to improveme the implementation are most welcome.
     #  @param x: x-coordinate for tree search
     #  @param y: y-coordinate for tree search
+    #  @param radius: search radius around the previously given coordinates
+    #                 within which the cell finder locates cells
     def getCellIDsAtXY(self, x, y, radius):
         bounds = self._grid.GetBounds()
         # TODO: find better solution

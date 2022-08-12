@@ -64,6 +64,7 @@ class SimpleNetwork(TreeModel):
         self._rgf_counter = []
 
         self._variant = []
+        self._node_degree = []
         # parameters for rgf variant "V2_adapted"
         self._r_gr_min = []
         self._r_gr_rgf = []
@@ -100,6 +101,7 @@ class SimpleNetwork(TreeModel):
         self._potential_partner.append(self.network['potential_partner'])
 
         self._variant.append(self.network['variant'])
+        self._node_degree.append(self.network['node_degree'])
 
         # Only valid for Variant V2_adapted: list with min./current grafted root radius
         # of each pair; same structure as potential_partner
@@ -202,6 +204,8 @@ class SimpleNetwork(TreeModel):
             network['r_gr_rgf'] = self._r_gr_rgf[i]
             network['r_gr_min'] = self._r_gr_min[i]
             network['l_gr_rgf'] = self._l_gr_rgf[i]
+            network['variant'] = self._variant[i]
+            network['node_degree'] = self._node_degree[i]
 
             tree.setNetwork(network)
 

@@ -20,12 +20,12 @@ A description of all other configurations can be found in the <a href="https://j
 
 For simulations with the underground concept OGSLargeScale3D, the following concept-specific tags must be defined:
 
--     der absolute Pfad zum Ordner mit allen relevanten OGS-Dateien (*ogs_project_folder*)
--     die OGS- Projektdatei (*ogs_project_file*)
--     das Source Mesh (*source_mesh*)
--     das Bulk Mesh (*bulk_mesh*)
--     die Zeitschrittlänge, die angibt wie lange das Grundwasserströmungsmodell rechnet, bevor der Rest des BETTINA-Zeitschritts extrapoliert wird(*delta_t_ogs*)
--     Skript mit Python-Randbedingungen (*python_script*)
+-           the absolute path to the folder with all relevant OGS files (*ogs_project_folder*)
+-           the OGS project file (*ogs_project_file*)
+-           the source mesh (*source_mesh*)
+-           the bulk mesh (*bulk_mesh*)
+-           the time step length, which indicates how long the groundwater flow model calculates before the rest of the BETTINA time step is extrapolated(*delta_t_ogs*)
+-           Script with Python boundary conditions (*python_script*)
 
 The ogs project described in <a href="/en/docs/example_model_ogs_bettina/ogs_project/">The OGS project</a> must be specified as *ogs_project_file*.
 The previously defined python constraint is inserted under the name *python_script*.

@@ -271,6 +271,14 @@ After defining the concentration boundary conditions, the boundary conditions fo
                     <type>Python</type>
                     <bc_object>bc_land_p</bc_object>
                 </boundary_condition>
+                
+For the tree water uptake, a helpter for the source terms is required and must be defined here.
+                
+                <boundary_condition>
+                    <mesh>right_boundary</mesh>
+                    <type>Python</type>
+                    <bc_object>bc_source_helper</bc_object>
+                </boundary_condition>
             </boundary_conditions>
             
 The water uptake of the trees is described as a source term and is automatically added to our python script by pyMANGA.

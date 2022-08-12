@@ -272,6 +272,14 @@ Nach Definition der Konzentrations-Randbedingungen fehlen noch die Randbedingung
                     <type>Python</type>
                     <bc_object>bc_land_p</bc_object>
                 </boundary_condition>
+                
+Für die Beschreibung der Wasseraufnahme ist eine Hilfsfunktion notwendig, welche zwingend hier definiert werden muss.
+                
+                <boundary_condition>
+                    <mesh>right_boundary</mesh>
+                    <type>Python</type>
+                    <bc_object>bc_source_helper</bc_object>
+                </boundary_condition>
             </boundary_conditions>
             
 Die Wasseraufnahme der Bäume wird als Quellterm beschrieben und wird von pyMANGA automatisch zu unserem python-script hinzugefügt.

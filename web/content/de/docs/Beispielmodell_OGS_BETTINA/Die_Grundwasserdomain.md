@@ -11,7 +11,7 @@ Zudem wird ein Gitter benötigt, welches die Subdomain repräentiert, in welcher
 Das Grundwasserströmungsmodell OGS arbeitet mit <a href="https://www.vtk.org/" target="_blank"> vtk-Gittern</a>.
 In diesem Abschnitt wird eine Methode erläutert, wie ein solches Gitter erstellt werden kann.
 Hierfür wird ein Beispiel-Python Script genutzt und Abschnittsweise erkärt.
-Für das folgende Script wird $vtk>=9.2.0.$ benötigt.
+Für das folgende Script wird *vtk>=9.2.0* benötigt.
 
 Wir verwenden das Paket *pygmsh* als Hilfsmittel.
 Außerdem benötigen wir die Funktionalitäten von *vtk, numpy, os, subprocess* und *absolute_import*.

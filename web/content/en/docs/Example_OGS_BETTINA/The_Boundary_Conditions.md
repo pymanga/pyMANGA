@@ -5,7 +5,7 @@ weight: 2
 description:
 ---
 
-For the groundwater flow model, boundary conditions and source thermal must be specified.
+For the groundwater flow model, boundary conditions and source terms must be specified.
 In this example, the boundary conditions are completely defined using a python script.
 Basically, there are other ways to define boundary conditions.
 For information that goes beyond the examples presented, the OGS community provides <a href="https://www.opengeosys.org/" target="_blank">detailed documentation</a>.

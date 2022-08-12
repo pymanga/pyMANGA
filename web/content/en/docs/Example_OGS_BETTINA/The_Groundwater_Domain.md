@@ -11,7 +11,7 @@ In addition, a grid is required that represents the subdomain in which trees tak
 The groundwater flow model OGS works with <a href="https://www.vtk.org/" target="_blank"> vtk grids</a>.
 This section explains one method of creating such a grid.
 An example Python script is used for this and explained in sections.
-$vtk>=9.2.0.$ is required for the following script.
+*vtk>=9.2.0* is required for the following script.
 
 We use the *pygmsh* package as a resource.
 In addition, we need the functionalities of *vtk, numpy, os, subprocess* and *absolute_import*.

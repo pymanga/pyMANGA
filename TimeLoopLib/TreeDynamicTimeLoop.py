@@ -19,7 +19,7 @@ class TreeDynamicTimeLoop:
         try:
             self.terminal_print = args.find('terminal_print').text
             if self.terminal_print == 'years':
-                self.print_unit = 86400/365.25
+                self.print_unit = 86400*365.25
             elif self.terminal_print == 'days':
                 self.print_unit = 86400
         except:

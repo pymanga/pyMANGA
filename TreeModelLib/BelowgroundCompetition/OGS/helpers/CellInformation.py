@@ -41,7 +41,9 @@ class CellInformation:
     #  Suggestions to improveme the implementation are most welcome.
     #  @param x: x-coordinate for tree search
     #  @param y: y-coordinate for tree search
-    def getCellIDsAtXY(self, x, y):
+    #  @param radius: search radius around the previously given coordinates
+    #                 within which the cell finder locates cells
+    def getCellIDsAtXY(self, x, y, radius):
         bounds = self._grid.GetBounds()
         # TODO: find better solution
         # If the mesh is in 2D and in the x-y plane, it is probably so as OGS
@@ -65,44 +67,10 @@ class CellInformation:
             p2 = [x, y, bounds[-2]]
 
         cell_ids = vtk.vtkIdList()
-        self._cell_finder.FindCellsAlongLine(p1, p2, 1, cell_ids)
-
-        def linepoints(y):
-            return np.array(p1)[np.newaxis, :] + y[:, np.newaxis] * (
-                np.array(p2)[np.newaxis, :] - np.array(p1)[np.newaxis, :])
-
-        search = 1
-        yi = np.array([0, .5, 1])
-        points = (linepoints(yi))
+        self._cell_finder.FindCellsAlongLine(p1, p2, radius, cell_ids)
         ids = []
-        i = 0
-        for point in points:
-            iD = (self.getCellId(point[0], point[1], point[2]))
-            if (iD not in ids) and (iD != -1):
-                ids.append(iD)
-        while (search):
-            new_yi = (yi[:-1] + yi[1:]) / 2.
-            points = linepoints(new_yi)
-            for point in points:
-                iD = (self.getCellId(point[0], point[1], point[2]))
-                if (iD not in ids) and (iD != -1):
-                    ids.append(iD)
-            i += 1
-            dist = np.abs((points[:-1] - points[1:]))[0, 2]
-            if len(ids) == 3:
-                search = 0
-            elif dist < 1e-3:
-                search = 0
-                if len(ids) < 1:
-                    raise ValueError("It seems like some trees are located " +
-                                     "outside the ogs bulk mesh!" +
-                                     " Please check for consistency.")
-            elif i == 1e4:
-                search = 0
-                raise ValueError("Search algorithm failed! Please improve" +
-                                 " algorithm!")
-            yi = np.concatenate((yi, new_yi))
-            yi.sort()
+        for i in range(cell_ids.GetNumberOfIds()):
+            ids.append(cell_ids.GetId(i))
         return ids
 
     ## Returns cell volumes

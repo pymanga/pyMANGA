@@ -6,7 +6,7 @@ description:
 ---
 
 pyMANGA is controlled via an xml file (see also <a href="/de/docs/steuerFILE/">this section</a>).
-The content of the XML file is presented here.
+The content of the XML file to run this example is presented here.
 OGS specific adjustments and parameters are explained.
 A description of all other configurations can be found in the <a href="https://jbathmann.github.io/pyMANGA/project_dox__MangaProject__MangaProject.html" target="_blank">general documentation</a>.
 
@@ -27,7 +27,7 @@ For simulations with the underground concept OGSLargeScale3D, the following conc
 -           the time step length, which indicates how long the groundwater flow model calculates before the rest of the BETTINA time step is extrapolated(*delta_t_ogs*)
 -           Script with Python boundary conditions (*python_script*)
 
-The ogs project described in <a href="/en/docs/example_model_ogs_bettina/ogs_project/">The OGS project</a> must be specified as *ogs_project_file*.
+The OGS project described in <a href="/en/docs/example_model_ogs_bettina/ogs_project/">The OGS project</a> must be specified as *ogs_project_file*.
 The previously defined python constraint is inserted under the name *python_script*.
 *delta_t_ogs* defines for how long the groundwater flow model calculates before extrapolating the rest of the BETTINA time step.
 
@@ -48,7 +48,7 @@ The previously defined python constraint is inserted under the name *python_scri
         </tree_growth_and_death>
         </tree_dynamics>
 	   
-For this example we use a previously saved initial tree distribution.
+For this example, we use an initial tree distribution.
 
         <initial_population>
             <group>
@@ -74,8 +74,7 @@ For this example we use a previously saved initial tree distribution.
         </tree_output>
     </MangaProject>
 
-In this example, an initial tree distribution is loaded into the program.
-This should be in an external file with the following content:
+The inital tree distribution is stored in a csv file and has the following content:
 
     tree,	time,	x,	y,	r_stem,	h_stem,	r_crown,	r_root	
     Initial_000000001,	0,	20,	5.0,	0.04,	3.5,	1.4,	0.7

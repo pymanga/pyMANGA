@@ -6,12 +6,11 @@ description:
 ---
 
 To simulate the salt transport in the groundwater, a representation of the model domain has to be created.
-For this we need a grid representing the domain in which the water flows take place and boundary meshes on which we can define boundary conditions.
+For this we need a grid representing the domain in which the water flow takes place and boundary meshes on which we can define boundary conditions.
 In addition, a grid is required that represents the subdomain in which trees take up water via the roots (boundary meshes).
 The groundwater flow model OGS works with <a href="https://www.vtk.org/" target="_blank"> vtk grids</a>.
-This section explains one method of creating such a grid.
-An example Python script is used for this and explained in sections.
-*vtk>=9.2.0* is required for the following script.
+This section explains one method of creating such a grid, using a Python script.
+*vtk>=9.2.0* is required to successfully run the following script.
 
 We use the *pygmsh* package as a resource.
 In addition, we need the functionalities of *vtk, numpy, os, subprocess* and *absolute_import*.
@@ -32,7 +31,7 @@ In this example, the terrain is constantly sloping along the x-axis (slope *m* i
     def transectElevation(x, m):
         return float(m * x)
 	    
-Pressure (in Pa) and porewater salinity (in ppt) are described using position dependent functions.
+Pressure (in Pa) and porewater salinity (in kg per kg) are described using position dependent functions.
 
     # Pressure at a given point. Here, pressure is 0 at the surface
 
@@ -46,7 +45,7 @@ Pressure (in Pa) and porewater salinity (in ppt) are described using position de
     def c(point):
         return .035
 
-The following function later adds the defined pressure and concentration field to the domain:
+The following function will be used later to add the defined pressure and concentration field to the domain:
 
     def addCandPtoMesh(mesh):
         points = mesh.GetPoints()
@@ -66,11 +65,11 @@ The following function later adds the defined pressure and concentration field t
         mesh.GetPointData().AddArray(p_ini)
         mesh.GetPointData().AddArray(c_ini)
 
-Also, the following block can be used to create a cuboid lattice.
+The following block can be used to create a cuboid lattice.
 The grid is divided into three layers with the layer thicknesses *l_z_top*, *l_z_mid* and *l_z_bottom*.
+If one of the lengths is set to zero, the layer is not created.
 A vertical resolution can be specified for each of these layers (*num_top*, *num_bottom*, *num_mid*).
 The *z* parameter specifies a possible displacement of the top edge of the terrain, the basic course of which is defined in *TransectElevation*, in meters.
-*two_layers* and *three_layers* defines how many different layers there are.
 *points_in_y* specifies the extension or resolution in the y-direction.
 *l_x* defines the length of the transect and *lcar* the characteristic length of the grid.
 
@@ -125,16 +124,16 @@ The *z* parameter specifies a possible displacement of the top edge of the terra
     #  @param l_z_mid: depth of mid layer, if constructed
     #  @param num_mid: resolution of mid layer
     #  @param l_x: x-extension of model
-    #  @param lcar: characteristic lengthscale in x-direction
+    #  @param lcar: characteristic lengthscale in x- and y-direction in meters 
     #  @param transect_elevation: Function, which returns a z-value for given x-val
     def meshGen(z,
                 l_z_top,
+                l_z_mid=0,
                 l_z_bottom=0,
                 num_top=1,
+                num_mid=0,
                 num_bottom=0,
                 l_y=10,
-                l_z_mid=0,
-                num_mid=0,
                 l_x=230,
                 lcar=5,
                 transect_elevation=transectElevation,
@@ -230,7 +229,7 @@ Then the property "bulk_node_ids", which is necessary for OGS, is inserted.
         propertyvector.InsertNextTuple1(i)
     bulk.GetPointData().AddArray(propertyvector)
 
-Then the initial pressure field and the initial concentration field. have been added, the bulk mesh can be saved.
+When the initial pressure field and the initial concentration field have been added, the bulk mesh can be saved.
 
     # Adding pressure and concentration field to mesh
     addCandPtoMesh(bulk)
@@ -310,7 +309,7 @@ To copy the properties we assigned to the main domain, vtk's *ResampleWithDatase
     source_writer.Write()
 
 At the end only the boundary meshes are missing.
-The ExtractSurface utility from the opengeosys project can be used to extract the boundary mesh.
+Finally, we create the boundary meshes using the ExtractSurface utility from the OGS project.
 If OGS is operated under Ubuntu, it works like this:
 
     ogs_container_string = "singularity exec ABSOLUTE/PATH/TO/PYMANGA/pyMANGA/TreeModelLib/BelowgroundCompetition/OGS/container/ogs_container.sif "

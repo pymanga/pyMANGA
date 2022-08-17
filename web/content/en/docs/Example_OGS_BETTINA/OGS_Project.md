@@ -218,7 +218,7 @@ The parameters used can be specified in the project file.
 
 The boundary conditions are now defined in the *process_variables* section.
 This may need to be adjusted.
-First the boundary conditions for the concentration are assigned.
+First, the boundary conditions for the concentration are assigned.
 We use the previously defined python boundary conditions.
 Each boundary condition is defined on a mesh and consists of a previously defined BC object.
 See the section <a href="/en/docs/example_ogs_bettina/the_boundary_conditions">The boundary conditions</a>.

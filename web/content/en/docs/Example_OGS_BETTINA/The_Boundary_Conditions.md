@@ -6,11 +6,11 @@ description:
 ---
 
 For the groundwater flow model, boundary conditions and source terms must be specified.
-In this example, the boundary conditions are completely defined using a python script.
+In this example, the boundary conditions are defined using a python script.
 Basically, there are other ways to define boundary conditions.
-For information that goes beyond the examples presented, the OGS community provides <a href="https://www.opengeosys.org/" target="_blank">detailed documentation</a>.
+For information that goes beyond the examples presented, the OGS community provides a <a href="https://www.opengeosys.org/" target="_blank">detailed documentation</a>.
 
-In this example, boundary conditions are specified along the yz boundaries of the domain.
+In this example, boundary conditions are specified along the y-z boundaries of the domain.
 In addition - depending on the tide - a seawater connection is created on the surface for a limited period of time.
 The script used in this example starts with package imports as usual.
 We need the packages *OpenGeoSys, vtk, numpy, math* and *os*.
@@ -37,7 +37,7 @@ A simple approach would be:
     def pressure_value(z,x, tidal_cycle):
         return 1000 * 9.81 * (tidal_cycle - z + transectElevation(x))
 
-With this helper function, the pressure along our edges can now be defined.
+With this helper function, we can define the pressure gradient along the edges .
 In each case, we introduce a boundary condition that either does not allow flow across the boundary surfaces (no connection to the seawater) or allows open mixing with the seawater in the event of overflow.
 
     ## Dirichlet BCs
@@ -59,7 +59,7 @@ In each case, we introduce a boundary condition that either does not allow flow 
             value = pressure_value(z, x, 0)
             return (True, value)
 
-For the concentration boundary conditions, it is assumed that mixing can take place when flooded with seawater.
+For the concentration boundary conditions, we assume that mixing can take place when flooded with seawater.
 
     ## Dirichlet BCs
     class BCSea_C(OpenGeoSys.BoundaryCondition):
@@ -81,7 +81,7 @@ For the concentration boundary conditions, it is assumed that mixing can take pl
 
 Now only the seawater salinity has to be assigned.
 In addition, the period and amplitude can be adapted to the modes of the tide.
-For this example, the tidal range is disabled (Amplitude = 0).
+For this example, the tidal range is disabled (amplitude = 0).
 This can be added later by changing the parameters in the *tidal_cycle* function.
 This can be adjusted later.
 

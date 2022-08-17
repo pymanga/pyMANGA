@@ -32,7 +32,7 @@ In diesem Beispiel handelt es sich um ein entlang der x-Achse konstant abfallend
     def transectElevation(x, m):
         return float(m * x)
 	    
-Druck  (in Pa) und Bodensalinität (in ppt) werden ebenfalls durch ortsabhängige Funktionen beschrieben.
+Druck  (in Pa) und Bodensalinität (in kg pro kg) werden ebenfalls durch ortsabhängige Funktionen beschrieben.
 
     # Pressure at a given point. Here, pressure is 0 at the surface
 
@@ -69,9 +69,9 @@ Mit der folgenden Funktion wird später das definierte Druck- und Konzentrations
 
 Außerdem kann der folgende Block verwendet werden, um ein quaderförmiges Gitter zu erstellen.
 Das Gitter ist in drei Schichten mit den Schichtdicken *l_z_top*, *l_z_mid* und *l_z_bottom* unterteilt.
+Wenn eine der Längen auf 0 gesetzt wird, so wird die Schicht nicht angelegt.
 Für jede dieser Schichten kann eine vertikale Auflösung angegeben werden (*num_top*, *num_bottom*, *num_mid*).
 Der Parameter *z* gibt eine mögliche Verschiebung der Geländeoberkante, deren prinzipieller Verlauf in *TransectElevation* definiert ist, in Metern vor.
-*two_layers* und *three_layers* definiert, wieviele unterschiedliche Schichten vorliegen.
 Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgegeben.
 *l_x* definiert die Länge des transects und *lcar* die charackteristische Länge des Gitters.
 
@@ -127,16 +127,16 @@ Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgege
     #  @param l_z_mid: depth of mid layer, if constructed
     #  @param num_mid: resolution of mid layer
     #  @param l_x: x-extension of model
-    #  @param lcar: characteristic lengthscale in x-direction
+    #  @param lcar: characteristic lengthscale in x-direction and y-direction in meters
     #  @param transect_elevation: Function, which returns a z-value for given x-val
     def meshGen(z,
                 l_z_top,
+                l_z_mid=0,
                 l_z_bottom=0,
                 num_top=1,
+                num_mid=0,
                 num_bottom=0,
                 l_y=10,
-                l_z_mid=0,
-                num_mid=0,
                 l_x=230,
                 lcar=5,
                 transect_elevation=transectElevation,

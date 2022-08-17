@@ -6,7 +6,7 @@ description:
 ---
 
 This section uses an example model to explain how the groundwater flow model OGS can be used.
-We use the model setups from <a href="https://linkinghub.elsevier.com/retrieve/pii/S0304380020300454" target="_blank">Bathmann et al. 2020</a>.
+We use the model setups presented in <a href="https://linkinghub.elsevier.com/retrieve/pii/S0304380020300454" target="_blank">Bathmann et al. 2020</a>.
 
 <figure>
 <img src="/pictures/ogs_example/conceptual_setup.png" style="width:90%">

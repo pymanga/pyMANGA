@@ -169,14 +169,14 @@ First, the points of our mesh are created using the previously programmed functi
     hydraulic_gradient = 1e-3
     bulky = meshGen(z=0,
                     l_z_top=0.4,
+                    l_z_mid=.8,
                     l_z_bottom=0.3,
                     num_top=3,
-                    num_bottom=1,
-                    l_z_mid=.8,
                     num_mid=2,
+                    num_bottom=1,
                     m=hydraulic_gradient,
-                    l_x=30,
                     l_y=10,
+                    l_x=30,
                     lcar=2)
     # Extraction of Bulk Mesh points
     points = bulky.points
@@ -248,8 +248,8 @@ Our previously defined *meshGen* is used again for this.
                       l_z_top=0.4,
                       num_top=1,
                       m=hydraulic_gradient,
-                      l_x=30,
                       l_y=10,
+                      l_x=30,
                       lcar=2)
     source = vtk.vtkUnstructuredGrid()
     source_points = vtk.vtkPoints()

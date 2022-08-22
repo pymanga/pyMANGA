@@ -5,9 +5,8 @@ weight: 1
 description:
 ---
 
-To simulate the salt transport in the groundwater, a representation of the model domain has to be created.
-For this we need a grid representing the domain in which the water flow takes place and boundary meshes on which we can define boundary conditions.
-In addition, a grid is required that represents the subdomain in which trees take up water via the roots (boundary meshes).
+The groundwater model domain is represented by a a grid or mesh.
+The first step is to create this flow mesh and associated boundary meshes for the definition of the boundary conditions, including the inner boundary for the layer with the roots of the trees.
 The groundwater flow model OGS works with <a href="https://www.vtk.org/" target="_blank"> vtk grids</a>.
 This section explains one method of creating such a grid, using a Python script.
 *vtk>=9.2.0* is required to successfully run the following script.
@@ -25,8 +24,8 @@ Accordingly, these packages must be imported at the beginning of the script:
 
 With these packages it is now possible to implement the required functions and classes.
 
-The course of the ground level is described in a function.
-In this example, the terrain is constantly sloping along the x-axis (slope *m* in parts per thousand).
+The course of the elevation of the ground surface is described as a function of x with x=0 at the seaward boundary of the domain.
+In this example, the terrain is constantly sloping along the x-axis (x in [m], m in [m/m]).
 
     def transectElevation(x, m):
         return float(m * x)
@@ -65,8 +64,8 @@ The following function will be used later to add the defined pressure and concen
         mesh.GetPointData().AddArray(p_ini)
         mesh.GetPointData().AddArray(c_ini)
 
-The following block can be used to create a cuboid lattice.
-The grid is divided into three layers with the layer thicknesses *l_z_top*, *l_z_mid* and *l_z_bottom*.
+The following block can be used to create a cuboid domain.
+Vertically, the domain is divided into three layers with the layer thicknesses *l_z_top*, *l_z_mid* and *l_z_bottom*.
 If one of the lengths is set to zero, the layer is not created.
 A vertical resolution can be specified for each of these layers (*num_top*, *num_bottom*, *num_mid*).
 The *z* parameter specifies a possible displacement of the top edge of the terrain, the basic course of which is defined in *TransectElevation*, in meters.
@@ -116,16 +115,16 @@ The *z* parameter specifies a possible displacement of the top edge of the terra
     #  @param z: shift in z-direction
     #  @param l_z_top: depth of the top layer (if only one layer created, value
     #  defines the depth)
-    #  @param l_z_bottom: depth of the bottom layer (if two layers created, value
-    #  defines the depth of the bottom layer)
+    #  @param l_z_mid: depth of mid layer
+    #  @param l_z_bottom: depth of the bottom layer
     #  @param num_top: resolution of top layer
-    #  @param num_bottom: resolution of bottom layer
-    #  @param l_y: y-extension of grid
-    #  @param l_z_mid: depth of mid layer, if constructed
     #  @param num_mid: resolution of mid layer
-    #  @param l_x: x-extension of model
+    #  @param num_bottom: resolution of bottom layer
+    #  @param l_x: x-extension of domain
+    #  @param l_y: y-extension of domain
     #  @param lcar: characteristic lengthscale in x- and y-direction in meters 
     #  @param transect_elevation: Function, which returns a z-value for given x-val
+    #  @param m: terrain slope
     def meshGen(z,
                 l_z_top,
                 l_z_mid=0,
@@ -162,8 +161,8 @@ The *z* parameter specifies a possible displacement of the top edge of the terra
             mesh = geom.generate_mesh()
             return mesh
 
-Now it's time to actually create the mesh.
-First, the points of our mesh are created using the previously programmed function *meshGen* and saved for later.
+Now, the functions are defined and the mesh can be created.
+The points of our mesh are created using the previously programmed function *meshGen* and saved for later.
 
     # Generating bulk mesh
     hydraulic_gradient = 1e-3
@@ -241,6 +240,7 @@ When the initial pressure field and the initial concentration field have been ad
 
 Now the main domain is ready and filled with properties.
 Next, the layer from which the trees take water is sampled.
+It has to fit one of the previous layers
 Our previously defined *meshGen* is used again for this.
 
     # Generating source mesh
@@ -308,7 +308,7 @@ To copy the properties we assigned to the main domain, vtk's *ResampleWithDatase
     source_writer.SetInputData(source)
     source_writer.Write()
 
-At the end only the boundary meshes are missing.
+At the end, only the boundary meshes are missing.
 Finally, we create the boundary meshes using the ExtractSurface utility from the OGS project.
 If OGS is operated under Ubuntu, it works like this:
 

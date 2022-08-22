@@ -245,6 +245,7 @@ Nachdem noch das initiale Druckfeld und das initiale Konzentrationsfeld. hinzuge
 
 Jetzt ist die Hauptdomain fertig und mit Eigenschaften belegt.
 Als nächstes wird der Layer gesampled, aus dem die Bäume Wasser entnehmen.
+Die Meshpunkte dieses Grids müssen exakt mit denen des Hauptmeshes übereinstimmen.
 Dafür wird wieder unser zuvor definiertes *meshGen* verwendet.
 
 

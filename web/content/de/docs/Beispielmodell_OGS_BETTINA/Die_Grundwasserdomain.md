@@ -72,7 +72,6 @@ Das Gitter ist in drei Schichten mit den Schichtdicken *l_z_top*, *l_z_mid* und 
 Wenn eine der Längen auf 0 gesetzt wird, so wird die Schicht nicht angelegt.
 Für jede dieser Schichten kann eine vertikale Auflösung angegeben werden (*num_top*, *num_bottom*, *num_mid*).
 Der Parameter *z* gibt eine mögliche Verschiebung der Geländeoberkante, deren prinzipieller Verlauf in *TransectElevation* definiert ist, in Metern vor.
-Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgegeben.
 *l_x* definiert die Länge des transects und *lcar* die charackteristische Länge des Gitters.
 
 			
@@ -119,16 +118,16 @@ Durch *points_in_y* wird die Ausdehnung bzw Auflösung in die y-Richtung vorgege
     #  @param z: shift in z-direction
     #  @param l_z_top: depth of the top layer (if only one layer created, value
     #  defines the depth)
-    #  @param l_z_bottom: depth of the bottom layer (if two layers created, value
-    #  defines the depth of the bottom layer)
+    #  @param l_z_mid: depth of mid layer
+    #  @param l_z_bottom: depth of the bottom layer
     #  @param num_top: resolution of top layer
-    #  @param num_bottom: resolution of bottom layer
-    #  @param l_y: y-extension of grid
-    #  @param l_z_mid: depth of mid layer, if constructed
     #  @param num_mid: resolution of mid layer
-    #  @param l_x: x-extension of model
-    #  @param lcar: characteristic lengthscale in x-direction and y-direction in meters
+    #  @param num_bottom: resolution of bottom layer
+    #  @param l_x: x-extension of domain
+    #  @param l_y: y-extension of domain
+    #  @param lcar: characteristic lengthscale in x- and y-direction in meters 
     #  @param transect_elevation: Function, which returns a z-value for given x-val
+    #  @param m: terrain slope
     def meshGen(z,
                 l_z_top,
                 l_z_mid=0,

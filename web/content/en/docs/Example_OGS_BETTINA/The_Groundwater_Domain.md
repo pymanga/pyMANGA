@@ -69,7 +69,6 @@ Vertically, the domain is divided into three layers with the layer thicknesses *
 If one of the lengths is set to zero, the layer is not created.
 A vertical resolution can be specified for each of these layers (*num_top*, *num_bottom*, *num_mid*).
 The *z* parameter specifies a possible displacement of the top edge of the terrain, the basic course of which is defined in *TransectElevation*, in meters.
-*points_in_y* specifies the extension or resolution in the y-direction.
 *l_x* defines the length of the transect and *lcar* the characteristic length of the grid.
 
     def createSurface(l_x, l_y, z,

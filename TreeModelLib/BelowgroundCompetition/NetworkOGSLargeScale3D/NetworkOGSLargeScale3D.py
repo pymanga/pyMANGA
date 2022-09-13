@@ -49,7 +49,9 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         # OGS stuff
         x, y = tree.getPosition()
         # add cell IDs and cell volume to tree
-        super().addCellCharateristics(x, y)
+        geometry = tree.getGeometry()
+        root_radius = geometry["r_root"]
+        super().addCellCharateristics(x, y, root_radius)
 
     ## This function creates an array with values of osmotic potential based
     # on values saved in network attributes (this is the osmotic potential

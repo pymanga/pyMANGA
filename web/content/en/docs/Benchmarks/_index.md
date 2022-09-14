@@ -1,7 +1,7 @@
 ---
 title: "pyMANGA Module Benchmarks"
 linkTitle: "Module Benchmarks"
-weight: 1
+weight: 4
 description:
 ---
 
@@ -10,17 +10,19 @@ Those benchmarks should allow (i) to technical assess the functionality of MANGA
 Thus, each contributor is kindly asked to provide a benchmark for each proposed module.
 In the following we explain the benchmark structure.
 
-As a reference we define a MANGA standard tree, which is an individual BETTINA tree, growing without competition or resource limitation (<a href="/docs/Benchmarks/_index/#Figure_1">Figure 1a</a>).
-The output metrics of each benchmark are the tree geometry parameters, i.e. stem height, crown, root and stem radius (<a href="/docs/Benchmarks/_index/#Figure_1">Figure 1b</a>).
+As a reference we define a MANGA standard tree, which is an individual BETTINA tree, growing without competition or resource limitation (<a href="/docs/Benchmarks/#Figure_1">Figure 1a</a>).
+The output metrics of each benchmark are the tree geometry parameters, i.e. stem height, crown, root and stem radius (<a href="/docs/Benchmarks/#Figure_1">Figure 1b</a>).
 
 
 <figure>
-<a name="Figure_1"></a>
-<img src="/pictures/benchmarks/reference_tree.jpg">
-<figcaption><font size = "1"><i><b>Figure 1:</b> (a) Module combination to create the MANGA reference tree (T0). (b) Geometry of T^0 over time.</i></font></figcaption>
+    <a name="Figure_1"></a>
+    <img src="/pictures/benchmarks/reference_tree.jpg">
+    <figcaption>
+        <font size = "1"><i><b>Figure 1:</b> (a) Module combination to create the MANGA reference tree (T0). (b) Geometry of T^0 over time.</i></font>
+    </figcaption>
 </figure><p>
 
-The general structure of each benchmark is a 2-tree setup, without recruitment (<a href="/docs/Benchmarks/_index/#Figure_2">Figure 2a</a>).
+The general structure of each benchmark is a 2-tree setup, without recruitment (<a href="/docs/Benchmarks/#Figure_2">Figure 2a</a>).
 The trees are placed centered in a 22x22 m model domain with a fixed distance of 2 m. 
 The initialization of those trees is based on the reference tree. 
 The tree on the left is initialized with the geometry of the 5-year-old reference tree while the other tree is initialized as a seedling (0-year reference tree, see ‘Benchmarks/ModuleTests/Standard/initial_population.csv’). 
@@ -29,13 +31,15 @@ If land- and seaward boundary conditions need to be defined in a setup, salinity
 Random seed of all setups is 643879.
 
 Benchmarks are classified based on the compartment of the module tested, i.e. below-ground interaction, above-ground interaction and tree mortality (for now tree growth is always simulated using the BETTINA approach). 
-Modules of the other compartments are defined as for the reference tree  (<a href="/docs/Benchmarks/_index/#Figure_2">Figure 2b</a>). 
+Modules of the other compartments are defined as for the reference tree  (<a href="/docs/Benchmarks/#Figure_2">Figure 2b</a>). 
 This means, for example, to test the below-ground module ‘FixedSalinity’, above-ground interaction is disabled (SimpleTest).
 
 <figure>
-<a name="Figure_2"></a>
-<img src="/pictures/benchmarks/basic_setup.jpg">
-<figcaption><font size = "1"><i><b>Figure 2:</b> (a) Schematic representation of benchmark setup (based on Bathmann et al. 2020). (b) Overview below-ground interaction setups.</i></font></figcaption>
+    <a name="Figure_2"></a>
+    <img src="/pictures/benchmarks/basic_setup.jpg">
+    <figcaption>
+        <font size = "1"><i><b>Figure 2:</b> (a) Schematic representation of benchmark setup (based on Bathmann et al. 2020). (b) Overview below-ground interaction setups.</i></font>
+</figcaption>
 </figure><p>
 
 The following files must be provided for each benchmark
@@ -50,9 +54,9 @@ The following files must be provided for each benchmark
  
 Naming convention
 -	Folder to store benchmark: name of tested module
--	File names  
-    + full setup: <below>_<above>_<growth>_<mortality>
-    + short setup: <name-full-setup>_short
+-	File names
+     + full setup: \"below_above_growth_mortality"
+     + short setup: \"name-full-setup_short"
 
 ## Overview existing benchmarks
 

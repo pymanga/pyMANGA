@@ -14,11 +14,10 @@ As a reference we define a MANGA standard tree, which is an individual BETTINA t
 The output metrics of each benchmark are the tree geometry parameters, i.e. stem height, crown, root and stem radius (<a href="/docs/Benchmarks/#Figure_1">Figure 1b</a>).
 
 
-<figure>
-    <a name="Figure_1"></a>
-    <img src="/pictures/benchmarks/reference_tree.jpg">
+<figure class="alert">
+    <img id="Figure_1" src="/pictures/benchmarks/reference_tree.jpg">
     <figcaption>
-        <font size = "1"><i><b>Figure 1:</b> (a) Module combination to create the MANGA reference tree (T0). (b) Geometry of T^0 over time.</i></font>
+        <i><strong>Figure 1:</strong> (a) Module combination to create the MANGA reference tree (T<sup>0</sup>). (b) Geometry of T<sup>0</sup> over time.</i>
     </figcaption>
 </figure><p>
 
@@ -34,13 +33,12 @@ Benchmarks are classified based on the compartment of the module tested, i.e. be
 Modules of the other compartments are defined as for the reference tree  (<a href="/docs/Benchmarks/#Figure_2">Figure 2b</a>). 
 This means, for example, to test the below-ground module ‘FixedSalinity’, above-ground interaction is disabled (SimpleTest).
 
-<figure>
-    <a name="Figure_2"></a>
-    <img src="/pictures/benchmarks/basic_setup.jpg">
-    <figcaption>
-        <font size = "1"><i><b>Figure 2:</b> (a) Schematic representation of benchmark setup (based on Bathmann et al. 2020). (b) Overview below-ground interaction setups.</i></font>
-</figcaption>
-</figure><p>
+<figure class="alert">
+     <img id="Figure_2" src="/pictures/benchmarks/basic_setup.jpg">
+     <figcaption>
+        <i><b>Figure 2:</b> (a) Schematic representation of benchmark setup (based on Bathmann et al. 2020). (b) Overview below-ground interaction setups.</i>
+     </figcaption>
+</figure>
 
 The following files must be provided for each benchmark
 -	Full benchmark  

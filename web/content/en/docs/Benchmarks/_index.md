@@ -60,11 +60,11 @@ Naming convention
 
 | Below-ground | Above-ground | Mortality |
 | --- | --- |:----------------------------------------------------------- |   
-| - [ ] FixedSalinity | - [ ] AZOI  | - [ ] Random |
-| - [ ] FON |                       | - [ ] RandomGrowth|
-| - [ ] OGSLargeScale |             | - [ ] Memory |
-| - [ ] OGSLargeScale External |    | Mortality |
-| - [ ] SymmetricZOI |              | Mortality |
-| - [ ] SZoiFixedSalinity |         | Mortality |
+| - &#x2610; FixedSalinity</li>     | - &#x2610; AZOI | - &#x2610; Random |
+| - &#x2610; FON                    |                 | - &#x2610; RandomGrowth|
+| - &#x2610; OGSLargeScale          |                 | - &#x2610; Memory |
+| - &#x2610; OGSLargeScale External   |               |  |
+| - &#x2610; SymmetricZOI           |                 |  |
+| - &#x2610; SZoiFixedSalinity      |                 |  |
 
 ### Network modules (tested with NetworkBettina)

@@ -135,7 +135,7 @@
             <timesteps>
                 <pair>
                     <repeat>1</repeat>
-                    <each_steps>1</each_steps> <!-- every 0.5 years -->
+                    <each_steps>1500</each_steps> <!-- every 0.5 years -->
                 </pair>
             </timesteps>
             <!--
@@ -257,6 +257,11 @@
                     <mesh>right_boundary</mesh>
                     <type>Dirichlet</type>
                     <parameter>p_right</parameter>
+                </boundary_condition>
+                <boundary_condition>
+                    <mesh>right_boundary</mesh>
+                    <type>Python</type>
+                    <bc_object>bc_source_helper</bc_object>
                 </boundary_condition>
             </boundary_conditions>
             <source_terms>

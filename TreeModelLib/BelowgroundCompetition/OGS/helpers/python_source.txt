@@ -1,0 +1,88 @@
+
+# Returns, depending on the cell_id, the constant contribution of a tree to the
+# water flux in the root zone.
+def constantContribution(cell_id):
+    return constant_contributions[cell_id]
+
+# Returns, depending on the cell_id, the salinity dependent contribution of a 
+# tree to the water flux in the root zone.
+def salinityContribution(cell_id, salinity):
+    return salinity_prefactors[cell_id] * salinity
+
+# Returns, depending on the cell_id, the complete contribution of a 
+# tree to the water flux in the root zone. If a network system is used, only
+# the complete contribution is constant. Otherwise, it depends on the salinty.
+def completeContribution(cell_id, salinity):
+    if complete_contributions is not None:
+        return complete_contributions[cell_id]
+    else:
+        return (constantContribution(cell_id) + salinityContribution(
+            cell_id, salinity))
+        
+
+# Source Term Helper
+# This class is necessary in order to check, whether a new iteration started.
+class SourceTermHelper(OpenGeoSys.BoundaryCondition):
+    def __init__(self):
+        super().__init__()
+        self.first_node = None
+            
+    def getDirichletBCValue(self, t, coords, node_id, primary_vars):
+        # Identification of the first node's id
+        if self.first_node is None:
+            self.first_node = node_id
+        # Reset of node counter for the source mesh with first nodes call
+        if node_id == self.first_node:
+            cell_information.setSourceCounter(0)
+        return (False, 0)
+
+
+# Source Term
+# This source term describes the water fux from the bulk domain into the roots
+# of trees. 
+class FluxToTrees(OpenGeoSys.SourceTerm):
+    def __init__(self):
+        super().__init__()
+        self.t = -999999
+        self._cumsum_salinity = np.zeros(cell_information.getNCells())
+        self._calls = np.zeros(cell_information.getNCells())
+        self._first_iteration = False
+
+    def getFlux(self, t, coords, primary_vars):
+        # In the first iteration over the souce mesh, cll id_s need to be 
+        # connected to coordinates in order to speedup the script. Thus, source
+        # mesh cell ids are counted
+        old_count = cell_information.getSourceCounter()
+        new_count = old_count + 1
+        cell_id = cell_information.getCellIdAtIntPoint(coords[0], coords[1], coords[2],
+                                             old_count)
+        cell_information.setSourceCounter(new_count)
+
+        salinity = primary_vars[1]
+
+        # Identification of first iteration of a new timestep
+        if t > self.t:
+            self.t = t
+            self._first_iteration = True
+        # Identification of the last timestep of the ogs model run
+        if t == t_write:
+            # Identification of the call of the last node in the last timestep
+            if cell_information.getHighestNode() == new_count:
+                np.save(cumsum_savename, self._cumsum_salinity)
+                np.save(calls_savename, self._calls)
+        # Values for averaring are only saved in the first iteration of each
+        # timestep.
+        if self._first_iteration:
+            if new_count > cell_information.getHighestNode():
+              cell_information.setHighestNode(new_count)
+            elif cell_information.getHighestNode() == new_count:
+                self._first_iteration = False
+            self._calls[cell_id] += 1
+            self._cumsum_salinity[cell_id] += salinity
+
+        positive_flux = completeContribution(cell_id, salinity)
+        Jac = [0.0, 0.0]
+        return (-positive_flux, Jac)
+# These two objects need to be defined in the ogs project file.
+flux_to_trees = FluxToTrees()
+bc_source_helper = SourceTermHelper()

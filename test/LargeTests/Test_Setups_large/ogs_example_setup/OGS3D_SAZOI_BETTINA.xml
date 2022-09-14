@@ -19,10 +19,11 @@
             <ogs_project_file>testmodel.prj</ogs_project_file>
             <source_mesh>source_domain.vtu</source_mesh>
             <bulk_mesh>testbulk.vtu</bulk_mesh>
-            <delta_t_ogs>86400</delta_t_ogs> <!--24 h wie in testmodel.rpj -->
+            <delta_t_ogs>2592000</delta_t_ogs>
             <abiotic_drivers>
                 <seaward_salinity>0.035</seaward_salinity>
             </abiotic_drivers>
+            <python_script>python_script.py</python_script>
         </belowground_competition>
         <tree_growth_and_death>
             <type>SimpleBettina</type>

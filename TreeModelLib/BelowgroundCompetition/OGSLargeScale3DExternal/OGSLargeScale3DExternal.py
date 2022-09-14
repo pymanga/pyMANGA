@@ -56,7 +56,8 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
         parameter = tree.getParameter()
 
         # Cells affected by tree water uptake
-        super().addCellCharateristics(x, y)
+        root_radius = geometry["r_root"]
+        super().addCellCharateristics(x, y, root_radius)
 
         # Resistances against water flow in tree
         # Calculate total tree resistance

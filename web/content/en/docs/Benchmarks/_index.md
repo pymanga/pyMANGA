@@ -59,12 +59,19 @@ Naming convention
 ### Non-network modules (tested with SimpleBettina)
 
 | Below-ground | Above-ground | Mortality |
-| --- | --- |:----------------------------------------------------------- |   
-| - &#x2610; FixedSalinity</li>     | - &#x2610; AZOI | - &#x2610; Random |
-| - &#x2610; FON                    |                 | - &#x2610; RandomGrowth|
-| - &#x2610; OGSLargeScale          |                 | - &#x2610; Memory |
-| - &#x2610; OGSLargeScale External   |               |  |
-| - &#x2610; SymmetricZOI           |                 |  |
-| - &#x2610; SZoiFixedSalinity      |                 |  |
+| --- | --- |:----------------------------------------------------------- |  
+| &#x2610; FixedSalinity            | &#x2610; AZOI | &#x2610; Random |
+| &#x2610; FON                      |               | &#x2610; RandomGrowth|
+| &#x2610; OGSLargeScale            |               | &#x2610; Memory |
+| &#x2610; OGSLargeScale External   |               |  |
+| &#x2610; SymmetricZOI             |               |  |
+| &#x2610; SZoiFixedSalinity        |               |  |
 
 ### Network modules (tested with NetworkBettina)
+
+| Below-ground | 
+| --- | 
+| &#x2610; SimpleNetwork            | 
+| &#x2610; NetworkFixedSalinity     | 
+| &#x2610; NetworkOGSLargeScale     | 
+| &#x2610; NetworkOGSLargeScale External    |  

@@ -4,20 +4,19 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import \
-    OneTimestepOneFile
+from TreeOutputLib.TreeOutput import TreeOutput
 import os
 
 
 ## Output class. This class creates one file per tree at a defined location.
 #  A line containing time, position, desired geometric measures and desired
 #  parameters is written at every nth timestep.
-class OneTreeOneFile(OneTimestepOneFile):
+class OneTreeOneFile(TreeOutput):
 
     ## Constructor of dummy objects in order to drop output
     #  @param args xml element parsed from project to this constructor.
     def __init__(self, args):
-        super().__init__(args)
+        self.__init__subtype__(args)
         for path in os.listdir(self.output_dir):
             full_path = os.path.join(self.output_dir, path)
             if os.path.isfile(full_path):

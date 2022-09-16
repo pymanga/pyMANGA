@@ -5,17 +5,16 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 import os
-from TreeOutputLib.OneTimestepOneFile.OneTimestepOneFile import OneTimestepOneFile
-
+from TreeOutputLib.TreeOutput import TreeOutput
 
 ## Output class. This class creates one file for the whole simulation,
 # i.e. each time step and tree is included.
 # A line contains time, tree, position, desired geometric measures
 # and parameters for every nth time step.
-class OneFile(OneTimestepOneFile):
+class OneFile(TreeOutput):
 
     def __init__(self, args):
-        super().__init__(args)
+        self.__init__subtype__(args)
 
         # Check if csv file exists in directory
         # If not, create file

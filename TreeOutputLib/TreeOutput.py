@@ -10,25 +10,8 @@ import os
 class TreeOutput:
     ## Constructor for tree output calling different constructors depending on
     #  choosen case.
-    def __init__(self, args):
-        ## String defining case of output
-        self.case = args.find("type").text
-        if self.case == "NONE":
-            self.iniNONE(args)
-        elif self.case == "OneTreeOneFile":
-            self.iniOneTreeOneFile(args)
-        elif self.case == "OneTimestepOneFile":
-            self.iniOneTimestepOneFile(args)
-        elif self.case == "OneTimestepOneFilePerGroup":
-            self.iniOneTimestepOneFilePerGroup(args)
-        elif self.case == "OneFile":
-            self.iniOneFile(args)
-        else:
-            raise KeyError("Required tree_output of type '" + self.case +
-                           "' not implemented!")
-        print(self.case + " tree output sucesscully initiated.")
 
-    def __init__subtype__(self, args):
+    def __init__(self, args):
         ## Directory, where output is saved. Please make sure it exists and is
         #  empty.
         self.output_dir = self.checkRequiredKey("output_dir", args)
@@ -78,6 +61,7 @@ class TreeOutput:
         if (dir_files > 0 and allow_previous_output == False):
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
+
         print(
             "Output to '" + os.path.join(os.getcwd(), self.output_dir) +
             "' of tree positions, the " + "parameters ",
@@ -109,10 +93,6 @@ class TreeOutput:
     def iniOneFile(self, args):
         from .OneFile import OneFile
         self.output = OneFile(args)
-
-    ## Dummy for write output function
-    def writeOutput(self, tree_groups, time):
-        self.output.writeOutput(tree_groups, time)
 
     ## Returns output type:
     def getOutputType(self):
@@ -173,3 +153,20 @@ class TreeOutput:
             raise KeyError("Key '" + key + "' in project file at position " +
                            "MangaProject__tree_output needs to be specified.")
         return tmp.text
+
+    ## Writes output to predefined folder
+    #  For each timestep a file is created throughout the simulation.
+    #  This function is only able to work, if the output directory exists and
+    #  is empty at the begin of the model run
+    def writeOutput(self, tree_groups, time):
+        self._output_counter = (self._output_counter %
+                                self.output_each_nth_timestep)
+        it_is_output_time = True
+        if self.output_times is not None:
+            it_is_output_time = (time in self.output_times)
+        if self._output_counter == 0 and it_is_output_time:
+            self.outputContent(tree_groups, time)
+        self._output_counter += 1
+
+    def outputContent(self, tree_groups, time):
+        pass

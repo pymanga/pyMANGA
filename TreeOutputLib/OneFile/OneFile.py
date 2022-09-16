@@ -37,8 +37,10 @@ class OneFile(OneTimestepOneFile):
     def writeOutput(self, tree_groups, time):
         self._output_counter = (self._output_counter %
                                 self.output_each_nth_timestep)
-
-        if self._output_counter == 0:
+        it_is_output_time = True
+        if self.output_times is not None:
+            it_is_output_time = (time in self.output_times)
+        if self._output_counter == 0 and it_is_output_time:
             file = open(os.path.join(self.output_dir, self.filename), "a")
             string = ""
             for group_name, tree_group in tree_groups.items():

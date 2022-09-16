@@ -39,8 +39,6 @@ class MangaProject:
         case = arg.find("type").text
         if case == "SimpleTest":
             from TreeModelLib.BelowgroundCompetition.SimpleTest import SimpleTest as createBC
-        elif case == "SimpleHydro":
-            from TreeModelLib.BelowgroundCompetition.SimpleHydro import SimpleHydro as createBC
         elif case == "OGSLargeScale3D":
             from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D as createBC
         elif case == "OGSWithoutFeedback":
@@ -51,8 +49,6 @@ class MangaProject:
             from TreeModelLib.BelowgroundCompetition.FixedSalinity import FixedSalinity as createBC
         elif case == "SimpleNetwork":
             from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork as createBC
-        elif case == "NetworkHydro":
-            from TreeModelLib.BelowgroundCompetition.NetworkHydro import NetworkHydro as createBC
         elif case == "NetworkFixedSalinity":
             from TreeModelLib.BelowgroundCompetition.NetworkFixedSalinity import NetworkFixedSalinity as createBC
         elif case == "OGSLargeScale3DExternal":

@@ -7,11 +7,11 @@ In each line the tree id, the position, the time and predefined parameters and g
 > Note: Files can grow very large (due to small time steps and many individuals).
 # Required inputs: 
  
+- \subpage project_dox__MangaProject__tree_output__OneFile__parameter_output
+- \subpage project_dox__MangaProject__tree_output__OneFile__network_output
+- \subpage project_dox__MangaProject__tree_output__OneFile__working_directory
+- \subpage project_dox__MangaProject__tree_output__OneFile__growth_output
+- \subpage project_dox__MangaProject__tree_output__OneFile__output_each_nth_timestep
 - \subpage project_dox__MangaProject__tree_output__OneFile__allow_previous_output
 - \subpage project_dox__MangaProject__tree_output__OneFile__geometry_output
-- \subpage project_dox__MangaProject__tree_output__OneFile__growth_output
-- \subpage project_dox__MangaProject__tree_output__OneFile__network_output
-- \subpage project_dox__MangaProject__tree_output__OneFile__output_each_nth_timestep
-- \subpage project_dox__MangaProject__tree_output__OneFile__parameter_output
-- \subpage project_dox__MangaProject__tree_output__OneFile__working_directory
 */

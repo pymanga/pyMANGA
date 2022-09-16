@@ -1,3 +1,0 @@
-
-
-slope in y-direction.

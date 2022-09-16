@@ -47,6 +47,8 @@ class MangaProject:
             from TreeModelLib.BelowgroundCompetition.FON import FON as createBC
         elif case == "FixedSalinity":
             from TreeModelLib.BelowgroundCompetition.FixedSalinity import FixedSalinity as createBC
+        elif case == "FixedSalinity_t_var":
+            from TreeModelLib.BelowgroundCompetition.FixedSalinity_t_var import FixedSalinity_t_var as createBC
         elif case == "SimpleNetwork":
             from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork as createBC
         elif case == "NetworkFixedSalinity":

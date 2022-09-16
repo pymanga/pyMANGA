@@ -8,7 +8,7 @@ import numpy as np
 from TreeModelLib import TreeModel
 
 
-class FixedSalinity(TreeModel):
+class FixedSalinity_t_var(TreeModel):
     ## Fixed salinity in belowground competition concept.
     #  @param: Tags to define FixedSalinity: type, salinity
     #  @date: 2020 - Today
@@ -16,6 +16,11 @@ class FixedSalinity(TreeModel):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         self.GetSalinity(args)
+        print('________')
+        print('ini')
+        print('________')
+        if not hasattr(self, 'n'):
+            self.n = 0
 
     ## This function returns a list of the growth reduction factors of all trees.
     #  calculated in the subsequent timestep.\n
@@ -33,23 +38,27 @@ class FixedSalinity(TreeModel):
         self._xe = np.array(self._xe)
         salinity_tree = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
-                         (self._salinity[1] - self._salinity[0]) +
-                         self._salinity[0])
+                         (self.salinity[self.n][2] -
+                         self.salinity[self.n][1]) +
+                         self.salinity[self.n][1])
         return salinity_tree
+        print('________')
+        print('getTreeSalinity')
+        print('________')
+        print(self.n)
+        print(self.salinity[self.n][1])
+        print(self.salinity[self.n][2])
 
     ## This function reads salinity from the control file.\n
     def GetSalinity(self, args):
-        missing_tags = ["salinity", "type", "max_x", "min_x"]
+        missing_tags = ["salinity_file", "type", "max_x", "min_x"]
 
         for arg in args.iterdescendants():
             tag = arg.tag
-            if tag == "salinity":
-                self._salinity = arg.text.split()
-                if len(self._salinity) != 2:
-                    raise (
-                        KeyError("Two salinity values need to be specified"))
-                self._salinity[0] = float(self._salinity[0])
-                self._salinity[1] = float(self._salinity[1])
+            if tag == "salinity_file":
+                salinity_file = arg.text
+                # MARKER Fehlermeldung
+                self.salinity = np.loadtxt(salinity_file, delimiter=';', skiprows=1)
             if tag == "min_x":
                 self._min_x = float(args.find("min_x").text)
             if tag == "max_x":
@@ -93,3 +102,4 @@ class FixedSalinity(TreeModel):
         self._r_crown = []
         self._psi_leaf = []
         self._xe = []
+        self.n += 1

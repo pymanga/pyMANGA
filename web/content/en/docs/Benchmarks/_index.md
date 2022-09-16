@@ -12,68 +12,98 @@ In the following we explain the benchmark structure.
 
 As a reference we define a MANGA standard tree, which is an individual BETTINA tree, growing without competition or resource limitation (<a href="/docs/Benchmarks/#Figure_1">Figure 1a</a>).
 The output metrics of each benchmark are the tree geometry parameters, i.e. stem height, crown, root and stem radius (<a href="/docs/Benchmarks/#Figure_1">Figure 1b</a>).
-
+Additional outputs relevant for the tested module might be specified.
 
 <figure class="alert">
     <img id="Figure_1" src="/pictures/benchmarks/reference_tree.jpg">
     <figcaption>
-        <i><strong>Figure 1:</strong> (a) Module combination to create the MANGA reference tree (T<sup>0</sup>). (b) Geometry of T<sup>0</sup> over time.</i>
+        <i><br><strong>Figure 1:</strong> (a) Module combination to create the MANGA reference tree (T<sup>0</sup>). (b) Geometry of T<sup>0</sup> over time.</i>
     </figcaption>
 </figure><p>
 
-The general structure of each benchmark is a 2-tree setup, without recruitment (<a href="/docs/Benchmarks/#Figure_2">Figure 2a</a>).
+Benchmarks are classified based on the compartment of the module tested, i.e. below-ground interaction, above-ground interaction and tree mortality (for now tree growth is always simulated using the BETTINA approach). 
+Modules of the other compartments are defined as for the reference tree  (<a href="/docs/Benchmarks/#Figure_2">Figure 2a</a>). 
+This means, for example, to test the below-ground module ‘FixedSalinity’, above-ground interaction is disabled (SimpleTest).
+
+The general structure of each benchmark is a 2-tree setup, without recruitment (<a href="/docs/Benchmarks/#Figure_2">Figure 2b</a>).
 The trees are placed centered in a 22x22 m model domain with a fixed distance of 2 m. 
-The initialization of those trees is based on the reference tree. 
-The tree on the left is initialized with the geometry of the 5-year-old reference tree while the other tree is initialized as a seedling (0-year reference tree, see ‘Benchmarks/ModuleTests/Standard/initial_population.csv’). 
-Time step length is 1e6 seconds (~12 days) and simulation time is 300 years. Each benchmark has a short version with only 2 time steps used in the automatic test of MANGA (starting at 5e9 seconds simulation time). 
+The initialization of those trees is based on the geometry of the reference tree. 
+The initial population is designed in a way that the respective geometry triggers a potentially critical situation of the concept. 
+In some below-ground modules, this is for example the case, when the root systems of the trees overlap.
+Thus, we defined an initial population for each compartment ([Table_1](#Table_1)). 
+Each initial population is stored in ‘Benchmarks/ModuleTests/<compartment>/’.
+
+<a name="Table_1"></a> _**Table 1** Initial population based on reference tree._
+
+| Compartment | Tree              | Year  | r_stem | h_stem | r_crown | r_root |
+|--------------|-------------------|-------|--------|--------|---------|--------|
+| Above-ground | T1 | 14.1  | 0.06   | 4.51   | 1.5     | 0.93   |
+| Above-ground | T2 | 3.33  | 0.01   | 1.98   | 0.5     | 0.31   |
+| Below-ground | T1 | 26.68 | 0.11   | 5.97   | 2.43    | 1.5    |
+| Below-ground | T2 | 6.59  | 0.02   | 3.04   | 0.81    | 0.5    |
+
+
 If land- and seaward boundary conditions need to be defined in a setup, salinity is set to 25 ppt at the landward boundary and to 35 ppt at the seaward boundary. 
 Random seed of all setups is 643879.
 
-Benchmarks are classified based on the compartment of the module tested, i.e. below-ground interaction, above-ground interaction and tree mortality (for now tree growth is always simulated using the BETTINA approach). 
-Modules of the other compartments are defined as for the reference tree  (<a href="/docs/Benchmarks/#Figure_2">Figure 2b</a>). 
-This means, for example, to test the below-ground module ‘FixedSalinity’, above-ground interaction is disabled (SimpleTest).
+
+Time step length is 1e6 seconds (~12 days) and simulation time is 5e8 secs (~ 15.8 years, i.e. 500 time steps).
+Output is written after the first and last time step. 
+The first is used for automatic testing.
 
 <figure class="alert">
      <img id="Figure_2" src="/pictures/benchmarks/basic_setup.jpg">
      <figcaption>
-        <i><b>Figure 2:</b> (a) Schematic representation of benchmark setup (based on Bathmann et al. 2020). (b) Overview below-ground interaction setups.</i>
+        <i><br><strong>Figure 2:</strong> (a) Overview below-ground interaction setups. (b) Schematic representation of benchmark setup (based on Bathmann et al. 2020).</i>
      </figcaption>
 </figure>
 
 The following files must be provided for each benchmark
--	Full benchmark  
-     + MANGA project file  
-     + Results csv file (output every 10th time step)
-     + Optional: other files required to run the setup, e.g. OGS project file 
--	Short benchmark  
-     + MANGA project file
-     + Initial population (based on geometry in 5e9 s full benchmark)
-     + Results csv file 
+- MANGA project file
+- Results csv file (`<output_times> [2e6, 5e8] </output_times>`)
+- All files required to run the setup, e.g. OGS project file (if applicable)
  
-Naming convention
--	Folder to store benchmark: name of tested module
--	File names
-     + full setup: \"below_above_growth_mortality"
-     + short setup: \"name-full-setup_short"
+The files are stored in 'Benchmarks/ModuleBenchmarks/' with the name of the module tested.
 
 ## Overview existing benchmarks
 
-### Non-network modules (tested with SimpleBettina)
+### Modules tested with SimpleBettina
 
 | Below-ground | Above-ground | Mortality |
 | --- | --- |:----------------------------------------------------------- |  
-| &#x2610; FixedSalinity            | &#x2610; AZOI | &#x2610; Random |
+| &#x2611; FixedSalinity            | &#x2611; SimpleAsymmetricZOI | &#x2610; Random |
 | &#x2610; FON                      |               | &#x2610; RandomGrowth|
 | &#x2610; OGSLargeScale            |               | &#x2610; Memory |
-| &#x2610; OGSLargeScale External   |               |  |
-| &#x2610; SymmetricZOI             |               |  |
-| &#x2610; SZoiFixedSalinity        |               |  |
+| &#x2610; OGSLargeScaleExternal   |               |  |
+| &#x2611; SymmetricZOI             |               |  |
+| &#x2611; SZoiFixedSalinity        |               |  |
 
-### Network modules (tested with NetworkBettina)
+### Modules tested with NetworkBettina
+
+Network modules enable the formation of groups, representing root grafted trees.
+Grafted trees can exchange water, based on the water potential gradient between them.
+
+The module describing the group formation as well as the water exchange is 'SimpleNetwork'.
+All other below-ground network modules are children of this module and one or two other existing below-ground modules allowing for example the definition of a salinity gradient ('NetworkFixedSalinity').
+Network below-ground modules must be combined with the growth module 'NetworkBettina' which is based on 'SimpleBettina' but describes resource allocation to form the root graft.
+
 
 | Below-ground | 
 | --- | 
-| &#x2610; SimpleNetwork            | 
-| &#x2610; NetworkFixedSalinity     | 
+| &#x2611; SimpleNetwork            | 
+| &#x2611; NetworkFixedSalinity     | 
 | &#x2610; NetworkOGSLargeScale     | 
-| &#x2610; NetworkOGSLargeScale External    |  
+| &#x2610; NetworkOGSLargeScaleExternal    |  
+
+
+### Modules tested with SimpleKiwi
+
+With SimpleKiwi, below- and above-ground modules that depend on tree geometries (i.e. crown and root radius) do not need to be tested.
+
+| Below-ground | 
+| --- | 
+| &#x2610; FixedSalinity            |  
+| &#x2610; FON                      |  
+| &#x2610; OGSLargeScale            | 
+| &#x2610; OGSLargeScaleExternal    |
+

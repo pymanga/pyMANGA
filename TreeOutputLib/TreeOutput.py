@@ -16,8 +16,12 @@ class TreeOutput:
         #  empty.
         self.output_dir = self.checkRequiredKey("output_dir", args)
         ## N-timesteps between two outputs
-        self.output_each_nth_timestep = int(
-            self.checkRequiredKey("output_each_nth_timestep", args))
+        self.output_each_nth_timestep = args.find("output_each_nth_timestep")
+        if self.output_each_nth_timestep is not None:
+            self.output_each_nth_timestep = int(
+                self.checkRequiredKey("output_each_nth_timestep", args))
+        else:
+            self.output_each_nth_timestep = 1
         ## Check if overwrite of previous output is allowed
         allow_previous_output = args.find("allow_previous_output")
         if allow_previous_output is not None:
@@ -62,6 +66,7 @@ class TreeOutput:
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
 
+        self.it_is_output_time = False
         print(
             "Output to '" + os.path.join(os.getcwd(), self.output_dir) +
             "' of tree positions, the " + "parameters ",
@@ -161,11 +166,15 @@ class TreeOutput:
     def writeOutput(self, tree_groups, time):
         self._output_counter = (self._output_counter %
                                 self.output_each_nth_timestep)
-        it_is_output_time = True
+
         if self.output_times is not None:
-            it_is_output_time = (time in self.output_times)
-        if self._output_counter == 0 and it_is_output_time:
+            self.it_is_output_time = (time in self.output_times)
+        if not self.it_is_output_time:
+            self.it_is_output_time = (self._output_counter == 0)
+
+        if self.it_is_output_time:
             self.outputContent(tree_groups, time)
+            self.it_is_output_time = False
         self._output_counter += 1
 
     def outputContent(self, tree_groups, time):

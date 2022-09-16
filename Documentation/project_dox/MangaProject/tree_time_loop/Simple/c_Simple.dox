@@ -6,10 +6,10 @@ Simple time loop with constant stepsize.
 
 # Required inputs: 
  
-- \subpage project_dox__MangaProject__tree_time_loop__Simple__delta_t
-- \subpage project_dox__MangaProject__tree_time_loop__Simple__n_step_ag
-- \subpage project_dox__MangaProject__tree_time_loop__Simple__n_step_bg
-- \subpage project_dox__MangaProject__tree_time_loop__Simple__terminal_print
-- \subpage project_dox__MangaProject__tree_time_loop__Simple__t_end
 - \subpage project_dox__MangaProject__tree_time_loop__Simple__t_start
+- \subpage project_dox__MangaProject__tree_time_loop__Simple__t_end
+- \subpage project_dox__MangaProject__tree_time_loop__Simple__n_step_bg
+- \subpage project_dox__MangaProject__tree_time_loop__Simple__n_step_ag
+- \subpage project_dox__MangaProject__tree_time_loop__Simple__terminal_print
+- \subpage project_dox__MangaProject__tree_time_loop__Simple__delta_t
 */

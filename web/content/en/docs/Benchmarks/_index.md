@@ -98,7 +98,8 @@ Network below-ground modules must be combined with the growth module 'NetworkBet
 
 ### Modules tested with SimpleKiwi
 
-With SimpleKiwi, below- and above-ground modules that depend on tree geometries (i.e. crown and root radius) do not need to be tested.
+In SimpleKiwi, crown and root radius do not grow during the simulation as tree size is a function of dbh.
+Hence, we do not test below- and above-ground concepts, which depend on crown and root radius as the competition behavior would not change over time.
 
 | Below-ground | 
 | --- | 

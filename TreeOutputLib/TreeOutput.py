@@ -21,7 +21,7 @@ class TreeOutput:
             self.output_each_nth_timestep = int(
                 self.checkRequiredKey("output_each_nth_timestep", args))
         else:
-            self.output_each_nth_timestep = 1
+            self.output_each_nth_timestep = None
         ## Check if overwrite of previous output is allowed
         allow_previous_output = args.find("allow_previous_output")
         if allow_previous_output is not None:
@@ -32,7 +32,6 @@ class TreeOutput:
         output_times = args.find("output_times")
         if output_times is not None:
             self.output_times = eval(output_times.text)
-            print(self.output_times)
         else:
             self.output_times = None
 
@@ -66,7 +65,7 @@ class TreeOutput:
             raise ValueError("Output directory '" + self.output_dir +
                              "' is not empty.")
 
-        self.it_is_output_time = False
+        self._it_is_output_time = True
         print(
             "Output to '" + os.path.join(os.getcwd(), self.output_dir) +
             "' of tree positions, the " + "parameters ",
@@ -164,17 +163,16 @@ class TreeOutput:
     #  This function is only able to work, if the output directory exists and
     #  is empty at the begin of the model run
     def writeOutput(self, tree_groups, time):
-        self._output_counter = (self._output_counter %
-                                self.output_each_nth_timestep)
+        if self.output_each_nth_timestep is not None:
+            self._output_counter = (self._output_counter %
+                                    self.output_each_nth_timestep)
+            self._it_is_output_time = (self._output_counter == 0)
+        elif self.output_times is not None:
+            self._it_is_output_time = (time in self.output_times)
 
-        if self.output_times is not None:
-            self.it_is_output_time = (time in self.output_times)
-        if not self.it_is_output_time:
-            self.it_is_output_time = (self._output_counter == 0)
-
-        if self.it_is_output_time:
+        if self._it_is_output_time:
             self.outputContent(tree_groups, time)
-            self.it_is_output_time = False
+            self._it_is_output_time = False
         self._output_counter += 1
 
     def outputContent(self, tree_groups, time):

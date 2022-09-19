@@ -73,31 +73,6 @@ class TreeOutput:
             self.geometry_outputs, " at every " +
             str(self.output_each_nth_timestep) + " timesteps initialized.")
 
-    ## Constructor for no output generation.
-    def iniNONE(self, args):
-        from .NONE import NONE
-        self.output = NONE(args)
-
-    ## Constructor for output which generates one file per tree.
-    def iniOneTreeOneFile(self, args):
-        from .OneTreeOneFile import OneTreeOneFile
-        self.output = OneTreeOneFile(args)
-
-    ## Constructor for output which generates one file per timestep.
-    def iniOneTimestepOneFile(self, args):
-        from .OneTimestepOneFile import OneTimestepOneFile
-        self.output = OneTimestepOneFile(args)
-
-    ## Constructor for output which generates one file per group per timestep.
-    def iniOneTimestepOneFilePerGroup(self, args):
-        from .OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup
-        self.output = OneTimestepOneFilePerGroup(args)
-
-    ## Constructor for output which generates one file per simulation.
-    def iniOneFile(self, args):
-        from .OneFile import OneFile
-        self.output = OneFile(args)
-
     ## Returns output type:
     def getOutputType(self):
         return self.case

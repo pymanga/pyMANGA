@@ -2,5 +2,5 @@ pytest
 numpy
 lxml
 matplotlib
-vtk == 8.1.2
+vtk == 9.0.1
 pandas

@@ -12,8 +12,8 @@ class TreeOutput:
     #  choosen case.
 
     def __init__(self, args):
-        ## Directory, where output is saved. Please make sure it exists and is
-        #  empty.
+        ## Directory, where output is saved. Please make sure it is empty
+        #  or set allow_previous_output to true
         self.output_dir = self.checkRequiredKey("output_dir", args)
         ## N-timesteps between two outputs
         self.output_each_nth_timestep = args.find("output_each_nth_timestep")

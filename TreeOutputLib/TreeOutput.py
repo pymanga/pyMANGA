@@ -142,7 +142,7 @@ class TreeOutput:
             self._output_counter = (self._output_counter %
                                     self.output_each_nth_timestep)
             self._it_is_output_time = (self._output_counter == 0)
-        elif self.output_times is not None:
+        if self.output_times is not None:
             self._it_is_output_time = (time in self.output_times)
 
         if self._it_is_output_time:

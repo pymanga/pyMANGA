@@ -129,8 +129,24 @@ class MangaProject:
     ## Constructor for tree output
     def iniTreeOutput(self):
         arg = self.args["tree_output"]
+        case = arg.find("type").text
+        if case == "None":
+            from TreeOutputLib.NONE import NONE as createOut
+        elif case == "OneFile":
+            from TreeOutputLib.OneFile import OneFile as createOut
+        elif case == "OneTimestepOneFile":
+            from TreeOutputLib.OneTimestepOneFile import OneTimestepOneFile as createOut
+        elif case == "OneTreeOneFile":
+            from TreeOutputLib.OneTreeOneFile import OneTreeOneFile as createOut
+        elif case == "OneTimestepOneFilePerGroup":
+            from TreeOutputLib.OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup as createOut
+        else:
+            raise KeyError("Required tree_output of type '" + case +
+                           "' not implemented!")
+        print(case + " tree output sucesscully initiated.")
+
         ## Containing configuration on tree_output
-        self.tree_output = TreeOutput(arg)
+        self.tree_output = createOut(arg)
 
     ## Returns tree output defined for the project
     def getTreeOutput(self):

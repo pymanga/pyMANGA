@@ -6,7 +6,7 @@
             <type> SimpleTest </type>
         </aboveground_competition>
         <belowground_competition>
-            <type> SimpleNetwork </type>
+            <type> SimpleTest </type>
         </belowground_competition>
         <tree_growth_and_death>
             <type> NetworkBettina </type>

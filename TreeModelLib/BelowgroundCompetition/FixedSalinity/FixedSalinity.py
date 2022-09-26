@@ -2,14 +2,15 @@
 # -*- coding: utf-8 -*-
 """
 @date: 2020-Today
-@author: ronny.peters@tu-dresden.de
+@author: ronny.peters@tu-dresden.de and vollhueter
 """
 import numpy as np
+import os
 from TreeModelLib import TreeModel
 
 
 class FixedSalinity(TreeModel):
-    ## Fixed salinityin belowground competition concept.
+    ## Fixed salinity in belowground competition concept.
     #  @param: Tags to define FixedSalinity: type, salinity
     #  @date: 2020 - Today
     def __init__(self, args):
@@ -31,10 +32,15 @@ class FixedSalinity(TreeModel):
     # obtained by interpolation along a defined gradient
     def getTreeSalinity(self):
         self._xe = np.array(self._xe)
+        if hasattr(self, 'n'):
+            self._salinity = self._salinity_over_t[self.n][1:]
+            self.n += 1
         salinity_tree = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
                          (self._salinity[1] - self._salinity[0]) +
                          self._salinity[0])
+        print('\n_______________\n' + str(self._salinity) +
+              '\n_______________\n')
         return salinity_tree
 
     ## This function reads salinity from the control file.\n
@@ -44,12 +50,23 @@ class FixedSalinity(TreeModel):
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "salinity":
-                self._salinity = arg.text.split()
-                if len(self._salinity) != 2:
-                    raise (
-                        KeyError("Two salinity values need to be specified"))
-                self._salinity[0] = float(self._salinity[0])
-                self._salinity[1] = float(self._salinity[1])
+                if len(arg.text.split()) == 2:
+                    self._salinity = arg.text.split()
+                    print('In the Controlfile, two values were given for ' +
+                          'salinity at the landward and seaward boundary ' +
+                          'conditions. These are constant over time and are ' +
+                          'linearly interpolated over x length.')
+                    self._salinity[0] = float(self._salinity[0])
+                    self._salinity[1] = float(self._salinity[1])
+                elif os.path.exists(arg.text) is True:
+                    self._salinity_over_t = np.loadtxt(arg.text, delimiter=';',
+                                                       skiprows=1)
+                    self.n = 0
+                else:
+                    raise (KeyError('Wrong definition of salinity in the ' +
+                                    'control file. Please read the ' +
+                                    'corresponding section in the ' +
+                                    'documentation!'))
             if tag == "min_x":
                 self._min_x = float(args.find("min_x").text)
             if tag == "max_x":

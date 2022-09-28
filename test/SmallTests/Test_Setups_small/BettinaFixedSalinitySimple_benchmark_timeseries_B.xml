@@ -6,7 +6,7 @@
         </aboveground_competition>
         <belowground_competition>
             <type> FixedSalinity </type>
-            <salinity> test/SmallTests/inputFiles/salinity.csv </salinity>
+            <salinity> test/SmallTests/inputFiles/salinity_B.csv </salinity>
             <max_x> 5 </max_x>
             <min_x> 0 </min_x>
         </belowground_competition>

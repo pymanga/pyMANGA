@@ -1,7 +1,7 @@
 ---
 title: "Das OGS-Projekt"
 linkTitle: "Das OGS-Projekt"
-weight: 3
+weight: 2
 description:
 ---
 

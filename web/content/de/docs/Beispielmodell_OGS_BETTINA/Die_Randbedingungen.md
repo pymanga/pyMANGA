@@ -1,7 +1,7 @@
 ---
 title: "Die Randbedingungen"
 linkTitle: "Die Randbedingungen"
-weight: 2
+weight: 3
 description:
 ---
 

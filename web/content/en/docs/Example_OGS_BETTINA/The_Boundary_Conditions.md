@@ -1,7 +1,7 @@
 ---
 title: "The boundary conditions"
 linkTitle: "The boundary conditions"
-weight: 2
+weight: 3
 description:
 ---
 

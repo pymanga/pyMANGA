@@ -1,7 +1,7 @@
 ---
 title: "Das pyMANGA-Projekt"
 linkTitle: "Das pyMANGA-Projekt"
-weight: 4
+weight: 1
 description:
 ---
 

@@ -29,7 +29,9 @@ Für Simulationen mit dem Untergrundkonzept OGSLargeScale3D müssen folgende Kon
 
 Das in <a href="/de/docs/beispielmodell_ogs_bettina/ogs_projekt/">Das OGS Projekt</a> beschriebene ogs-Projekt muss als *ogs_project_file* angegeben werden.
 Die zuvor definierte python Randbedingung wird unter dem Namen *python_script* eingefügt.
+Definition und Nutzung der Zeitlich veränderlichen Randbedingungen sind unter <a href="/de/docs/beispielmodell_ogs_bettina/die_randbedingungen/">die Ranbedingungen</a> ausführlich beschrieben. 
 *delta_t_ogs* definiert, für wie lange das Grundwasserströmungsmodell rechnet, bevor der Rest des BETTINA-Zeitschritts extrapoliert wird.
+Wie die Meshes für die Grundwassersimulation erstellt werden ist im Detail unter <a href="/de/docs/beispielmodell_ogs_bettina/die_grundwasserdomain/">die Grundwasserdomain</a> beschrieben.
 
         <belowground_competition>
             <type>OGSLargeScale3D</type>

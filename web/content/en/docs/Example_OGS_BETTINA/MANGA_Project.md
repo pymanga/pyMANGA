@@ -29,7 +29,9 @@ For simulations with the underground concept OGSLargeScale3D, the following conc
 
 The OGS project described in <a href="/en/docs/example_model_ogs_bettina/ogs_project/">The OGS project</a> must be specified as *ogs_project_file*.
 The previously defined python constraint is inserted under the name *python_script*.
+Definition and usage of time dependent boundary conditions are described in detail at <a href="/en/docs/example_model_ogs_bettina/the_boundary_conditions/">the boundary conditions</a>. 
 *delta_t_ogs* defines for how long the groundwater flow model calculates before extrapolating the rest of the BETTINA time step.
+Creation of the required meshes is described in <a href="/en/docs/example_model_ogs_bettina/the_groundwater_domain/">the groundwater domain</a> section.
 
         <belowground_competition>
             <type>OGSLargeScale3D</type>

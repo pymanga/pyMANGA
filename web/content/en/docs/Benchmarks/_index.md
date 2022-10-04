@@ -5,19 +5,19 @@ weight: 4
 description:
 ---
 
-To test and verify modules in MANGA, we define a structure to create benchmarks. 
-Those benchmarks should allow (i) to technical assess the functionality of MANGA modules, e.g. after code updates and (ii) to test and compare MANGA outputs with other module implementations, e.g. with NetLogo models.
+To test and verify modules in pyMANGA, we define a structure to create benchmarks. 
+Those benchmarks should allow (i) to technical assess the functionality of pyMANGA modules, e.g. after code updates and (ii) to test and compare pyMANGA outputs with other module implementations, e.g. with NetLogo models.
 Thus, each contributor is kindly asked to provide a benchmark for each proposed module.
 In the following we explain the benchmark structure.
 
-As a reference we define a MANGA standard tree, which is an individual BETTINA tree, growing without competition or resource limitation (<a href="/docs/Benchmarks/#Figure_1">Figure 1a</a>).
+As a reference we define a pyMANGA standard tree, which is an individual BETTINA tree, growing without competition or resource limitation (<a href="/docs/Benchmarks/#Figure_1">Figure 1a</a>).
 The output metrics of each benchmark are the tree geometry parameters, i.e. stem height, crown, root and stem radius (<a href="/docs/Benchmarks/#Figure_1">Figure 1b</a>).
 Additional outputs relevant for the tested module might be specified.
 
 <figure class="alert">
     <img id="Figure_1" src="/pictures/benchmarks/reference_tree.jpg">
     <figcaption>
-        <i><br><strong>Figure 1:</strong> (a) Module combination to create the MANGA reference tree (T<sup>0</sup>). (b) Geometry of T<sup>0</sup> over time.</i>
+        <i><br><strong>Figure 1:</strong> (a) Module combination to create the pyMANGA reference tree (T<sup>0</sup>). (b) Geometry of T<sup>0</sup> over time.</i>
     </figcaption>
 </figure><p>
 
@@ -59,7 +59,7 @@ The first is used for automatic testing.
 </figure>
 
 The following files must be provided for each benchmark
-- MANGA project file
+- pyMANGA project file
 - Results csv file (`<output_times> [2e6, 5e8] </output_times>`)
 - All files required to run the setup, e.g. OGS project file (if applicable)
  

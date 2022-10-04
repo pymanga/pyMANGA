@@ -1,7 +1,7 @@
 
 
 NetworkBettina death and growth concept. 
-This concepts allows water exchange between root grafted trees.
+This concept allows water exchange between root grafted trees.
 The concept is based on the Bettina single tree model as described in the ODD (appendix of https://doi.org/10.1016/j.ecolmodel.2018.10.005). 
 
 The concept only works with a Network below-ground concept.

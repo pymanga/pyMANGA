@@ -114,7 +114,8 @@ This part usually does not require any adjustment.
         </media>
 
 The time loop is automatically updated by pyMANGA.
-The only variable that may need to be adjusted is the storage interval for the groundwater domain.
+The only variables that may need to be adjusted is the storage interval for the groundwater domain and the internal timestepping of ogs.
+This timestepping is named *delta_t* and should be adjusted such that it is as large as possible but does not influence simulation results.
 
         <time_loop>
         <processes>

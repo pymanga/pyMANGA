@@ -115,7 +115,8 @@ Dieser Teil bedarf meist keiner Anpassung.
         </media>
 
 Die Zeitschleife wird von pyMANGA automatisch aktualisiert.
-Die einzige Größe, welche eventuell angepasst werden sollte, ist das Speicherintervall für die Grundwasserdomain.
+Die einzige Größe, welche eventuell angepasst werden sollte, ist das Speicherintervall für die Grundwasserdomain und die interne Zeitschrittlänge in OGS.
+Diese Zeitschrittlänge heißt *delta_t* und sollte so angepasst werden, dass sie so groß wie möglich ist, ohne die Simulationsergebnisse zu verfälschen.
 
         <time_loop>
         <processes>

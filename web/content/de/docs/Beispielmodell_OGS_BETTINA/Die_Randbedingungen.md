@@ -35,7 +35,7 @@ Ein einfacher Ansatz wäre:
         return float(m * x)
 
     def pressure_value(z,x, tidal_cycle):
-        return 1000 * 9.81 * (tidal_cycle - z + transectElevation(x))
+        return 1000 * 9.81 * (max(tidal_cycle, transectElevation(x)) - z)
 
 Mit dieser Hilfsfunktion kann nun der Druck entlang unserer Ränder definiert werden.
 Wir führen jeweils eine Randbedingung ein, die entweder keinen Fluss über die Grenzflächen zulässt (kein Anschluss an das Meerwasser) oder bei Überspülung offene Durchmischung mit dem Meerwasser erlaubt.

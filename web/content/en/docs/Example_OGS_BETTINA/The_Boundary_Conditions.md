@@ -36,7 +36,7 @@ A simple approach would be:
         return float(m * x)
 
     def pressure_value(z,x, tidal_cycle):
-        return 1000 * 9.81 * (tidal_cycle - z + transectElevation(x))
+        return 1000 * 9.81 * (max(tidal_cycle, transectElevation(x)) - z)
 
 With this helper function, we can define the pressure gradient along the edges .
 In each case, we introduce a boundary condition that either does not allow flow across the boundary surfaces (no connection to the seawater) or allows open mixing with the seawater in the event of overflow.

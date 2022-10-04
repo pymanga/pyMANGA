@@ -162,6 +162,8 @@ Diese Zeitschrittlänge heißt *delta_t* und sollte so angepasst werden, dass si
         </time_loop>
 	    
 Die verwendeten Parameter können in der Projektdatei spezifiziert werden. 
+Überlicherweise muss nur der Permeabilitätsparameter *kappa1* angepasst werden.
+Dieser kann im allgemeinen zwar auch direkt auf den Meshes definiert werden und wie Beispielsweise *c_ini* eingelesen werden, allerdings wird er hier zur Vorführung im OGS-Steuerfile festgelegt.
 
         <parameters>
         <parameter>
@@ -193,28 +195,6 @@ Die verwendeten Parameter können in der Projektdatei spezifiziert werden.
             <name>kappa1</name>
             <type>Constant</type>
             <values>2.5e-11 0 0 0 2.5e-11 0 0 0 2.5e-11</values>
-        </parameter>
-        <parameter>
-            <name>c_left</name>
-            <type>Constant</type>
-            <value>.035</value>
-        </parameter>
-        <parameter>
-            <name>c_right</name>
-            <type>Constant</type>
-            <value>.035</value>
-        </parameter>
-        <parameter>
-            <name>p_left</name>
-            <type>MeshNode</type>
-            <field_name>p_ini</field_name>
-            <mesh>left_boundary</mesh>
-        </parameter>
-        <parameter>
-            <name>p_right</name>
-            <type>MeshNode</type>
-            <field_name>p_ini</field_name>
-            <mesh>right_boundary</mesh>
         </parameter>
         </parameters>
 

@@ -161,6 +161,9 @@ This timestepping is named *delta_t* and should be adjusted such that it is as l
         </time_loop>
 	    
 The parameters used can be specified in the project file.
+Usually, we only want to adapt the permeability parameter *kappa1*.
+Similarily to *c_ini* it could be defined on the mesh itself.
+However, for demonstration purposes, it is defined directly here.
 
         <parameters>
         <parameter>
@@ -192,28 +195,6 @@ The parameters used can be specified in the project file.
             <name>kappa1</name>
             <type>Constant</type>
             <values>2.5e-11 0 0 0 2.5e-11 0 0 0 2.5e-11</values>
-        </parameter>
-        <parameter>
-            <name>c_left</name>
-            <type>Constant</type>
-            <value>.035</value>
-        </parameter>
-        <parameter>
-            <name>c_right</name>
-            <type>Constant</type>
-            <value>.035</value>
-        </parameter>
-        <parameter>
-            <name>p_left</name>
-            <type>MeshNode</type>
-            <field_name>p_ini</field_name>
-            <mesh>left_boundary</mesh>
-        </parameter>
-        <parameter>
-            <name>p_right</name>
-            <type>MeshNode</type>
-            <field_name>p_ini</field_name>
-            <mesh>right_boundary</mesh>
         </parameter>
         </parameters>
 

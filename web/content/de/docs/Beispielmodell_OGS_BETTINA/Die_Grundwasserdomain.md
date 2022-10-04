@@ -26,6 +26,20 @@ Entsprechend müssen diese Pakete zu Beginn des Scripts importiert werden:
 
 Mit diesen Paketen ist es nun möglich die benötigten Funktionen und Klassen zu implementieren.
 
+Wir beginnen damit Meshkonfigurationen festzuelegen:
+
+    hydraulic_gradient = 1e-2
+    l_z_top = 0.1
+    l_z_mid = 0.2
+    l_z_bottom = 1.7
+    num_top = 2
+    num_mid = 1
+    num_bottom = 3
+    l_y = 15
+    l_x = 130
+    lcar = 5
+    c_sea = 0.035
+
 Der Verlauf der Geländeoberkante wird ein einer Funktion beschrieben.
 In diesem Beispiel handelt es sich um ein entlang der x-Achse konstant abfallendes Gelände (Steigung *m* in Promille).
 
@@ -44,7 +58,7 @@ Druck  (in Pa) und Bodensalinität (in kg pro kg) werden ebenfalls durch ortsabh
 
 
     def c(point):
-        return .035
+        return c_sea
 
 Mit der folgenden Funktion wird später das definierte Druck- und Konzentrationsfeld der Domain hinzufügt:
 
@@ -129,17 +143,17 @@ Der Parameter *z* gibt eine mögliche Verschiebung der Geländeoberkante, deren 
     #  @param transect_elevation: Function, which returns a z-value for given x-val
     #  @param m: terrain slope
     def meshGen(z,
-                l_z_top,
-                l_z_mid=0,
-                l_z_bottom=0,
-                num_top=1,
-                num_mid=0,
-                num_bottom=0,
-                l_y=10,
-                l_x=230,
-                lcar=5,
+                l_z_top=l_z_top,
+                l_z_mid=l_z_mid,
+                l_z_bottom=l_z_bottom,
+                num_top=num_top,
+                num_mid=num_mid,
+                num_bottom=num_bottom,
+                l_y=l_y,
+                l_x=l_x,
+                lcar=lcar,
                 transect_elevation=transectElevation,
-                m=1e-3):
+                m=hydraulic_gradient):
 
         with pygmsh.occ.Geometry() as geom:
             geom.characteristic_length_min = lcar / 20
@@ -171,16 +185,17 @@ Als erstes werden die Punkte unseres Meshes über die zuvor programmierte Funkti
     # Generating bulk mesh
     hydraulic_gradient = 1e-3
     bulky = meshGen(z=0,
-                    l_z_top=0.4,
-                    l_z_mid=.8,
-                    l_z_bottom=0.3,
-                    num_top=3,
-                    num_mid=2,
-                    num_bottom=1,
-                    m=hydraulic_gradient,
-                    l_y=10,
-                    l_x=30,
-                    lcar=2)
+                    l_z_top=l_z_top,
+                    l_z_mid=l_z_mid,
+                    l_z_bottom=l_z_bottom,
+                    num_top=num_top,
+                    num_mid=num_mid,
+                    num_bottom=num_bottom,
+                    l_y=l_y,
+                    l_x=l_x,
+                    lcar=lcar,
+                    transect_elevation=transectElevation,
+                    m=hydraulic_gradient)
     # Extraction of Bulk Mesh points
     points = bulky.points
     
@@ -251,12 +266,18 @@ Dafür wird wieder unser zuvor definiertes *meshGen* verwendet.
 
     # Generating source mesh
     sourcey = meshGen(z=-.4,
-                      l_z_top=0.4,
-                      num_top=1,
-                      m=hydraulic_gradient,
-                      l_y=10,
-                      l_x=30,
-                      lcar=2)
+                      l_z_top=l_z_mid,
+                      l_z_mid=0,
+                      l_z_bottom=0,
+                      num_top=num_mid,
+                      num_mid=0,
+                      num_bottom=0,
+                      l_y=l_y,
+                      l_x=l_x,
+                      lcar=lcar,
+                      transect_elevation=transectElevation,
+                      m=hydraulic_gradient)
+
     source = vtk.vtkUnstructuredGrid()
     source_points = vtk.vtkPoints()
     for i in range(len(sourcey.points)):

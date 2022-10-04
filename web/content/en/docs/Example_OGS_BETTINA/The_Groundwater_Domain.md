@@ -24,6 +24,20 @@ Accordingly, these packages must be imported at the beginning of the script:
 
 With these packages it is now possible to implement the required functions and classes.
 
+First, we define all required mesh configurations.
+
+    hydraulic_gradient = 1e-2
+    l_z_top = 0.1
+    l_z_mid = 0.2
+    l_z_bottom = 1.7
+    num_top = 2
+    num_mid = 1
+    num_bottom = 3
+    l_y = 15
+    l_x = 130
+    lcar = 5
+    c_sea = 0.035
+
 The course of the elevation of the ground surface is described as a function of x with x=0 at the seaward boundary of the domain.
 In this example, the terrain is constantly sloping along the x-axis (x in [m], m in [m/m]).
 
@@ -42,7 +56,7 @@ Pressure (in Pa) and porewater salinity (in kg per kg) are described using posit
 
 
     def c(point):
-        return .035
+        return c_sea
 
 The following function will be used later to add the defined pressure and concentration field to the domain:
 
@@ -125,17 +139,17 @@ The *z* parameter specifies a possible displacement of the top edge of the terra
     #  @param transect_elevation: Function, which returns a z-value for given x-val
     #  @param m: terrain slope
     def meshGen(z,
-                l_z_top,
-                l_z_mid=0,
-                l_z_bottom=0,
-                num_top=1,
-                num_mid=0,
-                num_bottom=0,
-                l_y=10,
-                l_x=230,
-                lcar=5,
+                l_z_top=l_z_top,
+                l_z_mid=l_z_mid,
+                l_z_bottom=l_z_bottom,
+                num_top=num_top,
+                num_mid=num_mid,
+                num_bottom=num_bottom,
+                l_y=l_y,
+                l_x=l_x,
+                lcar=lcar,
                 transect_elevation=transectElevation,
-                m=1e-3):
+                m=hydraulic_gradient):
 
         with pygmsh.occ.Geometry() as geom:
             geom.characteristic_length_min = lcar / 20
@@ -166,16 +180,17 @@ The points of our mesh are created using the previously programmed function *mes
     # Generating bulk mesh
     hydraulic_gradient = 1e-3
     bulky = meshGen(z=0,
-                    l_z_top=0.4,
-                    l_z_mid=.8,
-                    l_z_bottom=0.3,
-                    num_top=3,
-                    num_mid=2,
-                    num_bottom=1,
-                    m=hydraulic_gradient,
-                    l_y=10,
-                    l_x=30,
-                    lcar=2)
+                    l_z_top=l_z_top,
+                    l_z_mid=l_z_mid,
+                    l_z_bottom=l_z_bottom,
+                    num_top=num_top,
+                    num_mid=num_mid,
+                    num_bottom=num_bottom,
+                    l_y=l_y,
+                    l_x=l_x,
+                    lcar=lcar,
+                    transect_elevation=transectElevation,
+                    m=hydraulic_gradient)
     # Extraction of Bulk Mesh points
     points = bulky.points
     
@@ -244,12 +259,17 @@ Our previously defined *meshGen* is used again for this.
 
     # Generating source mesh
     sourcey = meshGen(z=-.4,
-                      l_z_top=0.4,
-                      num_top=1,
-                      m=hydraulic_gradient,
-                      l_y=10,
-                      l_x=30,
-                      lcar=2)
+                      l_z_top=l_z_mid,
+                      l_z_mid=0,
+                      l_z_bottom=0,
+                      num_top=num_mid,
+                      num_mid=0,
+                      num_bottom=0,
+                      l_y=l_y,
+                      l_x=l_x,
+                      lcar=lcar,
+                      transect_elevation=transectElevation,
+                      m=hydraulic_gradient)
     source = vtk.vtkUnstructuredGrid()
     source_points = vtk.vtkPoints()
     for i in range(len(sourcey.points)):

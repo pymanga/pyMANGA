@@ -1,0 +1,6 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__SymmetricZOI__domain__y_1 &emsp;[spec]y_1
+
+
+lower y-boundary of mesh (bottom), in meters.
+
+*/

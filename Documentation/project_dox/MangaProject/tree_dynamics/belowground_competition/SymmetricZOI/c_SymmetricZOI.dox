@@ -1,3 +1,4 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__SymmetricZOI__SymmetricZOI &emsp;[case]SymmetricZOI
 
 
 SymmetricZOI below-ground competition concept. 
@@ -12,3 +13,9 @@ Please note:
 - Cell edge must be larger than the minimum (initial) root radius
     + Example: initial root radius = 0.2 m, cell edge must be larger than 0.2 m, i.e., length of model domain / resolution > 0.2
 
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__SymmetricZOI__domain__domain
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__SymmetricZOI__x_resolution
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__SymmetricZOI__y_resolution
+*/

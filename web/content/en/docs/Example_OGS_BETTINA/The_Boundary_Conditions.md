@@ -21,6 +21,7 @@ We need the packages *OpenGeoSys, vtk, numpy, math* and *os*.
 	from math import pi, sin
 	import os
 
+
 For later introduction of tidal activity, the tides can be described as follows:
 
     def tidal_cycle(t):
@@ -76,20 +77,14 @@ For the concentration boundary conditions, we assume that mixing can take place 
     class BCLand_C(OpenGeoSys.BoundaryCondition):
 
         def getDirichletBCValue(self, t, coords, node_id, primary_vars):
-            value = seaward_salinity
+            value = landward_salinity
             return (True, value)
 
 Now only the seawater salinity has to be assigned.
 In addition, the period and amplitude can be adapted to the modes of the tide.
 For this example, the tidal range is disabled (amplitude = 0).
 This can be added later by changing the parameters in the *tidal_cycle* function.
-This can be adjusted later.
-
-    seaward_salinity = 0.035
-    tide_daily_amplitude = 0
-    tide_monthly_amplitude = 0
-    tide_daily_period = 60 * 60 * 12.
-    tide_monthly_period = 60. * 60 * 24 * 31 / 2.
+These parameters may be adjusted in the pyMANGA control file.
 	
 Now it is only necessary to define the boundary conditions as objects for OGS:
 

@@ -77,20 +77,14 @@ Für die Konzentrations-Randbedingungen wird angenommen, dass bei Überspülung 
     class BCLand_C(OpenGeoSys.BoundaryCondition):
 
         def getDirichletBCValue(self, t, coords, node_id, primary_vars):
-            value = seaward_salinity
+            value = landward_salinity
             return (True, value)
 
 Nun muss nur noch die Meerwassersalinität zugewiesen werden.
 Außerdem können Periodendauer und Amplitude den Moden der Tide angepasst werden.
 Für dieses Beispiel wird der Tidenhub deaktiviert (Amplitude = 0).
 Diese kann später durch Änderung der Parameter in der Funktion *tidal_cycle* hinzugefügt werden.
-Dies kann später angepasst werden.
-
-    seaward_salinity = 0.035
-    tide_daily_amplitude = 0
-    tide_monthly_amplitude = 0
-    tide_daily_period = 60 * 60 * 12.
-    tide_monthly_period = 60. * 60 * 24 * 31 / 2.
+Diese wurden im pyMANGA Steuerfile definiert.
 	
 Nun gilt es nur noch die Randbedingungen als Objekte für OGS zu definieren:
 

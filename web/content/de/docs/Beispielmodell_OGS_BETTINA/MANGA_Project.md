@@ -34,6 +34,7 @@ Definition und Nutzung der Zeitlich veränderlichen Randbedingungen sind unter <
 Wie die Meshes für die Grundwassersimulation erstellt werden ist im Detail unter <a href="/de/docs/beispielmodell_ogs_bettina/die_grundwasserdomain/">die Grundwasserdomain</a> beschrieben.
 Die Parameter *seaward_salinity* und *landward_salinity* sind Parameter, die später in der python Randbedingung von OGS genutzt werden.
 Hier können beliebige Parameter eingeführt werden, solange wir diese in unserer Randbedingung nutzen.
+Spezifikationen der Tide beginnen mit *tide_* und werden ebenfalls in der python Randbedingung verwendet.
 
         <belowground_competition>
             <type>OGSLargeScale3D</type>
@@ -45,6 +46,10 @@ Hier können beliebige Parameter eingeführt werden, solange wir diese in unsere
             <abiotic_drivers>
                 <seaward_salinity>0.035</seaward_salinity>
                 <landward_salinity>0.035</landward_salinity>
+                <tide_daily_amplitude> 0 </tide_daily_amplitude>
+                <tide_monthly_amplitude> 0 </tide_monthly_amplitude>
+                <tide_daily_period> 60 * 60 * 12. </tide_daily_period>
+                <tide_monthly_period> 60. * 60 * 24 * 31 / 2. </tide_monthly_period>
             </abiotic_drivers>
             <python_script>python_script.py</python_script>
         </belowground_competition>

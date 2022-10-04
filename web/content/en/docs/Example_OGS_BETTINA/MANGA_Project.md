@@ -32,6 +32,8 @@ The previously defined python constraint is inserted under the name *python_scri
 Definition and usage of time dependent boundary conditions are described in detail at <a href="/en/docs/example_model_ogs_bettina/the_boundary_conditions/">the boundary conditions</a>. 
 *delta_t_ogs* defines for how long the groundwater flow model calculates before extrapolating the rest of the BETTINA time step.
 Creation of the required meshes is described in <a href="/en/docs/example_model_ogs_bettina/the_groundwater_domain/">the groundwater domain</a> section.
+The parameters *seaward_salinity* and *landward_salinity* are used in the python boundary conditions.
+Arbitrary parameters can be introduced here, as long as we use them again in our boundary condition definition.
 
         <belowground_competition>
             <type>OGSLargeScale3D</type>
@@ -42,6 +44,7 @@ Creation of the required meshes is described in <a href="/en/docs/example_model_
             <delta_t_ogs>500000</delta_t_ogs>
             <abiotic_drivers>
                 <seaward_salinity>0.035</seaward_salinity>
+                <landward_salinity>0.035</landward_salinity>
             </abiotic_drivers>
             <python_script>python_script.py</python_script>
         </belowground_competition>

@@ -32,6 +32,8 @@ Die zuvor definierte python Randbedingung wird unter dem Namen *python_script* e
 Definition und Nutzung der Zeitlich veränderlichen Randbedingungen sind unter <a href="/de/docs/beispielmodell_ogs_bettina/die_randbedingungen/">die Ranbedingungen</a> ausführlich beschrieben. 
 *delta_t_ogs* definiert, für wie lange das Grundwasserströmungsmodell rechnet, bevor der Rest des BETTINA-Zeitschritts extrapoliert wird.
 Wie die Meshes für die Grundwassersimulation erstellt werden ist im Detail unter <a href="/de/docs/beispielmodell_ogs_bettina/die_grundwasserdomain/">die Grundwasserdomain</a> beschrieben.
+Die Parameter *seaward_salinity* und *landward_salinity* sind Parameter, die später in der python Randbedingung von OGS genutzt werden.
+Hier können beliebige Parameter eingeführt werden, solange wir diese in unserer Randbedingung nutzen.
 
         <belowground_competition>
             <type>OGSLargeScale3D</type>
@@ -42,6 +44,7 @@ Wie die Meshes für die Grundwassersimulation erstellt werden ist im Detail unte
             <delta_t_ogs>500000</delta_t_ogs>
             <abiotic_drivers>
                 <seaward_salinity>0.035</seaward_salinity>
+                <landward_salinity>0.035</landward_salinity>
             </abiotic_drivers>
             <python_script>python_script.py</python_script>
         </belowground_competition>

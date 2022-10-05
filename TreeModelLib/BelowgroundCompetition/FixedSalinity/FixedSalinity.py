@@ -13,6 +13,8 @@ class FixedSalinity(TreeModel):
     #  @param: Tags to define FixedSalinity: type, salinity
     #  @date: 2020 - Today
     def __init__(self, args):
+        # First part of args: Section 'tree_time_loop' in xml file
+        # Second part: Section 'belowground_competition' in xml file
         time = args[1]
         self.t_start = float(time.find("t_start").text)
         self.t_end = float(time.find("t_end").text)
@@ -37,10 +39,9 @@ class FixedSalinity(TreeModel):
     # obtained by interpolation along a defined gradient
     def getTreeSalinity(self):
         self._xe = np.array(self._xe)
-        if hasattr(self, 'n'):
-            self._salinity = self._salinity_over_t[self.n][1:]
-            self.n += 1
-            print(self._salinity)  # MARKER print for testing
+        if hasattr(self, "n_ts"):
+            self._salinity = self._salinity_over_t[self.n_ts][1:]
+            self.n_ts += 1
         salinity_tree = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
                          (self._salinity[1] - self._salinity[0]) +
@@ -55,10 +56,10 @@ class FixedSalinity(TreeModel):
             tag = arg.tag
             if tag == "salinity":
                 if len(arg.text.split()) == 2:
-                    print('In the control file, two values were given for ' +
-                          'salinity at the landward and seaward boundary ' +
-                          'conditions. These are constant over time and are ' +
-                          'linearly interpolated over x length.')
+                    print("In the control file, two values were given for " +
+                          "salinity at two given position values conditions." +
+                          " These are constant over time and are linearly " +
+                          "interpolated using the provided points S(x).")
                     self._salinity = arg.text.split()
                     self._salinity[0] = float(self._salinity[0])
                     self._salinity[1] = float(self._salinity[1])
@@ -95,13 +96,13 @@ class FixedSalinity(TreeModel):
                         salt_2 = np.interp(ts, salt[:, 0], salt[:, 2])
                         self._salinity_over_t = np.array([ts, salt_1,
                                                           salt_2]).T
-                    self.n = 0
+                    self.n_ts = 0
 
                 else:
-                    raise (KeyError('Wrong definition of salinity in the ' +
-                                    'control file. Please read the ' +
-                                    'corresponding section in the ' +
-                                    'documentation!'))
+                    raise (KeyError("Wrong definition of salinity in the " +
+                                    "control file. Please read the " +
+                                    "corresponding section in the " +
+                                    "documentation!"))
 
             if tag == "min_x":
                 self._min_x = float(args.find("min_x").text)
@@ -123,7 +124,7 @@ class FixedSalinity(TreeModel):
             raise KeyError(
                 "Tag(s) " + string +
                 "are not given for below-ground initialisation " +
-                'in project file.')
+                "in project file.")
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.

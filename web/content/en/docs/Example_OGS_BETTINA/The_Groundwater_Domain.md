@@ -30,8 +30,8 @@ First, we define all required mesh configurations.
     l_z_top = 0.1
     l_z_mid = 0.2
     l_z_bottom = 1.7
-    num_top = 2
-    num_mid = 1
+    num_top = 3
+    num_mid = 2
     num_bottom = 3
     l_y = 15
     l_x = 130

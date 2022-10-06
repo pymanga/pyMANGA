@@ -130,7 +130,7 @@ class MangaProject:
     def iniTreeOutput(self):
         arg = self.args["tree_output"]
         case = arg.find("type").text
-        if case == "None":
+        if case == "NONE":
             from TreeOutputLib.NONE import NONE as createOut
         elif case == "OneFile":
             from TreeOutputLib.OneFile import OneFile as createOut

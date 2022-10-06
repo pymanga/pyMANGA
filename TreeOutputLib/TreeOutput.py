@@ -6,6 +6,7 @@
 """
 import os
 
+
 ## Parent class for tree output
 class TreeOutput:
     ## Constructor for tree output calling different constructors depending on

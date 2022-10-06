@@ -56,5 +56,6 @@ class BCSea_C(OpenGeoSys.BoundaryCondition):
         else:
             return (False, 0)
 
+
 bc_tide_p = BCSea_p_D()
 bc_tide_C = BCSea_C()

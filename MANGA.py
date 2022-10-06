@@ -79,6 +79,7 @@ def main(argv):
     print("MANGA finished at", t_end)
     print("Total execution took", (t_end - t_start).seconds, " seconds")
 
+
 if __name__ == "__main__":
     sys.path.append((path.dirname(path.abspath(__file__))))
     main(sys.argv[1:])

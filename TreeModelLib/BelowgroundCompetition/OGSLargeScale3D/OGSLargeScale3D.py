@@ -179,8 +179,8 @@ class OGSLargeScale3D(TreeModel):
     # @param radius: search radius around the previously given coordinates
     #                within which the cell finder locates cells
     def addCellCharateristics(self, x, y, root_radius):
-        affected_cells = self._cell_information.getCellIDsAtXY(x, y,
-                                                               root_radius)
+        affected_cells = self._cell_information.getCellIDsAtXY(
+            x, y, root_radius)
         self._tree_cell_ids.append(affected_cells)
         # Get volume of affected cells
         v = self.getVolume(affected_cells)
@@ -324,50 +324,42 @@ class OGSLargeScale3D(TreeModel):
 
         if len(self._abiotic_drivers) is not None:
             for abiotic_factor in self._abiotic_drivers.iterchildren():
-                line = (abiotic_factor.tag + " = " +
-                        abiotic_factor.text + "\n")
+                line = (abiotic_factor.tag + " = " + abiotic_factor.text +
+                        "\n")
                 target.write(line)
 
         # OGS
         if "Network" not in self.case:
-            target.write(
-                "constant_contributions = np.load(r'" +
-                constants_filename + "')\n")
-            target.write(
-                "salinity_prefactors = np.load(r'" +
-                prefactors_filename + "')\n")
-            target.write(
-                "complete_contributions = None\n")
+            target.write("constant_contributions = np.load(r'" +
+                         constants_filename + "')\n")
+            target.write("salinity_prefactors = np.load(r'" +
+                         prefactors_filename + "')\n")
+            target.write("complete_contributions = None\n")
         if "Network" in self.case:
             # Network
-            target.write(
-                "complete_contributions = np.load(r'" +
-                complete_filename + "')\n")
+            target.write("complete_contributions = np.load(r'" +
+                         complete_filename + "')\n")
         # Boths
-        target.write(
-            "cumsum_savename = r'" + cumsum_filename +
-            "'\n")
-        target.write("calls_savename = r'" +
-                     calls_filename + "'\n")
+        target.write("cumsum_savename = r'" + cumsum_filename + "'\n")
+        target.write("calls_savename = r'" + calls_filename + "'\n")
 
         target.write("t_write = " + str(self._t_end) + "\n")
 
-
-
         source_directories = self.getSourceDir()
-        cell_information_file = open(os.path.join(source_directories, "CellInformation.py"))
+        cell_information_file = open(
+            os.path.join(source_directories, "CellInformation.py"))
         for line in cell_information_file.readlines():
             target.write(line)
         cell_information_file.close()
         joined_source_mesh_name = "'" + path.join(self._ogs_project_folder,
                                                   self._source_mesh_name) + "'"
         target.write("cell_information = CellInformation(r" +
-                     joined_source_mesh_name+")")
-        python_source_file = open(os.path.join(source_directories, "python_source.txt"))
+                     joined_source_mesh_name + ")")
+        python_source_file = open(
+            os.path.join(source_directories, "python_source.txt"))
         for line in python_source_file.readlines():
             target.write(line)
         python_source_file.close()
-
 
     # This function writes a pvd collection of the belowground grids at the
     #  tree model timesteps

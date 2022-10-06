@@ -7,6 +7,7 @@
 import os
 from TreeOutputLib.TreeOutput import TreeOutput
 
+
 ## Output class. This class creates one file for the whole simulation,
 # i.e. each time step and tree is included.
 # A line contains time, tree, position, desired geometric measures
@@ -42,8 +43,7 @@ class OneFile(TreeOutput):
                 string += (group_name + "_" + "%09.0d" % (tree.getId()) +
                            self.delimiter + str(time) + self.delimiter +
                            str(tree.x) + self.delimiter + str(tree.y))
-                string = self.addSelectedOutputs(tree, string,
-                                                 self.delimiter,
+                string = self.addSelectedOutputs(tree, string, self.delimiter,
                                                  growth_information)
                 string += "\n"
                 for growth_output in self.growth_outputs:

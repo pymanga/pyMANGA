@@ -19,7 +19,7 @@ class TreeDynamicTimeLoop:
         try:
             self.terminal_print = args.find('terminal_print').text
             if self.terminal_print == 'years':
-                self.print_unit = 86400*365.25
+                self.print_unit = 86400 * 365.25
             elif self.terminal_print == 'days':
                 self.print_unit = 86400
         except:
@@ -42,21 +42,22 @@ class TreeDynamicTimeLoop:
             # respective text get's printed after each time step
             if self.terminal_print == 'years':
                 print("Next time step to propagate" +
-                      " tree population with starting time " +
-                      '%4.2f' % (float(self.loop.t_1)/self.print_unit) +
-                      " a and end time " +
-                      '%4.2f' % (float(self.loop.t_2)/self.print_unit) +
-                      " a." + '\nCalculated timesteps: ' +
-                      str(int((self.loop.t_2/self.loop.t_end)*100)) + ' %')
+                      " tree population with starting time " + '%4.2f' %
+                      (float(self.loop.t_1) / self.print_unit) +
+                      " a and end time " + '%4.2f' %
+                      (float(self.loop.t_2) / self.print_unit) + " a." +
+                      '\nCalculated timesteps: ' +
+                      str(int((self.loop.t_2 / self.loop.t_end) * 100)) + ' %')
             elif self.terminal_print == 'days':
                 print("Next time step to propagate" +
-                      " tree population with starting time " +
-                      '%4.2f' % (float(self.loop.t_1)/self.print_unit) +
-                      " d and end time " +
-                      '%4.2f' % (float(self.loop.t_2)/self.print_unit) +
-                      " d." + '\nCalculated timesteps: ' +
-                      str(int((self.loop.t_1/self.loop.t_end)*100)) + ' %')
-            time_stepper.step(t_start=self.loop.t_1, t_end=self.loop.t_2,
+                      " tree population with starting time " + '%4.2f' %
+                      (float(self.loop.t_1) / self.print_unit) +
+                      " d and end time " + '%4.2f' %
+                      (float(self.loop.t_2) / self.print_unit) + " d." +
+                      '\nCalculated timesteps: ' +
+                      str(int((self.loop.t_1 / self.loop.t_end) * 100)) + ' %')
+            time_stepper.step(t_start=self.loop.t_1,
+                              t_end=self.loop.t_2,
                               update_ag=self.loop.update_ag,
                               update_bg=self.loop.update_bg)
             self.getNextTimeStepBoundaries()

@@ -4,6 +4,7 @@ import numpy as np
 from math import pi, sin
 import os
 
+
 def tidal_cycle(t):
     daily = 12 * 60 * 60
     monthly = daily * 30
@@ -54,7 +55,6 @@ class BCSea_C(OpenGeoSys.BoundaryCondition):
             return (True, value)
         else:
             return (False, 0)
-
 
 
 amplitude = 0.5

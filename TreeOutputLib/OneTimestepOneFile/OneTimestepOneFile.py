@@ -12,6 +12,7 @@ import os
 #  location. A line containing time, position, desired geometric measures and
 #  desired parameters is written at every nth timestep.
 class OneTimestepOneFile(TreeOutput):
+
     def outputContent(self, tree_groups, time):
         delimiter = "\t"
         filename = ("Population_t_%012.1f" % (time) + ".csv")
@@ -28,8 +29,8 @@ class OneTimestepOneFile(TreeOutput):
                 growth_information = tree.getGrowthConceptInformation()
                 string = ""
                 string += (group_name + "_" + "%09.0d" % (tree.getId()) +
-                           delimiter + str(time) + delimiter +
-                           str(tree.x) + delimiter + str(tree.y))
+                           delimiter + str(time) + delimiter + str(tree.x) +
+                           delimiter + str(tree.y))
                 string = self.addSelectedOutputs(tree, string, delimiter,
                                                  growth_information)
                 string += "\n"

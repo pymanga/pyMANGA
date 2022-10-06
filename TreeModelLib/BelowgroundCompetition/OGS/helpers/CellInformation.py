@@ -51,8 +51,8 @@ class CellInformation:
             cell_id = self._cell_ids[int_point]
         else:
             cell_id = self._cell_finder.FindCell([x, y, z])
-            self._cell_ids = np.concatenate((self._cell_ids,
-                                             np.array([cell_id])))
+            self._cell_ids = np.concatenate(
+                (self._cell_ids, np.array([cell_id])))
         return cell_id
 
     ## This function returns all the cell ids of the grid at a given x,y-

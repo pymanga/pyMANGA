@@ -23,7 +23,7 @@ class RandomGrowth(Random):
             self.k_die = 1e-12
             print("NOTE: Use default `probability`: " + str(self.k_die) + ".")
 
-    def getSurvival(self, args):
+    def setSurvive(self, args): #getSurvival
         self.survive = 1
         # Calculate the probability to die
         args.delta_volume = args.volume - args.volume_before
@@ -40,9 +40,10 @@ class RandomGrowth(Random):
             print("\t Tree died randomly. Random number: " + str(r[0]) +
                   ", p: " + str(self.p_die))
 
+    def getSurvive(self):
         return self.survive
 
-    def getMortalityVariables(self, args, growth_concept_information):
+    def setMortalityVariables(self, args, growth_concept_information):
         # Variable to store volume of previous time step (m³)
         try:
             args.volume_before = growth_concept_information[
@@ -53,7 +54,7 @@ class RandomGrowth(Random):
         except KeyError:
             args.volume_before = 0
 
-    def setMortalityVariables(self, args, growth_concept_information):
+    def getMortalityVariables(self, args, growth_concept_information):
         # The current tree volume is the volume of t-1 in the next time step
         growth_concept_information["volume_previous_ts"] = \
             args.volume

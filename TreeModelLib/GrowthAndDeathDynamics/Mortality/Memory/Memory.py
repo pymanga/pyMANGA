@@ -29,7 +29,7 @@ class Memory(NoGrowth):
             self.period = 1 * 365.25 * 24 * 3600
             print("NOTE: Use default `period`: " + str(self.period) + ".")
 
-    def getSurvival(self, args):
+    def setSurvival(self, args):
         self.survive = 1
 
         # Get the number of values representing the memory period
@@ -53,16 +53,17 @@ class Memory(NoGrowth):
                     "\t Tree died because because biomass increment fall below "
                     "threshold.")
 
+    def getSurvive(self):
         return self.survive
 
-    def getMortalityVariables(self, args, growth_concept_information):
+    def setMortalityVariables(self, args, growth_concept_information):
         # Variable to store growth (m³ per time step)
         try:
             args.grow_memory = growth_concept_information["grow_memory"]
         except KeyError:
             args.grow_memory = []
 
-    def setMortalityVariables(self, args, growth_concept_information):
+    def getMortalityVariables(self, args, growth_concept_information):
         args.grow_memory.append(args.grow)
         growth_concept_information["grow_memory"] = \
             args.grow_memory

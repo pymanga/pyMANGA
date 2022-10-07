@@ -24,7 +24,7 @@ class Random(NoGrowth):
             print("NOTE: Use default `probability`: " + str(self.probability) +
                   ".")
 
-    def getSurvival(self, args):
+    def setSurvive(self, args):
         self.survive = 1
         r = np.random.uniform(0, 1, 1)
         # Number of time steps per year
@@ -35,6 +35,7 @@ class Random(NoGrowth):
             self.survive = 0
             print("\t Tree died randomly. Random number: " + str(r[0]))
 
+    def getSurvive(self):
         return self.survive
 
     def getStepsPerYear(self, args):

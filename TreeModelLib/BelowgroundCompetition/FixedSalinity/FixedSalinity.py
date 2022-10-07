@@ -15,12 +15,6 @@ class FixedSalinity(TreeModel):
     def __init__(self, args):
         # First part of args: Section 'tree_time_loop' in xml file
         # Second part: Section 'belowground_competition' in xml file
-        time = args[1]
-        self.t_start = float(time.find("t_start").text)
-        self.t_end = float(time.find("t_end").text)
-        self.delta_t = float(time.find("delta_t").text)
-
-        args = args[0]
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         self.GetSalinity(args)
@@ -39,9 +33,41 @@ class FixedSalinity(TreeModel):
     # obtained by interpolation along a defined gradient
     def getTreeSalinity(self):
         self._xe = np.array(self._xe)
-        if hasattr(self, "n_ts"):
-            self._salinity = self._salinity_over_t[self.n_ts][1:]
-            self.n_ts += 1
+        if hasattr(self, "t_variable"):
+            if self._t_ini in self._salinity_over_t[:, 0]:
+                self._salinity = self._salinity_over_t[np.where(
+                    self._salinity_over_t[:, 0] == self._t_ini)[0], 1:][0]
+
+            if self._t_ini not in self._salinity_over_t[:, 0]:
+
+                try:
+                    ts_after = min(np.where(
+                        self._salinity_over_t[:, 0] > self._t_ini)[0])
+                    ts_before = max(np.where(
+                        self._salinity_over_t[:, 0] < self._t_ini)[0])
+
+                    self._salinity = [(self._salinity_over_t[ts_before, 1] +
+                        ((self._t_ini - self._salinity_over_t[ts_before, 0]) *
+                         (self._salinity_over_t[ts_after, 1] -
+                          self._salinity_over_t[ts_before, 1])) /
+                        (self._salinity_over_t[ts_after, 0] -
+                         self._salinity_over_t[ts_before, 0])),
+                    (self._salinity_over_t[ts_before, 2] +
+                        ((self._t_ini - self._salinity_over_t[ts_before, 0]) *
+                         (self._salinity_over_t[ts_after, 2] -
+                          self._salinity_over_t[ts_before, 2])) /
+                        (self._salinity_over_t[ts_after, 0] -
+                         self._salinity_over_t[ts_before, 0]))]
+
+                except:
+                    if self._salinity_over_t[0, 0] > self._t_ini:
+                        self._salinity = [self._salinity_over_t[0, 1],
+                                          self._salinity_over_t[0, 2]]
+                    elif self._salinity_over_t[0, 0] > self._t_ini:
+                        self._salinity = [self._salinity_over_t[-1, 1],
+                                          self._salinity_over_t[-1, 2]]
+
+        print(self._salinity)
         salinity_tree = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
                          (self._salinity[1] - self._salinity[0]) +
@@ -68,35 +94,11 @@ class FixedSalinity(TreeModel):
                     print('In the control file a path to a csv file with ' +
                           'values of the salt concentration over time was ' +
                           'found.')
-                    n_ts = (self.t_end - self.t_start) / self.delta_t
-                    ts = np.arange(0, n_ts)
-                    salt = np.loadtxt(arg.text, delimiter=';', skiprows=1)
 
-                    # test whether time series of time steps is continuous
-                    # and starts with time step 0
-                    if (sum(np.diff(sorted(salt[:, 0])) == 1
-                            ) >= salt.shape[0] - 1) and salt[0, 0] == 0:
+                    self._salinity_over_t = np.loadtxt(
+                        arg.text, delimiter=';', skiprows=1)
 
-                        # test whether values are given for each time step
-                        if salt.shape[0] < n_ts:
-                            # if so, the last given value is set for all
-                            # remaining time steps until the end.
-                            n = n_ts - salt.shape[0]
-                            self._salinity_over_t = np.concatenate(
-                                [salt, (salt[-1, :] * np.ones((int(n), 3)))])
-
-                        else:
-                            # For every time step datas for salinity exist
-                            self._salinity_over_t = salt
-
-                    else:
-                        # time series of time steps is not continuous,
-                        # interpolation needed
-                        salt_1 = np.interp(ts, salt[:, 0], salt[:, 1])
-                        salt_2 = np.interp(ts, salt[:, 0], salt[:, 2])
-                        self._salinity_over_t = np.array([ts, salt_1,
-                                                          salt_2]).T
-                    self.n_ts = 0
+                    self.t_variable = True
 
                 else:
                     raise (KeyError("Wrong definition of salinity in the " +
@@ -148,3 +150,5 @@ class FixedSalinity(TreeModel):
         self._r_crown = []
         self._psi_leaf = []
         self._xe = []
+        self._t_ini = t_ini
+        self._t_end = t_end

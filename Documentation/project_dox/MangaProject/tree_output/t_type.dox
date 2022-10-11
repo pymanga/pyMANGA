@@ -4,9 +4,9 @@
 Case selector for tree output.
 # Available cases 
  
+- NONE
+- OneFile
 - OneTimestepOneFile
 - OneTimestepOneFilePerGroup
-- OneFile
 - OneTreeOneFile
-- NONE
 */

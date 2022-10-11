@@ -1,0 +1,12 @@
+/*! \page project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__domain__domain &emsp;[input]domain
+
+
+Spatial description of the domain to which the concept is applied; defined by 4 corner points.
+
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__domain__x_1
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__domain__x_2
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__domain__y_1
+- \subpage project_dox__MangaProject__tree_dynamics__aboveground_competition__SimpleAsymmetricZOI__domain__y_2
+*/

@@ -52,7 +52,7 @@ class SimpleBettina(TreeModel):
 
         # Define variables that are only required for specific Mortality
         # concepts
-        super().getMortalityVariables(growth_concept_information)
+        super().setMortalityVariables(growth_concept_information)
 
         self.treeMaintenance()
         self.bgResources(belowground_resources)
@@ -87,8 +87,8 @@ class SimpleBettina(TreeModel):
         growth_concept_information["weight_rootgrowth"] = \
             self.weight_rootgrowth
 
-        # Set Mortality-related variables
-        super().setMortalityVariables(growth_concept_information)
+        # Get Mortality-related variables
+        super().getMortalityVariables(growth_concept_information)
 
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)
@@ -197,4 +197,4 @@ class SimpleBettina(TreeModel):
         self.grow = (self.parameter["growth_factor"] *
                      (self.available_resources - self.maint))
         # Check if trees survive based on selected mortality concepts
-        super().getSurvival()
+        super().setTreeKiller()

@@ -17,25 +17,26 @@ class Random(NoGrowth):
         self.getInputParameters(args)
         # Default values if no inputs are given
         try:
-            self.probability
+            self._probability
         except:
             # Threshold for biomass increment: 0.5 %
-            self.probability = 0.0016
-            print("NOTE: Use default `probability`: " + str(self.probability) +
+            self._probability = 0.0016
+            print("NOTE: Use default `probability`: " + str(self._probability) +
                   ".")
 
-    def getSurvival(self, args):
-        self.survive = 1
+    def setSurvive(self, args):
+        self._survive = 1
         r = np.random.uniform(0, 1, 1)
         # Number of time steps per year
         steps_per_year = self.getStepsPerYear(args)
         ## Multiply r with the number of time steps per year to induce a
         # yearly mortality
-        if r * steps_per_year < self.probability:
-            self.survive = 0
-            print("\t Tree died randomly. Random number: " + str(r[0]))
+        if r * steps_per_year < self._probability:
+            self._survive = 0
+            print("\t Tree died (Random).")
 
-        return self.survive
+    def getSurvive(self):
+        return self._survive
 
     def getStepsPerYear(self, args):
         return (3600 * 24 * 365.25) / args.time
@@ -46,7 +47,7 @@ class Random(NoGrowth):
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "probability":
-                self.probability = float(args.find("probability").text)
+                self._probability = float(args.find("probability").text)
             elif tag == "type":
                 case = args.find("type").text
             try:

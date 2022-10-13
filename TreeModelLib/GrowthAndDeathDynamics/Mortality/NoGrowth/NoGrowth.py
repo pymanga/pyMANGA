@@ -15,23 +15,27 @@ class NoGrowth:
 
     ## This function checks if the conditions for death are met.
     # @param args: growth concept object
-    def getSurvival(self, args):
-        self.survive = 1
+    def setSurvive(self, args):
+        self._survive = 1
         if args.grow <= 0:
-            self.survive = 0
-            print("\t\t Tree died because growth was <= 0.")
-        return self.survive
+            self._survive = 0
+            print("\t Tree died (NoGrowth).")
+
+    ## This function returns the mortality status of a tree
+    # as 0 (dead) or 1 (alive)
+    def getSurvive(self):
+        return self._survive
 
     ## This function initiates variables that are not yet in available in
     # the selected growth concept but are required for the mortality concept.
     # The function is called by the growth concept.
-    def getMortalityVariables(self, args, growth_concept_information):
+    def setMortalityVariables(self, args, growth_concept_information):
         pass
 
     ## This function sets variables that are not yet in available in
     # the selected growth concept but are required for the mortality concept.
     # The function is called by the growth concept.
-    def setMortalityVariables(self, args, growth_concept_information):
+    def getMortalityVariables(self, args, growth_concept_information):
         return growth_concept_information
 
     ## This function returns the name of the mortality concept

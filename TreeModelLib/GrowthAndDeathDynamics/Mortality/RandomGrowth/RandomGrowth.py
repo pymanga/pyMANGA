@@ -17,31 +17,30 @@ class RandomGrowth(Random):
         self.getInputParameters(args)
         # Default values if no inputs are given
         try:
-            self.k_die
+            self._k_die
         except:
             # Calibration factor default: 1e-12
-            self.k_die = 1e-12
-            print("NOTE: Use default `probability`: " + str(self.k_die) + ".")
+            self._k_die = 1e-12
+            print("NOTE: Use default `probability`: " + str(self._k_die) + ".")
 
     def setSurvive(self, args): #getSurvival
-        self.survive = 1
+        self._survive = 1
         # Calculate the probability to die
         args.delta_volume = args.volume - args.volume_before
 
         # = dV/dt/V
         relative_volume_increment = args.delta_volume / (args.time *
                                                          args.volume)
-        self.p_die = self.k_die / relative_volume_increment
+        p_die = self._k_die / relative_volume_increment
 
         # Get a random number
         r = np.random.uniform(0, 1, 1)
-        if r < self.p_die:
-            self.survive = 0
-            print("\t Tree died randomly. Random number: " + str(r[0]) +
-                  ", p: " + str(self.p_die))
+        if r < p_die:
+            self._survive = 0
+            print("\t Tree died (RandomGrowth).")
 
     def getSurvive(self):
-        return self.survive
+        return self._survive
 
     def setMortalityVariables(self, args, growth_concept_information):
         # Variable to store volume of previous time step (m³)
@@ -66,7 +65,7 @@ class RandomGrowth(Random):
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "k_die":
-                self.k_die = float(args.find("k_die").text)
+                self._k_die = float(args.find("k_die").text)
             elif tag == "type":
                 case = args.find("type").text
             try:

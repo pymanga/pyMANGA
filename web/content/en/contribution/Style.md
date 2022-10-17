@@ -9,8 +9,8 @@ weight: 2
 ## Most important rules to remember
 
 - Never use global variables.
-- Give descriptive names to functions, variables, and file names; eschew abbreviation.
-    - Variable names start lowercase and then with underscore (*this_examlpe*). Class member variables start with an underscore.
+- Give descriptive names to functions, variables, and file names; avoid abbreviation.
+    - Variable names start lowercase and then with underscore (*this_examlpe*). Class member variables start with an underscore., which makes them private (*self._class_variable*).
     - Regular functions or class methods start lowercase and then camel case (*thisExample*).
     - Classes start with uppercase and then camel case (*ThisExample*).
 - Define only one class per file.
@@ -26,13 +26,12 @@ Function names, variable names, and filenames should be descriptive; eschew abbr
 #### File Names
 Filenames should be camel case and do not include underscores (_) or dashes (-). The name must match the class that is defined in the file.
 
-In addition to the general naming scheme the template implementation should be placed in a file named MyTemplateClass-impl.h. This file gets included at the end of the header file MyTemplateClass.h.
 #### Type Names
-Type names start with a capital letter and have a capital letter for each new word, with no underscores: MyExcitingClass, MyExcitingEnum.
+Type names start with a capital letter and have a capital letter for each new word, with no underscores: *MyExcitingClass*, *MyExcitingEnum*.
 #### Variable Names
-Variable names are lowercase names with underscores: _my_exciting_member_variable. But be consistent in a file!
+Variable names are lowercase names with underscores: *_my_exciting_member_variable*. But be consistent in a file!
 #### Function Names
-Function names should represent an action. Regular functions start lowercase an then camel case. Accessors and mutators match the name of the variable with a "get" or "set" prefix: doSomeStuff(), doSomeStuffOnThing(), getMyExcitingMemberVariable(), setMyExcitingMemberVariable().
+Function names should represent an action. Regular functions start lowercase an then camel case. Accessors and mutators match the name of the variable with a "get" or "set" prefix: *doSomeStuff()*, *doSomeStuffOnThing()*, *getMyExcitingMemberVariable()*, *setMyExcitingMemberVariable()*.
 
 ## Comments
 
@@ -43,7 +42,7 @@ Giving sensible names to types and variables is much better than using obscure n
 
 When writing your comments, write for your audience: the next contributor who will need to understand your code. Be generous — the next one may be you!
 ### Comment Style
-For comments inside the implementation use either the // or /* */ syntax, as long as you are consistent. For header file comments use Doxygen /// or /** */ comments. Doxygen allows to automatically generating browsable source code documentation. Additional information like a brief description or function parameter description can be added inside Doxygen comments with backslashed or @-prefixed keywords like /// \brief or /// @see.
+For comments inside the implementation use the # syntax, as long as you are consistent. For header file comments use Doxygen ### comments. Doxygen allows to automatically generating browsable source code documentation. Additional information like a brief description or function parameter description can be added inside Doxygen comments with backslashed or @-prefixed keywords like /// \brief or /// @see.
 #### File Comments
 Start each file with the copyright and license notice, followed by a description of the contents of the file.
 #### Class Comments

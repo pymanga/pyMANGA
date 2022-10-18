@@ -5,6 +5,7 @@
 @author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
 """
 
+import copy
 
 class TreeDynamicTimeStepping:
 
@@ -20,6 +21,7 @@ class TreeDynamicTimeStepping:
 
         self.aboveground_resources = []
         self.belowground_resources = []
+        self._previous_tree_groups = []
 
     ## This progresses one time step, by updating tree population and above-
     # and below-ground resources. Not all concepts have to be called with
@@ -53,6 +55,8 @@ class TreeDynamicTimeStepping:
                 self.belowground_resources = (
                     self.belowground_competition.getBelowgroundResources())
         j = 0
+        number_of_trees = 0
+        eliminated_tree_groups = {}
         for group_name, tree_group in tree_groups.items():
             kill_indices = []
             for tree, i in zip(tree_group.getTrees(),
@@ -71,6 +75,16 @@ class TreeDynamicTimeStepping:
                     kill_indices.append(i)
 
                 j += 1
+
+            # If all trees of a group died, make a copy of this tree set
+            if len(kill_indices) > 0:
+                if len(kill_indices) == tree_group.getNumberOfTrees():
+                    eliminated_tree_groups[tree_group.name] = copy.deepcopy(
+                        tree_group)
+                    self.tree_output.writeOutput(eliminated_tree_groups,
+                                                 t_start,
+                                                 it_is_last_ts=True)
+
             tree_group.removeTreesAtIndices(kill_indices)
             tree_group.recruitTrees()
             # Add number of recruited trees to counter
@@ -87,8 +101,9 @@ class TreeDynamicTimeStepping:
     def finish(self, time):
         self.visualization.show(time)
         tree_groups = self.population.getTreeGroups()
-
-        self.tree_output.writeOutput(tree_groups, time)
+        # Write output in last time step, even if not defined in the project
+        # file
+        self.tree_output.writeOutput(tree_groups, time, it_is_last_ts=True)
 
     def setResources(self, ag_resources, bg_resources):
         self.aboveground_resources = ag_resources

@@ -52,7 +52,7 @@ Declaration comments describe use of the function; comments at the definition of
 #### Variable Comments
 In general the actual name of the variable should be descriptive enough to give a good idea of what the variable is used for. In certain cases, more comments are required.
 #### Implementation Comments
-In your implementation you should have comments in tricky, non-obvious, interesting, or important parts of your code.
+In your implementation you should have comments on tricky, non-obvious, interesting, or important parts of your code.
 #### Punctuation, Spelling and Grammar
 Pay attention to punctuation, spelling, and grammar; it is easier to read well-written comments than badly written ones.
 #### TODO Comments

@@ -91,8 +91,9 @@ if setup_list:
 
         e, filename = os.path.split(xmlfile)
         comparison_file_dir = path.join(path.dirname(xmlfile),
-                                        "ReferenceFiles", filename)
-        files_comparison = glob.glob(comparison_file_dir)
+                                        "ReferenceFiles",
+                                        filename.strip(".xml"))
+        files_comparison = os.listdir(comparison_file_dir)
         example_setups.append(filename)
 
         class MyTest(unittest.TestCase):
@@ -117,16 +118,16 @@ if setup_list:
                     files_result = glob.glob(path.join(output_dir, "*"))
                     if files_result:
                         for y in range(len(files_result)):
-                            test = (
-                                pd.read_csv(files_result[y],
-                                            delimiter='\t').drop('tree',
-                                                                 axis=1) -
-                                pd.read_csv(
-                                    files_comparison[y], delimiter='\t').drop(
-                                        'tree', axis=1)).values.any() == 0
                             try:
+                                test = (
+                                    pd.read_csv(files_result[y],
+                                                delimiter='\t').compare(
+                                        pd.read_csv(
+                                            path.join(comparison_file_dir,
+                                                      files_comparison[y]),
+                                            delimiter='\t')).values.any()) == 0
                                 assert test == True
-                            except:
+                            except AssertionError:
                                 self.fail(errors_compare.append(xmlfile))
 
         if __name__ == "__main__":

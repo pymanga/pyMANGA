@@ -22,7 +22,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 5 </n_recruitment_per_step>
-                <filename> test/smallTests/inputFiles/Population_t_0000043200.0.csv </filename>
+                <filename> Benchmarks/GenericTests/InputFiles/Population_t_0000043200.0.csv </filename>
             </distribution>
         </group>
         <group>
@@ -31,7 +31,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 5 </n_recruitment_per_step>
-                <filename> test/smallTests/inputFiles/Population_t_0000000000.0.csv </filename>
+                <filename> Benchmarks/GenericTests/InputFiles/Population_t_0000000000.0.csv </filename>
             </distribution>
         </group>
     </initial_population>
@@ -47,7 +47,7 @@
     <tree_output>
         <type> OneTimestepOneFile </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
-        <output_dir> test/testoutputs/ </output_dir>
+        <output_dir> Benchmarks/TestOutputs/ </output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <parameter_output> k_geom </parameter_output>

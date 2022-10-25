@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Benchmarks>
+    <GenericTests>
+        <TestSetupsWithoutOGS>
+            <test> SmallSetup1.xml </test>
+            <test> SmallSetup2.xml </test>
+            <test> SmallSetup3.xml </test>
+            <test> SmallSetup4.xml </test>
+            <test> SmallSetup5.xml </test>
+            <test> SmallSetup6.xml </test>
+            <test> SmallSetup7.xml </test>
+        </TestSetupsWithoutOGS>
+    </GenericTests>
+</Benchmarks>

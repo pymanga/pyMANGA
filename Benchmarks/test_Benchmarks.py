@@ -7,8 +7,9 @@ import sys
 from os import path
 import os
 
-sys.path.append(
-    path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
+manga_root_directory = path.dirname(
+    path.dirname(path.abspath(__file__)))
+sys.path.append(manga_root_directory)
 
 from ProjectLib import XMLtoProject
 from TimeLoopLib import TreeDynamicTimeStepping
@@ -20,12 +21,27 @@ import shutil
 from pathlib import Path
 import pandas as pd
 
-manga_root_directory = path.dirname(
-    path.dirname(path.dirname(path.abspath(__file__))))
+
+tree = etree.parse(path.join(manga_root_directory,
+                             "Benchmarks/BenchmarkList.xml"))
+root = tree.getroot()
+
+
+def iterate(parent, existing_path, setup_list):
+    for tag in parent:
+        tag.text = tag.text.strip()
+        if (tag.text) == "":
+            existing_path = path.join(existing_path, tag.tag)
+            iterate(tag, existing_path, setup_list)
+        else:
+            setup_file = (path.join(existing_path, str(tag.text)))
+            setup_list.append(setup_file)
+
+
+setup_list = []
+iterate(root, path.join(manga_root_directory, "Benchmarks"), setup_list)
 filepath_examplesetups = path.join(path.dirname(path.abspath(__file__)),
                                    "testSetupsWithoutOGS/*.xml")
-xml = glob.glob(filepath_examplesetups)
-xml.sort()
 example_setups = []
 errors = []
 errors_compare = []
@@ -39,9 +55,8 @@ global seperator
 seperator = "/"
 
 # MARKER:
-
-if xml:
-    for xmlfile in xml:
+if setup_list:
+    for xmlfile in setup_list:
         print("________________________________________________")
         print("In the following the setup", xmlfile, "is tested.")
         print("________________________________________________")

@@ -31,8 +31,8 @@ def iterate(parent, existing_path, setup_list):
     for tag in parent:
         tag.text = tag.text.strip()
         if (tag.text) == "":
-            existing_path = path.join(existing_path, tag.tag)
-            iterate(tag, existing_path, setup_list)
+            new_path = path.join(existing_path, tag.tag)
+            iterate(tag, new_path, setup_list)
         else:
             setup_file = (path.join(existing_path, str(tag.text)))
             setup_list.append(setup_file)

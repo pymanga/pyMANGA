@@ -50,9 +50,6 @@ errors_empty_results = []
 testlist = []
 global output_exist
 output_exist = str
-global seperator
-
-seperator = "/"
 
 # MARKER:
 if setup_list:
@@ -93,10 +90,8 @@ if setup_list:
             errors_empty_results.append(xmlfile)
 
         e, filename = os.path.split(xmlfile)
-        comparison_file_dir_in_pieces = (path.join(
-            path.dirname(path.abspath(__file__))), "referenceFiles", filename,
-                                         "*.*")
-        comparison_file_dir = seperator.join(comparison_file_dir_in_pieces)
+        comparison_file_dir = path.join(path.dirname(xmlfile),
+                                        "ReferenceFiles", filename)
         files_comparison = glob.glob(comparison_file_dir)
         example_setups.append(filename)
 

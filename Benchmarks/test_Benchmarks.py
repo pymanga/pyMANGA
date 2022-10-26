@@ -40,8 +40,6 @@ def iterate(parent, existing_path, setup_list):
 
 setup_list = []
 iterate(root, path.join(manga_root_directory, "Benchmarks"), setup_list)
-filepath_examplesetups = path.join(path.dirname(path.abspath(__file__)),
-                                   "testSetupsWithoutOGS/*.xml")
 example_setups = []
 errors = []
 errors_compare = []
@@ -126,8 +124,8 @@ if setup_list:
                                             path.join(comparison_file_dir,
                                                       files_comparison[y]),
                                             delimiter='\t')).values.any()) == 0
-                                assert test == True
-                            except AssertionError:
+                                self.assertTrue(test)
+                            except:
                                 self.fail(errors_compare.append(xmlfile))
 
         if __name__ == "__main__":

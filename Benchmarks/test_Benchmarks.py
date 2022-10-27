@@ -124,7 +124,8 @@ if setup_list:
                                             path.join(comparison_file_dir,
                                                       files_comparison[y]),
                                             delimiter='\t')).values.any()) == 0
-                                self.assertTrue(test)
+                                self.assertTrue(
+                                    test, "Simulation and reference differ!")
                             except:
                                 self.fail(errors_compare.append(xmlfile))
 

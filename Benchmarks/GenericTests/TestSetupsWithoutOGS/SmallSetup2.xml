@@ -52,7 +52,7 @@
         <delta_t> 43200 </delta_t>
     </tree_time_loop>
     <visualization>
-        <type> SimplePyplot </type>
+        <type> NONE </type>
     </visualization>
     <tree_output>
         <type> OneTimestepOneFile </type>

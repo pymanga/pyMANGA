@@ -51,7 +51,7 @@
         <delta_t> 43200 </delta_t> <!--Time step length and time span arbitrarily chosen, target: short model runtime-->
     </tree_time_loop>
     <visualization>
-        <type> SimplePyplot </type>
+        <type> NONE </type>
     </visualization>
     <tree_output>
         <type> OneTreeOneFile </type>

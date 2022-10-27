@@ -69,15 +69,16 @@ class AutomatedBenchmarkTests(unittest.TestCase):
             files_result = glob.glob(path.join(output_dir, "*"))
             if files_result:
                 for y in range(len(files_result)):
-                    test = (
-                        pd.read_csv(files_result[y],
-                                    delimiter='\t').compare(
-                            pd.read_csv(
-                                path.join(comparison_file_dir,
-                                          files_comparison[y]),
-                                delimiter='\t')).values.any()) == 0
+                    df1 = pd.read_csv(files_result[y],
+                                delimiter='\t').round(5)
+                    df2 = pd.read_csv(
+                        path.join(comparison_file_dir,
+                                  files_comparison[y]),
+                        delimiter='\t').round(5)
+                    test = (df1.compare(df2).values.any()) == 0
+
                     self.assertTrue(
-                        test,
+                        test, str(df1.compare(df2)) +
                         "Simulation and reference differ for " +
                         files_result[y])
 

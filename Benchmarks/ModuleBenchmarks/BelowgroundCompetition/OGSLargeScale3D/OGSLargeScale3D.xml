@@ -5,14 +5,21 @@
             <type> SimpleTest </type>
         </aboveground_competition>
         <belowground_competition>
-            <type> SimpleNetwork </type>
-            <f_radius> 0.25 </f_radius>
+            <type>OGSLargeScale3D</type>
+            <ogs_project_folder>Benchmarks/ModuleBenchmarks/BelowgroundCompetition/OGSLargeScale3D/</ogs_project_folder>
+            <ogs_project_file>ogs_benchmark.prj</ogs_project_file>
+            <source_mesh>ogs_benchmark_source.vtu</source_mesh>
+            <bulk_mesh>ogs_benchmark_domain.vtu</bulk_mesh>
+            <delta_t_ogs>1000000</delta_t_ogs>
+            <abiotic_drivers>
+                <left_salinity>0.025</left_salinity>
+                <right_salinity>0.035</right_salinity>
+            </abiotic_drivers>
+            <python_script>python_script.py</python_script>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> NetworkBettina </type>
+            <type> SimpleBettina </type>
             <mortality>NoGrowth</mortality>
-            <f_growth> 0.25 </f_growth>
-            <variant> V2_adapted </variant>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>
@@ -40,7 +47,7 @@
         <output_each_nth_timestep>1</output_each_nth_timestep>
         <output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/ModuleBenchmarks/BelowgroundCompetition/SimpleNetwork/</output_dir>
+        <output_dir>Benchmarks/ModuleBenchmarks/BelowgroundCompetition/OGSLargeScale3D/</output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <geometry_output> r_crown </geometry_output>
@@ -48,12 +55,6 @@
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
-        <network_output> rgf </network_output>
-        <network_output> partner </network_output>
-        <network_output> potential_partner </network_output>
-        <network_output> water_available </network_output>
-        <network_output> water_absorbed </network_output>
-        <network_output> water_exchanged </network_output>
+        <growth_output> salinity </growth_output>
     </tree_output>
 </MangaProject>
-

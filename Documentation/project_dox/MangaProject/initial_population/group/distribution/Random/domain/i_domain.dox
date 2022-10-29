@@ -1,0 +1,11 @@
+/*! \page project_dox__MangaProject__initial_population__group__distribution__Random__domain__domain &emsp;[input]domain
+
+
+Specification of the domain for the initial tree distribution.
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__initial_population__group__distribution__Random__domain__x_2
+- \subpage project_dox__MangaProject__initial_population__group__distribution__Random__domain__y_2
+- \subpage project_dox__MangaProject__initial_population__group__distribution__Random__domain__y_1
+- \subpage project_dox__MangaProject__initial_population__group__distribution__Random__domain__x_1
+*/

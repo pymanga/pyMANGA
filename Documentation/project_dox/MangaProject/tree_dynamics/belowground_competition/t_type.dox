@@ -7,16 +7,16 @@ Case selector for different types of belowground competition.
 
 # Available cases 
  
-- FixedSalinity
-- FON
-- NetworkFixedSalinity
-- NetworkOGSLargeScale3D
-- NetworkOGSLargeScale3DExternal
 - OGSLargeScale3D
-- OGSLargeScale3DExternal
-- OGSWithoutFeedback
-- SimpleNetwork
 - SimpleTest
+- FON
 - SymmetricZOI
+- NetworkOGSLargeScale3DExternal
+- SimpleNetwork
+- OGSLargeScale3DExternal
+- FixedSalinity
+- NetworkFixedSalinity
+- OGSWithoutFeedback
+- NetworkOGSLargeScale3D
 - SZoiFixedSalinity
 */

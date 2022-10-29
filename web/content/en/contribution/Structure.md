@@ -30,14 +30,42 @@ The following sections briefly describe each library.
 
 ### ProjectLib
 
-- initiate a simulation based on the project file
+This Library manages the interaction of all the other implemented libraries.
 
 ### TimeLoopLib
+
+The TimeLoopLib provides functionalities for model timestepping.
+
 ### PopulationLib
+
+In the PopulationLib, the management of individuals within the model is controlled.
+
 ### TreeModelLib
 
 The 'TreeModelLib' latter is the heart of pyMANGA as it describes vegetation growth and interaction between individuals and the environment.
+A TreeModel always consists of 3 submodels
+
+#### AbovegroundCompetition
+
+This submodel characterizes the modeling of resource gathering over the ground.
+Since pyMANGA models growth via the presence of resources, these are also the focus of this submodel.
+The above-ground resource relevant to pyMANGA con for example represent the sunlight.
+
+#### BelowgroundCompetition
+
+This submodel characterizes the modeling of resource gathering below the ground.
+Since pyMANGA models growth via the presence of resources, these are also the focus of this submodel.
+The below-ground resource relevant to pyMANGA con for example represent the nutrient availability.
+
+#### TreeGrowthAndDeath
+
+In the third and last main submodel of the TreeModelLib, the dynamic concept of tree growth and death is described.
 
 ### TreeOutputLib
+
+The TreeOutputLib controls the way pyMANGA generates output files from the simulation results.
+
 ### VisualizationLib
+
+The VisualizationLib provides interface for a visualization of model results during runtime.
 

@@ -61,7 +61,7 @@ Formatting
 
 Coding style and formatting are pretty arbitrary, but a project is much easier to follow if everyone uses the same style.
 Individuals may not agree with every aspect of the formatting rules, and some of the rules may take some getting used to, but it is important that all project contributors follow the style rules so that they can all read and understand everyone's code easily.
-We use googles **yapf** Software to automatically follow the 'clang-format'.
+We use googles **yapf** Software to automatically follow the 'clang-format'. (<a href="https://github.com/google/yapf" target="_blank">yapf</a>).
 
 ## Exceptions to the Rules
 
@@ -82,4 +82,7 @@ If code you add to a file looks drastically different from the existing code aro
  Try to avoid this.
 
 OK, enough writing about writing code; the code itself is much more interesting.
+You might be interested in checking out a good reference. 
+We would suggest to check **pyMANGA/TreeModelLib/BelowgroundCompetition/SymmetricZOI/SymmetricZoi.py as a reference**.
 Have fun!
+

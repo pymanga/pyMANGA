@@ -1,6 +1,6 @@
 ---
-title: "Download and Contribution"
-linkTitle: "Download and Contribution"
+title: "Developer Guide"
+linkTitle: "Developer Guide"
 weight: 1
 menu:
   main:

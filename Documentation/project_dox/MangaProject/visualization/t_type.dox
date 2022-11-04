@@ -4,6 +4,6 @@
 Case selector for visualization type.
 # Available cases 
  
-- NONE
 - SimplePyplot
+- NONE
 */

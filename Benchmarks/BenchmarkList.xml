@@ -8,6 +8,9 @@
             <FixedSalinity>
                 <test> FixedSalinity_CI.xml </test>
             </FixedSalinity>
+            <NetworkFixedSalinity>
+                <test> NetworkFixedSalinity_CI.xml </test>
+            </NetworkFixedSalinity>
         </BelowgroundCompetition>
     </ModuleBenchmarks>
 </Benchmarks>

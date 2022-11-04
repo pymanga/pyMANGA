@@ -3,4 +3,11 @@
     <GenericTests>
         <test> AllSimple.xml </test>
     </GenericTests>
+    <ModuleBenchmarks>
+        <BelowgroundCompetition>
+            <FixedSalinity>
+                <test> FixedSalinity_CI.xml </test>
+            </FixedSalinity>
+        </BelowgroundCompetition>
+    </ModuleBenchmarks>
 </Benchmarks>

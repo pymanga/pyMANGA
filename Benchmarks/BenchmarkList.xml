@@ -20,9 +20,6 @@
             <SZoiFixedSalinity>
                 <test> SZoiFixedSalinity_CI.xml </test>
             </SZoiFixedSalinity>
-            <OGSLargeScale3D>
-                <test> OGSLargeScale3D_CI.xml </test>
-            </OGSLargeScale3D>
         </BelowgroundCompetition>
         <AbovegroundCompetition>
             <SimpleAsymmetricZOI>

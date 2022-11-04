@@ -29,5 +29,10 @@
                 <test> SimpleAsymmetricZOI_CI.xml </test>
             </SimpleAsymmetricZOI>
         </AbovegroundCompetition>
+        <GrowthAndDeath>
+            <SimpleBettina>
+                <test> SimpleBettina_CI.xml </test>
+            </SimpleBettina>
+        </GrowthAndDeath>
     </ModuleBenchmarks>
 </Benchmarks>

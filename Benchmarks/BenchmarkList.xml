@@ -11,6 +11,9 @@
             <NetworkFixedSalinity>
                 <test> NetworkFixedSalinity_CI.xml </test>
             </NetworkFixedSalinity>
+            <SimpleNetwork>
+                <test> SimpleNetwork_CI.xml </test>
+            </SimpleNetwork>
             <OGSLargeScale3D>
                 <test> OGSLargeScale3D_CI.xml </test>
             </OGSLargeScale3D>

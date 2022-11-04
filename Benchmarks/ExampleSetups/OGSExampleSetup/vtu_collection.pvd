@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<VTKFile type="Collection" version="0.1" byte_order="LittleEndian" compressor="vtkZLibDataCompressor">
+	<Collection>
+		<DataSet timestep="0.0" group="" part="0" file="trees_in_box__ogsOutput_pcs_0_ts_0_t_0.000000.vtu"/>
+		<DataSet timestep="2592000.0" group="" part="0" file="trees_in_box__ogsOutput_ts_30_t_2592000.000000.vtu"/>
+	</Collection>
+</VTKFile>

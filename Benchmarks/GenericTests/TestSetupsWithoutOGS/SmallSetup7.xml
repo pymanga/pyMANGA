@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<MangaProject>
+    <random_seed> 10 </random_seed>
+    <tree_dynamics>
+        <aboveground_competition>
+            <type> SimpleTest </type>
+        </aboveground_competition>
+        <belowground_competition>
+            <type> SimpleNetwork </type>
+            <f_radius> 1 </f_radius>
+        </belowground_competition>
+        <tree_growth_and_death>
+            <type> NetworkBettina </type>
+            <f_growth> 1 </f_growth>
+            <variant> V1_fixed </variant>
+        </tree_growth_and_death>
+    </tree_dynamics>
+    <initial_population>
+        <group>
+            <name> Recruiting </name>
+            <species> Avicennia </species>
+            <distribution>
+                <type> GroupFromFile </type>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
+                <filename> Benchmarks/GenericTests/InputFiles/Population_t_0000043200.0.csv </filename>
+            </distribution>
+        </group>
+        <group>
+            <name> Initial </name>
+            <species> Avicennia </species>
+            <distribution>
+                <type> GroupFromFile </type>
+                <n_recruitment_per_step> 5 </n_recruitment_per_step>
+                <filename> Benchmarks/GenericTests/InputFiles/Population_t_0000000000.0.csv </filename>
+            </distribution>
+        </group>
+    </initial_population>
+    <tree_time_loop>
+        <type> Simple </type>
+        <t_start> 0 </t_start>
+        <t_end> 86400 </t_end>
+        <delta_t> 43200 </delta_t>
+    </tree_time_loop>
+    <visualization>
+        <type> NONE </type>
+    </visualization>
+    <tree_output>
+        <type> OneTimestepOneFile </type>
+        <output_each_nth_timestep> 1 </output_each_nth_timestep>
+        <output_dir> Benchmarks/TestOutputs/ </output_dir>
+        <geometry_output> r_stem </geometry_output>
+        <geometry_output> h_stem </geometry_output>
+        <parameter_output> k_geom </parameter_output>
+    </tree_output>
+</MangaProject>
+

@@ -83,7 +83,7 @@ class TreeDynamicTimeStepping:
                         tree_group)
                     self.tree_output.writeOutput(eliminated_tree_groups,
                                                  t_start,
-                                                 it_is_last_ts=True)
+                                                 force_outpu=True)
 
             tree_group.removeTreesAtIndices(kill_indices)
             tree_group.recruitTrees()
@@ -103,7 +103,7 @@ class TreeDynamicTimeStepping:
         tree_groups = self.population.getTreeGroups()
         # Write output in last time step, even if not defined in the project
         # file
-        self.tree_output.writeOutput(tree_groups, time, it_is_last_ts=True)
+        self.tree_output.writeOutput(tree_groups, time, force_outpu=True)
 
     def setResources(self, ag_resources, bg_resources):
         self.aboveground_resources = ag_resources

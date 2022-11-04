@@ -18,5 +18,10 @@
                 <test> OGSLargeScale3D_CI.xml </test>
             </OGSLargeScale3D>
         </BelowgroundCompetition>
+        <AbovegroundCompetition>
+            <SimpleAsymmetricZOI>
+                <test> SimpleAsymmetricZOI_CI.xml </test>
+            </SimpleAsymmetricZOI>
+        </AbovegroundCompetition>
     </ModuleBenchmarks>
 </Benchmarks>

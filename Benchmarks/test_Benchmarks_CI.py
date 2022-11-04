@@ -1,6 +1,7 @@
 import sys
 from os import path
 import os
+import logging
 
 manga_root_directory = path.dirname(
     path.dirname(path.abspath(__file__)))
@@ -44,10 +45,12 @@ class AutomatedBenchmarkTests(unittest.TestCase):
         for i in range(len(self.setup_list)):
             setup = self.setup_list[i]
             with self.subTest(i=setup):
+                logging.info("Testing project" + setup)
                 self.clean_output_dir(setup)
                 self.model_run(setup)
                 self.compare_to_reference(setup)
                 self.clean_output_dir(setup)
+                logging.info("Success!")
 
     def model_run(self, project):
         # Test of MANGA project file and run the model

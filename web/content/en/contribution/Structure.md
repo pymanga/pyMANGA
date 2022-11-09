@@ -7,7 +7,7 @@ weight: 1
 ---
 
 On this page, we provide a brief overview on the structure of the pyMANGA platform.
-pyMANGA is composed of different libraries (<a href="/contribution/#Figure_1">Figure 1a</a>), each covering a part of the full forest (vegetation) growth model.
+pyMANGA is composed of different libraries (<a href="/contribution/#Figure_1">Figure 1</a>), each covering a part of the full forest (vegetation) growth model.
 This includes, for example, the distribution of individuals ('PopulationLib'), the time step management ('TimeLoopLib') or the growth of individuals ('TreeModelLib').
 A library can contain several concepts to describe this specific aspect of the model in different ways.
 As pyMANGA follows object-oriented programming paradigms, each concept is defined by a class.
@@ -19,7 +19,7 @@ The documentation of each class can be found [here](https://jbathmann.github.io/
 
 
 <figure class="alert">
-    <img id="Figure_1" src="/pictures/contribution/manga_structure.jpg">
+    <img id="Figure_1" src="/pictures/contribution/manga_structure.png">
     <figcaption>
         <i><br><strong>Figure 1:</strong> Overview on pyMANGA structure. Each grey box represents a library.</i>
     </figcaption>
@@ -35,6 +35,7 @@ This Library manages the interaction of all the other implemented libraries.
 ### TimeLoopLib
 
 The TimeLoopLib provides functionalities for model timestepping.
+Here, the scheduling of sub-models within one time step is defined.
 
 ### PopulationLib
 
@@ -42,24 +43,26 @@ In the PopulationLib, the management of individuals within the model is controll
 
 ### TreeModelLib
 
-The 'TreeModelLib' latter is the heart of pyMANGA as it describes vegetation growth and interaction between individuals and the environment.
-A TreeModel always consists of 3 submodels
+The TreeModelLib latter is the heart of pyMANGA as it describes vegetation growth and interaction between individuals and the environment.
+A TreeModel always consists of three interacting sub-libraries. 
+Those libraries model the gathering of resources, above- and below-ground, as well as vegetation growth.
+The communication between those libraries is managed by interfaces. 
 
 #### AbovegroundCompetition
 
-This submodel characterizes the modeling of resource gathering over the ground.
-Since pyMANGA models growth via the presence of resources, these are also the focus of this submodel.
-The above-ground resource relevant to pyMANGA con for example represent the sunlight.
+This sub-library characterizes the gathering of resources available above the ground.
+An above-ground resource relevant to pyMANGA is sunlight availability.
+A sub-model can, for example, describe how sunlight is available to individual trees if they are shwadowd by others.
 
 #### BelowgroundCompetition
 
-This submodel characterizes the modeling of resource gathering below the ground.
+This sub-library characterizes the resource gathering below the ground.
 Since pyMANGA models growth via the presence of resources, these are also the focus of this submodel.
 The below-ground resource relevant to pyMANGA con for example represent the nutrient availability.
 
 #### TreeGrowthAndDeath
 
-In the third and last main submodel of the TreeModelLib, the dynamic concept of tree growth and death is described.
+In the third and last main sub-library of the TreeModelLib, the dynamic concept of tree (vegetation) growth and death is described.
 
 ### TreeOutputLib
 
@@ -67,5 +70,5 @@ The TreeOutputLib controls the way pyMANGA generates output files from the simul
 
 ### VisualizationLib
 
-The VisualizationLib provides interface for a visualization of model results during runtime.
+The VisualizationLib defines an interface for the visualization of model results during runtime.
 

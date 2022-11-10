@@ -29,6 +29,7 @@ class SimpleNetwork(TreeModel):
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         # Parameters associated with the SimpleBettina model
+        super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
         self.trees = []
         self._xe = []
         self._ye = []
@@ -43,8 +44,6 @@ class SimpleNetwork(TreeModel):
         self._r_stem = []
         self._kf_sap = []
         self.belowground_resources = []
-        self._t_ini = t_ini
-        self._t_end = t_end
         self.time = t_end - t_ini
 
         # Parameters associated with the network concept

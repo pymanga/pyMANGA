@@ -182,9 +182,8 @@ class FixedSalinity(TreeModel):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
+        super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
         self._h_stem = []
         self._r_crown = []
         self._psi_leaf = []
         self._xe = []
-        self._t_ini = t_ini
-        self._t_end = t_end

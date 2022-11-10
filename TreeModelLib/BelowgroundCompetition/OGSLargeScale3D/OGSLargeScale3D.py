@@ -106,7 +106,7 @@ class OGSLargeScale3D(TreeModel):
     #  @param t_ini: initial time of next timestep
     #  @param t_end: end time of next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        self._t_ini = t_ini
+        super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
         if self._use_fixed_ogs_delta_t:
             self._t_end = t_ini + self._fixed_ogs_delta_t
         else:

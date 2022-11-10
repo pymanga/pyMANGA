@@ -122,6 +122,7 @@ class FON(TreeModel):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
+        super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
         self._fon_area = []
         self._fon_impact = []
         self._resource_limitation = []
@@ -131,8 +132,6 @@ class FON(TreeModel):
         self._salt_effect_d = []
         self._salt_effect_ui = []
         self._r_stem = []
-        self._t_ini = t_ini
-        self._t_end = t_end
         self._fon_height = np.zeros_like(self._my_grid[0])
 
     ## Before being able to calculate the resources, all tree entities need

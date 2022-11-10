@@ -58,3 +58,7 @@ class TreeModel:
 
         if 0 in survive:
             self.survive = 0
+
+    def prepareNextTimeStep(self, t_ini, t_end):
+        self._t_ini = t_ini
+        self._t_end = t_end

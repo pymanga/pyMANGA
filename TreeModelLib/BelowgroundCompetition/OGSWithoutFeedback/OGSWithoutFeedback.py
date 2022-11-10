@@ -93,8 +93,7 @@ class OGSWithoutFeedback(OGSLargeScale3D):
     #  @param t_ini: initial time of next timestep
     #  @param t_end: end time of next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        self._t_ini = t_ini
-        self._t_end = t_end
+        super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
         self._xml_t_initial.text = str(self._t_ini)
         self._xml_t_end.text = str(self._t_end)
         self._tree_cell_ids = []

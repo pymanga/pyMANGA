@@ -30,9 +30,8 @@ class SimpleTest(TreeModel):
     #  @param: t_ini - initial time for next timestep \n
     #  t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
+        super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
         self.trees = []
-        self.t_ini = t_ini
-        self.t_end = t_end
 
     ## Before being able to calculate the resources, all tree enteties need
     #  to be added with their current implementation for the next timestep.

@@ -152,10 +152,8 @@ class OGSLargeScale3D(TreeModel):
     #  dependent resource uptake is saved in numpy arrays.
     #  @param tree
     def addTree(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
+        x, y, geometry, parameter = super().addTree(tree=tree)
         root_radius = geometry["r_root"]
-        parameter = tree.getParameter()
 
         self.addCellCharateristics(x, y, root_radius)
 

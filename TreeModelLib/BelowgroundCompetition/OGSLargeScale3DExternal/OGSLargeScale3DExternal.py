@@ -51,9 +51,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     #  python source terms in OGS.
     #  @param tree
     def addTree(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
+        x, y, geometry, parameter = super().addTree(tree=tree)
 
         # Cells affected by tree water uptake
         root_radius = geometry["r_root"]

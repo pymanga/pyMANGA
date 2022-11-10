@@ -62,3 +62,9 @@ class TreeModel:
     def prepareNextTimeStep(self, t_ini, t_end):
         self._t_ini = t_ini
         self._t_end = t_end
+
+    def addTree(self, tree):
+        x, y = tree.getPosition()
+        geometry = tree.getGeometry()
+        parameter = tree.getParameter()
+        return x, y, geometry, parameter

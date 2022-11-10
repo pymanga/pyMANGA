@@ -131,9 +131,7 @@ class SimpleAsymmetricZOI(TreeModel):
     #  to be added with their current implementation for the next timestep.
     #  @param tree
     def addTree(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
+        x, y, geometry, parameter = super().addTree(tree=tree)
 
         if geometry["r_crown"] < self.min_r_crown:
             print("Error: mesh not fine enough for crown dimensions!")

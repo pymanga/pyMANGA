@@ -37,8 +37,7 @@ class SymmetricZOI(TreeModel):
     #  to be added with their current implementation for the next timestep.
     #  @param tree
     def addTree(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
+        x, y, geometry, parameter = super().addTree(tree)
 
         if geometry["r_root"] < self.min_r_root:
             print("Error: mesh not fine enough for crown dimensions!")

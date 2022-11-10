@@ -168,9 +168,7 @@ class FixedSalinity(TreeModel):
     #  timestep.
     #  @param: tree
     def addTree(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
+        x, y, geometry, parameter = super().addTree(tree=tree)
         self._xe.append(x)
         self._h_stem.append(geometry["h_stem"])
         self._r_crown.append(geometry["r_crown"])

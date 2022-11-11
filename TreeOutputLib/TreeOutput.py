@@ -138,14 +138,14 @@ class TreeOutput:
     #  For each timestep a file is created throughout the simulation.
     #  This function is only able to work, if the output directory exists and
     #  is empty at the begin of the model run
-    def writeOutput(self, tree_groups, time, force_outpu=False):
+    def writeOutput(self, tree_groups, time, force_output=False):
         if self.output_each_nth_timestep is not None:
             self._output_counter = (self._output_counter %
                                     self.output_each_nth_timestep)
             self._it_is_output_time = (self._output_counter == 0)
         if self.output_times is not None:
             self._it_is_output_time = (time in self.output_times)
-        if force_outpu:
+        if force_output:
             self._it_is_output_time = True
 
         if self._it_is_output_time:

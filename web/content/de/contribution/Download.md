@@ -5,17 +5,8 @@ linkTitle: Download
 weight: 3
 
 ---
+## Download
 
-{{< blocks/cover title="Download pyMANGA" height="min" color="white">}}
+Bitte lade den Source Code über Github herunter.
+<a href="https://github.com/jbathmann/pyMANGA" target="_blank">GitHub repository</a>
 
-{{< /blocks/cover >}}
-
-
-{{% blocks/lead %}}
-
-<font size="30">Download über GitHub</font> <br>
-<br>
-<a class="btn btn-lg btn-secondary mr-3 mb-4" href="https://github.com/jbathmann/pyMANGA">
-		Download <i class="fab fa-github ml-2 "></i>
-	</a>
-{{% /blocks/lead %}}

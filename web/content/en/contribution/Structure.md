@@ -6,6 +6,8 @@ weight: 1
 
 ---
 
+## Structure
+
 On this page, we provide a brief overview on the structure of the pyMANGA platform.
 pyMANGA is composed of different libraries (<a href="/contribution/#Figure_1">Figure 1</a>), each covering a part of the full forest (vegetation) growth model.
 This includes, for example, the distribution of individuals ('PopulationLib'), the time step management ('TimeLoopLib') or the growth of individuals ('TreeModelLib').

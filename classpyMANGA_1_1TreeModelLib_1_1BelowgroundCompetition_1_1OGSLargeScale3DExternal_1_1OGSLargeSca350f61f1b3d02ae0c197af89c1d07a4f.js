@@ -1,0 +1,15 @@
+var classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f =
+[
+    [ "__init__", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#a8616af39d6fa96ac162295f33ba26d0a", null ],
+    [ "addTree", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#adf1b30ca411c60a4adfc4a8e25969c2b", null ],
+    [ "calculateBelowgroundResources", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#aedd6ff653e091572dce08672ddbf438a", null ],
+    [ "getExternalInformation", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#a183654673092615f2715c5cadb6c4a34", null ],
+    [ "getOGSAccessible", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#aa4b578844332d1105018d758cc0e26be", null ],
+    [ "prepareNextTimeStep", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#a16cf5bb2d6a5a6772a08bd72c3dbcde5", null ],
+    [ "setExternalInformation", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#a824728664e67698b96a46d5dcff5fb99", null ],
+    [ "belowground_resources", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#ac8e8fc47174fc8fb5651246d7abbc79a", null ],
+    [ "calls_per_cell", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#aed625e39239e5404c6fa61966b72c74a", null ],
+    [ "cumsum_salinity", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#ae3d77eb751f15b6741b5c3788e2c5138", null ],
+    [ "n_trees", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#a061dbc336a5025a70dd81d0aff6b501a", null ],
+    [ "no_trees", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1OGSLargeScale3DExternal_1_1OGSLargeSca350f61f1b3d02ae0c197af89c1d07a4f.html#a76f9599e043e1377e34a9ecbfe75d750", null ]
+];

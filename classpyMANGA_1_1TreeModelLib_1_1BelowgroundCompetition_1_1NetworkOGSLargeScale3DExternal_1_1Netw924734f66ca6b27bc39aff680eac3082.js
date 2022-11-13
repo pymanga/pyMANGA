@@ -1,0 +1,11 @@
+var classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1NetworkOGSLargeScale3DExternal_1_1Netw924734f66ca6b27bc39aff680eac3082 =
+[
+    [ "__init__", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1NetworkOGSLargeScale3DExternal_1_1Netw924734f66ca6b27bc39aff680eac3082.html#a506511fe867010e0a8d643e3e610b140", null ],
+    [ "addTree", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1NetworkOGSLargeScale3DExternal_1_1Netw924734f66ca6b27bc39aff680eac3082.html#a8ad5b8852928a98e368308180eca34a2", null ],
+    [ "calculateBelowgroundResources", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1NetworkOGSLargeScale3DExternal_1_1Netw924734f66ca6b27bc39aff680eac3082.html#abd513b20ff7c60c38f73f7eb2cbda623", null ],
+    [ "getExternalInformation", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1NetworkOGSLargeScale3DExternal_1_1Netw924734f66ca6b27bc39aff680eac3082.html#a1efba99169ef57144e5e267d5ef467b4", null ],
+    [ "getOGSAccessible", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1NetworkOGSLargeScale3DExternal_1_1Netw924734f66ca6b27bc39aff680eac3082.html#ad048f4a415a01170a99be5482ab2775a", null ],
+    [ "prepareNextTimeStep", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1NetworkOGSLargeScale3DExternal_1_1Netw924734f66ca6b27bc39aff680eac3082.html#af0a4308955d899c1d5147cee62c578e1", null ],
+    [ "setExternalInformation", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1NetworkOGSLargeScale3DExternal_1_1Netw924734f66ca6b27bc39aff680eac3082.html#ac65de1e9a680321efc03f133e9c49883", null ],
+    [ "belowground_resources", "classpyMANGA_1_1TreeModelLib_1_1BelowgroundCompetition_1_1NetworkOGSLargeScale3DExternal_1_1Netw924734f66ca6b27bc39aff680eac3082.html#ab7556377cfcf18e4bfdfa9e7ad17e036", null ]
+];

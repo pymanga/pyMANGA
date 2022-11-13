@@ -11,7 +11,6 @@ from ProjectLib import XMLtoProject
 from TimeLoopLib import TreeDynamicTimeStepping
 import unittest
 import glob
-import os
 from lxml import etree
 import shutil
 from pathlib import Path

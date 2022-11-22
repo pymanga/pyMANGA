@@ -61,7 +61,7 @@ staticDir = "static"
 weight = 1
 [languages.de]
 title = "pyMANGA"
-description = "Mangrove groundwater salinity feedback model"
+description = "PYthon Models for AGeNt-based resource GAthering"
 languageName ="Deutsch"
 contentDir = "content/de"
 time_format_default = "02.01.2006"

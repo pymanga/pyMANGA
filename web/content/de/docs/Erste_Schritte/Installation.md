@@ -20,7 +20,7 @@ Bei der Installation wird eine lokale Bibliothek mit verschiedenen **Python-Modu
 Diese Module beinhalten aufwendig zu formulierenden oder häufig gebrauchten Quellcode - somit muss dieser im Programm nicht ausformuliert geschrieben werden, sondern kann einfach aus der Bibliothek abgerufen werden.
 Da sich die Installation zwischen den Betriebssystem unterscheidet, wählen Sie nachfolgend Ihr Betriebssystem aus.
 
-Um **pyMANGA** (Mangrove groundwater salinity feedback model) ausführen zu können, muss eine **Python 3-Distribution** installiert sein.
+Um **pyMANGA** (PYthon Models for AGeNt-based resource GAthering) ausführen zu können, muss eine **Python 3-Distribution** installiert sein.
 Da sich die Systemvoraussetzungen zwischen den verschiedenen Betriebssystemen stark unterscheiden, wird die Installation für jedes Betriebssystem separat beschrieben.
 
 <details>
@@ -62,7 +62,7 @@ das Paket (neu)installiert werden.
 <summary>Installation von Python in Windows</summary>
 <p>
 
-Um **pyMANGA** (Mangrove groundwater salinity feedback model) ausführen zu können, müssen Sie zunächst sich ein **Interpreter** für die Programmiersprache **Python** besorgen.
+Um **pyMANGA** (PYthon Models for AGeNt-based resource GAthering) ausführen zu können, müssen Sie zunächst sich ein **Interpreter** für die Programmiersprache **Python** besorgen.
 Ein Beispiel wäre **python<sup>T</sup><sup>M</sup>**.
 Dazu öffnen Sie Ihren **Browser** und gehen Sie auf die Seite ***Python.org***.
 Im Auswahlmenü unter ***Download*** finden Sie die aktuelle Release Version für ihr Betriebssystem von **Python** (in dieser Anleitung wird das Vorgehen unter Windows beschrieben, siehe <a href="/de/docs/erste_schritte/installation/#Abbildung_1">Abbildung 1</a>).

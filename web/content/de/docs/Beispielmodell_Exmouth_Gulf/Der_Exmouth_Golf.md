@@ -4,6 +4,7 @@ linkTitle: "Der Exmouth-Golf"
 weight: 1
 description:
 ---
+# Der Exmouth-Golf
 
 Der Exmouth-Golf befindet sich an der Westküste Australiens im Bundesstaat Western Australia (siehe auch <a href="/de/docs/beispielmodell_exmouth_gulf/der_exmouth_golf/#Abbildung_1">Abbildung 1</a>).
 Die Bucht ist ein semiarides Ästuarsystem mit ausgedehnten Küstenfeuchtgebieten.

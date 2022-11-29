@@ -4,6 +4,7 @@ linkTitle: "Do it yourself"
 weight: 4
 description:
 ---
+# Do it yourself
 
 The model setup of the "Full Model" is located in the following folder in the current version of pyMANGA:
 

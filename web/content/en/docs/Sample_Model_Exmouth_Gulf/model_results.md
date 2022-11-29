@@ -4,6 +4,7 @@ linkTitle: "The Model"
 weight: 3
 description:
 ---
+
 # The Model
 
 <head>
@@ -28,7 +29,7 @@ In addition to the growth behavior of the mangroves, the salinity of the porewat
 In this context the interacting influences of mangrove growth and gradients of salinity in porewater are also considered.
 This chapter describes the composition of the model, the basics of modeling with MANGA, and the results of the study.
 
-<h1>Model Domain</h1>
+## Model Domain
 
 A 185 m long and 10 m wide transect is represented in the model (<a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_1">Figure 1</a>).
 Allometry data from a transect measurements, as well as measurement results from a long-term study, are used to evaluate the model results.
@@ -59,9 +60,9 @@ This DEM was used for descretization of the groundwater model (<a href="/en/docs
 <figcaption><font size = "1"><i><b>Figure 2:</b> Elevation profiles along transect lines</i></font></figcaption>
 </figure><br>
 
-<h1>Modeling</h1>
+## Modeling
 
-<h2>Model variants</h2>
+### Model variants
 
 Mangrove growth was simulated using three different models (see also <a href="/docs/sample_model_exmouth_gulf/model_results/#Table_1">Table 1</a>). 
 
@@ -136,9 +137,9 @@ The following <a href="/docs/sample_model_exmouth_gulf/model_results/#Table_1">T
 </table>
 </figure><br>
 
-<h2>Discretization</h2>
+### Discretization
 
-<h3>Groundwater model</h3>
+#### Groundwater model
 
 The groundwater model represents the subsurface with a grid of dimensions of 10 m x 230 m x 3 m on five FEM layers with 5880 cells.
 The following <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_3">Figure 3</a> shows the spatial discretization from the seaward perspective.
@@ -164,12 +165,12 @@ Note the 50-fold vertical scaling.
 The groundwater model is discretized in time with a step length of one hour.
 The tidal range as a dynamic boundary condition is represented with the time series of the years 1991 to 1993, which is set in loops over the entire model runtime.
 
-<h3>Tree growth model</h3>
+#### Tree growth model
 
 Since each mangrove is represented as a single individual, there is no real spatial discretization.
 Temporally, the tree growth model is discretized with a time step length of half a year (1&nbsp;a&nbsp;=&nbsp;365.25&nbsp;d).
 
-<h2>Boundary conditions groundwater model</h2>
+### Boundary conditions groundwater model
 
 The salinity of the seawater was set at 50 g/kg, the pore water at the landward end of the transect was assigned a salinity of 70 g/kg.
 The transpiration of the mangroves locally increases the salinity.
@@ -183,11 +184,11 @@ The model boundaries which are not mentioned explicitly, are all defined as no f
 <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_1">Figure 1</a> shows a schematic diagram of this.
 
 
-<h2>Parameterization</h2>
+### Parameterization
 
 The following tables show the parameterizations of the subsurface (<a href="/docs/sample_model_exmouth_gulf/model_results/#Table_2">Table 2</a>) and the mangroves (<a href="/docs/sample_model_exmouth_gulf/model_results/#Table_3">Table 3</a>), global weighting factors (<a href="/docs/sample_model_exmouth_gulf/model_results/#Table_4">Table 4</a>), and the initial values of the geoemtries of the mangrove seedlings (<a href="/docs/sample_model_exmouth_gulf/model_results/#Table_5">Table 5</a>).
 
-<h3>Subsurface</h3>
+#### Subsurface
 
 <table>
 <tablecaption align="top"><font size = "1"><i><b>Table 2:</b> Parameterizations of subsurface</i></font></tablecaption>
@@ -238,9 +239,9 @@ The following tables show the parameterizations of the subsurface (<a href="/doc
 </tbody>
 </table>
 
-<h3>Botany</h3>
+#### Botany
 
-<h4>Water balance of the mangroves</h4>
+##### Water balance of the mangroves
 
 <table>
 <tablecaption align="top"><font size = "1"><i><b>Table 3:</b> Parameterization of the biotic factors</i></font></tablecaption>
@@ -287,7 +288,7 @@ The following tables show the parameterizations of the subsurface (<a href="/doc
 </tbody>
 </table>
 
-<h4>Global weighting factors</h4>
+##### Global weighting factors
 
 <table>
 <tablecaption align="top"><font size = "1"><i><b>Table 4:</b> Global weighting factor</i></font></tablecaption>
@@ -328,7 +329,7 @@ The following tables show the parameterizations of the subsurface (<a href="/doc
 </tbody>
 </table>
 
-<h4>Initial values of the geometrical characteristics of the mangrove seedlings</h4>
+##### Initial values of the geometrical characteristics of the mangrove seedlings
 
 <table>
 <tablecaption align="top"><font size = "1"><i><b>Table 5:</b> Initial value of the geometrical characteristics of the mangrove seedlings</i></font></tablecaption>
@@ -369,7 +370,7 @@ The following tables show the parameterizations of the subsurface (<a href="/doc
 </tbody>
 </table>
 
-<h1>Resource competition</h1>
+## Resource competition
 
 For representing the mangroves in the model area, it is necessary to establish a stable population, which means to reach quasi-stationary conditions.
 For this purpose, 30 mangroves are randomly positioned in the model area as seedlings.
@@ -382,13 +383,13 @@ These lead to growth penalties for the mangroves located downstream (especially 
 Different mangrove species have varying tolerance to high salt concentrations.
 In this research, the two species Avicennia marina ("gray mangrove") and Rhizophora mangle ("red mangrove") were studied in more detail.
 
-<h1>Results</h1>
+## Results
 
 In this research, two processes were viewed more closely with the help of the MANGA model.
 On the one hand, the development of typical structures in mangrove forests is be mapped, on the other hand, the growth behavior of the two mangrove species under different environmental conditions is investigated.
 In the following the results of the research are briefly summarized.
 
-<h2>Forest structure</h2>
+### Forest structure
 
 The following visualization shows the dynamic development of the mangrove population in the model area and the development of the biomass.
 The increasingly stable mangrove population can be clearly seen in the first 100 time steps.
@@ -469,7 +470,7 @@ Tree heights and salinities can be represented in this range (x > 75 m) with sma
 
 The Model "<b>Without Feedback</b>" fails to predict mangrove growth height as the "<b>Full Model</b>" does, especially in the middle to landward area (60 m < x < 165 m) of the transect. In this area the salinity of the porewater is concentrated by the plant water extraction, but this is not represented in this type of model.
 
-<h2>Species dominance</h2>
+### Species dominance
 
 In the previous section, it was shown that MANGA, with the consideration of salinity in the bottom water and the tidal range, is able to represent the forest structures typical for mangrove forests.
 Using the extensive parameterization capabilities of the tree growth model (see also the section <a href="/docs/sample_model_exmouth_gulf/model_results/#Parametrization">parametrization</a>), MANGA can also be used to study the growth of single specific individual species.
@@ -566,7 +567,7 @@ As also shown in <a href="/docs/sample_model_exmouth_gulf/model_results/#Figure_
 
 Consequently, the MANGA model software is able to represent not only the evolving structure of a mangrove forest, but also its composition of different species.
 
-<h1>Conclusion</h1>
+## Conclusion
 
 With "<b>Full Model</b>" the structure which is typical for mangrove forests can be modeled.
 Specifically, the forest structure of the Avicennia marina monoculture forest in the considered area in the Exmouth Gulf in Western Australia could be reproduced in a consistent manner with the available field data.
@@ -592,7 +593,7 @@ These show zones with clear dominance of one species, separated by sharp transit
 These transitions are shown to depend on the porewater salinity.
 The species composition in the model agrees with the measured field data.
 
-<h1>Outlook</h1>
+## Outlook
 
 There is evidence in the literature that mangroves adapt to their environmental conditions over time.
 A lower salt concentration in the bottom water provides higher xylem conductance and thus greater transpiration.

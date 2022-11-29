@@ -4,6 +4,7 @@ linkTitle: "Module Benchmarks"
 weight: 4
 description:
 ---
+# pyMANGA Module Benchmarks
 
 To test and verify modules in pyMANGA, we define a structure to create benchmarks. 
 Those benchmarks should allow (i) to technical assess the functionality of pyMANGA modules, e.g. after code updates and (ii) to test and compare pyMANGA outputs with other module implementations, e.g. with NetLogo models.

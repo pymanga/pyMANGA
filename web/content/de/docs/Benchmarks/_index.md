@@ -4,6 +4,7 @@ linkTitle: "Modul Benchmarks"
 weight: 4
 description:
 ---
+# pyMANGA Modul Benchmarks
 
 Für diese Seite existiert keine Übersetzung.  
 <a href="/docs/benchmarks/" target="_blank">Gehe zur englisch-sprachigen Seite</a>

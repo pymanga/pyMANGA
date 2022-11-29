@@ -15,8 +15,14 @@ from lxml import etree
 import pandas as pd
 
 
+## Derived from unittest.Testcase
+#  This class will manage the CI tests for the git repository
 class AutomatedBenchmarkTests(unittest.TestCase):
     @classmethod
+    ## Here, all setups listed in "Benchmarks/BenchmarkList.xml" are added to
+    #  the tests. For each of the listed setup, a runtime test and one
+    #  comparison with reference files is performed. Please make sure to save
+    #  reference files in "PathToBenchmarkProject/ReferenceFiles/ProjectName".
     def setUpClass(cls):
         tree = etree.parse(path.join(manga_root_directory,
                                      "Benchmarks/BenchmarkList.xml"))
@@ -28,6 +34,7 @@ class AutomatedBenchmarkTests(unittest.TestCase):
                                "Benchmarks"),
                      cls.setup_list)
 
+    ## Helper to identify listed Benchmarks
     def iterate(self, parent, existing_path, setup_list):
         for tag in parent:
             tag.text = tag.text.strip()
@@ -38,6 +45,8 @@ class AutomatedBenchmarkTests(unittest.TestCase):
                 setup_file = (path.join(existing_path, tag.text))
                 setup_list.append(setup_file)
 
+    ## For each of the listed benchmarks, the tests are run as a subtest.
+    #  Each subtest consists of "cleanup", "model_run", "comparison", "cleanup"
     def test_benchmarks(self):
         for i in range(len(self.setup_list)):
             setup = self.setup_list[i]
@@ -49,12 +58,14 @@ class AutomatedBenchmarkTests(unittest.TestCase):
                 self.clean_output_dir(setup)
                 logging.info("Success!")
 
+    ## Runtime check
     def model_run(self, project):
         # Test of MANGA project file and run the model
         prj = XMLtoProject(xml_project_file=project)
         time_stepper = TreeDynamicTimeStepping(prj)
         prj.runProject(time_stepper)
 
+    ## Comparison of benchmark results to reference files
     def compare_to_reference(self, project):
         e, filename = os.path.split(project)
         comparison_file_dir = path.join(path.dirname(project),
@@ -82,6 +93,7 @@ class AutomatedBenchmarkTests(unittest.TestCase):
                         "Simulation and reference differ for " +
                         files_result[y])
 
+    ## Helpfer to find output directory for cleanup functions
     def find_output_dir(self, project):
         tree = etree.parse(project)
         root = tree.getroot()
@@ -94,6 +106,7 @@ class AutomatedBenchmarkTests(unittest.TestCase):
         else:
             return None
 
+    # Cleanup of benchmark output directory
     def clean_output_dir(self, project):
         output_dir = self.find_output_dir(project)
         if output_dir is not None:

@@ -1,5 +1,5 @@
 # pyMANGA
-Mangrove groundwater salinity feedback model
+PYthon Models for AGeNt-based resource GAthering
 
 # Homepage
 

@@ -59,7 +59,7 @@ to (re)install the package.
 <summary>Installation of Python in Windows</summary>
 <p>
 
-To run **pyMANGA** (Mangrove groundwater salinity feedback model), you must first obtain an **interpreter** for the **Python** programming language.
+To run **pyMANGA** (PYthon Models for AGeNt-based resource GAthering), you must first obtain an **interpreter** for the **Python** programming language.
 An example would be **python<sup>T</sup><sup>M</sup>**.
 To do this, open your browser and go to ***Python.org***.
 In the drop-down menu under ***Download*** you will find the current release version for your operating system of **Python** (this manual describes the procedure for Windows, see <a href="/docs/getting_started/installation/#Figure_1">Figure 1</a>).

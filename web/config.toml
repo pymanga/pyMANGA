@@ -54,14 +54,14 @@ id = "UA-00000000-0"
 [languages]
 [languages.en]
 title = "pyMANGA"
-description = "Mangrove groundwater salinity feedback model"
+description = "PYthon Models for AGeNt-based resource GAthering"
 languageName ="English"
 staticDir = "static"
 # Weight used for sorting.
 weight = 1
 [languages.de]
 title = "pyMANGA"
-description = "Mangrove groundwater salinity feedback model"
+description = "PYthon Models for AGeNt-based resource GAthering"
 languageName ="Deutsch"
 contentDir = "content/de"
 time_format_default = "02.01.2006"

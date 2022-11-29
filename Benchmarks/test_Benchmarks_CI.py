@@ -27,7 +27,9 @@ class AutomatedBenchmarkTests(unittest.TestCase):
         tree = etree.parse(path.join(manga_root_directory,
                                      "Benchmarks/BenchmarkList.xml"))
         root = tree.getroot()
+        ## pyMANGA root directory on the local filesystem
         cls.manga_root_directory = manga_root_directory
+        ## List of setups to be tested
         cls.setup_list = []
         cls.iterate(cls, root,
                      path.join(manga_root_directory,
@@ -35,6 +37,10 @@ class AutomatedBenchmarkTests(unittest.TestCase):
                      cls.setup_list)
 
     ## Helper to identify listed Benchmarks
+    #  This function is nested and reads and appends all subtags
+    #  @param parent - parent xml tag
+    #  @param existing_path - derived path from previous readouts
+    #  @param setup_list - list for all existing setups
     def iterate(self, parent, existing_path, setup_list):
         for tag in parent:
             tag.text = tag.text.strip()
@@ -59,6 +65,7 @@ class AutomatedBenchmarkTests(unittest.TestCase):
                 logging.info("Success!")
 
     ## Runtime check
+    #  @param project - pyMANGA project file for the runtime check
     def model_run(self, project):
         # Test of MANGA project file and run the model
         prj = XMLtoProject(xml_project_file=project)
@@ -66,6 +73,7 @@ class AutomatedBenchmarkTests(unittest.TestCase):
         prj.runProject(time_stepper)
 
     ## Comparison of benchmark results to reference files
+    #  @param project - pyMANGA project file for the comparison test
     def compare_to_reference(self, project):
         e, filename = os.path.split(project)
         comparison_file_dir = path.join(path.dirname(project),
@@ -93,7 +101,9 @@ class AutomatedBenchmarkTests(unittest.TestCase):
                         "Simulation and reference differ for " +
                         files_result[y])
 
-    ## Helpfer to find output directory for cleanup functions
+    ## Helper to find output directory for cleanup functions
+    #  @param project - pyMANGA project file to extract output directory of
+    #  the project
     def find_output_dir(self, project):
         tree = etree.parse(project)
         root = tree.getroot()
@@ -106,7 +116,9 @@ class AutomatedBenchmarkTests(unittest.TestCase):
         else:
             return None
 
-    # Cleanup of benchmark output directory
+    ## Cleanup of benchmark output directory
+    #  @param project - pyMANGA project file to extract output directory of
+    #  the project
     def clean_output_dir(self, project):
         output_dir = self.find_output_dir(project)
         if output_dir is not None:

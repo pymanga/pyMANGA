@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Benchmarks>
     <GenericTests>
-        <TestSetupsWithoutOGS>
-            <test> SmallSetup1.xml </test>
-            <test> SmallSetup2.xml </test>
-            <test> SmallSetup3.xml </test>
-            <test> SmallSetup4.xml </test>
-            <test> SmallSetup5.xml </test>
-            <test> SmallSetup6.xml </test>
-            <test> SmallSetup7.xml </test>
-        </TestSetupsWithoutOGS>
+        <test> AllSimple.xml </test>
     </GenericTests>
+    <ModuleBenchmarks>
+        <BelowgroundCompetition>
+            <FixedSalinity>
+                <test> FixedSalinity_CI.xml </test>
+            </FixedSalinity>
+            <NetworkFixedSalinity>
+                <test> NetworkFixedSalinity_CI.xml </test>
+            </NetworkFixedSalinity>
+            <SimpleNetwork>
+                <test> SimpleNetwork_CI.xml </test>
+            </SimpleNetwork>
+            <SymmetricZOI>
+                <test> SymmetricZOI_CI.xml </test>
+            </SymmetricZOI>
+            <SZoiFixedSalinity>
+                <test> SZoiFixedSalinity_CI.xml </test>
+            </SZoiFixedSalinity>
+        </BelowgroundCompetition>
+        <AbovegroundCompetition>
+            <SimpleAsymmetricZOI>
+                <test> SimpleAsymmetricZOI_CI.xml </test>
+            </SimpleAsymmetricZOI>
+        </AbovegroundCompetition>
+        <GrowthAndDeath>
+            <SimpleBettina>
+                <test> SimpleBettina_CI.xml </test>
+            </SimpleBettina>
+        </GrowthAndDeath>
+    </ModuleBenchmarks>
 </Benchmarks>

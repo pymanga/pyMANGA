@@ -19,7 +19,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks\ModuleBenchmarks\BelowgroundCompetition\bg_initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/BelowgroundCompetition/bg_initial_population.csv </filename>
             </distribution>
         </group>
     </initial_population>

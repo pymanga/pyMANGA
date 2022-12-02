@@ -71,12 +71,14 @@ The files are stored in 'Benchmarks/ModuleBenchmarks/' with the name of the modu
 
 | Below-ground | Above-ground | Mortality |
 | --- | --- |:----------------------------------------------------------- |  
-| &#x2611; FixedSalinity            | &#x2611; SimpleAsymmetricZOI | &#x2610; Random |
-| &#x2610; FON                      |               | &#x2610; RandomGrowth|
-| &#x2610; OGSLargeScale            |               | &#x2610; Memory |
-| &#x2610; OGSLargeScaleExternal   |               |  |
+| &#x2611; FixedSalinity            | &#x2611; SimpleAsymmetricZOI | &#x2611; Random |
+| &#x2610; FON                      |               | &#x2611; RandomGrowth* |
+| &#x2610; OGSLargeScale            |               | &#x2611; Memory |
+| &#x2610; OGSLargeScaleExternal   |               | &#x2611; NoGrowth |
 | &#x2611; SymmetricZOI             |               |  |
 | &#x2611; SZoiFixedSalinity        |               |  |
+
+_* Parameter 'k_die' set extremely low in order to force trees to die_
 
 ### Modules tested with NetworkBettina
 

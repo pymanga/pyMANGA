@@ -64,7 +64,6 @@ class TreeModel:
         self._t_end = t_end
 
     def addTree(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
-        return x, y, geometry, parameter
+        self.x, self.y = tree.getPosition()
+        self.geometry = tree.getGeometry()
+        self.parameter = tree.getParameter()

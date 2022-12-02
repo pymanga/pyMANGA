@@ -42,6 +42,6 @@ class SimpleTest(TreeModel):
         #  general, an object containing all necessary information should be
         #  stored for each tree
         #  @param: tree
-        x, y, geometry, parameter = super().addTree(tree=tree)
+        super().addTree(tree=tree)
 
         self.trees.append(1)

@@ -168,11 +168,11 @@ class FixedSalinity(TreeModel):
     #  timestep.
     #  @param: tree
     def addTree(self, tree):
-        x, y, geometry, parameter = super().addTree(tree=tree)
-        self._xe.append(x)
-        self._h_stem.append(geometry["h_stem"])
-        self._r_crown.append(geometry["r_crown"])
-        self._psi_leaf.append(parameter["leaf_water_potential"])
+        super().addTree(tree=tree)
+        self._xe.append(self.x)
+        self._h_stem.append(self.geometry["h_stem"])
+        self._r_crown.append(self.geometry["r_crown"])
+        self._psi_leaf.append(self.parameter["leaf_water_potential"])
 
     ## This functions prepares the computation of water uptake
     #  by porewater salinity. Only tree height aund leaf

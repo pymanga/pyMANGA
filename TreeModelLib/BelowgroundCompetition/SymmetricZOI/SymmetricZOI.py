@@ -37,20 +37,21 @@ class SymmetricZOI(TreeModel):
     #  to be added with their current implementation for the next timestep.
     #  @param tree
     def addTree(self, tree):
-        x, y, geometry, parameter = super().addTree(tree)
+        super().addTree(tree)
 
-        if geometry["r_root"] < self.min_r_root:
+        if self.geometry["r_root"] < self.min_r_root:
             print("Error: mesh not fine enough for crown dimensions!")
             print("Please refine mesh or increase initial root radius above " +
                   str(self.min_r_root) + "m !")
             exit()
-        if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
+        if not ((self._x_1 < self.x < self._x_2) and (
+                self._y_1 < self.y < self._y_2)):
             raise ValueError("""It appears as a tree is located outside of the
                              domain, where BC is defined. Please check domains 
                              in project file!!""")
-        self.xe.append(x)
-        self.ye.append(y)
-        self.r_root.append(geometry["r_root"])
+        self.xe.append(self.x)
+        self.ye.append(self.y)
+        self.r_root.append(self.geometry["r_root"])
 
     ## This function returns the BelowgroundResources calculated in the
     #  subsequent timestep.\n

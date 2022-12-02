@@ -51,23 +51,23 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     #  python source terms in OGS.
     #  @param tree
     def addTree(self, tree):
-        x, y, geometry, parameter = super().addTree(tree=tree)
+        super().addTree(tree=tree)
 
         # Cells affected by tree water uptake
-        root_radius = geometry["r_root"]
-        super().addCellCharateristics(x, y, root_radius)
+        root_radius = self.geometry["r_root"]
+        super().addCellCharateristics(self.x, self.y, self.root_radius)
 
         # Resistances against water flow in tree
         # Calculate total tree resistance
-        total_resistance = super().totalTreeResistance(parameter, geometry)
+        total_resistance = super().totalTreeResistance(self.parameter, self.geometry)
         self._total_resistance.append(total_resistance)
 
         # Water potentials
         self._psi_leaf = np.concatenate(
-            (self._psi_leaf, [(parameter["leaf_water_potential"])]))
+            (self._psi_leaf, [(self.parameter["leaf_water_potential"])]))
         self._psi_height = np.concatenate(
             (self._psi_height,
-             [-(2 * geometry["r_crown"] + geometry["h_stem"]) * 9810]))
+             [-(2 * self.geometry["r_crown"] + self.geometry["h_stem"]) * 9810]))
 
     ## This function updates and returns BelowgroundResources in the current
     #  time step. For each tree a reduction factor is calculated which is

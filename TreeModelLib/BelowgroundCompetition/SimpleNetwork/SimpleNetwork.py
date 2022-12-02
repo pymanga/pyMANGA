@@ -88,7 +88,7 @@ class SimpleNetwork(TreeModel):
     #  timestep.
     #  @param: tree
     def addTree(self, tree):
-        x, y, geometry, parameter = super().addTree(tree=tree)
+        super().addTree(tree=tree)
         self.network = tree.getNetwork()
 
         self.trees.append(tree)
@@ -112,41 +112,41 @@ class SimpleNetwork(TreeModel):
         # required for water exchange
         self._weight_gr.append(self.network['weight_gr'])
 
-        self._xe.append(x)
-        self._ye.append(y)
+        self._xe.append(self.x)
+        self._ye.append(self.y)
         self.no_trees = len(self._xe)
         self._tree_names = np.concatenate(
             (self._tree_names, [str(tree.group_name) + str(tree.tree_id)]))
 
         self._below_graft_resistance = np.concatenate(
             (self._below_graft_resistance, [
-                self.belowGraftResistance(lp=parameter["lp"],
-                                          k_geom=parameter["k_geom"],
-                                          kf_sap=parameter["kf_sap"],
-                                          r_root=geometry["r_root"],
-                                          h_root=geometry["h_root"],
-                                          r_stem=geometry["r_stem"])
+                self.belowGraftResistance(lp=self.parameter["lp"],
+                                          k_geom=self.parameter["k_geom"],
+                                          kf_sap=self.parameter["kf_sap"],
+                                          r_root=self.geometry["r_root"],
+                                          h_root=self.geometry["h_root"],
+                                          r_stem=self.geometry["r_stem"])
             ]))
         self._above_graft_resistance = np.concatenate(
             (self._above_graft_resistance, [
-                self.aboveGraftResistance(kf_sap=parameter["kf_sap"],
-                                          r_crown=geometry["r_crown"],
-                                          h_stem=geometry["h_stem"],
-                                          r_stem=geometry["r_stem"])
+                self.aboveGraftResistance(kf_sap=self.parameter["kf_sap"],
+                                          r_crown=self.geometry["r_crown"],
+                                          h_stem=self.geometry["h_stem"],
+                                          r_stem=self.geometry["r_stem"])
             ]))
 
-        self._r_root.append(geometry["r_root"])
-        self._r_stem.append(geometry["r_stem"])
+        self._r_root.append(self.geometry["r_root"])
+        self._r_stem.append(self.geometry["r_stem"])
 
-        self._psi_leaf.append(parameter["leaf_water_potential"])
+        self._psi_leaf.append(self.parameter["leaf_water_potential"])
         self._psi_height.append(
-            -(2 * geometry["r_crown"] + geometry["h_stem"]) * 9810)
+            -(2 * self.geometry["r_crown"] + self.geometry["h_stem"]) * 9810)
         self._psi_top = np.array(self._psi_leaf) - np.array(self._psi_height)
 
         # psi osmo is added separately in some below-ground competition concept
         self.addPsiOsmo()
 
-        self._kf_sap.append(parameter["kf_sap"])
+        self._kf_sap.append(self.parameter["kf_sap"])
 
     ## This function creates a (dummy) array to be filled with values of
     # osmotic potential

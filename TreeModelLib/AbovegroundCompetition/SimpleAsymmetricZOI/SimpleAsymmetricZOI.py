@@ -131,19 +131,19 @@ class SimpleAsymmetricZOI(TreeModel):
     #  to be added with their current implementation for the next timestep.
     #  @param tree
     def addTree(self, tree):
-        x, y, geometry, parameter = super().addTree(tree=tree)
+        super().addTree(tree=tree)
 
-        if geometry["r_crown"] < self.min_r_crown:
+        if self.geometry["r_crown"] < self.min_r_crown:
             print("Error: mesh not fine enough for crown dimensions!")
             print(
                 "Please refine mesh or increase initial crown radius above " +
                 str(self.min_r_crown) + "m !")
             exit()
-        if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
+        if not ((self._x_1 < self.x < self._x_2) and (self._y_1 < self.y < self._y_2)):
             raise ValueError("""It appears as a tree is located outside of the
                              domain, where AC is defined. Please check domains 
                              in project file!!""")
-        self.xe.append(x)
-        self.ye.append(y)
-        self.h_stem.append(geometry["h_stem"])
-        self.r_crown.append(geometry["r_crown"])
+        self.xe.append(self.x)
+        self.ye.append(self.y)
+        self.h_stem.append(self.geometry["h_stem"])
+        self.r_crown.append(self.geometry["r_crown"])

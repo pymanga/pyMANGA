@@ -4,7 +4,6 @@ linkTitle: "First applications of pyMANGA"
 weight: 2
 description:
 ---
-# First applications of pyMANGA
 
 <head>
 <style type="text/css">

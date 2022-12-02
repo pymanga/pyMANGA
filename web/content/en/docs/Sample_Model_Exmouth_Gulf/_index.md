@@ -4,7 +4,6 @@ linkTitle: "Sample Setup: Exmouth Gulf"
 weight: 3
 description:
 ---
-# Sample Setup: Exmouth Gulf in Australia
 
 A model to simulate mangrove growth in a tidally influenced gulf region in Western Australia.
 

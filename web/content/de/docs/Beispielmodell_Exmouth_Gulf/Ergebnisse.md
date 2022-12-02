@@ -5,7 +5,6 @@ weight: 3
 description:
 ---
 
-# Das Modell
 
 <head>
 <style type="text/css">

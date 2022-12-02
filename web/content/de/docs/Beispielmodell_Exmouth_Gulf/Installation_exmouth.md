@@ -4,7 +4,6 @@ linkTitle: "Setup selbst berechnen"
 weight: 4
 description:
 ---
-# Setup selbst berechnen
 
 Das Modellsetup des &bdquo;<b>Full Models</b>&ldquo; befindet sich in der aktuellen Version von pyMANGA in folgendem Ordner: 
 

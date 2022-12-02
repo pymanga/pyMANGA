@@ -4,7 +4,6 @@ linkTitle: "Exmouth Gulf"
 weight: 1
 description:
 ---
-# Exmouth Gulf
 
 The Exmouth Gulf is at the west coast of Australia in the state Western Australia (see also <a href="/docs/sample_model_exmouth_gulf/exmouth_gulf/#Figure_1">Figure 1</a>).
 The bay is a semi-arid estuarine system with extensive coastal wetlands.

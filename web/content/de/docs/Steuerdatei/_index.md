@@ -5,7 +5,6 @@ weight: 2
 description:
 ---
 
-# Steuerdatei
 Die Steuerdatei eines jeden pyMANGA-Setups wird im xml-Format geschrieben, hier werden alle Einstellungen zur Modellierung vorgenommen.
 Im Folgenden wird exemplarisch die Steuerdatei des Modellsetups "Full Model" beschrieben.
 Bei diesem Modell handelt es sich um eine gekoppelte Betrachtung des Grundwasserhaushalts und Pflanzenwachstums.

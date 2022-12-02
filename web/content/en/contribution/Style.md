@@ -6,8 +6,6 @@ weight: 2
 
 ---
 
-# Style
-
 ## Most important rules to remember
 
 - Never use global variables.

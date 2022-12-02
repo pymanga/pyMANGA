@@ -5,7 +5,6 @@ weight: 2
 description:
 ---
 
-# Control File
 The control file of each pyMANGA setup is written in xml format, here are all settings for modeling made.
 In the following, the control file of the model setup "Full Model" is described as an example.
 This model is a coupled consideration of the groundwater balance and plant growth.

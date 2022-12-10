@@ -48,7 +48,7 @@ jobs:
         run: |
           hugo \
             --minify \
-            --baseURL "http://pymanga.forst.tu-dresden.de/"
+            --config web/config.toml
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

@@ -46,9 +46,9 @@ jobs:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
         run: |
-          hugo \
-            --minify \
-            --config web/config.toml
+          cd web \
+          && npm install \
+          && hugo --minify 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

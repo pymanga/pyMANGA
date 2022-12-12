@@ -70,7 +70,7 @@ The files are stored in 'Benchmarks/ModuleBenchmarks/' with the name of the modu
 ### Modules tested with SimpleBettina
 
 | Below-ground | Above-ground | Mortality |
-| --- | --- |:----------------------------------------------------------- |  
+| --- | --- |:----------------------------------------------------------- |
 | &#x2611; FixedSalinity            | &#x2611; SimpleAsymmetricZOI | &#x2611; Random |
 | &#x2610; FON                      |               | &#x2611; RandomGrowth* |
 | &#x2610; OGSLargeScale            |               | &#x2611; Memory |

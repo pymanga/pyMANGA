@@ -14,7 +14,7 @@ import platform
 import inspect
 
 
-# OGS integration for belowground competition concept. This case is
+# OGS integration for below-ground competition concept. This case is
 #  using the OGS software to calculate changes in pore water salinity using
 #  a detailed groundwater model.
 #  @param args: Please see input file tag documentation for details
@@ -145,7 +145,7 @@ class OGSLargeScale3D(TreeModel):
         self._tree_salinity = np.empty(0)
         self._tree_cell_volume = []
 
-    # Before being able to calculate the resources, all tree enteties need
+    # Before being able to calculate the resources, all tree entities need
     #  to be added with their current implementation for the next timestep.
     #  Here, in the OGS case, each tree is represented by a contribution to
     #  python source terms in OGS. To this end, their constant and salinity
@@ -248,7 +248,7 @@ class OGSLargeScale3D(TreeModel):
             self._tree_salinity[tree_id] = mean_salinity_for_tree
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
 
-    # This function calculates the water withdrawal in each cell splitted
+    # This function calculates the water withdrawal in each cell split
     # in a constant contribution and a salinity prefactor.
     # Unit: kg per sec per cell volume
     def calculateSplittedTreeContribution(self):
@@ -339,7 +339,7 @@ class OGSLargeScale3D(TreeModel):
             # Network
             target.write("complete_contributions = np.load(r'" +
                          complete_filename + "')\n")
-        # Boths
+        # Both
         target.write("cumsum_savename = r'" + cumsum_filename + "'\n")
         target.write("calls_savename = r'" + calls_filename + "'\n")
 
@@ -361,8 +361,8 @@ class OGSLargeScale3D(TreeModel):
             target.write(line)
         python_source_file.close()
 
-    # This function writes a pvd collection of the belowground grids at the
-    #  tree model timesteps
+    # This function writes a pvd collection of the below-ground grids at the
+    #  tree model time steps
     def writePVDCollection(self):
         pvd_file = open(
             os.path.join(self._ogs_project_folder, "vtu_collection.pvd"), "w")

@@ -142,8 +142,7 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         return (-positive_flux, Jac)
 
 
-file = open(
-    "path/to/pyMANGA/Benchmarks/Exmouth_Gulf/full_model/EXM_Jan-Jul_2019.txt")
+file = open("Benchmarks/ExampleSetups/ExmouthGulf/EXM_Jan-Jul_2019.txt")
 t_base = 0
 h_s = []
 t_s = []

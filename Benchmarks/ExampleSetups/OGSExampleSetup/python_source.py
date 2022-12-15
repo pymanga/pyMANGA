@@ -4,7 +4,7 @@
 # In this example, 2 trees are placed in the center of a 20 x 10 m domain.
 # Boundary conditions are defined on the left and right sight as 'Dirichlet'
 # boundary conditions for pressure and salinity concentration.
-# Tidal activity is not considered. The functions below serve as example an
+# Tidal activity is not considered. The functions below serve as example a
 # can be enabled by modifying the OGS project file `testmodel.prj`.
 
 import OpenGeoSys
@@ -60,16 +60,10 @@ class BCSea_C(OpenGeoSys.BoundaryCondition):
 bc_tide_p = BCSea_p_D()
 bc_tide_C = BCSea_C()
 seaward_salinity = 0.035
-constant_contributions = np.load(
-    r'/home/bathmann/Documents/AGBerger/code/pyMANGA/test/LargeTests/Test_Setups_large/ogs_example_setup/constant_contributions.npy'
-)
-salinity_prefactors = np.load(
-    r'/home/bathmann/Documents/AGBerger/code/pyMANGA/test/LargeTests/Test_Setups_large/ogs_example_setup/salinity_prefactors.npy'
-)
-complete_contributions = None
-cumsum_savename = r'/home/bathmann/Documents/AGBerger/code/pyMANGA/test/LargeTests/Test_Setups_large/ogs_example_setup/cumsum_salinity.npy'
-calls_savename = r'/home/bathmann/Documents/AGBerger/code/pyMANGA/test/LargeTests/Test_Setups_large/ogs_example_setup/calls_in_last_timestep.npy'
-t_write = 5592000.0
+complete_contributions = np.load(r'Benchmarks/ExampleSetups/OGSExampleSetup\complete_contributions.npy')
+cumsum_savename = r'Benchmarks/ExampleSetups/OGSExampleSetup\cumsum_salinity.npy'
+calls_savename = r'Benchmarks/ExampleSetups/OGSExampleSetup\calls_in_last_timestep.npy'
+t_write = 6086400.0
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -192,13 +186,8 @@ class CellInformation:
     #  @return number of cells in the source mesh
     def getNCells(self):
         return self._n_cells
-
-
-cell_information = CellInformation(
-    r'/home/bathmann/Documents/AGBerger/code/pyMANGA/test/LargeTests/Test_Setups_large/ogs_example_setup/source_domain.vtu'
-)
-
-
+cell_information = CellInformation(r'Benchmarks/ExampleSetups/OGSExampleSetup\source_domain.vtu')
+# Returns, depending on the cell_id, the constant contribution of a tree to the
 def constantContribution(cell_id):
     return constant_contributions[cell_id]
 

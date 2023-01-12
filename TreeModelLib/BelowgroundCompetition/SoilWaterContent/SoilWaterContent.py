@@ -7,6 +7,7 @@ by ronny.peters@tu-dresden.de
 """
 
 import numpy as np
+from os import path
 from TreeModelLib import TreeModel
 from TreeModelLib.GrowthAndDeathDynamics import SimpleBettina
 
@@ -24,8 +25,7 @@ class SoilWaterContent(TreeModel):
         # Grid initialization
         self.makeGrid(args)
         self.initializeSoil(args.find("soil_properties"))
-
-
+        self.initializePrecipitation(args.find("precipitation"))
 
     def initializeSoil(self, args):
         # Model initialization
@@ -45,7 +45,27 @@ class SoilWaterContent(TreeModel):
             self._omega_r + (self._omega_s - self._omega_r) / (
                 1 + (-self._alpha * self._psi_matrix / 100)**self._n)**(
                     1 - 1 / self._n))
-                    
+
+    ## This function prepares the precipitation submodel based on information
+    #  provided in the pymanga-config file.
+    def initializePrecipitation(self, args):
+        file_name = path.join(path.abspath("./"),
+                              args.find("data_file").text.strip())
+        column_number = int(args.find("precipitation_column_number").text)
+        delta_t_per_row = float(args.find("delta_t_per_row").text)
+
+        precipitation = (np.loadtxt(
+            file_name, delimiter=";", skiprows=1, usecols=column_number-1))
+
+        # Empty array
+        precipitation_data = np.zeros((len(precipitation),2))
+        # Times in first col
+        precipitation_data[:,0] = delta_t_per_row * np.arange(len(precipitation))
+        # Precipitation in second col
+        precipitation_data[:,1] = precipitation
+        ## Precipitation data [time in [s], precipitation in [mm]]
+        self._precipitation_data = precipitation_data
+
     ## This functions prepares arrays for the competition
     #  concept. In the SymmetricZOI concept, trees geometric measures
     #  are saved in simple lists and the timestepping is updated. \n

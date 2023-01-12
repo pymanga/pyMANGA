@@ -28,18 +28,9 @@ class Bettina(PlantModel):
     def progressPlant(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()
-        self.parameter = tree.getParameter()
-        self.r_crown = geometry["r_crown"]
-        self.h_crown = geometry["h_crown"]
-        self.r_root = geometry["r_root"]
-        self.h_root = geometry["h_root"]
-        self.r_stem = geometry["r_stem"]
-        self.h_stem = geometry["h_stem"]
+        self.extractRelevantInformation(geometry, tree.getParameter())
+
         self.survive = 1
-
-        self.flowLength()
-        self.treeVolume()
-
         # Define variables that are only required for specific Mortality
         # concepts
         super().setMortalityVariables(growth_concept_information)
@@ -93,6 +84,21 @@ class Bettina(PlantModel):
         else:
             tree.setSurvival(0)
 
+    def extractRelevantInformation(self, geometry, parameter):
+        self.parameter = parameter
+        self.r_crown = geometry["r_crown"]
+        self.h_crown = geometry["h_crown"]
+        self.r_root = geometry["r_root"]
+        self.h_root = geometry["h_root"]
+        self.r_stem = geometry["r_stem"]
+        self.h_stem = geometry["h_stem"]
+
+        self.flowLength()
+        self.treeVolume()
+        self.rootSurfaceResistance()
+        self.xylemResistance()
+
+    ## This functions updates the geometric measures of the tree.
     def treeGrowth(self):
         """
         Update tree geometry.
@@ -169,7 +175,6 @@ class Bettina(PlantModel):
         self.flow_length = (2 * self.r_crown + self.h_stem +
                             0.5**0.5 * self.r_root)
 
-    ## This function calculates the total tree volume.
     def treeVolume(self):
         """
         Calculate the total tree volume.

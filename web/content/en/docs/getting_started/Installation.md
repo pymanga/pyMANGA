@@ -158,7 +158,7 @@ This completes the **Python** installation.
 <summary >Installation of Python Modules in Windows <a name="Installation_Ubuntu"></a></summary>
 
 To install python modules, we use the **"Command Prompt"**.
-You can easily find it by sby typing **"Command Prompt"** in the windows search window and opening it with a **mouse click**.
+You can easily find it by typing **"Command Prompt"** in the windows search window and opening it with a **mouse click**.
 Since pyMANGA is a command line program, everything happens at the command prompt (see <a href="/docs/getting_started/installation/#Figure_5">Figure 5</a>).
 
 <figure class="alert">

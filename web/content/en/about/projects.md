@@ -1,14 +1,9 @@
 ---
-title: "pyMANGA Projects"
+title: "Projects"
 linkTitle: "Projects"
-weight: 4
-menu:
-  main:
-    weight: 4
+weight: 2
 ---
 
-{{< blocks/cover title="Projects using pyMANGA" height="min" color="primary">}}
-{{< /blocks/cover >}}
 
 <div class="container">
     <div class="border rounded p-3 mt-5">

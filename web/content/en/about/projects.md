@@ -14,12 +14,15 @@ weight: 2
         </h2>
         <hr>
         <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-            sea takimata sanctus est Lorem ipsum dolor sit amet.
+            Tropical and subtropical coastal wetlands typically consist of two main habitat types, namely mangroves and 
+            saltmarshes. The transition between both habitat types is referred to as “mangrove-saltmarsh ecotone”. 
+            With this project, we intend to reach a general understanding of the underlying mechanisms resulting in 
+            ecotone patterns and their shifts. We will develop and use a mechanistic simulation model (on the basis of 
+            the MANGA model, as developped in the preceding MARZIPAN project) that will describe the fully coupled 
+            interactions between saltmarsh plants, mangrove shrubs and trees, and soil water, as we assume that the 
+            dominance of either woody mangrove vegetation or herbaceous saltmarsh vegetation relies mainly on the 
+            interplay of subsurface flow processes, tidal flooding, precipitation regime and vegetation-soil-feedback 
+            mechanisms.
         </p>
         <div class="row">
             <div class="col-12 col-lg-7">
@@ -30,10 +33,12 @@ weight: 2
                 <div>
                     <h3>pyMANGA Team</h3>
                     <p>
-                        <a href="https://www.bcp.fu-berlin.de/biologie/arbeitsgruppen/botanik/ag_tietjen/People/doktoranden/Vollhueter/index.html">Jonas
-                            Vollhüter</a></p>
+                        <a href="https://www.bcp.fu-berlin.de/biologie/arbeitsgruppen/botanik/ag_tietjen/People/doktoranden/Vollhueter/index.html" target="_blank">Jonas
+                            Vollhüter </a><br>
+                        <a href="https://tu-dresden.de/bu/umwelt/forst/ww/bsa/die-professur/staff/ronny-peters" target="_blank">Ronny Peters</a><br>
+                    </p>
                     <h3>Publications</h3>
-                    <p>Lorem ipsum</p>
+                    <p>In preparation</p>
                 </div>
             </div>
         </div>
@@ -44,12 +49,10 @@ weight: 2
             <small class="text-muted">Networking beats competition in the struggle for limited resources</small>
         </h2>
         <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-            sea takimata sanctus est Lorem ipsum dolor sit amet.
+            Natural root grafting could play a pivotal role in resource sharing among tree networks since it can be 
+            interpreted as collaborative behaviour as known for superorganisms. It will be surveyed systematically 
+            under which conditions resource sharing via grafting will be beneficial for trees instead of exploiting a 
+            limited resource alone.
         </p>
         <div class="row">
             <div class="col-12 col-md-auto">
@@ -59,9 +62,13 @@ weight: 2
             <div class="col d-flex align-items-center">
                 <div>
                     <h3>pyMANGA Team</h3>
-                    <p>Marie-Christin Wimmler</p>
+                    <p>
+                        <a href="https://tu-dresden.de/bu/umwelt/forst/ww/bsa/die-professur/staff/marie-wimmler" target="_blank">Marie-Christin Wimmler</a><br>
+                    </p>
                     <h3>Publications</h3>
-                    <p>Lorem ipsum</p>
+                    <p>
+                        <a href="https://doi.org/10.1093/aob/mcac074" target="_blank">Wimmler et al. 2022</a><br>
+                    </p>
                 </div>
             </div>
         </div>
@@ -73,12 +80,10 @@ weight: 2
                 aquifer structures and advance below-ground plant competition concepts in individual-based modelling</small>
         </h2>
         <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-            sea takimata sanctus est Lorem ipsum dolor sit amet.
+            We intend to extend the knowledge and understanding of the processes intrinsic in the interactions between vegetation and subsurface hydrodynamics by developing and employing a new, fully coupled plant-soil water modelling approach for mangrove ecosystems.
+            Specifically, we want to gain insight into the relationships between visible vegetation patterns and subsurface aquifer structures and potential gradients by tidal and groundwater influence.
+            The fully coupled approach will allow us to understand the physical mechanisms of below-ground plant interaction.
+            further, adopting vegetation zonation patterns will enable us to gain information on subsurface aquifer structures and parameterization.
         </p>
         <div class="row">
             <div class="col-12 col-lg-7">
@@ -88,10 +93,15 @@ weight: 2
             <div class="col d-flex align-items-center">
                 <div>
                     <h3>pyMANGA Team</h3>
-                    <p>Jasper Bathmann</p>
-                    <p>Ronny Peters</p>
+                        <a href="https://github.com/jbathmann/" target="_blank">Jasper Bathmann</a><br>
+                        <a href="https://tu-dresden.de/bu/umwelt/forst/ww/bsa/die-professur/staff/ronny-peters" target="_blank">Ronny Peters</a><br>
                     <h3>Publications</h3>
-                    <p>Lorem ipsum</p>
+                    <p>
+                        <a href="https://doi.org/10.1007/s11273-020-09733-0" target="_blank">Peters et al. 2020a</a><br>
+                        <a href="https://doi.org/10.1016/j.ecss.2020.106797" target="_blank">Peters et al. 2020b</a><br>
+                        <a href="https://doi.org/10.1016/j.ecolmodel.2020.108973" target="_blank">Bathmann et al. 2020</a><br>
+                        <a href="https://doi.org/10.1016/j.agrformet.2021.108547" target="_blank">Bathmann et al. 2021</a><br>
+                    </p>
                 </div>
             </div>
         </div>

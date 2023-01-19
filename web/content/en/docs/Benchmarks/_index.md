@@ -19,7 +19,7 @@ Additional outputs relevant for the tested module might be specified.
     <figcaption>
         <i><br><strong>Figure 1:</strong> (a) Module combination to create the pyMANGA reference tree (T<sup>0</sup>). (b) Geometry of T<sup>0</sup> over time.</i>
     </figcaption>
-</figure><p>
+</figure>
 
 Benchmarks are classified based on the compartment of the module tested, i.e. below-ground interaction, above-ground interaction and tree mortality (for now tree growth is always simulated using the BETTINA approach). 
 Modules of the other compartments are defined as for the reference tree  (<a href="/docs/Benchmarks/#Figure_2">Figure 2a</a>). 

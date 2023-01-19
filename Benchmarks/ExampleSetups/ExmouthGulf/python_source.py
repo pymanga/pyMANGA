@@ -1,69 +1,140 @@
-## This is an example for an OGS python boundary condition
-# The setup can be ran with:
-# test/LargeTests/Test_Setups_large/ogs_example_setup/OGS3D_SAZOI_BETTINA.xml
-# In this example, 2 trees are placed in the center of a 20 x 10 m domain.
-# Boundary conditions are defined on the left and right sight as 'Dirichlet'
-# boundary conditions for pressure and salinity concentration.
-# Tidal activity is not considered. The functions below serve as example a
-# can be enabled by modifying the OGS project file `testmodel.prj`.
-
 import OpenGeoSys
 
 import vtk as vtk
 import numpy as np
 from math import pi, sin
 import os
-
-seaward_salinity = 0.035
-tide_daily_amplitude = .7
-tide_monthly_amplitude = .37
-tide_daily_period = 60 * 60 * 12.
-tide_monthly_period = 60. * 60 * 24 * 31 / 2.
+from scipy.interpolate import interp1d
 
 
+#seaward_salinity = 0.05
+#tide_daily_amplitude = .7
+#tide_monthly_amplitude = .35
+#tide_yearly_amplitude = .2
+#tide_daily_period = 60 * 60 * 12.
+#tide_monthly_period = 60. * 60 * 24 * 31 / 2.
+#tide_yearly_period = 60. * 60 * 24 * 365.25 / 2.
+#def tidal_cycle(t):
+#    return (sin(2 * pi * t / tide_daily_period) *
+#            (tide_daily_amplitude +
+#             tide_monthly_amplitude * sin(2 * pi * t / tide_monthly_period) +
+#             tide_yearly_amplitude * sin(2 * pi * t / tide_yearly_period)))
 def tidal_cycle(t):
-    return (sin(2 * pi * t / tide_daily_period) *
-            (tide_daily_amplitude +
-             tide_monthly_amplitude * sin(2 * pi * t / tide_monthly_period)))
+    tide_value = tidal_cycle_int(t)
+    return tide_value
 
 
 def pressure_value(z, tidal_cycle):
     return 1000 * 9.81 * (tidal_cycle - z)
 
 
+def evaporation(salinity):
+    year = (365.25 * 24 * 60 * 60)
+
+    return -3.144 / year * 1000 * (
+        0.0)  #https://researchlibrary.agric.wa.gov.au/cgi/viewcontent
+
+
 ## Dirichlet BCs
 class BCSea_p_D(OpenGeoSys.BoundaryCondition):
 
+    def __init__(self):
+        OpenGeoSys.BoundaryCondition.__init__(self)
+        self.t_check = 0
+        self.tide = 0
+
     def getDirichletBCValue(self, t, coords, node_id, primary_vars):
         x, y, z = coords
-        tide = tidal_cycle(t)
-        value = pressure_value(z, tide)
-        if tide < z:
+        if t > self.t_check:
+            self.tide = tidal_cycle(t % t_mod)
+            self.t_check = t
+        value = pressure_value(z, self.tide)
+        if self.tide < z:
             return (False, 0)
         else:
             return (True, value)
+
+
+class BCSea_p_N(OpenGeoSys.BoundaryCondition):
+
+    def __init__(self):
+        OpenGeoSys.BoundaryCondition.__init__(self)
+        self.t_check = 0
+        self.tide = 0
+
+    def getFlux(self, t, coords, primary_vars):
+        Jac = [0.0, 0.0]
+        salinity = primary_vars[1]
+        x, y, z = coords
+        if t > self.t_check:
+            self.tide = tidal_cycle(t % t_mod)
+            self.t_check = t
+        value = evaporation(salinity)
+        #return (False, 0, Jac)
+        if self.tide < z:
+            return (True, value, Jac)
+        else:
+            return (False, 0, Jac)
 
 
 ## Dirichlet BCs
 class BCSea_C(OpenGeoSys.BoundaryCondition):
 
+    def __init__(self):
+        OpenGeoSys.BoundaryCondition.__init__(self)
+        self.t_check = 0
+        self.tide = 0
+
     def getDirichletBCValue(self, t, coords, node_id, primary_vars):
         x, y, z = coords
-        tide = tidal_cycle(t)
+        if t > self.t_check:
+            self.tide = tidal_cycle(t % t_mod)
+            self.t_check = t
         value = seaward_salinity
-        if tide > z:
+        if self.tide > z:
             return (True, value)
         else:
             return (False, 0)
 
 
-bc_tide_p = BCSea_p_D()
+
+file = open(
+    "Benchmarks/ExampleSetups/ExmouthGulf/EXM_Jan-Jul_2019.txt")
+t_base = 0
+h_s = []
+t_s = []
+
+for line in file.readlines():
+    line = (line.strip("\n").strip("/").split(","))
+    h = float(line[0])
+    t = float(line[1].split(".")[1][:2]) * 60 + float(
+        line[1].split(".")[1][2:])
+    t_s.append((t + t_base) * 60)
+    h_s.append(h)
+    #print(h)
+    if t == 1435.0:
+        t_base += 24 * 60
+timeList = np.array(t_s)
+
+signalList = (np.array(h_s) - np.mean(np.array(h_s))) / 100.
+tidal_cycle_int = interp1d(timeList - min(timeList), signalList)
+t_mod = (max(timeList) - min(timeList))
+
+cumsum_savename = "cumsum_salinity.npy"
+calls_savename = "calls_in_last_timestep.npy"
+
+# instantiate source term object referenced in OpenGeoSys' prj file
+
+bc_tide_p_D = BCSea_p_D()
+bc_tide_p_N = BCSea_p_N()
 bc_tide_C = BCSea_C()
-seaward_salinity = 0.035
-complete_contributions = np.load(r'Benchmarks/ExampleSetups/OGSExampleSetup\complete_contributions.npy')
-cumsum_savename = r'Benchmarks/ExampleSetups/OGSExampleSetup\cumsum_salinity.npy'
-calls_savename = r'Benchmarks/ExampleSetups/OGSExampleSetup\calls_in_last_timestep.npy'
-t_write = 6086400.0
+seaward_salinity = 0.05
+constant_contributions = np.load(r'C:\Users\marie\Documents\GRIN\git_repos\pyMANGA\Benchmarks/ExampleSetups/ExmouthGulf/constant_contributions.npy')
+salinity_prefactors = np.load(r'C:\Users\marie\Documents\GRIN\git_repos\pyMANGA\Benchmarks/ExampleSetups/ExmouthGulf/salinity_prefactors.npy')
+complete_contributions = None
+cumsum_savename = r'C:\Users\marie\Documents\GRIN\git_repos\pyMANGA\Benchmarks/ExampleSetups/ExmouthGulf/cumsum_salinity.npy'
+calls_savename = r'C:\Users\marie\Documents\GRIN\git_repos\pyMANGA\Benchmarks/ExampleSetups/ExmouthGulf/calls_in_last_timestep.npy'
+t_write = 1500000.0
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -186,42 +257,49 @@ class CellInformation:
     #  @return number of cells in the source mesh
     def getNCells(self):
         return self._n_cells
-cell_information = CellInformation(r'Benchmarks/ExampleSetups/OGSExampleSetup\source_domain.vtu')
+cell_information = CellInformation(r'Benchmarks/ExampleSetups/ExmouthGulf/source_domain.vtu')
 # Returns, depending on the cell_id, the constant contribution of a tree to the
+# water flux in the root zone.
 def constantContribution(cell_id):
     return constant_contributions[cell_id]
 
-
+# Returns, depending on the cell_id, the salinity dependent contribution of a 
+# tree to the water flux in the root zone.
 def salinityContribution(cell_id, salinity):
     return salinity_prefactors[cell_id] * salinity
 
-
+# Returns, depending on the cell_id, the complete contribution of a 
+# tree to the water flux in the root zone. If a network system is used, only
+# the complete contribution is constant. Otherwise, it depends on the salinty.
 def completeContribution(cell_id, salinity):
     if complete_contributions is not None:
         return complete_contributions[cell_id]
     else:
-        return (constantContribution(cell_id) +
-                salinityContribution(cell_id, salinity))
-
+        return (constantContribution(cell_id) + salinityContribution(
+            cell_id, salinity))
+        
 
 # Source Term Helper
+# This class is necessary in order to check, whether a new iteration started.
 class SourceTermHelper(OpenGeoSys.BoundaryCondition):
-
     def __init__(self):
         super().__init__()
         self.first_node = None
-
+            
     def getDirichletBCValue(self, t, coords, node_id, primary_vars):
+        # Identification of the first node's id
         if self.first_node is None:
             self.first_node = node_id
+        # Reset of node counter for the source mesh with first nodes call
         if node_id == self.first_node:
             cell_information.setSourceCounter(0)
         return (False, 0)
 
 
-# Source Terms
+# Source Term
+# This source term describes the water fux from the bulk domain into the roots
+# of trees. 
 class FluxToTrees(OpenGeoSys.SourceTerm):
-
     def __init__(self):
         super().__init__()
         self.t = -999999
@@ -230,24 +308,32 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         self._first_iteration = False
 
     def getFlux(self, t, coords, primary_vars):
+        # In the first iteration over the souce mesh, cll id_s need to be 
+        # connected to coordinates in order to speedup the script. Thus, source
+        # mesh cell ids are counted
         old_count = cell_information.getSourceCounter()
         new_count = old_count + 1
-        cell_id = cell_information.getCellIdAtIntPoint(coords[0], coords[1],
-                                                       coords[2], old_count)
+        cell_id = cell_information.getCellIdAtIntPoint(coords[0], coords[1], coords[2],
+                                             old_count)
         cell_information.setSourceCounter(new_count)
 
         salinity = primary_vars[1]
 
+        # Identification of first iteration of a new timestep
         if t > self.t:
             self.t = t
             self._first_iteration = True
+        # Identification of the last timestep of the ogs model run
         if t == t_write:
+            # Identification of the call of the last node in the last timestep
             if cell_information.getHighestNode() == new_count:
                 np.save(cumsum_savename, self._cumsum_salinity)
                 np.save(calls_savename, self._calls)
+        # Values for averaring are only saved in the first iteration of each
+        # timestep.
         if self._first_iteration:
             if new_count > cell_information.getHighestNode():
-                cell_information.setHighestNode(new_count)
+              cell_information.setHighestNode(new_count)
             elif cell_information.getHighestNode() == new_count:
                 self._first_iteration = False
             self._calls[cell_id] += 1
@@ -256,7 +342,6 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         positive_flux = completeContribution(cell_id, salinity)
         Jac = [0.0, 0.0]
         return (-positive_flux, Jac)
-
-
+# These two objects need to be defined in the ogs project file.
 flux_to_trees = FluxToTrees()
 bc_source_helper = SourceTermHelper()

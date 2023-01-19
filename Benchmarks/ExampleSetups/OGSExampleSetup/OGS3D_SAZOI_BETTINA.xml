@@ -15,7 +15,7 @@
         </aboveground_competition>
         <belowground_competition>
             <type>OGSLargeScale3D</type>
-            <ogs_project_folder>test/LargeTests/Test_Setups_large/ogs_example_setup</ogs_project_folder>
+            <ogs_project_folder>Benchmarks/ExampleSetups/OGSExampleSetup/</ogs_project_folder>
             <ogs_project_file>testmodel.prj</ogs_project_file>
             <source_mesh>source_domain.vtu</source_mesh>
             <bulk_mesh>testbulk.vtu</bulk_mesh>
@@ -35,7 +35,7 @@
             <species>Avicennia</species>
             <distribution>
                 <type>GroupFromFile</type>
-                <filename>test/LargeTests/Test_Setups_large/ogs_example_setup/initial_trees.csv</filename>
+                <filename>Benchmarks/ExampleSetups/OGSExampleSetup/initial_trees.csv</filename>
             </distribution>
         </group>
     </initial_population>
@@ -52,7 +52,7 @@
         <type>OneTreeOneFile</type>
         <allow_previous_output>True</allow_previous_output>
         <output_each_nth_timestep>1</output_each_nth_timestep>
-        <output_dir>test/LargeTests/Test_Setups_large/ogs_example_setup/tree_output/</output_dir>
+        <output_dir>Benchmarks/ExampleSetups/OGSExampleSetup/TreeOutput/</output_dir>
         <geometry_output>r_stem</geometry_output>
         <geometry_output>h_stem</geometry_output>
         <geometry_output>r_crown</geometry_output>

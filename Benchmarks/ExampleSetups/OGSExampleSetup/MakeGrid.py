@@ -208,7 +208,7 @@ bulk.GetPointData().AddArray(propertyvector)
 addCandPtoMesh(bulk)
 # Output of bulk-mesh
 writer = vtk.vtkXMLUnstructuredGridWriter()
-writer.SetFileName("ogs_benchmark_domain.vtu")
+writer.SetFileName("my_first_model.vtu")
 writer.SetInputData(bulk)
 writer.Write()
 
@@ -275,12 +275,12 @@ source.GetCellData().AddArray(propertyvector)
 
 # Output of source-mesh
 source_writer = vtk.vtkXMLUnstructuredGridWriter()
-source_writer.SetFileName("ogs_benchmark_source.vtu")
+source_writer.SetFileName("my_first_model.vtu")
 source_writer.SetInputData(source)
 source_writer.Write()
 
 
-gs_utilities_string = "ABSOLUTE/PATH/TO/PYMANGA/pyMANGA" \
+ogs_utilities_string = "ABSOLUTE/PATH/TO/PYMANGA/pyMANGA" \
                        "/TreeModelLib/BelowgroundCompetition/OGS" \
                        "/bin/"
 subprocess.call(ogs_utilities_string + "ExtractSurface -i "

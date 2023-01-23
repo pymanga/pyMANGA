@@ -26,6 +26,7 @@ class SoilWaterContent(TreeModel):
         self.makeGrid(args)
         self.initializeSoil(args.find("soil_properties"))
         self.initializePrecipitation(args.find("precipitation"))
+        self.delta_t_concept = float(args.find("delta_t_concept").text)
 
     def initializeSoil(self, args):
         # Model initialization
@@ -51,18 +52,17 @@ class SoilWaterContent(TreeModel):
     def initializePrecipitation(self, args):
         file_name = path.join(path.abspath("./"),
                               args.find("data_file").text.strip())
-        column_number = int(args.find("precipitation_column_number").text)
-        delta_t_per_row = float(args.find("delta_t_per_row").text)
+        column_number = int(args.find("precipitation_col_number").text)
+        self.delta_t_percip = float(args.find("delta_t_per_row").text)
 
         precipitation = (np.loadtxt(
             file_name, delimiter=";", skiprows=1, usecols=column_number-1))
 
         # Empty array
-        precipitation_data = np.zeros((len(precipitation),2))
+        precipitation_data = np.zeros(len(precipitation))
         # Times in first col
-        precipitation_data[:,0] = delta_t_per_row * np.arange(len(precipitation))
         # Precipitation in second col
-        precipitation_data[:,1] = precipitation
+        precipitation_data = precipitation
         ## Precipitation data [time in [s], precipitation in [mm]]
         self._precipitation_data = precipitation_data
 
@@ -82,6 +82,38 @@ class SoilWaterContent(TreeModel):
         self.trees = []
         exit()
         
+    
+    def integratePrecipitationData(self, t_0, t_1):
+        # Index of t_ini and t_end in self._precipitation_data. The number cal-
+        # culated here is a float
+        t_0_idx = (t_0 / self.delta_t_percip
+                   ) % len(self._precipitation_data)
+        t_1_idx = (t_1 / self.delta_t_percip
+                   ) % len(self._precipitation_data)
+
+        # Precipitation data in three parts:
+        # contribution_left corresponts to part before the first full idx
+        # contribution_right corresponts to part behind the last full idx
+        # contribution_middle addresses all other datapoints
+        contribution_left = self._precipitation_data[int(t_0_idx)
+                                                     ] * (1 - t_1_idx % 1)
+        contribution_right = self._precipitation_data[int(t_0_idx)
+                                                      ] * (t_1_idx % 1)
+        if int(t_0_idx) <= int(t_1_idx):
+            contribution_middle = np.sum(self._precipitation_data[
+                int(t_0_idx) + 1:int(t_1_idx)])
+        elif int(t_0_idx) > int(t_1_idx):
+            contribution_middle = np.sum(self._precipitation_data[
+                int(t_0_idx) + 1:])
+            contribution_middle += np.sum(self._precipitation_data[
+                :int(t_1_idx)])
+
+        integrated_precipitation = (contribution_left +
+                                    contribution_right +
+                                    contribution_middle)
+        print(integrated_precipitation)
+
+    
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their current implementation for the next timestep.
     #  @param tree

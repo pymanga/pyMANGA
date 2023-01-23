@@ -52,7 +52,7 @@ The communication between those libraries is managed by interfaces.
 
 This sub-library characterizes the gathering of resources available above the ground.
 An above-ground resource relevant to pyMANGA is sunlight availability.
-A sub-model can, for example, describe how sunlight is available to individual trees if they are shwadowd by others.
+A sub-model can, for example, describe how sunlight is available to individual trees if they are shadowed by others.
 
 #### BelowgroundCompetition
 

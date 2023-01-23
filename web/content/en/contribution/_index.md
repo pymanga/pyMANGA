@@ -1,10 +1,9 @@
 ---
 title: "Developer Guide"
 linkTitle: "Developer Guide"
-weight: 1
 menu:
   main:
-    weight: 1
+    weight: 3
 ---
-Here, we provide information for everyone who wants to contribute to the deveolopment of pyMANGA.
+Here, we provide information for everyone who wants to contribute to the development of pyMANGA.
 

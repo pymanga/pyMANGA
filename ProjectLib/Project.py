@@ -93,13 +93,13 @@ class MangaProject:
         arg = self.args["tree_growth_and_death"]
         case = arg.find("type").text
         if case == "SimpleTest":
-            from TreeModelLib.GrowthAndDeathDynamics.SimpleTest import SimpleTest as createGD
+            from PlantModelLib.SimpleTest import SimpleTest as createGD
         elif case == "SimpleBettina":
-            from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina as createGD
+            from PlantModelLib.SimpleBettina import SimpleBettina as createGD
         elif case == "SimpleKiwi":
-            from TreeModelLib.GrowthAndDeathDynamics.SimpleKiwi import SimpleKiwi as createGD
+            from PlantModelLib.SimpleKiwi import SimpleKiwi as createGD
         elif case == "NetworkBettina":
-            from TreeModelLib.GrowthAndDeathDynamics.NetworkBettina import NetworkBettina as createGD
+            from PlantModelLib.NetworkBettina import NetworkBettina as createGD
         else:
             raise KeyError("Required growth and death not implemented.")
         self.growth_and_death_dynamics = createGD(arg)

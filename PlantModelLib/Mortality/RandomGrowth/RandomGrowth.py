@@ -6,7 +6,7 @@
 """
 
 import numpy as np
-from TreeModelLib.GrowthAndDeathDynamics.Mortality.Random import Random
+from PlantModelLib.Mortality.Random import Random
 
 
 class RandomGrowth(Random):

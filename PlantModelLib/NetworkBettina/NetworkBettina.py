@@ -5,7 +5,7 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina
+from PlantModelLib.SimpleBettina import SimpleBettina
 import numpy as np
 
 

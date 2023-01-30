@@ -5,7 +5,7 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from TreeModelLib.GrowthAndDeathDynamics.Mortality.NoGrowth import NoGrowth
+from PlantModelLib.Mortality.NoGrowth import NoGrowth
 
 
 class Memory(NoGrowth):

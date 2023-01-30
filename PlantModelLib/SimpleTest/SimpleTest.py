@@ -4,10 +4,10 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeModelLib import TreeModel
+from ResourceLib import ResourceModel
 
 
-class SimpleTest(TreeModel):
+class SimpleTest(ResourceModel):
 
     def __init__(self, args):
         ## SimpleTest case for death and growth dynamics. This case is

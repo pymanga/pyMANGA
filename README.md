@@ -3,8 +3,8 @@ PYthon Models for AGeNt-based resource GAthering
 
 # Homepage
 
-https://pymanga.netlify.app/
+http://pymanga.forst.tu-dresden.de/
 
 # Source code and input documentation
 
-https://jbathmann.github.io/pyMANGA/
+https://pymanga.github.io/pyMANGA/

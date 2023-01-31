@@ -161,6 +161,7 @@ class SoilWaterContent(TreeModel):
         self._psi_matrix[np.where(self._psi_matrix < -7860000)] = -7860000
 
     def extractRelevantInformation(self, geometry, parameter):
+        self.time = self.delta_t_concept
         SimpleBettina.extractRelevantInformation(
             self=self, geometry=geometry, parameter=parameter)
 
@@ -179,6 +180,10 @@ class SoilWaterContent(TreeModel):
     def deltaPsi(self):
         return SimpleBettina.deltaPsi(self=self)
 
+    def bgResources(self, bg_resources):
+        SimpleBettina.bgResources(self=self,
+                                  belowground_resources=bg_resources)
+        return self.bg_resources
 # =============================================================================
 #
 #         # Numpy array of shape [res_x, res_y, n_trees]

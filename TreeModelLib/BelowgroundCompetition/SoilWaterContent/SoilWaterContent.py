@@ -59,12 +59,9 @@ class SoilWaterContent(TreeModel):
             file_name, delimiter=";", skiprows=1, usecols=column_number-1))
 
         # Empty array
-        precipitation_data = np.zeros(len(precipitation))
-        # Times in first col
-        # Precipitation in second col
-        precipitation_data = precipitation
-        ## Precipitation data [time in [s], precipitation in [mm]]
-        self._precipitation_data = precipitation_data
+        self._precipitation_input = np.zeros(len(precipitation))
+        ## Precipitation input: precipitation in [m]
+        self._precipitation_input = precipitation / 1000.
 
     ## This functions prepares arrays for the competition
     #  concept. In the SymmetricZOI concept, trees geometric measures

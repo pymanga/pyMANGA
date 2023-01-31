@@ -34,18 +34,18 @@ class SoilWaterContent(TreeModel):
         self._omega_s = float(args.find("omega_s").text)
         ## Residual water content [m**3/m**3]
         self._omega_r = float(args.find("omega_r").text)
-        ## Scaling of matric potential [1/hPA]
+        ## Scaling of matrix potential [1/hPA]
         self._alpha = float(args.find("alpha").text)
         ## Measure for pore-size distribution
         self._n = float(args.find("n").text)
         ## Suction pressure [hPa]
         self._psi_matrix = float(args.find("psi_matrix").text)
         ## Soil water content [m**3]
-        self._soil_water_content = np.ones_like(self.my_grid[1])
-        self._soil_water_content = (
-            self._omega_r + (self._omega_s - self._omega_r) / (
+        self._max_soil_water_content = (
+            self._omega_r + (self._omega_s - self._omega_r) / ((
                 1 + (-self._alpha * self._psi_matrix / 100)**self._n)**(
-                    1 - 1 / self._n))
+                    1 - 1 / self._n))) * np.ones_like(self.my_grid[1])
+        self._soil_water_content = 0 + self._max_soil_water_content
 
     ## This function prepares the precipitation submodel based on information
     #  provided in the pymanga-config file.

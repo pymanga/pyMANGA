@@ -56,7 +56,7 @@ class SoilWaterContent(TreeModel):
         self.delta_t_percip = float(args.find("delta_t_per_row").text)
 
         precipitation = (np.loadtxt(
-            file_name, delimiter=";", skiprows=1, usecols=column_number-1))
+            file_name, delimiter=";", skiprows=1, usecols=column_number - 1))
 
         # Empty array
         self._precipitation_input = np.zeros(len(precipitation))
@@ -81,8 +81,8 @@ class SoilWaterContent(TreeModel):
         
 
     def integratePrecipitationData(self, t_0, t_1):
-        # Index of t_ini and t_end in self._precipitation_input. The number cal-
-        # culated here is a float
+        # Index of t_ini and t_end in self._precipitation_input. The number
+        # calculated here is a float
         t_0_idx = (t_0 / self.delta_t_percip
                    ) % len(self._precipitation_input)
         t_1_idx = (t_1 / self.delta_t_percip
@@ -93,9 +93,9 @@ class SoilWaterContent(TreeModel):
         # contribution_right corresponts to part behind the last full idx
         # contribution_middle addresses all other datapoints
         contribution_left = self._precipitation_input[int(t_0_idx)
-                                                     ] * (1 - t_1_idx % 1)
+                                                      ] * (1 - t_1_idx % 1)
         contribution_right = self._precipitation_input[int(t_0_idx)
-                                                      ] * (t_1_idx % 1)
+                                                       ] * (t_1_idx % 1)
         if int(t_0_idx) <= int(t_1_idx):
             contribution_middle = np.sum(self._precipitation_input[
                 int(t_0_idx) + 1:int(t_1_idx)])
@@ -105,9 +105,8 @@ class SoilWaterContent(TreeModel):
             contribution_middle += np.sum(self._precipitation_input[
                 :int(t_1_idx)])
 
-        integrated_precipitation = (contribution_left +
-                                    contribution_right +
-                                    contribution_middle)
+        integrated_precipitation = (
+            contribution_left + contribution_right + contribution_middle)
         # Update of soil water content with new precipitation
         self.updateSoilWaterContent(integrated_precipitation)
 
@@ -132,7 +131,7 @@ class SoilWaterContent(TreeModel):
 
         if geometry["r_root"] < self.min_r_root:
             print("Error: mesh not fine enough for root dimensions!")
-            print("Please refine mesh or increase initial root radius above " +
+            print("Please refine mesh or increase initial root radius above ",
                   str(self.min_r_root) + "m !")
             exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):

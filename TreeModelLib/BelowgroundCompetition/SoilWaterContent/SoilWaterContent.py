@@ -71,14 +71,10 @@ class SoilWaterContent(TreeModel):
     def prepareNextTimeStep(self, t_ini, t_end):
         self.xe = []
         self.ye = []
-        self.r_root = []
-        self.r_crown = []
-        self.h_stem = []
-        self.t_ini = t_ini
-        self.t_end = t_end
-        self.trees = []
-        exit()
-        
+        self._t_ini = t_ini
+        self._t_end = t_end
+        self._trees = []
+        self._tree_flows = []
 
     def integratePrecipitationData(self, t_0, t_1):
         # Index of t_ini and t_end in self._precipitation_input. The number
@@ -140,16 +136,71 @@ class SoilWaterContent(TreeModel):
                              in project file!!""")
         self.xe.append(x)
         self.ye.append(y)
-        self.trees.append(tree)
+        ## List of trees
+        self._trees.append(tree)
+        ## List containing current flow for each tree [m]
+        self._tree_flows.append(0)
+
+        # Calculation of potential maximal flow for tree
+        self.calculateMatrixPotential(self._max_soil_water_content)
+        self.extractRelevantInformation(
+            geometry=tree.getGeometry(),
+            parameter=tree.getParameter())
+        flow = (self.bgResources(
+            (self.deltaPsi() - self._psi_matrix[0, 0]
+             ) / self.deltaPsi(),
+            self._t_end - self._t_ini))
+        ## List containing potential flow for each tree [m]
+        self._max_tree_flows.append(flow)
 
     ## This function returns the BelowgroundResources calculated in the
     #  subsequent timestep.\n
     #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
-        for tree in self.trees:
-            self.extractRelevantInformation(
-                geometry=tree.getGeometry(),
-                parameter=tree.getParameter())
+        t_1 = self._t_ini
+        t_2 = 0
+        # Numpy array of shape [res_x, res_y, n_trees]
+        distance = (((self.my_grid[0][
+            :, :, np.newaxis] - np.array(self.xe)[
+                np.newaxis, np.newaxis, :])**2 + (
+                    self.my_grid[1][
+                        :, :, np.newaxis] - np.array(self.ye)[
+                            np.newaxis, np.newaxis, :])**2)**0.5)
+        # While loop applies concept native timestepping
+        while(t_2 < self._t_end):
+            if (t_1 + self._delta_t_concept) <= self._t_end:
+                t_2 = t_1 + self._delta_t_concept
+            else:
+                t_2 = self._t_end
+            # Array to store data for total water flux per timestep
+            flux = np.zeros_like(self._soil_water_content)
+            # Update percipitation
+            self.integratePrecipitationData(t_1, t_2)
+            # Calculate resulting soil potentials
+            self.calculateMatrixPotential(self._soil_water_content)
+            for i in range(len(self._trees)):
+                tree = self._trees[i]
+                # Calculation of possible water uptake for each tree
+                self.extractRelevantInformation(
+                    geometry=tree.getGeometry(),
+                    parameter=tree.getParameter())
+                root_radius = tree.geometry["r_root"]
+                tree_nodes = np.where(root_radius > distance[:, :, i])
+                # Actual flow for tree i
+                flow = (self.bgResources(
+                    (self.deltaPsi() - self._psi_matrix[tree_nodes]
+                     ) / self.deltaPsi(),
+                    t_2 - t_1))
+                # Contribution to the fluxes in and out of the grid
+                flux[tree_nodes] -= flow / float(len(tree_nodes[0]))
+                # Average flow for tree
+                self._tree_flows[i] += np.sum(flow) / float(len(tree_nodes[0]))
+
+            self.updateSoilWaterContent(flux)
+            t_1 = t_2
+        # Belowground resources is real flow devided by potential flow
+        self.belowground_resources = np.array(
+            self._tree_flows) / np.array(self._max_tree_flows)
     ## Calculates matrix potential according to equation from janosch
     def calculateMatrixPotential(self):
         base = ((self._omega_s - self._omega_r) / (

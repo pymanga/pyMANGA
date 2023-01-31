@@ -79,38 +79,50 @@ class SoilWaterContent(TreeModel):
         self.trees = []
         exit()
         
-    
+
     def integratePrecipitationData(self, t_0, t_1):
-        # Index of t_ini and t_end in self._precipitation_data. The number cal-
+        # Index of t_ini and t_end in self._precipitation_input. The number cal-
         # culated here is a float
         t_0_idx = (t_0 / self.delta_t_percip
-                   ) % len(self._precipitation_data)
+                   ) % len(self._precipitation_input)
         t_1_idx = (t_1 / self.delta_t_percip
-                   ) % len(self._precipitation_data)
+                   ) % len(self._precipitation_input)
 
         # Precipitation data in three parts:
         # contribution_left corresponts to part before the first full idx
         # contribution_right corresponts to part behind the last full idx
         # contribution_middle addresses all other datapoints
-        contribution_left = self._precipitation_data[int(t_0_idx)
+        contribution_left = self._precipitation_input[int(t_0_idx)
                                                      ] * (1 - t_1_idx % 1)
-        contribution_right = self._precipitation_data[int(t_0_idx)
+        contribution_right = self._precipitation_input[int(t_0_idx)
                                                       ] * (t_1_idx % 1)
         if int(t_0_idx) <= int(t_1_idx):
-            contribution_middle = np.sum(self._precipitation_data[
+            contribution_middle = np.sum(self._precipitation_input[
                 int(t_0_idx) + 1:int(t_1_idx)])
         elif int(t_0_idx) > int(t_1_idx):
-            contribution_middle = np.sum(self._precipitation_data[
+            contribution_middle = np.sum(self._precipitation_input[
                 int(t_0_idx) + 1:])
-            contribution_middle += np.sum(self._precipitation_data[
+            contribution_middle += np.sum(self._precipitation_input[
                 :int(t_1_idx)])
 
         integrated_precipitation = (contribution_left +
                                     contribution_right +
                                     contribution_middle)
-        print(integrated_precipitation)
+        # Update of soil water content with new precipitation
+        self.updateSoilWaterContent(integrated_precipitation)
 
-    
+    ## Update of soil water content (SWC) [m]
+    #  @param flux - water flux into patch in [m].
+    #  Positive value correponds to influx.
+    def updateSoilWaterContent(self, flux):
+        # Add infiltration to SWC
+        self._soil_water_content += flux
+        # Cap SWC at maximum value
+        idx = np.where(self._soil_water_content > self._max_soil_water_content)
+        self._soil_water_content[idx] = self._max_soil_water_content[idx]
+        # Cap SWC at minimum value (residual water content)
+        self._soil_water_content[
+            np.where(self._soil_water_content < 0)] = self._omega_r
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their current implementation for the next timestep.
     #  @param tree

@@ -151,6 +151,14 @@ class SoilWaterContent(TreeModel):
             self.extractRelevantInformation(
                 geometry=tree.getGeometry(),
                 parameter=tree.getParameter())
+    ## Calculates matrix potential according to equation from janosch
+    def calculateMatrixPotential(self):
+        base = ((self._omega_s - self._omega_r) / (
+            self._soil_water_content - self._omega_r))
+        exponent = 1 / (1 - 1 / self._n)
+        self._psi_matrix = - 100 * (
+            base ** exponent - 1) ** (1 / self._n) / self._alpha
+        self._psi_matrix[np.where(self._psi_matrix < -7860000)] = -7860000
 
     def extractRelevantInformation(self, geometry, parameter):
         SimpleBettina.extractRelevantInformation(

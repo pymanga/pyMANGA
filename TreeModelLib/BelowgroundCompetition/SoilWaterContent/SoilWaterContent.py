@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2022-Today
-@author: marie-christin.wimmler@tu-dresden.de based on SimpleAsymmetricZOI
-by ronny.peters@tu-dresden.de
+@date: 2023-Today
+@author: jbathmann@posteo.net
 """
 
 import numpy as np
@@ -13,12 +12,13 @@ from TreeModelLib.GrowthAndDeathDynamics import SimpleBettina
 
 
 class SoilWaterContent(TreeModel):
-    ## SymmetricZOI case for below ground competition concept. Symmetric
+    ## Simple soil water content water scarcity model. Symmetric
     #  Zone Of Influence with trees occupying the same node of the grid share
     #  the below-ground resource of this node equally (BETTINA geometry of a
-    #  tree assumed). See Peters 2017: ODD protocol of the model BETTINA IBM\n
-    #  @param Tags to define SimpleAsymmetricZOI: see tag documentation
-    #  @date: 2019 - Today
+    #  tree assumed). See Heinermann 2023: ODD protocol of the model
+    #  BETTINA-AYSE IBM\n
+    #  @param Tags to define SoilWaterContent: see tag documentation
+    #  @date: 2023 - Today
     def __init__(self, args):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
@@ -26,8 +26,10 @@ class SoilWaterContent(TreeModel):
         self.makeGrid(args)
         self.initializeSoil(args.find("soil_properties"))
         self.initializePrecipitation(args.find("precipitation"))
-        self.delta_t_concept = float(args.find("delta_t_concept").text)
+        ## Timestepping of belowground competition concept
+        self._delta_t_concept = float(args.find("delta_t_concept").text)
 
+    ## Initialization of soil properties according to Janosh ODD
     def initializeSoil(self, args):
         # Model initialization
         ## Saturated water content [m**3/m**3]
@@ -40,11 +42,12 @@ class SoilWaterContent(TreeModel):
         self._n = float(args.find("n").text)
         ## Suction pressure [hPa]
         self._psi_matrix = float(args.find("psi_matrix").text)
-        ## Soil water content [m**3]
+        ## Maximal soil water content [m**3]
         self._max_soil_water_content = (
             self._omega_r + (self._omega_s - self._omega_r) / ((
                 1 + (-self._alpha * self._psi_matrix / 100)**self._n)**(
                     1 - 1 / self._n))) * np.ones_like(self.my_grid[1])
+        ## Current soil water content [m**3]
         self._soil_water_content = 0 + self._max_soil_water_content
 
     ## This function prepares the precipitation submodel based on information
@@ -53,7 +56,7 @@ class SoilWaterContent(TreeModel):
         file_name = path.join(path.abspath("./"),
                               args.find("data_file").text.strip())
         column_number = int(args.find("precipitation_col_number").text)
-        self.delta_t_percip = float(args.find("delta_t_per_row").text)
+        self._delta_tpercip = float(args.find("delta_t_per_row").text)
 
         precipitation = (np.loadtxt(
             file_name, delimiter=";", skiprows=1, usecols=column_number - 1))
@@ -75,13 +78,19 @@ class SoilWaterContent(TreeModel):
         self._t_end = t_end
         self._trees = []
         self._tree_flows = []
+        self._max_tree_flows = []
 
+    ## Integrates precipitation data
+    #  In the current form, the precipitation falls directly to the ground.
+    #  Stem flow and interception loss can be integrated in this function.
+    #  @param t_0 - Start time for percipitation period
+    #  @param t_1 - End time for percipitation period
     def integratePrecipitationData(self, t_0, t_1):
         # Index of t_ini and t_end in self._precipitation_input. The number
         # calculated here is a float
-        t_0_idx = (t_0 / self.delta_t_percip
+        t_0_idx = (t_0 / self._delta_tpercip
                    ) % len(self._precipitation_input)
-        t_1_idx = (t_1 / self.delta_t_percip
+        t_1_idx = (t_1 / self._delta_tpercip
                    ) % len(self._precipitation_input)
 
         # Precipitation data in three parts:
@@ -90,8 +99,10 @@ class SoilWaterContent(TreeModel):
         # contribution_middle addresses all other datapoints
         contribution_left = self._precipitation_input[int(t_0_idx)
                                                       ] * (1 - t_1_idx % 1)
-        contribution_right = self._precipitation_input[int(t_0_idx)
+        contribution_right = self._precipitation_input[int(t_1_idx)
                                                        ] * (t_1_idx % 1)
+        # If condition catches, if the modulus of timesteps in percipitation
+        # data file is active.
         if int(t_0_idx) <= int(t_1_idx):
             contribution_middle = np.sum(self._precipitation_input[
                 int(t_0_idx) + 1:int(t_1_idx)])
@@ -110,21 +121,21 @@ class SoilWaterContent(TreeModel):
     #  @param flux - water flux into patch in [m].
     #  Positive value correponds to influx.
     def updateSoilWaterContent(self, flux):
-        # Add infiltration to SWC
+        ## Add infiltration to SWC
         self._soil_water_content += flux
-        # Cap SWC at maximum value
+        ## Cap SWC at maximum value
         idx = np.where(self._soil_water_content > self._max_soil_water_content)
         self._soil_water_content[idx] = self._max_soil_water_content[idx]
-        # Cap SWC at minimum value (residual water content)
+        ## Cap SWC at minimum value (residual water content)
         self._soil_water_content[
             np.where(self._soil_water_content < 0)] = self._omega_r
+
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their current implementation for the next timestep.
     #  @param tree
     def addTree(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
-
         if geometry["r_root"] < self.min_r_root:
             print("Error: mesh not fine enough for root dimensions!")
             print("Please refine mesh or increase initial root radius above ",
@@ -201,90 +212,57 @@ class SoilWaterContent(TreeModel):
         # Belowground resources is real flow devided by potential flow
         self.belowground_resources = np.array(
             self._tree_flows) / np.array(self._max_tree_flows)
+
     ## Calculates matrix potential according to equation from janosch
-    def calculateMatrixPotential(self):
+    #  @param water_content - water content of the soil
+    def calculateMatrixPotential(self, water_content):
         base = ((self._omega_s - self._omega_r) / (
-            self._soil_water_content - self._omega_r))
+            water_content - self._omega_r))
         exponent = 1 / (1 - 1 / self._n)
         self._psi_matrix = - 100 * (
             base ** exponent - 1) ** (1 / self._n) / self._alpha
         self._psi_matrix[np.where(self._psi_matrix < -7860000)] = -7860000
 
+    ## Runs all functions relevant to calculate tree water uptake using Bettina
+    #  @param geometry - tree geometry
+    #  @param parameter - tree parameter
     def extractRelevantInformation(self, geometry, parameter):
-        self.time = self.delta_t_concept
+        self.time = self._delta_t_concept
         SimpleBettina.extractRelevantInformation(
             self=self, geometry=geometry, parameter=parameter)
 
+    ## Composite from BETTINA
     def flowLength(self):
         SimpleBettina.flowLength(self=self)
 
+    ## Composite from BETTINA
     def treeVolume(self):
         SimpleBettina.treeVolume(self=self)
 
+    ## Composite from BETTINA
     def rootSurfaceResistance(self):
         SimpleBettina.rootSurfaceResistance(self=self)
 
+    ## Composite from BETTINA
     def xylemResistance(self):
         SimpleBettina.xylemResistance(self=self)
 
+    ## Composite from BETTINA
     def deltaPsi(self):
         return SimpleBettina.deltaPsi(self=self)
 
-    def bgResources(self, bg_resources):
+    ## Composite from BETTINA
+    def bgResources(self, bg_resources, delta_time):
+        self.time = delta_time
         SimpleBettina.bgResources(self=self,
                                   belowground_resources=bg_resources)
         return self.bg_resources
-# =============================================================================
-#
-#         # Numpy array of shape [res_x, res_y, n_trees]
-#         distance = (((self.my_grid[0][:, :, np.newaxis] -
-#                       np.array(self.xe)[np.newaxis, np.newaxis, :])**2 +
-#                      (self.my_grid[1][:, :, np.newaxis] -
-#                       np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5)
-#         # Array of shape distance [res_x, res_y, n_trees], indicating which
-#         # cells are occupied by tree root plates
-#         root_radius = np.array(self.r_root)
-#         trees_present = root_radius[np.newaxis, np.newaxis, :] > distance
-#
-#         # Count all nodes, which are occupied by trees
-#         # returns array of shape [n_trees]
-#         # BETTINA ODD 2017: variable 'countbelow'
-#         tree_counts = trees_present.sum(axis=(0, 1))
-#
-#         # Calculate reciprocal of cell-own variables (array to count wins)
-#         # BETTINA ODD 2017: variable 'compete_below'
-#         # [res_x, res_y]
-#         trees_present_reci = 1. / trees_present.sum(axis=-1)
-#
-#         # Sum up wins of each tree = trees_present_reci[tree]
-#         n_trees = len(trees_present[0, 0, :])
-#         tree_wins = np.zeros(n_trees)
-#         for i in range(n_trees):
-#             tree_wins[i] = np.sum(trees_present_reci[np.where(
-#                 trees_present[:, :, i])])
-#
-#         self.belowground_resources = tree_wins / tree_counts
-#
-# =============================================================================
-    ## This function calculates the tree height at a (mesh-)point depending
-    #  on the distance from the tree position.\n
-    #  @param stem_height - stem height (shape: (n_trees))\n
-    #  @param crown_radius - crown radius (shape: (n_trees))\n
-    #  @param distance - distance from the stem position(shape: (x_res, y_res))
-    def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
-        bools = crown_radius > distance
-        idx = np.where(bools)
-        height = np.zeros_like(distance)
-        #Here, the curved top of the tree is considered..
-        height[idx] = stem_height + (4 * crown_radius**2 -
-                                     distance[idx]**2)**0.5
-        return height, bools
-
 
     ## This function reads x- and y-domain and mesh resolution
     #  from project file and creates the mesh.\n
     #  @param Tags to define plot size and spatial resolution: see tag
     #  documentation
+    #  TODO: Update after restructuring
     def makeGrid(self, args):
         missing_tags = [
             "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",

@@ -83,7 +83,7 @@ class SoilWaterContent(TreeModel):
     ## Integrates precipitation data
     #  In the current form, the precipitation falls directly to the ground.
     #  Stem flow and interception loss can be integrated in this function.
-    #  @param t_0 - Start time for percipitation period
+    #  @param t_0 - Start time for precipitation period
     #  @param t_1 - End time for percipitation period
     def integratePrecipitationData(self, t_0, t_1):
         # Index of t_ini and t_end in self._precipitation_input. The number
@@ -94,7 +94,7 @@ class SoilWaterContent(TreeModel):
                    ) % len(self._precipitation_input)
 
         # Precipitation data in three parts:
-        # contribution_left corresponts to part before the first full idx
+        # contribution_left corresponds to part before the first full idx
         # contribution_right corresponts to part behind the last full idx
         # contribution_middle addresses all other datapoints
         contribution_left = self._precipitation_input[int(t_0_idx)
@@ -119,7 +119,7 @@ class SoilWaterContent(TreeModel):
 
     ## Update of soil water content (SWC) [m]
     #  @param flux - water flux into patch in [m].
-    #  Positive value correponds to influx.
+    #  Positive value corresponds to influx.
     def updateSoilWaterContent(self, flux):
         ## Add infiltration to SWC
         self._soil_water_content += flux
@@ -128,7 +128,7 @@ class SoilWaterContent(TreeModel):
         self._soil_water_content[idx] = self._max_soil_water_content[idx]
         ## Cap SWC at minimum value (residual water content)
         self._soil_water_content[
-            np.where(self._soil_water_content < 0)] = self._omega_r
+            np.where(self._soil_water_content < self._omega_r)] = self._omega_r
 
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their current implementation for the next timestep.
@@ -171,6 +171,7 @@ class SoilWaterContent(TreeModel):
         t_1 = self._t_ini
         t_2 = 0
         # Numpy array of shape [res_x, res_y, n_trees]
+        # Distance of all nodes to each tree
         distance = (((self.my_grid[0][
             :, :, np.newaxis] - np.array(self.xe)[
                 np.newaxis, np.newaxis, :])**2 + (
@@ -178,14 +179,16 @@ class SoilWaterContent(TreeModel):
                         :, :, np.newaxis] - np.array(self.ye)[
                             np.newaxis, np.newaxis, :])**2)**0.5)
         # While loop applies concept native timestepping
-        while(t_2 < self._t_end):
+        # If delta_t_concept < delta_t, time stepping is refined
+        # otherwise, delta_t is used
+        while t_2 < self._t_end:
             if (t_1 + self._delta_t_concept) <= self._t_end:
                 t_2 = t_1 + self._delta_t_concept
             else:
                 t_2 = self._t_end
             # Array to store data for total water flux per timestep
             flux = np.zeros_like(self._soil_water_content)
-            # Update percipitation
+            # Update precipitation
             self.integratePrecipitationData(t_1, t_2)
             # Calculate resulting soil potentials
             self.calculateMatrixPotential(self._soil_water_content)
@@ -209,7 +212,7 @@ class SoilWaterContent(TreeModel):
 
             self.updateSoilWaterContent(flux)
             t_1 = t_2
-        # Belowground resources is real flow devided by potential flow
+        # Belowground resources is real flow divided by potential flow
         self.belowground_resources = np.array(
             self._tree_flows) / np.array(self._max_tree_flows)
 

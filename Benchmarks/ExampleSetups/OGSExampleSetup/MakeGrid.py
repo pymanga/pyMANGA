@@ -1,10 +1,9 @@
 from __future__ import absolute_import
 import numpy as np
 import pygmsh
-import os
 import vtk as vtk
 import subprocess
-
+import platform
 
 hydraulic_gradient = -0.1/22.
 l_z_top = 0.3
@@ -280,15 +279,51 @@ source_writer.SetInputData(source)
 source_writer.Write()
 
 
-ogs_utilities_string = "ABSOLUTE/PATH/TO/PYMANGA/pyMANGA" \
-                       "/TreeModelLib/BelowgroundCompetition/OGS" \
-                       "/bin/"
-subprocess.call(ogs_utilities_string + "ExtractSurface -i "
-                                       "my_first_model.vtu -o "
-                                       "right_boundary.vtu -x -1 -y 0 -z 0 -a 0.")
-subprocess.call(ogs_utilities_string + "ExtractSurface -i "
-                                       "my_first_model.vtu -o "
-                                       "left_boundary.vtu -x 1 -y 0 -z 0 -a 0.")
-subprocess.call(ogs_utilities_string + "ExtractSurface -i "
-                                       "my_first_model.vtu -o "
-                                       "top_boundary.vtu -x 0 -y 0 -z -1 -a 30.")
+# check os
+os = platform.system()
+
+
+if os == "Windows":
+
+    ogs_utilities_string = "ABSOLUTE/PATH/TO/PYMANGA/pyMANGA" \
+                           "/TreeModelLib/BelowgroundCompetition/OGS" \
+                           "/bin/"
+
+    subprocess.call(ogs_utilities_string + "ExtractSurface -i "
+                                           "my_first_model.vtu -o "
+                                           "right_boundary.vtu -x -1"
+                                           " -y 0 -z 0-a 0.")
+    subprocess.call(ogs_utilities_string + "ExtractSurface -i "
+                                           "my_first_model.vtu -o "
+                                           "left_boundary.vtu -x 1 -y"
+                                           " 0 -z 0 -a 0.")
+    subprocess.call(ogs_utilities_string + "ExtractSurface -i "
+                                           "my_first_model.vtu -o "
+                                           "top_boundary.vtu -x 0 -y"
+                                           " 0 -z -1 -a 30.")
+
+
+elif os == "Linux":
+
+    ogs_container_string = "singularity exec ABSOLUTE/PATH/TO/PYMANGA"
+    "/pyMANGA/TreeModelLib/BelowgroundCompetition/OGS/container/"
+    "ogs_container.sif "
+
+    subprocess.call(ogs_container_string + "ExtractSurface -x -1 -y 0"
+                    " -z 0 -a 0. -i my_first_model.vtu -o right_boundary.vtu",
+                    shell=True)
+    subprocess.call(ogs_container_string + "ExtractSurface -x 1 -y 0"
+                    " -z 0 -a 0. -i my_first_model.vtu -o left_boundary.vtu",
+                    shell=True)
+    subprocess.call(ogs_container_string + "ExtractSurface -x 0 -y 0"
+                    " -z -1 -a 30. -i my_first_model.vtu -o top_boundary.vtu",
+                    shell=True)
+
+
+else:
+
+    if os == "Darwin":
+        os = "MacOS"
+
+    raise KeyError("You are using " + os + ". This script only runs on Linux"
+                   " and Windows machines.")

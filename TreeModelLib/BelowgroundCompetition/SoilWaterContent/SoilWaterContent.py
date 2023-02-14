@@ -84,7 +84,7 @@ class SoilWaterContent(TreeModel):
     #  In the current form, the precipitation falls directly to the ground.
     #  Stem flow and interception loss can be integrated in this function.
     #  @param t_0 - Start time for precipitation period
-    #  @param t_1 - End time for percipitation period
+    #  @param t_1 - End time for precipitation period
     def integratePrecipitationData(self, t_0, t_1):
         # Index of t_ini and t_end in self._precipitation_input. The number
         # calculated here is a float
@@ -95,7 +95,7 @@ class SoilWaterContent(TreeModel):
 
         # Precipitation data in three parts:
         # contribution_left corresponds to part before the first full idx
-        # contribution_right corresponts to part behind the last full idx
+        # contribution_right corresponds to part behind the last full idx
         # contribution_middle addresses all other datapoints
         contribution_left = self._precipitation_input[int(t_0_idx)
                                                       ] * (1 - t_1_idx % 1)
@@ -126,7 +126,7 @@ class SoilWaterContent(TreeModel):
         ## Cap SWC at maximum value
         idx = np.where(self._soil_water_content > self._max_soil_water_content)
         self._soil_water_content[idx] = self._max_soil_water_content[idx]
-        ## Cap SWC at minimum value (residual water content)
+        ## Cut SWC at minimum value (residual water content)
         self._soil_water_content[
             np.where(self._soil_water_content < self._omega_r)] = self._omega_r
 

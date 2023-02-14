@@ -17,6 +17,15 @@ class SoilWaterContent(TreeModel):
     #  the below-ground resource of this node equally (BETTINA geometry of a
     #  tree assumed). See Heinermann 2023: ODD protocol of the model
     #  BETTINA-AYSE IBM\n
+    #  Forest patches represent the forest soil with its specific capabilities
+    #  of storing water (c water) and releasing it for use by plants
+    #  (psi matrix). Trees interact with the soil by taking up water and thus
+    #  reducing the water content of the soil (c water). It is assumed that
+    #  tree roots do not reach deeper than 1 meter below ground level and thus
+    #  plants do not have access to ground water. Soil water content (c water)
+    #  is therefore only increased by precipitation and only decreased by plant
+    #  uptake. This simplification of a ground water model is described as
+    #  ”bucket”-model (Manabe 1969).
     #  @param Tags to define SoilWaterContent: see tag documentation
     #  @date: 2023 - Today
     def __init__(self, args):

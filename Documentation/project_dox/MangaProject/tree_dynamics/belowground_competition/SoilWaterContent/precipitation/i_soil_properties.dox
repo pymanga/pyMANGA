@@ -1,0 +1,10 @@
+/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__SoilWaterContent__precipitation__soil_properties &emsp;[input]soil_properties
+
+
+Precipitation data.
+# Required inputs: 
+ 
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__SoilWaterContent__precipitation__data_file
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__SoilWaterContent__precipitation__delta_t_per_row
+- \subpage project_dox__MangaProject__tree_dynamics__belowground_competition__SoilWaterContent__precipitation__precipitation_col
+*/

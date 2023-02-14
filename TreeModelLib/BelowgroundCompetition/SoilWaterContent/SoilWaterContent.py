@@ -12,8 +12,8 @@ from TreeModelLib.GrowthAndDeathDynamics import SimpleBettina
 
 
 class SoilWaterContent(TreeModel):
-    ## Simple soil water content water scarcity model. Symmetric
-    #  Zone Of Influence with trees occupying the same node of the grid share
+    ## Simple soil water content water scarcity model. Concepts which is based
+    #  on the idead of trees occupying the same node of the grid share
     #  the below-ground resource of this node equally (BETTINA geometry of a
     #  tree assumed). See Heinermann 2023: ODD protocol of the model
     #  BETTINA-AYSE IBM\n
@@ -58,8 +58,8 @@ class SoilWaterContent(TreeModel):
         column_number = int(args.find("precipitation_col_number").text)
         self._delta_tpercip = float(args.find("delta_t_per_row").text)
 
-        precipitation = (np.loadtxt(
-            file_name, delimiter=";", skiprows=1, usecols=column_number - 1))
+        precipitation = np.loadtxt(
+            file_name, delimiter=";", skiprows=1, usecols=column_number - 1)
 
         # Empty array
         self._precipitation_input = np.zeros(len(precipitation))

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @date: 2022-Today
-@author: marie-christin.wimmler@tu-dresden.de
+@author: jbathmann
 """
 
 from .SoilWaterContent import SoilWaterContent

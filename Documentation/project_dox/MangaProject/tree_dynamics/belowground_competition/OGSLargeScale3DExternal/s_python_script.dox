@@ -1,5 +1,0 @@
-/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__OGSLargeScale3DExternal__python_script &emsp;[spec]python_script
-
-Optional parameter to provide non-default python script for ogs to calculate boundary conditions and source terms.
-If choosen, please use python_source.py as example file.
-*/

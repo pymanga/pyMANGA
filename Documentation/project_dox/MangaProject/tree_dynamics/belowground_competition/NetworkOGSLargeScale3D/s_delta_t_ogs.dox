@@ -1,5 +1,0 @@
-/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__NetworkOGSLargeScale3D__delta_t_ogs &emsp;[spec]delta_t_ogs
-
-
-Optional parameter to predefine delta t for ogs calculations. Can be used to minimize computation time.
-*/

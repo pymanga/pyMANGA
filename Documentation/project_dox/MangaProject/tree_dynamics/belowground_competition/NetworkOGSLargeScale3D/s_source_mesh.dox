@@ -1,5 +1,0 @@
-/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__NetworkOGSLargeScale3D__source_mesh &emsp;[spec]source_mesh
-
-
-Name of source mesh, where the tree water uptake is taking place. The mesh needs to be saved in the ogs project folder.
-*/

@@ -45,11 +45,11 @@ class SoilWaterContent(TreeModel):
         self._omega_s = float(args.find("omega_s").text)
         ## Residual water content [m**3/m**3]
         self._omega_r = float(args.find("omega_r").text)
-        ## Scaling of matrix potential [1/hPA]
+        ## Scaling of matrix potential [1/PA]
         self._alpha = float(args.find("alpha").text)
         ## Measure for pore-size distribution
         self._n = float(args.find("n").text)
-        ## Suction pressure [hPa]
+        ## Suction pressure [Pa]
         self._psi_matrix = float(args.find("psi_matrix").text)
         ## Maximal soil water content [m**3]
         self._max_soil_water_content = (
@@ -231,7 +231,7 @@ class SoilWaterContent(TreeModel):
         base = ((self._omega_s - self._omega_r) / (
             water_content - self._omega_r))
         exponent = 1 / (1 - 1 / self._n)
-        self._psi_matrix = - 100 * (
+        self._psi_matrix = - (
             base ** exponent - 1) ** (1 / self._n) / self._alpha
         self._psi_matrix[np.where(self._psi_matrix < -7860000)] = -7860000
 

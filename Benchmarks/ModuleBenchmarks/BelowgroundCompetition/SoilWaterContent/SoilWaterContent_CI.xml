@@ -18,9 +18,9 @@
             <soil_properties>
                 <omega_s>0.488</omega_s>
                 <omega_r>0.028</omega_r>
-                <alpha>0.051</alpha>
+                <alpha>0.00051</alpha>
                 <n>1.544</n>
-                <psi_matrix>-63.0957</psi_matrix>
+                <psi_matrix>-6309.57</psi_matrix>
             </soil_properties>
             <precipitation>
                 <data_file>Benchmarks/ModuleBenchmarks/BelowgroundCompetition/SoilWaterContent/ExamplePrecipitation.txt</data_file>

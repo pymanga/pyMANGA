@@ -12,7 +12,7 @@ from TreeModelLib.GrowthAndDeathDynamics import SimpleBettina
 
 
 class SoilWaterContent(TreeModel):
-    ## Simple soil water content water scarcity model. Concepts which is based
+    ## Simple soil water content water scarcity model. This concept is based
     #  on the idead of trees occupying the same node of the grid share
     #  the below-ground resource of this node equally (BETTINA geometry of a
     #  tree assumed). See Heinermann 2023: ODD protocol of the model
@@ -57,7 +57,7 @@ class SoilWaterContent(TreeModel):
                 1 + (-self._alpha * self._psi_matrix / 100)**self._n)**(
                     1 - 1 / self._n))) * np.ones_like(self.my_grid[1])
         ## Current soil water content [m**3]
-        self._soil_water_content = 0 + self._max_soil_water_content
+        self._soil_water_content = 0 + self._max_soil_water_content # 0 + -- creates copy
 
     ## This function prepares the precipitation submodel based on information
     #  provided in the pymanga-config file.

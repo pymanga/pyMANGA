@@ -1,4 +1,4 @@
 
 
-Measure for pore-size distribution as defined in Heinermann (2023).
+Unitless measure for pore-size distribution as defined in Heinermann (2023).
 

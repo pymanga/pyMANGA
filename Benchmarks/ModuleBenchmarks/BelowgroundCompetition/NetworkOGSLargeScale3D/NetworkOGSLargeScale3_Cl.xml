@@ -7,6 +7,9 @@
         <belowground_competition>
             <type>NetworkOGSLargeScale3D</type>
             <f_radius> 0.25 </f_radius>
+            <min_x>0</min_x>
+            <max_x>22</max_x>
+            <salinity>0.025 0.035</salinity>
             <ogs_project_folder>Benchmarks/ModuleBenchmarks/BelowgroundCompetition/NetworkOGSLargeScale3D/</ogs_project_folder>
             <ogs_project_file>ogs_benchmark.prj</ogs_project_file>
             <source_mesh>ogs_benchmark_source.vtu</source_mesh>
@@ -58,6 +61,7 @@
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
+        <growth_output> salinity </growth_output>
         <network_output> rgf </network_output>
         <network_output> partner </network_output>
         <network_output> potential_partner </network_output>

@@ -38,18 +38,9 @@ class SimpleBettina(TreeModel):
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()
-        self.parameter = tree.getParameter()
-        self.r_crown = geometry["r_crown"]
-        self.h_crown = geometry["h_crown"]
-        self.r_root = geometry["r_root"]
-        self.h_root = geometry["h_root"]
-        self.r_stem = geometry["r_stem"]
-        self.h_stem = geometry["h_stem"]
+        self.extractRelevantInformation(geometry, tree.getParameter())
+
         self.survive = 1
-
-        self.flowLength()
-        self.treeVolume()
-
         # Define variables that are only required for specific Mortality
         # concepts
         super().setMortalityVariables(growth_concept_information)
@@ -96,6 +87,20 @@ class SimpleBettina(TreeModel):
             tree.setSurvival(1)
         else:
             tree.setSurvival(0)
+
+    def extractRelevantInformation(self, geometry, parameter):
+        self.parameter = parameter
+        self.r_crown = geometry["r_crown"]
+        self.h_crown = geometry["h_crown"]
+        self.r_root = geometry["r_root"]
+        self.h_root = geometry["h_root"]
+        self.r_stem = geometry["r_stem"]
+        self.h_stem = geometry["h_stem"]
+
+        self.flowLength()
+        self.treeVolume()
+        self.rootSurfaceResistance()
+        self.xylemResistance()
 
     ## This functions updates the geometric measures of the tree.
     def treeGrowth(self):
@@ -145,7 +150,7 @@ class SimpleBettina(TreeModel):
     ## This function calculates the flow length from fine roots to leaves.
     def flowLength(self):
         self.flow_length = (2 * self.r_crown + self.h_stem +
-                            0.5**0.5 * self.r_root)
+                            0.5**0.5 *  self.r_root)
 
     ## This function calculates the total tree volume.
     def treeVolume(self):
@@ -167,8 +172,6 @@ class SimpleBettina(TreeModel):
     #  @param belowground_resources - fract of max water upt (compet and/or
     #  salinity > 0)
     def bgResources(self, belowground_resources):
-        self.rootSurfaceResistance()
-        self.xylemResistance()
         self.bg_resources = belowground_resources * (
             (-self.time * self.deltaPsi() /
              (self.root_surface_resistance + self.xylem_resistance) / np.pi))

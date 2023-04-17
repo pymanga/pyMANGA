@@ -20,6 +20,9 @@
             <SZoiFixedSalinity>
                 <test> SZoiFixedSalinity_CI.xml </test>
             </SZoiFixedSalinity>
+            <SoilWaterContent>
+                <test> SoilWaterContent_CI.xml </test>
+            </SoilWaterContent>
         </BelowgroundCompetition>
         <AbovegroundCompetition>
             <SimpleAsymmetricZOI>

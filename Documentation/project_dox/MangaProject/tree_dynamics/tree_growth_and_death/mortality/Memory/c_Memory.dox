@@ -14,6 +14,6 @@ A tree can survive a period of resource scarcity but if conditions do not improv
 No tree dies of random reasons.
 # Required inputs: 
  
-- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__Memory__period
 - \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__Memory__threshold
+- \subpage project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__Memory__period
 */

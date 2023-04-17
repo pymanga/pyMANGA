@@ -65,6 +65,9 @@ class MangaProject:
         elif case == "SZoiFixedSalinity":
             from TreeModelLib.BelowgroundCompetition.SZoiFixedSalinity import \
                 SZoiFixedSalinity as createBC
+        elif case == "SoilWaterContent":
+            from TreeModelLib.BelowgroundCompetition.SoilWaterContent import \
+                SoilWaterContent as createBC
         else:
             raise KeyError("Required belowground competition case " + case +
                            " not implemented.")

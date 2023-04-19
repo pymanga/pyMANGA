@@ -13,9 +13,14 @@ import os
 #  desired parameters is written at every nth timestep.
 class OneTimestepOneFile(TreeOutput):
 
-    def outputContent(self, tree_groups, time):
+    def outputContent(self, tree_groups, time, **kwargs):
         delimiter = "\t"
-        filename = ("Population_t_%012.1f" % (time) + ".csv")
+
+        if not kwargs["group_died"]:
+            filename = ("Population_t_%012.1f" % (time) + ".csv")
+        else:
+            filename = ("Population_t_%012.1f_group_died" % (time) + ".csv")
+
         file = open(os.path.join(self.output_dir, filename), "w")
         string = ""
         string += 'tree' + delimiter + 'time' + delimiter + 'x' + \

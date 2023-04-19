@@ -14,10 +14,14 @@ import os
 #  measures and desired parameters is written at every nth timestep.
 class OneTimestepOneFilePerGroup(OneTimestepOneFile):
 
-    def outputContent(self, tree_groups, time):
+    def outputContent(self, tree_groups, time, **kwargs):
         delimiter = "\t"
         for group_name, tree_group in tree_groups.items():
-            filename = (group_name + "_t_%012.1f" % (time) + ".csv")
+            if not kwargs["group_died"]:
+                filename = (group_name + "_t_%012.1f" % (time) + ".csv")
+            else:
+                filename = (group_name + "_t_%012.1f_group_died" % (time) + ".csv")
+
             file = open(os.path.join(self.output_dir, filename), "w")
             string = ""
             string += 'tree' + delimiter + 'time' + delimiter + 'x' +  \

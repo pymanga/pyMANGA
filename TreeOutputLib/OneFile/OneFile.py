@@ -34,8 +34,12 @@ class OneFile(TreeOutput):
             file.write(string)
         file.close()
 
-    def outputContent(self, tree_groups, time):
-        file = open(os.path.join(self.output_dir, self.filename), "a")
+    def outputContent(self, tree_groups, time, **kwargs):
+        if not kwargs["group_died"]:
+            file = open(os.path.join(self.output_dir, self.filename), "a")
+        else:
+            file = open(os.path.join(self.output_dir, 'Population_group_died.csv'), "a")
+
         string = ""
         for group_name, tree_group in tree_groups.items():
             for tree in tree_group.getTrees():

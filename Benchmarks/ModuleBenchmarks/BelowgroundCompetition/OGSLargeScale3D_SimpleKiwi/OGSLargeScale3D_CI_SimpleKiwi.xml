@@ -1,0 +1,60 @@
+<MangaProject>
+    <random_seed>643879</random_seed>
+    <tree_dynamics>
+        <aboveground_competition>
+            <type> SimpleTest </type>
+        </aboveground_competition>
+        <belowground_competition>
+            <type>OGSLargeScale3D</type>
+            <ogs_project_folder>Benchmarks/ModuleBenchmarks/BelowgroundCompetition/OGSLargeScale3D/</ogs_project_folder>
+            <ogs_project_file>ogs_benchmark.prj</ogs_project_file>
+            <source_mesh>ogs_benchmark_source.vtu</source_mesh>
+            <bulk_mesh>ogs_benchmark_domain.vtu</bulk_mesh>
+            <delta_t_ogs>1000000</delta_t_ogs>
+            <abiotic_drivers>
+                <left_salinity>0.025</left_salinity>
+                <right_salinity>0.035</right_salinity>
+            </abiotic_drivers>
+            <python_script>python_script.py</python_script>
+        </belowground_competition>
+        <tree_growth_and_death>
+            <type> SimpleKiwi </type>
+            <mortality>NoGrowth</mortality>
+        </tree_growth_and_death>
+    </tree_dynamics>
+    <initial_population>
+        <group>
+            <name> Initial </name>
+            <species> Avicennia </species>
+            <distribution>
+                <type> GroupFromFile </type>
+                <n_recruitment_per_step> 0 </n_recruitment_per_step>
+                <filename> Benchmarks/ModuleBenchmarks/BelowgroundCompetition/bg_initial_population.csv </filename>
+            </distribution>
+        </group>
+    </initial_population>
+    <tree_time_loop>
+        <type> Simple </type>
+        <t_start> 0 </t_start>
+        <t_end> 2e6 </t_end>
+        <delta_t> 1e6 </delta_t>
+    </tree_time_loop>
+    <visualization>
+        <type> NONE </type>
+    </visualization>
+    <tree_output>
+        <type> OneTimestepOneFile </type>
+        <output_each_nth_timestep>1</output_each_nth_timestep>
+        <output_times> [2e6] </output_times>
+        <allow_previous_output>True</allow_previous_output>
+        <output_dir>Benchmarks/TestOutputs/</output_dir>
+        <geometry_output> r_stem </geometry_output>
+        <geometry_output> h_stem </geometry_output>
+        <geometry_output> r_crown </geometry_output>
+        <geometry_output> r_root </geometry_output>
+        <growth_output> growth </growth_output>
+        <growth_output> ag_resources </growth_output>
+        <growth_output> bg_resources </growth_output>
+        <growth_output> salinity </growth_output>
+    </tree_output>
+</MangaProject>

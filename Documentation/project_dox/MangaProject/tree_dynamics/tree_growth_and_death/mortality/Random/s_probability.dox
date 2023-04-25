@@ -1,6 +1,0 @@
-/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__Random__probability &emsp;[spec]probability
-
-`Probability` defines the change of dying per year for each tree.
-Default is 0.0016 (i.e. 0.16 %).  
-The number is given as decimal ranging between 0 and 1.
-*/

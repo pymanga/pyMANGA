@@ -1,4 +1,0 @@
-<entry>
-    <version>${OGS_VERSION}</version>
-    <url>$ENV{BUILD_URL}/artifact/build/docs/ogs6.tgz</url>
-</entry>

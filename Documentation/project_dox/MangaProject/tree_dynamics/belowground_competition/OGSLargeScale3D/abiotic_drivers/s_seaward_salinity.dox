@@ -1,5 +1,0 @@
-/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__OGSLargeScale3D__abiotic_drivers__seaward_salinity &emsp;[spec]seaward_salinity
-
-
-Optional: Salinity of seawater. Default value is 0.035, i.e. 35 ppt. 
-*/

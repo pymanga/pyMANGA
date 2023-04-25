@@ -1,6 +1,0 @@
-/*! \page project_dox__MangaProject__tree_dynamics__tree_growth_and_death__mortality__RandomGrowth__k_die &emsp;[spec]k_die
-
-`k_die` is a calibration factor for the calculation of the probability to die.
-Default is 1e-12.  
-
-*/

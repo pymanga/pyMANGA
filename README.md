@@ -7,4 +7,4 @@ http://pymanga.forst.tu-dresden.de/
 
 # Source code and input documentation
 
-https://pymanga.github.io/pyMANGA/
+https://pymanga.github.io/documentation/

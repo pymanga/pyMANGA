@@ -45,5 +45,19 @@
                 </RandomGrowth>
             </Mortality>
         </GrowthAndDeath>
+        <TreeOutput>
+            <OneFile>
+                <test> OneFile_CI.xml </test>
+            </OneFile>
+            <OneTimestepOneFile>
+                <test> OneTimestepOneFile_CI.xml </test>
+            </OneTimestepOneFile>
+            <OneTreeOneFile>
+                <test> OneTreeOneFile_CI.xml </test>
+            </OneTreeOneFile>
+            <OneTimestepOneFilePerGroup>
+                <test> OneTimestepOneFilePerGroup_CI.xml </test>
+            </OneTimestepOneFilePerGroup>
+        </TreeOutput>
     </ModuleBenchmarks>
 </Benchmarks>

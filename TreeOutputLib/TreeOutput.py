@@ -111,9 +111,9 @@ class TreeOutput:
                     growth_information[growth_output_key] = "NaN"
                     string += delimiter + str(
                         growth_information[growth_output_key])
-                    print("Key " + growth_output_key +
-                          " might be not available in growth " + "concept!" +
-                          " Please read growth concept documentation.")
+                    # print("Key " + growth_output_key +
+                    #       " might be not available in growth " + "concept!" +
+                    #       " Please read growth concept documentation.")
         if len(self.network_outputs) > 0:
             network = tree.getNetwork()
             for network_output in self.network_outputs:

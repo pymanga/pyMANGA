@@ -38,33 +38,32 @@ class MangaProject:
         arg = self.args["belowground_competition"]
         case = arg.find("type").text
         if case == "SimpleTest":
-            from TreeModelLib.BelowgroundCompetition.SimpleTest import SimpleTest as createBC
+            from ResourceLib.BelowGround.Individual.SimpleTest import SimpleTest as createBC
         elif case == "OGSLargeScale3D":
-            from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D as createBC
+            from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D as createBC
         elif case == "OGSWithoutFeedback":
-            from TreeModelLib.BelowgroundCompetition.OGSWithoutFeedback import OGSWithoutFeedback as createBC
+            from ResourceLib.BelowGround.Individual.OGSWithoutFeedback import OGSWithoutFeedback as createBC
         elif case == "FON":
-            from TreeModelLib.BelowgroundCompetition.FON import FON as createBC
+            from ResourceLib.BelowGround.Individual.FON import FON as createBC
         elif case == "FixedSalinity":
-            from TreeModelLib.BelowgroundCompetition.FixedSalinity import FixedSalinity as createBC
-        elif case == "SimpleNetwork":
-            from TreeModelLib.BelowgroundCompetition.SimpleNetwork import SimpleNetwork as createBC
-        elif case == "NetworkFixedSalinity":
-            from TreeModelLib.BelowgroundCompetition.NetworkFixedSalinity import NetworkFixedSalinity as createBC
-        elif case == "OGSLargeScale3DExternal":
-            from TreeModelLib.BelowgroundCompetition.OGSLargeScale3DExternal import OGSLargeScale3DExternal as createBC
-        elif case == "NetworkOGSLargeScale3D":
-            from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3D import \
-                NetworkOGSLargeScale3D as createBC
-        elif case == "NetworkOGSLargeScale3DExternal":
-            from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3DExternal\
-                import NetworkOGSLargeScale3DExternal as createBC
+            from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity as createBC
         elif case == "SymmetricZOI":
-            from TreeModelLib.BelowgroundCompetition.SymmetricZOI import \
+            from ResourceLib.BelowGround.Individual.SymmetricZOI import \
                 SymmetricZOI as createBC
         elif case == "SZoiFixedSalinity":
-            from TreeModelLib.BelowgroundCompetition.SZoiFixedSalinity import \
+            from ResourceLib.BelowGround.Individual.SZoiFixedSalinity import \
                 SZoiFixedSalinity as createBC
+        elif case == "SimpleNetwork":
+            from ResourceLib.BelowGround.Network.SimpleNetwork import SimpleNetwork as createBC
+        elif case == "NetworkFixedSalinity":
+            from ResourceLib.BelowGround.Network.NetworkFixedSalinity import NetworkFixedSalinity as createBC
+        elif case == "NetworkOGSLargeScale3D":
+            from ResourceLib.BelowGround.Network import NetworkOGSLargeScale3D as createBC
+        elif case == "OGSLargeScale3DExternal":
+            from ResourceLib.BelowGround.Generic.OGSLargeScale3DExternal import OGSLargeScale3DExternal as createBC
+        elif case == "NetworkOGSLargeScale3DExternal":
+            from ResourceLib.BelowGround.Generic import NetworkOGSLargeScale3DExternal as createBC
+
         else:
             raise KeyError("Required belowground competition case " + case +
                            " not implemented.")
@@ -78,9 +77,9 @@ class MangaProject:
         arg = self.args["aboveground_competition"]
         case = arg.find("type").text
         if case == "SimpleTest":
-            from TreeModelLib.AbovegroundCompetition.SimpleTest import SimpleTest as createAC
+            from ResourceLib.AboveGround.SimpleTest import SimpleTest as createAC
         elif case == "SimpleAsymmetricZOI":
-            from TreeModelLib.AbovegroundCompetition.SimpleAsymmetricZOI import SimpleAsymmetricZOI as createAC
+            from ResourceLib.AboveGround.SimpleAsymmetricZOI import SimpleAsymmetricZOI as createAC
         else:
             raise KeyError("Required aboveground competition not implemented.")
         self.aboveground_competition = createAC(arg)
@@ -93,13 +92,13 @@ class MangaProject:
         arg = self.args["tree_growth_and_death"]
         case = arg.find("type").text
         if case == "SimpleTest":
-            from TreeModelLib.GrowthAndDeathDynamics.SimpleTest import SimpleTest as createGD
+            from PlantModelLib.SimpleTest import SimpleTest as createGD
         elif case == "SimpleBettina":
-            from TreeModelLib.GrowthAndDeathDynamics.SimpleBettina import SimpleBettina as createGD
+            from PlantModelLib.SimpleBettina import SimpleBettina as createGD
         elif case == "SimpleKiwi":
-            from TreeModelLib.GrowthAndDeathDynamics.SimpleKiwi import SimpleKiwi as createGD
+            from PlantModelLib.SimpleKiwi import SimpleKiwi as createGD
         elif case == "NetworkBettina":
-            from TreeModelLib.GrowthAndDeathDynamics.NetworkBettina import NetworkBettina as createGD
+            from PlantModelLib.NetworkBettina import NetworkBettina as createGD
         else:
             raise KeyError("Required growth and death not implemented.")
         self.growth_and_death_dynamics = createGD(arg)

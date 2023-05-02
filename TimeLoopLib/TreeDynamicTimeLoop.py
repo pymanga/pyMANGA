@@ -39,7 +39,7 @@ class TreeDynamicTimeLoop:
         self.getNextTimeStepBoundaries()
         while (self.loop.step_on):
             # If terminal_print is defined as 'years' or 'day' the
-            # respective text get's printed after each time step
+            # respective text gets printed after each time step
             if self.terminal_print == 'years':
                 print("Next time step to propagate" +
                       " tree population with starting time " + '%4.2f' %

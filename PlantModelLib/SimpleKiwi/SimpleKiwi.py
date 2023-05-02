@@ -24,20 +24,19 @@ class SimpleKiwi(PlantModel):
         self._t_ini = t_ini
         self._t_end = t_end
 
-    ## This functions is the main routine for reading the tree geometry and
-    #  parameters, scheduling the computations and updating the tree geometry.\n
+    ## This function calculates the growth factor and updates tree geometry\n
     #  @param tree - object of type tree\n
-    #  @param aboveground_resources - fraction of maximum light interception (shading effect)\n
-    #  @param belowground_resources - fract of max water upt (compet and/or salinity > 0)
+    #  @param aboveground_resources - not used in this module\n
+    #  @param belowground_resources - fraction of max water uptake (competition and/or salinity > 0)
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
         tree.setGeometry(geometry)
         dbh = geometry["r_stem"] * 200
-        height = (137 + parameter["b2"] * dbh - parameter["b3"] * dbh**2)
+        geometry["h_stem"] = (137 + parameter["b2"] * dbh - parameter["b3"] * dbh**2)
         growth = (
             parameter["max_growth"] * dbh *
-            (1 - dbh * height / parameter["max_dbh"] / parameter["max_height"])
+            (1 - dbh * geometry["h_stem"] / parameter["max_dbh"] / parameter["max_height"])
             /
             (274 + 3 * parameter["b2"] * dbh - 4 * parameter["b3"] * dbh**2) *
             belowground_resources)

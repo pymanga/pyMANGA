@@ -23,7 +23,7 @@ class RandomGrowth(Random):
             self._k_die = 1e-12
             print("NOTE: Use default `probability`: " + str(self._k_die) + ".")
 
-    def setSurvive(self, args): #getSurvival
+    def setSurvive(self, args):
         self._survive = 1
         # Calculate the probability to die
         args.delta_volume = args.volume - args.volume_before

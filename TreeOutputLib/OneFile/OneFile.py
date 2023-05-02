@@ -17,15 +17,18 @@ class OneFile(TreeOutput):
     def __init__(self, args):
         super().__init__(args)
 
-        # Check if csv file exists in directory
-        # If not, create file
-        files_in_folder = os.listdir(self.output_dir)
         self.delimiter = "\t"
-        self.filename = "Population.csv"
-        file = open(os.path.join(self.output_dir, self.filename), "a")
+        self.createFileWithHeader(filename='Population.csv')
+
+    ## Function to create csv file with selected headings
+    # Check if csv file exists in directory
+    # If not, create file
+    def createFileWithHeader(self, filename):
+        files_in_folder = os.listdir(self.output_dir)
+        file = open(os.path.join(self.output_dir, filename), "a")
 
         string = ""
-        if self.filename not in files_in_folder:
+        if filename not in files_in_folder:
             string += 'tree' + self.delimiter + 'time' + self.delimiter + 'x' + \
                       self.delimiter + 'y'
             string = self.addSelectedHeadings(string, self.delimiter)
@@ -34,8 +37,14 @@ class OneFile(TreeOutput):
             file.write(string)
         file.close()
 
-    def outputContent(self, tree_groups, time):
-        file = open(os.path.join(self.output_dir, self.filename), "a")
+    def outputContent(self, tree_groups, time, **kwargs):
+        if not kwargs["group_died"]:
+            file = open(os.path.join(self.output_dir, 'Population.csv'), "a")
+        else:
+            filename = 'Population_group_died.csv'
+            self.createFileWithHeader(filename=filename)
+            file = open(os.path.join(self.output_dir, filename), "a")
+
         string = ""
         for group_name, tree_group in tree_groups.items():
             for tree in tree_group.getTrees():

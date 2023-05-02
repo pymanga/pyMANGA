@@ -77,16 +77,16 @@ class TreeDynamicTimeStepping:
                 j += 1
 
             # If all trees of a group died, make a copy of this tree set
-            if len(kill_indices) > 0:
+            if len(kill_indices) > 0 and tree_group.getNRecruits() == 0:
                 if len(kill_indices) == tree_group.getNumberOfTrees():
                     eliminated_tree_groups[tree_group.name] = copy.deepcopy(
                         tree_group)
                     self.tree_output.writeOutput(eliminated_tree_groups,
                                                  t_start,
-                                                 force_output=True)
-
+                                                 group_died=True)
             tree_group.removeTreesAtIndices(kill_indices)
             tree_group.recruitTrees()
+
             # Add number of recruited trees to counter
             number_of_trees += tree_group.getNumberOfTrees()
 

@@ -183,3 +183,6 @@ class GroupPlanting(TreeGroup):
     ## Returns all living trees belonging to this group.
     def getGroup(self):
         return self.tree_group
+
+    def getNRecruits(self):
+        return self.n_recruitment

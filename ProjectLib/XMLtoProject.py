@@ -23,7 +23,8 @@ class XMLtoProject(Project.MangaProject):
         self.args = {}
         self.readProjectFile()
         self.addNumpyRandomSeed()
-        self.addTreeDynamicConcepts()
+        self.addResourceConcepts()
+        self.addPlantDynamicConcepts()
         self.addInitialPopulation()
         self.addTreeTimeLoop()
         self.addVisualization()
@@ -40,14 +41,15 @@ class XMLtoProject(Project.MangaProject):
     def addNumpyRandomSeed(self):
         self.args["random_seed"] = self.root.find("random_seed")
 
-    def addTreeDynamicConcepts(self):
-        self.tree_dynamics = self.findChild(self.root, "ressources")
+    def addResourceConcepts(self):
+        self.tree_dynamics = self.findChild(self.root, "resources")
         self.args["aboveground_competition"] = self.findChild(
             self.tree_dynamics, "aboveground")
         self.args["belowground_competition"] = self.findChild(
             self.tree_dynamics, "belowground")
-        self.args["tree_growth_and_death"] = self.findChild(
-            self.tree_dynamics, "plant_dynamics")
+
+    def addPlantDynamicConcepts(self):
+        self.args["tree_growth_and_death"] = self.findChild(self.root, "plant_dynamics")
 
     def addInitialPopulation(self):
         self.args["initial_population"] = self.findChild(

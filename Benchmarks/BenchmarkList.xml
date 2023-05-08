@@ -30,6 +30,9 @@
             <SimpleBettina>
                 <test> SimpleBettina_CI.xml </test>
             </SimpleBettina>
+            <SimpleKiwi>
+                <test> SimpleKiwi_CI.xml </test>
+            </SimpleKiwi>
             <Mortality>
                 <Memory>
                     <test> Memory_CI.xml </test>

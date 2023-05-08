@@ -107,7 +107,7 @@ class AutomatedBenchmarkTests(unittest.TestCase):
     def find_output_dir(self, project):
         tree = etree.parse(project)
         root = tree.getroot()
-        output = root.find("tree_output")
+        output = root.find("output")
         output_type = output.find("type").text.strip()
         if not output_type == "NONE":
             output_dir = path.join(self.manga_root_directory,

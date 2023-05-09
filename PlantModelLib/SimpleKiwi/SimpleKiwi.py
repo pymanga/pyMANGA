@@ -15,34 +15,57 @@ class SimpleKiwi(PlantModel):
     def __init__(self, args):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
+        super().iniMortalityConcept(args)
 
     ## This functions prepares the growth and death concept.
     #  In the SimpleKiwi concept, the timestepping is updated.
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next
     def prepareNextTimeStep(self, t_ini, t_end):
-        self._t_ini = t_ini
-        self._t_end = t_end
+        self.time = t_end - t_ini
 
-    ## This functions is the main routine for reading the tree geometry and
-    #  parameters, scheduling the computations and updating the tree geometry.\n
+    ## This function calculates tree growth based on resource availability and updates stem diameter.\n
     #  @param tree - object of type tree\n
     #  @param aboveground_resources - fraction of maximum light interception (shading effect)\n
-    #  @param belowground_resources - fract of max water upt (compet and/or salinity > 0)
+    #  @param belowground_resources - fraction of max water uptake (competition and/or salinity > 0)
     def progressTree(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
+        growth_concept_information = tree.getGrowthConceptInformation()
         parameter = tree.getParameter()
-        tree.setGeometry(geometry)
+        # Define variables that are only required for specific Mortality
+        # concepts
+        super().setMortalityVariables(growth_concept_information)
+        self.survive = 1
+
         dbh = geometry["r_stem"] * 200
+
         height = (137 + parameter["b2"] * dbh - parameter["b3"] * dbh**2)
-        growth = (
+        self.grow = (
             parameter["max_growth"] * dbh *
-            (1 - dbh * height / parameter["max_dbh"] / parameter["max_height"])
+            (1 - (dbh * height) / (parameter["max_dbh"] * parameter["max_height"]))
             /
             (274 + 3 * parameter["b2"] * dbh - 4 * parameter["b3"] * dbh**2) *
-            belowground_resources)
-        dbh = dbh + growth * (self._t_end - self._t_ini) / (3600 * 24 * 365)
-        tree.setSurvival(1)
-        if growth < parameter["mortality_constant"]:
-            tree.setSurvival(0)
+            belowground_resources * aboveground_resources)
+        dbh = dbh + self.grow * self.time / (3600 * 24 * 365.25)
+
         geometry["r_stem"] = dbh / 200
+        geometry["height"] = height / 100
+        growth_concept_information["growth"] = self.grow
+        growth_concept_information["bg_factor"] = belowground_resources
+        growth_concept_information["ag_factor"] = aboveground_resources
+
+        tree.setGeometry(geometry)
+        tree.setGrowthConceptInformation(growth_concept_information)
+
+        # Mortality
+        # Write dbh in volume variable to be used in mortality concept `Memory`
+        self.volume = dbh
+        # Check if trees survive based on selected mortality concepts
+        super().setTreeKiller()
+        # Get Mortality-related variables
+        super().getMortalityVariables(growth_concept_information)
+
+        if self.survive == 1:
+            tree.setSurvival(1)
+        else:
+            tree.setSurvival(0)

@@ -19,7 +19,7 @@ class MangaProject:
         self.iniNumpyRandomSeed()
         self.iniAbovegroundResourceConcept()
         self.iniBelowgroundResourceConcept()
-        self.iniDeathAndGrowthConcept()
+        self.iniPlantDynamicConcept()
         self.iniPopulation()
         self.iniTreeTimeLoop()
         self.iniVisualization()
@@ -85,10 +85,10 @@ class MangaProject:
         self.aboveground_resource_concept = createAC(arg)
         print(case + " above-ground competition successfully initiated.")
 
-    def getDeathAndGrowthConcept(self):
-        return self.growth_and_death_dynamics
+    def getPlantDynamicConcept(self):
+        return self.plant_dynamic_concept
 
-    def iniDeathAndGrowthConcept(self):
+    def iniPlantDynamicConcept(self):
         arg = self.args["plant_dynamics"]
         case = arg.find("type").text
         if case == "SimpleTest":
@@ -100,9 +100,9 @@ class MangaProject:
         elif case == "NetworkBettina":
             from PlantModelLib.NetworkBettina import NetworkBettina as createGD
         else:
-            raise KeyError("Required growth and death not implemented.")
-        self.growth_and_death_dynamics = createGD(arg)
-        print(case + " growth and death dynamics initiated.")
+            raise KeyError("Required plant dynamic concept not implemented.")
+        self.plant_dynamic_concept = createGD(arg)
+        print(case + " plant dynamic concept initiated.")
 
     def iniPopulation(self):
         arg = self.args["population"]

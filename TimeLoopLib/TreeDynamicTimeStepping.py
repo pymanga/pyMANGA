@@ -12,7 +12,7 @@ class TreeDynamicTimeStepping:
     def __init__(self, project):
         self.aboveground_resource_concept = project.getAbovegroundResourceConcept()
         self.belowground_resource_concept = project.getBelowgroundResourceConcept()
-        self.death_and_growth_concept = project.getDeathAndGrowthConcept()
+        self.plant_dynamic_concept = project.getPlantDynamicConcept()
         self.population = project.getPopulation()
         self.visualization = project.getVisualization()
         self.visualization.update(self.population.getTreeGroups(), "Begin")
@@ -31,7 +31,7 @@ class TreeDynamicTimeStepping:
             self.aboveground_resource_concept.prepareNextTimeStep(t_start, t_end)
         if update_bg:
             self.belowground_resource_concept.prepareNextTimeStep(t_start, t_end)
-        self.death_and_growth_concept.prepareNextTimeStep(t_start, t_end)
+        self.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
         tree_groups = self.population.getTreeGroups()
 
         self.tree_output.writeOutput(tree_groups, t_start)
@@ -67,7 +67,7 @@ class TreeDynamicTimeStepping:
                 try:
                     ag = self.aboveground_resources[j]
                     bg = self.belowground_resources[j]
-                    self.death_and_growth_concept.progressTree(tree, ag, bg)
+                    self.plant_dynamic_concept.progressTree(tree, ag, bg)
                 except IndexError:
                     tree.setSurvival(1)
 

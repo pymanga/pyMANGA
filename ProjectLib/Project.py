@@ -21,9 +21,9 @@ class MangaProject:
         self.iniBelowgroundResourceConcept()
         self.iniPlantDynamicConcept()
         self.iniPopulationConcept()
-        self.iniTimeLoop()
-        self.iniVisualization()
-        self.iniModelOutput()
+        self.iniTimeLoopConcept()
+        self.iniVisualizationConcept()
+        self.iniModelOutputConcept()
 
     def getBelowgroundResourceConcept(self):
         return self.belowground_resource_concept
@@ -111,22 +111,22 @@ class MangaProject:
     def getPopulationConcept(self):
         return self.population_concept
 
-    def iniTimeLoop(self):
+    def iniTimeLoopConcept(self):
         arg = self.args["time_loop"]
         self.time_stepping = (DynamicTimeLoop(arg))
 
     def getTimeStepping(self):
         return self.time_stepping
 
-    def iniVisualization(self):
+    def iniVisualizationConcept(self):
         arg = self.args["visualization"]
         self.visualization = Visualization(arg)
 
-    def getVisualization(self):
+    def getVisualizationConcept(self):
         return self.visualization
 
     ## Constructor for model output
-    def iniModelOutput(self):
+    def iniModelOutputConcept(self):
         arg = self.args["model_output"]
         case = arg.find("type").text
         if case == "NONE":

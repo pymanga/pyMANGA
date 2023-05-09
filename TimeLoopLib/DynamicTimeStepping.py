@@ -16,7 +16,7 @@ class TreeDynamicTimeStepping:
         self.belowground_resource_concept = project.getBelowgroundResourceConcept()
         self.plant_dynamic_concept = project.getPlantDynamicConcept()
         self.population_concept = project.getPopulationConcept()
-        self.visualization_concept = project.getVisualization()
+        self.visualization_concept = project.getVisualizationConcept()
         self.visualization_concept.update(self.population_concept.getTreeGroups(), "Begin")
         ## Output configuration
         self.model_output_concept = project.getModelOutputConcept()

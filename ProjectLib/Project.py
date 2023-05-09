@@ -20,7 +20,7 @@ class MangaProject:
         self.iniAbovegroundResourceConcept()
         self.iniBelowgroundResourceConcept()
         self.iniPlantDynamicConcept()
-        self.iniPopulation()
+        self.iniPopulationConcept()
         self.iniTimeLoop()
         self.iniVisualization()
         self.iniModelOutput()
@@ -104,12 +104,12 @@ class MangaProject:
         self.plant_dynamic_concept = createGD(arg)
         print(case + " plant dynamic concept initiated.")
 
-    def iniPopulation(self):
+    def iniPopulationConcept(self):
         arg = self.args["population"]
-        self.population = (PopulationLib.Population(arg))
+        self.population_concept = (PopulationLib.Population(arg))
 
-    def getPopulation(self):
-        return self.population
+    def getPopulationConcept(self):
+        return self.population_concept
 
     def iniTimeLoop(self):
         arg = self.args["time_loop"]

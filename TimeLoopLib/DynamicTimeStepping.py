@@ -7,18 +7,21 @@
 
 import copy
 
+
 class TreeDynamicTimeStepping:
 
     def __init__(self, project):
+        # Initialize concepts
         self.aboveground_resource_concept = project.getAbovegroundResourceConcept()
         self.belowground_resource_concept = project.getBelowgroundResourceConcept()
         self.plant_dynamic_concept = project.getPlantDynamicConcept()
-        self.population = project.getPopulation()
-        self.visualization = project.getVisualization()
-        self.visualization.update(self.population.getTreeGroups(), "Begin")
+        self.population_concept = project.getPopulationConcept()
+        self.visualization_concept = project.getVisualization()
+        self.visualization_concept.update(self.population_concept.getTreeGroups(), "Begin")
         ## Output configuration
         self.model_output_concept = project.getModelOutputConcept()
 
+        # Arrays to store interim model results
         self.aboveground_resources = []
         self.belowground_resources = []
         self._previous_tree_groups = []
@@ -32,7 +35,7 @@ class TreeDynamicTimeStepping:
         if update_bg:
             self.belowground_resource_concept.prepareNextTimeStep(t_start, t_end)
         self.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
-        tree_groups = self.population.getTreeGroups()
+        tree_groups = self.population_concept.getTreeGroups()
 
         self.model_output_concept.writeOutput(tree_groups, t_start)
         # Initialize tree counter variable
@@ -95,12 +98,12 @@ class TreeDynamicTimeStepping:
             print("INFO: MANGA execution stopped because all trees died and "
                   "no new tree were recruited.")
             exit()
-        self.visualization.update(tree_groups, t_end)
+        self.visualization_concept.update(tree_groups, t_end)
 
     ## Last action, when timeloop is done
     def finish(self, time):
-        self.visualization.show(time)
-        tree_groups = self.population.getTreeGroups()
+        self.visualization_concept.show(time)
+        tree_groups = self.population_concept.getTreeGroups()
         # Write output in last time step, even if not defined in the project
         # file
         self.model_output_concept.writeOutput(tree_groups, time, force_output=True)

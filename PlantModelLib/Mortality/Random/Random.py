@@ -28,7 +28,7 @@ class Random(NoGrowth):
         self._survive = 1
         r = np.random.uniform(0, 1, 1)
         # Number of time steps per year
-        steps_per_year = self.getStepsPerYear(args)
+        steps_per_year = super().getStepsPerYear(args)
         ## Multiply r with the number of time steps per year to induce a
         # yearly mortality
         if r * steps_per_year < self._probability:
@@ -37,9 +37,6 @@ class Random(NoGrowth):
 
     def getSurvive(self):
         return self._survive
-
-    def getStepsPerYear(self, args):
-        return (3600 * 24 * 365.25) / args.time
 
     def getInputParameters(self, args):
         # All tags are optional

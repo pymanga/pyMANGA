@@ -5,6 +5,7 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
+import numpy as np
 from PlantModelLib.Mortality.NoGrowth import NoGrowth
 
 
@@ -29,7 +30,7 @@ class Memory(NoGrowth):
             self._period = 1 * 365.25 * 24 * 3600
             print("NOTE: Use default `period`: " + str(self._period) + ".")
 
-    def setSurvival(self, args):
+    def setSurvive(self, args):
         self._survive = 1
 
         # Get the number of values representing the memory period
@@ -37,17 +38,19 @@ class Memory(NoGrowth):
 
         # Slice grow_memory array to get only relevant data
         relevant_grow_memory = args.grow_memory[-steps:]
-
         # Check only for survival if memory exist
         if relevant_grow_memory:
-            # Calculate total growth during memory period (m³ per period)
-            grow_memory = sum(relevant_grow_memory)
+            # Calculate average growth during memory period
+            grow_memory = np.mean(relevant_grow_memory)
 
-            # Calculate growth relative to biomass (m³ per m³)
+            # Calculate growth relative to biomass (volume per volume or diameter per diameter)
             relative_grow = grow_memory / args.volume
 
-            # Check if relative growth is below a certain threshold
-            if relative_grow < self._threshold:
+            # Number of time steps per year
+            steps_per_year = super().getStepsPerYear(args)
+            # Check if relative growth is below a certain threshold (multiply relative growth
+            # with number of time steps per year to induce a yearly mortality)
+            if relative_grow*steps_per_year < self._threshold:
                 self._survive = 0
                 print("\t Tree died (Memory).")
 

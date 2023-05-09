@@ -26,6 +26,10 @@ class NoGrowth:
     def getSurvive(self):
         return self._survive
 
+    ## This function calculates the number of time steps per year
+    def getStepsPerYear(self, args):
+        return (3600 * 24 * 365.25) / args.time
+
     ## This function initiates variables that are not yet in available in
     # the selected growth concept but are required for the mortality concept.
     # The function is called by the growth concept.

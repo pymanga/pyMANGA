@@ -43,9 +43,9 @@ class XMLtoProject(Project.MangaProject):
 
     def addResourceConcepts(self):
         self.tree_dynamics = self.findChild(self.root, "resources")
-        self.args["aboveground_competition"] = self.findChild(
+        self.args["aboveground_resources_concept"] = self.findChild(
             self.tree_dynamics, "aboveground")
-        self.args["belowground_competition"] = self.findChild(
+        self.args["belowground_resource_concept"] = self.findChild(
             self.tree_dynamics, "belowground")
 
     def addPlantDynamicConcepts(self):

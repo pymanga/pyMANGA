@@ -10,8 +10,8 @@ import copy
 class TreeDynamicTimeStepping:
 
     def __init__(self, project):
-        self.aboveground_competition = project.getAbovegroundCompetition()
-        self.belowground_competition = project.getBelowgroundCompetition()
+        self.aboveground_resource_concept = project.getAbovegroundResourceConcept()
+        self.belowground_resource_concept = project.getBelowgroundResourceConcept()
         self.death_and_growth_concept = project.getDeathAndGrowthConcept()
         self.population = project.getPopulation()
         self.visualization = project.getVisualization()
@@ -28,9 +28,9 @@ class TreeDynamicTimeStepping:
     # the same frequency (i.e. only if update_x is true).
     def step(self, t_start, t_end, update_ag, update_bg):
         if update_ag:
-            self.aboveground_competition.prepareNextTimeStep(t_start, t_end)
+            self.aboveground_resource_concept.prepareNextTimeStep(t_start, t_end)
         if update_bg:
-            self.belowground_competition.prepareNextTimeStep(t_start, t_end)
+            self.belowground_resource_concept.prepareNextTimeStep(t_start, t_end)
         self.death_and_growth_concept.prepareNextTimeStep(t_start, t_end)
         tree_groups = self.population.getTreeGroups()
 
@@ -41,19 +41,19 @@ class TreeDynamicTimeStepping:
             for tree in tree_group.getTrees():
                 number_of_trees += 1
                 if update_ag:
-                    self.aboveground_competition.addTree(tree)
+                    self.aboveground_resource_concept.addTree(tree)
                 if update_bg:
-                    self.belowground_competition.addTree(tree)
+                    self.belowground_resource_concept.addTree(tree)
         # Only update resources if trees exist
         if number_of_trees > 0:
             if update_ag:
-                self.aboveground_competition.calculateAbovegroundResources()
+                self.aboveground_resource_concept.calculateAbovegroundResources()
                 self.aboveground_resources = (
-                    self.aboveground_competition.getAbovegroundResources())
+                    self.aboveground_resource_concept.getAbovegroundResources())
             if update_bg:
-                self.belowground_competition.calculateBelowgroundResources()
+                self.belowground_resource_concept.calculateBelowgroundResources()
                 self.belowground_resources = (
-                    self.belowground_competition.getBelowgroundResources())
+                    self.belowground_resource_concept.getBelowgroundResources())
         j = 0
         number_of_trees = 0
         eliminated_tree_groups = {}

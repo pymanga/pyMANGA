@@ -15,7 +15,7 @@ class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
         self.t_step_begin = t_0
 
         try:
-            self.belowground_competition.getOGSAccessible()
+            self.belowground_resource_concept.getOGSAccessible()
         except AttributeError:
             print("""
                     #####################WARNING###########################

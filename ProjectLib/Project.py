@@ -17,16 +17,16 @@ class MangaProject:
     ## Parent class for MangaProjects.
     def argsToProject(self):
         self.iniNumpyRandomSeed()
-        self.iniAbovegroundCompetition()
-        self.iniBelowgroundCompetition()
+        self.iniAbovegroundResourceConcept()
+        self.iniBelowgroundResourceConcept()
         self.iniDeathAndGrowthConcept()
         self.iniPopulation()
         self.iniTreeTimeLoop()
         self.iniVisualization()
         self.iniTreeOutput()
 
-    def getBelowgroundCompetition(self):
-        return self.belowground_competition
+    def getBelowgroundResourceConcept(self):
+        return self.belowground_resource_concept
 
     def iniNumpyRandomSeed(self):
         if self.args["random_seed"] is not None:
@@ -34,8 +34,8 @@ class MangaProject:
             _seed = int(self.args["random_seed"].text.strip())
             np.random.seed(_seed)
 
-    def iniBelowgroundCompetition(self):
-        arg = self.args["belowground_competition"]
+    def iniBelowgroundResourceConcept(self):
+        arg = self.args["belowground_resource_concept"]
         case = arg.find("type").text
         if case == "SimpleTest":
             from ResourceLib.BelowGround.Individual.SimpleTest import SimpleTest as createBC
@@ -65,25 +65,25 @@ class MangaProject:
             from ResourceLib.BelowGround.Generic import NetworkOGSLargeScale3DExternal as createBC
 
         else:
-            raise KeyError("Required belowground competition case " + case +
+            raise KeyError("Required below-ground competition case " + case +
                            " not implemented.")
-        self.belowground_competition = createBC(arg)
-        print(case + " belowground competition successfully initiated.")
+        self.belowground_resource_concept = createBC(arg)
+        print(case + " below-ground competition successfully initiated.")
 
-    def getAbovegroundCompetition(self):
-        return self.aboveground_competition
+    def getAbovegroundResourceConcept(self):
+        return self.aboveground_resource_concept
 
-    def iniAbovegroundCompetition(self):
-        arg = self.args["aboveground_competition"]
+    def iniAbovegroundResourceConcept(self):
+        arg = self.args["aboveground_resources_concept"]
         case = arg.find("type").text
         if case == "SimpleTest":
             from ResourceLib.AboveGround.SimpleTest import SimpleTest as createAC
         elif case == "SimpleAsymmetricZOI":
             from ResourceLib.AboveGround.SimpleAsymmetricZOI import SimpleAsymmetricZOI as createAC
         else:
-            raise KeyError("Required aboveground competition not implemented.")
-        self.aboveground_competition = createAC(arg)
-        print(case + " aboveground competition successfully initiated.")
+            raise KeyError("Required above-ground competition not implemented.")
+        self.aboveground_resource_concept = createAC(arg)
+        print(case + " above-ground competition successfully initiated.")
 
     def getDeathAndGrowthConcept(self):
         return self.growth_and_death_dynamics

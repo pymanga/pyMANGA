@@ -89,7 +89,7 @@ class MangaProject:
         return self.growth_and_death_dynamics
 
     def iniDeathAndGrowthConcept(self):
-        arg = self.args["tree_growth_and_death"]
+        arg = self.args["plant_dynamics"]
         case = arg.find("type").text
         if case == "SimpleTest":
             from PlantModelLib.SimpleTest import SimpleTest as createGD
@@ -105,7 +105,7 @@ class MangaProject:
         print(case + " growth and death dynamics initiated.")
 
     def iniPopulation(self):
-        arg = self.args["initial_population"]
+        arg = self.args["population"]
         self.population = (PopulationLib.Population(arg))
 
     def getPopulation(self):

@@ -25,10 +25,10 @@ class XMLtoProject(Project.MangaProject):
         self.addNumpyRandomSeed()
         self.addResourceConcepts()
         self.addPlantDynamicConcepts()
-        self.addInitialPopulation()
-        self.addTreeTimeLoop()
+        self.addPopulation()
+        self.addPlantTimeLoop()
         self.addVisualization()
-        self.addTreeOutput()
+        self.addModelOutput()
         self.argsToProject()
 
     def readProjectFile(self):
@@ -49,13 +49,13 @@ class XMLtoProject(Project.MangaProject):
             self.tree_dynamics, "belowground")
 
     def addPlantDynamicConcepts(self):
-        self.args["tree_growth_and_death"] = self.findChild(self.root, "plant_dynamics")
+        self.args["plant_dynamics"] = self.findChild(self.root, "plant_dynamics")
 
-    def addInitialPopulation(self):
-        self.args["initial_population"] = self.findChild(
+    def addPopulation(self):
+        self.args["population"] = self.findChild(
             self.root, "population")
 
-    def addTreeTimeLoop(self):
+    def addPlantTimeLoop(self):
         self.args["tree_time_loop"] = self.findChild(self.root,
                                                      "time_loop")
 
@@ -64,7 +64,7 @@ class XMLtoProject(Project.MangaProject):
 
     ## Parsing information concerning output of tree data from input-file to
     #  project arguments.
-    def addTreeOutput(self):
+    def addModelOutput(self):
         self.args["tree_output"] = self.findChild(self.root, "output")
 
     def findChild(self, parent, key):

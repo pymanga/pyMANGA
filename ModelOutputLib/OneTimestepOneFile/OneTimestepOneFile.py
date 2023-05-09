@@ -4,14 +4,14 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeOutputLib.TreeOutput import TreeOutput
+from ModelOutputLib.ModelOutput import ModelOutput
 import os
 
 
 ## Output class. This class creates one file per timestep at a defined
 #  location. A line containing time, position, desired geometric measures and
 #  desired parameters is written at every nth timestep.
-class OneTimestepOneFile(TreeOutput):
+class OneTimestepOneFile(ModelOutput):
 
     def outputContent(self, tree_groups, time, **kwargs):
         delimiter = "\t"

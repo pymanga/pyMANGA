@@ -6,7 +6,7 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 
-from .TreeDynamicTimeStepping import TreeDynamicTimeStepping
+from .DynamicTimeStepping import TreeDynamicTimeStepping
 from .ExternalDynamicTimeStepping import ExternalDynamicTimeStepping
-from .TreeDynamicTimeLoop import TreeDynamicTimeLoop
+from .DynamicTimeLoop import DynamicTimeLoop
 from .SimpleTimeLoop.SimpleLoop import Loop

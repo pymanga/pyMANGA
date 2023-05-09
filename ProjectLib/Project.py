@@ -6,9 +6,9 @@
 """
 
 from VisualizationLib import Visualization
-from TreeOutputLib import TreeOutput
+from ModelOutputLib import ModelOutput
 import PopulationLib
-from TimeLoopLib import TreeDynamicTimeLoop
+from TimeLoopLib import DynamicTimeLoop
 import numpy as np
 
 
@@ -21,9 +21,9 @@ class MangaProject:
         self.iniBelowgroundResourceConcept()
         self.iniPlantDynamicConcept()
         self.iniPopulation()
-        self.iniTreeTimeLoop()
+        self.iniTimeLoop()
         self.iniVisualization()
-        self.iniTreeOutput()
+        self.iniModelOutput()
 
     def getBelowgroundResourceConcept(self):
         return self.belowground_resource_concept
@@ -111,12 +111,12 @@ class MangaProject:
     def getPopulation(self):
         return self.population
 
-    def iniTreeTimeLoop(self):
-        arg = self.args["tree_time_loop"]
-        self.tree_time_stepping = (TreeDynamicTimeLoop(arg))
+    def iniTimeLoop(self):
+        arg = self.args["time_loop"]
+        self.time_stepping = (DynamicTimeLoop(arg))
 
-    def getTreeTimeStepping(self):
-        return self.tree_time_stepping
+    def getTimeStepping(self):
+        return self.time_stepping
 
     def iniVisualization(self):
         arg = self.args["visualization"]
@@ -125,34 +125,34 @@ class MangaProject:
     def getVisualization(self):
         return self.visualization
 
-    ## Constructor for tree output
-    def iniTreeOutput(self):
-        arg = self.args["tree_output"]
+    ## Constructor for model output
+    def iniModelOutput(self):
+        arg = self.args["model_output"]
         case = arg.find("type").text
         if case == "NONE":
-            from TreeOutputLib.NONE import NONE as createOut
+            from ModelOutputLib.NONE import NONE as createOut
         elif case == "OneFile":
-            from TreeOutputLib.OneFile import OneFile as createOut
+            from ModelOutputLib.OneFile import OneFile as createOut
         elif case == "OneTimestepOneFile":
-            from TreeOutputLib.OneTimestepOneFile import OneTimestepOneFile as createOut
+            from ModelOutputLib.OneTimestepOneFile import OneTimestepOneFile as createOut
         elif case == "OneTreeOneFile":
-            from TreeOutputLib.OneTreeOneFile import OneTreeOneFile as createOut
+            from ModelOutputLib.OneTreeOneFile import OneTreeOneFile as createOut
         elif case == "OneTimestepOneFilePerGroup":
-            from TreeOutputLib.OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup as createOut
+            from ModelOutputLib.OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup as createOut
         else:
-            raise KeyError("Required tree_output of type '" + case +
+            raise KeyError("Required model_output of type '" + case +
                            "' not implemented!")
-        print(case + " tree output sucesscully initiated.")
+        print(case + " model output successfully initiated.")
 
-        ## Containing configuration on tree_output
-        self.tree_output = createOut(arg)
+        ## Containing configuration on model_output
+        self.model_output_concept = createOut(arg)
 
-    ## Returns tree output defined for the project
-    def getTreeOutput(self):
-        return self.tree_output
+    ## Returns model output defined for the project
+    def getModelOutputConcept(self):
+        return self.model_output_concept
 
     def runProject(self, time_stepping):
-        self.tree_time_stepping.runTimeLoop(time_stepping)
+        self.time_stepping.runTimeLoop(time_stepping)
 
     def getProjectArguments(self):
         return self.args

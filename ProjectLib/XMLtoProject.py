@@ -56,7 +56,7 @@ class XMLtoProject(Project.MangaProject):
             self.root, "population")
 
     def addPlantTimeLoop(self):
-        self.args["tree_time_loop"] = self.findChild(self.root,
+        self.args["time_loop"] = self.findChild(self.root,
                                                      "time_loop")
 
     def addVisualization(self):
@@ -65,7 +65,7 @@ class XMLtoProject(Project.MangaProject):
     ## Parsing information concerning output of tree data from input-file to
     #  project arguments.
     def addModelOutput(self):
-        self.args["tree_output"] = self.findChild(self.root, "output")
+        self.args["model_output"] = self.findChild(self.root, "output")
 
     def findChild(self, parent, key):
         child = parent.find(key)

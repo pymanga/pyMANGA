@@ -17,7 +17,7 @@ class TreeDynamicTimeStepping:
         self.visualization = project.getVisualization()
         self.visualization.update(self.population.getTreeGroups(), "Begin")
         ## Output configuration
-        self.tree_output = project.getTreeOutput()
+        self.model_output_concept = project.getModelOutputConcept()
 
         self.aboveground_resources = []
         self.belowground_resources = []
@@ -34,7 +34,7 @@ class TreeDynamicTimeStepping:
         self.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
         tree_groups = self.population.getTreeGroups()
 
-        self.tree_output.writeOutput(tree_groups, t_start)
+        self.model_output_concept.writeOutput(tree_groups, t_start)
         # Initialize tree counter variable
         number_of_trees = 0
         for group_name, tree_group in tree_groups.items():
@@ -81,7 +81,7 @@ class TreeDynamicTimeStepping:
                 if len(kill_indices) == tree_group.getNumberOfTrees():
                     eliminated_tree_groups[tree_group.name] = copy.deepcopy(
                         tree_group)
-                    self.tree_output.writeOutput(eliminated_tree_groups,
+                    self.model_output_concept.writeOutput(eliminated_tree_groups,
                                                  t_start,
                                                  group_died=True)
             tree_group.removeTreesAtIndices(kill_indices)
@@ -103,7 +103,7 @@ class TreeDynamicTimeStepping:
         tree_groups = self.population.getTreeGroups()
         # Write output in last time step, even if not defined in the project
         # file
-        self.tree_output.writeOutput(tree_groups, time, force_output=True)
+        self.model_output_concept.writeOutput(tree_groups, time, force_output=True)
 
     def setResources(self, ag_resources, bg_resources):
         self.aboveground_resources = ag_resources

@@ -4,7 +4,7 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
 """
-from TimeLoopLib.TreeDynamicTimeStepping import TreeDynamicTimeStepping
+from TimeLoopLib.DynamicTimeStepping import TreeDynamicTimeStepping
 
 
 class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):

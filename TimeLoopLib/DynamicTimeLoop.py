@@ -6,7 +6,7 @@
 """
 
 
-class TreeDynamicTimeLoop:
+class DynamicTimeLoop:
 
     def __init__(self, args):
         case = args.find("type").text

@@ -65,7 +65,7 @@ if setup_list:
         for tag in root.iter():
             tag.text = tag.text.strip()
 
-        output = findChild(root, "tree_output")
+        output = findChild(root, "output")
         output_type_xml_element = findChild(output, "type")
         output_type = output_type_xml_element.text
 

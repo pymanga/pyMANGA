@@ -14,7 +14,7 @@ class NONE(TreeOutput):
         self.case = args.find("type").text
         print("Running without tree output.")
 
-    def writeOutput(self, tree_groups, time):
+    def writeOutput(self, tree_groups, time, force_output=False, group_died=False):
         pass
 
     ## This function returns the output directory

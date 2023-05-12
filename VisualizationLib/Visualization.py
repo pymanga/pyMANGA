@@ -15,6 +15,8 @@ class Visualization:
         self.case = args.find("type").text
         if self.case == "SimplePyplot":
             self.iniSimplePyplot(args)
+        if self.case == "ComplexPyplot":
+            self.iniComplexPyplot(args)
         elif self.case == "NONE":
             self.case = "NONE"
             self.iniNONE(args)
@@ -26,6 +28,10 @@ class Visualization:
     def iniSimplePyplot(self, args):
         from .SimplePyplot import SimplePyplot
         self.visualization = SimplePyplot(args)
+
+    def iniComplexPyplot(self, args):
+        from .ComplexPyplot import ComplexPyplot
+        self.visualization = ComplexPyplot(args)
 
     ## Initiates visualization of type NONE
     def iniNONE(self, args):

@@ -4,14 +4,14 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeOutputLib.TreeOutput import TreeOutput
+from ModelOutputLib.ModelOutput import ModelOutput
 import os
 
 
 ## Output class. This class creates one file per tree at a defined location.
 #  A line containing time, position, desired geometric measures and desired
 #  parameters is written at every nth timestep.
-class OneTreeOneFile(TreeOutput):
+class OneTreeOneFile(ModelOutput):
 
     ## Constructor of dummy objects in order to drop output
     #  @param args xml element parsed from project to this constructor.

@@ -4,7 +4,7 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
 """
-from TimeLoopLib.TreeDynamicTimeStepping import TreeDynamicTimeStepping
+from TimeLoopLib.DynamicTimeStepping import TreeDynamicTimeStepping
 
 
 class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
@@ -15,7 +15,7 @@ class ExternalDynamicTimeStepping(TreeDynamicTimeStepping):
         self.t_step_begin = t_0
 
         try:
-            self.belowground_competition.getOGSAccessible()
+            self.belowground_resource_concept.getOGSAccessible()
         except AttributeError:
             print("""
                     #####################WARNING###########################

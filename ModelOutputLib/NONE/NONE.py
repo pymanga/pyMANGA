@@ -4,10 +4,10 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from TreeOutputLib.TreeOutput import TreeOutput
+from ModelOutputLib.ModelOutput import ModelOutput
 
 
-class NONE(TreeOutput):
+class NONE(ModelOutput):
     ## Constructor of dummy objects in order to drop output
     def __init__(self, args):
         ## defining the type of output

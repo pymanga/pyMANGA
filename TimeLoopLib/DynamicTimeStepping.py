@@ -7,18 +7,21 @@
 
 import copy
 
+
 class TreeDynamicTimeStepping:
 
     def __init__(self, project):
-        self.aboveground_competition = project.getAbovegroundCompetition()
-        self.belowground_competition = project.getBelowgroundCompetition()
-        self.death_and_growth_concept = project.getDeathAndGrowthConcept()
-        self.population = project.getPopulation()
-        self.visualization = project.getVisualization()
-        self.visualization.update(self.population.getTreeGroups(), "Begin")
+        # Initialize concepts
+        self.aboveground_resource_concept = project.getAbovegroundResourceConcept()
+        self.belowground_resource_concept = project.getBelowgroundResourceConcept()
+        self.plant_dynamic_concept = project.getPlantDynamicConcept()
+        self.population_concept = project.getPopulationConcept()
+        self.visualization_concept = project.getVisualizationConcept()
+        self.visualization_concept.update(self.population_concept.getTreeGroups(), "Begin")
         ## Output configuration
-        self.tree_output = project.getTreeOutput()
+        self.model_output_concept = project.getModelOutputConcept()
 
+        # Arrays to store interim model results
         self.aboveground_resources = []
         self.belowground_resources = []
         self._previous_tree_groups = []
@@ -28,32 +31,32 @@ class TreeDynamicTimeStepping:
     # the same frequency (i.e. only if update_x is true).
     def step(self, t_start, t_end, update_ag, update_bg):
         if update_ag:
-            self.aboveground_competition.prepareNextTimeStep(t_start, t_end)
+            self.aboveground_resource_concept.prepareNextTimeStep(t_start, t_end)
         if update_bg:
-            self.belowground_competition.prepareNextTimeStep(t_start, t_end)
-        self.death_and_growth_concept.prepareNextTimeStep(t_start, t_end)
-        tree_groups = self.population.getTreeGroups()
+            self.belowground_resource_concept.prepareNextTimeStep(t_start, t_end)
+        self.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
+        tree_groups = self.population_concept.getTreeGroups()
 
-        self.tree_output.writeOutput(tree_groups, t_start)
+        self.model_output_concept.writeOutput(tree_groups, t_start)
         # Initialize tree counter variable
         number_of_trees = 0
         for group_name, tree_group in tree_groups.items():
             for tree in tree_group.getTrees():
                 number_of_trees += 1
                 if update_ag:
-                    self.aboveground_competition.addTree(tree)
+                    self.aboveground_resource_concept.addTree(tree)
                 if update_bg:
-                    self.belowground_competition.addTree(tree)
+                    self.belowground_resource_concept.addTree(tree)
         # Only update resources if trees exist
         if number_of_trees > 0:
             if update_ag:
-                self.aboveground_competition.calculateAbovegroundResources()
+                self.aboveground_resource_concept.calculateAbovegroundResources()
                 self.aboveground_resources = (
-                    self.aboveground_competition.getAbovegroundResources())
+                    self.aboveground_resource_concept.getAbovegroundResources())
             if update_bg:
-                self.belowground_competition.calculateBelowgroundResources()
+                self.belowground_resource_concept.calculateBelowgroundResources()
                 self.belowground_resources = (
-                    self.belowground_competition.getBelowgroundResources())
+                    self.belowground_resource_concept.getBelowgroundResources())
         j = 0
         number_of_trees = 0
         eliminated_tree_groups = {}
@@ -67,7 +70,7 @@ class TreeDynamicTimeStepping:
                 try:
                     ag = self.aboveground_resources[j]
                     bg = self.belowground_resources[j]
-                    self.death_and_growth_concept.progressTree(tree, ag, bg)
+                    self.plant_dynamic_concept.progressTree(tree, ag, bg)
                 except IndexError:
                     tree.setSurvival(1)
 
@@ -81,7 +84,7 @@ class TreeDynamicTimeStepping:
                 if len(kill_indices) == tree_group.getNumberOfTrees():
                     eliminated_tree_groups[tree_group.name] = copy.deepcopy(
                         tree_group)
-                    self.tree_output.writeOutput(eliminated_tree_groups,
+                    self.model_output_concept.writeOutput(eliminated_tree_groups,
                                                  t_start,
                                                  group_died=True)
             tree_group.removeTreesAtIndices(kill_indices)
@@ -95,15 +98,15 @@ class TreeDynamicTimeStepping:
             print("INFO: MANGA execution stopped because all trees died and "
                   "no new tree were recruited.")
             exit()
-        self.visualization.update(tree_groups, t_end)
+        self.visualization_concept.update(tree_groups, t_end)
 
     ## Last action, when timeloop is done
     def finish(self, time):
-        self.visualization.show(time)
-        tree_groups = self.population.getTreeGroups()
+        self.visualization_concept.show(time)
+        tree_groups = self.population_concept.getTreeGroups()
         # Write output in last time step, even if not defined in the project
         # file
-        self.tree_output.writeOutput(tree_groups, time, force_output=True)
+        self.model_output_concept.writeOutput(tree_groups, time, force_output=True)
 
     def setResources(self, ag_resources, bg_resources):
         self.aboveground_resources = ag_resources

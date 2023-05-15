@@ -5,14 +5,14 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 import os
-from TreeOutputLib.TreeOutput import TreeOutput
+from ModelOutputLib.ModelOutput import ModelOutput
 
 
 ## Output class. This class creates one file for the whole simulation,
 # i.e. each time step and tree is included.
 # A line contains time, tree, position, desired geometric measures
 # and parameters for every nth time step.
-class OneFile(TreeOutput):
+class OneFile(ModelOutput):
 
     def __init__(self, args):
         super().__init__(args)

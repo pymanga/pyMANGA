@@ -7,7 +7,7 @@ Created on Thu Nov  8 15:25:03 2018
 """
 #from XMLtoProject import XMLtoProject
 
-from .TreeOutput import TreeOutput
+from .ModelOutput import ModelOutput
 from .OneTimestepOneFile import OneTimestepOneFile
 from .OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup
 from .OneFile import OneFile

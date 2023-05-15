@@ -12,7 +12,7 @@ manga_root_directory = path.dirname(
 sys.path.append(manga_root_directory)
 
 from ProjectLib import XMLtoProject
-from TimeLoopLib import TreeDynamicTimeStepping
+from TimeLoopLib import DynamicTimeStepping
 import unittest
 import glob
 import os
@@ -100,7 +100,7 @@ if setup_list:
                 # Test of MANGA project file and the correct calculation of its
                 try:
                     prj = XMLtoProject(xml_project_file=xmlfile)
-                    time_stepper = TreeDynamicTimeStepping(prj)
+                    time_stepper = DynamicTimeStepping(prj)
                     prj.runProject(time_stepper)
                 # Storing failed test for clear evaluation
                 except:

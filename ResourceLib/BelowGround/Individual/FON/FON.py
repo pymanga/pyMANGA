@@ -138,7 +138,7 @@ class FON(ResourceModel):
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
     #  @param: tree
-    def addTree(self, tree):
+    def addPlant(self, tree):
         if self._mesh_size > 0.25:
             print("Error: mesh not fine enough for FON!")
             print("Please refine mesh to grid size < 0.25m !")

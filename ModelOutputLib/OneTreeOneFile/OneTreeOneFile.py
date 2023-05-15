@@ -26,7 +26,7 @@ class OneTreeOneFile(ModelOutput):
         delimiter = "\t"
         files_in_folder = os.listdir(self.output_dir)
         for group_name, tree_group in tree_groups.items():
-            for tree in tree_group.getTrees():
+            for tree in tree_group.getPlants():
                 growth_information = tree.getGrowthConceptInformation()
                 if not kwargs["group_died"]:
                     filename = (group_name + "_" + "%09.0d" % (tree.getId()) +

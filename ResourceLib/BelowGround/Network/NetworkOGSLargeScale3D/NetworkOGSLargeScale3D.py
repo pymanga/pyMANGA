@@ -42,9 +42,9 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     #  python source terms in OGS. To this end, their resource uptake is
     #  saved in numpy arrays.
     #  @param tree
-    def addTree(self, tree):
+    def addPlant(self, tree):
         # SimpleNetwork stuff
-        super().addTree(tree)
+        super().addPlant(tree)
 
         # OGS stuff
         x, y = tree.getPosition()

@@ -30,8 +30,8 @@ class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their relevant allometric measures for the next timestep.
     #  @param: tree
-    def addTree(self, tree):
-        super().addTree(tree=tree)
+    def addPlant(self, tree):
+        super().addPlant(tree=tree)
 
     ## This function returns a list of the growth modification factors of
     # all trees. Calculated in the subsequent timestep.\n

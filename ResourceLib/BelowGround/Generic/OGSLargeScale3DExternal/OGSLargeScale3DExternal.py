@@ -50,7 +50,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     #  Here, in the OGS case, each tree is represented by a contribution to
     #  python source terms in OGS.
     #  @param tree
-    def addTree(self, tree):
+    def addPlant(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
         parameter = tree.getParameter()

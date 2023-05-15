@@ -131,7 +131,7 @@ class SimpleAsymmetricZOI(ResourceModel):
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their current implementation for the next timestep.
     #  @param tree
-    def addTree(self, tree):
+    def addPlant(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
         parameter = tree.getParameter()

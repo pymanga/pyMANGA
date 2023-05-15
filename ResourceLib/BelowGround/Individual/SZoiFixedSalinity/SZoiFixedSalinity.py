@@ -32,9 +32,9 @@ class SZoiFixedSalinity(SymmetricZOI, FixedSalinity):
     ## Before being able to calculate the resources, all tree entities need
     #  to be added with their current implementation for the next timestep.
     #  @param tree
-    def addTree(self, tree):
-        super().addTree(tree)
-        FixedSalinity.addTree(self, tree)
+    def addPlant(self, tree):
+        super().addPlant(tree)
+        FixedSalinity.addPlant(self, tree)
 
     ## This function returns a list of the growth reduction factors of all trees.
     #  calculated in the subsequent time step.\n

@@ -5,7 +5,7 @@ Created on Thu Nov  8 15:25:03 2018
 
 @author: bathmann
 """
-from .TreeGroup import TreeGroup
+from .PlantGroup import PlantGroup
 from .GroupPlanting import GroupPlanting
 from .Population import Population
 from .Tree import Tree

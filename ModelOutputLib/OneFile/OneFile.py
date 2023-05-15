@@ -46,7 +46,7 @@ class OneFile(ModelOutput):
 
         string = ""
         for group_name, tree_group in tree_groups.items():
-            for tree in tree_group.getTrees():
+            for tree in tree_group.getPlants():
                 growth_information = tree.getGrowthConceptInformation()
                 string += (group_name + "_" + "%09.0d" % (tree.getId()) +
                            self.delimiter + str(time) + self.delimiter +

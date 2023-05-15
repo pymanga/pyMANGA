@@ -9,11 +9,11 @@ if __name__ == '__main__' and __package__ is None:
     from os import sys, path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 import PopulationLib as PLib
-from PopulationLib import TreeGroup
+from PopulationLib import PlantGroup
 
 
 ## Initializes groups of tree population and defines necessary functions.
-class GroupPlanting(TreeGroup):
+class GroupPlanting(PlantGroup):
     ## Function initializing tree group and initial population of this group,
     #  depending on specification in project file.
     #  @param args: arguments specified in project file. Please see tag
@@ -83,7 +83,7 @@ class GroupPlanting(TreeGroup):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
-            self.addTree(x_i, y_i)
+            self.addPlant(x_i, y_i)
 
     ## Function initializing tree population of size n_individuals within given
     #  rectangular domain.
@@ -166,7 +166,7 @@ class GroupPlanting(TreeGroup):
                 max_y = max(max_y, y)
                 min_x = min(min_x, x)
                 min_y = min(min_y, y)
-                self.addTree(x, y, initial_geometry=geometry)
+                self.addPlant(x, y, initial_geometry=geometry)
         self.x_1 = min_x
         self.y_1 = min_y
         self.l_x = max_x - self.x_1
@@ -178,7 +178,7 @@ class GroupPlanting(TreeGroup):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
-            self.addTree(x_i, y_i)
+            self.addPlant(x_i, y_i)
 
     ## Returns all living trees belonging to this group.
     def getGroup(self):

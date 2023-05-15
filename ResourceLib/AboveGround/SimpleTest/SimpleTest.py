@@ -36,7 +36,7 @@ class SimpleTest(ResourceModel):
         self.t_ini = t_ini
         self.t_end = t_end
 
-    def addTree(self, tree):
+    def addPlant(self, tree):
         ## Before being able to calculate the resources, all tree enteties need
         #  to be added with their current implementation for the next timestep.
         #  Here, in the SimpleTest case, each tree is represented by a one. In

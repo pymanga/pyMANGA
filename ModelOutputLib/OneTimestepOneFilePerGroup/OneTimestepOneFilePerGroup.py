@@ -17,7 +17,7 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
     def outputContent(self, tree_groups, time, **kwargs):
         delimiter = "\t"
         for group_name, tree_group in tree_groups.items():
-            if not tree_group.getNumberOfTrees() == 0:
+            if not tree_group.getNumberOfPlants() == 0:
                 if not kwargs["group_died"]:
                     filename = (group_name + "_t_%012.1f" % (time) + ".csv")
                 else:
@@ -31,7 +31,7 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
                     self, string, delimiter)
                 string += "\n"
                 file.write(string)
-                for tree in tree_group.getTrees():
+                for tree in tree_group.getPlants():
                     growth_information = tree.getGrowthConceptInformation()
                     string = ""
                     string += (group_name + "_" + "%09.0d" % (tree.getId()) +

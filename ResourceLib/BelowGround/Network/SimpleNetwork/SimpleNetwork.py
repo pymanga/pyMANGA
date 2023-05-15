@@ -88,7 +88,7 @@ class SimpleNetwork(ResourceModel):
     #  to be added with their relevant allometric measures for the next
     #  timestep.
     #  @param: tree
-    def addTree(self, tree):
+    def addPlant(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
         parameter = tree.getParameter()

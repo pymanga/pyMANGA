@@ -151,7 +151,7 @@ class OGSLargeScale3D(ResourceModel):
     #  python source terms in OGS. To this end, their constant and salinity
     #  dependent resource uptake is saved in numpy arrays.
     #  @param tree
-    def addTree(self, tree):
+    def addPlant(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
         root_radius = geometry["r_root"]

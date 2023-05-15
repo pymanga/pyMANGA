@@ -40,7 +40,7 @@ class SimpleTest(ResourceModel):
     #  general, an object containing all necessary information should be
     #  stored for each tree
     #  @param: position, geometry, parameter
-    def addTree(self, tree):
+    def addPlant(self, tree):
         self.trees.append(1)
 
     ## Test for external timestepper, whether the concept is optimized for ex-

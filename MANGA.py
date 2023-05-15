@@ -9,7 +9,7 @@ import getopt
 import sys
 from os import path
 from ProjectLib import XMLtoProject
-from TimeLoopLib import TreeDynamicTimeStepping
+from TimeLoopLib import DynamicTimeStepping
 import datetime
 
 
@@ -72,7 +72,7 @@ def main(argv):
                                 ' main.py -h" for additional help.')
     print("MANGA started at", t_start)
     print('Running pyMANGA project', project_file)
-    time_stepper = TreeDynamicTimeStepping(prj)
+    time_stepper = DynamicTimeStepping(prj)
     prj.runProject(time_stepper)
     t_end = datetime.datetime.now()
     print('pyMANGA project', project_file, ' successfully evaluated.')

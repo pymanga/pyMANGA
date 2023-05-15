@@ -45,7 +45,7 @@ class SimplePyplot(Visualization):
         patches, group_names, we = [], [], []
         for group_name, tree_group in tree_groups.items():
             patches_group = []
-            for tree in tree_group.getTrees():
+            for tree in tree_group.getPlants():
                 x, y = tree.getPosition()
                 left = min(left, x)
                 rigth = max(rigth, x)
@@ -60,7 +60,7 @@ class SimplePyplot(Visualization):
                 we.append(network['water_exchanged'])
                 for partner in partners:
                     for group_name, tree_group in tree_groups.items():
-                        for tree in tree_group.getTrees():
+                        for tree in tree_group.getPlants():
                             foundpartner = str(tree.group_name) + str(
                                 tree.tree_id)
                             if partner == foundpartner:

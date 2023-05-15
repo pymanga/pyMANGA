@@ -11,7 +11,7 @@ if __name__ == '__main__' and __package__ is None:
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 
-class TreeGroup:
+class PlantGroup:
 
     def __init__(self, name, species):
         self.name = name
@@ -24,7 +24,7 @@ class TreeGroup:
     #  @param y: y-position of the new tree
     #  @param initial_geometry: controls, whether an initial geometry is
     #  parsed to the tree
-    def addTree(self, x, y, initial_geometry=False):
+    def addPlant(self, x, y, initial_geometry=False):
         self.max_id += 1
         self.trees.append(
             PLib.Tree(x,
@@ -34,12 +34,12 @@ class TreeGroup:
                       initial_geometry,
                       group_name=self.name))
 
-    def getTrees(self):
+    def getPlants(self):
         return self.trees
 
-    def getNumberOfTrees(self):
+    def getNumberOfPlants(self):
         return len(self.trees)
 
-    def removeTreesAtIndices(self, indices):
+    def removePlantsAtIndices(self, indices):
         for i in sorted(indices)[::-1]:
             self.trees.pop(i)

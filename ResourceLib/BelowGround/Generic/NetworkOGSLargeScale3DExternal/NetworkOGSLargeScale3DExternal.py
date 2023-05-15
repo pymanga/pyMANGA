@@ -50,9 +50,9 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  Here, in the OGS case, each tree is represented by a contribution to
     #  python source terms in OGS.
     #  @param tree
-    def addTree(self, tree):
-        # Use addTree of NetworkOGSLargeScale3D
-        super().addTree(tree)
+    def addPlant(self, tree):
+        # Use addPlant of NetworkOGSLargeScale3D
+        super().addPlant(tree)
 
     ## This function updates and returns BelowgroundResources in the current
     #  time step. For each tree a reduction factor is calculated which is

@@ -8,7 +8,7 @@ from ResourceLib.BelowGround.Individual.SymmetricZOI import SymmetricZOI
 from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity
 
 
-# MRO: SZoiFixedSalinity, SymmetricZOI, FixedSalinity, TreeModel, object
+# MRO: SZoiFixedSalinity, SymmetricZOI, FixedSalinity, ResourceModel, object
 class SZoiFixedSalinity(SymmetricZOI, FixedSalinity):
     ## Fixed salinity with symmetric zone of influence belowground competition
     # concept.
@@ -21,7 +21,7 @@ class SZoiFixedSalinity(SymmetricZOI, FixedSalinity):
         self.GetSalinity(args=args)
 
     ## This functions prepares arrays for the competition
-    #  concept. In the SymmetricZOI concept, trees geometric measures
+    #  concept. In the SymmetricZOI concept, plants geometric measures
     #  are saved in simple lists and the timestepping is updated. \n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
@@ -29,16 +29,16 @@ class SZoiFixedSalinity(SymmetricZOI, FixedSalinity):
         super().prepareNextTimeStep(t_ini, t_end)
         FixedSalinity.prepareNextTimeStep(self, t_ini, t_end)
 
-    ## Before being able to calculate the resources, all tree entities need
+    ## Before being able to calculate the resources, all plant entities need
     #  to be added with their current implementation for the next timestep.
-    #  @param tree
-    def addPlant(self, tree):
-        super().addPlant(tree)
-        FixedSalinity.addPlant(self, tree)
+    #  @param plant
+    def addPlant(self, plant):
+        super().addPlant(plant)
+        FixedSalinity.addPlant(self, plant)
 
-    ## This function returns a list of the growth reduction factors of all trees.
+    ## This function returns a list of the growth reduction factors of all plants.
     #  calculated in the subsequent time step.\n
-    #  @return: np.array with $N_tree$ scalars
+    #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
         super().calculateBelowgroundResources()
         bg_factor_symmetric_ZOI = self.getBelowgroundResources()

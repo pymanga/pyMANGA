@@ -31,10 +31,10 @@ class OGSLargeScale3D(ResourceModel):
                 path.join(path.abspath("./"), self._ogs_project_folder)
         self._ogs_project_file = args.find("ogs_project_file").text.strip()
         self._ogs_source_mesh = args.find("source_mesh").text.strip()
-        self._tree = etree.parse(
+        self._xml_tree = etree.parse(
             path.join(self._ogs_project_folder, self._ogs_project_file))
-        self._ogs_bulk_mesh = self._tree.find("meshes").find("mesh")
-        time_loop = self._tree.find("time_loop")
+        self._ogs_bulk_mesh = self._xml_tree.find("meshes").find("mesh")
+        time_loop = self._xml_tree.find("time_loop")
         time_loop__processes = time_loop.find("processes")
         time_loop__processes__process = time_loop__processes.find("process")
         time_stepping = time_loop__processes__process.find("time_stepping")
@@ -62,15 +62,15 @@ class OGSLargeScale3D(ResourceModel):
             self._fixed_ogs_delta_t = float(
                 args.find("delta_t_ogs").text.strip())
             self._use_fixed_ogs_delta_t = True
-        self._tree.find("python_script").text = "python_source.py"
+        self._xml_tree.find("python_script").text = "python_source.py"
         self._t_end_list = []
 
     # This function updates and returns BelowgroundResources in the current
-    #  timestep. For each tree a reduction factor is calculated which is defined
+    #  timestep. For each plant a reduction factor is calculated which is defined
     #  as: resource uptake at zero salinity/ real resource uptake.
     def calculateBelowgroundResources(self):
-        # Number of trees
-        self.no_trees = len(self._tree_constant_contribution)
+        # Number of plants
+        self.no_plants = len(self._plant_constant_contribution)
 
         # Calculate contribution and salinity prefactors
         self.calculateSplittedTreeContribution()
@@ -86,22 +86,22 @@ class OGSLargeScale3D(ResourceModel):
         self.runOGSandWriteFiles()
         # Read salinity from OGS results file
         self.getCellSalinity()
-        # Calculate salinity below each tree
-        self.calculateTreeSalinity()
-        # Calculate tree water uptake in kg per sec
-        self._tree_water_uptake = self._tree_constant_contribution + \
-            self._tree_salinity_prefactor * \
-            self._tree_salinity
+        # Calculate salinity below each plant
+        self.calculatePlantSalinity()
+        # Calculate plant water uptake in kg per sec
+        self._plant_water_uptake = self._plant_constant_contribution + \
+            self._plant_salinity_prefactor * \
+            self._plant_salinity
         # Calculate below ground resource factor
-        self.belowground_resources = self._tree_water_uptake / \
-            self._tree_constant_contribution
+        self.belowground_resources = self._plant_water_uptake / \
+            self._plant_constant_contribution
 
         self.renameParameters()
 
     # This functions prepares the next timestep for the competition
     #  concept. In the OGS concept, information on t_ini and t_end is stored.
     #  Additionally, arrays are prepared to store information on water uptake
-    #  of the participating trees. Moreover, the ogs-prj-file for the next
+    #  of the participating plants. Moreover, the ogs-prj-file for the next
     #  timestep is updated and saved in the ogs-project folder.
     #  @param t_ini: initial time of next timestep
     #  @param t_end: end time of next timestep
@@ -113,13 +113,13 @@ class OGSLargeScale3D(ResourceModel):
             self._t_end = t_end
         self._xml_t_initial.text = str(self._t_ini)
         self._xml_t_end.text = str(self._t_end)
-        self._tree_constant_contribution = []
-        self._tree_salinity_prefactor = []
-        self._tree_water_uptake = []
+        self._plant_constant_contribution = []
+        self._plant_salinity_prefactor = []
+        self._plant_water_uptake = []
         self._constant_contributions = np.zeros_like(self._volumes)
         self._salinity_prefactors = np.zeros_like(self._volumes)
         self._salinity = np.zeros_like(self._volumes)
-        self._tree_contribution_per_cell = np.zeros_like(self._volumes)
+        self._plant_contribution_per_cell = np.zeros_like(self._volumes)
         self._t_end_list.append(self._t_end)
         try:
             self._t_ini_zero
@@ -129,10 +129,10 @@ class OGSLargeScale3D(ResourceModel):
             self._ogs_project_folder,
             str(t_ini).replace(".", "_") + "_" + self._ogs_project_file)
 
-        # self._tree is the xml-tree from the ogs project file
-        # above (e.g. line 108) the xml tree is updated
+        # self._xml_tree is the xml-tree from the ogs project file
+        # above (e.g. line 108) the xml plant is updated
         # here, the new project file for ogs is saved
-        self._tree.write(filename)
+        self._xml_tree.write(filename)
 
         self.prepareOGSparameters()
 
@@ -141,50 +141,50 @@ class OGSLargeScale3D(ResourceModel):
     def prepareOGSparameters(self):
         self._total_resistance = []
         self.belowground_resources = []
-        self._tree_cell_ids = []
-        self._tree_salinity = np.empty(0)
-        self._tree_cell_volume = []
+        self._plant_cell_ids = []
+        self._plant_salinity = np.empty(0)
+        self._plant_cell_volume = []
 
-    # Before being able to calculate the resources, all tree entities need
+    # Before being able to calculate the resources, all plant entities need
     #  to be added with their current implementation for the next timestep.
-    #  Here, in the OGS case, each tree is represented by a contribution to
+    #  Here, in the OGS case, each plant is represented by a contribution to
     #  python source terms in OGS. To this end, their constant and salinity
     #  dependent resource uptake is saved in numpy arrays.
-    #  @param tree
-    def addPlant(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
+    #  @param plant
+    def addPlant(self, plant):
+        x, y = plant.getPosition()
+        geometry = plant.getGeometry()
         root_radius = geometry["r_root"]
-        parameter = tree.getParameter()
+        parameter = plant.getParameter()
 
         self.addCellCharateristics(x, y, root_radius)
 
-        # Calculate total tree resistance
+        # Calculate total plant resistance
         total_resistance = self.totalTreeResistance(parameter, geometry)
         self._total_resistance.append(total_resistance)
 
-        # Calculate tree water uptake without salinity and salinity factor
+        # Calculate plant water uptake without salinity and salinity factor
         # Unit: kg per sec
         delta_psi = parameter["leaf_water_potential"] +\
             (2 * geometry["r_crown"] + geometry["h_stem"]) * 9810
         constant_contribution = -delta_psi / total_resistance * 1000 / np.pi
-        self._tree_constant_contribution.append(constant_contribution)
+        self._plant_constant_contribution.append(constant_contribution)
         salinity_prefactor = -85000 * 1000 / total_resistance * 1000 / np.pi
-        self._tree_salinity_prefactor.append(salinity_prefactor)
+        self._plant_salinity_prefactor.append(salinity_prefactor)
 
-    # This function extracts the cells affected by each tree and the
-    # respective volume of these cells in tree-own variables.
-    # @param x: x-coordinate of tree
-    # @param y: y-coordinate of tree
+    # This function extracts the cells affected by each plant and the
+    # respective volume of these cells in plant-own variables.
+    # @param x: x-coordinate of plant
+    # @param y: y-coordinate of plant
     # @param radius: search radius around the previously given coordinates
     #                within which the cell finder locates cells
     def addCellCharateristics(self, x, y, root_radius):
         affected_cells = self._cell_information.getCellIDsAtXY(
             x, y, root_radius)
-        self._tree_cell_ids.append(affected_cells)
+        self._plant_cell_ids.append(affected_cells)
         # Get volume of affected cells
         v = self.getVolume(affected_cells)
-        self._tree_cell_volume.append(v)
+        self._plant_cell_volume.append(v)
 
     # This function calculates the total resistance against water flow,
     # including the resistance at the root surface and the xylem resistance
@@ -195,8 +195,8 @@ class OGSLargeScale3D(ResourceModel):
         return root_surface_resistance + xylem_resistance
 
     # This function calculates the root surface resistance.
-    #  @param parameter: list of hydraulic and initial tree parameters
-    #  @param geometry: tree geometry
+    #  @param parameter: list of hydraulic and initial plant parameters
+    #  @param geometry: plant geometry
     def rootSurfaceResistance(self, parameter, geometry):
         lp = parameter["lp"]
         k_geom = parameter["k_geom"]
@@ -207,8 +207,8 @@ class OGSLargeScale3D(ResourceModel):
         return root_surface_resistance
 
     # This function calculates the root surface resistance.
-    #  @param parameter: list of hydraulic and initial tree parameters
-    #  @param geometry: tree geometry
+    #  @param parameter: list of hydraulic and initial plant parameters
+    #  @param geometry: plant geometry
     def xylemResistance(self, parameter, geometry):
         r_crown = geometry["r_crown"]
         h_stem = geometry["h_stem"]
@@ -219,7 +219,7 @@ class OGSLargeScale3D(ResourceModel):
         xylem_resistance = (flow_length / kf_sap / np.pi / r_stem**2)
         return xylem_resistance
 
-    # This function calculates the volume of the cells affected by one tree.
+    # This function calculates the volume of the cells affected by one plant.
     # @param affected_cells: IDs of affected cells
     # @return: numeric
     def getVolume(self, affected_cells):
@@ -238,15 +238,15 @@ class OGSLargeScale3D(ResourceModel):
             path.join(self._ogs_project_folder, "calls_in_last_timestep.npy"))
         self._salinity = cumsum_salinity / calls_per_cell
 
-    # This function calculates the salinity below each tree as the mean of
-    # all tree-affected cells
-    def calculateTreeSalinity(self):
-        self._tree_salinity = np.zeros(self.no_trees)
-        for plant_id in range(self.no_trees):
-            ids = self._tree_cell_ids[plant_id]
-            mean_salinity_for_tree = np.mean(self._salinity[ids])
-            self._tree_salinity[plant_id] = mean_salinity_for_tree
-        self._psi_osmo = -self._tree_salinity * 1000 * 85000
+    # This function calculates the salinity below each plant as the mean of
+    # all plant-affected cells
+    def calculatePlantSalinity(self):
+        self._plant_salinity = np.zeros(self.no_plants)
+        for plant_id in range(self.no_plants):
+            ids = self._plant_cell_ids[plant_id]
+            mean_salinity_for_plant = np.mean(self._salinity[ids])
+            self._plant_salinity[plant_id] = mean_salinity_for_plant
+        self._psi_osmo = -self._plant_salinity * 1000 * 85000
 
     # This function calculates the water withdrawal in each cell split
     # in a constant contribution and a salinity prefactor.
@@ -255,30 +255,30 @@ class OGSLargeScale3D(ResourceModel):
         self._constant_contributions = np.zeros(len(self._salinity))
         self._salinity_prefactors = np.zeros(len(self._salinity))
 
-        for plant_id in range(self.no_trees):
-            ids = self._tree_cell_ids[plant_id]
-            v = self._tree_cell_volume[plant_id]
+        for plant_id in range(self.no_plants):
+            ids = self._plant_cell_ids[plant_id]
+            v = self._plant_cell_volume[plant_id]
             per_volume = 1. / v
-            constant_contribution = self._tree_constant_contribution[plant_id]
+            constant_contribution = self._plant_constant_contribution[plant_id]
             self._constant_contributions[ids] = constant_contribution * \
                 per_volume
-            salinity_prefactor = self._tree_salinity_prefactor[plant_id]
+            salinity_prefactor = self._plant_salinity_prefactor[plant_id]
             self._salinity_prefactors[ids] = salinity_prefactor * \
                 per_volume
 
     # This function calculates the water withdrawal in each cell based on
-    # individual tree water uptake.
+    # individual plant water uptake.
     # Unit: kg per sec per cell volume
     # The function is not called in this concept (OGSLargeScale3D) but
     # required for various child concepts
-    def calculateCompleteTreeContribution(self):
-        self._tree_contribution_per_cell = np.zeros(len(self._salinity))
-        for plant_id in range(self.no_trees):
-            ids = self._tree_cell_ids[plant_id]
-            v = self._tree_cell_volume[plant_id]
+    def calculateCompletePlantContribution(self):
+        self._plant_contribution_per_cell = np.zeros(len(self._salinity))
+        for plant_id in range(self.no_plants):
+            ids = self._plant_cell_ids[plant_id]
+            v = self._plant_cell_volume[plant_id]
             per_volume = 1. / v
-            tree_contribution = self._tree_water_uptake[plant_id]
-            self._tree_contribution_per_cell[ids] = tree_contribution * \
+            plant_contribution = self._plant_water_uptake[plant_id]
+            self._plant_contribution_per_cell[ids] = plant_contribution * \
                 per_volume
 
     # This function returns the directory of the python_source file in the
@@ -362,7 +362,7 @@ class OGSLargeScale3D(ResourceModel):
         python_source_file.close()
 
     # This function writes a pvd collection of the below-ground grids at the
-    #  tree model time steps
+    #  plant model time steps
     def writePVDCollection(self):
         pvd_file = open(
             os.path.join(self._ogs_project_folder, "vtu_collection.pvd"), "w")
@@ -416,13 +416,13 @@ class OGSLargeScale3D(ResourceModel):
                                  whether the ogs container is downloaded.
                                  Please also make sure that singularity is
                                  installed. Instructions are provided in
-                                 pyMANGA/TreeModelLib/BelowgroundCompetition/OGS/container
+                                 pyMANGA/ResoureLib/Belowground/Individual/OGS/container
                                  """)
         print("OGS-calculation done.")
         self.writePVDCollection()
 
     def renameParameters(self):
-        parameters = self._tree.find("parameters")
+        parameters = self._xml_tree.find("parameters")
         for parameter in parameters.iterchildren():
             name = parameter.find("name")
             if name.text.strip() == "c_ini":

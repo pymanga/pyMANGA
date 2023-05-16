@@ -12,9 +12,9 @@ from ResourceLib import ResourceModel
 
 class SymmetricZOI(ResourceModel):
     ## SymmetricZOI case for below ground competition concept. Symmetric
-    #  Zone Of Influence with trees occupying the same node of the grid share
+    #  Zone Of Influence with plants occupying the same node of the grid share
     #  the below-ground resource of this node equally (BETTINA geometry of a
-    #  tree assumed). See Peters 2017: ODD protocol of the model BETTINA IBM\n
+    #  plant assumed). See Peters 2017: ODD protocol of the model BETTINA IBM\n
     #  @param Tags to define SimpleAsymmetricZOI: see tag documentation
     #  @date: 2019 - Today
     def __init__(self, args):
@@ -23,7 +23,7 @@ class SymmetricZOI(ResourceModel):
         self.makeGrid(args)
 
     ## This functions prepares arrays for the competition
-    #  concept. In the SymmetricZOI concept, trees geometric measures
+    #  concept. In the SymmetricZOI concept, plants geometric measures
     #  are saved in simple lists and the timestepping is updated. \n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
@@ -34,12 +34,12 @@ class SymmetricZOI(ResourceModel):
         self.t_ini = t_ini
         self.t_end = t_end
 
-    ## Before being able to calculate the resources, all tree entities need
+    ## Before being able to calculate the resources, all plant entities need
     #  to be added with their current implementation for the next timestep.
-    #  @param tree
-    def addPlant(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
+    #  @param plant
+    def addPlant(self, plant):
+        x, y = plant.getPosition()
+        geometry = plant.getGeometry()
 
         if geometry["r_root"] < self.min_r_root:
             print("Error: mesh not fine enough for crown dimensions!")
@@ -47,7 +47,7 @@ class SymmetricZOI(ResourceModel):
                   str(self.min_r_root) + "m !")
             exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
-            raise ValueError("""It appears as a tree is located outside of the
+            raise ValueError("""It appears as a plant is located outside of the
                              domain, where BC is defined. Please check domains 
                              in project file!!""")
         self.xe.append(x)
@@ -56,36 +56,36 @@ class SymmetricZOI(ResourceModel):
 
     ## This function returns the BelowgroundResources calculated in the
     #  subsequent timestep.\n
-    #  @return: np.array with $N_tree$ scalars
+    #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
-        # Numpy array of shape [res_x, res_y, n_trees]
+        # Numpy array of shape [res_x, res_y, n_plants]
         distance = (((self.my_grid[0][:, :, np.newaxis] -
                       np.array(self.xe)[np.newaxis, np.newaxis, :])**2 +
                      (self.my_grid[1][:, :, np.newaxis] -
                       np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5)
-        # Array of shape distance [res_x, res_y, n_trees], indicating which
-        # cells are occupied by tree root plates
+        # Array of shape distance [res_x, res_y, n_plants], indicating which
+        # cells are occupied by plant root plates
         root_radius = np.array(self.r_root)
-        trees_present = root_radius[np.newaxis, np.newaxis, :] > distance
+        plants_present = root_radius[np.newaxis, np.newaxis, :] > distance
 
-        # Count all nodes, which are occupied by trees
-        # returns array of shape [n_trees]
+        # Count all nodes, which are occupied by plants
+        # returns array of shape [n_plants]
         # BETTINA ODD 2017: variable 'countbelow'
-        tree_counts = trees_present.sum(axis=(0, 1))
+        plant_counts = plants_present.sum(axis=(0, 1))
 
         # Calculate reciprocal of cell-own variables (array to count wins)
         # BETTINA ODD 2017: variable 'compete_below'
         # [res_x, res_y]
-        trees_present_reci = 1. / trees_present.sum(axis=-1)
+        plants_present_reci = 1. / plants_present.sum(axis=-1)
 
-        # Sum up wins of each tree = trees_present_reci[tree]
-        n_trees = len(trees_present[0, 0, :])
-        tree_wins = np.zeros(n_trees)
-        for i in range(n_trees):
-            tree_wins[i] = np.sum(trees_present_reci[np.where(
-                trees_present[:, :, i])])
+        # Sum up wins of each plant = plants_present_reci[plant]
+        n_plants = len(plants_present[0, 0, :])
+        plant_wins = np.zeros(n_plants)
+        for i in range(n_plants):
+            plant_wins[i] = np.sum(plants_present_reci[np.where(
+                plants_present[:, :, i])])
 
-        self.belowground_resources = tree_wins / tree_counts
+        self.belowground_resources = plant_wins / plant_counts
 
     ## This function reads x- and y-domain and mesh resolution
     #  from project file and creates the mesh.\n

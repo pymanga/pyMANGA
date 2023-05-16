@@ -10,8 +10,8 @@ from ResourceLib import ResourceModel
 
 class SimpleAsymmetricZOI(ResourceModel):
     ## SimpleAsymmetricZOI case for aboveground competition concept. Asymmetric
-    #  Zone Of Influence with highest tree at a meshpoint gets all the light at
-    #  this meshpoint (BETTINA geometry of a tree assumed).\n
+    #  Zone Of Influence with the highest plant at a meshpoint gets all the light at
+    #  this meshpoint (BETTINA geometry of a plant assumed).\n
     #  @param Tags to define SimpleAsymmetricZOI: see tag documentation
     #  @date: 2019 - Today
     def __init__(self, args):
@@ -21,17 +21,17 @@ class SimpleAsymmetricZOI(ResourceModel):
 
     ## This function returns the AbovegroundResources calculated in the
     #  subsequent timestep.\n
-    #  @return: np.array with $N_tree$ scalars
+    #  @return: np.array with $N_plant$ scalars
     def calculateAbovegroundResources(self):
-        #Array to save value of highest tree with shape = (res_x, res_y)
+        #Array to save value of highest plant with shape = (res_x, res_y)
         canopy_height = np.zeros_like(self.my_grid[0])
-        #Array to safe index of highest tree with shape = (res_x, res_y)
-        highest_tree = np.full_like(self.my_grid[0], fill_value=-99999)
-        #Array to safe number of wins per tree with shape = (n_trees)
+        #Array to safe index of highest plant with shape = (res_x, res_y)
+        highest_plant = np.full_like(self.my_grid[0], fill_value=-99999)
+        #Array to safe number of wins per plant with shape = (n_plants)
         wins = np.zeros_like(self.xe)
-        #Array to safe number of grid_points per tree with shape = (n_trees)
+        #Array to safe number of grid_points per plant with shape = (n_plants)
         crown_areas = np.zeros_like(self.xe)
-        #Iteration over trees to identify highest tree at gridpoint
+        #Iteration over plants to identify highest plant at gridpoint
         for i in range(len(self.xe)):
             distance = (((self.my_grid[0] - np.array(self.xe)[i])**2 +
                          (self.my_grid[1] - np.array(self.ye)[i])**2)**0.5)
@@ -42,22 +42,22 @@ class SimpleAsymmetricZOI(ResourceModel):
             crown_areas[i] = np.sum(canopy_bools)
             indices = np.where(np.less(canopy_height, my_height))
             canopy_height[indices] = my_height[indices]
-            highest_tree[indices] = i
-        #Check for each tree, at which gridpoint it is the highest plant
+            highest_plant[indices] = i
+        #Check for each plant, at which gridpoint it is the highest plant
         for i in range(len(self.xe)):
-            wins[i] = len(np.where(highest_tree == i)[0])
+            wins[i] = len(np.where(highest_plant == i)[0])
         self.aboveground_resources = wins / crown_areas
 
-    ## This function calculates the tree height at a (mesh-)point depending
-    #  on the distance from the tree position.\n
-    #  @param stem_height - stem height (shape: (n_trees))\n
-    #  @param crown_radius - crown radius (shape: (n_trees))\n
+    ## This function calculates the plant height at a (mesh-)point depending
+    #  on the distance from the plant position.\n
+    #  @param stem_height - stem height (shape: (n_plants))\n
+    #  @param crown_radius - crown radius (shape: (n_plants))\n
     #  @param distance - distance from the stem position(shape: (x_res, y_res))
     def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
         bools = crown_radius > distance
         idx = np.where(bools)
         height = np.zeros_like(distance)
-        #Here, the curved top of the tree is considered..
+        #Here, the curved top of the plant is considered..
         height[idx] = stem_height + (4 * crown_radius**2 -
                                      distance[idx]**2)**0.5
         return height, bools
@@ -114,9 +114,9 @@ class SimpleAsymmetricZOI(ResourceModel):
         self.my_grid = np.meshgrid(xe, ye)
 
     ## This functions prepares arrays for the competition
-    #  concept. In the SimpleAssymmetricZOI concept, trees geometric measures
+    #  concept. In the SimpleAssymmetricZOI concept, plants geometric measures
     #  are saved in simple lists and the timestepping is updated. Two numpy
-    #  arrays similar to the mesh array for canopy height and tree ID of highest tree
+    #  arrays similar to the mesh array for canopy height and plant ID of the highest plant
     #  at corresponding mesh point are initialised. \n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
@@ -128,13 +128,13 @@ class SimpleAsymmetricZOI(ResourceModel):
         self.t_ini = t_ini
         self.t_end = t_end
 
-    ## Before being able to calculate the resources, all tree entities need
+    ## Before being able to calculate the resources, all plant entities need
     #  to be added with their current implementation for the next timestep.
-    #  @param tree
-    def addPlant(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
+    #  @param plant
+    def addPlant(self, plant):
+        x, y = plant.getPosition()
+        geometry = plant.getGeometry()
+        parameter = plant.getParameter()
 
         if geometry["r_crown"] < self.min_r_crown:
             print("Error: mesh not fine enough for crown dimensions!")
@@ -143,7 +143,7 @@ class SimpleAsymmetricZOI(ResourceModel):
                 str(self.min_r_crown) + "m !")
             exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
-            raise ValueError("""It appears as a tree is located outside of the
+            raise ValueError("""It appears as a plant is located outside of the
                              domain, where AC is defined. Please check domains 
                              in project file!!""")
         self.xe.append(x)

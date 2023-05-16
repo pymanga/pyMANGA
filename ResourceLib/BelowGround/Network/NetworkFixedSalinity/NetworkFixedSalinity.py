@@ -9,7 +9,7 @@ from ResourceLib.BelowGround.Network.SimpleNetwork import SimpleNetwork
 from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity
 
 
-# MRO: NetworkFixedSalinity, SimpleNetwork, FixedSalinity, TreeModel, object
+# MRO: NetworkFixedSalinity, SimpleNetwork, FixedSalinity, ResourceModel, object
 class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
     ## Fixed salinityin belowground competition concept.
     #  @param: Tags to define FixedSalinity: type, salinity
@@ -20,25 +20,25 @@ class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
         self.getInputParameters(args=args)
 
     ## This functions prepares the computation of water uptake
-    #  by porewater salinity. Only tree height and leaf
+    #  by porewater salinity. Only plant height and leaf
     #  water potential is needed\n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
 
-    ## Before being able to calculate the resources, all tree entities need
+    ## Before being able to calculate the resources, all plant entities need
     #  to be added with their relevant allometric measures for the next timestep.
-    #  @param: tree
-    def addPlant(self, tree):
-        super().addPlant(tree=tree)
+    #  @param: plant
+    def addPlant(self, plant):
+        super().addPlant(plant=plant)
 
     ## This function returns a list of the growth modification factors of
-    # all trees. Calculated in the subsequent timestep.\n
-    #  The factor is > 1, if trees receive water from their adjacent trees;
-    #  < 1 if the lose water to the adjacent tree; or = 1 if no exchange
+    # all plants. Calculated in the subsequent timestep.\n
+    #  The factor is > 1, if plants receive water from their adjacent plants;
+    #  < 1 if the lose water to the adjacent plant; or = 1 if no exchange
     #  happens
-    #  @return: np.array with $N_tree$ scalars
+    #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
         # FixedSalinity start
         self.calculatePsiOsmo()
@@ -46,12 +46,12 @@ class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
 
         super().calculateBelowgroundResources()
 
-    ## This function returns a list of the growth reduction factors of all trees.
+    ## This function returns a list of the growth reduction factors of all plants.
     #  calculated in the subsequent timestep.\n
-    #  @return: np.array with $N_tree$ scalars
+    #  @return: np.array with $N_plant$ scalars
     def calculatePsiOsmo(self):
-        salinity_tree = super().getTreeSalinity()
-        self._psi_osmo = -85000000 * salinity_tree
+        salinity_plant = super().getPlantSalinity()
+        self._psi_osmo = -85000000 * salinity_plant
 
     ## This function reads input parameters, e.g. salinity from the control
     # file.

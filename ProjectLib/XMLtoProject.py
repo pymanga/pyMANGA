@@ -42,11 +42,11 @@ class XMLtoProject(Project.MangaProject):
         self.args["random_seed"] = self.root.find("random_seed")
 
     def addResourceConcept(self):
-        self.tree_dynamics = self.findChild(self.root, "resources")
+        self.plant_dynamics = self.findChild(self.root, "resources")
         self.args["aboveground_resources_concept"] = self.findChild(
-            self.tree_dynamics, "aboveground")
+            self.plant_dynamics, "aboveground")
         self.args["belowground_resource_concept"] = self.findChild(
-            self.tree_dynamics, "belowground")
+            self.plant_dynamics, "belowground")
 
     def addPlantDynamicConcept(self):
         self.args["plant_dynamics"] = self.findChild(self.root, "plant_dynamics")
@@ -62,7 +62,7 @@ class XMLtoProject(Project.MangaProject):
     def addVisualizationConcept(self):
         self.args["visualization"] = self.findChild(self.root, "visualization")
 
-    ## Parsing information concerning output of tree data from input-file to
+    ## Parsing information concerning output of plant data from input-file to
     #  project arguments.
     def addModelOutputConcept(self):
         self.args["model_output"] = self.findChild(self.root, "output")

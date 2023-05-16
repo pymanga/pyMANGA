@@ -28,8 +28,8 @@ class DynamicTimeLoop:
         print(case + " time stepping successfully initiated.")
 
     def iniSimpleTimeStepping(self, args):
-        from .SimpleTimeLoop import SimpleLoop
-        self.loop = SimpleLoop.Loop(args)
+        from .SimpleLoop import SimpleLoop
+        self.loop = SimpleLoop(args)
 
     def getNextTimeStepBoundaries(self):
         self.loop.getNextTimeStep()

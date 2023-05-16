@@ -9,4 +9,4 @@ Created on Thu Nov  8 15:25:03 2018
 from .DynamicTimeStep import DynamicTimeStep
 from .ExternalDynamicTimeStep import ExternalDynamicTimeStep
 from .DynamicTimeLoop import DynamicTimeLoop
-from .SimpleTimeLoop.SimpleLoop import Loop
+from .SimpleLoop.SimpleLoop import SimpleLoop

@@ -7,9 +7,9 @@
 import os
 
 
-## Parent class for tree output
+## Parent class for plant output
 class ModelOutput:
-    ## Constructor for tree output calling different constructors depending on
+    ## Constructor for plant output calling different constructors depending on
     #  choosen case.
 
     def __init__(self, args):
@@ -69,7 +69,7 @@ class ModelOutput:
         self._it_is_output_time = True
         print(
             "Output to '" + os.path.join(os.getcwd(), self.output_dir) +
-            "' of tree positions, the " + "parameters ",
+            "' of plant positions, the " + "parameters ",
             self.parameter_outputs, " and geometric" + " measures ",
             self.geometry_outputs, " at every " +
             str(self.output_each_nth_timestep) + " timesteps initialized.")
@@ -93,13 +93,13 @@ class ModelOutput:
             string += delimiter + network_output
         return string
 
-    def addSelectedOutputs(self, tree, string, delimiter, growth_information):
+    def addSelectedOutputs(self, plant, string, delimiter, growth_information):
         if len(self.geometry_outputs) > 0:
-            geometry = tree.getGeometry()
+            geometry = plant.getGeometry()
             for geometry_output in self.geometry_outputs:
                 string += delimiter + str(geometry[geometry_output])
         if len(self.parameter_outputs) > 0:
-            parameter = tree.getParameter()
+            parameter = plant.getParameter()
             for parameter_output in self.parameter_outputs:
                 string += delimiter + str(parameter[parameter_output])
         if len(self.growth_outputs) > 0:
@@ -115,7 +115,7 @@ class ModelOutput:
                     #       " might be not available in growth " + "concept!" +
                     #       " Please read growth concept documentation.")
         if len(self.network_outputs) > 0:
-            network = tree.getNetwork()
+            network = plant.getNetwork()
             for network_output in self.network_outputs:
                 string += delimiter + str(network[network_output])
         return string
@@ -123,15 +123,15 @@ class ModelOutput:
     ## This function checks if a key exists and if its text content is empty.
     #  Raises key-errors, if the key is not properly defined.
     #  @param key Name of the key to be checked
-    #  @param args args parsed from project. Xml-element
+    #  @param args parsed from project. Xml-element
     def checkRequiredKey(self, key, args):
         tmp = args.find(key)
         if tmp is None:
             raise KeyError("Required key '" + key + "' in project file at " +
-                           "position MangaProject__tree_output is missing.")
+                           "position MangaProject_model_output is missing.")
         elif tmp.text.strip() == "":
             raise KeyError("Key '" + key + "' in project file at position " +
-                           "MangaProject__tree_output needs to be specified.")
+                           "MangaProject_model_output needs to be specified.")
         return tmp.text
 
     ## Writes output to predefined folder

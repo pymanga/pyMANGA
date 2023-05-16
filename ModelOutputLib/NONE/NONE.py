@@ -12,7 +12,7 @@ class NONE(ModelOutput):
     def __init__(self, args):
         ## defining the type of output
         self.case = args.find("type").text
-        print("Running without tree output.")
+        print("Running without plant output.")
 
     def writeOutput(self, plant_groups, time, force_output=False, group_died=False):
         pass

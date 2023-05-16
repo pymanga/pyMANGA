@@ -9,8 +9,8 @@ from ModelOutputLib.ModelOutput import ModelOutput
 
 
 ## Output class. This class creates one file for the whole simulation,
-# i.e. each time step and tree is included.
-# A line contains time, tree, position, desired geometric measures
+# i.e. each time step and plant is included.
+# A line contains time, plant, position, desired geometric measures
 # and parameters for every nth time step.
 class OneFile(ModelOutput):
 
@@ -27,7 +27,7 @@ class OneFile(ModelOutput):
         file = open(os.path.join(self.output_dir, filename), "w")
 
         string = ""
-        string += 'tree' + self.delimiter + 'time' + self.delimiter + 'x' + \
+        string += 'plant' + self.delimiter + 'time' + self.delimiter + 'x' + \
                   self.delimiter + 'y'
         string = self.addSelectedHeadings(string, self.delimiter)
 
@@ -46,12 +46,12 @@ class OneFile(ModelOutput):
 
         string = ""
         for group_name, plant_group in plant_groups.items():
-            for tree in plant_group.getPlants():
-                growth_information = tree.getGrowthConceptInformation()
-                string += (group_name + "_" + "%09.0d" % (tree.getId()) +
+            for plant in plant_group.getPlants():
+                growth_information = plant.getGrowthConceptInformation()
+                string += (group_name + "_" + "%09.0d" % (plant.getId()) +
                            self.delimiter + str(time) + self.delimiter +
-                           str(tree.x) + self.delimiter + str(tree.y))
-                string = self.addSelectedOutputs(tree, string, self.delimiter,
+                           str(plant.x) + self.delimiter + str(plant.y))
+                string = self.addSelectedOutputs(plant, string, self.delimiter,
                                                  growth_information)
                 string += "\n"
                 for growth_output in self.growth_outputs:

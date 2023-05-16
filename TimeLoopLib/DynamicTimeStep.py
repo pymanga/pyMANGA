@@ -8,7 +8,7 @@
 import copy
 
 
-class DynamicTimeStepping:
+class DynamicTimeStep:
 
     def __init__(self, project):
         # Initialize concepts

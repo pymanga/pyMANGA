@@ -4,10 +4,10 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
 """
-from TimeLoopLib.DynamicTimeStepping import DynamicTimeStepping
+from TimeLoopLib.DynamicTimeStep import DynamicTimeStep
 
 
-class ExternalDynamicTimeStepping(DynamicTimeStepping):
+class ExternalDynamicTimeStep(DynamicTimeStep):
 
     def __init__(self, project, t_0):
         super().__init__(project)

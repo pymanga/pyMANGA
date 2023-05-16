@@ -8,7 +8,7 @@ manga_root_directory = path.dirname(
 sys.path.append(manga_root_directory)
 
 from ProjectLib import XMLtoProject
-from TimeLoopLib import DynamicTimeStepping
+from TimeLoopLib import DynamicTimeStep
 import unittest
 import glob
 from lxml import etree
@@ -69,7 +69,7 @@ class AutomatedBenchmarkTests(unittest.TestCase):
     def model_run(self, project):
         # Test of MANGA project file and run the model
         prj = XMLtoProject(xml_project_file=project)
-        time_stepper = DynamicTimeStepping(prj)
+        time_stepper = DynamicTimeStep(prj)
         prj.runProject(time_stepper)
 
     ## Comparison of benchmark results to reference files

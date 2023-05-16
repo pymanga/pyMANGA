@@ -34,8 +34,8 @@ class Visualization:
 
     ## Template for update.
     #  All children of this class require this function.
-    def update(self, tree_groups, time):
-        self.visualization.update(tree_groups, time)
+    def update(self, plant_groups, time):
+        self.visualization.update(plant_groups, time)
 
     ## Returns visualization type
     def getVisualizationType(self):

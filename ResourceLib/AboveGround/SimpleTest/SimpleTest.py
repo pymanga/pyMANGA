@@ -23,7 +23,7 @@ class SimpleTest(ResourceModel):
         #  subsequent timestep. In the SimpleTest concept, for each tree a one
         #  is returned
         #  @return: np.array with $N_tree$ scalars
-        self.aboveground_resources = self.trees
+        self.aboveground_resources = self.plants
 
     def prepareNextTimeStep(self, t_ini, t_end):
         ## This functions prepares the competition concept for the competition
@@ -32,7 +32,7 @@ class SimpleTest(ResourceModel):
         #  step, the list is simply resetted.
         #  @param: t_ini - initial time for next timestep \n
         #  t_end - end time for next timestep
-        self.trees = []
+        self.plants = []
         self.t_ini = t_ini
         self.t_end = t_end
 
@@ -47,4 +47,4 @@ class SimpleTest(ResourceModel):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
 
-        self.trees.append(1)
+        self.plants.append(1)

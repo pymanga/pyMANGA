@@ -29,10 +29,10 @@ class SimpleNetwork(ResourceModel):
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         # Parameters associated with the SimpleBettina model
-        self.trees = []
+        self.plants = []
         self._xe = []
         self._ye = []
-        self._tree_names = np.empty(0)
+        self._plant_names = np.empty(0)
         self._psi_height = []
         self._psi_leaf = []
         self._psi_osmo = []
@@ -94,7 +94,7 @@ class SimpleNetwork(ResourceModel):
         parameter = tree.getParameter()
         self.network = tree.getNetwork()
 
-        self.trees.append(tree)
+        self.plants.append(tree)
 
         self._rgf_counter.append(self.network['rgf'])
         self._partner_names.append(self.network['partner'])
@@ -118,8 +118,8 @@ class SimpleNetwork(ResourceModel):
         self._xe.append(x)
         self._ye.append(y)
         self.no_trees = len(self._xe)
-        self._tree_names = np.concatenate(
-            (self._tree_names, [str(tree.group_name) + str(tree.tree_id)]))
+        self._plant_names = np.concatenate(
+            (self._plant_names, [str(tree.group_name) + str(tree.plant_id)]))
 
         self._below_graft_resistance = np.concatenate(
             (self._below_graft_resistance, [
@@ -187,7 +187,7 @@ class SimpleNetwork(ResourceModel):
     def updateNetworkParametersForGrowthAndDeath(self):
         # Update the parameter belonging to the tree and are needed in the
         # growth- and-death-concept
-        for i, tree in zip(range(0, self.no_trees), self.trees):
+        for i, tree in zip(range(0, self.no_trees), self.plants):
             network = {}
             # Parameters related to the root graft formation process
             network['potential_partner'] = self._potential_partner[i]
@@ -239,7 +239,7 @@ class SimpleNetwork(ResourceModel):
     ##############################
 
     The sub-model group formation manages the formation of groups. Therefore, 
-    it requires a list with tree_names (self._tree_names) and a list with 
+    it requires a list with plant_names (self._plant_names) and a list with 
     partner_names (self._partners).
     The sub-model converts the partner_names into current index values, 
     then  creates a graph dictionary from the partner indices and assigns 
@@ -254,7 +254,7 @@ class SimpleNetwork(ResourceModel):
             for j in range(0, len(self._partner_names[i])):
                 ## If the name of the partner isn't in the list of tree
                 # names anymore it will be removed from the partner list
-                if self._partner_names[i][j] not in self._tree_names:
+                if self._partner_names[i][j] not in self._plant_names:
                     partners_delete.append(self._partner_names[i][j])
             if partners_delete:
                 for p in partners_delete:
@@ -268,7 +268,7 @@ class SimpleNetwork(ResourceModel):
             # of tree names anymore it will be removed from the partner
             # list
             if (self._potential_partner[i]) and (self._potential_partner[i]
-                                                 not in self._tree_names):
+                                                 not in self._plant_names):
                 self._potential_partner[i] = []
                 self._rgf_counter[i] = -1
 
@@ -283,7 +283,7 @@ class SimpleNetwork(ResourceModel):
             else:
                 h = []
                 for j in i:
-                    a = tree_indices[np.where(self._tree_names == j)][0]
+                    a = tree_indices[np.where(self._plant_names == j)][0]
                     h.append(a)
                 self._partner_indices.append(h)
 
@@ -491,7 +491,7 @@ class SimpleNetwork(ResourceModel):
                 l1, l2 = pair[0], pair[1]
                 self._rgf_counter[l1], self._rgf_counter[l2] = 1, 1
                 self._potential_partner[l1], self._potential_partner[l2] = \
-                    self._tree_names[l2], self._tree_names[l1]
+                    self._plant_names[l2], self._plant_names[l1]
                 if (self._variant[l1] == "V2_adapted") and \
                         (self._variant[l2] == "V2_adapted"):
                     # Set initial size of grafted root radius

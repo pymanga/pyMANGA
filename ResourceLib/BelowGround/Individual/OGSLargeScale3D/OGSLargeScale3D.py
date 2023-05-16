@@ -242,10 +242,10 @@ class OGSLargeScale3D(ResourceModel):
     # all tree-affected cells
     def calculateTreeSalinity(self):
         self._tree_salinity = np.zeros(self.no_trees)
-        for tree_id in range(self.no_trees):
-            ids = self._tree_cell_ids[tree_id]
+        for plant_id in range(self.no_trees):
+            ids = self._tree_cell_ids[plant_id]
             mean_salinity_for_tree = np.mean(self._salinity[ids])
-            self._tree_salinity[tree_id] = mean_salinity_for_tree
+            self._tree_salinity[plant_id] = mean_salinity_for_tree
         self._psi_osmo = -self._tree_salinity * 1000 * 85000
 
     # This function calculates the water withdrawal in each cell split
@@ -255,14 +255,14 @@ class OGSLargeScale3D(ResourceModel):
         self._constant_contributions = np.zeros(len(self._salinity))
         self._salinity_prefactors = np.zeros(len(self._salinity))
 
-        for tree_id in range(self.no_trees):
-            ids = self._tree_cell_ids[tree_id]
-            v = self._tree_cell_volume[tree_id]
+        for plant_id in range(self.no_trees):
+            ids = self._tree_cell_ids[plant_id]
+            v = self._tree_cell_volume[plant_id]
             per_volume = 1. / v
-            constant_contribution = self._tree_constant_contribution[tree_id]
+            constant_contribution = self._tree_constant_contribution[plant_id]
             self._constant_contributions[ids] = constant_contribution * \
                 per_volume
-            salinity_prefactor = self._tree_salinity_prefactor[tree_id]
+            salinity_prefactor = self._tree_salinity_prefactor[plant_id]
             self._salinity_prefactors[ids] = salinity_prefactor * \
                 per_volume
 
@@ -273,11 +273,11 @@ class OGSLargeScale3D(ResourceModel):
     # required for various child concepts
     def calculateCompleteTreeContribution(self):
         self._tree_contribution_per_cell = np.zeros(len(self._salinity))
-        for tree_id in range(self.no_trees):
-            ids = self._tree_cell_ids[tree_id]
-            v = self._tree_cell_volume[tree_id]
+        for plant_id in range(self.no_trees):
+            ids = self._tree_cell_ids[plant_id]
+            v = self._tree_cell_volume[plant_id]
             per_volume = 1. / v
-            tree_contribution = self._tree_water_uptake[tree_id]
+            tree_contribution = self._tree_water_uptake[plant_id]
             self._tree_contribution_per_cell[ids] = tree_contribution * \
                 per_volume
 

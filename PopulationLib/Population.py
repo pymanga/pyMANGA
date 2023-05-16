@@ -12,37 +12,37 @@ from PopulationLib import PlantGroup
 class Population(PlantGroup):
 
     def __init__(self, args):
-        self.tree_groups = {}
-        self.trees = []
+        self.plant_groups = {}
+        self.plants = []
         self.max_id = 0
         for arg in args.iter("group"):
             self.addPlantGroup(arg)
 
     def addPlantGroup(self, args):
-        tree_group = PLib.GroupPlanting(args)
-        self.tree_groups[tree_group.name] = tree_group
-        self.max_id += tree_group.getNumberOfPlants()
+        plant_group = PLib.GroupPlanting(args)
+        self.plant_groups[plant_group.name] = plant_group
+        self.max_id += plant_group.getNumberOfPlants()
 
     def getPlantGroups(self):
-        return self.tree_groups
+        return self.plant_groups
 
     def getPlantGroup(self, name):
-        return self.tree_groups[name]
+        return self.plant_groups[name]
 
-    def getUngroupedTrees(self):
-        return self.trees
+    def getUngroupedPlants(self):
+        return self.plants
 
     def getPlants(self):
-        all_trees = []
-        for name, group in self.tree_groups.items():
-            for tree in group.getPlants():
-                all_trees.append(tree)
-        all_trees.append(self.trees)
-        return all_trees
+        all_plants = []
+        for name, group in self.plant_groups.items():
+            for plant in group.getPlants():
+                all_plants.append(plant)
+        all_plants.append(self.plants)
+        return all_plants
 
     def getNumberOfPlants(self):
-        n_trees = 0
-        for name, group in self.tree_groups.items():
-            n_trees += group.getNumberOfPlants()
-        n_trees += len(self.trees)
-        return n_trees
+        n_plants = 0
+        for name, group in self.plant_groups.items():
+            n_plants += group.getNumberOfPlants()
+        n_plants += len(self.plants)
+        return n_plants

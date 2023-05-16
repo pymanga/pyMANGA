@@ -138,7 +138,7 @@ class ModelOutput:
     #  For each timestep a file is created throughout the simulation.
     #  This function is only able to work, if the output directory exists and
     #  is empty at the begin of the model run
-    def writeOutput(self, tree_groups, time, force_output=False, group_died=False):
+    def writeOutput(self, plant_groups, time, force_output=False, group_died=False):
         if self.output_each_nth_timestep is not None:
             self._output_counter = (self._output_counter %
                                     self.output_each_nth_timestep)
@@ -149,11 +149,11 @@ class ModelOutput:
             self._it_is_output_time = True
 
         if self._it_is_output_time:
-            self.outputContent(tree_groups=tree_groups,
+            self.outputContent(plant_groups=plant_groups,
                                time=time,
                                group_died=group_died)
             self._it_is_output_time = False
         self._output_counter += 1
 
-    def outputContent(self, tree_groups, time, **kwargs):
+    def outputContent(self, plant_groups, time, **kwargs):
         pass

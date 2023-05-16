@@ -74,14 +74,14 @@ class OGSWithoutFeedback(OGSLargeScale3D):
     #  as: resource uptake at zero salinity/ real resource uptake.
     def calculateBelowgroundResources(self):
         super().getCellSalinity()
-        for tree_id in range(len(self._tree_constant_contribution)):
-            ids = self._tree_cell_ids[tree_id]
+        for plant_id in range(len(self._tree_constant_contribution)):
+            ids = self._tree_cell_ids[plant_id]
             mean_salinity_for_tree = np.mean(self._salinity[ids])
             belowground_resource = (
-                (self._tree_constant_contribution[tree_id] +
+                (self._tree_constant_contribution[plant_id] +
                  mean_salinity_for_tree *
-                 self._tree_salinity_prefactor[tree_id]) /
-                self._tree_constant_contribution[tree_id])
+                 self._tree_salinity_prefactor[plant_id]) /
+                self._tree_constant_contribution[plant_id])
             self.belowground_resources.append(belowground_resource)
 
     ## This functions prepares the next timestep for the competition

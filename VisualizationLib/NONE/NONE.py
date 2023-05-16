@@ -14,7 +14,7 @@ class NONE(Visualization):
         print("Running without visualization.")
 
     ## Dummy update function
-    def update(self, tree_groups, time):
+    def update(self, plant_groups, time):
         pass
 
     ## Dummy show function

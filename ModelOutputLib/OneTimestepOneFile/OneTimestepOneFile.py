@@ -13,7 +13,7 @@ import os
 #  desired parameters is written at every nth timestep.
 class OneTimestepOneFile(ModelOutput):
 
-    def outputContent(self, tree_groups, time, **kwargs):
+    def outputContent(self, plant_groups, time, **kwargs):
         delimiter = "\t"
 
         if not kwargs["group_died"]:
@@ -29,8 +29,8 @@ class OneTimestepOneFile(ModelOutput):
 
         string += "\n"
         file.write(string)
-        for group_name, tree_group in tree_groups.items():
-            for tree in tree_group.getPlants():
+        for group_name, plant_group in plant_groups.items():
+            for tree in plant_group.getPlants():
                 growth_information = tree.getGrowthConceptInformation()
                 string = ""
                 string += (group_name + "_" + "%09.0d" % (tree.getId()) +

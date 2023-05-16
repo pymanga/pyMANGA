@@ -8,18 +8,18 @@ from lxml import etree
 import importlib.util
 
 
-class Tree:
+class Plant:
 
     def __init__(self,
                  x,
                  y,
                  species,
-                 tree_id,
+                 plant_id,
                  initial_geometry=False,
                  group_name=""):
-        self.tree_id = tree_id
+        self.plant_id = plant_id
         self.species = species
-        self.trees = []
+        self.plants = []
         self.x = x
         self.y = y
         self.survival = 1
@@ -29,19 +29,19 @@ class Tree:
         self.iniNetwork()
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
-            self.geometry, self.parameter = Avicennia.createTree()
+            self.geometry, self.parameter = Avicennia.createPlant()
         elif "/" in species:
             try:
                 spec = importlib.util.spec_from_file_location("", species)
                 foo = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(foo)
-                self.geometry, self.parameter = foo.createTree()
+                self.geometry, self.parameter = foo.createPlant()
             except FileNotFoundError:
                 raise FileNotFoundError("The file " + species +
                                         " does not exist.")
             except AttributeError:
                 raise AttributeError("The file " + species + " is not " +
-                                     "correctly defining a tree species. "
+                                     "correctly defining a plant species. "
                                      "Please review the file.")
         else:
             raise KeyError("Species " + species + " unknown!")
@@ -77,19 +77,19 @@ class Tree:
         self.survival = survival
 
     def getId(self):
-        return self.tree_id
+        return self.plant_id
 
     ## This function initializes a dictionary containing parameters required
-    # to build a network of grafted trees
+    # to build a network of grafted plants
     def iniNetwork(self):
         self.network = {}
         ## Counter to track or define the time required for root graft
         # formation, if -1 no root graft formation takes place at the moment
         self.network['rgf'] = -1
-        ## List with the names of trees (tree_name) with which an root graft
+        ## List with the names of plants (plant_name) with which an root graft
         # is currently being formed
         self.network['potential_partner'] = []
-        # List with the names of trees (tree_name) with which it is connected
+        # List with the names of plants (plant_name) with which it is connected
         self.network['partner'] = []
         self.network['groupID'] = []
         self.network['node_degree'] = 0
@@ -97,7 +97,7 @@ class Tree:
         self.network['water_available'] = []
         self.network['water_exchanged'] = []
         ## List with lengths of grafted roots (proportional to r_root of
-        # adjacent trees
+        # adjacent plants
         self.network['weight_gr'] = 0
         self.network['psi_osmo'] = []
         # List with minimum grafted root radius, only for rgf variant V2

@@ -7,7 +7,7 @@ List containing species specific tree model parameters.
 """
 
 
-def createTree():
+def createPlant():
     ini_root_depth = 0.004
     ini_crown_depth = 0.004
     ini_stem_radius = 0.005

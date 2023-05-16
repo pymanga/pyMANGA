@@ -43,7 +43,7 @@ class NetworkBettina(SimpleBettina):
         self.l_gr_rgf = network['l_gr_rgf']
         self.weight_gr = network['weight_gr']
 
-        self.name = str(tree.group_name) + str(tree.tree_id)
+        self.name = str(tree.group_name) + str(tree.plant_id)
         # Simple bettina tree progress
         super().progressTree(tree=tree,
                              aboveground_resources=aboveground_resources,

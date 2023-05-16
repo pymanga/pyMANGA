@@ -21,7 +21,7 @@ class SimpleTest(ResourceModel):
     #  is returned
     #  @return: np.array with $N_tree$ scalars
     def calculateBelowgroundResources(self):
-        self.belowground_resources = self.trees
+        self.belowground_resources = self.plants
 
     ## This functions prepares the competition concept for the competition
     #  concept. In the SimpleTest concept, trees are saved in a simple list
@@ -30,7 +30,7 @@ class SimpleTest(ResourceModel):
     #  @param: t_ini - initial time for next timestep \n
     #  t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        self.trees = []
+        self.plants = []
         self.t_ini = t_ini
         self.t_end = t_end
 
@@ -41,7 +41,7 @@ class SimpleTest(ResourceModel):
     #  stored for each tree
     #  @param: position, geometry, parameter
     def addPlant(self, tree):
-        self.trees.append(1)
+        self.plants.append(1)
 
     ## Test for external timestepper, whether the concept is optimized for ex-
     #  ternal communication

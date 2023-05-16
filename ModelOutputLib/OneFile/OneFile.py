@@ -36,7 +36,7 @@ class OneFile(ModelOutput):
 
         file.close()
 
-    def outputContent(self, tree_groups, time, **kwargs):
+    def outputContent(self, plant_groups, time, **kwargs):
         if not kwargs["group_died"]:
             file = open(os.path.join(self.output_dir, 'Population.csv'), "a")
         else:
@@ -45,8 +45,8 @@ class OneFile(ModelOutput):
             file = open(os.path.join(self.output_dir, filename), "a")
 
         string = ""
-        for group_name, tree_group in tree_groups.items():
-            for tree in tree_group.getPlants():
+        for group_name, plant_group in plant_groups.items():
+            for tree in plant_group.getPlants():
                 growth_information = tree.getGrowthConceptInformation()
                 string += (group_name + "_" + "%09.0d" % (tree.getId()) +
                            self.delimiter + str(time) + self.delimiter +

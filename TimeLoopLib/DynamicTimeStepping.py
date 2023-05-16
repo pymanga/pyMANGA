@@ -26,7 +26,7 @@ class DynamicTimeStepping:
         self.belowground_resources = []
         self._previous_plant_groups = []
 
-    ## This progresses one time step, by updating tree population and above-
+    ## This progresses one time step, by updating plant population and above-
     # and below-ground resources. Not all concepts have to be called with
     # the same frequency (i.e. only if update_x is true).
     def step(self, t_start, t_end, update_ag, update_bg):
@@ -38,17 +38,17 @@ class DynamicTimeStepping:
         plant_groups = self.population_concept.getPlantGroups()
 
         self.model_output_concept.writeOutput(plant_groups, t_start)
-        # Initialize tree counter variable
-        number_of_trees = 0
+        # Initialize plant counter variable
+        number_of_plants = 0
         for group_name, plant_group in plant_groups.items():
-            for tree in plant_group.getPlants():
-                number_of_trees += 1
+            for plant in plant_group.getPlants():
+                number_of_plants += 1
                 if update_ag:
-                    self.aboveground_resource_concept.addPlant(tree)
+                    self.aboveground_resource_concept.addPlant(plant)
                 if update_bg:
-                    self.belowground_resource_concept.addPlant(tree)
-        # Only update resources if trees exist
-        if number_of_trees > 0:
+                    self.belowground_resource_concept.addPlant(plant)
+        # Only update resources if plants exist
+        if number_of_plants > 0:
             if update_ag:
                 self.aboveground_resource_concept.calculateAbovegroundResources()
                 self.aboveground_resources = (
@@ -58,28 +58,28 @@ class DynamicTimeStepping:
                 self.belowground_resources = (
                     self.belowground_resource_concept.getBelowgroundResources())
         j = 0
-        number_of_trees = 0
+        number_of_plants = 0
         eliminated_plant_groups = {}
         for group_name, plant_group in plant_groups.items():
             kill_indices = []
-            for tree, i in zip(plant_group.getPlants(),
+            for plant, i in zip(plant_group.getPlants(),
                                range(plant_group.getNumberOfPlants())):
-                ## If a new tree is recruited in the current time step and
+                ## If a new plant is recruited in the current time step and
                 # the respective resource was not updated, set survival of
-                # the new tree to 1
+                # the new plant to 1
                 try:
                     ag = self.aboveground_resources[j]
                     bg = self.belowground_resources[j]
-                    self.plant_dynamic_concept.progressTree(tree, ag, bg)
+                    self.plant_dynamic_concept.progressPlant(plant, ag, bg)
                 except IndexError:
-                    tree.setSurvival(1)
+                    plant.setSurvival(1)
 
-                if not tree.getSurvival():
+                if not plant.getSurvival():
                     kill_indices.append(i)
 
                 j += 1
 
-            # If all trees of a group died, make a copy of this tree set
+            # If all plants of a group died, make a copy of this plant set
             if len(kill_indices) > 0 and plant_group.getNRecruits() == 0:
                 if len(kill_indices) == plant_group.getNumberOfPlants():
                     eliminated_plant_groups[plant_group.name] = copy.deepcopy(
@@ -90,13 +90,13 @@ class DynamicTimeStepping:
             plant_group.removePlantsAtIndices(kill_indices)
             plant_group.recruitPlants()
 
-            # Add number of recruited trees to counter
-            number_of_trees += plant_group.getNumberOfPlants()
+            # Add number of recruited plants to counter
+            number_of_plants += plant_group.getNumberOfPlants()
 
-        # Stop MANGA execution if no trees exist or were recruited
-        if number_of_trees == 0:
-            print("INFO: MANGA execution stopped because all trees died and "
-                  "no new tree were recruited.")
+        # Stop MANGA execution if no plants exist or were recruited
+        if number_of_plants == 0:
+            print("INFO: MANGA execution stopped because all plants died and "
+                  "no new plant were recruited.")
             exit()
         self.visualization_concept.update(plant_groups, t_end)
 

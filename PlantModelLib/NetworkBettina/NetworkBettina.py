@@ -28,7 +28,7 @@ class NetworkBettina(SimpleBettina):
     #  (shading effect)\n
     #  @param belowground_resources - fraction of max water uptake (competition
     #  and/or salinity > 0)
-    def progressTree(self, tree, aboveground_resources, belowground_resources):
+    def progressPlant(self, tree, aboveground_resources, belowground_resources):
         network = tree.getNetwork()
         ## counter to track or define the time required for root graft formation,
         # if -1 no root graft formation takes place at the moment
@@ -45,7 +45,7 @@ class NetworkBettina(SimpleBettina):
 
         self.name = str(tree.group_name) + str(tree.plant_id)
         # Simple bettina tree progress
-        super().progressTree(tree=tree,
+        super().progressPlant(tree=tree,
                              aboveground_resources=aboveground_resources,
                              belowground_resources=belowground_resources)
 

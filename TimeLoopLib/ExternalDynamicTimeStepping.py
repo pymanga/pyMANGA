@@ -41,7 +41,7 @@ class ExternalDynamicTimeStepping(DynamicTimeStepping):
         update_bg = True if self.step_counter % self.n_step_bg == 0 else False
         return update_ag, update_bg
 
-    ## This progresses one time step, by updating tree population and above-
+    ## This progresses one time step, by updating plant population and above-
     # and below-ground resources depending on the associated bools
     def step(self, t_end):
         update_ag, update_bg = self.getUpdateBools()

@@ -28,7 +28,7 @@ class SimpleTest(ResourceModel):
         self.t_ini = t_ini
         self.t_end = t_end
 
-    def progressTree(self, tree, aboveground_resources, belowground_resources):
+    def progressPlant(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
         tree.setGeometry(geometry)

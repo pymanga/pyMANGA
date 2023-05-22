@@ -5,10 +5,17 @@
             <type> SimpleTest </type>
         </aboveground>
         <belowground>
-            <type> FixedSalinity </type>
-            <min_x>0</min_x>
-            <max_x>22</max_x>
-            <salinity>0.025 0.035</salinity>
+            <type>OGSLargeScale3D</type>
+            <ogs_project_folder>Benchmarks/ModuleBenchmarks/PlantModules/SimpleKiwi/Belowground/OGSLargeScale3D/</ogs_project_folder>
+            <ogs_project_file>ogs_benchmark.prj</ogs_project_file>
+            <source_mesh>ogs_benchmark_source.vtu</source_mesh>
+            <bulk_mesh>ogs_benchmark_domain.vtu</bulk_mesh>
+            <delta_t_ogs>1000000</delta_t_ogs>
+            <abiotic_drivers>
+                <left_salinity>0.025</left_salinity>
+                <right_salinity>0.035</right_salinity>
+            </abiotic_drivers>
+            <python_script>python_script.py</python_script>
         </belowground>
     </resources>
     <plant_dynamics>
@@ -29,16 +36,16 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 2e6 </t_end>
+        <t_end> 5e8 </t_end>
         <delta_t> 1e6 </delta_t>
     </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
     <output>
-         <type> OneTimestepOneFile </type>
+        <type> OneTimestepOneFile </type>
         <output_each_nth_timestep>1</output_each_nth_timestep>
-        <output_times> [2e6] </output_times>
+        <output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>
@@ -46,5 +53,6 @@
         <growth_output> growth </growth_output>
         <growth_output> ag_factor </growth_output>
         <growth_output> bg_factor </growth_output>
+        <growth_output> salinity </growth_output>
     </output>
 </MangaProject>

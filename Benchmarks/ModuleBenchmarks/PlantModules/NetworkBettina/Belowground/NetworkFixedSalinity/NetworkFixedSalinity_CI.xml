@@ -5,15 +5,18 @@
             <type> SimpleTest </type>
         </aboveground>
         <belowground>
-            <type> FixedSalinity </type>
+            <type> NetworkFixedSalinity </type>
+            <f_radius> 0.25 </f_radius>
             <min_x>0</min_x>
             <max_x>22</max_x>
             <salinity>0.025 0.035</salinity>
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> SimpleKiwi </type>
+        <type> NetworkBettina </type>
         <mortality>NoGrowth</mortality>
+        <f_growth> 0.25 </f_growth>
+        <variant> V2_adapted </variant>
     </plant_dynamics>
     <population>
         <group>
@@ -36,15 +39,25 @@
         <type> NONE </type>
     </visualization>
     <output>
-         <type> OneTimestepOneFile </type>
+        <type> OneTimestepOneFile </type>
         <output_each_nth_timestep>1</output_each_nth_timestep>
         <output_times> [2e6] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>
-        <geometry_output> height </geometry_output>
+        <geometry_output> h_stem </geometry_output>
+        <geometry_output> r_crown </geometry_output>
+        <geometry_output> r_root </geometry_output>
         <growth_output> growth </growth_output>
-        <growth_output> ag_factor </growth_output>
-        <growth_output> bg_factor </growth_output>
+        <growth_output> ag_resources </growth_output>
+        <growth_output> bg_resources </growth_output>
+        <network_output> psi_osmo </network_output>
+        <network_output> rgf </network_output>
+        <network_output> partner </network_output>
+        <network_output> potential_partner </network_output>
+        <network_output> water_available </network_output>
+        <network_output> water_absorbed </network_output>
+        <network_output> water_exchanged </network_output>
     </output>
 </MangaProject>
+

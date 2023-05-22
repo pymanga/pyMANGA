@@ -23,11 +23,12 @@ class XMLtoProject(Project.MangaProject):
         self.args = {}
         self.readProjectFile()
         self.addNumpyRandomSeed()
-        self.addTreeDynamicConcepts()
-        self.addInitialPopulation()
-        self.addTreeTimeLoop()
-        self.addVisualization()
-        self.addTreeOutput()
+        self.addResourceConcept()
+        self.addPlantDynamicConcept()
+        self.addPopulationConcept()
+        self.addPlantTimeLoopConcept()
+        self.addVisualizationConcept()
+        self.addModelOutputConcept()
         self.argsToProject()
 
     def readProjectFile(self):
@@ -40,30 +41,31 @@ class XMLtoProject(Project.MangaProject):
     def addNumpyRandomSeed(self):
         self.args["random_seed"] = self.root.find("random_seed")
 
-    def addTreeDynamicConcepts(self):
-        self.tree_dynamics = self.findChild(self.root, "tree_dynamics")
-        self.args["aboveground_competition"] = self.findChild(
-            self.tree_dynamics, "aboveground_competition")
-        self.args["belowground_competition"] = self.findChild(
-            self.tree_dynamics, "belowground_competition")
-        self.args["tree_growth_and_death"] = self.findChild(
-            self.tree_dynamics, "tree_growth_and_death")
+    def addResourceConcept(self):
+        self.tree_dynamics = self.findChild(self.root, "resources")
+        self.args["aboveground_resources_concept"] = self.findChild(
+            self.tree_dynamics, "aboveground")
+        self.args["belowground_resource_concept"] = self.findChild(
+            self.tree_dynamics, "belowground")
 
-    def addInitialPopulation(self):
-        self.args["initial_population"] = self.findChild(
-            self.root, "initial_population")
+    def addPlantDynamicConcept(self):
+        self.args["plant_dynamics"] = self.findChild(self.root, "plant_dynamics")
 
-    def addTreeTimeLoop(self):
-        self.args["tree_time_loop"] = self.findChild(self.root,
-                                                     "tree_time_loop")
+    def addPopulationConcept(self):
+        self.args["population"] = self.findChild(
+            self.root, "population")
 
-    def addVisualization(self):
+    def addPlantTimeLoopConcept(self):
+        self.args["time_loop"] = self.findChild(self.root,
+                                                     "time_loop")
+
+    def addVisualizationConcept(self):
         self.args["visualization"] = self.findChild(self.root, "visualization")
 
     ## Parsing information concerning output of tree data from input-file to
     #  project arguments.
-    def addTreeOutput(self):
-        self.args["tree_output"] = self.findChild(self.root, "tree_output")
+    def addModelOutputConcept(self):
+        self.args["model_output"] = self.findChild(self.root, "output")
 
     def findChild(self, parent, key):
         child = parent.find(key)

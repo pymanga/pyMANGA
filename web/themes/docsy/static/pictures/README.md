@@ -1,1 +1,0 @@
-This folder serves as a static directory in the German language version of the homepage.

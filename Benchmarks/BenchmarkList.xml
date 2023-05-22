@@ -1,49 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Benchmarks>
-    <GenericTests>
-        <test> AllSimple.xml </test>
-    </GenericTests>
     <ModuleBenchmarks>
+        <GrowthAndDeath>
+            <SimpleBettina>
+                <test> SimpleBettina_CI.xml </test>
+            </SimpleBettina>
+        </GrowthAndDeath>
         <BelowgroundCompetition>
             <FixedSalinity>
                 <test> FixedSalinity_CI.xml </test>
             </FixedSalinity>
-            <NetworkFixedSalinity>
-                <test> NetworkFixedSalinity_CI.xml </test>
-            </NetworkFixedSalinity>
-            <SimpleNetwork>
-                <test> SimpleNetwork_CI.xml </test>
-            </SimpleNetwork>
-            <SymmetricZOI>
-                <test> SymmetricZOI_CI.xml </test>
-            </SymmetricZOI>
-            <SZoiFixedSalinity>
-                <test> SZoiFixedSalinity_CI.xml </test>
-            </SZoiFixedSalinity>
         </BelowgroundCompetition>
         <AbovegroundCompetition>
             <SimpleAsymmetricZOI>
                 <test> SimpleAsymmetricZOI_CI.xml </test>
             </SimpleAsymmetricZOI>
         </AbovegroundCompetition>
-        <GrowthAndDeath>
-            <SimpleBettina>
-                <test> SimpleBettina_CI.xml </test>
-            </SimpleBettina>
-            <Mortality>
-                <Memory>
-                    <test> Memory_CI.xml </test>
-                </Memory>
-                <NoGrowth>
-                    <test> NoGrowth_CI.xml </test>
-                </NoGrowth>
-                <Random>
-                    <test> Random_CI.xml </test>
-                </Random>
-                <RandomGrowth>
-                    <test> RandomGrowth_CI.xml </test>
-                </RandomGrowth>
-            </Mortality>
-        </GrowthAndDeath>
     </ModuleBenchmarks>
 </Benchmarks>

@@ -1,3 +1,0 @@
-
-
-FON parameter b.

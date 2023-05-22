@@ -41,11 +41,11 @@ class Model():
         self.timestepper.step(t_end)
 
     def setBelowgroundInformation(self, **args):
-        self.prj.getBelowgroundCompetition().setExternalInformation(**args)
+        self.prj.getBelowgroundResourceConcept().setExternalInformation(**args)
 
     ## Getter for external information
     def getBelowgroundInformation(self):
-        return self.prj.getBelowgroundCompetition().getExternalInformation()
+        return self.prj.getBelowgroundResourceConcept().getExternalInformation()
 
 
 def main(argv):

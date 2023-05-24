@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Benchmarks>
     <ModuleBenchmarks>
-        <GrowthAndDeath>
+        <PlantModules>
             <SimpleBettina>
-                <test> SimpleBettina_CI.xml </test>
+                <Belowground>
+                    <FixedSalinity>
+                        <test> FixedSalinity_CI.xml </test>
+                    </FixedSalinity>
+                </Belowground>
+                <Aboveground>
+                    <SimpleAsymmetricZOI>
+                        <test> SimpleAsymmetricZOI_CI.xml </test>
+                    </SimpleAsymmetricZOI>
+                </Aboveground>
             </SimpleBettina>
-           <SimpleKiwi>
-                <test> SimpleKiwi_CI.xml </test>
+            <SimpleKiwi>
+                <SimpleTest>
+                    <test> SimpleTest_CI.xml </test>
+                </SimpleTest>
             </SimpleKiwi>
-        </GrowthAndDeath>
-        <BelowgroundCompetition>
-            <FixedSalinity>
-                <test> FixedSalinity_CI.xml </test>
-            </FixedSalinity>
-        </BelowgroundCompetition>
-        <AbovegroundCompetition>
-            <SimpleAsymmetricZOI>
-                <test> SimpleAsymmetricZOI_CI.xml </test>
-            </SimpleAsymmetricZOI>
-        </AbovegroundCompetition>
+        </PlantModules>
     </ModuleBenchmarks>
 </Benchmarks>

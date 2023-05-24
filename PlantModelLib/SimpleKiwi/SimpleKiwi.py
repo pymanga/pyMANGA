@@ -37,6 +37,7 @@ class SimpleKiwi(PlantModel):
         super().setMortalityVariables(growth_concept_information)
         self.survive = 1
 
+        # dbh and height are in cm as in Berger & Hildenbrandt 2000
         dbh = geometry["r_stem"] * 200
 
         height = (137 + parameter["b2"] * dbh - parameter["b3"] * dbh**2)
@@ -48,8 +49,16 @@ class SimpleKiwi(PlantModel):
             belowground_resources * aboveground_resources)
         dbh = dbh + self.grow * self.time / (3600 * 24 * 365.25)
 
-        geometry["r_stem"] = dbh / 200
-        geometry["height"] = height / 100
+        # Scaling dbh to zone of influence (ZOI) based on eq. 1 in
+        # Berger & Hildenbrandt 2000
+        # r_zoi is used as proxy for root and crown plate radius in resource modules
+        r_zoi = parameter["a_zoi_scaling"] * (dbh/2/100)**0.5
+
+        # Update tree dictionaries
+        geometry["r_stem"] = dbh / 200          # in m
+        geometry["r_root"] = r_zoi              # in m
+        geometry["r_crown"] = r_zoi             # in m
+        geometry["height"] = height / 100       # in m
         growth_concept_information["growth"] = self.grow
         growth_concept_information["bg_factor"] = belowground_resources
         growth_concept_information["ag_factor"] = aboveground_resources

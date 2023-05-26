@@ -13,8 +13,8 @@ class Kiwi(PlantModel):
     #  @param Tags to define Kiwi, see tag documentation \n
     #  @date 2019 - Today
     def __init__(self, args):
-        case = args.find("type").text
-        print("Initiate belowground competition of type " + case + ".")
+        #case = args.find("type").text
+        #print("Initiate belowground competition of type " + case + ".")
         super().iniMortalityConcept(args)
 
     ## This functions prepares the growth and death concept.

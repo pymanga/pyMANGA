@@ -19,7 +19,7 @@ class MangaProject:
         self.iniNumpyRandomSeed()
         self.iniAbovegroundResourceConcept()
         self.iniBelowgroundResourceConcept()
-        self.iniPlantDynamicConcept()
+        # self.iniPlantDynamicConcept()
         self.iniPopulationConcept()
         self.iniTimeLoopConcept()
         self.iniVisualizationConcept()

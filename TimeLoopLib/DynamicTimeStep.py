@@ -19,7 +19,7 @@ class DynamicTimeStep:
         # Initialize concepts
         self.aboveground_resource_concept = project.getAbovegroundResourceConcept()
         self.belowground_resource_concept = project.getBelowgroundResourceConcept()
-        self.plant_dynamic_concept = project.getPlantDynamicConcept()
+        # self.plant_dynamic_concept = project.getPlantDynamicConcept()
         self.population_concept = project.getPopulationConcept()
         self.visualization_concept = project.getVisualizationConcept()
         self.visualization_concept.update(self.population_concept.getPlantGroups(), "Begin")
@@ -45,7 +45,6 @@ class DynamicTimeStep:
             self.aboveground_resource_concept.prepareNextTimeStep(t_start, t_end)
         if update_bg:
             self.belowground_resource_concept.prepareNextTimeStep(t_start, t_end)
-        self.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
         plant_groups = self.population_concept.getPlantGroups()
 
         self.model_output_concept.writeOutput(plant_groups, t_start)
@@ -53,6 +52,7 @@ class DynamicTimeStep:
         number_of_plants = 0
         for group_name, plant_group in plant_groups.items():
             for plant in plant_group.getPlants():
+                plant.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
                 number_of_plants += 1
                 if update_ag:
                     self.aboveground_resource_concept.addPlant(plant)
@@ -81,7 +81,7 @@ class DynamicTimeStep:
                 try:
                     ag = self.aboveground_resources[j]
                     bg = self.belowground_resources[j]
-                    self.plant_dynamic_concept.progressPlant(plant, ag, bg)
+                    plant.plant_dynamic_concept.progressPlant(plant, ag, bg)
                 except IndexError:
                     plant.setSurvival(1)
 

@@ -15,6 +15,7 @@ class Plant:
                  y,
                  species,
                  plant_id,
+                 plant_model,
                  initial_geometry=False,
                  group_name=""):
         self.plant_id = plant_id
@@ -24,6 +25,8 @@ class Plant:
         self.y = y
         self.survival = 1
         self.group_name = group_name
+        self.plant_model = plant_model
+        self.iniPlantDynamicConcept()
         ## This initialization is only required if networks (root grafts) are
         # simulated
         self.iniNetwork()
@@ -105,6 +108,23 @@ class Plant:
         self.network['r_gr_rgf'] = []
         self.network['l_gr_rgf'] = []
         self.network['variant'] = None
+
+    def iniPlantDynamicConcept(self):
+        # arg = self.args["population"]
+        case = self.plant_model
+        print('_________' + case)
+        if case == "SimpleTest":
+            from PlantModelLib.SimpleTest import SimpleTest as createGD
+        elif case == "SimpleBettina":
+            from PlantModelLib.SimpleBettina import SimpleBettina as createGD
+        elif case == "SimpleKiwi":
+            from PlantModelLib.SimpleKiwi import SimpleKiwi as createGD
+        elif case == "NetworkBettina":
+            from PlantModelLib.NetworkBettina import NetworkBettina as createGD
+        else:
+            raise KeyError("Required plant dynamic concept not implemented.")
+        self.plant_dynamic_concept = createGD(self)
+        print(case + " plant dynamic concept initiated.")
 
     def getNetwork(self):
         return self.network

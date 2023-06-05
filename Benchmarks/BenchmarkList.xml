@@ -5,6 +5,9 @@
             <SimpleBettina>
                 <test> SimpleBettina_CI.xml </test>
             </SimpleBettina>
+           <SimpleKiwi>
+                <test> SimpleKiwi_CI.xml </test>
+            </SimpleKiwi>
         </GrowthAndDeath>
         <BelowgroundCompetition>
             <FixedSalinity>

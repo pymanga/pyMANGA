@@ -18,7 +18,7 @@ class SZoiFixedSalinity(SymmetricZOI, FixedSalinity):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         super().makeGrid(args=args)
-        self.GetSalinity(args=args)
+        self.getInputParameters(args=args)
 
     ## This functions prepares arrays for the competition
     #  concept. In the SymmetricZOI concept, plants geometric measures

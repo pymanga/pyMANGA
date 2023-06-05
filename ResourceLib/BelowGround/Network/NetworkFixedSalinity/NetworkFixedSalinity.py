@@ -57,4 +57,4 @@ class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
     # file.
     def getInputParameters(self, args):
         super().getInputParameters(args=args)
-        super().GetSalinity(args=args)
+        super().getInputParameters(args=args)

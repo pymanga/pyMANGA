@@ -25,7 +25,7 @@ class OneFile(ModelOutput):
     # If not, create file
     def createFileWithHeader(self, filename):
         files_in_folder = os.listdir(self.output_dir)
-        file = open(os.path.join(self.output_dir, filename), "a")
+        file = open(os.path.join(self.output_dir, filename), "w")
 
         string = ""
         if filename not in files_in_folder:

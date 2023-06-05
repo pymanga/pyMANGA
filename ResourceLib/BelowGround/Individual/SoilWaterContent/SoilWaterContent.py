@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2023-Today
-@author: jbathmann@posteo.net
+.. include:: ./SoilWaterContent.md
 """
 
 import numpy as np
 from os import path
-from TreeModelLib import TreeModel
-from TreeModelLib.GrowthAndDeathDynamics import SimpleBettina
+from ResourceLib import ResourceModel
+from PlantModelLib.SimpleBettina import SimpleBettina
 
 
-class SoilWaterContent(TreeModel):
+class SoilWaterContent(ResourceModel):
     ## Simple soil water content water scarcity model. This concept is based
     #  on the idead of trees occupying the same node of the grid share
     #  the below-ground resource of this node equally (BETTINA geometry of a
@@ -22,9 +21,9 @@ class SoilWaterContent(TreeModel):
     #  (psi matrix). Trees interact with the soil by taking up water and thus
     #  reducing the water content of the soil (c water). It is assumed that
     #  tree roots do not reach deeper than 1 meter below ground level and thus
-    #  plants do not have access to ground water. Soil water content (c water)
+    #  plants do not have access to groundwater. Soil water content (c water)
     #  is therefore only increased by precipitation and only decreased by plant
-    #  uptake. This simplification of a ground water model is described as
+    #  uptake. This simplification of a groundwater model is described as
     #  ”bucket”-model (Manabe 1969).
     #  @param Tags to define SoilWaterContent: see tag documentation
     #  @date: 2023 - Today
@@ -124,7 +123,7 @@ class SoilWaterContent(TreeModel):
         integrated_precipitation = (
             contribution_left + contribution_right + contribution_middle)
         # Update of soil water content with new precipitation
-        self.updateSoilWaterContent(integrated_precipitation)
+        #self.updateSoilWaterContent(integrated_precipitation)
 
     ## Update of soil water content (SWC) [m]
     #  @param flux - water flux into patch in [m].
@@ -145,6 +144,8 @@ class SoilWaterContent(TreeModel):
     def addTree(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
+        parameter = tree.getParameter()
+        self._pf = parameter["pF"]
         if geometry["r_root"] < self.min_r_root:
             print("Error: mesh not fine enough for root dimensions!")
             print("Please refine mesh or increase initial root radius above ",
@@ -164,8 +165,8 @@ class SoilWaterContent(TreeModel):
         # Calculation of potential maximal flow for tree
         self.calculateMatrixPotential(self._max_soil_water_content)
         self.extractRelevantInformation(
-            geometry=tree.getGeometry(),
-            parameter=tree.getParameter())
+            geometry=geometry,
+            parameter=parameter)
         flow = (self.bgResources(
             (self.deltaPsi() - self._psi_matrix[0, 0]
              ) / self.deltaPsi(),
@@ -219,21 +220,32 @@ class SoilWaterContent(TreeModel):
                 # Average flow for tree
                 self._tree_flows[i] += np.sum(flow) / float(len(tree_nodes[0]))
 
-            self.updateSoilWaterContent(flux)
+            #self.updateSoilWaterContent(flux)
             t_1 = t_2
         # Belowground resources is real flow divided by potential flow
         self.belowground_resources = np.array(
             self._tree_flows) / np.array(self._max_tree_flows)
+        print("time: ", int(self._t_end / 3600 / 24), ", pF: ", self._pf,
+              ", mean soil water content: ", np.mean(self._soil_water_content),
+              ", mean psi matrix: ", np.mean(self._psi_matrix),
+              ", below_c: ", self.belowground_resources)
+        exit()
 
     ## Calculates matrix potential according to equation from janosch
+    # Matrix potential ~ pF value (transformed)
+    # psi_matrix = -100 * 10**pF
     #  @param water_content - water content of the soil
     def calculateMatrixPotential(self, water_content):
-        base = ((self._omega_s - self._omega_r) / (
-            water_content - self._omega_r))
-        exponent = 1 / (1 - 1 / self._n)
-        self._psi_matrix = - (
-            base ** exponent - 1) ** (1 / self._n) / self._alpha
+        # base = ((self._omega_s - self._omega_r) / (
+        #     water_content - self._omega_r))
+        # exponent = 1 / (1 - 1 / self._n)
+        # self._psi_matrix = - (
+        #     base ** exponent - 1) ** (1 / self._n) / self._alpha
+        self._psi_matrix = water_content * 0
+        self._psi_matrix = -100 * (10**self._pf) + self._psi_matrix
         self._psi_matrix[np.where(self._psi_matrix < -7860000)] = -7860000
+
+
 
     ## Runs all functions relevant to calculate tree water uptake using Bettina
     #  @param geometry - tree geometry
@@ -263,7 +275,7 @@ class SoilWaterContent(TreeModel):
     def deltaPsi(self):
         return SimpleBettina.deltaPsi(self=self)
 
-    ## Composite from BETTINA
+    ## Composite from BETTINA: TODO: needed?
     def bgResources(self, bg_resources, delta_time):
         self.time = delta_time
         SimpleBettina.bgResources(self=self,
@@ -297,8 +309,9 @@ class SoilWaterContent(TreeModel):
             try:
                 missing_tags.remove(tag)
             except ValueError:
-                print("WARNING: Tag " + tag +
-                      " not specified for below-ground grid initialisation!")
+                pass
+                # print("WARNING: Tag " + tag +
+                #       " not specified for below-ground grid initialisation!")
         if len(missing_tags) > 0:
             string = ""
             for tag in missing_tags:

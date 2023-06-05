@@ -52,6 +52,8 @@ class Bettina(PlantModel):
         growth_concept_information["xylem_resistance"] = self.xylem_resistance
         growth_concept_information["ag_resources"] = self.ag_resources
         growth_concept_information["bg_resources"] = self.bg_resources
+        growth_concept_information["bg_factor"] = belowground_resources
+        growth_concept_information["ag_factor"] = aboveground_resources
         growth_concept_information["growth"] = self.grow
         growth_concept_information["available_resources"] = (
             self.available_resources)

@@ -42,21 +42,21 @@ class RandomGrowth(Random):
     def getSurvive(self):
         return self._survive
 
-    def setMortalityVariables(self, args, growth_concept_information):
+    def setMortalityVariables(self, plant_module, growth_concept_information):
         # Variable to store volume of previous time step (m³)
         try:
-            args.volume_before = growth_concept_information[
+            plant_module.volume_before = growth_concept_information[
                 "volume_previous_ts"]
 
-            if args.volume_before == "NaN":
-                args.volume_before = 0
+            if plant_module.volume_before == "NaN":
+                plant_module.volume_before = 0
         except KeyError:
-            args.volume_before = 0
+            plant_module.volume_before = 0
 
-    def getMortalityVariables(self, args, growth_concept_information):
+    def getMortalityVariables(self, plant_module, growth_concept_information):
         # The current tree volume is the volume of t-1 in the next time step
         growth_concept_information["volume_previous_ts"] = \
-            args.volume
+            plant_module.volume
         return growth_concept_information
 
     def getInputParameters(self, args):

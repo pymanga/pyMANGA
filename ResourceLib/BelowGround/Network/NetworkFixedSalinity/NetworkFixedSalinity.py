@@ -56,5 +56,5 @@ class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
     ## This function reads input parameters, e.g. salinity from the control
     # file.
     def getInputParameters(self, args):
-        super().getInputParameters(args=args)
-        super().getInputParameters(args=args)
+        SimpleNetwork.getInputParameters(self=self, args=args)
+        FixedSalinity.getInputParameters(self=self, args=args)

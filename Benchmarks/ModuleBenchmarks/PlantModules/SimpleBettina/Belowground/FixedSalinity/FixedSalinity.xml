@@ -2,7 +2,7 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground_competition>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </aboveground_competition>
         <belowground_competition>
             <type> FixedSalinity </type>

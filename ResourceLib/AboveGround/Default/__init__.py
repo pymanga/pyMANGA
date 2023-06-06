@@ -3,7 +3,7 @@
 """
 Created on Thu Nov  8 15:25:03 2018
 
-@author: bathmann
+@author: jbathmann
 """
 
-from .SimpleTest import SimpleTest
+from .Default import Default

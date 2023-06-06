@@ -6,7 +6,7 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 
-from .SimpleTest import SimpleTest
+from .Default import Default
 from .FON import FON
 from .OGSWithoutFeedback import OGSWithoutFeedback
 from .OGSLargeScale3D import OGSLargeScale3D

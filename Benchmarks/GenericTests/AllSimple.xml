@@ -3,13 +3,13 @@
     <random_seed> 10 </random_seed>
     <tree_dynamics>
         <aboveground_competition>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </aboveground_competition>
         <belowground_competition>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>

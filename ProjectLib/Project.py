@@ -37,8 +37,8 @@ class MangaProject:
     def iniBelowgroundResourceConcept(self):
         arg = self.args["belowground_resource_concept"]
         case = arg.find("type").text
-        if case == "SimpleTest":
-            from ResourceLib.BelowGround.Individual.SimpleTest import SimpleTest as createBC
+        if case == "Default":
+            from ResourceLib.BelowGround.Individual.Default import Default as createBC
         elif case == "OGSLargeScale3D":
             from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D as createBC
         elif case == "OGSWithoutFeedback":
@@ -76,8 +76,8 @@ class MangaProject:
     def iniAbovegroundResourceConcept(self):
         arg = self.args["aboveground_resources_concept"]
         case = arg.find("type").text
-        if case == "SimpleTest":
-            from ResourceLib.AboveGround.SimpleTest import SimpleTest as createAC
+        if case == "Default":
+            from ResourceLib.AboveGround.Default import Default as createAC
         elif case == "SimpleAsymmetricZOI":
             from ResourceLib.AboveGround.SimpleAsymmetricZOI import SimpleAsymmetricZOI as createAC
         else:
@@ -91,8 +91,8 @@ class MangaProject:
     def iniPlantDynamicConcept(self):
         arg = self.args["plant_dynamics"]
         case = arg.find("type").text
-        if case == "SimpleTest":
-            from PlantModelLib.SimpleTest import SimpleTest as createGD
+        if case == "Default":
+            from PlantModelLib.Default import Default as createGD
         elif case == "SimpleBettina":
             from PlantModelLib.SimpleBettina import SimpleBettina as createGD
         elif case == "SimpleKiwi":

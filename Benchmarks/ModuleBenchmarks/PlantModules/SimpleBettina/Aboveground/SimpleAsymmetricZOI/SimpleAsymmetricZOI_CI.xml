@@ -13,7 +13,7 @@
             </domain>
         </aboveground>
         <belowground>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </belowground>
     </resources>
     <plant_dynamics>

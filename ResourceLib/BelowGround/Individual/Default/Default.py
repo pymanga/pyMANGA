@@ -7,7 +7,7 @@
 from ResourceLib import ResourceModel
 
 
-class SimpleTest(ResourceModel):
+class Default(ResourceModel):
     ## SimpleTest case for belowground competition concept. This case is
     #  defined to test the passing of information between the instances.
     #  @param: Tags to define SimpleTest: type

@@ -2,7 +2,7 @@
 <MangaProject>
     <tree_dynamics>
         <aboveground_competition>
-            <type> SimpleTest </type> 
+            <type> Default </type>
         </aboveground_competition>
         <belowground_competition>
             <type> OGSLargeScale3DExternal </type>
@@ -15,7 +15,7 @@
             </abiotic_drivers>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>

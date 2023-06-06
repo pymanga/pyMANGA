@@ -2,10 +2,10 @@
     <random_seed>643879</random_seed>
     <tree_dynamics>
         <aboveground_competition>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </aboveground_competition>
         <belowground_competition>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </belowground_competition>
         <tree_growth_and_death>
             <type> SimpleBettina </type>

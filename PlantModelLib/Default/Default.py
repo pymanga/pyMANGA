@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 """
 @date: 2018-Today
-@author: jasper.bathmann@ufz.de
+@author: jbathmann
 """
 from ResourceLib import ResourceModel
 
 
-class SimpleTest(ResourceModel):
+class Default(ResourceModel):
 
     def __init__(self, args):
         ## SimpleTest case for death and growth dynamics. This case is

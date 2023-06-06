@@ -1,12 +1,9 @@
-Field Of Neighbourhood (FON) belowground competition concept. FON returns a multiplier 
+The Field Of Neighbourhood (FON) belowground competition concept. FON returns a multiplier 
 accounting for the effect of both competition and salinity on resource uptake.
 
 The FON concept was first introduced in the KiWi model 
-([Berger and Hildenbrandt 2000](https://doi.org/10.1016/S0304-3800(00)00298-2)) and this implementation includes 
-recent revisions ([Peters, Olagoke and Berger 2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005) --- see 
-Appendices A and B).
-
-The effect of FON parameters _a_ and _b_ is discussed by Berger and Hildenbrandt ([2003](https://doi.org/10.1023/A:1023965512755)). 
+([Berger and Hildenbrandt 2000](https://doi.org/10.1016/S0304-3800(00)00298-2)). The effect of FON parameters _a_ and 
+_b_ is also discussed by Berger and Hildenbrandt ([2003](https://doi.org/10.1023/A:1023965512755)). 
 
 Attributes:
     type (string): "FON"

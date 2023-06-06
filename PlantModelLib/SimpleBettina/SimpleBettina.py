@@ -1,41 +1,41 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
+.. include:: ./Bettina.md
 """
 from PlantModelLib import PlantModel
 import numpy as np
 
 
-class SimpleBettina(PlantModel):
-    ## SimpleBettina for death and growth dynamics. This module is implements
-    #  the BETTINA single tree model as described in the ODD, appendix of
-    #  https://doi.org/10.1016/j.ecolmodel.2018.10.005 \n
-    #  @param Tags to define SimpleBettina: type
-    #  @date 2019 - Today
+class Bettina(PlantModel):
     def __init__(self, args):
+        """
+        Plant model concept.
+        Args:
+            args: Bettina module specifications from project file tags
+        """
         case = args.find("type").text
         print("Growth and death dynamics of type " + case + ".")
         super().iniMortalityConcept(args)
 
-    ## This functions prepares the growth and death concept.
-    #  In the SimpleBettina concept, trees are saved in a simple list
-    #  and the timestepping is updated. In preparation for the next time-
-    #  step, the list is simply resetted.\n
-    #  @param t_ini - initial time for next timestep \n
-    #  @param t_end - end time for next
     def prepareNextTimeStep(self, t_ini, t_end):
+        """
+        Prepare next time step by initializing relevant variables.
+        Args:
+            t_ini (int): start of current time step in seconds
+            t_end (int): end of current time step in seconds
+        """
         self.time = t_end - t_ini
 
-    ## This functions is the main routine for reading the tree geometry and
-    #  parameters, scheduling the computations and updating the tree geometry.\n
-    #  @param tree - object of type tree\n
-    #  @param aboveground_resources - fraction of maximum light interception
-    #  (shading effect)\n
-    #  @param belowground_resources - fraction of max water uptake (competition
-    #  and/or salinity > 0)
     def progressPlant(self, tree, aboveground_resources, belowground_resources):
+        """
+        Manage growth procedures for a timestep --- read tree geometry and parameters,
+        schedule computations, and update tree geometry and survival.
+        Args:
+            tree (dict): tree object
+            aboveground_resources (float): aboveground resource growth reduction factor
+            belowground_resources (float): belowground resource growth reduction factor
+        """
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()
         self.parameter = tree.getParameter()
@@ -97,8 +97,16 @@ class SimpleBettina(PlantModel):
         else:
             tree.setSurvival(0)
 
-    ## This functions updates the geometric measures of the tree.
     def treeGrowth(self):
+        """
+        Update tree geometry.
+
+        For equation formulation, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
+        heading 'increase of allometric measures'.
+        Sets:
+            multiple float
+        """
         inc_r_stem = (self.weight_girthgrowth * self.grow /
                       (2 * np.pi * self.r_stem * self.flow_length))
         self.r_stem += inc_r_stem
@@ -114,9 +122,16 @@ class SimpleBettina(PlantModel):
                        0.5**0.5 * np.pi * self.r_stem**2))
         self.r_root += inc_r_root
 
-    ## This functions calculates the growths weights for distributing
-    # biomass increment to the geometric (allometric) tree measures.
     def treeGrowthWeights(self):
+        """
+        Calculate the growth weights for distributing biomass increment to the tree geometries.
+
+        For equation formulation, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
+        heading 'weights'.
+        Sets:
+            multiple float
+        """
         self.weight_stemgrowth = (
             self.parameter["half_max_h_growth_weight"] /
             (1 + np.exp(-(self.r_crown - self.r_root) /
@@ -138,61 +153,124 @@ class SimpleBettina(PlantModel):
                                   self.weight_crowngrowth -
                                   self.weight_girthgrowth)
 
-    ## This function calculates the resource demand for biomass maintenance.
     def treeMaintenance(self):
+        """
+        Calculate the resource demand for biomass maintenance.
+
+        For parameter reference, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 2.5.
+        Sets:
+            float
+        """
         self.maint = self.volume * self.parameter["maint_factor"] * self.time
 
-    ## This function calculates the flow length from fine roots to leaves.
     def flowLength(self):
+        """
+        Calculate the flow length from fine roots to leaves.
+        Sets:
+            float
+        """
         self.flow_length = (2 * self.r_crown + self.h_stem +
                             0.5**0.5 * self.r_root)
 
     ## This function calculates the total tree volume.
     def treeVolume(self):
+        """
+        Calculate the total tree volume.
+
+        For equation formulation, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
+        heading 'volume of plant components'.
+        Sets:
+            float
+        """
         self.volume = (self.h_root * np.pi * self.r_root**2 +
                        self.flow_length * np.pi * self.r_stem**2 +
                        self.h_crown * np.pi * self.r_crown**2)
 
-    ## This function calculates the available aboveground resources (
-    #  intercepted light
-    #  measured equivalent to respective water uptake).
-    #  @param aboveground_resources - fraction of maximum light interception
-    #  (shading effect)\n
     def agResources(self, aboveground_resources):
+        """
+        Calculate the available aboveground resources (intercepted light measured equivalent to respective water uptake).
+
+        For equation formulation, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
+        heading 'resistances'.
+        Args:
+            aboveground_resources (float): aboveground resource growth reduction factor
+        Sets:
+            float
+        """
         self.ag_resources = aboveground_resources * (
             np.pi * self.r_crown**2 * self.parameter["sun_c"] * self.time)
 
-    ## This function calculates the available belowground resources (m³
-    # water per time step).
-    #  @param belowground_resources - fract of max water upt (compet and/or
-    #  salinity > 0)
     def bgResources(self, belowground_resources):
+        """
+        Calculate the available belowground resources (m³ water per time step).
+
+        For equation formulation, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
+        heading 'resistances'.
+        Args:
+            belowground_resources (float): belowground resource growth reduction factor
+        Sets:
+            float
+        """
         self.rootSurfaceResistance()
         self.xylemResistance()
         self.bg_resources = belowground_resources * (
             (-self.time * self.deltaPsi() /
              (self.root_surface_resistance + self.xylem_resistance) / np.pi))
 
-    ## This function calculates the root surface resistance.
     def rootSurfaceResistance(self):
+        """
+        Calculate the root surface resistance.
+
+        For equation formulation, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
+        heading 'resistances'.
+        Sets:
+            float
+        """
         self.root_surface_resistance = (1 / self.parameter["lp"] /
                                         self.parameter["k_geom"] / np.pi /
                                         self.r_root**2 / self.h_root)
 
-    ## This function calculates the xylem resistance.
     def xylemResistance(self):
+        """
+        Calculate the xylem resistance.
+
+        For equation formulation, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
+        heading 'resistances'.
+        Sets:
+            float
+        """
         self.xylem_resistance = (self.flow_length / self.parameter["kf_sap"] /
                                  np.pi / self.r_stem**2)
 
-    ## This function calculates the potential gradient with soil water
-    # potential = 0.
     def deltaPsi(self):
+        """
+        Calculate the water potential gradient with soil water potential = 0.
+
+        For equation formulation, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
+        heading 'resources'.
+        Returns:
+            float
+        """
         return (self.parameter["leaf_water_potential"] +
                 (2 * self.r_crown + self.h_stem) * 9810)
 
-    ## This function calculates the available resources and the biomass
-    # increment.
     def growthResources(self):
+        """
+        Calculate the available resources and the biomass increment.
+
+        For equation formulation, see Peters, Olagoke and Berger
+        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
+        heading 'resources'.
+        Sets:
+            multiple float
+        """
         self.available_resources = min(self.ag_resources, self.bg_resources)
         self.grow = (self.parameter["growth_factor"] *
                      (self.available_resources - self.maint))

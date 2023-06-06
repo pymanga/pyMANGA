@@ -1,28 +1,70 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
+.. include:: ./FON.md
 """
 import numpy as np
 from ResourceLib import ResourceModel
 
 
 class FON(ResourceModel):
-    ## FON case for belowground competition concept. For details see
-    #  (https://doi.org/10.1016/S0304-3800(00)00298-2). FON returns a list
-    #  of multipliers for each plant for salinity and competition.\n
-    #  @param: Tags to define FON, see tag documentation \n
-    #  @date: 2019 - Today
     def __init__(self, args):
+        """
+        Below-ground resource concept.
+        Args:
+            args: FON module specifications from project file tags
+        """
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         self.makeGrid(args)
 
-    ## This function returns a list of the growth reduction factors of all plants.
-    #  calculated in the subsequent timestep.\n
-    #  @return: np.array with $N_plant$ scalars
+    def prepareNextTimeStep(self, t_ini, t_end):
+        """
+        Prepare next time step by initializing relevant variables.
+        Args:
+            t_ini (int): start of current time step in seconds
+            t_end (int): end of current time step in seconds
+        """
+        self._fon_area = []
+        self._fon_impact = []
+        self._resource_limitation = []
+        self._salinity_reduction = []
+        self._xe = []
+        self._ye = []
+        self._salt_effect_d = []
+        self._salt_effect_ui = []
+        self._r_stem = []
+        self._t_ini = t_ini
+        self._t_end = t_end
+        self._fon_height = np.zeros_like(self._my_grid[0])
+
+    def addTree(self, tree):
+        """
+        Add each plant and its relevant geometry and parameters to the object to
+        be used in the next time step.
+        Args:
+            tree (dict): tree object
+        """
+        if self._mesh_size > 0.25:
+            print("Error: mesh not fine enough for FON!")
+            print("Please refine mesh to grid size < 0.25m !")
+            exit()
+        x, y = tree.getPosition()
+        geometry = tree.getGeometry()
+        parameter = tree.getParameter()
+        self._xe.append(x)
+        self._ye.append(y)
+        self._salt_effect_d.append(parameter["salt_effect_d"])
+        self._salt_effect_ui.append(parameter["salt_effect_ui"])
+        self._r_stem.append(geometry["r_stem"])
+
     def calculateBelowgroundResources(self):
+        """
+        Calculate a growth reduction factor for each tree based on competition and
+        pore-water salinity below the centre of each tree.
+        Sets:
+            numpy array with shape(number_of_trees)
+        """
         distance = (((self._my_grid[0][:, :, np.newaxis] -
                       np.array(self._xe)[np.newaxis, np.newaxis, :])**2 +
                      (self._my_grid[1][:, :, np.newaxis] -
@@ -30,10 +72,10 @@ class FON(ResourceModel):
         my_fon = self.calculateFonFromDistance(np.array(self._r_stem),
                                                distance)
         fon_areas = np.zeros_like(my_fon)
-        #Add a one, where plant is larger than 0
+        # Add a one, where tree is larger than 0
         fon_areas[np.where(my_fon > 0)] += 1
-        #Count all nodes, which are occupied by plants
-        #returns array of shape (nplants)
+        # Count all nodes, which are occupied by trees
+        # returns array of shape (ntrees)
         fon_areas = fon_areas.sum(axis=(0, 1))
         fon_heigths = my_fon.sum(axis=-1)
         fon_impacts = fon_heigths[:, :, np.newaxis] - my_fon
@@ -46,10 +88,15 @@ class FON(ResourceModel):
             (np.array(self._salt_effect_ui) - self._salinity))))
         self.belowground_resources = resource_limitations * salinity_reductions
 
-    ## This function returns the fon height of a plant on the mesh.\n
-    #  @param rst - FON radius\n
-    #  @param distance - array of distances of all mesh points to plant position
     def calculateFonFromDistance(self, rst, distance):
+        """
+        Calculate the FON height of each tree at each grid point.
+        Args:
+            rst (numpy array): FON radius
+            distance (int): array of distances of all mesh points to tree position
+        Returns:
+            numpy array with shape(x_grid_points, y_grid_points, number_of_trees)
+        """
         fon_radius = self._aa * rst**self._bb
         cc = -np.log(self._fmin) / (fon_radius - rst)
         height = np.exp(-cc[np.newaxis, np.newaxis, :] *
@@ -58,8 +105,14 @@ class FON(ResourceModel):
         height[height < self._fmin] = 0
         return height
 
-    ## This function initialises the mesh.\n
     def makeGrid(self, args):
+        """
+        Create the tree interaction grid.
+        Args:
+            args: FON module specifications from project file tags
+        Sets:
+            numpy array with shape(x_grid_points, y_grid_points)
+        """
         missing_tags = [
             "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
             "y_resolution", "aa", "bb", "fmin", "salinity"
@@ -115,39 +168,3 @@ class FON(ResourceModel):
                          endpoint=True)
         self._my_grid = np.meshgrid(xe, ye)
 
-    ## This functions prepares the competition concept for the competition
-    #  concept. In the FON concept, plant's allometric measures are saved
-    #  in simple lists and the timestepping is updated. A mesh-like array
-    #  is prepared for storing all FON heights of the stand.\n
-    #  @param t_ini - initial time for next timestep \n
-    #  @param t_end - end time for next timestep
-    def prepareNextTimeStep(self, t_ini, t_end):
-        self._fon_area = []
-        self._fon_impact = []
-        self._resource_limitation = []
-        self._salinity_reduction = []
-        self._xe = []
-        self._ye = []
-        self._salt_effect_d = []
-        self._salt_effect_ui = []
-        self._r_stem = []
-        self._t_ini = t_ini
-        self._t_end = t_end
-        self._fon_height = np.zeros_like(self._my_grid[0])
-
-    ## Before being able to calculate the resources, all plant entities need
-    #  to be added with their relevant allometric measures for the next timestep.
-    #  @param: plant
-    def addPlant(self, plant):
-        if self._mesh_size > 0.25:
-            print("Error: mesh not fine enough for FON!")
-            print("Please refine mesh to grid size < 0.25m !")
-            exit()
-        x, y = plant.getPosition()
-        geometry = plant.getGeometry()
-        parameter = plant.getParameter()
-        self._xe.append(x)
-        self._ye.append(y)
-        self._salt_effect_d.append(parameter["salt_effect_d"])
-        self._salt_effect_ui.append(parameter["salt_effect_ui"])
-        self._r_stem.append(geometry["r_stem"])

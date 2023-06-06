@@ -13,7 +13,7 @@ class FixedSalinity(ResourceModel):
         """
         Below-ground resource concept.
         Args:
-            args: tags to specify FixedSalinity module
+            args: FixedSalinity module specifications from project file tags
         """
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
@@ -50,10 +50,10 @@ class FixedSalinity(ResourceModel):
 
     def calculateBelowgroundResources(self):
         """
-        Calculate growth reduction factor of each tree based on pore-water salinity below the
-        center of a tree.
-        Returns:
-            numpy array of length 'number of trees'
+        Calculate a growth reduction factor for each tree based on pore-water salinity below the
+        center of each tree.
+        Sets:
+            numpy array of shape(number_of_trees)
         """
         salinity_plant = self.getPlantSalinity()
         psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
@@ -63,9 +63,9 @@ class FixedSalinity(ResourceModel):
 
     def getTreeSalinity(self):
         """
-        Space and time interpolation of pore-water salinity below each tree.
+        Calculate pore-water salinity below each tree, interpolating over space and time.
         Returns:
-            numpy array with length `number of trees`
+            numpy array with shape(number_of_trees)
         """
         self._xe = np.array(self._xe)
 
@@ -131,9 +131,9 @@ class FixedSalinity(ResourceModel):
 
     def getInputParameters(self, args):
         """
-        Read module tags from project file
+        Read module tags from project file.
         Args:
-            args: tags to specify FixedSalinity module
+            args: FixedSalinity module specifications from project file tags
         """
         missing_tags = ["salinity", "type", "max_x", "min_x"]
 

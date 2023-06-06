@@ -8,7 +8,7 @@ import numpy as np
 from ResourceLib import ResourceModel
 
 
-class SimpleNetwork(ResourceModel):
+class Network(ResourceModel):
     #########
     # BASIC #
     #########
@@ -16,7 +16,7 @@ class SimpleNetwork(ResourceModel):
     ## Network approach to alter, i.e. increase or decrease, water availability
     #  due to water exchange with other trees (root grafting).
     #  Processes are partner selection, group formation and water exchange.\n
-    #  @param: Tags to define SimpleNetwork, see tag documentation \n
+    #  @param: Tags to define Network, see tag documentation \n
     #  @date: 2021 - Today
     def __init__(self, args):
         case = args.find("type").text
@@ -28,7 +28,7 @@ class SimpleNetwork(ResourceModel):
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        # Parameters associated with the SimpleBettina model
+        # Parameters associated with the Bettina model
         self.trees = []
         self._xe = []
         self._ye = []
@@ -691,7 +691,7 @@ class SimpleNetwork(ResourceModel):
         return matrix
 
     ## Function that calculates water uptake of an individual tree in m³ per
-    # time step, see  SimpleBettina.
+    # time step, see  Bettina.
     # @return a scalar
     # @param psi_top - difference between min. leaf water potential and
     # height potential
@@ -763,7 +763,7 @@ class SimpleNetwork(ResourceModel):
                 self.getLinkList(graph_dict=graph_dict_group))
             if len(link_list_group) == 0:
                 ## if the tree is not grafted water_absorbed and
-                # water_available corresponds to SimpleBettina water uptake
+                # water_available corresponds to Bettina water uptake
                 # and water_exchange is 0
                 self._water_absorb[members] = self.getBGresourcesIndividual(
                     psi_top=self._psi_top[members],

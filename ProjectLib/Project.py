@@ -53,8 +53,8 @@ class MangaProject:
         elif case == "SZoiFixedSalinity":
             from ResourceLib.BelowGround.Individual.SZoiFixedSalinity import \
                 SZoiFixedSalinity as createBC
-        elif case == "SimpleNetwork":
-            from ResourceLib.BelowGround.Network.SimpleNetwork import SimpleNetwork as createBC
+        elif case == "Network":
+            from ResourceLib.BelowGround.Network.Network import Network as createBC
         elif case == "NetworkFixedSalinity":
             from ResourceLib.BelowGround.Network.NetworkFixedSalinity import NetworkFixedSalinity as createBC
         elif case == "NetworkOGSLargeScale3D":
@@ -78,8 +78,8 @@ class MangaProject:
         case = arg.find("type").text
         if case == "Default":
             from ResourceLib.AboveGround.Default import Default as createAC
-        elif case == "SimpleAsymmetricZOI":
-            from ResourceLib.AboveGround.SimpleAsymmetricZOI import SimpleAsymmetricZOI as createAC
+        elif case == "AsymmetricZOI":
+            from ResourceLib.AboveGround.AsymmetricZOI import AsymmetricZOI as createAC
         else:
             raise KeyError("Required above-ground competition not implemented.")
         self.aboveground_resource_concept = createAC(arg)
@@ -93,10 +93,10 @@ class MangaProject:
         case = arg.find("type").text
         if case == "Default":
             from PlantModelLib.Default import Default as createGD
-        elif case == "SimpleBettina":
-            from PlantModelLib.SimpleBettina import SimpleBettina as createGD
-        elif case == "SimpleKiwi":
-            from PlantModelLib.SimpleKiwi import SimpleKiwi as createGD
+        elif case == "Bettina":
+            from PlantModelLib.Bettina import Bettina as createGD
+        elif case == "Kiwi":
+            from PlantModelLib.Kiwi import Kiwi as createGD
         elif case == "NetworkBettina":
             from PlantModelLib.NetworkBettina import NetworkBettina as createGD
         else:

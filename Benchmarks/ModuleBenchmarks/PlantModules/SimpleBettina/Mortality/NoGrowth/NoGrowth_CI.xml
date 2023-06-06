@@ -9,8 +9,13 @@
         </belowground>
     </resources>
     <plant_dynamics>
+<<<<<<<< HEAD:Benchmarks/ModuleBenchmarks/PlantModules/SimpleBettina/Mortality/NoGrowth/NoGrowth_CI.xml
         <type> SimpleBettina </type>
         <mortality>NoGrowth</mortality>
+========
+        <type> Kiwi </type>
+        <mortality> NoGrowth </mortality>
+>>>>>>>> 601aba7e (rename module names with simple):Benchmarks/ModuleBenchmarks/GrowthAndDeath/Kiwi/Kiwi_CI.xml
     </plant_dynamics>
     <population>
         <group>

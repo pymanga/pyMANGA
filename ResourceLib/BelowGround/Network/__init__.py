@@ -6,6 +6,6 @@ Created on Thu Nov  8 15:25:03 2018
 @author: bathmann
 """
 
-from .SimpleNetwork import SimpleNetwork
+from .Network import Network
 from .NetworkFixedSalinity import NetworkFixedSalinity
 from .NetworkOGSLargeScale3D import NetworkOGSLargeScale3D

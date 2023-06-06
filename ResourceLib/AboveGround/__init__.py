@@ -7,4 +7,4 @@ Created on Thu Nov  8 15:25:03 2018
 """
 
 from .Default import Default
-from .SimpleAsymmetricZOI import SimpleAsymmetricZOI
+from .AsymmetricZOI import AsymmetricZOI

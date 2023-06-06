@@ -1,8 +1,14 @@
 <MangaProject>
     <random_seed>643879</random_seed>
+<<<<<<<< HEAD:Benchmarks/ModuleBenchmarks/PlantModules/SimpleBettina/Aboveground/SimpleAsymmetricZOI/SimpleAsymmetricZOI.xml
     <resources>
         <aboveground>
             <type> SimpleAsymmetricZOI </type>
+========
+    <tree_dynamics>
+        <aboveground_competition>
+            <type> AsymmetricZOI </type>
+>>>>>>>> 601aba7e (rename module names with simple):Benchmarks/ModuleBenchmarks/AbovegroundCompetition/AsymmetricZOI/AsymmetricZOI.xml
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
@@ -11,6 +17,7 @@
             <x_resolution> 88 </x_resolution>
             <y_resolution> 88 </y_resolution>
             </domain>
+<<<<<<<< HEAD:Benchmarks/ModuleBenchmarks/PlantModules/SimpleBettina/Aboveground/SimpleAsymmetricZOI/SimpleAsymmetricZOI.xml
         </aboveground>
         <belowground>
             <type> SimpleTest </type>
@@ -21,6 +28,18 @@
         <mortality>NoGrowth</mortality>
     </plant_dynamics>
     <population>
+========
+        </aboveground_competition>
+        <belowground_competition>
+            <type> Default </type>
+        </belowground_competition>
+        <tree_growth_and_death>
+            <type> Bettina </type>
+            <mortality>NoGrowth</mortality>
+        </tree_growth_and_death>
+    </tree_dynamics>
+    <initial_population>
+>>>>>>>> 601aba7e (rename module names with simple):Benchmarks/ModuleBenchmarks/AbovegroundCompetition/AsymmetricZOI/AsymmetricZOI.xml
         <group>
             <name> Initial </name>
             <species> Avicennia </species>

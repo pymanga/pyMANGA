@@ -12,7 +12,7 @@
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> SimpleBettina </type>
+        <type> Bettina </type>
         <mortality>NoGrowth</mortality>
     </plant_dynamics>
     <population>

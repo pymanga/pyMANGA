@@ -11,7 +11,7 @@ import numpy as np
 class Mortality:
     ## This class initializes the mortality concept defined in the xml input
     # file.
-    # See growth-and-death-concept SimpleBettina for integration in
+    # See growth-and-death-concept Bettina for integration in
     # existing concepts.
     def __init__(self, args):
         self.mortality_concept = []

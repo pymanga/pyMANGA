@@ -11,7 +11,7 @@
             <salinity> Benchmarks/ExampleSetups/FixedSalinityFromFile/inputFiles/salinity_A.csv </salinity>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> SimpleBettina </type>
+            <type> Bettina </type>
             <mortality>NoGrowth</mortality>
         </tree_growth_and_death>
     </tree_dynamics>

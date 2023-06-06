@@ -18,9 +18,9 @@ from TreeModelLib.BelowgroundCompetition.NetworkOGSLargeScale3D import \
 # withdrawal in each cell as rate in kg per sec per cell volume.
 # The withdrawal is the amount of water absorbed from the soil column,
 # and can be different from the amount of water available to the tree du to
-# root graft mediated water exchange (see SimpleNetwork).
+# root graft mediated water exchange (see Network).
 # MRO: NetworkOGSLargeScale3DExternal, NetworkOGSLargeScale3D,
-# SimpleNetwork, OGSLargeScale3DExternal, OGSLargeScale3D, TreeModel, object
+# Network, OGSLargeScale3DExternal, OGSLargeScale3D, TreeModel, object
 class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
                                      OGSLargeScale3DExternal):
 
@@ -42,7 +42,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
         self._tree_cell_volume = []
 
         # Load init and parameters that are required to get/ process
-        # information from OGS and SimpleNetwork
+        # information from OGS and Network
         super().prepareNextTimeStep(t_ini, t_end)
 
     ## Before being able to calculate the resources, all tree enteties need
@@ -59,7 +59,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  defined as: resource uptake at zero salinity and without resource
     #  sharing (root grafting)/ actual resource uptake.
     #  Before resource uptake is calculated, this function calls
-    #  SimpleNetwork functions to develop the root graft network
+    #  Network functions to develop the root graft network
     def calculateBelowgroundResources(self):
         # Salinity below each tree
         self._tree_salinity = np.empty(self.no_trees)
@@ -70,7 +70,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
         # OGSLargeScale3D.py)
         super().calculateTreeSalinity()
 
-        ## NetworkOGSLargeScale3D stuff (defined in SimpleNetwork.py)
+        ## NetworkOGSLargeScale3D stuff (defined in Network.py)
         # Convert psi_osmo to np array in order to use in
         self._psi_osmo = np.array(self._psi_osmo)
         # Calculate amount of water absorbed from soil column
@@ -78,10 +78,10 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
         super().rootGraftFormation()
         super().calculateBGresourcesTree()
 
-        # Calculate bg resource factor (defined in SimpleNetwork)
+        # Calculate bg resource factor (defined in Network)
         self.belowground_resources = super().getBGfactor()
 
-        # Update network parameters (defined in SimpleNetwork)
+        # Update network parameters (defined in Network)
         super().updateNetworkParametersForGrowthAndDeath()
 
         # Calculate contribution per cell

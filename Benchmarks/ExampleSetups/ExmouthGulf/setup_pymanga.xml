@@ -2,7 +2,7 @@
 <MangaProject>
     <tree_dynamics>
         <aboveground_competition>
-            <type> SimpleAsymmetricZOI </type>
+            <type> AsymmetricZOI </type>
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
@@ -26,7 +26,7 @@
             <python_script>python_script.py</python_script>
         </belowground_competition>
         <tree_growth_and_death>
-            <type> SimpleBettina </type>
+            <type> Bettina </type>
         </tree_growth_and_death>
     </tree_dynamics>
     <initial_population>

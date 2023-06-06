@@ -8,11 +8,11 @@ import numpy as np
 from ResourceLib import ResourceModel
 
 
-class SimpleAsymmetricZOI(ResourceModel):
-    ## SimpleAsymmetricZOI case for aboveground competition concept. Asymmetric
+class AsymmetricZOI(ResourceModel):
+    ## AsymmetricZOI case for aboveground competition concept. Asymmetric
     #  Zone Of Influence with highest tree at a meshpoint gets all the light at
     #  this meshpoint (BETTINA geometry of a tree assumed).\n
-    #  @param Tags to define SimpleAsymmetricZOI: see tag documentation
+    #  @param Tags to define AsymmetricZOI: see tag documentation
     #  @date: 2019 - Today
     def __init__(self, args):
         case = args.find("type").text

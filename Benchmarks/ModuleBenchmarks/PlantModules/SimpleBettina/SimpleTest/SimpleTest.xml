@@ -1,5 +1,6 @@
 <MangaProject>
     <random_seed>643879</random_seed>
+<<<<<<<< HEAD:Benchmarks/ModuleBenchmarks/PlantModules/SimpleBettina/SimpleTest/SimpleTest.xml
     <resources>
         <aboveground>
             <type> SimpleTest </type>
@@ -13,6 +14,21 @@
         <mortality>NoGrowth</mortality>
     </plant_dynamics>
     <population>
+========
+    <tree_dynamics>
+        <aboveground_competition>
+            <type> Default </type>
+        </aboveground_competition>
+        <belowground_competition>
+            <type> Default </type>
+        </belowground_competition>
+        <tree_growth_and_death>
+            <type> Bettina </type>
+            <mortality>NoGrowth</mortality>
+        </tree_growth_and_death>
+    </tree_dynamics>
+    <initial_population>
+>>>>>>>> 601aba7e (rename module names with simple):Benchmarks/ModuleBenchmarks/GrowthAndDeath/Bettina/Bettina.xml
         <group>
             <name> Initial </name>
             <species> Avicennia </species>

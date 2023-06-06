@@ -8,11 +8,11 @@ from PlantModelLib import PlantModel
 import numpy as np
 
 
-class SimpleBettina(PlantModel):
-    ## SimpleBettina for death and growth dynamics. This module is implements
+class Bettina(PlantModel):
+    ## Bettina for death and growth dynamics. This module is implements
     #  the BETTINA single tree model as described in the ODD, appendix of
     #  https://doi.org/10.1016/j.ecolmodel.2018.10.005 \n
-    #  @param Tags to define SimpleBettina: type
+    #  @param Tags to define Bettina: type
     #  @date 2019 - Today
     def __init__(self, args):
         case = args.find("type").text
@@ -20,7 +20,7 @@ class SimpleBettina(PlantModel):
         super().iniMortalityConcept(args)
 
     ## This functions prepares the growth and death concept.
-    #  In the SimpleBettina concept, trees are saved in a simple list
+    #  In the Bettina concept, trees are saved in a simple list
     #  and the timestepping is updated. In preparation for the next time-
     #  step, the list is simply resetted.\n
     #  @param t_ini - initial time for next timestep \n

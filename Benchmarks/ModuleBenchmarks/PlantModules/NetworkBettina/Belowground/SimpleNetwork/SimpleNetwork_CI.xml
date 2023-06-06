@@ -1,11 +1,20 @@
 <MangaProject>
     <random_seed>643879</random_seed>
+<<<<<<<< HEAD:Benchmarks/ModuleBenchmarks/PlantModules/NetworkBettina/Belowground/SimpleNetwork/SimpleNetwork_CI.xml
     <resources>
         <aboveground>
             <type> SimpleTest </type>
         </aboveground>
         <belowground>
             <type> SimpleNetwork </type>
+========
+    <tree_dynamics>
+        <aboveground_competition>
+            <type> Default </type>
+        </aboveground_competition>
+        <belowground_competition>
+            <type> Network </type>
+>>>>>>>> 601aba7e (rename module names with simple):Benchmarks/ModuleBenchmarks/BelowgroundCompetition/Network/Network_CI.xml
             <f_radius> 0.25 </f_radius>
         </belowground>
     </resources>

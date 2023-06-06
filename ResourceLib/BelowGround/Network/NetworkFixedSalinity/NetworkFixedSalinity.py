@@ -5,12 +5,12 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from ResourceLib.BelowGround.Network.SimpleNetwork import SimpleNetwork
+from ResourceLib.BelowGround.Network.Network import Network
 from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity
 
 
-# MRO: NetworkFixedSalinity, SimpleNetwork, FixedSalinity, TreeModel, object
-class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
+# MRO: NetworkFixedSalinity, Network, FixedSalinity, TreeModel, object
+class NetworkFixedSalinity(Network, FixedSalinity):
     ## Fixed salinityin belowground competition concept.
     #  @param: Tags to define FixedSalinity: type, salinity
     #  @date: 2020 - Today

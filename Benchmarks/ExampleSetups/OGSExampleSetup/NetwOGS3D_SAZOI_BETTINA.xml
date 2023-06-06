@@ -3,7 +3,7 @@
     <random_seed>1</random_seed>
     <tree_dynamics>
         <aboveground_competition>
-            <type>SimpleAsymmetricZOI</type>
+            <type>AsymmetricZOI</type>
             <domain>
                 <x_1>0</x_1>
                 <y_1>0</y_1>

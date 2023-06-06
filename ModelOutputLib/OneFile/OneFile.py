@@ -24,17 +24,16 @@ class OneFile(ModelOutput):
     # Check if csv file exists in directory
     # If not, create file
     def createFileWithHeader(self, filename):
-        files_in_folder = os.listdir(self.output_dir)
         file = open(os.path.join(self.output_dir, filename), "w")
 
         string = ""
-        if filename not in files_in_folder:
-            string += 'tree' + self.delimiter + 'time' + self.delimiter + 'x' + \
-                      self.delimiter + 'y'
-            string = self.addSelectedHeadings(string, self.delimiter)
+        string += 'tree' + self.delimiter + 'time' + self.delimiter + 'x' + \
+                  self.delimiter + 'y'
+        string = self.addSelectedHeadings(string, self.delimiter)
 
-            string += "\n"
-            file.write(string)
+        string += "\n"
+        file.write(string)
+
         file.close()
 
     def outputContent(self, tree_groups, time, **kwargs):

@@ -20,9 +20,9 @@ class PlantModel:
     def iniMortalityConcept(self, args):
         from PlantModelLib import Mortality
         M = Mortality.Mortality(args)
-        self.mortality_concept = M.getMortConcept()
+        self.mortality_concepts = M.getMortConcept()
         self.mortality_concept_names = []
-        for concept in self.mortality_concept:
+        for concept in self.mortality_concepts:
             self.mortality_concept_names.append(concept.getConceptName())
 
     def getMortalityConceptNames(self):
@@ -33,27 +33,29 @@ class PlantModel:
     # selected growth concept but are required for the mortality concept.
     # @param growth_concept_information: growth_concept_information dictionary
     def setMortalityVariables(self, growth_concept_information):
-        for mortality_concept in self.mortality_concept:
+        for mortality_concept in self.mortality_concepts:
             mortality_concept.setMortalityVariables(
-                self, growth_concept_information)
+                plant_module=self,
+                growth_concept_information=growth_concept_information)
 
     ## This function calls getMortalityVariables() of all selected mortality
     # concepts and return variables that are not yet in available in the
     # selected growth concept but are required for the mortality concept.
     # @param growth_concept_information: growth_concept_information dictionary
     def getMortalityVariables(self, growth_concept_information):
-        for mortality_concept in self.mortality_concept:
+        for mortality_concept in self.mortality_concepts:
             growth_concept_information = \
                 mortality_concept.getMortalityVariables(
-                    self, growth_concept_information)
+                    plant_module=self,
+                    growth_concept_information=growth_concept_information)
         return growth_concept_information
 
     ## This function calls setSurvive() of all selected mortality
     # concepts and checks if the conditions for death are met.
     def setTreeKiller(self):
         survive = []
-        for mortality_concept in self.mortality_concept:
-            mortality_concept.setSurvive(self)
+        for mortality_concept in self.mortality_concepts:
+            mortality_concept.setSurvive(plant_module=self)
             survive.append(mortality_concept.getSurvive())
 
         if 0 in survive:

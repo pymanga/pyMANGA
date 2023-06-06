@@ -24,11 +24,11 @@ class Random(NoGrowth):
             print("NOTE: Use default `probability`: " + str(self._probability) +
                   ".")
 
-    def setSurvive(self, args):
+    def setSurvive(self, plant_module):
         self._survive = 1
         r = np.random.uniform(0, 1, 1)
         # Number of time steps per year
-        steps_per_year = super().getStepsPerYear(args)
+        steps_per_year = super().getStepsPerYear(plant_module)
         ## Multiply r with the number of time steps per year to induce a
         # yearly mortality
         if r * steps_per_year < self._probability:

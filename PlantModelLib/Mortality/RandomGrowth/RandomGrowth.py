@@ -23,14 +23,14 @@ class RandomGrowth(Random):
             self._k_die = 1e-12
             print("NOTE: Use default `probability`: " + str(self._k_die) + ".")
 
-    def setSurvive(self, args):
+    def setSurvive(self, plant_module):
         self._survive = 1
         # Calculate the probability to die
-        args.delta_volume = args.volume - args.volume_before
+        plant_module.delta_volume = plant_module.volume - plant_module.volume_before
 
         # = dV/dt/V
-        relative_volume_increment = args.delta_volume / (args.time *
-                                                         args.volume)
+        relative_volume_increment = plant_module.delta_volume / (plant_module.time *
+                                                         plant_module.volume)
         p_die = self._k_die / relative_volume_increment
 
         # Get a random number

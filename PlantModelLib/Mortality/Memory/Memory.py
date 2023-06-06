@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2021-Today
-@author: marie-christin.wimmler@tu-dresden.de
-"""
-
 import numpy as np
 from PlantModelLib.Mortality.NoGrowth import NoGrowth
 
 
 class Memory(NoGrowth):
-
     def __init__(self, args, case):
+        """
+        Mortality module.
+        Args:
+            args: module specification from project file tags
+            case: "Memory" (module name)
+        """
         super().__init__(args, case)
         # Read input parameters from xml file
         self.getInputParameters(args)
@@ -30,24 +30,30 @@ class Memory(NoGrowth):
             self._period = 1 * 365.25 * 24 * 3600
             print("NOTE: Use default `period`: " + str(self._period) + ".")
 
-    def setSurvive(self, args):
+    def setSurvive(self, plant_module):
+        """
+        Determine if plant survives based on memory period and average growth during this period.
+        Set attribute survival variable to 0 if plant died. Default  is 1 if plant lived.
+        Args:
+            plant_module (class): "PlantModel" object
+        """
         self._survive = 1
 
         # Get the number of values representing the memory period
-        steps = int(self._period / args.time)
+        steps = int(self._period / plant_module.time)
 
         # Slice grow_memory array to get only relevant data
-        relevant_grow_memory = args.grow_memory[-steps:]
+        relevant_grow_memory = plant_module.grow_memory[-steps:]
         # Check only for survival if memory exist
         if relevant_grow_memory:
             # Calculate average growth during memory period
             grow_memory = np.mean(relevant_grow_memory)
 
             # Calculate growth relative to biomass (volume per volume or diameter per diameter)
-            relative_grow = grow_memory / args.volume
+            relative_grow = grow_memory / plant_module.volume
 
             # Number of time steps per year
-            steps_per_year = super().getStepsPerYear(args)
+            steps_per_year = super().getStepsPerYear(plant_module)
             # Check if relative growth is below a certain threshold (multiply relative growth
             # with number of time steps per year to induce a yearly mortality)
             if relative_grow*steps_per_year < self._threshold:
@@ -55,22 +61,46 @@ class Memory(NoGrowth):
                 print("\t Tree died (Memory).")
 
     def getSurvive(self):
+        """
+        Get survival status of a plant.
+        Returns:  survival status (bool), 0 = plant died, 1 = plant lived.
+        """
         return self._survive
 
-    def setMortalityVariables(self, args, growth_concept_information):
+    def setMortalityVariables(self, plant_module, growth_concept_information):
+        """
+        Determine if plant survives based on memory period and average growth during this period.
+        Set attribute survival variable to 0 if plant died. Default  is 1 if plant lived.
+        Args:
+            plant_module (class): "PlantModel" object
+            growth_concept_information (dict): dictionary containing growth information of the respective tree
+        """
         # Variable to store growth (m³ per time step)
         try:
-            args.grow_memory = growth_concept_information["grow_memory"]
+            plant_module.grow_memory = growth_concept_information["grow_memory"]
         except KeyError:
-            args.grow_memory = []
+            plant_module.grow_memory = []
 
-    def getMortalityVariables(self, args, growth_concept_information):
-        args.grow_memory.append(args.grow)
+    def getMortalityVariables(self, plant_module, growth_concept_information):
+        """
+        Get relevant attributes of mortality concept.
+        Args:
+            plant_module (class): "PlantModel" object
+            growth_concept_information (dict): dictionary containing growth information of the respective tree
+        Returns:
+            dict. with updated growth concept information
+        """
+        plant_module.grow_memory.append(plant_module.grow)
         growth_concept_information["grow_memory"] = \
-            args.grow_memory
+            plant_module.grow_memory
         return growth_concept_information
 
     def getInputParameters(self, args):
+        """
+        Read module tags from project file.
+        Args:
+            args: Memory module specifications from project file tags
+        """
         # All tags are optional
         missing_tags = ["type", "mortality", "threshold", "period"]
         for arg in args.iterdescendants():

@@ -15,9 +15,9 @@ class NoGrowth:
 
     ## This function checks if the conditions for death are met.
     # @param args: growth concept object
-    def setSurvive(self, args):
+    def setSurvive(self, plant_module):
         self._survive = 1
-        if args.grow <= 0:
+        if plant_module.grow <= 0:
             self._survive = 0
             print("\t Tree died (NoGrowth).")
 

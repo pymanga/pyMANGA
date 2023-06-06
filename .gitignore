@@ -106,17 +106,19 @@ Documentation/latex/
 html
 latex
 testoutputs
-TreeModelLib/BelowgroundCompetition/OGS/bin/
+ResourceLib/BelowGround/Individual/OGS/
 
-TreeModelLib/BelowgroundCompetition/OGSLargeScale3D/calls_in_last_timestep.npy
-TreeModelLib/BelowgroundCompetition/OGSLargeScale3D/cumsum_salinity.npy
-TreeModelLib/BelowgroundCompetition/OGS/share
+ResourceLib/BelowGround/Individual/OGSLargeScale3D/calls_in_last_timestep.npy
+ResourceLib/BelowGround/Individual/OGSLargeScale3D/cumsum_salinity.npy
+ResourceLib/BelowGround/Individual/OGS/share
 ProjectLib/ExampleSetups/testoutputs
 ProjectLib/Applications
-TreeModelLib/BelowgroundCompetition/OGSWithoutFeedback/calls_in_last_timestep.npy
-TreeModelLib/BelowgroundCompetition/OGSWithoutFeedback/cumsum_salinity.npy
+ResourceLib/BelowGround/Individual/OGSWithoutFeedback/calls_in_last_timestep.npy
+ResourceLib/BelowGround/Individual/OGSWithoutFeedback/cumsum_salinity.npy
 
 # testing
+
+Benchmarks/ExampleSetups/
 
 test/LargeTests/Test_Setups_large/testoutputs
 test/SmallTests/Test_Setups_small/testoutputs
@@ -158,5 +160,5 @@ test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_
 test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0.pvd
 test/LargeTests/Test_Setups_large/ogs_example_setup/vtu_collection.pvd
 test/LargeTests/Test_Setups_large/ogs_example_setup/python_source.py
-TreeModelLib/BelowgroundCompetition/OGS/container/ogs_container.sif
+ResourceLib/BelowGround/Individual/OGS/container/ogs_container.sif
 .idea

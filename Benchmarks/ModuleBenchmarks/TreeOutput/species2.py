@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-List containing species specific tree model parameters.
+List containing species specific plant model parameters.
 @date: 2018 - Today
 @author: jasper.bathmann@ufz.de
 """

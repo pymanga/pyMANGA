@@ -1,2 +1,2 @@
-tree	time	x	y	r_stem	h_stem	r_crown	r_root	growth	ag_resources	bg_resources
+plant	time	x	y	r_stem	h_stem	r_crown	r_root	growth	ag_resources	bg_resources
 Species_2_000000001	2000000.0	12.0	11.0	0.024947060990380347	3.0556737282623474	0.8141154382502	0.5033435202292423	0.0002189821708695315	0.051664769825987625	0.050821336825372924

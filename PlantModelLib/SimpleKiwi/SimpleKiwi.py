@@ -62,7 +62,8 @@ class SimpleKiwi(PlantModel):
         growth_concept_information["growth"] = self.grow
         growth_concept_information["bg_factor"] = belowground_resources
         growth_concept_information["ag_factor"] = aboveground_resources
-
+        print("zoi: ", r_zoi, ", r_root: ", geometry["r_root"],
+              ", r_crown: ", geometry["r_crown"])
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)
 

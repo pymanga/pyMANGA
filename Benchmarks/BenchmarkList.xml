@@ -47,6 +47,11 @@
                     <test> SimpleTest_CI.xml </test>
                 </SimpleTest>
             </SimpleBettina>
+            <SimpleKiwi>
+                <Default>
+                    <test> Default_CI.xml </test>
+                </Default>
+            </SimpleKiwi>
         </PlantModules>
     </ModuleBenchmarks>
 </Benchmarks>

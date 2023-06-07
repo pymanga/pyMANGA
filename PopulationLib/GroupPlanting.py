@@ -56,7 +56,9 @@ class GroupPlanting(PlantGroup):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
-            self.addPlant(x_i, y_i)
+            self.addPlant(x=x_i, y=y_i,
+                          plant_model=self.plant_model,
+                          initial_geometry=False)
 
     ## Function initializing plant population of size n_individuals within given
     #  rectangular domain.
@@ -133,7 +135,9 @@ class GroupPlanting(PlantGroup):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
-            self.addPlant(x_i, y_i)
+            self.addPlant(x=x_i, y=y_i,
+                          plant_model=self.plant_model,
+                          initial_geometry=False)
 
     ## Returns all living plants belonging to this group.
     def getGroup(self):

@@ -1,15 +1,15 @@
 <MangaProject>
     <random_seed>643879</random_seed>
     <resources>
-        <aboveground_competition>
+        <aboveground>
             <type> SimpleTest </type>
-        </aboveground_competition>
-        <belowground_competition>
+        </aboveground>
+        <belowground>
             <type> FixedSalinity </type>
             <min_x>0</min_x>
             <max_x>22</max_x>
             <salinity>0.025 0.035</salinity>
-        </belowground_competition>
+        </belowground>
     </resources>
     <plant_dynamics>
         <type> SimpleBettina </type>

@@ -47,6 +47,27 @@
                     <test> SimpleTest_CI.xml </test>
                 </SimpleTest>
             </Bettina>
+            <SimpleKiwi>
+                <Belowground>
+                    <FixedSalinity>
+                        <test> FixedSalinity_CI.xml </test>
+                    </FixedSalinity>
+                </Belowground>
+                <Mortality>
+                    <Memory>
+                        <test> Memory_CI.xml </test>
+                    </Memory>
+                    <NoGrowth>
+                        <test> NoGrowth_CI.xml </test>
+                    </NoGrowth>
+                    <Random>
+                        <test> Random_CI.xml </test>
+                    </Random>
+                </Mortality>
+                <SimpleTest>
+                    <test> SimpleTest_CI.xml </test>
+                </SimpleTest>
+            </SimpleKiwi>
         </PlantModules>
         <TreeOutput>
             <OneFile>

@@ -5,17 +5,17 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from PlantModelLib.SimpleBettina import SimpleBettina
+from PlantModelLib.Bettina import Bettina
 import numpy as np
 
 
-# MRO: NetworkBettina, SimpleBettina, TreeModel, object
-class NetworkBettina(SimpleBettina):
+# MRO: NetworkBettina, Bettina, TreeModel, object
+class NetworkBettina(Bettina):
     ## NetworkBettina for death and growth dynamics.
-    # This module inherits the tree growth functionality of SimpleBettina,
+    # This module inherits the tree growth functionality of Bettina,
     # but can account for resource loss and water transfer through root
     # grafting.
-    #  @param Tags to define SimpleBettina: type
+    #  @param Tags to define Bettina: type
     #  @date 2019 - Today
     def __init__(self, args):
         super().__init__(args=args)
@@ -70,7 +70,7 @@ class NetworkBettina(SimpleBettina):
 
     ## This functions calculates the growths weights for distributing
     # biomass increment to the geometric (allometric) tree measures as
-    # defined in SimpleBettina. If resources are required for root graft
+    # defined in Bettina. If resources are required for root graft
     # formation, the respective module is called.
     def treeGrowthWeights(self):
         if self.variant == 'V2_adapted':
@@ -79,7 +79,7 @@ class NetworkBettina(SimpleBettina):
             super().treeGrowthWeights()
 
     ## This function calculates the available resources and the biomass
-    # increment as defined in SimpleBettina. If resources are required for
+    # increment as defined in Bettina. If resources are required for
     # root graft formation, the respective root-graft-formation method is
     # called.
     def growthResources(self):
@@ -91,7 +91,7 @@ class NetworkBettina(SimpleBettina):
 
     ## This functions calculates the growths weights for distributing
     # biomass increment to the geometric (allometric) tree measures as
-    # defined in SimpleBettina. In addition, the function calls the root
+    # defined in Bettina. In addition, the function calls the root
     # graft formation function, if the tree is currently in the process of
     # root graft formation.
     def treeGrowthWeightsV2(self):
@@ -110,7 +110,7 @@ class NetworkBettina(SimpleBettina):
     # formation manager
     def growthResourcesV1(self):
         # Simple bettina get growth resources
-        # SimpleBettina.growthResources(self)
+        # Bettina.growthResources(self)
         self.rootGraftFormationV1()
 
     ## This function handles immediate root graft formation. That is,

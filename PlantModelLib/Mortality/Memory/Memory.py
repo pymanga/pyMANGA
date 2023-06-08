@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+.. include:: ./Memory.md
+"""
 import numpy as np
 from PlantModelLib.Mortality.NoGrowth import NoGrowth
 
@@ -36,6 +39,8 @@ class Memory(NoGrowth):
         Set attribute survival variable to 0 if plant died. Default  is 1 if plant lived.
         Args:
             plant_module (class): "PlantModel" object
+        Sets:
+            survival status (bool)
         """
         self._survive = 1
 
@@ -63,17 +68,20 @@ class Memory(NoGrowth):
     def getSurvive(self):
         """
         Get survival status of a plant.
-        Returns:  survival status (bool), 0 = plant died, 1 = plant lived.
+        Returns:
+            survival status (bool), 0 = plant died, 1 = plant lived.
         """
         return self._survive
 
     def setMortalityVariables(self, plant_module, growth_concept_information):
         """
-        Determine if plant survives based on memory period and average growth during this period.
-        Set attribute survival variable to 0 if plant died. Default  is 1 if plant lived.
+        Initiate variables that are not yet in available in the selected growth module but are required
+        in this mortality module.
         Args:
             plant_module (class): "PlantModel" object
             growth_concept_information (dict): dictionary containing growth information of the respective tree
+        Sets:
+            value in dictionary
         """
         # Variable to store growth (m³ per time step)
         try:
@@ -83,12 +91,12 @@ class Memory(NoGrowth):
 
     def getMortalityVariables(self, plant_module, growth_concept_information):
         """
-        Get relevant attributes of mortality concept.
+        Get relevant plant attributes required for mortality concept.
         Args:
             plant_module (class): "PlantModel" object
             growth_concept_information (dict): dictionary containing growth information of the respective tree
         Returns:
-            dict. with updated growth concept information
+            dictionary with updated growth concept information
         """
         plant_module.grow_memory.append(plant_module.grow)
         growth_concept_information["grow_memory"] = \

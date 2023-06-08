@@ -1,47 +1,82 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2021-Today
-@author: marie-christin.wimmler@tu-dresden.de
+.. include:: ./NoGrowth.md
 """
 
 
-## This class is the super class of all mortality concepts, containing all
-# required methods.
 class NoGrowth:
 
     def __init__(self, args, case):
+        """
+        Mortality module and super class of other mortality modules containing required constructors.
+        Args:
+            args: module specification from project file tags. No required.
+            case: "NoGrowth" (module name)
+        """
         print("Initiate mortality of type `" + case + "`.")
 
-    ## This function checks if the conditions for death are met.
-    # @param args: growth concept object
     def setSurvive(self, plant_module):
+        """
+        Determine if plant survives based on memory period and average growth during this period.
+        Set attribute survival variable to 0 if plant died. Default is 1 if plant lived.
+        Args:
+            plant_module (class): "PlantModel" object
+        Sets:
+            survival status (bool)
+        """
         self._survive = 1
         if plant_module.grow <= 0:
             self._survive = 0
             print("\t Tree died (NoGrowth).")
 
-    ## This function returns the mortality status of a tree
-    # as 0 (dead) or 1 (alive)
     def getSurvive(self):
+        """
+        Get survival status of a plant.
+        Returns:
+            survival status (bool), 0 = plant died, 1 = plant lived.
+        """
         return self._survive
 
-    ## This function calculates the number of time steps per year
-    def getStepsPerYear(self, args):
-        return (3600 * 24 * 365.25) / args.time
+    def getStepsPerYear(self, plant_module):
+        """
+        Calculate the number of time steps per year.
+        Args:
+            plant_module (class): "PlantModel" object
+        Returns:
+            float
+        """
+        return (3600 * 24 * 365.25) / plant_module.time
 
-    ## This function initiates variables that are not yet in available in
-    # the selected growth concept but are required for the mortality concept.
-    # The function is called by the growth concept.
     def setMortalityVariables(self, plant_module, growth_concept_information):
+        """
+        Constructor for child classes.
+        Initiate variables that are not yet in available in the selected growth module but are required
+        in this mortality module.
+        Args:
+            plant_module (class): "PlantModel" object
+            growth_concept_information (dict): dictionary containing growth information of the respective tree
+        Returns:
+            pass
+        """
         pass
 
-    ## This function sets variables that are not yet in available in
-    # the selected growth concept but are required for the mortality concept.
-    # The function is called by the growth concept.
     def getMortalityVariables(self, plant_module, growth_concept_information):
+        """
+        Constructor for child classes.
+        Get relevant plant attributes required for mortality concept.
+        Args:
+            plant_module (class): "PlantModel" object
+            growth_concept_information (dict): dictionary containing growth information of the respective tree
+        Returns:
+            dictionary with updated growth concept information
+        """
         return growth_concept_information
 
-    ## This function returns the name of the mortality concept
     def getConceptName(self):
+        """
+        Return name of mortality module.
+        Returns:
+            string
+        """
         return type(self).__name__

@@ -63,7 +63,7 @@ class Memory(NoGrowth):
             # with number of time steps per year to induce a yearly mortality)
             if relative_grow*steps_per_year < self._threshold:
                 self._survive = 0
-                print("\t Tree died (Memory).")
+                print("\t Plant died (Memory).")
 
     def getSurvive(self):
         """
@@ -79,7 +79,7 @@ class Memory(NoGrowth):
         in this mortality module.
         Args:
             plant_module (class): "PlantModel" object
-            growth_concept_information (dict): dictionary containing growth information of the respective tree
+            growth_concept_information (dict): dictionary containing growth information of the respective plant
         Sets:
             value in dictionary
         """
@@ -94,7 +94,7 @@ class Memory(NoGrowth):
         Get relevant plant attributes required for mortality concept.
         Args:
             plant_module (class): "PlantModel" object
-            growth_concept_information (dict): dictionary containing growth information of the respective tree
+            growth_concept_information (dict): dictionary containing growth information of the respective plant
         Returns:
             dictionary with updated growth concept information
         """

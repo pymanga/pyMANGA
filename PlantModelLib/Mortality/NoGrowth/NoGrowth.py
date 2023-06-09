@@ -28,7 +28,7 @@ class NoGrowth:
         self._survive = 1
         if plant_module.grow <= 0:
             self._survive = 0
-            print("\t Tree died (NoGrowth).")
+            print("\t Plant died (NoGrowth).")
 
     def getSurvive(self):
         """
@@ -55,7 +55,7 @@ class NoGrowth:
         in this mortality module.
         Args:
             plant_module (class): "PlantModel" object
-            growth_concept_information (dict): dictionary containing growth information of the respective tree
+            growth_concept_information (dict): dictionary containing growth information of the respective plant
         Returns:
             pass
         """

@@ -15,7 +15,7 @@ import os
 manga_dir = "/Users/admin/Documents/GRIN/git_repos/pyMANGA/"
 setup_dir = "Benchmarks/ExampleSetups/ExternalSetup/"
 
-ogs_exe = os.path.join(manga_dir, "TreeModelLib", "BelowgroundCompetition",
+ogs_exe = os.path.join(manga_dir, "PlantModelLib", "BelowgroundCompetition",
                        "OGS", "bin", "ogs")
 
 ogs_project_folder = os.path.join(manga_dir, setup_dir)

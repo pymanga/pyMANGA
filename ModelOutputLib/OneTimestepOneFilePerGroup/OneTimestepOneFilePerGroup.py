@@ -14,10 +14,10 @@ import os
 #  measures and desired parameters is written at every nth timestep.
 class OneTimestepOneFilePerGroup(OneTimestepOneFile):
 
-    def outputContent(self, tree_groups, time, **kwargs):
+    def outputContent(self, plant_groups, time, **kwargs):
         delimiter = "\t"
-        for group_name, tree_group in tree_groups.items():
-            if not tree_group.getNumberOfTrees() == 0:
+        for group_name, plant_group in plant_groups.items():
+            if not plant_group.getNumberOfPlants() == 0:
                 if not kwargs["group_died"]:
                     filename = (group_name + "_t_%012.1f" % (time) + ".csv")
                 else:
@@ -25,20 +25,20 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
 
                 file = open(os.path.join(self.output_dir, filename), "w")
                 string = ""
-                string += 'tree' + delimiter + 'time' + delimiter + 'x' +  \
+                string += 'plant' + delimiter + 'time' + delimiter + 'x' +  \
                           delimiter + 'y'
                 string = OneTimestepOneFile.addSelectedHeadings(
                     self, string, delimiter)
                 string += "\n"
                 file.write(string)
-                for tree in tree_group.getTrees():
-                    growth_information = tree.getGrowthConceptInformation()
+                for plant in plant_group.getPlants():
+                    growth_information = plant.getGrowthConceptInformation()
                     string = ""
-                    string += (group_name + "_" + "%09.0d" % (tree.getId()) +
-                               delimiter + str(time) + delimiter + str(tree.x) +
-                               delimiter + str(tree.y))
+                    string += (group_name + "_" + "%09.0d" % (plant.getId()) +
+                               delimiter + str(time) + delimiter + str(plant.x) +
+                               delimiter + str(plant.y))
                     string = OneTimestepOneFile.addSelectedOutputs(
-                        self, tree, string, delimiter, growth_information)
+                        self, plant, string, delimiter, growth_information)
                     string += "\n"
                     file.write(string)
                     for growth_output in self.growth_outputs:

@@ -11,35 +11,35 @@ if __name__ == '__main__' and __package__ is None:
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 
-class TreeGroup:
+class PlantGroup:
 
     def __init__(self, name, species):
         self.name = name
         self.species = species
-        self.trees = []
+        self.plants = []
         self.max_id = 0
 
-    ## Adds a new tree instance to the tree group
-    #  @param x: x-position of the new tree
-    #  @param y: y-position of the new tree
+    ## Adds a new plant instance to the plant group
+    #  @param x: x-position of the new plant
+    #  @param y: y-position of the new plant
     #  @param initial_geometry: controls, whether an initial geometry is
-    #  parsed to the tree
-    def addTree(self, x, y, initial_geometry=False):
+    #  parsed to the plant
+    def addPlant(self, x, y, initial_geometry=False):
         self.max_id += 1
-        self.trees.append(
-            PLib.Tree(x,
+        self.plants.append(
+            PLib.Plant(x,
                       y,
                       self.species,
                       self.max_id,
                       initial_geometry,
                       group_name=self.name))
 
-    def getTrees(self):
-        return self.trees
+    def getPlants(self):
+        return self.plants
 
-    def getNumberOfTrees(self):
-        return len(self.trees)
+    def getNumberOfPlants(self):
+        return len(self.plants)
 
-    def removeTreesAtIndices(self, indices):
+    def removePlantsAtIndices(self, indices):
         for i in sorted(indices)[::-1]:
-            self.trees.pop(i)
+            self.plants.pop(i)

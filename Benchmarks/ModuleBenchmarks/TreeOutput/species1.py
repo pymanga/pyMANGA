@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-List containing species specific tree model parameters.
+List containing species specific plant model parameters.
 @date: 2018 - Today
 @author: jasper.bathmann@ufz.de
 """
 
 
-def createTree():
+def createPlant():
     ini_root_depth = 0.004
     ini_crown_depth = 0.004
     ini_stem_radius = 0.005

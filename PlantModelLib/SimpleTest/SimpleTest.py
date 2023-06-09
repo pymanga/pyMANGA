@@ -24,11 +24,11 @@ class SimpleTest(ResourceModel):
         #  step, the list is simply resetted.
         #  @param: t_ini - initial time for next timestep \n
         #  t_end - end time for next timestep
-        self.trees = []
+        self.plants = []
         self.t_ini = t_ini
         self.t_end = t_end
 
-    def progressTree(self, tree, aboveground_resources, belowground_resources):
+    def progressPlant(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
         tree.setGeometry(geometry)

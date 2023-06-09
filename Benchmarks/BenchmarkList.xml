@@ -48,5 +48,22 @@
                 </SimpleTest>
             </SimpleBettina>
         </PlantModules>
+        <TreeOutput>
+            <OneFile>
+                <test> OneFile_CI.xml </test>
+            </OneFile>
+            <OnePlantOneFile>
+                <test> OnePlantOneFile_CI.xml </test>
+            </OnePlantOneFile>
+            <OnePlantOneFile_2>
+                <test> OnePlantOneFile_2_CI.xml </test>
+            </OnePlantOneFile_2>
+            <OneTimestepOneFile>
+                <test> OneTimestepOneFile_CI.xml </test>
+            </OneTimestepOneFile>
+            <OneTimestepOneFilePerGroup>
+                <test> OneTimestepOneFilePerGroup_CI.xml </test>
+            </OneTimestepOneFilePerGroup>
+        </TreeOutput>
     </ModuleBenchmarks>
 </Benchmarks>

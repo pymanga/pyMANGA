@@ -8,10 +8,10 @@ from ModelOutputLib.ModelOutput import ModelOutput
 import os
 
 
-## Output class. This class creates one file per tree at a defined location.
+## Output class. This class creates one file per plant at a defined location.
 #  A line containing time, position, desired geometric measures and desired
 #  parameters is written at every nth timestep.
-class OneTreeOneFile(ModelOutput):
+class OnePlantOneFile(ModelOutput):
 
     ## Constructor of dummy objects in order to drop output
     #  @param args xml element parsed from project to this constructor.
@@ -22,17 +22,17 @@ class OneTreeOneFile(ModelOutput):
             if os.path.isfile(full_path):
                 os.remove(full_path)
 
-    def outputContent(self, tree_groups, time, **kwargs):
+    def outputContent(self, plant_groups, time, **kwargs):
         delimiter = "\t"
         files_in_folder = os.listdir(self.output_dir)
-        for group_name, tree_group in tree_groups.items():
-            for tree in tree_group.getTrees():
-                growth_information = tree.getGrowthConceptInformation()
+        for group_name, plant_group in plant_groups.items():
+            for plant in plant_group.getPlants():
+                growth_information = plant.getGrowthConceptInformation()
                 if not kwargs["group_died"]:
-                    filename = (group_name + "_" + "%09.0d" % (tree.getId()) +
+                    filename = (group_name + "_" + "%09.0d" % (plant.getId()) +
                                 ".csv")
                 else:
-                    filename = (group_name + "_" + "%09.0d" % (tree.getId()) +
+                    filename = (group_name + "_" + "%09.0d" % (plant.getId()) +
                                 "_group_died.csv")
                 file = open(os.path.join(self.output_dir, filename), "a")
                 if filename not in files_in_folder:
@@ -42,9 +42,9 @@ class OneTreeOneFile(ModelOutput):
                     string += "\n"
                     file.write(string)
                 string = ""
-                string += (str(time) + delimiter + str(tree.x) + delimiter +
-                           str(tree.y))
-                string = super().addSelectedOutputs(tree, string, delimiter,
+                string += (str(time) + delimiter + str(plant.x) + delimiter +
+                           str(plant.y))
+                string = super().addSelectedOutputs(plant, string, delimiter,
                                                     growth_information)
                 string += "\n"
                 file.write(string)

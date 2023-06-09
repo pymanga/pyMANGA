@@ -8,6 +8,7 @@ import numpy as np
 import os
 from ResourceLib import ResourceModel
 
+
 class FixedSalinity(ResourceModel):
     ## Fixed salinity in belowground competition concept.
     #  @param: Tags to define FixedSalinity: type, salinity
@@ -18,19 +19,19 @@ class FixedSalinity(ResourceModel):
         self.GetSalinity(args)
 
     ## This function returns a list of the growth reduction factors of all
-    #  trees calculated in the subsequent timestep.\n
-    #  @return: np.array with $N_tree$ scalars
+    #  plants calculated in the subsequent timestep.\n
+    #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
-        salinity_tree = self.getTreeSalinity()
+        salinity_plant = self.getPlantSalinity()
         psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
                                                np.array(self._h_stem)) * 9810
-        psi_sali = np.array(psi_zero) + 85000000 * salinity_tree
+        psi_sali = np.array(psi_zero) + 85000000 * salinity_plant
         self.belowground_resources = psi_sali / psi_zero
 
-    ## This function returns a list of salinity values for each tree,
+    ## This function returns a list of salinity values for each plant,
     # obtained by interpolation along a defined gradient
-    #  @return: np.array with floats of tree salinity
-    def getTreeSalinity(self):
+    #  @return: np.array with floats of plant salinity
+    def getPlantSalinity(self):
 
         self._xe = np.array(self._xe)
 
@@ -87,12 +88,12 @@ class FixedSalinity(ResourceModel):
                                           self._salinity_over_t[-1, 2]]
 
         # Interpolation of salinity over space
-        salinity_tree = ((self._xe - self._min_x) /
+        salinity_plant = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
                          (self._salinity[1] - self._salinity[0]) +
                          self._salinity[0])
 
-        return salinity_tree
+        return salinity_plant
 
     ## This function reads salinity from the control file.\n
     def GetSalinity(self, args):
@@ -163,21 +164,21 @@ class FixedSalinity(ResourceModel):
                 "are not given for below-ground initialisation " +
                 "in project file.")
 
-    ## Before being able to calculate the resources, all tree entities need
+    ## Before being able to calculate the resources, all plant entities need
     #  to be added with their relevant allometric measures for the next
     #  timestep.
-    #  @param: tree
-    def addTree(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
+    #  @param: plant
+    def addPlant(self, plant):
+        x, y = plant.getPosition()
+        geometry = plant.getGeometry()
+        parameter = plant.getParameter()
         self._xe.append(x)
         self._h_stem.append(geometry["h_stem"])
         self._r_crown.append(geometry["r_crown"])
         self._psi_leaf.append(parameter["leaf_water_potential"])
 
     ## This functions prepares the computation of water uptake
-    #  by porewater salinity. Only tree height aund leaf
+    #  by porewater salinity. Only plant height aund leaf
     #  water potential is needed\n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep

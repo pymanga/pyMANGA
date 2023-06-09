@@ -17,31 +17,31 @@ class SimpleTest(ResourceModel):
         print("Initiate belowground competition of type " + case + ".")
 
     ## This function returns the BelowgroundResources calculated in the
-    #  subsequent timestep. In the SimpleTest concept, for each tree a one
+    #  subsequent timestep. In the SimpleTest concept, for each plant a one
     #  is returned
-    #  @return: np.array with $N_tree$ scalars
+    #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
-        self.belowground_resources = self.trees
+        self.belowground_resources = self.plants
 
     ## This functions prepares the competition concept for the competition
-    #  concept. In the SimpleTest concept, trees are saved in a simple list
+    #  concept. In the SimpleTest concept, plants are saved in a simple list
     #  and the timestepping is updated. In preparation for the next time-
     #  step, the list is simply resetted.
     #  @param: t_ini - initial time for next timestep \n
     #  t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
-        self.trees = []
+        self.plants = []
         self.t_ini = t_ini
         self.t_end = t_end
 
-    ## Before being able to calculate the resources, all tree enteties need
+    ## Before being able to calculate the resources, all plant enteties need
     #  to be added with their current implementation for the next timestep.
-    #  Here, in the SimpleTest case, each tree is represented by a one. In
+    #  Here, in the SimpleTest case, each plant is represented by a one. In
     #  general, an object containing all necessary information should be
-    #  stored for each tree
+    #  stored for each plant
     #  @param: position, geometry, parameter
-    def addTree(self, tree):
-        self.trees.append(1)
+    def addPlant(self, plant):
+        self.plants.append(1)
 
     ## Test for external timestepper, whether the concept is optimized for ex-
     #  ternal communication

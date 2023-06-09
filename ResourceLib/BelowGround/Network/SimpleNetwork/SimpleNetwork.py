@@ -14,7 +14,7 @@ class SimpleNetwork(ResourceModel):
     #########
 
     ## Network approach to alter, i.e. increase or decrease, water availability
-    #  due to water exchange with other trees (root grafting).
+    #  due to water exchange with other plants (root grafting).
     #  Processes are partner selection, group formation and water exchange.\n
     #  @param: Tags to define SimpleNetwork, see tag documentation \n
     #  @date: 2021 - Today
@@ -23,20 +23,20 @@ class SimpleNetwork(ResourceModel):
         print("Initiate below-ground competition of type " + case + ".")
         self.getInputParameters(args=args)
 
-    ## This functions prepares the tree variables for the NetworkHydro
+    ## This functions prepares the plant variables for the NetworkHydro
     #  concept.\n
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         # Parameters associated with the SimpleBettina model
-        self.trees = []
+        self.plants = []
         self._xe = []
         self._ye = []
-        self._tree_names = np.empty(0)
+        self._plant_names = np.empty(0)
         self._psi_height = []
         self._psi_leaf = []
         self._psi_osmo = []
-        ## Water potential acting at the top of the tree, that is the
+        ## Water potential acting at the top of the plant, that is the
         # difference between min. leaf water potential and height potential
         self._psi_top = []
         self._r_root = []
@@ -48,18 +48,18 @@ class SimpleNetwork(ResourceModel):
         self.time = t_end - t_ini
 
         # Parameters associated with the network concept
-        # List of length n-trees, which contains the names of adjacent trees
+        # List of length n-plants, which contains the names of adjacent plants
         self._partner_names = []
-        # List of length n-trees, which contains the current indices of
-        # adjacent trees
+        # List of length n-plants, which contains the current indices of
+        # adjacent plants
         self._partner_indices = []
-        ## List of length n-trees, which contains the name of tree with
+        ## List of length n-plants, which contains the name of plant with
         # which  currently
         # develops a connection (root graft)
         self._potential_partner = []
-        ## List of length n-trees, which contains a counter indicating the
-        # status of the root graft formation (rgf) process. If > 0 the tree
-        # is in the process of rgf, if = -1 the tree is not in the process
+        ## List of length n-plants, which contains a counter indicating the
+        # status of the root graft formation (rgf) process. If > 0 the plant
+        # is in the process of rgf, if = -1 the plant is not in the process
         # of rgf
         self._rgf_counter = []
 
@@ -71,11 +71,11 @@ class SimpleNetwork(ResourceModel):
         self._l_gr_rgf = []
         self._weight_gr = []
 
-        ## Dictionary that represents the network of grafted trees (= nodes).
-        # Trees are the keys and Links are the adjacent tree(s)
+        ## Dictionary that represents the network of grafted plants (= nodes).
+        # Plants are the keys and Links are the adjacent plant(s)
         self.graph_dict = {}
-        ## List of length n-trees, which contains the group IDs indicating
-        # which trees belong to the same group.
+        ## List of length n-plants, which contains the group IDs indicating
+        # which plants belong to the same group.
         self._gIDs = []
         ## Resistance acting above the root graft, that is the sum of crown a
         # nd stem xylem resistance
@@ -84,17 +84,17 @@ class SimpleNetwork(ResourceModel):
         # xylem resistance and root surface resistance
         self._below_graft_resistance = np.empty(0)
 
-    ## Before being able to calculate the resources, all tree entities need
+    ## Before being able to calculate the resources, all plant entities need
     #  to be added with their relevant allometric measures for the next
     #  timestep.
-    #  @param: tree
-    def addTree(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
-        self.network = tree.getNetwork()
+    #  @param: plant
+    def addPlant(self, plant):
+        x, y = plant.getPosition()
+        geometry = plant.getGeometry()
+        parameter = plant.getParameter()
+        self.network = plant.getNetwork()
 
-        self.trees.append(tree)
+        self.plants.append(plant)
 
         self._rgf_counter.append(self.network['rgf'])
         self._partner_names.append(self.network['partner'])
@@ -117,9 +117,9 @@ class SimpleNetwork(ResourceModel):
 
         self._xe.append(x)
         self._ye.append(y)
-        self.no_trees = len(self._xe)
-        self._tree_names = np.concatenate(
-            (self._tree_names, [str(tree.group_name) + str(tree.tree_id)]))
+        self.no_plants = len(self._xe)
+        self._plant_names = np.concatenate(
+            (self._plant_names, [str(plant.group_name) + str(plant.plant_id)]))
 
         self._below_graft_resistance = np.concatenate(
             (self._below_graft_resistance, [
@@ -155,18 +155,18 @@ class SimpleNetwork(ResourceModel):
     # osmotic potential
     def addPsiOsmo(self):
         # Salinity is 0 ppt is the basic scenario
-        self._psi_osmo = np.array([0] * self.no_trees)
+        self._psi_osmo = np.array([0] * self.no_plants)
 
     ## This function returns a list of the growth modification factors of
-    # all trees. Calculated in the subsequent timestep.\n
-    #  The factor is > 1, if trees receive water from their adjacent trees;
-    #  < 1 if the lose water to the adjacent tree; or = 1 if no exchange
+    # all plants. Calculated in the subsequent timestep.\n
+    #  The factor is > 1, if plants receive water from their adjacent plants;
+    #  < 1 if the lose water to the adjacent plant; or = 1 if no exchange
     #  happens
-    #  @return: np.array with $N_tree$ scalars
+    #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
         self.groupFormation()
         self.rootGraftFormation()
-        self.calculateBGresourcesTree()
+        self.calculateBGresourcesPlant()
         self.belowground_resources = self.getBGfactor()
         self.updateNetworkParametersForGrowthAndDeath()
 
@@ -177,7 +177,7 @@ class SimpleNetwork(ResourceModel):
         # Calculate water uptake with 0 ppt salinity
         res_b_noSal = self.getBGresourcesIndividual(
             psi_top=self._psi_top,
-            psi_osmo=np.array([0] * self.no_trees),
+            psi_osmo=np.array([0] * self.no_plants),
             ag_resistance=self._above_graft_resistance,
             bg_resistance=self._below_graft_resistance)
         return self._water_avail / res_b_noSal
@@ -185,9 +185,9 @@ class SimpleNetwork(ResourceModel):
     ## This function updates the network parameters that are required in the
     # growth-and death concept NetworkBettina
     def updateNetworkParametersForGrowthAndDeath(self):
-        # Update the parameter belonging to the tree and are needed in the
+        # Update the parameter belonging to the plant and are needed in the
         # growth- and-death-concept
-        for i, tree in zip(range(0, self.no_trees), self.trees):
+        for i, plant in zip(range(0, self.no_plants), self.plants):
             network = {}
             # Parameters related to the root graft formation process
             network['potential_partner'] = self._potential_partner[i]
@@ -197,7 +197,7 @@ class SimpleNetwork(ResourceModel):
             # Parameter related to water exchange
             network['water_available'] = self._water_avail[i]
             network['water_absorbed'] = self._water_absorb[i]
-            network['water_exchanged'] = self._water_exchanged_trees[i]
+            network['water_exchanged'] = self._water_exchanged_plants[i]
             network['psi_osmo'] = self._psi_osmo[i]
             # parameters for rgf variant "V2_adapted"
             network['weight_gr'] = self._weight_gr[i]
@@ -207,7 +207,7 @@ class SimpleNetwork(ResourceModel):
             network['variant'] = self._variant[i]
             network['node_degree'] = self._node_degree[i]
 
-            tree.setNetwork(network)
+            plant.setNetwork(network)
 
     ## This function reads input parameters, i.e. proportion of grafted root
     # radius of stem radius, from the control file.
@@ -239,36 +239,36 @@ class SimpleNetwork(ResourceModel):
     ##############################
 
     The sub-model group formation manages the formation of groups. Therefore, 
-    it requires a list with tree_names (self._tree_names) and a list with 
+    it requires a list with plant_names (self._plant_names) and a list with 
     partner_names (self._partners).
     The sub-model converts the partner_names into current index values, 
     then  creates a graph dictionary from the partner indices and assigns 
     groupIDs (self._gID).
     '''
 
-    ## This function removes trees from partner list if they died in the
+    ## This function removes plants from partner list if they died in the
     # previous time step.
     def updatedPartnerNames(self):
         for i in range(0, len(self._partner_names)):
             partners_delete = []
             for j in range(0, len(self._partner_names[i])):
-                ## If the name of the partner isn't in the list of tree
+                ## If the name of the partner isn't in the list of plant
                 # names anymore it will be removed from the partner list
-                if self._partner_names[i][j] not in self._tree_names:
+                if self._partner_names[i][j] not in self._plant_names:
                     partners_delete.append(self._partner_names[i][j])
             if partners_delete:
                 for p in partners_delete:
                     self._partner_names[i].remove(p)
 
-    ## This function removes trees from potential partners list if they died in
+    ## This function removes plants from potential partners list if they died in
     # the previous time step.
     def updatedPotentialPartnerNames(self):
         for i in range(0, len(self._potential_partner)):
             ## If the name of the _potential_partner isn't in the list
-            # of tree names anymore it will be removed from the partner
+            # of plant names anymore it will be removed from the partner
             # list
             if (self._potential_partner[i]) and (self._potential_partner[i]
-                                                 not in self._tree_names):
+                                                 not in self._plant_names):
                 self._potential_partner[i] = []
                 self._rgf_counter[i] = -1
 
@@ -276,14 +276,14 @@ class SimpleNetwork(ResourceModel):
     def updatePartnerIdices(self):
         ## In order to access the partners by their indices the current
         # indices must be updated in each time step.
-        tree_indices = np.array(range(0, self.no_trees))
+        plant_indices = np.array(range(0, self.no_plants))
         for i in self._partner_names:
             if not i:
                 self._partner_indices.append([])
             else:
                 h = []
                 for j in i:
-                    a = tree_indices[np.where(self._tree_names == j)][0]
+                    a = plant_indices[np.where(self._plant_names == j)][0]
                     h.append(a)
                 self._partner_indices.append(h)
 
@@ -297,7 +297,7 @@ class SimpleNetwork(ResourceModel):
             dictionary[key] = dictionary[key] | {value}
 
     ## Function that makes a graph dictionary only with functional grafts,
-    # i.e. both involved trees have finished root graft formation
+    # i.e. both involved plants have finished root graft formation
     def makeGraphDictionary(self):
         graph_dict_incomplete = {}
         # dictionary contains all links, no matter if they are functional
@@ -314,15 +314,15 @@ class SimpleNetwork(ResourceModel):
                                       key=vertex,
                                       value=set())
                 for neighbour in graph_dict_incomplete[vertex]:
-                    # Iterate through all trees and the neighbours
+                    # Iterate through all plants and the neighbours
                     # If a new pair occurs it will be appended in link_list2
                     # If the pair occurs again it wll be appended in link_list
                     # This means that the link (or rgf process) is finished
-                    # for both trees
+                    # for both plants
                     if {neighbour, vertex} not in link_list2:
                         link_list2.append({vertex, neighbour})
                     else:
-                        # trees are only put in the dict. if they occur more
+                        # plants are only put in the dict. if they occur more
                         # than once, i.e. both partners have finished rgf
                         link_list.append({vertex, neighbour})
                         self.setKeyDictionary(dictionary=self.graph_dict,
@@ -330,14 +330,14 @@ class SimpleNetwork(ResourceModel):
                                               value=neighbour)
 
     ## This function finds all subcomponents of a graph, i.e. groups of
-    # grafted trees.
+    # grafted plants.
     # The function is based on jimifiki's code
     # (ref:  https://stackoverflow.com/questions/10301000/python-connected
     # -components)
-    # @param graph_dictionary - a dictionary with tree indices as keys and
-    # the adjacent partner trees as values
+    # @param graph_dictionary - a dictionary with plant indices as keys and
+    # the adjacent partner plants as values
     # @return a dictionary defining groups by an ID (key) and the indices of
-    # the corresponding trees (value)
+    # the corresponding plants (value)
     def getComponents(self, graph_dictionary):
 
         def findRoot(aNode, aRoot):
@@ -374,7 +374,7 @@ class SimpleNetwork(ResourceModel):
     # dictionary.
     def assignGroupIDs(self):
         components = self.getComponents(graph_dictionary=self.graph_dict)
-        self._gIDs = np.zeros(self.no_trees, dtype='object')
+        self._gIDs = np.zeros(self.no_plants, dtype='object')
         for i in components.keys():
             self._gIDs[components[i]] = 'gID_' + str(i)
 
@@ -393,26 +393,26 @@ class SimpleNetwork(ResourceModel):
     ###################################
 
     The sub-model root graft formation initializes the formation process.  
-    Therefore, it requires a the x-, y-positions of trees, the root radii, 
+    Therefore, it requires a the x-, y-positions of plants, the root radii, 
     the rgf-value and the partner_indexes (sm: group-formation).
     The sub-model returns an array with booleans indicating whether the root 
-    graft formation of a tree starts or not. Based on the array it updates
-    the tree attribute 'rgf_counter'.
+    graft formation of a plant starts or not. Based on the array it updates
+    the plant attribute 'rgf_counter'.
     '''
 
-    ## This function calculates the distance between two trees in meter.
+    ## This function calculates the distance between two plants in meter.
     # @return a scalar
     def getDistance(self, x1, x2, y1, y2):
         return ((x1 - x2)**2 + (y1 - y2)**2)**0.5
 
-    ## This function returns a matrix indicating whether roots of trees are
+    ## This function returns a matrix indicating whether roots of plants are
     # in contact or not
-    # @return a matrix of shape n-trees*n-trees with bool to indicate
-    # whether tree root are in contact
+    # @return a matrix of shape n-plants*n-plants with bool to indicate
+    # whether plant root are in contact
     def getContactMatrix(self):
         x_mesh = np.array(np.meshgrid(self._xe, self._xe))
         y_mesh = np.array(np.meshgrid(self._ye, self._ye))
-        # calculate distances between all trees
+        # calculate distances between all plants
         distances = ((x_mesh[0] - x_mesh[1])**2 +
                      (y_mesh[0] - y_mesh[1])**2)**.5
 
@@ -421,7 +421,7 @@ class SimpleNetwork(ResourceModel):
 
         # probability for root contact
         p_meeting = 1 - distances / root_sums
-        # probability is 0 for tree = tree (diagonal)
+        # probability is 0 for plant = plant (diagonal)
         np.fill_diagonal(p_meeting, 0)
 
         # generate matrix with random floats
@@ -438,7 +438,7 @@ class SimpleNetwork(ResourceModel):
         return contact_matrix
 
     ## Function that returns an array with pairs based on the contact matrix.
-    # @return a 2d array with tree indices of connected trees (format:
+    # @return a 2d array with plant indices of connected plants (format:
     # from, to)
     def getPairsFromMatrix(self, contact_matrix):
         # reshape to a triangular matrix to avaid duplicated links
@@ -446,11 +446,11 @@ class SimpleNetwork(ResourceModel):
         pairs = np.argwhere(contact_matrix_upper == 1).tolist()
         return pairs
 
-    ## Function to check if a pair of trees fullfiles all the conditions to
+    ## Function to check if a pair of plants fullfiles all the conditions to
     # start root graft formation
-    # @return bool that indicate whether a pair of trees fulfils the
+    # @return bool that indicate whether a pair of plants fulfils the
     # requirements to start root graft formation
-    # @param pair - a 2d array with tree indices of connected trees (format:
+    # @param pair - a 2d array with plant indices of connected plants (format:
     # from, to)
     def checkRgfAbility(self, pair):
         l1, l2 = pair[0], pair[1]
@@ -463,8 +463,8 @@ class SimpleNetwork(ResourceModel):
         # process, if yes jump to next pair
         condition2 = True if (self._rgf_counter[l1] == -1
                               and self._rgf_counter[l2] == -1) else False
-        # ... check if both trees have a certain size (i.e. DBH > 1.5 cm) in
-        # order to avoid that freshly recruited trees start grafting
+        # ... check if both plants have a certain size (i.e. DBH > 1.5 cm) in
+        # order to avoid that freshly recruited plants start grafting
         condition3 = True if (self._r_stem[l1] > 0.0075
                               and self._r_stem[l2] > 0.0075) else False
 
@@ -473,11 +473,11 @@ class SimpleNetwork(ResourceModel):
                              == True) else False
         return start_rgf
 
-    ## Function that modifies the tree-own vairable 'rgf_counter'.
-    # If a pair of trees are ale to start root graft formation the variable
-    # is set to 1 and the adjacent tree is added to the list of potential
+    ## Function that modifies the plant-own vairable 'rgf_counter'.
+    # If a pair of plants are ale to start root graft formation the variable
+    # is set to 1 and the adjacent plant is added to the list of potential
     # partners.
-    # @param pair - a 2d array with tree indices of connected trees (format:
+    # @param pair - a 2d array with plant indices of connected plants (format:
     # from, to)
     def getRGFforGrowthAndDeath(self, pairs):
         # Create a list of length pairs with random integers to iterate
@@ -491,7 +491,7 @@ class SimpleNetwork(ResourceModel):
                 l1, l2 = pair[0], pair[1]
                 self._rgf_counter[l1], self._rgf_counter[l2] = 1, 1
                 self._potential_partner[l1], self._potential_partner[l2] = \
-                    self._tree_names[l2], self._tree_names[l1]
+                    self._plant_names[l2], self._plant_names[l1]
                 if (self._variant[l1] == "V2_adapted") and \
                         (self._variant[l2] == "V2_adapted"):
                     # Set initial size of grafted root radius
@@ -562,22 +562,22 @@ class SimpleNetwork(ResourceModel):
 
     ## Function that calculates the xylem resistance in the grafted roots.
     # @return a scalar
-    # @param distance - distance between connected trees
+    # @param distance - distance between connected plants
     # @param r_graft - radius of grafted roots
     # @param kf_sap - hydraulic conductivity of xylem
     def getGraftResistance(self, distance, r_graft, kf_sap):
         graft_resistance = distance / (kf_sap * np.pi * r_graft**2)
         return graft_resistance
 
-    ## Function that returns an array with the links of a specific tree.
-    # @return a list with tree indices of adjacent trees
-    # @param link_list - a 2d array with tree indices of connected trees
+    ## Function that returns an array with the links of a specific plant.
+    # @return a list with plant indices of adjacent plants
+    # @param link_list - a 2d array with plant indices of connected plants
     # (format: from, to)
-    # @param tree - index of the tree under consideration
-    def getMyLinks(self, link_list, tree):
+    # @param plant - index of the plant under consideration
+    def getMyLinks(self, link_list, plant):
         my_links = []
         for links in link_list:
-            if tree in links:
+            if plant in links:
                 my_links.append(links)
         return my_links
 
@@ -585,9 +585,9 @@ class SimpleNetwork(ResourceModel):
     # graph-dictionary.
     # The function is based on the code of a python course on graphs
     # (ref: https://www.python-course.eu/graphs_python.php)
-    # @return a 2d array with tree indices of connected trees
+    # @return a 2d array with plant indices of connected plants
     # (format: from, to)
-    # @param graph_dictionary - a dictionary with tree indices as keys and
+    # @param graph_dictionary - a dictionary with plant indices as keys and
     def getLinkList(self, graph_dict):
         link_list = []
         for vertex in graph_dict:
@@ -598,13 +598,13 @@ class SimpleNetwork(ResourceModel):
         return link_list
 
     ## Function that creates the matrix to calculate below-ground resources
-    # for each group of grafted trees. The matrix contains a set of linear
+    # for each group of grafted plants. The matrix contains a set of linear
     # equations (Ax=B) allowing the calculation of water absorbed,
-    # available, exchanged for all trees of a group. The equations result from
+    # available, exchanged for all plants of a group. The equations result from
     # the electronic-hydraulic analogy and the utilization of Kirchhoff's laws.
     # @param members - list with indexes of group members
-    # @param link_list - list with connected trees of the group
-    # @return a matrix of shape size*size+1 (size = 2*n-trees + n-links);
+    # @param link_list - list with connected plants of the group
+    # @return a matrix of shape size*size+1 (size = 2*n-plants + n-links);
     # the matrix represents
     # linear equations: Ax=B, whereby matrix[, 0:size] = A and
     # matrix[, size+1] = B
@@ -617,7 +617,7 @@ class SimpleNetwork(ResourceModel):
 
         ## Basic indices to fill the matrix
         # columns: bg_1 ... bg_t | ag_1 ... ag_t | g_1 ... g_l
-        # rows: node_1 ... node_t | tree_1 ... tree_t | link_1 ... link_l
+        # rows: node_1 ... node_t | plant_1 ... plant_t | link_1 ... link_l
         # Below-graft columns
         bg_col = np.array(range(0, len(members)))
         # Above-graft columns
@@ -626,12 +626,12 @@ class SimpleNetwork(ResourceModel):
         g_col = (2 * n_t) + np.array(range(0, n_l))
         # node_rows
         node_row = np.array(range(0, len(members)))
-        # tree_rows
-        tree_rows = node_row + n_t
+        # plant_rows
+        plant_rows = node_row + n_t
         # links_rows
         link_rows = (2 * n_t) + np.array(range(0, n_l))
 
-        ## Kirchhoff's 1st law: flow in and out of each tree node
+        ## Kirchhoff's 1st law: flow in and out of each plant node
         # Add inflow, i.e. +1, to below-graft column; and outflow, i.e. -1 to
         # above-graft column
         matrix[node_row, bg_col] = 1  # below-graft
@@ -642,10 +642,10 @@ class SimpleNetwork(ResourceModel):
         link_list_group_list = [list(links) for links in link_list]
         # reshape link_list_group to shape = [2, n_l]
         reshape_llg = np.transpose(link_list_group_list)
-        # Get from and to tree IDs
+        # Get from and to plant IDs
         from_IDs = reshape_llg[0, :]  # from IDs
         to_IDs = reshape_llg[1, :]  # to IDs
-        # Get indices, i.e. rows, corresponding to from and to tree IDs
+        # Get indices, i.e. rows, corresponding to from and to plant IDs
         from_index = node_row[np.searchsorted(members,
                                               from_IDs,
                                               sorter=node_row)]
@@ -654,17 +654,17 @@ class SimpleNetwork(ResourceModel):
         matrix[from_index, g_col] = 1
         matrix[to_index, g_col] = -1
 
-        ## Kirchhoff's 2nd law: flow along the tree
+        ## Kirchhoff's 2nd law: flow along the plant
 
-        matrix[tree_rows, bg_col] = self._below_graft_resistance[members]
-        matrix[tree_rows, ag_col] = self._above_graft_resistance[members]
-        matrix[tree_rows,
+        matrix[plant_rows, bg_col] = self._below_graft_resistance[members]
+        matrix[plant_rows, ag_col] = self._above_graft_resistance[members]
+        matrix[plant_rows,
                size] = self._psi_osmo[members] - self._psi_top[members]
 
-        ## Kirchhoff's 2nd law: flow between two connected trees
+        ## Kirchhoff's 2nd law: flow between two connected plants
         x_mesh = np.array(np.meshgrid(self._xe, self._xe))
         y_mesh = np.array(np.meshgrid(self._ye, self._ye))
-        # calculate distances between all trees of the group
+        # calculate distances between all plants of the group
         distances = ((x_mesh[0] - x_mesh[1])**2 +
                      (y_mesh[0] - y_mesh[1])**2)**.5
         r_stem = np.array(np.meshgrid(self._r_stem, self._r_stem))
@@ -690,7 +690,7 @@ class SimpleNetwork(ResourceModel):
                size] = self._psi_osmo[to_IDs] - self._psi_osmo[from_IDs]  # y
         return matrix
 
-    ## Function that calculates water uptake of an individual tree in m³ per
+    ## Function that calculates water uptake of an individual plant in m³ per
     # time step, see  SimpleBettina.
     # @return a scalar
     # @param psi_top - difference between min. leaf water potential and
@@ -705,13 +705,13 @@ class SimpleNetwork(ResourceModel):
         return res_b
 
     ## Function that calculates water absorbed, water available and water
-    # exchanged for all trees of a group.
+    # exchanged for all plants of a group.
     # @param members - list with indexes of group members
-    # @param link_list_group - list with connected trees of group
+    # @param link_list_group - list with connected plants of group
     # (format: from, to)
     def calculateBGresourcesGroup(self, members, link_list_group):
         ## Get the system of linear equations (matrix) for the group of
-        # grafted trees;
+        # grafted plants;
         # linear equation Ax=B in matrix form
         matrix = self.getBGresourcesMatrixGroup(members=members,
                                                 link_list=link_list_group)
@@ -734,35 +734,35 @@ class SimpleNetwork(ResourceModel):
         # water exchanged for each connection
         water_exchanged = X[2 * n_t:size]
 
-        ## Sum up in- and out-flows of each tree (water_exchanged)
+        ## Sum up in- and out-flows of each plant (water_exchanged)
         # transform set of links to list of links
         linkList_group_list = [list(links) for links in link_list_group]
         # reshape link_list_group to shape = [2, n_l]
         reshape_llg = np.transpose(linkList_group_list)
         from_IDs = reshape_llg[0, :]  # from IDs
         to_IDs = reshape_llg[1, :]  # to IDs
-        np.add.at(self._water_exchanged_trees, from_IDs, water_exchanged)
-        np.add.at(self._water_exchanged_trees, to_IDs,
+        np.add.at(self._water_exchanged_plants, from_IDs, water_exchanged)
+        np.add.at(self._water_exchanged_plants, to_IDs,
                   -1 * np.array(water_exchanged))
 
     ## Function that calculates water absorbed, available and exchanged for
-    # all trees. Depending on the graft status of a tree, i.e. grafted vs.
+    # all plants. Depending on the graft status of a plant, i.e. grafted vs.
     # non-grafted, this function calls the corresponding BG-resource function.
-    def calculateBGresourcesTree(self):
-        ids = np.array(range(0, self.no_trees))
-        self._water_avail = np.zeros(self.no_trees)
-        self._water_absorb = np.zeros(self.no_trees)
-        self._water_exchanged_trees = np.zeros(self.no_trees)
+    def calculateBGresourcesPlant(self):
+        ids = np.array(range(0, self.no_plants))
+        self._water_avail = np.zeros(self.no_plants)
+        self._water_absorb = np.zeros(self.no_plants)
+        self._water_exchanged_plants = np.zeros(self.no_plants)
         for gID in set(self._gIDs):
-            # get tree indices of group members
+            # get plant indices of group members
             members = ids[np.where(self._gIDs == gID)]
             # make a graph dictionary of the group
             graph_dict_group = {i: self.graph_dict[i] for i in members}
-            # make a list with indices of connected trees of the group
+            # make a list with indices of connected plants of the group
             link_list_group = np.array(
                 self.getLinkList(graph_dict=graph_dict_group))
             if len(link_list_group) == 0:
-                ## if the tree is not grafted water_absorbed and
+                ## if the plant is not grafted water_absorbed and
                 # water_available corresponds to SimpleBettina water uptake
                 # and water_exchange is 0
                 self._water_absorb[members] = self.getBGresourcesIndividual(

@@ -20,31 +20,31 @@ class SimpleTest(ResourceModel):
 
     def calculateAbovegroundResources(self):
         ## This function returns the AbovegroundResources calculated in the
-        #  subsequent timestep. In the SimpleTest concept, for each tree a one
+        #  subsequent timestep. In the SimpleTest concept, for each plant a one
         #  is returned
-        #  @return: np.array with $N_tree$ scalars
-        self.aboveground_resources = self.trees
+        #  @return: np.array with $N_plant$ scalars
+        self.aboveground_resources = self.plants
 
     def prepareNextTimeStep(self, t_ini, t_end):
         ## This functions prepares the competition concept for the competition
-        #  concept. In the SimpleTest concept, trees are saved in a simple list
+        #  concept. In the SimpleTest concept, plants are saved in a simple list
         #  and the timestepping is updated. In preparation for the next time-
         #  step, the list is simply resetted.
         #  @param: t_ini - initial time for next timestep \n
         #  t_end - end time for next timestep
-        self.trees = []
+        self.plants = []
         self.t_ini = t_ini
         self.t_end = t_end
 
-    def addTree(self, tree):
-        ## Before being able to calculate the resources, all tree enteties need
+    def addPlant(self, plant):
+        ## Before being able to calculate the resources, all plant enteties need
         #  to be added with their current implementation for the next timestep.
-        #  Here, in the SimpleTest case, each tree is represented by a one. In
+        #  Here, in the SimpleTest case, each plant is represented by a one. In
         #  general, an object containing all necessary information should be
-        #  stored for each tree
-        #  @param: tree
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
+        #  stored for each plant
+        #  @param: plant
+        x, y = plant.getPosition()
+        geometry = plant.getGeometry()
+        parameter = plant.getParameter()
 
-        self.trees.append(1)
+        self.plants.append(1)

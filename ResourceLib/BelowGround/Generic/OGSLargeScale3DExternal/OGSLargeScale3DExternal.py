@@ -5,7 +5,7 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from TreeModelLib.BelowgroundCompetition.OGSLargeScale3D import OGSLargeScale3D
+from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D
 import numpy as np
 
 
@@ -50,7 +50,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
     #  Here, in the OGS case, each tree is represented by a contribution to
     #  python source terms in OGS.
     #  @param tree
-    def addTree(self, tree):
+    def addPlant(self, tree):
         x, y = tree.getPosition()
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
@@ -83,7 +83,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
             print("WARNING: All trees are dead.")
 
         # Calculate salinity (and psi_osmo) below tree
-        super().calculateTreeSalinity()
+        super().calculatePlantSalinity()
 
         self._tree_water_uptake = -(self._psi_leaf - self._psi_height -
                                    self._psi_osmo) / \
@@ -92,7 +92,7 @@ class OGSLargeScale3DExternal(OGSLargeScale3D):
                                           (self._psi_leaf - self._psi_height))
 
         # Calculate contribution per cell
-        super().calculateCompleteTreeContribution()
+        super().calculateCompletePlantContribution()
 
     ## Setter for external information
     # This function sets the parameters 'cumsum_salinity' and 'calls_per_cell',

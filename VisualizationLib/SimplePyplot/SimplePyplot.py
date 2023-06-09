@@ -32,20 +32,20 @@ class SimplePyplot(Visualization):
     #  distinct tree groups are indicated by varying colors. The
     #  Plotsize is derived from the distribution of trees, such
     #  that all tree centers a shown.
-    #  @param tree_groups - list of tree groups as processes by
+    #  @param plant_groups - list of tree groups as processes by
     #  Manga.\n
     #  @param time - double indicating current time
-    def update(self, tree_groups, time):
+    def update(self, plant_groups, time):
         self._ax.clear()
         patches = []
         left, bottom = 99999, 99999
         rigth, top = -99999, -99999
-        colors = cm.get_cmap('viridis', len(tree_groups.items()))
+        colors = cm.get_cmap('viridis', len(plant_groups.items()))
         i = 0
         patches, group_names, we = [], [], []
-        for group_name, tree_group in tree_groups.items():
+        for group_name, plant_group in plant_groups.items():
             patches_group = []
-            for tree in tree_group.getTrees():
+            for tree in plant_group.getPlants():
                 x, y = tree.getPosition()
                 left = min(left, x)
                 rigth = max(rigth, x)
@@ -59,10 +59,10 @@ class SimplePyplot(Visualization):
                 partners = network['partner']
                 we.append(network['water_exchanged'])
                 for partner in partners:
-                    for group_name, tree_group in tree_groups.items():
-                        for tree in tree_group.getTrees():
+                    for group_name, plant_group in plant_groups.items():
+                        for tree in plant_group.getPlants():
                             foundpartner = str(tree.group_name) + str(
-                                tree.tree_id)
+                                tree.plant_id)
                             if partner == foundpartner:
                                 x2, y2 = tree.getPosition()
                                 line = lines.Line2D([x, x2], [y, y2])
@@ -77,7 +77,7 @@ class SimplePyplot(Visualization):
                                 linewidths=1,
                                 facecolors=colors.colors[i],
                                 edgecolors="k",
-                                label=tree_group.name)
+                                label=plant_group.name)
             leg = patch.Patch(color=colors.colors[i], label=group_name)
             handles.append(leg)
 

@@ -13,7 +13,7 @@ import os
 #  desired parameters is written at every nth timestep.
 class OneTimestepOneFile(ModelOutput):
 
-    def outputContent(self, tree_groups, time, **kwargs):
+    def outputContent(self, plant_groups, time, **kwargs):
         delimiter = "\t"
 
         if not kwargs["group_died"]:
@@ -23,20 +23,20 @@ class OneTimestepOneFile(ModelOutput):
 
         file = open(os.path.join(self.output_dir, filename), "w")
         string = ""
-        string += 'tree' + delimiter + 'time' + delimiter + 'x' + \
+        string += 'plant' + delimiter + 'time' + delimiter + 'x' + \
                   delimiter + 'y'
         string = self.addSelectedHeadings(string, delimiter)
 
         string += "\n"
         file.write(string)
-        for group_name, tree_group in tree_groups.items():
-            for tree in tree_group.getTrees():
-                growth_information = tree.getGrowthConceptInformation()
+        for group_name, plant_group in plant_groups.items():
+            for plant in plant_group.getPlants():
+                growth_information = plant.getGrowthConceptInformation()
                 string = ""
-                string += (group_name + "_" + "%09.0d" % (tree.getId()) +
-                           delimiter + str(time) + delimiter + str(tree.x) +
-                           delimiter + str(tree.y))
-                string = self.addSelectedOutputs(tree, string, delimiter,
+                string += (group_name + "_" + "%09.0d" % (plant.getId()) +
+                           delimiter + str(time) + delimiter + str(plant.x) +
+                           delimiter + str(plant.y))
+                string = self.addSelectedOutputs(plant, string, delimiter,
                                                  growth_information)
                 string += "\n"
                 file.write(string)

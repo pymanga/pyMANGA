@@ -9,7 +9,7 @@ import getopt
 import sys
 from os import path
 from ProjectLib import XMLtoProject
-from TimeLoopLib import TreeDynamicTimeStepping
+from TimeLoopLib import DynamicTimeStep
 import datetime
 
 
@@ -22,8 +22,8 @@ class Model():
         self.prj = XMLtoProject(xml_project_file=project_file)
 
     def createExternalTimeStepper(self, t_0=0):
-        from TimeLoopLib import ExternalDynamicTimeStepping
-        self.timestepper = ExternalDynamicTimeStepping(self.prj, t_0)
+        from TimeLoopLib import ExternalDynamicTimeStep
+        self.timestepper = ExternalDynamicTimeStep(self.prj, t_0)
 
     def setSteps(self, step_ag, step_bg):
         self.timestepper.setSteps(step_ag, step_bg)
@@ -72,7 +72,7 @@ def main(argv):
                                 ' main.py -h" for additional help.')
     print("MANGA started at", t_start)
     print('Running pyMANGA project', project_file)
-    time_stepper = TreeDynamicTimeStepping(prj)
+    time_stepper = DynamicTimeStep(prj)
     prj.runProject(time_stepper)
     t_end = datetime.datetime.now()
     print('pyMANGA project', project_file, ' successfully evaluated.')

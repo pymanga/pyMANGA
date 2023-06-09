@@ -1,18 +1,18 @@
 <MangaProject>
     <random_seed>643879</random_seed>
-    <tree_dynamics>
-        <aboveground_competition>
+    <resources>
+        <aboveground>
             <type> SimpleTest </type>
-        </aboveground_competition>
-        <belowground_competition>
+        </aboveground>
+        <belowground>
             <type> SimpleTest </type>
-        </belowground_competition>
-        <tree_growth_and_death>
-            <type> SimpleBettina </type>
-            <mortality>NoGrowth</mortality>
-        </tree_growth_and_death>
-    </tree_dynamics>
-    <initial_population>
+        </belowground>
+    </resources>
+    <plant_dynamics>
+        <type> SimpleBettina </type>
+        <mortality> NoGrowth </mortality>
+    </plant_dynamics>
+    <population>
         <group>
             <name> Species_1 </name>
             <species> Benchmarks/ModuleBenchmarks/TreeOutput/species1.py </species>
@@ -31,18 +31,18 @@
                 <filename> Benchmarks/ModuleBenchmarks/TreeOutput/initial_population_2.csv </filename>
             </distribution>
         </group>
-    </initial_population>
-    <tree_time_loop>
+    </population>
+    <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
         <t_end> 2e6 </t_end>
         <delta_t> 1e6 </delta_t>
-    </tree_time_loop>
+    </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
-    <tree_output>
-         <type> OneTimestepOneFile </type>
+    <output>
+        <type> OneTimestepOneFile </type>
         <output_each_nth_timestep>1</output_each_nth_timestep>
         <output_times> [2e6] </output_times>
         <allow_previous_output>True</allow_previous_output>
@@ -54,6 +54,6 @@
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
-    </tree_output>
+    </output>
 </MangaProject>
 

@@ -28,8 +28,8 @@ class DynamicTimeLoop:
         print(case + " time stepping successfully initiated.")
 
     def iniSimpleTimeStepping(self, args):
-        from .SimpleTimeLoop import SimpleLoop
-        self.loop = SimpleLoop.Loop(args)
+        from .SimpleLoop import SimpleLoop
+        self.loop = SimpleLoop(args)
 
     def getNextTimeStepBoundaries(self):
         self.loop.getNextTimeStep()
@@ -42,7 +42,7 @@ class DynamicTimeLoop:
             # respective text gets printed after each time step
             if self.terminal_print == 'years':
                 print("Next time step to propagate" +
-                      " tree population with starting time " + '%4.2f' %
+                      " plant population with starting time " + '%4.2f' %
                       (float(self.loop.t_1) / self.print_unit) +
                       " a and end time " + '%4.2f' %
                       (float(self.loop.t_2) / self.print_unit) + " a." +
@@ -50,7 +50,7 @@ class DynamicTimeLoop:
                       str(int((self.loop.t_2 / self.loop.t_end) * 100)) + ' %')
             elif self.terminal_print == 'days':
                 print("Next time step to propagate" +
-                      " tree population with starting time " + '%4.2f' %
+                      " plant population with starting time " + '%4.2f' %
                       (float(self.loop.t_1) / self.print_unit) +
                       " d and end time " + '%4.2f' %
                       (float(self.loop.t_2) / self.print_unit) + " d." +

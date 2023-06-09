@@ -35,7 +35,7 @@ class SimpleBettina(PlantModel):
     #  (shading effect)\n
     #  @param belowground_resources - fraction of max water uptake (competition
     #  and/or salinity > 0)
-    def progressTree(self, tree, aboveground_resources, belowground_resources):
+    def progressPlant(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()
         self.parameter = tree.getParameter()

@@ -19,9 +19,6 @@ CoreTeam:
 import os, sys
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-from .PlantModelLib.TreeModel import TreeModel
-import ProjectLib
-from MANGA import Model
 
 # Define docstring type for documentation rendering with pdoc
 __docformat__ = "google"

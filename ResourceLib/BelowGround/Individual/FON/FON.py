@@ -38,20 +38,20 @@ class FON(ResourceModel):
         self._t_end = t_end
         self._fon_height = np.zeros_like(self._my_grid[0])
 
-    def addTree(self, tree):
+    def addPlant(self, plant):
         """
         Add each plant and its relevant geometry and parameters to the object to
         be used in the next time step.
         Args:
-            tree (dict): tree object
+            plant (dict): plant object
         """
         if self._mesh_size > 0.25:
             print("Error: mesh not fine enough for FON!")
             print("Please refine mesh to grid size < 0.25m !")
             exit()
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
+        x, y = plant.getPosition()
+        geometry = plant.getGeometry()
+        parameter = plant.getParameter()
         self._xe.append(x)
         self._ye.append(y)
         self._salt_effect_d.append(parameter["salt_effect_d"])
@@ -60,10 +60,10 @@ class FON(ResourceModel):
 
     def calculateBelowgroundResources(self):
         """
-        Calculate a growth reduction factor for each tree based on competition and
-        pore-water salinity below the centre of each tree.
+        Calculate a growth reduction factor for each plant based on competition and
+        pore-water salinity below the centre of each plant.
         Sets:
-            numpy array with shape(number_of_trees)
+            numpy array with shape(number_of_plants)
         """
         distance = (((self._my_grid[0][:, :, np.newaxis] -
                       np.array(self._xe)[np.newaxis, np.newaxis, :])**2 +
@@ -72,10 +72,10 @@ class FON(ResourceModel):
         my_fon = self.calculateFonFromDistance(np.array(self._r_stem),
                                                distance)
         fon_areas = np.zeros_like(my_fon)
-        # Add a one, where tree is larger than 0
+        # Add a one, where plant is larger than 0
         fon_areas[np.where(my_fon > 0)] += 1
-        # Count all nodes, which are occupied by trees
-        # returns array of shape (ntrees)
+        # Count all nodes, which are occupied by plants
+        # returns array of shape (nplants)
         fon_areas = fon_areas.sum(axis=(0, 1))
         fon_heigths = my_fon.sum(axis=-1)
         fon_impacts = fon_heigths[:, :, np.newaxis] - my_fon
@@ -90,12 +90,12 @@ class FON(ResourceModel):
 
     def calculateFonFromDistance(self, rst, distance):
         """
-        Calculate the FON height of each tree at each grid point.
+        Calculate the FON height of each plant at each grid point.
         Args:
             rst (numpy array): FON radius
-            distance (int): array of distances of all mesh points to tree position
+            distance (int): array of distances of all mesh points to plant position
         Returns:
-            numpy array with shape(x_grid_points, y_grid_points, number_of_trees)
+            numpy array with shape(x_grid_points, y_grid_points, number_of_plants)
         """
         fon_radius = self._aa * rst**self._bb
         cc = -np.log(self._fmin) / (fon_radius - rst)
@@ -107,7 +107,7 @@ class FON(ResourceModel):
 
     def makeGrid(self, args):
         """
-        Create the tree interaction grid.
+        Create the plant interaction grid.
         Args:
             args: FON module specifications from project file tags
         Sets:

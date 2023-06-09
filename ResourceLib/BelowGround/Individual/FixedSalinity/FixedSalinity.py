@@ -61,7 +61,7 @@ class FixedSalinity(ResourceModel):
         psi_sali = np.array(psi_zero) + 85000000 * salinity_plant
         self.belowground_resources = psi_sali / psi_zero
 
-    def getTreeSalinity(self):
+    def getPlantSalinity(self):
         """
         Calculate pore-water salinity below each tree, interpolating over space and time.
         Returns:

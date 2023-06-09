@@ -17,13 +17,13 @@ Attributes:
     threshold (float): minimum relative, yearly growth of a plant over the memory period. Default: 0.005 (= 0.5 %).
 
 Examples:
-```xml
-<plant_dynamics>
-    <type> Bettina </type>
-    <mortality>Memory</mortality>
-    <threshold> 0.005 </threshold>
-    <period> 31557600 </period>
-</plant_dynamics>
-```
+    ```xml
+    <plant_dynamics>
+        <type> Bettina </type>
+        <mortality>Memory</mortality>
+        <threshold> 0.005 </threshold>
+        <period> 31557600 </period>
+    </plant_dynamics>
+    ```
 
 

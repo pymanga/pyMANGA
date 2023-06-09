@@ -8,9 +8,9 @@ Attributes:
     mortality (string): "NoGrowth"
 
 Examples:
-```xml
-<plant_dynamics>
-    <type> Bettina </type>
-    <mortality>NoGrowth</mortality>
-</plant_dynamics>
-```
+    ```xml
+    <plant_dynamics>
+        <type> Bettina </type>
+        <mortality>NoGrowth</mortality>
+    </plant_dynamics>
+    ```

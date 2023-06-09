@@ -1,6 +1,6 @@
 # credit: pdoc https://github.com/mitmproxy/pdoc/
 
-name: website
+name: documentation
 
 # build the documentation whenever there are new commits on main
 on:
@@ -24,13 +24,14 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.7'
+          cache: 'pip' # caching pip dependencies
 
-      # ADJUST THIS: install all dependencies (including pdoc)
-      - run: pip install pdoc
+
+      # install all dependencies (including pdoc)
+      - run: pip install -r requirements.txt
       # build your documentation into docs/.
-      - run: python -m pdoc --docformat google -o ./docs ..\pyMANGA\ --logo "https://cataas.com/cat/says/hello%20world!"
-
+      - run: pdoc --docformat google -o ./docs ../pyMANGA/
 
       - uses: actions/upload-pages-artifact@v1
         with:

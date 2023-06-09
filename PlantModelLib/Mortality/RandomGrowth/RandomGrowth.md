@@ -19,3 +19,7 @@ Examples:
         <k_die> 1e-9 </k_die>
     </plant_dynamics>
     ```
+
+Notes:
+    See the pymanga sensitivity repository for an analysis of the effect of k_die.  
+    <a href="https://github.com/pymanga/sensitivity/blob/main/PlantModels/Mortality/RandomGrowth/RandomGrowth.md" target="_blank">Go to analysis</a>

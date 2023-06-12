@@ -12,7 +12,7 @@
                     </SimpleNetwork>
                 </Belowground>
             </NetworkBettina>
-            <SimpleBettina>
+            <Bettina>
                 <Aboveground>
                     <SimpleAsymmetricZOI>
                         <test> SimpleAsymmetricZOI_CI.xml </test>
@@ -46,7 +46,7 @@
                 <SimpleTest>
                     <test> SimpleTest_CI.xml </test>
                 </SimpleTest>
-            </SimpleBettina>
+            </Bettina>
         </PlantModules>
         <TreeOutput>
             <OneFile>

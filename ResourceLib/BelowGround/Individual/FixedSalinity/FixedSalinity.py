@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2020-Today
-@author: ronny.peters@tu-dresden.de and vollhueter
+.. include:: ./FixedSalinity.md
 """
 import numpy as np
 import os
@@ -10,29 +9,64 @@ from ResourceLib import ResourceModel
 
 
 class FixedSalinity(ResourceModel):
-    ## Fixed salinity in belowground competition concept.
-    #  @param: Tags to define FixedSalinity: type, salinity
-    #  @date: 2020 - Today
     def __init__(self, args):
+        """
+        Below-ground resource concept.
+        Args:
+            args: FixedSalinity module specifications from project file tags
+        """
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
-        self.GetSalinity(args)
+        self.getInputParameters(args)
 
-    ## This function returns a list of the growth reduction factors of all
-    #  plants calculated in the subsequent timestep.\n
-    #  @return: np.array with $N_plant$ scalars
+    def prepareNextTimeStep(self, t_ini, t_end):
+        """
+        Prepare next time step by initializing relevant variables.
+        Args:
+            t_ini (int): start of current time step in seconds
+            t_end (int): end of current time step in seconds
+        """
+        self._h_stem = []
+        self._r_crown = []
+        self._psi_leaf = []
+        self._xe = []
+        self._t_ini = t_ini
+        self._t_end = t_end
+
+    def addPlant(self, plant):
+        """
+        Add each plant and its relevant geometry and parameters to the object to
+        be used in the next time step.
+        Args:
+            plant (dict): tree object
+        """
+        x, y = plant.getPosition()
+        geometry = plant.getGeometry()
+        parameter = plant.getParameter()
+        self._xe.append(x)
+        self._h_stem.append(geometry["h_stem"])
+        self._r_crown.append(geometry["r_crown"])
+        self._psi_leaf.append(parameter["leaf_water_potential"])
+
     def calculateBelowgroundResources(self):
+        """
+        Calculate a growth reduction factor for each tree based on pore-water salinity below the
+        center of each tree.
+        Sets:
+            numpy array of shape(number_of_trees)
+        """
         salinity_plant = self.getPlantSalinity()
         psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
                                                np.array(self._h_stem)) * 9810
         psi_sali = np.array(psi_zero) + 85000000 * salinity_plant
         self.belowground_resources = psi_sali / psi_zero
 
-    ## This function returns a list of salinity values for each plant,
-    # obtained by interpolation along a defined gradient
-    #  @return: np.array with floats of plant salinity
     def getPlantSalinity(self):
-
+        """
+        Calculate pore-water salinity below each tree, interpolating over space and time.
+        Returns:
+            numpy array with shape(number_of_trees)
+        """
         self._xe = np.array(self._xe)
 
         if hasattr(self, "t_variable"):
@@ -43,7 +77,7 @@ class FixedSalinity(ResourceModel):
                     self._salinity_over_t[:, 0] == self._t_ini)[0], 1:][0]
 
             # The values for the salinity of the current time step are not
-            # explicitly given and have to be interpoleted
+            # explicitly given and have to be interpolted
             elif self._t_ini not in self._salinity_over_t[:, 0]:
 
                 try:
@@ -95,8 +129,12 @@ class FixedSalinity(ResourceModel):
 
         return salinity_plant
 
-    ## This function reads salinity from the control file.\n
-    def GetSalinity(self, args):
+    def getInputParameters(self, args):
+        """
+        Read module tags from project file.
+        Args:
+            args: FixedSalinity module specifications from project file tags
+        """
         missing_tags = ["salinity", "type", "max_x", "min_x"]
 
         for arg in args.iterdescendants():
@@ -163,29 +201,3 @@ class FixedSalinity(ResourceModel):
                 "Tag(s) " + string +
                 "are not given for below-ground initialisation " +
                 "in project file.")
-
-    ## Before being able to calculate the resources, all plant entities need
-    #  to be added with their relevant allometric measures for the next
-    #  timestep.
-    #  @param: plant
-    def addPlant(self, plant):
-        x, y = plant.getPosition()
-        geometry = plant.getGeometry()
-        parameter = plant.getParameter()
-        self._xe.append(x)
-        self._h_stem.append(geometry["h_stem"])
-        self._r_crown.append(geometry["r_crown"])
-        self._psi_leaf.append(parameter["leaf_water_potential"])
-
-    ## This functions prepares the computation of water uptake
-    #  by porewater salinity. Only plant height aund leaf
-    #  water potential is needed\n
-    #  @param t_ini - initial time for next timestep \n
-    #  @param t_end - end time for next timestep
-    def prepareNextTimeStep(self, t_ini, t_end):
-        self._h_stem = []
-        self._r_crown = []
-        self._psi_leaf = []
-        self._xe = []
-        self._t_ini = t_ini
-        self._t_end = t_end

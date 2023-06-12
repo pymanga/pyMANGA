@@ -156,9 +156,9 @@ if setup_list:
     ________________________________________________
     """)
     if not len(example_setups) == 1:
-        print("The following sample setups have been tested:")
+        print("The following example setups have been tested:")
     else:
-        print("The following sample setup have been tested:")
+        print("The following example setup have been tested:")
     print("")
     for setup in example_setups:
         print("")
@@ -221,7 +221,7 @@ if setup_list:
                 print(errors_compare[x])
                 print("")
             if errors_empty_results:
-                print("Please also note that the following sample setup(s) "
+                print("Please also note that the following example setup(s) "
                       "do not save model results and therefore could not "
                       "be checked:")
                 print("")
@@ -233,7 +233,7 @@ if setup_list:
             if errors_empty_results:
                 print("""The comparison of the result of the setups
                       with the comparison files was successful. Please
-                      note, however, that the following sample setups do
+                      note, however, that the following example setups do
                       not save model results and therefore could not be
                       "checked:""")
                 print("")

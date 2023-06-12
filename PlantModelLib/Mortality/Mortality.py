@@ -1,19 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2021-Today
-@author: marie-christin.wimmler@tu-dresden.de
-"""
-
-import numpy as np
-
-
 class Mortality:
-    ## This class initializes the mortality concept defined in the xml input
-    # file.
-    # See growth-and-death-concept SimpleBettina for integration in
-    # existing concepts.
     def __init__(self, args):
+        """
+        Constructor to initialize (multiple) mortality modules,
+        by calling respective initialization methods.
+
+        Args:
+            args: mortality module(s) specification from project file tags
+        """
         self.mortality_concept = []
         self.survive = 1
 
@@ -45,20 +40,48 @@ class Mortality:
                   "initiated.")
 
     def iniNoGrowth(self, args, case):
+        """
+        Initialize mortality module "NoGrowth".
+        Args:
+            args: NoGrowth module(s) specification from project file tags
+            case: "NoGrowth" (name of the module)
+        """
         from .NoGrowth import NoGrowth
         self.mortality_concept.append(NoGrowth(args, case))
 
     def iniRandom(self, args, case):
+        """
+        Initialize mortality module "Random".
+        Args:
+            args: Random module(s) specification from project file tags
+            case: "Random" (name of the module)
+        """
         from .Random import Random
         self.mortality_concept.append(Random(args, case))
 
     def iniRandomGrowth(self, args, case):
+        """
+        Initialize mortality module "RandomGrowth".
+        Args:
+            args: RandomGrowth module(s) specification from project file tags
+            case: "RandomGrowth" (name of the module)
+        """
         from .RandomGrowth import RandomGrowth
         self.mortality_concept.append(RandomGrowth(args, case))
 
     def iniMemory(self, args, case):
+        """
+        Initialize mortality module "Memory".
+        Args:
+            args: Memory module(s) specification from project file tags
+            case: "Memory" (name of the module)
+        """
         from .Memory import Memory
         self.mortality_concept.append(Memory(args, case))
 
     def getMortConcept(self):
+        """
+        Get mortality object.
+        Returns:  mortality object (class)
+        """
         return self.mortality_concept

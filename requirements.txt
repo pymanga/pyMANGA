@@ -2,6 +2,7 @@ pytest
 numpy
 lxml
 matplotlib
-vtk == 9.2.2
 pandas
 pytest-subtests
+pdoc
+vtk == 9.2.2 # required for OpenGeoSys

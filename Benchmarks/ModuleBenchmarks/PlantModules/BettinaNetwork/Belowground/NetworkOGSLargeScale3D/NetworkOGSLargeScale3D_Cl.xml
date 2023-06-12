@@ -5,15 +5,22 @@
             <type> SimpleTest </type>
         </aboveground>
         <belowground>
-            <type> NetworkFixedSalinity </type>
+            <type>NetworkOGSLargeScale3D</type>
             <f_radius> 0.25 </f_radius>
-            <min_x>0</min_x>
-            <max_x>22</max_x>
-            <salinity>0.025 0.035</salinity>
+            <ogs_project_folder>Benchmarks/ModuleBenchmarks/PlantModules/BettinaNetwork/Belowground/OGSLargeScale3D/</ogs_project_folder>
+            <ogs_project_file>ogs_benchmark.prj</ogs_project_file>
+            <source_mesh>ogs_benchmark_source.vtu</source_mesh>
+            <bulk_mesh>ogs_benchmark_domain.vtu</bulk_mesh>
+            <delta_t_ogs>1000000</delta_t_ogs>
+            <abiotic_drivers>
+                <left_salinity>0.025</left_salinity>
+                <right_salinity>0.035</right_salinity>
+            </abiotic_drivers>
+            <python_script>python_script.py</python_script>
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> NetworkBettina </type>
+        <type> BettinaNetwork </type>
         <mortality>NoGrowth</mortality>
         <f_growth> 0.25 </f_growth>
         <variant> V2_adapted </variant>
@@ -25,7 +32,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/NetworkBettina/bg_initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/BettinaNetwork/bg_initial_population.csv </filename>
             </distribution>
         </group>
     </population>
@@ -51,6 +58,7 @@
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
+        <growth_output> salinity </growth_output>
         <network_output> psi_osmo </network_output>
         <network_output> rgf </network_output>
         <network_output> partner </network_output>
@@ -60,4 +68,3 @@
         <network_output> water_exchanged </network_output>
     </output>
 </MangaProject>
-

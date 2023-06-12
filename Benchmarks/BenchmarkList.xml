@@ -2,7 +2,7 @@
 <Benchmarks>
     <ModuleBenchmarks>
         <PlantModules>
-            <NetworkBettina>
+            <BettinaNetwork>
                 <Belowground>
                     <NetworkFixedSalinity>
                         <test> NetworkFixedSalinity_CI.xml </test>
@@ -11,7 +11,7 @@
                         <test> SimpleNetwork_CI.xml </test>
                     </SimpleNetwork>
                 </Belowground>
-            </NetworkBettina>
+            </BettinaNetwork>
             <Bettina>
                 <Aboveground>
                     <SimpleAsymmetricZOI>

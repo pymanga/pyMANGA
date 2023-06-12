@@ -27,7 +27,7 @@
             <python_script>python_script.py</python_script>
         </belowground_competition>
         <tree_growth_and_death>
-            <type>NetworkBettina</type>
+            <type>BettinaNetwork</type>
             <variant>V0_instant</variant>
             <f_growth>0.25</f_growth>
         </tree_growth_and_death>

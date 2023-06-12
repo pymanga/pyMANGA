@@ -5,4 +5,4 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from .NetworkBettina import NetworkBettina
+from .BettinaNetwork import BettinaNetwork

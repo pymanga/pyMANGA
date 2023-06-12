@@ -9,9 +9,9 @@ from PlantModelLib.Bettina import Bettina
 import numpy as np
 
 
-# MRO: NetworkBettina, Bettina, TreeModel, object
-class NetworkBettina(Bettina):
-    ## NetworkBettina for death and growth dynamics.
+# MRO: BettinaNetwork, Bettina, TreeModel, object
+class BettinaNetwork(Bettina):
+    ## BettinaNetwork for death and growth dynamics.
     # This module inherits the tree growth functionality of Bettina,
     # but can account for resource loss and water transfer through root
     # grafting.
@@ -186,6 +186,6 @@ class NetworkBettina(Bettina):
                 "project file.")
         if self.variant not in ["V0_instant", "V1_fixed", "V2_adapted"]:
             raise KeyError(
-                "NetworkBettina variant " + self.variant +
+                "BettinaNetwork variant " + self.variant +
                 " is not defined. Existing variants are 'V0_instant', "
                 "'V1_fixed' and 'V2_adapted'.")

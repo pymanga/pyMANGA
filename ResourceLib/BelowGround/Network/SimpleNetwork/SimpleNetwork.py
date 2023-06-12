@@ -183,7 +183,7 @@ class SimpleNetwork(ResourceModel):
         return self._water_avail / res_b_noSal
 
     ## This function updates the network parameters that are required in the
-    # growth-and death concept NetworkBettina
+    # growth-and death concept BettinaNetwork
     def updateNetworkParametersForGrowthAndDeath(self):
         # Update the parameter belonging to the plant and are needed in the
         # growth- and-death-concept

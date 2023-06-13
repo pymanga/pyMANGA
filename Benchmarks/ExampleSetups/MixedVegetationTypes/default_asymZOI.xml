@@ -19,7 +19,7 @@
         <group>
             <name> type_1 </name>
             <species> Avicennia </species>
-            <vegetation_model_type> SimpleBettina </vegetation_model_type>
+            <vegetation_model_type> Bettina </vegetation_model_type>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
@@ -29,7 +29,7 @@
         <group>
             <name> type_2 </name>
             <species> Avicennia </species>
-            <vegetation_model_type> SimpleKiwi </vegetation_model_type>
+            <vegetation_model_type> Kiwi </vegetation_model_type>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>

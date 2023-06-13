@@ -8,14 +8,12 @@
             <type> Default </type>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Bettina </type>
-        <mortality> NoGrowth </mortality>
-    </plant_dynamics>
     <population>
         <group>
             <name> Species_1 </name>
             <species> Benchmarks/ModuleBenchmarks/TreeOutput/species1.py </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality> NoGrowth </mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
@@ -25,6 +23,8 @@
         <group>
             <name> Species_2 </name>
             <species> Benchmarks/ModuleBenchmarks/TreeOutput/species2.py </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality> NoGrowth </mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>

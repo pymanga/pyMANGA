@@ -9,7 +9,7 @@
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> Bettina </type>
+        <vegetation_model_type> Bettina </vegetation_model_type>
         <mortality>Random</mortality>
         <probability>0.016 </probability>
     </plant_dynamics>

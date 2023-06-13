@@ -15,21 +15,23 @@
         <group>
             <name> Bettina </name>
             <species> Avicennia </species>
-            <vegetation_model_type> SimpleBettina </vegetation_model_type>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Bettina.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/2PlantModules/Bettina.csv </filename>
             </distribution>
         </group>
         <group>
             <name> Kiwi </name>
             <species> Avicennia </species>
-            <vegetation_model_type> SimpleKiwi </vegetation_model_type>
+            <vegetation_model_type> Kiwi </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Kiwi.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/2PlantModules/Kiwi.csv </filename>
             </distribution>
         </group>
     </population>

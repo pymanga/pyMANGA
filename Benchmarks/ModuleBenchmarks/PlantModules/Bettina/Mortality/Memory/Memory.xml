@@ -9,7 +9,7 @@
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> Bettina </type>
+        <vegetation_model_type> Bettina </vegetation_model_type>
         <mortality>Memory</mortality>
         <threshold> 0.005 </threshold>
         <period> 31557600 </period>

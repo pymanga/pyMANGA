@@ -43,6 +43,23 @@ class Plant:
                 raise AttributeError("The file " + species + " is not " +
                                      "correctly defining a plant species. "
                                      "Please review the file.")
+        elif species == "Rhizophora":
+            from PopulationLib.Species import Rhizophora
+            self.geometry, self.parameter = Rhizophora.createTree()
+        elif "/" in species:
+            try:
+                spec = importlib.util.spec_from_file_location("", species)
+                foo = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(foo)
+                self.geometry, self.parameter = foo.createTree()
+            except FileNotFoundError:
+                raise FileNotFoundError("The file " + species +
+                                        " does not exist.")
+            except AttributeError:
+                raise AttributeError("The file " + species + " is not " +
+                                     "correctly defining a tree species. "
+                                     "Please review the file.")
+
         else:
             raise KeyError("Species " + species + " unknown!")
         if initial_geometry:

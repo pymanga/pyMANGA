@@ -42,6 +42,14 @@
       <option name="presentableId" value="Default" />
       <updated>1683037177494</updated>
     </task>
+    <task id="LOCAL-00001" summary="tree =&gt; plant import error">
+      <created>1686673725280</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1686673725280</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -54,5 +62,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="tree =&gt; plant import error" />
+    <option name="LAST_COMMIT_MESSAGE" value="tree =&gt; plant import error" />
   </component>
 </project>

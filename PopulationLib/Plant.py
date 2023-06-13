@@ -115,10 +115,10 @@ class Plant:
         print('_________' + case)
         if case == "SimpleTest":
             from PlantModelLib.SimpleTest import SimpleTest as createGD
-        elif case == "SimpleBettina":
-            from PlantModelLib.SimpleBettina import SimpleBettina as createGD
-        elif case == "SimpleKiwi":
-            from PlantModelLib.SimpleKiwi import SimpleKiwi as createGD
+        elif case == "Bettina":
+            from PlantModelLib.Bettina import Bettina as createGD
+        elif case == "Kiwi":
+            from PlantModelLib.Kiwi import Kiwi as createGD
         elif case == "NetworkBettina":
             from PlantModelLib.NetworkBettina import NetworkBettina as createGD
         else:

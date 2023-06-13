@@ -16,7 +16,7 @@ class Network(ResourceModel):
         self.getInputParameters(args=args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
-        # Parameters associated with the SimpleBettina model
+        # Parameters associated with the Bettina model
         self.plants = []
         self._xe = []
         self._ye = []

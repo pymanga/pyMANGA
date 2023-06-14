@@ -12,7 +12,7 @@
             <y_resolution> 88 </y_resolution>
             </domain>        </aboveground>
         <belowground>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </belowground>
     </resources>
     <population>

@@ -110,11 +110,11 @@ class Plant:
         self.network['variant'] = None
 
     def iniPlantDynamicConcept(self):
-        # arg = self.args["population"]
         case = self.plant_model
+        print(case)
         print('_________' + case)
-        if case == "SimpleTest":
-            from PlantModelLib.SimpleTest import SimpleTest as createGD
+        if case == "Default":
+            from PlantModelLib.Default import Default as createGD
         elif case == "Bettina":
             from PlantModelLib.Bettina import Bettina as createGD
         elif case == "Kiwi":

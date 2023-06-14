@@ -25,17 +25,17 @@ class GroupPlanting(PlantGroup):
         self.max_id = 0
 
         distribution = args.find("distribution")
-        distribution_type = distribution.find("type").text
+        self.distribution_type = distribution.find("type").text
         print("Initialise plant group " + self.name + " with " +
-              distribution_type + " distribution type and plants of species " +
+              self.distribution_type + " distribution type and plants of species " +
               self.species + ".")
-        if distribution_type == "Random":
+        if self.distribution_type == "Random":
             self.plantRandomDistributedPlants(distribution)
-        elif distribution_type == "GroupFromFile":
+        elif self.distribution_type == "GroupFromFile":
             self.plantPlantsFromFile(distribution)
         else:
             raise KeyError("Population initialisation of type " +
-                           distribution_type + " not implemented!")
+                           self.distribution_type + " not implemented!")
 
     ## Function initializing plant population of size n_individuals within given
     #  rectangular domain.

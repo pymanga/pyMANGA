@@ -8,7 +8,7 @@ import numpy as np
 from ResourceLib import ResourceModel
 
 
-class SimpleNetwork(ResourceModel):
+class Network(ResourceModel):
     #########
     # BASIC #
     #########
@@ -16,7 +16,7 @@ class SimpleNetwork(ResourceModel):
     ## Network approach to alter, i.e. increase or decrease, water availability
     #  due to water exchange with other plants (root grafting).
     #  Processes are partner selection, group formation and water exchange.\n
-    #  @param: Tags to define SimpleNetwork, see tag documentation \n
+    #  @param: Tags to define Network, see tag documentation \n
     #  @date: 2021 - Today
     def __init__(self, args):
         case = args.find("type").text

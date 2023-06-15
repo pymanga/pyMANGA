@@ -82,6 +82,7 @@ class Mortality:
     def getMortConcept(self):
         """
         Get mortality object.
-        Returns:  mortality object (class)
+        Returns:
+            mortality object (class)
         """
         return self.mortality_concept

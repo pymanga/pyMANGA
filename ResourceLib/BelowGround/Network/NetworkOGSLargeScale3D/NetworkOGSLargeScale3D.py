@@ -9,16 +9,16 @@ import numpy as np
 import os
 from os import path
 
-from ResourceLib.BelowGround.Network.SimpleNetwork import SimpleNetwork
+from ResourceLib.BelowGround.Network.Network import Network
 from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D
 
 
-# MRO: NetworkOGSLargeScale3D, SimpleNetwork, OGSLargeScale3D, ResourceModel,
+# MRO: NetworkOGSLargeScale3D, Network, OGSLargeScale3D, ResourceModel,
 # object
-class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
+class NetworkOGSLargeScale3D(Network, OGSLargeScale3D):
     ## OGS integration and network approach (root grafting) for below-ground
     # competition concept. This case is using OGSLargeScale3D and
-    # SimpleNetwork as parent classes.
+    # Network as parent classes.
     # @param args: Please see input file tag documentation for details
     # @date: 2021 - Today
     def __init__(self, args):
@@ -43,7 +43,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     #  saved in numpy arrays.
     #  @param plant
     def addPlant(self, plant):
-        # SimpleNetwork stuff
+        # Network stuff
         super().addPlant(plant)
 
         # OGS stuff
@@ -82,7 +82,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
     #  defined as: resource uptake at zero salinity and without resource
     #  sharing (root grafting)/ actual resource uptake.
     def calculateBelowgroundResources(self):
-        ## SimpleNetwork stuff - calculate amount of water absorbed from
+        ## Network stuff - calculate amount of water absorbed from
         # soil column
         # Convert psi_osmo to np array in order to use in
         # calculateBGresourcesPlant()
@@ -112,7 +112,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         # Calculate salinity below each plant
         super().calculatePlantSalinity()
 
-        self.belowground_resources = SimpleNetwork.getBGfactor(self)
+        self.belowground_resources = Network.getBGfactor(self)
 
         # Update network parameters
         super().updateNetworkParametersForGrowthAndDeath()

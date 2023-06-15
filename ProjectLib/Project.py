@@ -53,8 +53,8 @@ class MangaProject:
         elif case == "SZoiFixedSalinity":
             from ResourceLib.BelowGround.Individual.SZoiFixedSalinity import \
                 SZoiFixedSalinity as createBC
-        elif case == "SimpleNetwork":
-            from ResourceLib.BelowGround.Network.SimpleNetwork import SimpleNetwork as createBC
+        elif case == "Network":
+            from ResourceLib.BelowGround.Network.Network import Network as createBC
         elif case == "NetworkFixedSalinity":
             from ResourceLib.BelowGround.Network.NetworkFixedSalinity import NetworkFixedSalinity as createBC
         elif case == "NetworkOGSLargeScale3D":

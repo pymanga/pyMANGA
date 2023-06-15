@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2021-Today
-@author: marie-christin.wimmler@tu-dresden.de
+.. include:: ./NetworkFixedSalinity.md
 """
 
-from ResourceLib.BelowGround.Network.SimpleNetwork import SimpleNetwork
+from ResourceLib.BelowGround.Network.Network import Network
 from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity
 
 
-# MRO: NetworkFixedSalinity, SimpleNetwork, FixedSalinity, ResourceModel, object
-class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
+class NetworkFixedSalinity(Network, FixedSalinity):
     ## Fixed salinityin belowground competition concept.
     #  @param: Tags to define FixedSalinity: type, salinity
     #  @date: 2020 - Today
     def __init__(self, args):
+        """
+        NetworkFixedSalinity below-ground resource module.
+        MRO: NetworkFixedSalinity, Network, FixedSalinity, ResourceModel, object
+        Args:
+            args:
+        """
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         self.getInputParameters(args=args)
@@ -56,5 +60,5 @@ class NetworkFixedSalinity(SimpleNetwork, FixedSalinity):
     ## This function reads input parameters, e.g. salinity from the control
     # file.
     def getInputParameters(self, args):
-        SimpleNetwork.getInputParameters(self=self, args=args)
+        Network.getInputParameters(self=self, args=args)
         FixedSalinity.getInputParameters(self=self, args=args)

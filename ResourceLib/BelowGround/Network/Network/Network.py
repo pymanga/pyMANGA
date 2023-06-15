@@ -157,13 +157,17 @@ class Network(ResourceModel):
         # Salinity is 0 ppt is the basic scenario
         self._psi_osmo = np.array([0] * self.no_plants)
 
-    ## This function returns a list of the growth modification factors of
-    # all plants. Calculated in the subsequent timestep.\n
-    #  The factor is > 1, if plants receive water from their adjacent plants;
-    #  < 1 if the lose water to the adjacent plant; or = 1 if no exchange
-    #  happens
-    #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
+        """
+        Calculate a growth reduction factor for each tree based on pore-water salinity below the
+        center of each tree.
+        In Network resource concepts, this factor can reduce or facilitate growth.<br>
+        If factor > 1: plant gets water from its neighbour<br>
+        If factor == 1: no exchange and resource limitation<br>
+        If factor < 1: plant loses water to its neighbour or resources are limited
+        Sets:
+            numpy array of shape(number_of_plants)
+        """
         self.groupFormation()
         self.rootGraftFormation()
         self.calculateBGresourcesPlant()

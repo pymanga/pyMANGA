@@ -133,7 +133,7 @@ class FixedSalinity(ResourceModel):
         """
         Read module tags from project file.
         Args:
-            args: FixedSalinity module specifications from project file tags
+            args: module specifications from project file tags
         """
         missing_tags = ["salinity", "type", "max_x", "min_x"]
 

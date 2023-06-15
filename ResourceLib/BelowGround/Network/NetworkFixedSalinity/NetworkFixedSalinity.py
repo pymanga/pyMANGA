@@ -9,40 +9,25 @@ from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity
 
 
 class NetworkFixedSalinity(Network, FixedSalinity):
-    ## Fixed salinityin belowground competition concept.
-    #  @param: Tags to define FixedSalinity: type, salinity
-    #  @date: 2020 - Today
     def __init__(self, args):
         """
-        NetworkFixedSalinity below-ground resource module.
+        Blow-ground resource concept.
         MRO: NetworkFixedSalinity, Network, FixedSalinity, ResourceModel, object
         Args:
-            args:
+            args: NetworkFixedSalinity module specifications from project file tags
         """
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         self.getInputParameters(args=args)
 
-    ## This functions prepares the computation of water uptake
-    #  by porewater salinity. Only plant height and leaf
-    #  water potential is needed\n
-    #  @param t_ini - initial time for next timestep \n
-    #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
+        # Use Network method
         super().prepareNextTimeStep(t_ini=t_ini, t_end=t_end)
 
-    ## Before being able to calculate the resources, all plant entities need
-    #  to be added with their relevant allometric measures for the next timestep.
-    #  @param: plant
     def addPlant(self, plant):
+        # Use Network method
         super().addPlant(plant=plant)
 
-    ## This function returns a list of the growth modification factors of
-    # all plants. Calculated in the subsequent timestep.\n
-    #  The factor is > 1, if plants receive water from their adjacent plants;
-    #  < 1 if the lose water to the adjacent plant; or = 1 if no exchange
-    #  happens
-    #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
         # FixedSalinity start
         self.calculatePsiOsmo()
@@ -50,10 +35,12 @@ class NetworkFixedSalinity(Network, FixedSalinity):
 
         super().calculateBelowgroundResources()
 
-    ## This function returns a list of the growth reduction factors of all plants.
-    #  calculated in the subsequent timestep.\n
-    #  @return: np.array with $N_plant$ scalars
     def calculatePsiOsmo(self):
+        """
+        Calculate osmotic water potential (Pa) in the soil based on pore water salinity.
+        Sets:
+            numpy array of shape(number_of_plants)
+        """
         salinity_plant = super().getPlantSalinity()
         self._psi_osmo = -85000000 * salinity_plant
 

@@ -48,6 +48,11 @@
                 </SimpleTest>
             </Bettina>
             <SimpleKiwi>
+                <Aboveground>
+                    <SimpleAsymmetricZOI>
+                        <test> SimpleAsymmetricZOI_CI.xml </test>
+                    </SimpleAsymmetricZOI>
+                </Aboveground>
                 <Belowground>
                     <FixedSalinity>
                         <test> FixedSalinity_CI.xml </test>
@@ -63,6 +68,9 @@
                     <Random>
                         <test> Random_CI.xml </test>
                     </Random>
+                    <RandomGrowth>
+                        <test> RandomGrowth_CI.xml </test>
+                    </RandomGrowth>
                 </Mortality>
                 <SimpleTest>
                     <test> SimpleTest_CI.xml </test>

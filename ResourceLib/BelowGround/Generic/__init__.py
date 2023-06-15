@@ -11,4 +11,4 @@ from .NetworkOGSLargeScale3DExternal import NetworkOGSLargeScale3DExternal
 
 
 # Exclude folder from automatic documentation as OGS import causes trouble
-__pdoc__ = {'OGSLargeScale3DExternal.runModel': False}
+__all__ = {'OGSLargeScale3DExternal.runModel': False}

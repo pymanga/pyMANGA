@@ -47,6 +47,9 @@ class ComplexPyplot(Visualization):
         plants = []
         random = True
 
+        colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+        c_n = 0
+
         for group_name, plant_group in plant_groups.items():
 
             if plant_group.distribution_type == 'Random':
@@ -61,7 +64,6 @@ class ComplexPyplot(Visualization):
             else:
                 random = False
 
-            species = plant_group.species
             n = []
             x = []
             y = []
@@ -70,14 +72,11 @@ class ComplexPyplot(Visualization):
             c = []
 
             for plant in plant_group.getPlants():
-                n.append(species + ': ' + group_name)
-                if species == 'Avicennia':
-                    color = 'darkolivegreen'
-                elif species == 'Rhizophora':
-                    color = 'greenyellow'
-                else:
-                    color = 'black'
-
+                n.append(group_name)
+                try:
+                    color = colors[c_n]
+                except:
+                    color = 'b'
                 xx, yy = plant.getPosition()
                 x.append(xx)
                 y.append(yy)
@@ -89,6 +88,7 @@ class ComplexPyplot(Visualization):
                     s.append(np.nan)
             plants.append(pd.DataFrame(list(zip(n, x, y, r, s, c)),
                          columns=['name', 'x', 'y', 'r', 's', 'c']))
+            c_n += 1
 
         for group in plants:
 

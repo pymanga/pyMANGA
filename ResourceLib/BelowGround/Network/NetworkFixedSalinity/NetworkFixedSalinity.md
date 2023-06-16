@@ -7,7 +7,7 @@ water distribution between root grafted trees.
 
 Attributes:
     type (string): "NetworkFixedSalinity" (module name)
-    f_radius (float): proportion of stem radius to set min. radius of grafted roots. Range: 0 to 1.
+    f_radius (float): proportion of stem radius to set min. radius of grafted roots. Range: >0 to 1.
     min_x (float): x-coordinate of the left border (y-axis)
     max_x (float): x-coordinate of the right border (y-axis)
     salinity (float float or string): either two values representing the salinity (kg/kg) range 

@@ -221,6 +221,8 @@ class Network(ResourceModel):
             tag = arg.tag
             if tag == "f_radius":
                 self.f_radius = float(args.find("f_radius").text)
+                if self.f_radius <= 0:
+                    raise ValueError("Parameter f_radius needs to be > 0.")
             elif tag == "type":
                 case = args.find("type").text
             try:

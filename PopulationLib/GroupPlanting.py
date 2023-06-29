@@ -23,7 +23,6 @@ class GroupPlanting(PlantGroup):
         self.name = args.find("name").text
         self.plants = []
         self.max_id = 0
-
         distribution = args.find("distribution")
         distribution_type = distribution.find("type").text
         print("Initialise plant group " + self.name + " with " +
@@ -33,9 +32,11 @@ class GroupPlanting(PlantGroup):
             from PopulationLib.Dispersal.Random import Random
             self.dispersal = Random(args)
             self.dispersal.initializePopulation(args=distribution)
-            #self.plantRandomDistributedPlants(distribution)
-        elif distribution_type == "GroupFromFile":
-            self.plantPlantsFromFile(distribution)
+        elif distribution_type == "FromFile":
+            from PopulationLib.Dispersal.FromFile import FromFile
+            self.dispersal = FromFile(args)
+            self.dispersal.plantPlantsFromFile(args=distribution)
+            print("<<<<<<<", self.dispersal.initializePopulation)
         else:
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")

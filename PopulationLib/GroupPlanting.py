@@ -30,12 +30,17 @@ class GroupPlanting(PlantGroup):
               distribution_type + " distribution type and plants of species " +
               self.species + ".")
         if distribution_type == "Random":
-            self.plantRandomDistributedPlants(distribution)
+            from PopulationLib.Dispersal.Random import Random
+            self.dispersal = Random(args)
+            self.dispersal.initializePopulation(args=distribution)
+            #self.plantRandomDistributedPlants(distribution)
         elif distribution_type == "GroupFromFile":
             self.plantPlantsFromFile(distribution)
         else:
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")
+        for i in range(len(self.dispersal.x_i)):
+            self.addPlant(self.dispersal.x_i[i], self.dispersal.y_i[i])
 
     ## Function initializing plant population of size n_individuals within given
     #  rectangular domain.
@@ -127,11 +132,7 @@ class GroupPlanting(PlantGroup):
 
     ## Randomly recruiting plants within given domain.
     def recruitPlants(self):
-        for i in range(self.n_recruitment):
-            r_x, r_y = (np.random.rand(2))
-            x_i = self.x_1 + self.l_x * r_x
-            y_i = self.y_1 + self.l_y * r_y
-            self.addPlant(x_i, y_i)
+        self.dispersal.recruitPlants()
 
     ## Returns all living plants belonging to this group.
     def getGroup(self):

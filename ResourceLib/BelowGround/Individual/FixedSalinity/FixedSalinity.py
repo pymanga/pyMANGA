@@ -20,12 +20,6 @@ class FixedSalinity(ResourceModel):
         self.getInputParameters(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
-        """
-        Prepare next time step by initializing relevant variables.
-        Args:
-            t_ini (int): start of current time step in seconds
-            t_end (int): end of current time step in seconds
-        """
         self._h_stem = []
         self._r_crown = []
         self._psi_leaf = []
@@ -34,12 +28,6 @@ class FixedSalinity(ResourceModel):
         self._t_end = t_end
 
     def addPlant(self, plant):
-        """
-        Add each plant and its relevant geometry and parameters to the object to
-        be used in the next time step.
-        Args:
-            plant (dict): tree object
-        """
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
@@ -130,11 +118,6 @@ class FixedSalinity(ResourceModel):
         return salinity_plant
 
     def getInputParameters(self, args):
-        """
-        Read module tags from project file.
-        Args:
-            args: FixedSalinity module specifications from project file tags
-        """
         missing_tags = ["salinity", "type", "max_x", "min_x"]
 
         for arg in args.iterdescendants():

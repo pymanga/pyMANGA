@@ -13,7 +13,7 @@
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> NetworkBettina </type>
+        <type> BettinaNetwork </type>
         <mortality>NoGrowth</mortality>
         <f_growth> 0.25 </f_growth>
         <variant> V2_adapted </variant>
@@ -25,7 +25,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/NetworkBettina/bg_initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/BettinaNetwork/bg_initial_population.csv </filename>
             </distribution>
         </group>
     </population>

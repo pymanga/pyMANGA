@@ -53,12 +53,12 @@ class MangaProject:
         elif case == "SZoiFixedSalinity":
             from ResourceLib.BelowGround.Individual.SZoiFixedSalinity import \
                 SZoiFixedSalinity as createBC
-        elif case == "SimpleNetwork":
-            from ResourceLib.BelowGround.Network.SimpleNetwork import SimpleNetwork as createBC
+        elif case == "Network":
+            from ResourceLib.BelowGround.Network.Network import Network as createBC
         elif case == "NetworkFixedSalinity":
             from ResourceLib.BelowGround.Network.NetworkFixedSalinity import NetworkFixedSalinity as createBC
-        elif case == "NetworkOGSLargeScale3D":
-            from ResourceLib.BelowGround.Network import NetworkOGSLargeScale3D as createBC
+        elif case == "NetworkOGS":
+            from ResourceLib.BelowGround.Network import NetworkOGS as createBC
         elif case == "OGSLargeScale3DExternal":
             from ResourceLib.BelowGround.Generic.OGSLargeScale3DExternal import OGSLargeScale3DExternal as createBC
         elif case == "NetworkOGSLargeScale3DExternal":
@@ -97,8 +97,8 @@ class MangaProject:
             from PlantModelLib.Bettina import Bettina as createGD
         elif case == "SimpleKiwi":
             from PlantModelLib.SimpleKiwi import SimpleKiwi as createGD
-        elif case == "NetworkBettina":
-            from PlantModelLib.NetworkBettina import NetworkBettina as createGD
+        elif case == "BettinaNetwork":
+            from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
         else:
             raise KeyError("Required plant dynamic concept not implemented.")
         self.plant_dynamic_concept = createGD(arg)

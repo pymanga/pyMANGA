@@ -22,9 +22,8 @@ Attributes:
     min_x (float): x-coordinate of the left border (y-axis)
     max_x (float): x-coordinate of the right border (y-axis)
     salinity (float float or string): either two values representing the salinity (kg/kg) range 
-        from min_x (first value) to max_x (second value) _or_ the path to a csv file containing a time series of salinity (see description above and 
+        from min_x (first value) to max_x (second value) <strong>or</strong> the path to a csv file containing a time series of salinity (see description above and 
         example below)
-
 
 Examples:
     

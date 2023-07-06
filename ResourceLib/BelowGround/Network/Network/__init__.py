@@ -5,4 +5,4 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from .NetworkOGSLargeScale3D import NetworkOGSLargeScale3D
+from .Network import Network

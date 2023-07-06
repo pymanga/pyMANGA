@@ -1,34 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2021-Today
-@author: marie-christin.wimmler@tu-dresden.de
+.. include:: ./BettinaNetwork.md
 """
 
 from PlantModelLib.Bettina import Bettina
 import numpy as np
 
 
-# MRO: NetworkBettina, Bettina, TreeModel, object
-class NetworkBettina(Bettina):
-    ## NetworkBettina for death and growth dynamics.
-    # This module inherits the tree growth functionality of Bettina,
-    # but can account for resource loss and water transfer through root
-    # grafting.
-    #  @param Tags to define Bettina: type
-    #  @date 2019 - Today
+class BettinaNetwork(Bettina):
     def __init__(self, args):
+        """
+        Plant model concept.
+        This module inherits the tree growth functionality of Bettina, but can account for resource loss and water
+        transfer through root grafts.
+        MRO: BettinaNetwork, Bettina, TreeModel, object
+        Args:
+            args: BettinaNetwork module specifications from project file tags
+        """
         super().__init__(args=args)
         self.getInputParameters(args=args)
 
-    ## This functions is the main routine for reading the tree geometry and
-    #  parameters, scheduling the computations and updating the tree geometry.\n
-    #  @param tree - object of type tree\n
-    #  @param aboveground_resources - fraction of maximum light interception
-    #  (shading effect)\n
-    #  @param belowground_resources - fraction of max water uptake (competition
-    #  and/or salinity > 0)
     def progressPlant(self, tree, aboveground_resources, belowground_resources):
+        """
+        Manage growth procedures for a timestep --- read tree geometry and parameters, schedule computations, and update tree geometry and survival
+        Args:
+            tree (dict): tree object
+            aboveground_resources (float): above-ground resource growth reduction factor
+            belowground_resources (float): below-ground resource growth reduction factor
+        Sets:
+            dictionary containing network information
+        """
         network = tree.getNetwork()
         ## counter to track or define the time required for root graft formation,
         # if -1 no root graft formation takes place at the moment
@@ -68,33 +70,42 @@ class NetworkBettina(Bettina):
         else:
             tree.setSurvival(0)
 
-    ## This functions calculates the growths weights for distributing
-    # biomass increment to the geometric (allometric) tree measures as
-    # defined in Bettina. If resources are required for root graft
-    # formation, the respective module is called.
     def treeGrowthWeights(self):
+        """
+        Calculate the growth weights for distributing biomass increment to the tree geometries.
+        See `pyMANGA.PlantModelLib.Bettina.Bettina`
+        If resources for root graft formation are required, the respective module is called.
+        Sets:
+            multiple float
+        """
         if self.variant == 'V2_adapted':
             self.treeGrowthWeightsV2()
         else:
             super().treeGrowthWeights()
 
-    ## This function calculates the available resources and the biomass
-    # increment as defined in Bettina. If resources are required for
-    # root graft formation, the respective root-graft-formation method is
-    # called.
     def growthResources(self):
+        """
+        Calculate the available resources and the biomass increment.
+        See `pyMANGA.PlantModelLib.Bettina.Bettina`
+        If resources for root graft formation are required, the respective module is called.
+        Sets:
+            multiple float
+        """
         super().growthResources()
         if self.variant == "V0_instant":
             self.rootGraftFormationV0()
         if self.variant == "V1_fixed":
-            self.growthResourcesV1()
+            self.rootGraftFormationV1()
 
-    ## This functions calculates the growths weights for distributing
-    # biomass increment to the geometric (allometric) tree measures as
-    # defined in Bettina. In addition, the function calls the root
-    # graft formation function, if the tree is currently in the process of
-    # root graft formation.
     def treeGrowthWeightsV2(self):
+        """
+        Calculate the growth weights for distributing biomass increment to the tree geometries.
+        See `pyMANGA.PlantModelLib.Bettina.Bettina`
+        In addition, the function calls the root graft formation function, if the tree is currently
+        in the process of root graft formation and root graft formation follows variant V2.
+        Sets:
+            multiple float
+        """
         # Simple bettina get growth weigths
         super().treeGrowthWeights()
 
@@ -104,29 +115,26 @@ class NetworkBettina(Bettina):
         else:
             self.weight_gr = 0
 
-    ## This function calculates the available resources and the biomass
-    # increment. In addition, this function reduces the available resources
-    # if trees are in the grafting process and calls the root graft
-    # formation manager
-    def growthResourcesV1(self):
-        # Simple bettina get growth resources
-        # Bettina.growthResources(self)
-        self.rootGraftFormationV1()
-
-    ## This function handles immediate root graft formation. That is,
-    # if the roots of two trees are in contact (determined by the
-    # below-ground concept), they are considered as grafted together without
-    # using any resources for the process of graft formation.
     def rootGraftFormationV0(self):
+        """
+        Manage root graft formation.
+        Immediate root grafting, i.e. roots in contact are immediately grafted and no resources are required.
+        Sets:
+            multiple float
+        """
         if self.rgf != -1:
             self.rgf = -1
             self.partner.append(self.potential_partner)
             self.potential_partner = []
 
-    ## This function reduces growth during the process of root graft formation.
-    # It is assumed that the process will take 2 years (this is subject to
-    # change).
     def rootGraftFormationV1(self):
+        """
+        Manage root graft formation.
+        Growth reduction during root graft formation.
+        It is assumed that the process will take 2 years.
+        Sets:
+            multiple float
+        """
         if self.rgf != -1:
             self.grow = self.grow * (1 - self.f_growth)
             self.rgf = self.rgf + 1
@@ -135,9 +143,13 @@ class NetworkBettina(Bettina):
                 self.partner.append(self.potential_partner)
                 self.potential_partner = []
 
-    ## This function simulated root graft formation and thereby reduces girth
-    # growth during this process.
     def rootGraftFormationV2(self):
+        """
+        Manage root graft formation.
+        Girth growth reduction during root graft formation.
+        The duration of the process is variable, depending on the size and resource availability of the plants involved.        Sets:
+            multiple float
+        """
         # check if rgf is finished
         if self.r_gr_rgf >= self.r_gr_min[0]:
             # Append partner
@@ -159,9 +171,12 @@ class NetworkBettina(Bettina):
                                                                  self.f_growth)
             self.rgf += 1
 
-    ## This function reads the input parameters defined in the project xml
-    # file.
     def getInputParameters(self, args):
+        """
+        Read module tags from project file.
+        Args:
+            args: BettinaNetwork module specifications from project file tags
+        """
         missing_tags = ["type", "variant", "f_growth"]
         for arg in args.iterdescendants():
             tag = arg.tag
@@ -186,6 +201,6 @@ class NetworkBettina(Bettina):
                 "project file.")
         if self.variant not in ["V0_instant", "V1_fixed", "V2_adapted"]:
             raise KeyError(
-                "NetworkBettina variant " + self.variant +
+                "BettinaNetwork variant " + self.variant +
                 " is not defined. Existing variants are 'V0_instant', "
                 "'V1_fixed' and 'V2_adapted'.")

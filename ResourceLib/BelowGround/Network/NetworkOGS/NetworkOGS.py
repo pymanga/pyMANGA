@@ -1,34 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@date: 2021-Today
-@author: marie-christin.wimmler@tu-dresden.de
+.. include:: ./NetworkOGS.md
 """
 
 import numpy as np
-import os
 from os import path
 
-from ResourceLib.BelowGround.Network.SimpleNetwork import SimpleNetwork
+from ResourceLib.BelowGround.Network.Network import Network
 from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D
 
 
-# MRO: NetworkOGSLargeScale3D, SimpleNetwork, OGSLargeScale3D, ResourceModel,
-# object
-class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
-    ## OGS integration and network approach (root grafting) for below-ground
-    # competition concept. This case is using OGSLargeScale3D and
-    # SimpleNetwork as parent classes.
-    # @param args: Please see input file tag documentation for details
-    # @date: 2021 - Today
+class NetworkOGS(Network, OGSLargeScale3D):
     def __init__(self, args):
+        """
+        Below-ground resource concept.
+        MRO: NetworkOGS, Network, OGSLargeScale3D, ResourceModel, object.
+        Args:
+            args: NetworkOGS module specifications from project file tags
+        """
         OGSLargeScale3D.__init__(self, args)
         super().getInputParameters(args)
 
-    ## This functions prepares the plant variables for the
-    # NetworkOGSLargeScale3D concept.\n
-    #  @param t_ini - initial time for next time step \n
-    #  @param t_end - end time for next time step
     def prepareNextTimeStep(self, t_ini, t_end):
         ## Load both prepartNextTimeStep methods
         # The only parameters occurring in both are t_ini and t_end and as
@@ -36,14 +29,8 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         super().prepareNextTimeStep(t_ini, t_end)
         OGSLargeScale3D.prepareNextTimeStep(self, t_ini, t_end)
 
-    ## Before being able to calculate the resources, all plant enteties need
-    #  to be added with their current implementation for the next time step.
-    #  Here, in the OGS case, each plant is represented by a contribution to
-    #  python source terms in OGS. To this end, their resource uptake is
-    #  saved in numpy arrays.
-    #  @param plant
     def addPlant(self, plant):
-        # SimpleNetwork stuff
+        # Network stuff
         super().addPlant(plant)
 
         # OGS stuff
@@ -53,15 +40,16 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         root_radius = geometry["r_root"]
         super().addCellCharateristics(x, y, root_radius)
 
-    ## This function creates an array with values of osmotic potential based
-    # on values saved in network attributes (this is the osmotic potential
-    # calculated at the end of the last time step). If a new plant with osmotic
-    # potential = 0 is recruited, the initial value is approximated by
-    # averaging the osmotic potential below the other plants. Note: this might
-    # lead to inaccurate starting values if (i) the time step length of MANGA
-    # is very large and (ii) if plants are recruited and no or not many plants
-    # exist.
     def addPsiOsmo(self):
+        """
+        Create an array of osmotic potential values based on the values stored in the network attributes (this is the
+        osmotic potential calculated at the end of the last time step). When a new plant is recruited with osmotic
+        potential = 0, the initial value is approximated by averaging the osmotic potentials of the other plants.
+        Note: This may lead to inaccurate initial values if (i) the time step length of MANGA is very large and
+        (ii) when plants are recruited and there are no or few other plants.
+        Sets:
+            array of shape(no_of_plants)
+        """
         psi_osmo = self.network['psi_osmo']
         # Case: self.network['psi_osmo'] is empty
         if psi_osmo:
@@ -77,12 +65,8 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
             else:
                 self._psi_osmo.append(mean_of_others)
 
-    ## This function updates and returns BelowgroundResources in the current
-    #  time step. For each plant a reduction factor is calculated which is
-    #  defined as: resource uptake at zero salinity and without resource
-    #  sharing (root grafting)/ actual resource uptake.
     def calculateBelowgroundResources(self):
-        ## SimpleNetwork stuff - calculate amount of water absorbed from
+        ## Network stuff - calculate amount of water absorbed from
         # soil column
         # Convert psi_osmo to np array in order to use in
         # calculateBGresourcesPlant()
@@ -112,7 +96,7 @@ class NetworkOGSLargeScale3D(SimpleNetwork, OGSLargeScale3D):
         # Calculate salinity below each plant
         super().calculatePlantSalinity()
 
-        self.belowground_resources = SimpleNetwork.getBGfactor(self)
+        self.belowground_resources = Network.getBGfactor(self)
 
         # Update network parameters
         super().updateNetworkParametersForGrowthAndDeath()

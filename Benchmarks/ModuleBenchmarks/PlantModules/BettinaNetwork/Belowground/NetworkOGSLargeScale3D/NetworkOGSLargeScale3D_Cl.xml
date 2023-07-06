@@ -5,9 +5,9 @@
             <type> SimpleTest </type>
         </aboveground>
         <belowground>
-            <type>NetworkOGSLargeScale3D</type>
+            <type>NetworkOGS</type>
             <f_radius> 0.25 </f_radius>
-            <ogs_project_folder>Benchmarks/ModuleBenchmarks/PlantModules/NetworkBettina/Belowground/OGSLargeScale3D/</ogs_project_folder>
+            <ogs_project_folder>Benchmarks/ModuleBenchmarks/PlantModules/BettinaNetwork/Belowground/OGSLargeScale3D/</ogs_project_folder>
             <ogs_project_file>ogs_benchmark.prj</ogs_project_file>
             <source_mesh>ogs_benchmark_source.vtu</source_mesh>
             <bulk_mesh>ogs_benchmark_domain.vtu</bulk_mesh>
@@ -20,7 +20,7 @@
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> NetworkBettina </type>
+        <type> BettinaNetwork </type>
         <mortality>NoGrowth</mortality>
         <f_growth> 0.25 </f_growth>
         <variant> V2_adapted </variant>
@@ -32,14 +32,14 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/NetworkBettina/bg_initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/BettinaNetwork/bg_initial_population.csv </filename>
             </distribution>
         </group>
     </population>
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 5e8 </t_end>
+        <t_end> 2e6 </t_end>
         <delta_t> 1e6 </delta_t>
     </time_loop>
     <visualization>
@@ -48,7 +48,7 @@
     <output>
         <type> OneTimestepOneFile </type>
         <output_each_nth_timestep>1</output_each_nth_timestep>
-        <output_times> [2e6, 5e8] </output_times>
+        <output_times> [2e6] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>

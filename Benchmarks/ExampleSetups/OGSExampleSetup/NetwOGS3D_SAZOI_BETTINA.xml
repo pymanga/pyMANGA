@@ -14,7 +14,7 @@
             </domain>
         </aboveground_competition>
         <belowground_competition>
-            <type>NetworkOGSLargeScale3D</type>
+            <type>NetworkOGS</type>
             <f_radius>0.25</f_radius>
             <ogs_project_folder>Benchmarks/ExampleSetups/OGSExampleSetup</ogs_project_folder>
             <ogs_project_file>testmodel.prj</ogs_project_file>
@@ -27,7 +27,7 @@
             <python_script>python_script.py</python_script>
         </belowground_competition>
         <tree_growth_and_death>
-            <type>NetworkBettina</type>
+            <type>BettinaNetwork</type>
             <variant>V0_instant</variant>
             <f_growth>0.25</f_growth>
         </tree_growth_and_death>

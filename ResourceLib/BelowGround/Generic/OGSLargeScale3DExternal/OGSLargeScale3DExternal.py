@@ -18,6 +18,11 @@ import numpy as np
 class OGSLargeScale3DExternal(OGSLargeScale3D):
 
     def __init__(self, args):
+        """
+        OpenGeoSys below-ground module adapted for external use.
+        Args:
+            args:
+        """
         super().__init__(args)
 
     # allow external communication

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from .SimpleTest import SimpleTest
+from .Default import Default
 from .FON import FON
 from .OGSWithoutFeedback import OGSWithoutFeedback
 from .OGSLargeScale3D import OGSLargeScale3D

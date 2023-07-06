@@ -19,12 +19,6 @@ class FON(ResourceModel):
         self.makeGrid(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
-        """
-        Prepare next time step by initializing relevant variables.
-        Args:
-            t_ini (int): start of current time step in seconds
-            t_end (int): end of current time step in seconds
-        """
         self._fon_area = []
         self._fon_impact = []
         self._resource_limitation = []
@@ -39,12 +33,6 @@ class FON(ResourceModel):
         self._fon_height = np.zeros_like(self._my_grid[0])
 
     def addPlant(self, plant):
-        """
-        Add each plant and its relevant geometry and parameters to the object to
-        be used in the next time step.
-        Args:
-            plant (dict): plant object
-        """
         if self._mesh_size > 0.25:
             print("Error: mesh not fine enough for FON!")
             print("Please refine mesh to grid size < 0.25m !")

@@ -40,20 +40,17 @@ class DynamicTimeLoop:
         while (self.loop.step_on):
             # If terminal_print is defined as 'years' or 'day' the
             # respective text gets printed after each time step
+            abb = False
             if self.terminal_print == 'years':
-                print("Next time step to propagate" +
-                      " plant population with starting time " + '%4.2f' %
-                      (float(self.loop.t_1) / self.print_unit) +
-                      " a and end time " + '%4.2f' %
-                      (float(self.loop.t_2) / self.print_unit) + " a." +
-                      '\nCalculated timesteps: ' +
-                      str(int((self.loop.t_2 / self.loop.t_end) * 100)) + ' %')
+                abb = "a"
             elif self.terminal_print == 'days':
+                abb = "d"
+            if abb:
                 print("Next time step to propagate" +
                       " plant population with starting time " + '%4.2f' %
-                      (float(self.loop.t_1) / self.print_unit) +
-                      " d and end time " + '%4.2f' %
-                      (float(self.loop.t_2) / self.print_unit) + " d." +
+                      (float(self.loop.t_1) / self.print_unit) + " " +
+                      abb + " and end time " + '%4.2f' %
+                      (float(self.loop.t_2) / self.print_unit) + " " + abb + "." +
                       '\nCalculated timesteps: ' +
                       str(int((self.loop.t_1 / self.loop.t_end) * 100)) + ' %')
             time_stepper.step(t_start=self.loop.t_1,

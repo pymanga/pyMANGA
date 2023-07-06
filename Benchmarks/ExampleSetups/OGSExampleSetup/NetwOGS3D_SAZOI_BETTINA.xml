@@ -14,7 +14,7 @@
             </domain>
         </aboveground_competition>
         <belowground_competition>
-            <type>NetworkOGSLargeScale3D</type>
+            <type>NetworkOGS</type>
             <f_radius>0.25</f_radius>
             <ogs_project_folder>Benchmarks/ExampleSetups/OGSExampleSetup</ogs_project_folder>
             <ogs_project_file>testmodel.prj</ogs_project_file>

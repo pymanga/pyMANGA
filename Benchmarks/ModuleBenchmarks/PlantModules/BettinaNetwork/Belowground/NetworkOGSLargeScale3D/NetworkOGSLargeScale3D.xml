@@ -5,7 +5,7 @@
             <type> SimpleTest </type>
         </aboveground>
         <belowground>
-            <type>NetworkOGSLargeScale3D</type>
+            <type>NetworkOGS</type>
             <f_radius> 0.25 </f_radius>
             <ogs_project_folder>Benchmarks/ModuleBenchmarks/PlantModules/BettinaNetwork/Belowground/OGSLargeScale3D/</ogs_project_folder>
             <ogs_project_file>ogs_benchmark.prj</ogs_project_file>

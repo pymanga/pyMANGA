@@ -7,11 +7,11 @@
 import numpy as np
 from ResourceLib.BelowGround.Generic.OGSLargeScale3DExternal import \
      OGSLargeScale3DExternal
-from ResourceLib.BelowGround.Network.NetworkOGSLargeScale3D import \
-    NetworkOGSLargeScale3D
+from ResourceLib.BelowGround.Network.NetworkOGS import \
+    NetworkOGS
 
 
-# Child class of OGSLargeScale3DExternal and NetworkOGSLargeScale3D to use
+# Child class of OGSLargeScale3DExternal and NetworkOGS to use
 # external time stepping, e.g. to run MANGA as OGS boundary condition
 # The concept needs an array with cumulated cell salinity and
 # the number of calls for each cell. It returns an array describing water
@@ -19,13 +19,12 @@ from ResourceLib.BelowGround.Network.NetworkOGSLargeScale3D import \
 # The withdrawal is the amount of water absorbed from the soil column,
 # and can be different from the amount of water available to the plant du to
 # root graft mediated water exchange (see Network).
-# MRO: NetworkOGSLargeScale3DExternal, NetworkOGSLargeScale3D,
+# MRO: NetworkOGSExternal, NetworkOGS,
 # Network, OGSLargeScale3DExternal, OGSLargeScale3D, ResourceModel, object
-class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
-                                     OGSLargeScale3DExternal):
+class NetworkOGSLargeScale3DExternal(NetworkOGS, OGSLargeScale3DExternal):
 
     def __init__(self, args):
-        # Load init method from NetworkOGSLargeScale3D, which includes init
+        # Load init method from NetworkOGS, which includes init
         # method of OGSLargeScale3D and reading of network import parameters
         super().__init__(args)
 
@@ -34,11 +33,11 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
         return True
 
     ## This functions prepares the plant variables for the
-    # NetworkOGSLargeScale3D concept.\n
+    # NetworkOGS concept.\n
     #  @param t_ini - initial time for next time step \n
     #  @param t_end - end time for next time step
     def prepareNextTimeStep(self, t_ini, t_end):
-        # Parameters required for NetworkOGSLargeScale3D
+        # Parameters required for NetworkOGS
         self._plant_cell_volume = []
 
         # Load init and parameters that are required to get/ process
@@ -51,7 +50,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
     #  python source terms in OGS.
     #  @param plant
     def addPlant(self, plant):
-        # Use addPlant of NetworkOGSLargeScale3D
+        # Use addPlant of NetworkOGS
         super().addPlant(plant)
 
     ## This function updates and returns BelowgroundResources in the current
@@ -70,7 +69,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGSLargeScale3D,
         # OGSLargeScale3D.py)
         super().calculatePlantSalinity()
 
-        ## NetworkOGSLargeScale3D stuff (defined in Network.py)
+        ## NetworkOGS stuff (defined in Network.py)
         # Convert psi_osmo to np array in order to use in
         self._psi_osmo = np.array(self._psi_osmo)
         # Calculate amount of water absorbed from soil column

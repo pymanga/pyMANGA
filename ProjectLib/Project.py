@@ -57,8 +57,8 @@ class MangaProject:
             from ResourceLib.BelowGround.Network.Network import Network as createBC
         elif case == "NetworkFixedSalinity":
             from ResourceLib.BelowGround.Network.NetworkFixedSalinity import NetworkFixedSalinity as createBC
-        elif case == "NetworkOGSLargeScale3D":
-            from ResourceLib.BelowGround.Network import NetworkOGSLargeScale3D as createBC
+        elif case == "NetworkOGS":
+            from ResourceLib.BelowGround.Network import NetworkOGS as createBC
         elif case == "OGSLargeScale3DExternal":
             from ResourceLib.BelowGround.Generic.OGSLargeScale3DExternal import OGSLargeScale3DExternal as createBC
         elif case == "NetworkOGSLargeScale3DExternal":

@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-.. include:: ./FixedSalinity.md
-"""
 import numpy as np
 import os
 from ResourceLib import ResourceModel

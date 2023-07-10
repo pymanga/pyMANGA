@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-.. include:: ./Memory.md
-"""
 import numpy as np
 from PlantModelLib.Mortality.NoGrowth import NoGrowth
 

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-.. include:: ./NetworkOGS.md
-"""
-
 import numpy as np
 from os import path
 

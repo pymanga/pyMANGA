@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-.. include:: ./RandomGrowth.md
-"""
 import numpy as np
 from PlantModelLib.Mortality.Random import Random
 

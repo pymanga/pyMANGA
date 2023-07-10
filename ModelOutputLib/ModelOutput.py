@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
-"""
 import os
 
 
-## Parent class for plant output
 class ModelOutput:
-    ## Constructor for plant output calling different constructors depending on
-    #  choosen case.
+    """
+    Parent class for all model output modules.
+    """
 
     def __init__(self, args):
+        """
+        Get relevant tags from project file and create output directory and/or file.
+        Check if output file exists and can be overwritten.
+        Args:
+            args: module specifications from project file tags
+        """
         ## Directory, where output is saved. Please make sure it is empty
         #  or set allow_previous_output to true
         self.output_dir = self.checkRequiredKey("output_dir", args)
@@ -74,15 +76,31 @@ class ModelOutput:
             self.geometry_outputs, " at every " +
             str(self.output_each_nth_timestep) + " timesteps initialized.")
 
-    ## Returns output type:
     def getOutputType(self):
+        """
+        Get selected output type.
+        Returns:
+            string
+        """
         return self.case
 
-    ## This function returns the output directory
     def getOutputDir(self):
+        """
+        Get output directory.
+        Returns:
+            string
+        """
         return self.output_dir
 
     def addSelectedHeadings(self, string, delimiter):
+        """
+        Collect selected output parameters to create a file header.
+        Args:
+            string (string): beginning of header, e.g. plant ID
+            delimiter (string): delimiter to be used in csv file
+        Returns:
+            string
+        """
         for geometry_output in self.geometry_outputs:
             string += delimiter + geometry_output
         for parameter_output in self.parameter_outputs:
@@ -94,6 +112,16 @@ class ModelOutput:
         return string
 
     def addSelectedOutputs(self, plant, string, delimiter, growth_information):
+        """
+        Collect values of selected output parameters to fill output file.
+        Args:
+            plant (dict): plant object
+            string (string): beginning of line, e.g. plant ID
+            delimiter (string): delimiter to be used in csv file
+            growth_information (dict): dictionary containing growth information of the respective plant
+        Returns:
+            string
+        """
         if len(self.geometry_outputs) > 0:
             geometry = plant.getGeometry()
             for geometry_output in self.geometry_outputs:
@@ -120,11 +148,15 @@ class ModelOutput:
                 string += delimiter + str(network[network_output])
         return string
 
-    ## This function checks if a key exists and if its text content is empty.
-    #  Raises key-errors, if the key is not properly defined.
-    #  @param key Name of the key to be checked
-    #  @param args parsed from project. Xml-element
     def checkRequiredKey(self, key, args):
+        """
+        Check whether a key (i.e., required element) is specified in project file.
+        Args:
+            key (string): name of key to be checked
+            args (lxml.etree._Element): module specifications from project file tags
+        Returns:
+            string or raise KeyError
+        """
         tmp = args.find(key)
         if tmp is None:
             raise KeyError("Required key '" + key + "' in project file at " +
@@ -134,11 +166,15 @@ class ModelOutput:
                            "MangaProject_model_output needs to be specified.")
         return tmp.text
 
-    ## Writes output to predefined folder
-    #  For each timestep a file is created throughout the simulation.
-    #  This function is only able to work, if the output directory exists and
-    #  is empty at the begin of the model run
     def writeOutput(self, plant_groups, time, force_output=False, group_died=False):
+        """
+        Check whether it is output time and call the output method of the selected module.
+        Args:
+            plant_groups (dict): plant groups object
+            time (float): current time step
+            force_output (bool): indicate whether writing output is forced
+            group_died (bool): indicate whether a whole plant group died
+        """
         if self.output_each_nth_timestep is not None:
             self._output_counter = (self._output_counter %
                                     self.output_each_nth_timestep)
@@ -156,4 +192,11 @@ class ModelOutput:
         self._output_counter += 1
 
     def outputContent(self, plant_groups, time, **kwargs):
+        """
+        Write output content to file, i.e., values of selected parameters.
+        Args:
+            plant_groups (dict): plant groups object
+            time (float): current time step
+            **kwargs (dict): named arguments
+        """
         pass

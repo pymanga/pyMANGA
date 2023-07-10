@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
-"""
 from ModelOutputLib.ModelOutput import ModelOutput
 import os
 
 
-## Output class. This class creates one file per timestep at a defined
-#  location. A line containing time, position, desired geometric measures and
-#  desired parameters is written at every nth timestep.
 class OneTimestepOneFile(ModelOutput):
+    def __init__(self, args):
+        """
+        Model output concept.
+        Create one file for each time step, i.e., each file contains the complete population of a single time step.
+        Filename includes time step in seconds, e.g. 'Population_t_<time_step>'.
+        Each line contains plant, time, position and user selected output parameters.
+        Args:
+            args: module specifications from project file tags
+        """
+        super().__init__(args)
 
     def outputContent(self, plant_groups, time, **kwargs):
         delimiter = "\t"

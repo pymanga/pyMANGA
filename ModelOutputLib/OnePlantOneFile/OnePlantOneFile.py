@@ -1,21 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
-"""
 from ModelOutputLib.ModelOutput import ModelOutput
 import os
 
 
-## Output class. This class creates one file per plant at a defined location.
-#  A line containing time, position, desired geometric measures and desired
-#  parameters is written at every nth timestep.
 class OnePlantOneFile(ModelOutput):
-
-    ## Constructor of dummy objects in order to drop output
-    #  @param args xml element parsed from project to this constructor.
     def __init__(self, args):
+        """
+        Model output concept.
+        Create one file for each plant, i.e., a plant's progress is stored in a file.
+        Filename includes plant ID, e.g. 'GroupA_<plantID>'.
+        Each line contains time, position and user selected output parameters.
+        Args:
+            args: module specifications from project file tags
+        """
         super().__init__(args)
         for path in os.listdir(self.output_dir):
             full_path = os.path.join(self.output_dir, path)

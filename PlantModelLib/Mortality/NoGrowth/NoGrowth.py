@@ -67,7 +67,7 @@ class NoGrowth:
         Get relevant plant attributes required for mortality concept.
         Args:
             plant_module (class): "PlantModel" object
-            growth_concept_information (dict): dictionary containing growth information of the respective tree
+            growth_concept_information (dict): dictionary containing growth information of the respective plant
         Returns:
             dictionary with updated growth concept information
         """

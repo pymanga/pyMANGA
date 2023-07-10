@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
-"""
-
 from VisualizationLib import Visualization
-from ModelOutputLib import ModelOutput
 import PopulationLib
 from TimeLoopLib import DynamicTimeLoop
 import numpy as np
 
 
-## Class to store and manage all information necessary for a MANGA model run.
 class MangaProject:
-    ## Parent class for MangaProjects.
+    """
+    Store and manage all the information needed to run a MANGA model.
+    """
     def argsToProject(self):
+        """
+        Initialize selected modules and pass arguments from project file.
+        Sets:
+            multiple dictionaries
+        """
         self.iniNumpyRandomSeed()
         self.iniAbovegroundResourceConcept()
         self.iniBelowgroundResourceConcept()
@@ -26,15 +26,28 @@ class MangaProject:
         self.iniModelOutputConcept()
 
     def getBelowgroundResourceConcept(self):
+        """
+        Get below-ground resource object.
+        Returns:
+            class
+        """
         return self.belowground_resource_concept
 
     def iniNumpyRandomSeed(self):
+        """
+        Set random seed.
+        """
         if self.args["random_seed"] is not None:
             print("Setting seed for random number generator.")
             _seed = int(self.args["random_seed"].text.strip())
             np.random.seed(_seed)
 
     def iniBelowgroundResourceConcept(self):
+        """
+        Initialize below-ground resource concept.
+        Sets:
+            class
+        """
         arg = self.args["belowground_resource_concept"]
         case = arg.find("type").text
         if case == "Default":
@@ -71,9 +84,19 @@ class MangaProject:
         print(case + " below-ground competition successfully initiated.")
 
     def getAbovegroundResourceConcept(self):
+        """
+        Get above-ground resource object.
+        Returns:
+            class
+        """
         return self.aboveground_resource_concept
 
     def iniAbovegroundResourceConcept(self):
+        """
+        Initialize above-ground resource concept.
+        Sets:
+            class
+        """
         arg = self.args["aboveground_resources_concept"]
         case = arg.find("type").text
         if case == "Default":
@@ -86,9 +109,19 @@ class MangaProject:
         print(case + " above-ground competition successfully initiated.")
 
     def getPlantDynamicConcept(self):
+        """
+        Get plant model object.
+        Returns:
+            class
+        """
         return self.plant_dynamic_concept
 
     def iniPlantDynamicConcept(self):
+        """
+        Initialize plant model concept.
+        Sets:
+            class
+        """
         arg = self.args["plant_dynamics"]
         case = arg.find("type").text
         if case == "Default":
@@ -105,28 +138,62 @@ class MangaProject:
         print(case + " plant dynamic concept initiated.")
 
     def iniPopulationConcept(self):
+        """
+        Initialize population concept.
+        Sets:
+            class
+        """
         arg = self.args["population"]
         self.population_concept = (PopulationLib.Population(arg))
 
     def getPopulationConcept(self):
+        """
+        Get population object.
+        Returns:
+            class
+        """
         return self.population_concept
 
     def iniTimeLoopConcept(self):
+        """
+        Initialize time loop concept.
+        Sets:
+            class
+        """
         arg = self.args["time_loop"]
         self.time_stepping = (DynamicTimeLoop(arg))
 
     def getTimeStepping(self):
+        """
+        Get time loop object.
+        Returns:
+            class
+        """
         return self.time_stepping
 
     def iniVisualizationConcept(self):
+        """
+        Initialize visualization concept.
+        Sets:
+            class
+        """
         arg = self.args["visualization"]
         self.visualization = Visualization(arg)
 
     def getVisualizationConcept(self):
+        """
+        Get visualization object.
+        Returns:
+            class
+        """
         return self.visualization
 
-    ## Constructor for model output
     def iniModelOutputConcept(self):
+        """
+        Initialize model output concept.
+        Sets:
+            class
+        """
         arg = self.args["model_output"]
         case = arg.find("type").text
         if case == "NONE":
@@ -147,15 +214,32 @@ class MangaProject:
         ## Containing configuration on model_output
         self.model_output_concept = createOut(arg)
 
-    ## Returns model output defined for the project
     def getModelOutputConcept(self):
+        """
+        Get model output object.
+        Returns:
+            class
+        """
         return self.model_output_concept
 
     def runProject(self, time_stepping):
+        """
+        Start time loop to run model.
+        """
         self.time_stepping.runTimeLoop(time_stepping)
 
     def getProjectArguments(self):
+        """
+        Get module specifications from project file tags.
+        Returns:
+            string
+        """
         return self.args
 
     def getProjectArgument(self, key):
+        """
+        Get specific module specifications from project file tags.
+        Returns:
+            string
+        """
         return self.args[key]

@@ -73,6 +73,3 @@ class XMLtoProject(Project.MangaProject):
             raise KeyError("key " + key + " is missing in project file")
         return child
 
-
-if __name__ == '__main__' and __package__ is None:
-    prj = XMLtoProject(xml_project_file="testproject.xml")

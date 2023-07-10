@@ -9,8 +9,13 @@ import copy
 
 
 class DynamicTimeStep:
-
     def __init__(self, project):
+        """
+        Manage time steps.
+        Sets modules, i.e., resources, plant, population, output and visualization
+        Args:
+            project: project object
+        """
         # Initialize concepts
         self.aboveground_resource_concept = project.getAbovegroundResourceConcept()
         self.belowground_resource_concept = project.getBelowgroundResourceConcept()
@@ -26,10 +31,16 @@ class DynamicTimeStep:
         self.belowground_resources = []
         self._previous_plant_groups = []
 
-    ## This progresses one time step, by updating plant population and above-
-    # and below-ground resources. Not all concepts have to be called with
-    # the same frequency (i.e. only if update_x is true).
     def step(self, t_start, t_end, update_ag, update_bg):
+        """
+        Define time step.
+        Progresses model by one step, i.e., updates resources and plant population.
+        Args:
+            t_start (float): start of time step
+            t_end (float): end of time step
+            update_ag (bool): indicate whether above-ground module is called within the current time step
+            update_bg (bool): indicate whether below-ground module is called within the current time step
+        """
         if update_ag:
             self.aboveground_resource_concept.prepareNextTimeStep(t_start, t_end)
         if update_bg:
@@ -100,8 +111,12 @@ class DynamicTimeStep:
             exit()
         self.visualization_concept.update(plant_groups, t_end)
 
-    ## Last action, when timeloop is done
     def finish(self, time):
+        """
+        Define last action when model run is finished.
+        Args:
+            time (float): start time of last time step
+        """
         self.visualization_concept.show(time)
         plant_groups = self.population_concept.getPlantGroups()
         # Write output in last time step, even if not defined in the project
@@ -109,8 +124,19 @@ class DynamicTimeStep:
         self.model_output_concept.writeOutput(plant_groups, time, force_output=True)
 
     def setResources(self, ag_resources, bg_resources):
+        """
+        Set below- and above-ground resource arrays.
+        Args:
+            ag_resources (array): above-ground resource factors, shape(number_of_plants)
+            bg_resources (array): below-ground resource factors, shape(number_of_plants)
+        """
         self.aboveground_resources = ag_resources
         self.belowground_resources = bg_resources
 
     def getResources(self):
+        """
+        Get below- and above-ground resource arrays.
+        Returns:
+            2 arrays of shape(number_of_plants)
+        """
         return [self.aboveground_resources, self.belowground_resources]

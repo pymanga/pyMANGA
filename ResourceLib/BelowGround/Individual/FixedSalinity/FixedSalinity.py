@@ -35,8 +35,8 @@ class FixedSalinity(ResourceModel):
 
     def calculateBelowgroundResources(self):
         """
-        Calculate a growth reduction factor for each tree based on pore-water salinity below the
-        center of each tree.
+        Calculate a growth reduction factor for each plant based on pore-water salinity below the
+        center of each plant.
         Sets:
             numpy array of shape(number_of_trees)
         """

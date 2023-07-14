@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-.. include:: ./Bettina.md
-"""
 from PlantModelLib import PlantModel
 import numpy as np
 

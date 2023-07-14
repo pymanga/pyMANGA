@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-.. include:: ./Network.md
-"""
 import numpy as np
 from ResourceLib import ResourceModel
 

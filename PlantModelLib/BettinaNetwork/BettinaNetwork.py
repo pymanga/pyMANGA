@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-.. include:: ./BettinaNetwork.md
-"""
-
 from PlantModelLib.Bettina import Bettina
 import numpy as np
 

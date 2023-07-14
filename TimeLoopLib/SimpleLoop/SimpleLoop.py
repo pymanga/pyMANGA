@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
-"""
 
 
 class SimpleLoop:
 
     def __init__(self, args):
-        ## SimpleTest case for aboveground competition concept. This case is
-        #  defined to test the passing of information between the instances.
-        #  @param: Tags to define SimpleTest: type
-        #  @date: 2019 - Today
+        """
+        Default time step module.
+        Time step length is constant.
+        Args:
+            args: module specifications from project file tags
+        """
         case = args.find("type").text
         print("Initiate time loop of type " + case + ".")
         self.t_start = float(args.find("t_start").text)
@@ -30,15 +28,21 @@ class SimpleLoop:
         self.step_counter = 0
         self.t_1 = self.t_start
 
-    ## This checks and stores whether above- and belowground competition should
-    #  be recalculated in the following timestep.
     def getUpdateBools(self):
+        """
+        Check whether to calculate above- and below-ground resources.
+        Sets:
+            multiple bools
+        """
         self.update_ag = True if self.step_counter % self.n_step_ag == 0 else False
         self.update_bg = True if self.step_counter % self.n_step_bg == 0 else False
 
-    ## Calculates the initial and end time of next timestep and evaluates which
-    #  concepts are supposed to be updated
     def getNextTimeStep(self):
+        """
+        Calculate the start and end time of the next timestep and evaluate which modules should be updated.
+        Sets:
+            multiple float
+        """
         self.getUpdateBools()
         self.t_1 = self.t_2  # assigns t2 from previous timestep as new t1
         self.t_2 = self.t_1 + self.delta_t

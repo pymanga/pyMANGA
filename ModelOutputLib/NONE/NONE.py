@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
-"""
 from ModelOutputLib.ModelOutput import ModelOutput
 
 
 class NONE(ModelOutput):
-    ## Constructor of dummy objects in order to drop output
     def __init__(self, args):
-        ## defining the type of output
+        """
+        Dummy class to avoid writing model output.
+        Args:
+            args: module specifications from project file tags
+        """
         self.case = args.find("type").text
         print("Running without plant output.")
 

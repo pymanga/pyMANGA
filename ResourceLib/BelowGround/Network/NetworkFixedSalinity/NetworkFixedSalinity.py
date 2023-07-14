@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-.. include:: ./NetworkFixedSalinity.md
-"""
-
 from ResourceLib.BelowGround.Network.Network import Network
 from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity
 

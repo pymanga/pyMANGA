@@ -1,29 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2021-Today
-@author: marie-christin.wimmler@tu-dresden.de
-"""
 import os
 from ModelOutputLib.ModelOutput import ModelOutput
 
 
-## Output class. This class creates one file for the whole simulation,
-# i.e. each time step and plant is included.
-# A line contains time, plant, position, desired geometric measures
-# and parameters for every nth time step.
 class OneFile(ModelOutput):
 
     def __init__(self, args):
+        """
+        Model output concept.
+        Create a single file for all model output.
+        Each line contains plant ID, time, position and user selected output parameters.
+        Args:
+            args: module specifications from project file tags
+        """
         super().__init__(args)
 
         self.delimiter = "\t"
         self.createFileWithHeader(filename='Population.csv')
 
-    ## Function to create csv file with selected headings
-    # Check if csv file exists in directory
-    # If not, create file
     def createFileWithHeader(self, filename):
+        """
+        Create csv file with selected headings.
+        Args:
+            filename (string): name of output file
+        """
         file = open(os.path.join(self.output_dir, filename), "w")
 
         string = ""

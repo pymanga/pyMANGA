@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-.. include:: ./FON.md
-"""
 import numpy as np
 from ResourceLib import ResourceModel
 

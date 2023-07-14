@@ -2,7 +2,7 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </aboveground>
         <belowground>
             <type> NetworkFixedSalinity </type>

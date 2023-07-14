@@ -7,24 +7,24 @@
 from ResourceLib import ResourceModel
 
 
-class SimpleTest(ResourceModel):
-    ## SimpleTest case for belowground competition concept. This case is
+class Default(ResourceModel):
+    ## Default case for belowground competition concept. This case is
     #  defined to test the passing of information between the instances.
-    #  @param: Tags to define SimpleTest: type
+    #  @param: Tags to define Default: type
     #  @date: 2019 - Today
     def __init__(self, args):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
 
     ## This function returns the BelowgroundResources calculated in the
-    #  subsequent timestep. In the SimpleTest concept, for each plant a one
+    #  subsequent timestep. In the Default concept, for each plant a one
     #  is returned
     #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
         self.belowground_resources = self.plants
 
     ## This functions prepares the competition concept for the competition
-    #  concept. In the SimpleTest concept, plants are saved in a simple list
+    #  concept. In the Default concept, plants are saved in a simple list
     #  and the timestepping is updated. In preparation for the next time-
     #  step, the list is simply resetted.
     #  @param: t_ini - initial time for next timestep \n
@@ -36,7 +36,7 @@ class SimpleTest(ResourceModel):
 
     ## Before being able to calculate the resources, all plant enteties need
     #  to be added with their current implementation for the next timestep.
-    #  Here, in the SimpleTest case, each plant is represented by a one. In
+    #  Here, in the Default case, each plant is represented by a one. In
     #  general, an object containing all necessary information should be
     #  stored for each plant
     #  @param: position, geometry, parameter

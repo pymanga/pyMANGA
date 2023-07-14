@@ -43,9 +43,9 @@
                         <test> RandomGrowth_CI.xml </test>
                     </RandomGrowth>
                 </Mortality>
-                <SimpleTest>
-                    <test> SimpleTest_CI.xml </test>
-                </SimpleTest>
+                <Default>
+                    <test> Default_CI.xml </test>
+                </Default>
             </Bettina>
             <SimpleKiwi>
                 <Aboveground>
@@ -72,9 +72,9 @@
                         <test> RandomGrowth_CI.xml </test>
                     </RandomGrowth>
                 </Mortality>
-                <SimpleTest>
-                    <test> SimpleTest_CI.xml </test>
-                </SimpleTest>
+                <Default>
+                    <test> Default_CI.xml </test>
+                </Default>
             </SimpleKiwi>
         </PlantModules>
         <TreeOutput>

@@ -62,6 +62,7 @@ class MangaProject:
         """
         arg = self.args["belowground_resource_concept"]
         case = arg.find("type").text
+        self.bg_module = case
         if case == "Default":
             from ResourceLib.BelowGround.Individual.Default import Default as createBC
         elif case == "OGS":
@@ -166,7 +167,7 @@ class MangaProject:
         Sets:
             class
         """
-        arg = self.args["visualization"]
+        arg = [self.args["visualization"], self.args["belowground_resource_concept"]]
         self.visualization = Visualization(arg)
 
     def getVisualizationConcept(self):

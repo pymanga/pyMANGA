@@ -114,4 +114,3 @@ class XMLtoProject(MangaProject):
         if child is None:
             raise KeyError("key " + key + " is missing in project file")
         return child
-

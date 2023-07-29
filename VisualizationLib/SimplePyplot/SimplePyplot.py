@@ -15,14 +15,14 @@ from VisualizationLib.Visualization import Visualization
 class SimplePyplot(Visualization):
 
     def __init__(self, args):
-        self.case = args.find("type").text
+        self.case = args[0].find("type").text
 
         try:
-            self._max_fps = float(args.find("max_fps").text)
+            self._fps = float(args.find("fps").text)
         except AttributeError:
-            self._max_fps = 50
-            print("Tag 'max_fps' in '" + self.case +
-                  "' visualization is missing! max_fps set to 50.")
+            self._fps = 50
+            print("Tag 'fps' in '" + self.case +
+                  "' visualization is missing! fps set to 50.")
         fig, self._ax = plt.subplots(figsize=(10, 10))
 
     ## Update function necessary for all visualization classes.
@@ -99,7 +99,7 @@ class SimplePyplot(Visualization):
         self._ax.set_ylim(bottom, top)
         plt.title("Time = " + timestring + "years")
         plt.draw()
-        plt.pause(1 / self._max_fps)
+        plt.pause(1 / self._fps)
 
     ## Show function necessary for all visualization classes.
     #  This function displays the current state of the subplot.\n

@@ -5,4 +5,5 @@ matplotlib
 pandas
 pytest-subtests
 pdoc
+scipy
 vtk == 9.2.2 # required for OpenGeoSys

@@ -7,3 +7,4 @@ Library of visualisation modules.
 from .Visualization import Visualization
 from .SimplePyplot import SimplePyplot
 from .NONE import NONE
+from .ComplexPyplot import ComplexPyplot

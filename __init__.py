@@ -5,7 +5,7 @@ PYthon Models for AGeNt-based resource GAthering (pyMANGA) is a collection of mo
 pyMANGA is modular, and descriptions of individual tree growth, resource availability and competition dynamics can be quickly interchanged.
 
 The documentation of a module consists of the following parts
-1. module description
+1. module description blablubb
 2. specification of tags to be used in the pyMANGA project file (if applicable)
 3. Source code documentation.
 

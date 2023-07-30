@@ -17,27 +17,28 @@ class Mortality:
         default_case = "NoGrowth"
         try:
             cases = args.find("mortality").text
+            cases = cases.split()
+            for case in cases:
+                if not case or case == "NoGrowth":
+                    self.iniNoGrowth(args, case)
+                elif case == "Random":
+                    self.iniRandom(args, case)
+                elif case == "RandomGrowth":
+                    self.iniRandomGrowth(args, case)
+                elif case == "Memory":
+                    self.iniMemory(args, case)
+                else:
+                    raise KeyError("Required mortality not implemented. "
+                                   "Available concepts: `NoGrowth`, `Random`, "
+                                   "`RandomGrowth`, `Memory`")
+                print("Mortality concept of type " + case + " successfully "
+                      "initiated.")
+
         except AttributeError:
-            cases = default_case
+            #  cases = default_case
             print("WARNING: Default Mortality concept '" + default_case +
                   "' is used.")
 
-        cases = cases.split()
-        for case in cases:
-            if not case or case == "NoGrowth":
-                self.iniNoGrowth(args, case)
-            elif case == "Random":
-                self.iniRandom(args, case)
-            elif case == "RandomGrowth":
-                self.iniRandomGrowth(args, case)
-            elif case == "Memory":
-                self.iniMemory(args, case)
-            else:
-                raise KeyError("Required mortality not implemented. "
-                               "Available concepts: `NoGrowth`, `Random`, "
-                               "`RandomGrowth`, `Memory`")
-            print("Mortality concept of type " + case + " successfully "
-                  "initiated.")
 
     def iniNoGrowth(self, args, case):
         """

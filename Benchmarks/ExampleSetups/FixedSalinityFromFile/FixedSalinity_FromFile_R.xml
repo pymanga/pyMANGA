@@ -13,16 +13,21 @@
     </resources>
     <plant_dynamics>
         <type> Bettina </type>
-        <mortality>NoGrowth</mortality>
     </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
             <distribution>
-                <type> GroupFromFile </type>
+                <type> Random </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
+                </domain>
+                <n_individuals> 1 </n_individuals>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/bg_initial_population.csv </filename>
             </distribution>
         </group>
     </population>
@@ -37,15 +42,16 @@
         <type> NONE </type>
     </visualization>
     <output>
-        <type> OneTimestepOneFile </type>
+        <type> OneFile </type>
         <output_each_nth_timestep>1</output_each_nth_timestep>
-        <output_times> [2e6, 5e8] </output_times>
+        <output_times> [2488320000, 2519424000] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <geometry_output> r_crown </geometry_output>
         <geometry_output> r_root </geometry_output>
+        <geometry_output> alive </geometry_output>
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>

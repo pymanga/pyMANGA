@@ -42,6 +42,7 @@ class Bettina(PlantModel):
         self.h_root = geometry["h_root"]
         self.r_stem = geometry["r_stem"]
         self.h_stem = geometry["h_stem"]
+        self.alive = geometry["alive"]
         self.survive = 1
 
         self.flowLength()
@@ -182,7 +183,7 @@ class Bettina(PlantModel):
             float
         """
         self.volume = (self.h_root * np.pi * self.r_root**2 +
-                       self.flow_length * np.pi * self.r_stem**2 +
+                       self.flow_length * np.pi * self.r_stem**2 * self.alive +
                        self.h_crown * np.pi * self.r_crown**2)
 
     def agResources(self, aboveground_resources):
@@ -243,7 +244,7 @@ class Bettina(PlantModel):
             float
         """
         self.xylem_resistance = (self.flow_length / self.parameter["kf_sap"] /
-                                 np.pi / self.r_stem**2)
+                                 np.pi / self.r_stem**2 / self.alive)
 
     def deltaPsi(self):
         """

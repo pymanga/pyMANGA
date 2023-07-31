@@ -24,6 +24,11 @@ def createPlant():
     growth_factor = 0.0047
     h_sigmo_slope = 0.5
     sigmo_slope = 0.015
+    # vessel distribution/dieback
+    water_potential_difference = -2e6
+    alpha = 3
+    a_perc99 = 7e-5
+    b_perc99 = -7e-7
     # Kiwi
     height = 0  # Dummy variable to store height
     salt_effect_d = -0.18
@@ -55,6 +60,11 @@ def createPlant():
     parameter["growth_factor"] = growth_factor
     parameter["h_sigmo_slope"] = h_sigmo_slope
     parameter["sigmo_slope"] = sigmo_slope
+    # vessel distribution/dieback
+    parameter["d_psi"] = water_potential_difference
+    parameter["a_perc99"] = a_perc99
+    parameter["b_perc99"] = b_perc99
+    parameter["alpha"] = alpha
     # Kiwi
     geometry["height"] = height
     parameter["salt_effect_d"] = salt_effect_d

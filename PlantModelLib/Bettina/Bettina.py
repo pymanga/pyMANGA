@@ -24,7 +24,7 @@ class Bettina(PlantModel):
         """
         self.time = t_end - t_ini
 
-    def progressPlant(self, tree, aboveground_resources, belowground_resources):
+    def progressPlant(self, tree, aboveground_resources,belowground_resources):
         """
         Manage growth procedures for a timestep --- read tree geometry and parameters,
         schedule computations, and update tree geometry and survival.
@@ -47,17 +47,21 @@ class Bettina(PlantModel):
 
         self.flowLength()
         self.treeVolume()
-
+        self.calcBeta(belowground_resources)
+        # self.defKS()
         # Define variables that are only required for specific Mortality
         # concepts
         super().setMortalityVariables(growth_concept_information)
 
         self.treeMaintenance()
-        self.bgResources(belowground_resources)
+        self.bgResources(1)
         self.agResources(aboveground_resources)
         self.growthResources()
-        self.treeGrowthWeights()
-        self.treeGrowth()
+        if self.grow > 0:
+            self.treeGrowthWeights()
+            self.treeGrowth()
+        if self.grow < 0:
+            print("scheiße")
         geometry["r_crown"] = self.r_crown
         geometry["h_crown"] = self.h_crown
         geometry["r_root"] = self.r_root
@@ -256,7 +260,7 @@ class Bettina(PlantModel):
         Returns:
             float
         """
-        return (self.parameter["leaf_water_potential"] +
+        return (self.parameter["d_psi"] +
                 (2 * self.r_crown + self.h_stem) * 9810)
 
     def growthResources(self):
@@ -274,3 +278,18 @@ class Bettina(PlantModel):
                      (self.available_resources - self.maint))
         # Check if trees survive based on selected mortality concepts
         super().setTreeKiller()
+    def calcBeta(self,belowground_resources):
+        from scipy.stats import gamma
+        _psi0 = self.parameter["leaf_water_potential"] + 2*(self.r_crown + self.h_stem) * 9810
+        _salinity = (belowground_resources-1) * _psi0 / 85e6
+        self.beta = self.qgamma(p=0.99,shape=self.parameter["alpha"],rate=1)/(self.parameter["a_perc99"]+self.parameter["b_perc99"]*_salinity*1000)
+        
+    def qgamma(self,p,shape,rate=1):
+        """
+        Calculates the cumulative of the Gamma-distribution
+        """
+        from scipy.stats import gamma
+        result=(1/rate)*gamma.ppf(q=p,a=shape,loc=0,scale=1)
+        return result
+ 
+

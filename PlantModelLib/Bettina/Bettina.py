@@ -48,7 +48,10 @@ class Bettina(PlantModel):
         self.flowLength()
         self.treeVolume()
         self.calcBeta(belowground_resources)
-        # self.defKS()
+        print(self.beta)
+        n_cond = self.NCond()
+        self.parameter["kf_sap"] = self.defKS(n_cond)
+        print(self.parameter["kf_sap"])
         # Define variables that are only required for specific Mortality
         # concepts
         super().setMortalityVariables(growth_concept_information)
@@ -278,6 +281,7 @@ class Bettina(PlantModel):
                      (self.available_resources - self.maint))
         # Check if trees survive based on selected mortality concepts
         super().setTreeKiller()
+
     def calcBeta(self,belowground_resources):
         from scipy.stats import gamma
         _psi0 = self.parameter["leaf_water_potential"] + 2*(self.r_crown + self.h_stem) * 9810
@@ -291,5 +295,25 @@ class Bettina(PlantModel):
         from scipy.stats import gamma
         result=(1/rate)*gamma.ppf(q=p,a=shape,loc=0,scale=1)
         return result
+        
+    def pgamma(self,q,shape,rate=1):
+        """
+        Calculates the cumulative of the Gamma-distribution
+        """
+        from scipy.stats import gamma
+        result=gamma.cdf(x=rate*q,a=shape,loc=0,scale=1)
+        return result
  
+    def defKS(self,n_cond,ceff=0.1,mu=0.001):
+        result = np.pi*ceff/8/mu * n_cond/self.beta**4 * (3+self.parameter["alpha"]) *(2+self.parameter["alpha"]) *(1+self.parameter["alpha"])*self.parameter["alpha"] * self.momCorr(4)
+
+        return result
+        
+    def NCond(self,dcond=0.1):
+        return dcond/np.pi/(1+self.parameter["alpha"])/self.parameter["alpha"]*self.beta**2 / self.momCorr(2)
+        
+    def momCorr(self,n):
+        return self.pgamma(self.qgamma(0.99,self.parameter["alpha"],self.beta),self.parameter["alpha"]+n,self.beta)
+        
+
 

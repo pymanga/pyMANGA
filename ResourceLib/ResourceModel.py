@@ -41,10 +41,22 @@ class ResourceModel:
         """
         pass
 
-    def getInputParameters(self, args):
+    def getInputParameters(self, args, missing_tags=[]):
         """
         Read module tags from project file.
         Args:
             args (lxml.etree._Element): module specifications from project file tags
+            missing_tags (array): list of tags that need to be read from the project file
         """
-        pass
+
+        for arg in args.iterdescendants():
+            tag = arg.tag
+            for i in range(0, len(missing_tags)):
+
+                if tag == missing_tags[i]:
+                    try:
+                        exec("self.{} = '{}'".format(tag, float(args.find(missing_tags[i]).text)))
+                    except ValueError:
+                        exec("self.{} = '{}'".format(tag, str(args.find(missing_tags[i]).text)))
+
+        # ToDo: add error handling as it is implemented in getInputPar... functions

@@ -50,7 +50,6 @@ class Plant:
             self.geometry["r_root"] = initial_geometry["r_root"]
             self.geometry["r_stem"] = initial_geometry["r_stem"]
             self.geometry["h_stem"] = initial_geometry["h_stem"]
-            self.geometry["alive"] = 1
         self.growth_concept_information = {}
 
     def getPosition(self):

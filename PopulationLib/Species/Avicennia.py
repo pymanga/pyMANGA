@@ -44,6 +44,7 @@ def createPlant():
     geometry["r_stem"] = ini_stem_radius
     geometry["h_stem"] = ini_stem_height
     geometry["r_crown"] = ini_crown_radius
+    geometry["alive"] = 1
     parameter["leaf_water_potential"] = leaf_water_potential
     parameter["kf_sap"] = kf_sap
     parameter["lp"] = lp

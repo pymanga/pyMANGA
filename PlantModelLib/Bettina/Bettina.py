@@ -284,7 +284,7 @@ class Bettina(PlantModel):
 
     def calcBeta(self,belowground_resources):
         from scipy.stats import gamma
-        _psi0 = self.parameter["leaf_water_potential"] + 2*(self.r_crown + self.h_stem) * 9810
+        _psi0 = self.parameter["leaf_water_potential"] + (2*self.r_crown + self.h_stem) * 9810
         _salinity = (belowground_resources-1) * _psi0 / 85e6
         self.beta = self.qgamma(p=0.99,shape=self.parameter["alpha"],rate=1)/(self.parameter["a_perc99"]+self.parameter["b_perc99"]*_salinity*1000)
         

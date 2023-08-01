@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <MangaProject>
     <random_seed> 10 </random_seed>
-    <tree_dynamics>
-        <aboveground_competition>
+    <resources>
+        <aboveground>
             <type> Default </type>
-        </aboveground_competition>
-        <belowground_competition>
+        </aboveground>
+        <belowground>
             <type> SimpleTest </type>
-        </belowground_competition>
-        <tree_growth_and_death>
-            <type> SimpleTest </type>
-        </tree_growth_and_death>
-    </tree_dynamics>
-    <initial_population>
+        </belowground>
+    </resources>
+    <plant_dynamics>
+        <type> SimpleTest </type>
+    </plant_dynamics>
+    <population>
         <group>
             <name> Recruiting </name>
             <species> Avicennia </species>
@@ -43,22 +43,22 @@
                 <n_recruitment_per_step> 5 </n_recruitment_per_step>
             </distribution>
         </group>
-    </initial_population>
-    <tree_time_loop>
+    </population>
+    <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
         <t_end> 86400 </t_end> 
         <delta_t> 43200 </delta_t> <!--Time step length and time span arbitrarily chosen, target: short model runtime-->
-    </tree_time_loop>
+    </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
-    <tree_output>
+    <output>
         <type> OneTreeOneFile </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
         <output_dir> Benchmarks/TestOutputs/ </output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <parameter_output> k_geom </parameter_output>
-    </tree_output>
+    </output>
 </MangaProject>

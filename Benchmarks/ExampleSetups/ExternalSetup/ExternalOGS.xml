@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <MangaProject>
-    <tree_dynamics>
-        <aboveground_competition>
+    <resources>
+        <aboveground>
             <type> SimpleTest </type> 
-        </aboveground_competition>
-        <belowground_competition>
+        </aboveground>
+        <belowground>
             <type> OGSLargeScale3DExternal </type>
             <ogs_project_folder> Benchmarks/ExampleSetups/ExternalSetup </ogs_project_folder>
             <ogs_project_file> testmodel.prj </ogs_project_file>
@@ -13,12 +13,12 @@
             <abiotic_drivers>
                 <seaward_salinity> 0.035 </seaward_salinity>
             </abiotic_drivers>
-        </belowground_competition>
-        <tree_growth_and_death>
-            <type> SimpleTest </type>
-        </tree_growth_and_death>
-    </tree_dynamics>
-    <initial_population>
+        </belowground>
+    </resources>
+    <plant_dynamics>
+        <type> SimpleTest </type>
+    </plant_dynamics>
+    <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
@@ -33,17 +33,17 @@
                 <n_individuals> 10 </n_individuals>
             </distribution>
         </group>
-    </initial_population>
-    <tree_time_loop>
+    </population>
+    <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
         <t_end> 1e9 </t_end>
         <delta_t> 1e7 </delta_t>
-    </tree_time_loop>
+    </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
-    <tree_output>
+    <output>
         <type> OneTreeOneFile </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
         <output_dir> Benchmarks/ExampleSetups/ExternalSetup/TreeOutput </output_dir>
@@ -51,6 +51,6 @@
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <growth_output> growth </growth_output>
-    </tree_output>
+    </output>
 </MangaProject>
 

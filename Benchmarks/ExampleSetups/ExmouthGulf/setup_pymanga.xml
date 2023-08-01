@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <MangaProject>
-    <tree_dynamics>
-        <aboveground_competition>
+    <resources>
+        <aboveground>
             <type> SimpleAsymmetricZOI </type>
             <domain>
                 <x_1> 0 </x_1>
@@ -11,8 +11,8 @@
 	        <x_resolution> 720 </x_resolution>
 	        <y_resolution> 38 </y_resolution>
             </domain>
-        </aboveground_competition>
-        <belowground_competition>
+        </aboveground>
+        <belowground>
             <type> OGSLargeScale3D </type>
             <ogs_project_folder> Benchmarks/ExampleSetups/ExmouthGulf/ </ogs_project_folder>
             <ogs_project_file> testmodel.prj </ogs_project_file>
@@ -24,12 +24,12 @@
             <!--bulk_mesh> testbulk.vtu </bulk_mesh-->
             <!--use_old_ogs_results>True</use_old_ogs_results-->
             <python_script>python_script.py</python_script>
-        </belowground_competition>
-        <tree_growth_and_death>
-            <type> Bettina </type>
-        </tree_growth_and_death>
-    </tree_dynamics>
-    <initial_population>
+        </belowground>
+    </resources>
+    <plant_dynamics>
+        <type> Bettina </type>
+    </plant_dynamics>
+    <population>
         <group>
             <name> Recruiting </name>
             <species> Benchmarks/ExampleSetups/ExmouthGulf/Avicennia.py </species>
@@ -45,17 +45,17 @@
                 <n_recruitment_per_step> 50 </n_recruitment_per_step>
             </distribution>
         </group>
-    </initial_population>
-    <tree_time_loop>
+    </population>
+    <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
         <t_end> 157788000000 </t_end>
         <delta_t> 15778800 </delta_t>
-    </tree_time_loop>
+    </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
-    <tree_output>
+    <output>
         <type> OneTimestepOneFile </type>
         <output_each_nth_timestep> 1 </output_each_nth_timestep>
         <allow_previous_output>True</allow_previous_output>
@@ -65,6 +65,6 @@
         <geometry_output> r_crown </geometry_output>
         <geometry_output> r_root </geometry_output>
         <growth_output> salinity </growth_output>
-    </tree_output>
+    </output>
 </MangaProject>
 

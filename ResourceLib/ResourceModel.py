@@ -52,11 +52,21 @@ class ResourceModel:
         for arg in args.iterdescendants():
             tag = arg.tag
             for i in range(0, len(missing_tags)):
-
                 if tag == missing_tags[i]:
                     try:
-                        exec("self.{} = '{}'".format(tag, float(args.find(missing_tags[i]).text)))
+                        super(ResourceModel, self).__setattr__(tag, float(arg.text))
                     except ValueError:
-                        exec("self.{} = '{}'".format(tag, str(args.find(missing_tags[i]).text)))
+                        super(ResourceModel, self).__setattr__(tag, str(arg.text))
+            try:
+                missing_tags.remove(tag)
+            except ValueError:
+                pass
 
-        # ToDo: add error handling as it is implemented in getInputPar... functions
+        if len(missing_tags) > 0:
+            string = ""
+            for tag in missing_tags:
+                string += tag + " "
+            raise KeyError(
+                "Tag(s) " + string +
+                "are not specified for resource module initialisation " +
+                "in project file.")

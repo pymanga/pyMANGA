@@ -42,44 +42,15 @@ class GroupPlanting(PlantGroup):
     #  @param args: arguments specified in project file. Please see tag
     #  documentation.
     def plantRandomDistributedPlants(self, args):
-        missing_tags = [
+        required_tags = [
             "type", "domain", "x_1", "x_2", "y_1", "y_2", "n_individuals"
         ]
-        #  Set default value
-        self.n_recruitment = 0
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "n_individuals":
-                n_individuals = int(arg.text)
-            elif tag == "x_1":
-                self.x_1 = float(arg.text)
-            elif tag == "x_2":
-                x_2 = float(arg.text)
-            elif tag == "y_1":
-                self.y_1 = float(arg.text)
-            elif tag == "y_2":
-                y_2 = float(arg.text)
-            elif tag == "n_recruitment_per_step":
-                self.n_recruitment = int(arg.text)
-            if tag != "n_recruitment_per_step":
-                try:
+        optional_tags = ["n_recruitment_per_step"]
+        self.getInputParameters(args, required_tags=required_tags, optional_tags=optional_tags)
 
-                    missing_tags.remove(tag)
-                except ValueError:
-                    raise ValueError(
-                        "Tag " + tag +
-                        " not specified for random plant planting!")
-
-        if len(missing_tags) > 0:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Tag(s) " + string +
-                "are not given for random plant planting in project file.")
-        self.l_x = x_2 - self.x_1
-        self.l_y = y_2 - self.y_1
-        for i in range(n_individuals):
+        self.l_x = self.x_2 - self.x_1
+        self.l_y = self.y_2 - self.y_1
+        for i in range(self.n_individuals):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
@@ -90,33 +61,11 @@ class GroupPlanting(PlantGroup):
     #  @param args: arguments specified in project file. Please see tag
     #  documentation.
     def plantPlantsFromFile(self, args):
-        missing_tags = ["type", "filename"]
-        #  Set default value
-        self.n_recruitment = 0
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "filename":
-                filename = arg.text
-            elif tag == "n_recruitment_per_step":
-                self.n_recruitment = int(arg.text)
-            if tag != "n_recruitment_per_step":
-                try:
-                    missing_tags.remove(tag)
-                except ValueError:
-                    raise ValueError(
-                        "Tag " + tag +
-                        " not specified for random plant planting!")
-
-        if len(missing_tags) > 0:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Mandatory tag(s) " + string +
-                "is(are) not given for plant planting in project file.")
+        required_tags = ["type", "filename"]
+        self.getInputParameters(args, required_tags=required_tags)
 
         # Loading the Population Data
-        plant_file = open(filename)
+        plant_file = open(self.filename)
         i = 0
         x_idx, y_idx = 99999, 99999
         r_crown_idx, r_stem_idx, r_root_idx, h_stem_idx = (99999, 99999, 99999,
@@ -194,9 +143,7 @@ class GroupPlanting(PlantGroup):
             args (lxml.etree._Element): module specifications from project file tags
             required_tags (array): list of tags that need to be read from the project file
             optional_tags (array): list of tags that can be specified in the project file
-            lib (string): name of library
         """
-
         if optional_tags is None:
             optional_tags = []
         if required_tags is None:
@@ -228,3 +175,5 @@ class GroupPlanting(PlantGroup):
             raise KeyError(
                 "Missing input parameters (in project file) for population module initialisation: " + string)
 
+        if not hasattr(GroupPlanting, "n_recruitment"):
+            self.n_recruitment = 0

@@ -31,10 +31,6 @@ class FON(ResourceModel):
         self._fon_height = np.zeros_like(self._my_grid[0])
 
     def addPlant(self, plant):
-        if self._mesh_size > 0.25:
-            print("Error: mesh not fine enough for FON!")
-            print("Please refine mesh to grid size < 0.25m !")
-            exit()
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
@@ -126,3 +122,8 @@ class FON(ResourceModel):
                          self.y_resolution,
                          endpoint=True)
         self._my_grid = np.meshgrid(xe, ye)
+
+        if self._mesh_size > 0.25:
+            print("Error: mesh not fine enough for FON!")
+            print("Please refine mesh to grid size < 0.25m !")
+            exit()

@@ -205,29 +205,9 @@ class Network(ResourceModel):
 
             plant.setNetwork(network)
 
-    def getInputParameters(self, args):
+    def getInputParameters(self, args, missing_tags=[]):
         missing_tags = ["type", "f_radius"]
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "f_radius":
-                self.f_radius = float(args.find("f_radius").text)
-                if self.f_radius <= 0:
-                    raise ValueError("Parameter f_radius needs to be > 0.")
-            elif tag == "type":
-                case = args.find("type").text
-            try:
-                missing_tags.remove(tag)
-            except ValueError:
-                print("WARNING: Tag " + tag + " not specified for " + case +
-                      " growth-and-death " + "initialisation!")
-        if len(missing_tags) > 0:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Tag(s) " + string +
-                "are missing for below-ground initialisation in project "
-                "file.")
+        super().getInputParameters(args, missing_tags)
 
     '''
     ##############################

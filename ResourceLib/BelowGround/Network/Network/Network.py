@@ -205,7 +205,7 @@ class Network(ResourceModel):
 
             plant.setNetwork(network)
 
-    def getInputParameters(self, args, missing_tags=[]):
+    def getInputParameters(self, args, missing_tags=None):
         missing_tags = ["type", "f_radius"]
         super().getInputParameters(args, missing_tags)
 

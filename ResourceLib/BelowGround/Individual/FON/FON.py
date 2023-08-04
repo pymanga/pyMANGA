@@ -87,12 +87,12 @@ class FON(ResourceModel):
         height[height < self._fmin] = 0
         return height
 
-    def getInputParameters(self, args, missing_tags=[]):
-        missing_tags = [
+    def getInputParameters(self, args, required_tags=None):
+        required_tags = [
             "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
             "y_resolution", "aa", "bb", "fmin", "salinity"
         ]
-        super().getInputParameters(args, missing_tags)
+        super().getInputParameters(args, required_tags)
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
         self._aa = self.aa

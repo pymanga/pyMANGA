@@ -96,7 +96,7 @@ class RandomGrowth(Random):
             args: RandomGrowth module specifications from project file tags
         """
         # All tags are optional
-        missing_tags = ["type", "mortality", "k_die"]
+        required_tags = ["type", "mortality", "k_die"]
         for arg in args.iterdescendants():
             tag = arg.tag
             if tag == "k_die":
@@ -104,7 +104,7 @@ class RandomGrowth(Random):
             elif tag == "type":
                 case = args.find("type").text
             try:
-                missing_tags.remove(tag)
+                required_tags.remove(tag)
             except ValueError:
                 print("WARNING: Tag " + tag + " not specified for " +
                       super().getConceptName() + " (" + case + ") " +

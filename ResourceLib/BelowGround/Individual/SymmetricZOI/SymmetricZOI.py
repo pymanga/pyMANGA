@@ -88,12 +88,12 @@ class SymmetricZOI(ResourceModel):
 
         self.belowground_resources = plant_wins / plant_counts
 
-    def getInputParameters(self, args, missing_tags=[]):
-        missing_tags = [
+    def getInputParameters(self, args, required_tags=None):
+        required_tags = [
             "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
             "y_resolution"
         ]
-        super().getInputParameters(args, missing_tags)
+        super().getInputParameters(args, required_tags)
         self._x_1 = self.x_1
         self._x_2 = self.x_2
         self._y_1 = self.y_1

@@ -140,7 +140,7 @@ class FixedSalinity(ResourceModel):
 
             # Reading salinity values from a csv-file
             self._salinity_over_t = np.loadtxt(
-                self.salinity.text, delimiter=';', skiprows=1)
+                self.salinity, delimiter=';', skiprows=1)
 
             # Check if csv separation has worked
             try:

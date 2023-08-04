@@ -41,14 +41,13 @@ class ResourceModel:
         """
         pass
 
-    def getInputParameters(self, args, required_tags=None, optional_tags=None, lib="resource"):
+    def getInputParameters(self, args, required_tags=None, optional_tags=None):
         """
         Read module tags from project file.
         Args:
             args (lxml.etree._Element): module specifications from project file tags
             required_tags (array): list of tags that need to be read from the project file
             optional_tags (array): list of tags that can be specified in the project file
-            lib (string): name of library
         """
 
         if optional_tags is None:
@@ -80,4 +79,4 @@ class ResourceModel:
             for tag in required_tags:
                 string += tag + " "
             raise KeyError(
-                "Missing input parameters (in project file) for " + lib + " module initialisation: " + string)
+                "Missing input parameters (in project file) for resource module initialisation: " + string)

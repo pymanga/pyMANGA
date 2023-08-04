@@ -45,7 +45,7 @@ class SymmetricZOI(ResourceModel):
         if geometry["r_root"] < (self._mesh_size * 1 / 2**0.5):
             print("Error: mesh not fine enough for crown dimensions!")
             print("Please refine mesh or increase initial root radius above " +
-                  str(self._mesh_size) + "m !")
+                  str(self.min_r_root) + "m !")
             exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a plant is located outside of the

@@ -24,6 +24,12 @@ Attributes:
     salinity (float float or string): either two values representing the salinity (kg/kg) range 
         from min_x (first value) to max_x (second value) <strong>or</strong> the path to a csv file containing a time series of salinity (see description above and 
         example below)
+    variant (string): Variant to calculate salinity reduction factor. Default is "bettina". See Notes for more information.
+
+Notes:  
+**Variants** to calculate salinity reduction factor  
+- "bettina" (default): ratio of zero-salinity and actual water potential. Zero-salinity water potential based on water potential difference between leaf (minimum leaf water potential) and porewater (osmotic potential).
+- "forman": exponential function based on FORMAN model by Chen and Twilley (1998)
 
 Examples:
     

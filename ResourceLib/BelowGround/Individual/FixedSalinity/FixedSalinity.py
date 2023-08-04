@@ -14,6 +14,7 @@ class FixedSalinity(ResourceModel):
         """
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
+        self.variant = None
         self.getInputParameters(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -23,6 +24,8 @@ class FixedSalinity(ResourceModel):
         self._xe = []
         self._t_ini = t_ini
         self._t_end = t_end
+        self._salt_effect_d = []
+        self._salt_effect_ui = []
 
     def addPlant(self, plant):
         x, y = plant.getPosition()
@@ -33,6 +36,10 @@ class FixedSalinity(ResourceModel):
         self._r_crown.append(geometry["r_crown"])
         self._psi_leaf.append(parameter["leaf_water_potential"])
 
+        if self.variant == "forman":
+            self._salt_effect_d.append(parameter["salt_effect_d"])
+            self._salt_effect_ui.append(parameter["salt_effect_ui"])
+
     def calculateBelowgroundResources(self):
         """
         Calculate a growth reduction factor for each tree based on pore-water salinity below the
@@ -41,10 +48,16 @@ class FixedSalinity(ResourceModel):
             numpy array of shape(number_of_trees)
         """
         salinity_plant = self.getPlantSalinity()
-        psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
-                                               np.array(self._h_stem)) * 9810
-        psi_sali = np.array(psi_zero) + 85000000 * salinity_plant
-        self.belowground_resources = psi_sali / psi_zero
+
+        if self.variant is None or self.variant == "bettina":
+            psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
+                                                   np.array(self._h_stem)) * 9810
+            psi_sali = np.array(psi_zero) + 85000000 * salinity_plant
+            self.belowground_resources = psi_sali / psi_zero
+        if self.variant == "forman":
+            self.belowground_resources = (1 / (1 + np.exp(
+                np.array(self._salt_effect_d) *
+                (np.array(self._salt_effect_ui) - salinity_plant))))
 
     def getPlantSalinity(self):
         """
@@ -115,10 +128,14 @@ class FixedSalinity(ResourceModel):
         return salinity_plant
 
     def getInputParameters(self, args):
-        missing_tags = ["salinity", "type", "max_x", "min_x"]
+        missing_tags = ["type", "variant", "min_x", "max_x", "salinity"]
 
         for arg in args.iterdescendants():
             tag = arg.tag
+            if tag == "variant":
+                self.variant = str(args.find("variant").text)
+                self.variant.lower()
+
             if tag == "salinity":
                 # Two constant values over time for seaward and
                 # landward salinity
@@ -173,7 +190,7 @@ class FixedSalinity(ResourceModel):
                 print("WARNING: Tag " + tag + " not specified for " + case +
                       " below-ground " + "initialisation!")
 
-        if len(missing_tags) > 0:
+        if len(missing_tags) > 1:
             string = ""
             for tag in missing_tags:
                 string += tag + " "

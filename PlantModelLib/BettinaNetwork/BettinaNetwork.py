@@ -168,35 +168,5 @@ class BettinaNetwork(Bettina):
             self.rgf += 1
 
     def getInputParameters(self, args):
-        """
-        Read module tags from project file.
-        Args:
-            args: BettinaNetwork module specifications from project file tags
-        """
-        missing_tags = ["type", "variant", "f_growth"]
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "variant":
-                self.variant = args.find("variant").text
-            elif tag == "f_growth":
-                self.f_growth = float(args.find("f_growth").text)
-            elif tag == "type":
-                case = args.find("type").text
-            try:
-                missing_tags.remove(tag)
-            except ValueError:
-                print("WARNING: Tag " + tag + " not specified for " + case +
-                      " below-ground " + "initialisation!")
-        if len(missing_tags) > 0:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Tag(s) '" + string +
-                "' are missing for growth and death initialisation in "
-                "project file.")
-        if self.variant not in ["V0_instant", "V1_fixed", "V2_adapted"]:
-            raise KeyError(
-                "BettinaNetwork variant " + self.variant +
-                " is not defined. Existing variants are 'V0_instant', "
-                "'V1_fixed' and 'V2_adapted'.")
+        required_tags = ["type", "variant", "f_growth"]
+        super().getInputParameters(args, required_tags)

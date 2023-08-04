@@ -53,22 +53,6 @@ class Random(NoGrowth):
         return self._survive
 
     def getInputParameters(self, args):
-        """
-        Read module tags from project file.
-        Args:
-            args: Random module specifications from project file tags
-        """
-        # All tags are optional
-        required_tags = ["type", "mortality", "probability"]
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "probability":
-                self._probability = float(args.find("probability").text)
-            elif tag == "type":
-                case = args.find("type").text
-            try:
-                required_tags.remove(tag)
-            except ValueError:
-                print("WARNING: Tag " + tag + " not specified for " +
-                      super().getConceptName() + " (" + case + ") " +
-                      "mortality initialisation!")
+        optional_tags = ["type", "mortality", "probability"]
+        super().getInputParameters(args=args, optional_tags=optional_tags)
+        self._probability = self.probability

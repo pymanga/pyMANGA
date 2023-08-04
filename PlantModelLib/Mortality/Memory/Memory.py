@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 from PlantModelLib.Mortality.NoGrowth import NoGrowth
-
+from PlantModelLib.PlantModel import PlantModel
 
 class Memory(NoGrowth):
     def __init__(self, args, case):
@@ -101,24 +101,10 @@ class Memory(NoGrowth):
         return growth_concept_information
 
     def getInputParameters(self, args):
-        """
-        Read module tags from project file.
-        Args:
-            args: Memory module specifications from project file tags
-        """
-        # All tags are optional
-        required_tags = ["type", "mortality", "threshold", "period"]
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "threshold":
-                self._threshold = float(args.find("threshold").text)
-            elif tag == "period":
-                self._period = float(args.find("period").text)
-            elif tag == "type":
-                case = args.find("type").text
-            try:
-                required_tags.remove(tag)
-            except ValueError:
-                print("WARNING: Tag " + tag + " not specified for " +
-                      super().getConceptName() + " (" + case + ") " +
-                      "mortality initialisation!")
+        optional_tags = ["type", "mortality", "threshold", "period"]
+        super().getInputParameters(args=args, optional_tags=optional_tags)
+        try:
+            self._threshold = self.threshold
+            self._period = self.period
+        except:
+            pass

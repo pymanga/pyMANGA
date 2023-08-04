@@ -71,13 +71,7 @@ class FON(ResourceModel):
         stress_factor = np.nan_to_num(stress_factor, nan=0)
         resource_limitations = 1 - 2 * stress_factor
         resource_limitations[np.where(resource_limitations < 0)] = 0
-
-        # salt stress factor, eq. (6) Berger & Hildenbrandt (2000)
-        salinity_reductions = (1 / (1 + np.exp(
-            np.array(self._salt_effect_d) *
-            (np.array(self._salt_effect_ui) - self._salinity))))
-
-        self.belowground_resources = resource_limitations * salinity_reductions
+        self.belowground_resources = resource_limitations
 
     def calculateFonFromDistance(self, distance):
         """

@@ -55,9 +55,10 @@ class FixedSalinity(ResourceModel):
             psi_sali = np.array(psi_zero) + 85000000 * salinity_plant
             self.belowground_resources = psi_sali / psi_zero
         if self.variant == "forman":
+            # eq. requires salinity in ppt not kg/kg
             self.belowground_resources = (1 / (1 + np.exp(
                 np.array(self._salt_effect_d) *
-                (np.array(self._salt_effect_ui) - salinity_plant))))
+                (np.array(self._salt_effect_ui) - (salinity_plant/10**3)))))
 
     def getPlantSalinity(self):
         """

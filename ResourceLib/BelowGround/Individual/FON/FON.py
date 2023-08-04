@@ -14,7 +14,11 @@ class FON(ResourceModel):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         self.getInputParameters(args)
-        self.makeGrid(args)
+        super().makeGrid()
+        if self._mesh_size > 0.25:
+            print("Error: mesh not fine enough for FON!")
+            print("Please refine mesh to grid size < 0.25m !")
+            exit()
 
     def prepareNextTimeStep(self, t_ini, t_end):
         self._fon_area = []
@@ -103,31 +107,3 @@ class FON(ResourceModel):
         self._bb = self.bb
         self._fmin = self.fmin
         self._salinity = self.salinity
-
-    def makeGrid(self, args):
-        """
-        Create the plant interaction grid.
-        Args:
-            args: FON module specifications from project file tags
-        Sets:
-            numpy array with shape(x_grid_points, y_grid_points)
-        """
-        l_x = self.x_2 - self.x_1
-        l_y = self.y_2 - self.y_1
-        x_step = l_x / self.x_resolution
-        y_step = l_y / self.y_resolution
-        self._mesh_size = np.maximum(x_step, y_step)
-        xe = np.linspace(self.x_1 + x_step / 2.,
-                         self.x_2 - x_step / 2.,
-                         self.x_resolution,
-                         endpoint=True)
-        ye = np.linspace(self.y_1 + y_step / 2.,
-                         self.y_2 - y_step / 2.,
-                         self.y_resolution,
-                         endpoint=True)
-        self._my_grid = np.meshgrid(xe, ye)
-
-        if self._mesh_size > 0.25:
-            print("Error: mesh not fine enough for FON!")
-            print("Please refine mesh to grid size < 0.25m !")
-            exit()

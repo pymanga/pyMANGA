@@ -55,7 +55,11 @@ class SimpleAsymmetricZOI(ResourceModel):
     #  @param crown_radius - crown radius (shape: (n_plants))\n
     #  @param distance - distance from the stem position(shape: (x_res, y_res))
     def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
-        bools = crown_radius > distance
+        min_distance = np.min(distance)
+        # If root radius < mesh size, set it to mesh size
+        crown_radius[np.where(crown_radius < min_distance)] = min_distance
+
+        bools = crown_radius >= distance
         idx = np.where(bools)
         height = np.zeros_like(distance)
         #Here, the curved top of the plant is considered..
@@ -103,7 +107,7 @@ class SimpleAsymmetricZOI(ResourceModel):
             print("Error: mesh not fine enough for crown dimensions!")
             print(
                 "Please refine mesh or increase initial crown radius above " +
-                str(self._mesh_size) + "m !")
+                str(self.min_radius) + "m !")
             exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a plant is located outside of the

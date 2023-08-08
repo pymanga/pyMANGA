@@ -61,19 +61,28 @@ class PlantModel:
         if 0 in survive:
             self.survive = 0
 
-    def getInputParameters(self, args, required_tags=None, optional_tags=None):
+    def getInputParameters(self, **tags):
         """
         Read module tags from project file.
         Args:
-            args (lxml.etree._Element): module specifications from project file tags
-            required_tags (array): list of tags that need to be read from the project file
-            optional_tags (array): list of tags that can be specified in the project file
+            tags (dict): dictionary containing tags found in the project file as well as required and optional tags of
+            the module under consideration.
         """
-        if optional_tags is None:
-            optional_tags = []
-        if required_tags is None:
+        try:
+            prj_file_tags = tags["prj_file"]
+        except KeyError:
+            prj_file_tags = []
+            print("WARNING: Module attributes are missing.")
+        try:
+            required_tags = tags["required"]
+        except KeyError:
             required_tags = []
-        for arg in args.iterdescendants():
+        try:
+            optional_tags = tags["optional"]
+        except KeyError:
+            optional_tags = []
+
+        for arg in prj_file_tags.iterdescendants():
             tag = arg.tag
             for i in range(0, len(required_tags)):
                 if tag == required_tags[i]:

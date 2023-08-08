@@ -90,8 +90,11 @@ class RandomGrowth(Random):
         return growth_concept_information
 
     def getInputParameters(self, args):
-        optional_tags = ["type", "mortality", "k_die"]
-        super(Random, self).getInputParameters(args=args, optional_tags=optional_tags)
+        tags = {
+            "prj_file": args,
+            "optional": ["type", "mortality", "k_die"]
+        }
+        super(Random, self).getInputParameters(**tags)
         try:
             self._k_die = self.k_die
         except:

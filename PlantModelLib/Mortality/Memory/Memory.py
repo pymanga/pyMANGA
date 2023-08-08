@@ -101,8 +101,11 @@ class Memory(NoGrowth):
         return growth_concept_information
 
     def getInputParameters(self, args):
-        optional_tags = ["type", "mortality", "threshold", "period"]
-        super().getInputParameters(args=args, optional_tags=optional_tags)
+        tags = {
+            "prj_file": args,
+            "optional": ["type", "mortality", "threshold", "period"]
+        }
+        super().getInputParameters(**tags)
         try:
             self._threshold = self.threshold
             self._period = self.period

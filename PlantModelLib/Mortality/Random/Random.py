@@ -53,6 +53,9 @@ class Random(NoGrowth):
         return self._survive
 
     def getInputParameters(self, args):
-        optional_tags = ["type", "mortality", "probability"]
-        super().getInputParameters(args=args, optional_tags=optional_tags)
+        tags = {
+            "prj_file": args,
+            "optional": ["type", "mortality", "probability"]
+        }
+        super().getInputParameters(**tags)
         self._probability = self.probability

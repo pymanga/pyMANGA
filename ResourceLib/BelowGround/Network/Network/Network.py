@@ -205,9 +205,13 @@ class Network(ResourceModel):
 
             plant.setNetwork(network)
 
-    def getInputParameters(self, args, missing_tags=None):
-        missing_tags = ["type", "f_radius"]
-        super().getInputParameters(args, missing_tags)
+    def getInputParameters(self, args):
+        tags = {
+            "prj_file": args,
+            "required": ["type", "f_radius"]
+        }
+        print("IN NETWORK", tags)
+        super().getInputParameters(**tags)
 
     '''
     ##############################

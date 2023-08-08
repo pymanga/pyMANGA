@@ -168,5 +168,8 @@ class BettinaNetwork(Bettina):
             self.rgf += 1
 
     def getInputParameters(self, args):
-        required_tags = ["type", "variant", "f_growth"]
-        super().getInputParameters(args, required_tags)
+        tags = {
+            "prj_file": args,
+            "required": ["type", "variant", "f_growth"]
+        }
+        super().getInputParameters(**tags)

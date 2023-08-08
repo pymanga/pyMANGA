@@ -114,9 +114,12 @@ class FixedSalinity(ResourceModel):
 
         return salinity_plant
 
-    def getInputParameters(self, args, required_tags=None):
-        required_tags = ["salinity", "type", "max_x", "min_x"]
-        super().getInputParameters(args, required_tags)
+    def getInputParameters(self, args):
+        tags = {
+            "prj_file": args,
+            "required": ["salinity", "type", "max_x", "min_x"]
+        }
+        super().getInputParameters(**tags)
         self._min_x = self.min_x
         self._max_x = self.max_x
         self.getSalinityFromFile()

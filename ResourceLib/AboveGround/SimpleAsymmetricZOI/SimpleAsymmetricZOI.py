@@ -63,12 +63,12 @@ class SimpleAsymmetricZOI(ResourceModel):
                                      distance[idx]**2)**0.5
         return height, bools
 
-    def getInputParameters(self, args, required_tags=[]):
-        required_tags = [
-            "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
-            "y_resolution"
-        ]
-        super().getInputParameters(args, required_tags)
+    def getInputParameters(self, args):
+        tags = {
+            "prj_file": args,
+            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"]
+        }
+        super().getInputParameters(**tags)
         self._x_1 = self.x_1
         self._x_2 = self.x_2
         self._y_1 = self.y_1

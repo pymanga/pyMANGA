@@ -44,7 +44,7 @@ class SymmetricZOI(ResourceModel):
         if geometry["r_root"] < (self._mesh_size * 1 / 2**0.5):
             print("WARNING: mesh too course for below-ground module!")
             print("Please refine mesh or increase initial root radius above " +
-                  str(self.min_radius) + "m !")
+                  str(self._mesh_size) + "m !")
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a plant is located outside of the
                              domain, where BC is defined. Please check domains

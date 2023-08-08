@@ -107,7 +107,7 @@ class SimpleAsymmetricZOI(ResourceModel):
             print("Error: mesh not fine enough for crown dimensions!")
             print(
                 "Please refine mesh or increase initial crown radius above " +
-                str(self.min_radius) + "m !")
+                str(self._mesh_size) + "m !")
             exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a plant is located outside of the

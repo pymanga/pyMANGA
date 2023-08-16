@@ -65,6 +65,7 @@ def createPlant():
     parameter["a_perc99"] = a_perc99
     parameter["b_perc99"] = b_perc99
     parameter["alpha"] = alpha
+    parameter["beta"] = 0
     # Kiwi
     geometry["height"] = height
     parameter["salt_effect_d"] = salt_effect_d

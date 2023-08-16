@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from PlantModelLib import PlantModel
 import numpy as np
+import math
 
 
 class Bettina(PlantModel):
@@ -43,14 +44,50 @@ class Bettina(PlantModel):
         self.r_stem = geometry["r_stem"]
         self.h_stem = geometry["h_stem"]
         self.alive = geometry["alive"]
+        self.beta_alt = self.parameter["beta"]
         self.survive = 1
-
+        
+        
+        #####################################################
         self.flowLength()
         self.treeVolume()
-        self.calcBeta(belowground_resources)
-        print(self.beta)
-        n_cond = self.NCond()
-        self.parameter["kf_sap"] = self.defKS(n_cond)
+        _salinity = self.getSalinityFromBGR(belowground_resources)
+        alpha = self.parameter["alpha"]
+        if self.beta_alt > 0:
+            n_cond_alt = self.NCond(alpha,self.beta_alt) / self.momCorr(alpha,self.beta_alt,2,self.qgamma(0.99,alpha,self.beta_alt))
+            kf_sap_alt = self.defKS(n_cond_alt,alpha,self.beta_alt) * self.momCorr(alpha,self.beta_alt,4,self.qgamma(0.99,alpha,self.beta_alt))
+            print(alpha)
+            print(_salinity)
+            print(self.beta_alt)
+            print(n_cond_alt)
+            print(kf_sap_alt)
+            print(" ")
+        self.calcBeta(alpha,_salinity)
+        n_cond = self.NCond(alpha,self.beta) / self.momCorr(alpha,self.beta,2,self.qgamma(0.99,alpha,self.beta))
+        
+        kf_sap = self.defKS(n_cond,alpha,self.beta) * self.momCorr(alpha,self.beta,4,self.qgamma(0.99,alpha,self.beta))
+        print(kf_sap)
+
+        if self.beta_alt > 0:
+            if self.beta > 1.00001 * self.beta_alt:
+                print("shock")
+                print("ncond alt + neu")               
+                print(n_cond_alt)
+                print(n_cond)
+                print("Beta alt + neu")               
+                print(self.beta_alt)
+                print(self.beta)
+                xlimi = math.log(self.beta_alt/self.beta)/(self.beta_alt - self.beta) * alpha +  math.log(n_cond_alt/n_cond)/(self.beta_alt - self.beta)
+                print("xlimi")
+                print(xlimi)
+                kf_sap1 = self.defKS(n_cond_alt,alpha,self.beta_alt) * self.momCorr(alpha,self.beta_alt,4,xlimi)
+                kf_sap2 = self.defKS(n_cond,alpha,self.beta) * (self.momCorr(alpha,self.beta,4,self.qgamma(0.99,alpha,self.beta)) - self.momCorr(alpha,self.beta,4,xlimi))
+                kf_sap = kf_sap1 + kf_sap2 
+                print("teil ksaps")
+                print(kf_sap1)
+                print(kf_sap2)
+                
+        self.parameter["kf_sap"] = kf_sap    
         print(self.parameter["kf_sap"])
         # Define variables that are only required for specific Mortality
         # concepts
@@ -71,6 +108,7 @@ class Bettina(PlantModel):
         geometry["h_root"] = self.h_root
         geometry["r_stem"] = self.r_stem
         geometry["h_stem"] = self.h_stem
+        self.parameter["beta"] = self.beta
         growth_concept_information[
             "root_surface_resistance"] = self.root_surface_resistance
         growth_concept_information["xylem_resistance"] = self.xylem_resistance
@@ -282,11 +320,6 @@ class Bettina(PlantModel):
         # Check if trees survive based on selected mortality concepts
         super().setTreeKiller()
 
-    def calcBeta(self,belowground_resources):
-        from scipy.stats import gamma
-        _psi0 = self.parameter["leaf_water_potential"] + (2*self.r_crown + self.h_stem) * 9810
-        _salinity = (belowground_resources-1) * _psi0 / 85e6
-        self.beta = self.qgamma(p=0.99,shape=self.parameter["alpha"],rate=1)/(self.parameter["a_perc99"]+self.parameter["b_perc99"]*_salinity*1000)
         
     def qgamma(self,p,shape,rate=1):
         """
@@ -304,16 +337,21 @@ class Bettina(PlantModel):
         result=gamma.cdf(x=rate*q,a=shape,loc=0,scale=1)
         return result
  
-    def defKS(self,n_cond,ceff=0.1,mu=0.001):
-        result = np.pi*ceff/8/mu * n_cond/self.beta**4 * (3+self.parameter["alpha"]) *(2+self.parameter["alpha"]) *(1+self.parameter["alpha"])*self.parameter["alpha"] * self.momCorr(4)
+    def defKS(self,n_cond,alpha,beta,ceff=0.1,mu=0.001):
+        return np.pi*ceff/8/mu * n_cond/beta**4 * (3+alpha) * (2+alpha) * (1+alpha) * alpha
 
-        return result
-        
-    def NCond(self,dcond=0.1):
-        return dcond/np.pi/(1+self.parameter["alpha"])/self.parameter["alpha"]*self.beta**2 / self.momCorr(2)
-        
-    def momCorr(self,n):
-        return self.pgamma(self.qgamma(0.99,self.parameter["alpha"],self.beta),self.parameter["alpha"]+n,self.beta)
-        
+       
+    def NCond(self,alpha,beta,dcond=0.1):
+        return dcond/np.pi/(1+alpha)/alpha*beta**2
+       
+    def momCorr(self,alpha,beta,n,qu):
+        return self.pgamma(qu,alpha + n,beta)     
 
+    def getSalinityFromBGR(self,belowground_resources):
+        _psi0 = self.parameter["leaf_water_potential"] + (2*self.r_crown + self.h_stem) * 9810
+        return ((belowground_resources-1) * _psi0 / 85e6)
+
+    def calcBeta(self,alpha,salinity):
+        from scipy.stats import gamma
+        self.beta = self.qgamma(p=0.99,shape=alpha,rate=1)/(self.parameter["a_perc99"]+self.parameter["b_perc99"]*salinity*1000)
 

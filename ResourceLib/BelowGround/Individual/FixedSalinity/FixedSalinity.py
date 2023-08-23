@@ -14,6 +14,7 @@ class FixedSalinity(ResourceModel):
         """
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
+        self.variant = None
         self.getInputParameters(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -23,6 +24,8 @@ class FixedSalinity(ResourceModel):
         self._xe = []
         self._t_ini = t_ini
         self._t_end = t_end
+        self._salt_effect_d = []
+        self._salt_effect_ui = []
 
     def addPlant(self, plant):
         x, y = plant.getPosition()
@@ -33,6 +36,10 @@ class FixedSalinity(ResourceModel):
         self._r_crown.append(geometry["r_crown"])
         self._psi_leaf.append(parameter["leaf_water_potential"])
 
+        if self.variant == "forman":
+            self._salt_effect_d.append(parameter["salt_effect_d"])
+            self._salt_effect_ui.append(parameter["salt_effect_ui"])
+
     def calculateBelowgroundResources(self):
         """
         Calculate a growth reduction factor for each tree based on pore-water salinity below the
@@ -41,10 +48,16 @@ class FixedSalinity(ResourceModel):
             numpy array of shape(number_of_trees)
         """
         salinity_plant = self.getPlantSalinity()
-        psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
-                                               np.array(self._h_stem)) * 9810
-        psi_sali = np.array(psi_zero) + 85000000 * salinity_plant
-        self.belowground_resources = psi_sali / psi_zero
+
+        if self.variant is None or self.variant == "bettina":
+            psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
+                                                   np.array(self._h_stem)) * 9810
+            psi_sali = np.array(psi_zero) + 85000000 * salinity_plant
+            self.belowground_resources = psi_sali / psi_zero
+        if self.variant == "forman":
+            self.belowground_resources = (1 / (1 + np.exp(
+                np.array(self._salt_effect_d) *
+                (np.array(self._salt_effect_ui) - salinity_plant))))
 
     def getPlantSalinity(self):
         """
@@ -115,51 +128,73 @@ class FixedSalinity(ResourceModel):
         return salinity_plant
 
     def getInputParameters(self, args):
-        tags = {
-            "prj_file": args,
-            "required": ["salinity", "type", "max_x", "min_x"]
-        }
-        super().getInputParameters(**tags)
-        self._min_x = self.min_x
-        self._max_x = self.max_x
-        self.getSalinityFromFile()
+        missing_tags = ["type", "variant", "min_x", "max_x", "salinity"]
 
-    def getSalinityFromFile(self):
-        # Two constant values over time for seaward and
-        # landward salinity
-        if len(self.salinity.split()) == 2:
-            print("In the control file, two values were given for " +
-                  "salinity at two given position values." +
-                  " These are constant over time and are linearly " +
-                  "interpolated using the provided points S(x).")
-            s = self.salinity.split()
-            self._salinity = [float(s[0]), float(s[1])]
+        for arg in args.iterdescendants():
+            tag = arg.tag
+            if tag == "variant":
+                self.variant = str(args.find("variant").text)
+                self.variant.lower()
 
-        # Path to a file containing salinity values that vary over time
-        elif os.path.exists(self.salinity) is True:
-            print('In the control file a path to a file with ' +
-                  'values of the salt concentration over time was ' +
-                  'found.')
+            if tag == "salinity":
+                # Two constant values over time for seaward and
+                # landward salinity
+                if len(arg.text.split()) == 2:
+                    print("In the control file, two values were given for " +
+                          "salinity at two given position values." +
+                          " These are constant over time and are linearly " +
+                          "interpolated using the provided points S(x).")
+                    self._salinity = arg.text.split()
+                    self._salinity[0] = float(self._salinity[0])
+                    self._salinity[1] = float(self._salinity[1])
 
-            # Reading salinity values from a csv-file
-            self._salinity_over_t = np.loadtxt(
-                self.salinity, delimiter=';', skiprows=1)
+                # Path to a file containing salinity values that vary over time
+                elif os.path.exists(arg.text) is True:
+                    print('In the control file a path to a file with ' +
+                          'values of the salt concentration over time was ' +
+                          'found.')
 
-            # Check if csv separation has worked
+                    # Reading salinity values from a csv-file
+                    self._salinity_over_t = np.loadtxt(
+                        arg.text, delimiter=';', skiprows=1)
+
+                    # Check if csv separation has worked
+                    try:
+                        assert self._salinity_over_t.shape[1] == 3
+
+                    except:
+                        raise (KeyError("Problems occurred when reading" +
+                                        " the salinity values from the file." +
+                                        " Please check the file for correct" +
+                                        " formatting."))
+
+                    self.t_variable = True
+
+                else:
+                    raise (KeyError("Wrong definition of salinity in the " +
+                                    "belowground competition definition. " +
+                                    "Please read the " +
+                                    "corresponding section in the " +
+                                    "documentation!"))
+
+            if tag == "min_x":
+                self._min_x = float(args.find("min_x").text)
+            if tag == "max_x":
+                self._max_x = float(args.find("max_x").text)
+
+            elif tag == "type":
+                case = args.find("type").text
             try:
-                assert self._salinity_over_t.shape[1] == 3
+                missing_tags.remove(tag)
+            except ValueError:
+                print("WARNING: Tag " + tag + " not specified for " + case +
+                      " below-ground " + "initialisation!")
 
-            except:
-                raise (KeyError("Problems occurred when reading" +
-                                " the salinity values from the file." +
-                                " Please check the file for correct" +
-                                " formatting."))
-
-            self.t_variable = True
-
-        else:
-            raise (KeyError("Wrong definition of salinity in the " +
-                            "belowground competition definition. " +
-                            "Please read the " +
-                            "corresponding section in the " +
-                            "documentation!"))
+        if len(missing_tags) > 1:
+            string = ""
+            for tag in missing_tags:
+                string += tag + " "
+            raise KeyError(
+                "Tag(s) " + string +
+                "are not given for below-ground initialisation " +
+                "in project file.")

@@ -76,7 +76,8 @@ class MangaProject:
             from ResourceLib.BelowGround.Generic.OGSLargeScale3DExternal import OGSLargeScale3DExternal as createBC
         elif case == "NetworkOGSLargeScale3DExternal":
             from ResourceLib.BelowGround.Generic import NetworkOGSLargeScale3DExternal as createBC
-
+        elif case == "Merge":
+            from ResourceLib.BelowGround.Generic import Merge as createBC
         else:
             raise KeyError("Required below-ground competition case " + case +
                            " not implemented.")

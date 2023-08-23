@@ -70,7 +70,8 @@ class SimpleAsymmetricZOI(ResourceModel):
     def getInputParameters(self, args):
         tags = {
             "prj_file": args,
-            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"]
+            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"],
+            "optional": ["allow_interpolation"]
         }
         super().getInputParameters(**tags)
         self._x_1 = self.x_1
@@ -79,6 +80,10 @@ class SimpleAsymmetricZOI(ResourceModel):
         self._y_2 = self.y_2
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
+        try:
+            self.allow_interpolation = eval(self.allow_interpolation)
+        except AttributeError:
+            pass
 
     ## This functions prepares arrays for the competition
     #  concept. In the SimpleAssymmetricZOI concept, plants geometric measures
@@ -102,13 +107,13 @@ class SimpleAsymmetricZOI(ResourceModel):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
-
         if geometry["r_crown"] < (self._mesh_size * 1 / 2**0.5):
-            print("Error: mesh not fine enough for crown dimensions!")
-            print(
-                "Please refine mesh or increase initial crown radius above " +
-                str(self._mesh_size) + "m !")
-            exit()
+            if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:
+                print("Error: mesh not fine enough for crown dimensions!")
+                print(
+                    "Please refine mesh or increase initial crown radius above " +
+                    str(self._mesh_size) + "m !")
+                exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a plant is located outside of the
                              domain, where AC is defined. Please check domains 

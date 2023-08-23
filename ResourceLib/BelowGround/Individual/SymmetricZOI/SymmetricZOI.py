@@ -42,9 +42,11 @@ class SymmetricZOI(ResourceModel):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
         if geometry["r_root"] < (self._mesh_size * 1 / 2**0.5):
-            print("WARNING: mesh too course for below-ground module!")
-            print("Please refine mesh or increase initial root radius above " +
-                  str(self._mesh_size) + "m !")
+            if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:
+                print("ERROR: mesh too course for below-ground module!")
+                print("Please refine mesh or increase initial root radius above " +
+                      str(self._mesh_size) + "m or allow interpolation.")
+                exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a plant is located outside of the
                              domain, where BC is defined. Please check domains
@@ -92,7 +94,8 @@ class SymmetricZOI(ResourceModel):
     def getInputParameters(self, args):
         tags = {
             "prj_file": args,
-            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"]
+            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"],
+            "optional": ["allow_interpolation"]
         }
         super().getInputParameters(**tags)
         self._x_1 = self.x_1
@@ -101,3 +104,7 @@ class SymmetricZOI(ResourceModel):
         self._y_2 = self.y_2
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
+        try:
+            self.allow_interpolation = eval(self.allow_interpolation)
+        except AttributeError:
+            pass

@@ -77,3 +77,51 @@ class NoGrowth:
             string
         """
         return type(self).__name__
+
+    def getInputParameters(self, **tags):
+        """
+        Read module tags from project file.
+        Args:
+            tags (dict): dictionary containing tags found in the project file as well as required and optional tags of
+            the module under consideration.
+        """
+        try:
+            prj_file_tags = tags["prj_file"]
+        except KeyError:
+            prj_file_tags = []
+            print("WARNING: Module attributes are missing.")
+        try:
+            required_tags = tags["required"]
+        except KeyError:
+            required_tags = []
+        try:
+            optional_tags = tags["optional"]
+        except KeyError:
+            optional_tags = []
+
+        for arg in prj_file_tags.iterdescendants():
+            tag = arg.tag
+            for i in range(0, len(required_tags)):
+                if tag == required_tags[i]:
+                    try:
+                        super(NoGrowth, self).__setattr__(tag, float(arg.text))
+                    except ValueError:
+                        super(NoGrowth, self).__setattr__(tag, str(arg.text))
+            try:
+                required_tags.remove(tag)
+            except ValueError:
+                pass
+
+            for i in range(0, len(optional_tags)):
+                if tag == optional_tags[i]:
+                    try:
+                        super(NoGrowth, self).__setattr__(tag, float(arg.text))
+                    except ValueError:
+                        super(NoGrowth, self).__setattr__(tag, str(arg.text))
+
+        if len(required_tags) > 0:
+            string = ""
+            for tag in required_tags:
+                string += tag + " "
+            raise KeyError(
+                "Missing input parameters (in project file) for mortality module initialisation: " + string)

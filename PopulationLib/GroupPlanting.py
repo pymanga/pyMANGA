@@ -42,44 +42,16 @@ class GroupPlanting(PlantGroup):
     #  @param args: arguments specified in project file. Please see tag
     #  documentation.
     def plantRandomDistributedPlants(self, args):
-        missing_tags = [
-            "type", "domain", "x_1", "x_2", "y_1", "y_2", "n_individuals"
-        ]
-        #  Set default value
-        self.n_recruitment = 0
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "n_individuals":
-                n_individuals = int(arg.text)
-            elif tag == "x_1":
-                self.x_1 = float(arg.text)
-            elif tag == "x_2":
-                x_2 = float(arg.text)
-            elif tag == "y_1":
-                self.y_1 = float(arg.text)
-            elif tag == "y_2":
-                y_2 = float(arg.text)
-            elif tag == "n_recruitment_per_step":
-                self.n_recruitment = int(arg.text)
-            if tag != "n_recruitment_per_step":
-                try:
+        tags = {
+            "prj_file": args,
+            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "n_individuals"],
+            "optional": ["n_recruitment_per_step"]
+        }
+        self.getInputParameters(**tags)
 
-                    missing_tags.remove(tag)
-                except ValueError:
-                    raise ValueError(
-                        "Tag " + tag +
-                        " not specified for random plant planting!")
-
-        if len(missing_tags) > 0:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Tag(s) " + string +
-                "are not given for random plant planting in project file.")
-        self.l_x = x_2 - self.x_1
-        self.l_y = y_2 - self.y_1
-        for i in range(n_individuals):
+        self.l_x = self.x_2 - self.x_1
+        self.l_y = self.y_2 - self.y_1
+        for i in range(self.n_individuals):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
@@ -90,33 +62,14 @@ class GroupPlanting(PlantGroup):
     #  @param args: arguments specified in project file. Please see tag
     #  documentation.
     def plantPlantsFromFile(self, args):
-        missing_tags = ["type", "filename"]
-        #  Set default value
-        self.n_recruitment = 0
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "filename":
-                filename = arg.text
-            elif tag == "n_recruitment_per_step":
-                self.n_recruitment = int(arg.text)
-            if tag != "n_recruitment_per_step":
-                try:
-                    missing_tags.remove(tag)
-                except ValueError:
-                    raise ValueError(
-                        "Tag " + tag +
-                        " not specified for random plant planting!")
-
-        if len(missing_tags) > 0:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Mandatory tag(s) " + string +
-                "is(are) not given for plant planting in project file.")
+        tags = {
+            "prj_file": args,
+            "required": ["type", "filename"]
+        }
+        self.getInputParameters(**tags)
 
         # Loading the Population Data
-        plant_file = open(filename)
+        plant_file = open(self.filename)
         i = 0
         x_idx, y_idx = 99999, 99999
         r_crown_idx, r_stem_idx, r_root_idx, h_stem_idx = (99999, 99999, 99999,
@@ -186,3 +139,54 @@ class GroupPlanting(PlantGroup):
 
     def getNRecruits(self):
         return self.n_recruitment
+
+    def getInputParameters(self, **tags):
+        """
+        Read module tags from project file.
+        Args:
+            tags (dict): dictionary containing tags found in the project file as well as required and optional tags of
+            the module under consideration.
+        """
+        try:
+            prj_file_tags = tags["prj_file"]
+        except KeyError:
+            prj_file_tags = []
+            print("WARNING: Module attributes are missing.")
+        try:
+            required_tags = tags["required"]
+        except KeyError:
+            required_tags = []
+        try:
+            optional_tags = tags["optional"]
+        except KeyError:
+            optional_tags = []
+
+        for arg in prj_file_tags.iterdescendants():
+            tag = arg.tag
+            for i in range(0, len(required_tags)):
+                if tag == required_tags[i]:
+                    try:
+                        super(GroupPlanting, self).__setattr__(tag, float(arg.text))
+                    except ValueError:
+                        super(GroupPlanting, self).__setattr__(tag, str(arg.text))
+            try:
+                required_tags.remove(tag)
+            except ValueError:
+                pass
+
+            for i in range(0, len(optional_tags)):
+                if tag == optional_tags[i]:
+                    try:
+                        super(GroupPlanting, self).__setattr__(tag, float(arg.text))
+                    except ValueError:
+                        super(GroupPlanting, self).__setattr__(tag, str(arg.text))
+
+        if len(required_tags) > 0:
+            string = ""
+            for tag in required_tags:
+                string += tag + " "
+            raise KeyError(
+                "Missing input parameters (in project file) for population module initialisation: " + string)
+
+        if not hasattr(GroupPlanting, "n_recruitment"):
+            self.n_recruitment = 0

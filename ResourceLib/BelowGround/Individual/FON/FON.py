@@ -56,7 +56,6 @@ class FON(ResourceModel):
                      (self._my_grid[1][:, :, np.newaxis] -
                       np.array(self._ye)[np.newaxis, np.newaxis, :])**2)**0.5)
         my_fon = self.calculateFonFromDistance(distance=distance)
-        #print(my_fon)
 
         fon_areas = np.zeros_like(my_fon)
         # Add a one, where plant is larger than 0

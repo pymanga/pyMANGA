@@ -64,7 +64,6 @@ class ResourceModel:
             optional_tags = []
 
         for arg in prj_file_tags.iterdescendants():
-            print(arg)
             tag = arg.tag
             for i in range(0, len(required_tags)):
                 if tag == required_tags[i]:

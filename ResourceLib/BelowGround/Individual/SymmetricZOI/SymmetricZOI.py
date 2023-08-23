@@ -21,7 +21,7 @@ class SymmetricZOI(ResourceModel):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
         self.getInputParameters(args)
-        self.makeGrid(args)
+        super().makeGrid()
 
     ## This functions prepares arrays for the competition
     #  concept. In the SymmetricZOI concept, plants geometric measures
@@ -42,10 +42,10 @@ class SymmetricZOI(ResourceModel):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
 
-        if geometry["r_root"] < self.min_r_root:
+        if geometry["r_root"] < (self._mesh_size * 1 / 2**0.5):
             print("Error: mesh not fine enough for crown dimensions!")
             print("Please refine mesh or increase initial root radius above " +
-                  str(self.min_r_root) + "m !")
+                  str(self._mesh_size) + "m !")
             exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a plant is located outside of the
@@ -100,23 +100,3 @@ class SymmetricZOI(ResourceModel):
         self._y_2 = self.y_2
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
-
-    ## This function reads x- and y-domain and mesh resolution
-    #  from project file and creates the mesh.\n
-    #  @param Tags to define plot size and spatial resolution: see tag
-    #  documentation
-    def makeGrid(self, args):
-        l_x = self._x_2 - self._x_1
-        l_y = self._y_2 - self._y_1
-        x_step = l_x / self.x_resolution
-        y_step = l_y / self.y_resolution
-        self.min_r_root = np.max([x_step, y_step]) * 1 / 2**0.5
-        xe = np.linspace(self._x_1 + x_step / 2.,
-                         self._x_2 - x_step / 2.,
-                         self.x_resolution,
-                         endpoint=True)
-        ye = np.linspace(self._y_1 + y_step / 2.,
-                         self._y_2 - y_step / 2.,
-                         self.y_resolution,
-                         endpoint=True)
-        self.my_grid = np.meshgrid(xe, ye)

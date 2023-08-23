@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import numpy as np
 
 
 class ResourceModel:
@@ -89,3 +90,24 @@ class ResourceModel:
                 string += tag + " "
             raise KeyError(
                 "Missing input parameters (in project file) for resource module initialisation: " + string)
+
+    def makeGrid(self):
+        """
+        Create grid with defined size and resolution
+        Sets:
+            multiple float
+        """
+        l_x = self._x_2 - self._x_1
+        l_y = self._y_2 - self._y_1
+        x_step = l_x / self.x_resolution
+        y_step = l_y / self.y_resolution
+        xe = np.linspace(self._x_1 + x_step / 2.,
+                         self._x_2 - x_step / 2.,
+                         self.x_resolution,
+                         endpoint=True)
+        ye = np.linspace(self._y_1 + y_step / 2.,
+                         self._y_2 - y_step / 2.,
+                         self.y_resolution,
+                         endpoint=True)
+        self.my_grid = np.meshgrid(xe, ye)
+        self._mesh_size = np.maximum(x_step, y_step)

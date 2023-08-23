@@ -90,22 +90,12 @@ class RandomGrowth(Random):
         return growth_concept_information
 
     def getInputParameters(self, args):
-        """
-        Read module tags from project file.
-        Args:
-            args: RandomGrowth module specifications from project file tags
-        """
-        # All tags are optional
-        missing_tags = ["type", "mortality", "k_die"]
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "k_die":
-                self._k_die = float(args.find("k_die").text)
-            elif tag == "type":
-                case = args.find("type").text
-            try:
-                missing_tags.remove(tag)
-            except ValueError:
-                print("WARNING: Tag " + tag + " not specified for " +
-                      super().getConceptName() + " (" + case + ") " +
-                      "mortality initialisation!")
+        tags = {
+            "prj_file": args,
+            "optional": ["type", "mortality", "k_die"]
+        }
+        super(Random, self).getInputParameters(**tags)
+        try:
+            self._k_die = self.k_die
+        except:
+            pass

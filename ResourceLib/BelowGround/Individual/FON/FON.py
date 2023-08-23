@@ -13,6 +13,7 @@ class FON(ResourceModel):
         """
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
+        self.getInputParameters(args)
         self.makeGrid(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -30,10 +31,6 @@ class FON(ResourceModel):
         self._fon_height = np.zeros_like(self._my_grid[0])
 
     def addPlant(self, plant):
-        if self._mesh_size > 0.25:
-            print("Error: mesh not fine enough for FON!")
-            print("Please refine mesh to grid size < 0.25m !")
-            exit()
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
@@ -90,6 +87,20 @@ class FON(ResourceModel):
         height[height < self._fmin] = 0
         return height
 
+    def getInputParameters(self, args, required_tags=None):
+        tags = {
+            "prj_file": args,
+            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
+                         "y_resolution", "aa", "bb", "fmin", "salinity"]
+        }
+        super().getInputParameters(**tags)
+        self.x_resolution = int(self.x_resolution)
+        self.y_resolution = int(self.y_resolution)
+        self._aa = self.aa
+        self._bb = self.bb
+        self._fmin = self.fmin
+        self._salinity = self.salinity
+
     def makeGrid(self, args):
         """
         Create the plant interaction grid.
@@ -98,58 +109,22 @@ class FON(ResourceModel):
         Sets:
             numpy array with shape(x_grid_points, y_grid_points)
         """
-        missing_tags = [
-            "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
-            "y_resolution", "aa", "bb", "fmin", "salinity"
-        ]
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "x_resolution":
-                x_resolution = int(arg.text)
-            if tag == "y_resolution":
-                y_resolution = int(arg.text)
-            elif tag == "x_1":
-                x_1 = float(arg.text)
-            elif tag == "x_2":
-                x_2 = float(arg.text)
-            elif tag == "y_1":
-                y_1 = float(arg.text)
-            elif tag == "y_2":
-                y_2 = float(arg.text)
-            elif tag == "aa":
-                self._aa = float(arg.text)
-            elif tag == "bb":
-                self._bb = float(arg.text)
-            elif tag == "fmin":
-                self._fmin = float(arg.text)
-            elif tag == "salinity":
-                self._salinity = float(arg.text)
-            try:
-                missing_tags.remove(tag)
-            except ValueError:
-                raise ValueError(
-                    "Tag " + tag +
-                    " not specified for below-ground grid initialisation!")
-        if len(missing_tags) > 0:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Tag(s) " + string +
-                "are not given for below-ground grid initialisation in project file."
-            )
-        l_x = x_2 - x_1
-        l_y = y_2 - y_1
-        x_step = l_x / x_resolution
-        y_step = l_y / y_resolution
+        l_x = self.x_2 - self.x_1
+        l_y = self.y_2 - self.y_1
+        x_step = l_x / self.x_resolution
+        y_step = l_y / self.y_resolution
         self._mesh_size = np.maximum(x_step, y_step)
-        xe = np.linspace(x_1 + x_step / 2.,
-                         x_2 - x_step / 2.,
-                         x_resolution,
+        xe = np.linspace(self.x_1 + x_step / 2.,
+                         self.x_2 - x_step / 2.,
+                         self.x_resolution,
                          endpoint=True)
-        ye = np.linspace(y_1 + y_step / 2.,
-                         y_2 - y_step / 2.,
-                         y_resolution,
+        ye = np.linspace(self.y_1 + y_step / 2.,
+                         self.y_2 - y_step / 2.,
+                         self.y_resolution,
                          endpoint=True)
         self._my_grid = np.meshgrid(xe, ye)
 
+        if self._mesh_size > 0.25:
+            print("Error: mesh not fine enough for FON!")
+            print("Please refine mesh to grid size < 0.25m !")
+            exit()

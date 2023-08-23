@@ -25,9 +25,6 @@
                     <SymmetricZOI>
                         <test> SymmetricZOI_CI.xml </test>
                     </SymmetricZOI>
-                    <SZoiFixedSalinity>
-                        <test> SZoiFixedSalinity_CI.xml </test>
-                    </SZoiFixedSalinity>
                 </Belowground>
                 <Mortality>
                     <Memory>

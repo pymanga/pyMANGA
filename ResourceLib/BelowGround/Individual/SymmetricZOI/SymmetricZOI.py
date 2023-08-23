@@ -20,6 +20,7 @@ class SymmetricZOI(ResourceModel):
     def __init__(self, args):
         case = args.find("type").text
         print("Initiate belowground competition of type " + case + ".")
+        self.getInputParameters(args)
         self.makeGrid(args)
 
     ## This functions prepares arrays for the competition
@@ -87,53 +88,35 @@ class SymmetricZOI(ResourceModel):
 
         self.belowground_resources = plant_wins / plant_counts
 
+    def getInputParameters(self, args):
+        tags = {
+            "prj_file": args,
+            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"]
+        }
+        super().getInputParameters(**tags)
+        self._x_1 = self.x_1
+        self._x_2 = self.x_2
+        self._y_1 = self.y_1
+        self._y_2 = self.y_2
+        self.x_resolution = int(self.x_resolution)
+        self.y_resolution = int(self.y_resolution)
+
     ## This function reads x- and y-domain and mesh resolution
     #  from project file and creates the mesh.\n
     #  @param Tags to define plot size and spatial resolution: see tag
     #  documentation
     def makeGrid(self, args):
-        missing_tags = [
-            "type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
-            "y_resolution"
-        ]
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "x_resolution":
-                x_resolution = int(arg.text)
-            if tag == "y_resolution":
-                y_resolution = int(arg.text)
-            elif tag == "x_1":
-                self._x_1 = float(arg.text)
-            elif tag == "x_2":
-                self._x_2 = float(arg.text)
-            elif tag == "y_1":
-                self._y_1 = float(arg.text)
-            elif tag == "y_2":
-                self._y_2 = float(arg.text)
-            try:
-                missing_tags.remove(tag)
-            except ValueError:
-                print("WARNING: Tag " + tag +
-                      " not specified for below-ground grid initialisation!")
-        if len(missing_tags) > 0:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Tag(s) " + string +
-                "are not given for below-ground grid initialisation in "
-                "project file.")
         l_x = self._x_2 - self._x_1
         l_y = self._y_2 - self._y_1
-        x_step = l_x / x_resolution
-        y_step = l_y / y_resolution
+        x_step = l_x / self.x_resolution
+        y_step = l_y / self.y_resolution
         self.min_r_root = np.max([x_step, y_step]) * 1 / 2**0.5
         xe = np.linspace(self._x_1 + x_step / 2.,
                          self._x_2 - x_step / 2.,
-                         x_resolution,
+                         self.x_resolution,
                          endpoint=True)
         ye = np.linspace(self._y_1 + y_step / 2.,
                          self._y_2 - y_step / 2.,
-                         y_resolution,
+                         self.y_resolution,
                          endpoint=True)
         self.my_grid = np.meshgrid(xe, ye)

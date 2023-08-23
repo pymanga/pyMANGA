@@ -40,8 +40,12 @@ class NetworkFixedSalinity(Network, FixedSalinity):
         salinity_plant = super().getPlantSalinity()
         self._psi_osmo = -85000000 * salinity_plant
 
-    ## This function reads input parameters, e.g. salinity from the control
-    # file.
     def getInputParameters(self, args):
-        Network.getInputParameters(self=self, args=args)
-        FixedSalinity.getInputParameters(self=self, args=args)
+        # Get FixedSalinity inputs
+        super(Network, self).getInputParameters(args)
+        # Get Network inputs
+        tags = {
+            "prj_file": args,
+            "required": ["f_radius"]
+        }
+        super(FixedSalinity, self).getInputParameters(**tags)

@@ -47,12 +47,13 @@ class FON(ResourceModel):
         Sets:
             numpy array with shape(number_of_plants)
         """
+        self._r_stem = np.array(self._r_stem)
         distance = (((self._my_grid[0][:, :, np.newaxis] -
                       np.array(self._xe)[np.newaxis, np.newaxis, :])**2 +
                      (self._my_grid[1][:, :, np.newaxis] -
                       np.array(self._ye)[np.newaxis, np.newaxis, :])**2)**0.5)
-        my_fon = self.calculateFonFromDistance(np.array(self._r_stem),
-                                               distance)
+        my_fon = self.calculateFonFromDistance(distance=distance)
+
         fon_areas = np.zeros_like(my_fon)
         # Add a one, where plant is larger than 0
         fon_areas[np.where(my_fon > 0)] += 1
@@ -60,29 +61,37 @@ class FON(ResourceModel):
         # returns array of shape (nplants)
         fon_areas = fon_areas.sum(axis=(0, 1))
         fon_heigths = my_fon.sum(axis=-1)
+
         fon_impacts = fon_heigths[:, :, np.newaxis] - my_fon
         fon_impacts[np.where(my_fon < self._fmin)] = 0
         fon_impacts = fon_impacts.sum(axis=(0, 1))
-        resource_limitations = 1 - 2 * fon_impacts / fon_areas
+
+        # tree-to-tree competition, eq. (7) Berger & Hildenbrandt (2000)
+        stress_factor = fon_impacts / fon_areas
+        stress_factor = np.nan_to_num(stress_factor, nan=0)
+        resource_limitations = 1 - 2 * stress_factor
         resource_limitations[np.where(resource_limitations < 0)] = 0
+
+        # salt stress factor, eq. (6) Berger & Hildenbrandt (2000)
         salinity_reductions = (1 / (1 + np.exp(
             np.array(self._salt_effect_d) *
             (np.array(self._salt_effect_ui) - self._salinity))))
+
         self.belowground_resources = resource_limitations * salinity_reductions
 
-    def calculateFonFromDistance(self, rst, distance):
+    def calculateFonFromDistance(self, distance):
         """
         Calculate the FON height of each plant at each grid point.
         Args:
-            rst (numpy array): FON radius
             distance (int): array of distances of all mesh points to plant position
         Returns:
             numpy array with shape(x_grid_points, y_grid_points, number_of_plants)
         """
-        fon_radius = self._aa * rst**self._bb
-        cc = -np.log(self._fmin) / (fon_radius - rst)
+        # fon radius, eq. (1) Berger et al. 2002
+        fon_radius = self._aa * self._r_stem**self._bb
+        cc = -np.log(self._fmin) / (fon_radius - self._r_stem)
         height = np.exp(-cc[np.newaxis, np.newaxis, :] *
-                        (distance - rst[np.newaxis, np.newaxis, :]))
+                        (distance - self._r_stem[np.newaxis, np.newaxis, :]))
         height[height > 1] = 1
         height[height < self._fmin] = 0
         return height

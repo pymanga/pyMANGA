@@ -17,7 +17,6 @@
             <aa>10</aa>
             <bb>1</bb>
             <fmin>0.1</fmin>
-            <salinity>35</salinity>
         </belowground>
     </resources>
     <plant_dynamics>

@@ -35,7 +35,12 @@ Examples:
     
 Option (i): constant salinity of 35 ppt across the model domain
 ```xml
-<salinity> 0.035 0.035 </salinity>
+<belowground>
+    <type> FixedSalinity </type>
+    <min_x>0</min_x>
+    <max_x>22</max_x>
+    <salinity>0.035 0.035</salinity>
+</belowground>
 ```
 
 Option (ii): increasing gradient of salinity from 25 to 35 ppt (left to right border)

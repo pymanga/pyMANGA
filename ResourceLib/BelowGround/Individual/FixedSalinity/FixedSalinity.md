@@ -29,7 +29,7 @@ Attributes:
 Notes:  
 **Variants** to calculate salinity reduction factor  
 - "bettina" (default): ratio of zero-salinity and actual water potential. Zero-salinity water potential based on water potential difference between leaf (minimum leaf water potential) and porewater (osmotic potential).
-- "forman": exponential function based on FORMAN model by Chen and Twilley (1998)
+- "forman": sigmoidal salinity stress factor based on FORMAN model by Chen and Twilley (1998)
 
 Examples:
     

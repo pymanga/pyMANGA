@@ -29,8 +29,8 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 5e8 </t_end>
-        <delta_t> 1e6 </delta_t>
+        <t_end> 1e11 </t_end>
+        <delta_t> 1 </delta_t>
     </time_loop>
     <visualization>
         <type> NONE </type>

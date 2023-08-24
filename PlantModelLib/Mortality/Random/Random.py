@@ -58,4 +58,7 @@ class Random(NoGrowth):
             "optional": ["type", "mortality", "probability"]
         }
         super().getInputParameters(**tags)
-        self._probability = self.probability
+        try:
+            self._probability = self.probability
+        except AttributeError:
+            pass

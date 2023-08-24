@@ -13,6 +13,7 @@ class Plant:
     def __init__(self,
                  x,
                  y,
+                 xml_args,
                  species,
                  plant_id,
                  plant_model,
@@ -23,6 +24,7 @@ class Plant:
         self.plants = []
         self.x = x
         self.y = y
+        self.args = xml_args
         self.survival = 1
         self.group_name = group_name
         self.plant_model = plant_model
@@ -110,9 +112,7 @@ class Plant:
         self.network['variant'] = None
 
     def iniPlantDynamicConcept(self):
-        case = self.plant_model
-        print(case)
-        print('_________' + case)
+        case = self.args.find("vegetation_model_type").text
         if case == "Default":
             from PlantModelLib.Default import Default as createGD
         elif case == "Bettina":
@@ -123,7 +123,7 @@ class Plant:
             from PlantModelLib.NetworkBettina import NetworkBettina as createGD
         else:
             raise KeyError("Required plant dynamic concept not implemented.")
-        self.plant_dynamic_concept = createGD(self)
+        self.plant_dynamic_concept = createGD(self.args)
         print(case + " plant dynamic concept initiated.")
 
     def getNetwork(self):

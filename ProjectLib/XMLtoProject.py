@@ -4,10 +4,10 @@ from lxml import etree
 if __name__ == '__main__' and __package__ is None:
     from os import sys, path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-from ProjectLib import Project
+from ProjectLib.Project import MangaProject
 
 
-class XMLtoProject(Project.MangaProject):
+class XMLtoProject(MangaProject):
     def __init__(self, **args):
         """
         Create a pyMANGA project based on the specifications in the project file, i.e.,

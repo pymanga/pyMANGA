@@ -31,9 +31,9 @@ class GroupPlanting(PlantGroup):
               distribution_type + " distribution type and plants of species " +
               self.species + ".")
         if distribution_type == "Random":
-            self.plantRandomDistributedPlants(distribution)
+            self.plantRandomDistributedPlants(args)
         elif distribution_type == "GroupFromFile":
-            self.plantPlantsFromFile(distribution)
+            self.plantPlantsFromFile(args)
         else:
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")
@@ -56,7 +56,7 @@ class GroupPlanting(PlantGroup):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
-            self.addPlant(x=x_i, y=y_i,
+            self.addPlant(x=x_i, y=y_i, xml_args=args,
                           plant_model=self.plant_model,
                           initial_geometry=False)
 
@@ -88,7 +88,7 @@ class GroupPlanting(PlantGroup):
                 j = 0
                 for tag in line:
                     tag = tag.strip()
-                    print(tag)
+                    #print(tag)
                     if tag == "x" and x_idx == 99999:
                         x_idx = int(j)
                         i += 1
@@ -123,7 +123,7 @@ class GroupPlanting(PlantGroup):
                 max_y = max(max_y, y)
                 min_x = min(min_x, x)
                 min_y = min(min_y, y)
-                self.addPlant(x=x, y=y, plant_model=self.plant_model, initial_geometry=geometry)
+                self.addPlant(x=x, y=y, xml_args=args, plant_model=self.plant_model, initial_geometry=geometry)
         self.x_1 = min_x
         self.y_1 = min_y
         self.l_x = max_x - self.x_1
@@ -135,7 +135,7 @@ class GroupPlanting(PlantGroup):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
-            self.addPlant(x=x_i, y=y_i,
+            self.addPlant(x=x_i, y=y_i, xml_args=self.args,
                           plant_model=self.plant_model,
                           initial_geometry=False)
 

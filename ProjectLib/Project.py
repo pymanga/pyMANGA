@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from VisualizationLib import Visualization
-from ModelOutputLib import ModelOutput
 import PopulationLib
 from TimeLoopLib import DynamicTimeLoop
 import numpy as np

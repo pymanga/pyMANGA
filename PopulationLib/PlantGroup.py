@@ -24,11 +24,12 @@ class PlantGroup:
     #  @param y: y-position of the new plant
     #  @param initial_geometry: controls, whether an initial geometry is
     #  parsed to the plant
-    def addPlant(self, x, y, plant_model, initial_geometry=False):
+    def addPlant(self, x, y, xml_args, plant_model, initial_geometry=False):
         self.max_id += 1
         self.plants.append(
             PLib.Plant(x,
                        y,
+                       xml_args=xml_args,
                        species=self.species,
                        plant_id=self.max_id,
                        initial_geometry=initial_geometry,

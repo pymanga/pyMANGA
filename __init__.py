@@ -12,9 +12,9 @@ The documentation of a module consists of the following parts
 For general information about the pyMANGA project and tutorials visit our website: http://pymanga.forst.tu-dresden.de/
 
 CoreTeam:
-    @[bathmann](https://github.com/jbathmann)
+    @[jbathmann](https://github.com/jbathmann)
     @[mcwimm](https://github.com/mcwimm/)
-    @[jvollheter](https://github.com/jvollhueter)
+    @[jvollhueter](https://github.com/jvollhueter)
 """
 import os, sys
 

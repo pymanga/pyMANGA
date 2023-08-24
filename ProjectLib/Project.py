@@ -102,8 +102,8 @@ class MangaProject:
         case = arg.find("type").text
         if case == "Default":
             from ResourceLib.AboveGround.Default import Default as createAC
-        elif case == "SimpleAsymmetricZOI":
-            from ResourceLib.AboveGround.SimpleAsymmetricZOI import SimpleAsymmetricZOI as createAC
+        elif case == "AsymmetricZOI":
+            from ResourceLib.AboveGround.AsymmetricZOI import AsymmetricZOI as createAC
         else:
             raise KeyError("Required above-ground competition not implemented.")
         self.aboveground_resource_concept = createAC(arg)

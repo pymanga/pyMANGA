@@ -2,7 +2,7 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground>
-            <type> SimpleAsymmetricZOI </type>
+            <type> AsymmetricZOI </type>
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
@@ -34,7 +34,7 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 2e6 </t_end>
+        <t_end> 5e8 </t_end>
         <delta_t> 1e6 </delta_t>
     </time_loop>
     <visualization>
@@ -43,14 +43,14 @@
     <output>
          <type> OneTimestepOneFile </type>
         <output_each_nth_timestep>1</output_each_nth_timestep>
-        <output_times> [2e6] </output_times>
+        <output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> height </geometry_output>
         <growth_output> growth </growth_output>
-        <growth_output> ag_factor </growth_output>
-        <growth_output> bg_factor </growth_output>
+        <growth_output> ag_resources </growth_output>
+        <growth_output> bg_resources </growth_output>
     </output>
 </MangaProject>
 

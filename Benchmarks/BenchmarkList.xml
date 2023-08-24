@@ -14,9 +14,9 @@
             </BettinaNetwork>
             <Bettina>
                 <Aboveground>
-                    <SimpleAsymmetricZOI>
-                        <test> SimpleAsymmetricZOI_CI.xml </test>
-                    </SimpleAsymmetricZOI>
+                    <AsymmetricZOI>
+                        <test> AsymmetricZOI_CI.xml </test>
+                    </AsymmetricZOI>
                 </Aboveground>
                 <Belowground>
                     <FixedSalinity>
@@ -44,11 +44,11 @@
                     <test> Default_CI.xml </test>
                 </Default>
             </Bettina>
-            <SimpleKiwi>
+            <Kiwi>
                 <Aboveground>
-                    <SimpleAsymmetricZOI>
-                        <test> SimpleAsymmetricZOI_CI.xml </test>
-                    </SimpleAsymmetricZOI>
+                    <AsymmetricZOI>
+                        <test> AsymmetricZOI_CI.xml </test>
+                    </AsymmetricZOI>
                 </Aboveground>
                 <Belowground>
                     <FixedSalinity>
@@ -72,7 +72,7 @@
                 <Default>
                     <test> Default_CI.xml </test>
                 </Default>
-            </SimpleKiwi>
+            </Kiwi>
         </PlantModules>
         <TreeOutput>
             <OneFile>

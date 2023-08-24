@@ -3,7 +3,7 @@
     <random_seed>1</random_seed>
     <resources>
         <aboveground>
-            <type>SimpleAsymmetricZOI</type>
+            <type>AsymmetricZOI</type>
             <domain>
                 <x_1>0</x_1>
                 <y_1>0</y_1>
@@ -52,7 +52,7 @@
         <type>NONE</type>
     </visualization>
     <output>
-        <type>OneTreeOneFile</type>
+        <type>OnePlantOneFile</type>
         <allow_previous_output>True</allow_previous_output>
         <output_each_nth_timestep>1</output_each_nth_timestep>
         <output_dir>Benchmarks/ExampleSetups/OGSExampleSetup/TreeOutputNetwork</output_dir>

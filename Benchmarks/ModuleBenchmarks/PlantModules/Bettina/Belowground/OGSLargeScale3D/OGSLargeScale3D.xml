@@ -5,8 +5,8 @@
             <type> Default </type>
         </aboveground>
         <belowground>
-            <type>OGSLargeScale3D</type>
-            <ogs_project_folder>Benchmarks/ModuleBenchmarks/PlantModules/Bettina/Belowground/OGSLargeScale3D/</ogs_project_folder>
+            <type>OGS</type>
+            <ogs_project_folder>Benchmarks/ModuleBenchmarks/PlantModules/Bettina/Belowground/OGS/</ogs_project_folder>
             <ogs_project_file>ogs_benchmark.prj</ogs_project_file>
             <source_mesh>ogs_benchmark_source.vtu</source_mesh>
             <bulk_mesh>ogs_benchmark_domain.vtu</bulk_mesh>

@@ -3,7 +3,7 @@
     <random_seed>1</random_seed>
     <resources>
         <aboveground>
-            <type>SimpleAsymmetricZOI</type>
+            <type>AsymmetricZOI</type>
             <domain>
                 <x_1>0</x_1>
                 <y_1>0</y_1>
@@ -14,7 +14,7 @@
             </domain>
         </aboveground>
         <belowground>
-            <type>OGSLargeScale3D</type>
+            <type>OGS</type>
             <ogs_project_folder>Benchmarks/ExampleSetups/OGSExampleSetup/</ogs_project_folder>
             <ogs_project_file>testmodel.prj</ogs_project_file>
             <source_mesh>source_domain.vtu</source_mesh>

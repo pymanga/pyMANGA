@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from .OGSLargeScale3DExternal import OGSLargeScale3DExternal
-from .NetworkOGSLargeScale3DExternal import NetworkOGSLargeScale3DExternal
+from .OGSExternal import OGSExternal
+from .NetworkOGSExternal import NetworkOGSExternal
 from .Merge import Merge
 
 # Exclude folder from automatic documentation as OGS import causes trouble
-__all__ = {'OGSLargeScale3DExternal.runModel': False}
+__all__ = {'OGSExternal.runModel': False}

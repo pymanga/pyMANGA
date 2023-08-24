@@ -91,6 +91,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.idea
 
 # Spyder project settings
 .spyderproject
@@ -103,64 +104,15 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-Documentation/html/
-Documentation/latex/
-html
-latex
-testoutputs
-ResourceLib/BelowGround/Individual/OGS/
 
-ResourceLib/BelowGround/Individual/OGSLargeScale3D/calls_in_last_timestep.npy
-ResourceLib/BelowGround/Individual/OGSLargeScale3D/cumsum_salinity.npy
-ResourceLib/BelowGround/Individual/OGS/share
-ProjectLib/ExampleSetups/testoutputs
-ProjectLib/Applications
-ResourceLib/BelowGround/Individual/OGSWithoutFeedback/calls_in_last_timestep.npy
-ResourceLib/BelowGround/Individual/OGSWithoutFeedback/cumsum_salinity.npy
+# simulation output
+*.vtu
+*.vtk
+*.npy
+*.csv
+*.prj
+*.pvd
 
-# testing
-
-Benchmarks/ExampleSetups/
-
-test/LargeTests/Test_Setups_large/testoutputs
-test/SmallTests/Test_Setups_small/testoutputs
-
-test/LargeTests/Test_Setups_large/ogs_example_setup/calls_in_last_timestep.npy
-test/LargeTests/Test_Setups_large/ogs_example_setup/cumsum_salinity.npy
-test/LargeTests/Test_Setups_large/ogs_example_setup/salinity_prefactors.npy
-test/LargeTests/Test_Setups_large/ogs_example_setup/constant_contributions.npy
-test/LargeTests/Test_Setups_large/ogs_example_setup/0_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/10000000_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/20000000_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/30000000_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/40000000_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/50000000_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/60000000_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/70000000_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/80000000_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/90000000_0_testmodel.prj
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_0.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_10000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_20000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_30000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_40000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_50000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_60000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_70000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_80000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_0_t_90000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_1000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_11000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_21000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_31000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_41000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_51000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_61000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_71000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_81000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0_ts_278_t_91000000.000000.vtu
-test/LargeTests/Test_Setups_large/ogs_example_setup/trees_in_box__ogsOutput_pcs_0.pvd
-test/LargeTests/Test_Setups_large/ogs_example_setup/vtu_collection.pvd
-test/LargeTests/Test_Setups_large/ogs_example_setup/python_source.py
-ResourceLib/BelowGround/Individual/OGS/container/ogs_container.sif
-.idea
+# OGS source
+ResourceLib/BelowGround/Individual/OGS/bin
+ResourceLib/BelowGround/Individual/OGS/ogs-*

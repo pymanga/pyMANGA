@@ -6,11 +6,11 @@
             <type> Default </type>
         </aboveground>
         <belowground>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> SimpleTest </type>
+        <type> Default </type>
     </plant_dynamics>
     <population>
         <group>

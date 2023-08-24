@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @date: 2022-Today
-@author: marie-christin.wimmler@tu-dresden.de based on SimpleAsymmetricZOI
+@author: marie-christin.wimmler@tu-dresden.de based on AsymmetricZOI
 by ronny.peters@tu-dresden.de
 """
 
@@ -15,7 +15,7 @@ class SymmetricZOI(ResourceModel):
     #  Zone Of Influence with plants occupying the same node of the grid share
     #  the below-ground resource of this node equally (BETTINA geometry of a
     #  plant assumed). See Peters 2017: ODD protocol of the model BETTINA IBM\n
-    #  @param Tags to define SimpleAsymmetricZOI: see tag documentation
+    #  @param Tags to define AsymmetricZOI: see tag documentation
     #  @date: 2019 - Today
     def __init__(self, args):
         case = args.find("type").text

@@ -5,7 +5,7 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D
+from ResourceLib.BelowGround.Individual.OGS import OGS
 from os import path
 import os
 
@@ -15,8 +15,8 @@ import os
 #  a detailed groundwater model. Here, no Feedback is considered.
 #  @param args: Please see input file tag documentation for details
 #  @date: 2019 - Today
-# MRO: OGSWithoutFeedback, OGSLargeScale3D, ResourceModel, object
-class OGSWithoutFeedback(OGSLargeScale3D):
+# MRO: OGSWithoutFeedback, OGS, ResourceModel, object
+class OGSWithoutFeedback(OGS):
 
     def __init__(self, args):
         super().__init__(args)

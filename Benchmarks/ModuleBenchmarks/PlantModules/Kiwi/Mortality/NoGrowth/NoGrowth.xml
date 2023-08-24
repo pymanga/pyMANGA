@@ -5,14 +5,11 @@
             <type> Default </type>
         </aboveground>
         <belowground>
-            <type> FixedSalinity </type>
-            <min_x>0</min_x>
-            <max_x>22</max_x>
-            <salinity>0.025 0.035</salinity>
+            <type> Default </type>
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> SimpleKiwi </type>
+        <type> Kiwi </type>
         <mortality>NoGrowth</mortality>
     </plant_dynamics>
     <population>
@@ -22,7 +19,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/SimpleKiwi/initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Kiwi/initial_population.csv </filename>
             </distribution>
         </group>
     </population>
@@ -36,7 +33,7 @@
         <type> NONE </type>
     </visualization>
     <output>
-         <type> OneTimestepOneFile </type>
+        <type> OneTimestepOneFile </type>
         <output_each_nth_timestep>1</output_each_nth_timestep>
         <output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>

@@ -129,8 +129,8 @@ class MangaProject:
             from PlantModelLib.Default import Default as createGD
         elif case == "Bettina":
             from PlantModelLib.Bettina import Bettina as createGD
-        elif case == "SimpleKiwi":
-            from PlantModelLib.SimpleKiwi import SimpleKiwi as createGD
+        elif case == "Kiwi":
+            from PlantModelLib.Kiwi import Kiwi as createGD
         elif case == "BettinaNetwork":
             from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
         else:

@@ -44,7 +44,7 @@
                     <test> Default_CI.xml </test>
                 </Default>
             </Bettina>
-            <SimpleKiwi>
+            <Kiwi>
                 <Aboveground>
                     <SimpleAsymmetricZOI>
                         <test> SimpleAsymmetricZOI_CI.xml </test>
@@ -72,7 +72,7 @@
                 <Default>
                     <test> Default_CI.xml </test>
                 </Default>
-            </SimpleKiwi>
+            </Kiwi>
         </PlantModules>
         <TreeOutput>
             <OneFile>

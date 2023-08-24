@@ -7,10 +7,10 @@
 from PlantModelLib import PlantModel
 
 
-class SimpleKiwi(PlantModel):
-    ## SimpleKiwi for death and growth dynamics. For details see
+class Kiwi(PlantModel):
+    ## Kiwi for death and growth dynamics. For details see
     #  https://doi.org/10.1016/S0304-3800(00)00298-2 \n
-    #  @param Tags to define SimpleKiwi, see tag documentation \n
+    #  @param Tags to define Kiwi, see tag documentation \n
     #  @date 2019 - Today
     def __init__(self, args):
         case = args.find("type").text
@@ -18,7 +18,7 @@ class SimpleKiwi(PlantModel):
         super().iniMortalityConcept(args)
 
     ## This functions prepares the growth and death concept.
-    #  In the SimpleKiwi concept, the timestepping is updated.
+    #  In the Kiwi concept, the timestepping is updated.
     #  @param t_ini - initial time for next timestep \n
     #  @param t_end - end time for next
     def prepareNextTimeStep(self, t_ini, t_end):

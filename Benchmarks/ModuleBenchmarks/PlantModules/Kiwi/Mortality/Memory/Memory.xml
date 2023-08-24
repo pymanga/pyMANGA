@@ -9,9 +9,10 @@
         </belowground>
     </resources>
     <plant_dynamics>
-        <type> SimpleKiwi </type>
-        <mortality>RandomGrowth</mortality>
-        <k_die> 1e-9 </k_die>
+        <type> Kiwi </type>
+        <mortality>Memory</mortality>
+        <threshold> 0.005 </threshold>
+        <period> 31557600 </period>
     </plant_dynamics>
     <population>
         <group>
@@ -20,7 +21,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/SimpleKiwi/initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Kiwi/initial_population.csv </filename>
             </distribution>
         </group>
     </population>

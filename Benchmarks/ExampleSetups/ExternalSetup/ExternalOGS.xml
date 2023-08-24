@@ -5,7 +5,7 @@
             <type> Default </type>
         </aboveground>
         <belowground>
-            <type> OGSLargeScale3DExternal </type>
+            <type> OGSExternal </type>
             <ogs_project_folder> Benchmarks/ExampleSetups/ExternalSetup </ogs_project_folder>
             <ogs_project_file> testmodel.prj </ogs_project_file>
             <source_mesh> source_domain.vtu </source_mesh>

@@ -107,7 +107,7 @@
                 </time_discretization>
                 <time_stepping>
                     <type>FixedTimeStepping</type>
-                    <t_end>2592000.0</t_end> <!--5 a -->
+                    <t_end>86400.0</t_end> <!--5 a -->
                     <t_initial>0.0</t_initial>
                     <timesteps>
                         <pair>

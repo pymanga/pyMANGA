@@ -5,17 +5,17 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D
+from ResourceLib.BelowGround.Individual.OGS import OGS
 import numpy as np
 
 
-# Child class of OGSLargeScale3DExternal to use external time stepping
+# Child class of OGSExternal to use external time stepping
 # E.g. to run MANGA as OGS boundary condition
 # The concept needs an array with cumulated cell salinity and
 # the number of calls for each cell. It returns an array describing water
 # withdrawal in each cell as rate in kg per sec per cell volume.
-# MRO: OGSLargeScale3DExternal, OGSLargeScale3D, TreeModel, object
-class OGSLargeScale3DExternal(OGSLargeScale3D):
+# MRO: OGSExternal, OGS, TreeModel, object
+class OGSExternal(OGS):
 
     def __init__(self, args):
         """

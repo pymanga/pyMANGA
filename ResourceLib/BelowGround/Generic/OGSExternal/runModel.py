@@ -14,7 +14,7 @@ import os
 manga_dir = "/path/to/pyMANGA/directory/"
 setup_dir = "path/to/external_setup/"
 
-ogs_exe = os.path.join(manga_dir, "TreeModelLib", "BelowgroundCompetition",
+ogs_exe = os.path.join(manga_dir, "ResourceLib", "BelowGround", "Individual",
                        "OGS", "bin", "ogs")
 
 ogs_project_folder = os.path.join(manga_dir, setup_dir)

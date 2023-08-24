@@ -52,8 +52,8 @@ class MangaProject:
         case = arg.find("type").text
         if case == "Default":
             from ResourceLib.BelowGround.Individual.Default import Default as createBC
-        elif case == "OGSLargeScale3D":
-            from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D as createBC
+        elif case == "OGS":
+            from ResourceLib.BelowGround.Individual.OGS import OGS as createBC
         elif case == "OGSWithoutFeedback":
             from ResourceLib.BelowGround.Individual.OGSWithoutFeedback import OGSWithoutFeedback as createBC
         elif case == "FON":
@@ -72,10 +72,10 @@ class MangaProject:
             from ResourceLib.BelowGround.Network.NetworkFixedSalinity import NetworkFixedSalinity as createBC
         elif case == "NetworkOGS":
             from ResourceLib.BelowGround.Network import NetworkOGS as createBC
-        elif case == "OGSLargeScale3DExternal":
-            from ResourceLib.BelowGround.Generic.OGSLargeScale3DExternal import OGSLargeScale3DExternal as createBC
-        elif case == "NetworkOGSLargeScale3DExternal":
-            from ResourceLib.BelowGround.Generic import NetworkOGSLargeScale3DExternal as createBC
+        elif case == "OGSExternal":
+            from ResourceLib.BelowGround.Generic.OGSExternal import OGSExternal as createBC
+        elif case == "NetworkOGSExternal":
+            from ResourceLib.BelowGround.Generic import NetworkOGSExternal as createBC
         elif case == "Merge":
             from ResourceLib.BelowGround.Generic import Merge as createBC
         else:

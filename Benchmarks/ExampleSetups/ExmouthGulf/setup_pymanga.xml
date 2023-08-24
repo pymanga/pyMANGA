@@ -13,7 +13,7 @@
             </domain>
         </aboveground>
         <belowground>
-            <type> OGSLargeScale3D </type>
+            <type> OGS </type>
             <ogs_project_folder> Benchmarks/ExampleSetups/ExmouthGulf/ </ogs_project_folder>
             <ogs_project_file> testmodel.prj </ogs_project_file>
             <abiotic_drivers>

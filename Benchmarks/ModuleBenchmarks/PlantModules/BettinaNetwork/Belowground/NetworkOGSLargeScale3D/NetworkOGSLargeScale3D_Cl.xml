@@ -7,7 +7,7 @@
         <belowground>
             <type>NetworkOGS</type>
             <f_radius> 0.25 </f_radius>
-            <ogs_project_folder>Benchmarks/ModuleBenchmarks/PlantModules/BettinaNetwork/Belowground/OGSLargeScale3D/</ogs_project_folder>
+            <ogs_project_folder>Benchmarks/ModuleBenchmarks/PlantModules/BettinaNetwork/Belowground/OGS/</ogs_project_folder>
             <ogs_project_file>ogs_benchmark.prj</ogs_project_file>
             <source_mesh>ogs_benchmark_source.vtu</source_mesh>
             <bulk_mesh>ogs_benchmark_domain.vtu</bulk_mesh>

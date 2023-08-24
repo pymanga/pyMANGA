@@ -25,9 +25,9 @@ class Merge(ResourceModel):
             elif module == "FON":
                 from ResourceLib.BelowGround.Individual.FON import FON
                 self.bg_concepts.append(FON(args))
-            elif module == "OGSLargeScale3D":
-                from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D
-                self.bg_concepts.append(OGSLargeScale3D(args))
+            elif module == "OGS":
+                from ResourceLib.BelowGround.Individual.OGS import OGS
+                self.bg_concepts.append(OGS(args))
             elif module == "FON":
                 from ResourceLib.BelowGround.Individual.OGSWithoutFeedback import OGSWithoutFeedback
                 self.bg_concepts.append(OGSWithoutFeedback(args))

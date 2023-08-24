@@ -5,4 +5,4 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 
-from .NetworkOGSLargeScale3DExternal import NetworkOGSLargeScale3DExternal
+from .OGSExternal import OGSExternal

@@ -4,7 +4,7 @@
 # In this example, 2 trees are placed in the center of a 20 x 10 m domain.
 # Boundary conditions are defined on the left and right sight as 'Dirichlet'
 # boundary conditions for pressure and salinity concentration.
-# Tidal activity is not considered. The functions below serve as example a
+# Tidal activity is not considered. The functions below serve as example an
 # can be enabled by modifying the OGS project file `testmodel.prj`.
 
 import OpenGeoSys
@@ -60,10 +60,10 @@ class BCSea_C(OpenGeoSys.BoundaryCondition):
 bc_tide_p = BCSea_p_D()
 bc_tide_C = BCSea_C()
 seaward_salinity = 0.035
-complete_contributions = np.load(r'Benchmarks/ExampleSetups/OGSExampleSetup\complete_contributions.npy')
-cumsum_savename = r'Benchmarks/ExampleSetups/OGSExampleSetup\cumsum_salinity.npy'
-calls_savename = r'Benchmarks/ExampleSetups/OGSExampleSetup\calls_in_last_timestep.npy'
-t_write = 6086400.0
+complete_contributions = np.load(r'C:\Users\marie\Documents\GRIN\git_repos\pyMANGA\Benchmarks/ExampleSetups/OGSExampleSetup\complete_contributions.npy')
+cumsum_savename = r'C:\Users\marie\Documents\GRIN\git_repos\pyMANGA\Benchmarks/ExampleSetups/OGSExampleSetup\cumsum_salinity.npy'
+calls_savename = r'C:\Users\marie\Documents\GRIN\git_repos\pyMANGA\Benchmarks/ExampleSetups/OGSExampleSetup\calls_in_last_timestep.npy'
+t_write = 3086400.0
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -186,42 +186,49 @@ class CellInformation:
     #  @return number of cells in the source mesh
     def getNCells(self):
         return self._n_cells
-cell_information = CellInformation(r'Benchmarks/ExampleSetups/OGSExampleSetup\source_domain.vtu')
+cell_information = CellInformation(r'C:\Users\marie\Documents\GRIN\git_repos\pyMANGA\Benchmarks/ExampleSetups/OGSExampleSetup\source_domain.vtu')
 # Returns, depending on the cell_id, the constant contribution of a tree to the
+# water flux in the root zone.
 def constantContribution(cell_id):
     return constant_contributions[cell_id]
 
-
+# Returns, depending on the cell_id, the salinity dependent contribution of a 
+# tree to the water flux in the root zone.
 def salinityContribution(cell_id, salinity):
     return salinity_prefactors[cell_id] * salinity
 
-
+# Returns, depending on the cell_id, the complete contribution of a 
+# tree to the water flux in the root zone. If a network system is used, only
+# the complete contribution is constant. Otherwise, it depends on the salinty.
 def completeContribution(cell_id, salinity):
     if complete_contributions is not None:
         return complete_contributions[cell_id]
     else:
-        return (constantContribution(cell_id) +
-                salinityContribution(cell_id, salinity))
-
+        return (constantContribution(cell_id) + salinityContribution(
+            cell_id, salinity))
+        
 
 # Source Term Helper
+# This class is necessary in order to check, whether a new iteration started.
 class SourceTermHelper(OpenGeoSys.BoundaryCondition):
-
     def __init__(self):
         super().__init__()
         self.first_node = None
-
+            
     def getDirichletBCValue(self, t, coords, node_id, primary_vars):
+        # Identification of the first node's id
         if self.first_node is None:
             self.first_node = node_id
+        # Reset of node counter for the source mesh with first nodes call
         if node_id == self.first_node:
             cell_information.setSourceCounter(0)
         return (False, 0)
 
 
-# Source Terms
+# Source Term
+# This source term describes the water fux from the bulk domain into the roots
+# of trees. 
 class FluxToTrees(OpenGeoSys.SourceTerm):
-
     def __init__(self):
         super().__init__()
         self.t = -999999
@@ -230,24 +237,32 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         self._first_iteration = False
 
     def getFlux(self, t, coords, primary_vars):
+        # In the first iteration over the souce mesh, cll id_s need to be 
+        # connected to coordinates in order to speedup the script. Thus, source
+        # mesh cell ids are counted
         old_count = cell_information.getSourceCounter()
         new_count = old_count + 1
-        cell_id = cell_information.getCellIdAtIntPoint(coords[0], coords[1],
-                                                       coords[2], old_count)
+        cell_id = cell_information.getCellIdAtIntPoint(coords[0], coords[1], coords[2],
+                                             old_count)
         cell_information.setSourceCounter(new_count)
 
         salinity = primary_vars[1]
 
+        # Identification of first iteration of a new timestep
         if t > self.t:
             self.t = t
             self._first_iteration = True
+        # Identification of the last timestep of the ogs model run
         if t == t_write:
+            # Identification of the call of the last node in the last timestep
             if cell_information.getHighestNode() == new_count:
                 np.save(cumsum_savename, self._cumsum_salinity)
                 np.save(calls_savename, self._calls)
+        # Values for averaring are only saved in the first iteration of each
+        # timestep.
         if self._first_iteration:
             if new_count > cell_information.getHighestNode():
-                cell_information.setHighestNode(new_count)
+              cell_information.setHighestNode(new_count)
             elif cell_information.getHighestNode() == new_count:
                 self._first_iteration = False
             self._calls[cell_id] += 1
@@ -256,7 +271,6 @@ class FluxToTrees(OpenGeoSys.SourceTerm):
         positive_flux = completeContribution(cell_id, salinity)
         Jac = [0.0, 0.0]
         return (-positive_flux, Jac)
-
-
+# These two objects need to be defined in the ogs project file.
 flux_to_trees = FluxToTrees()
 bc_source_helper = SourceTermHelper()

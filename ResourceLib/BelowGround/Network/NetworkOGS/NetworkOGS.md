@@ -1,7 +1,7 @@
 The NetworkOGS below-ground resource module.
 
 NetworkOGS is a child of the modules `pyMANGA.ResourceLib.BelowGround.Network.Network.Network` and 
-`pyMANGA.ResourceLib.BelowGround.Individual.OGSLargeScale3D.OGSLargeScale3D`.
+`pyMANGA.ResourceLib.BelowGround.Individual.OGS.OGS`.
 
 Pore water salinity is calculated using the [OpenGeoSys](https://www.opengeosys.org/) approach.
 Resource limitation is taken into account in the calculation of water distribution between root grafted trees.

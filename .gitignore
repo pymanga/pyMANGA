@@ -110,8 +110,8 @@ latex
 testoutputs
 ResourceLib/BelowGround/Individual/OGS/
 
-ResourceLib/BelowGround/Individual/OGSLargeScale3D/calls_in_last_timestep.npy
-ResourceLib/BelowGround/Individual/OGSLargeScale3D/cumsum_salinity.npy
+ResourceLib/BelowGround/Individual/OGS/calls_in_last_timestep.npy
+ResourceLib/BelowGround/Individual/OGS/cumsum_salinity.npy
 ResourceLib/BelowGround/Individual/OGS/share
 ProjectLib/ExampleSetups/testoutputs
 ProjectLib/Applications

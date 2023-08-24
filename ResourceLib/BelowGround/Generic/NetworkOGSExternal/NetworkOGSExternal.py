@@ -5,13 +5,13 @@
 @author: marie-christin.wimmler@tu-dresden.de
 """
 import numpy as np
-from ResourceLib.BelowGround.Generic.OGSLargeScale3DExternal import \
-     OGSLargeScale3DExternal
+from ResourceLib.BelowGround.Generic.OGSExternal import \
+     OGSExternal
 from ResourceLib.BelowGround.Network.NetworkOGS import \
     NetworkOGS
 
 
-# Child class of OGSLargeScale3DExternal and NetworkOGS to use
+# Child class of OGSExternal and NetworkOGS to use
 # external time stepping, e.g. to run MANGA as OGS boundary condition
 # The concept needs an array with cumulated cell salinity and
 # the number of calls for each cell. It returns an array describing water
@@ -20,12 +20,12 @@ from ResourceLib.BelowGround.Network.NetworkOGS import \
 # and can be different from the amount of water available to the plant du to
 # root graft mediated water exchange (see Network).
 # MRO: NetworkOGSExternal, NetworkOGS,
-# Network, OGSLargeScale3DExternal, OGSLargeScale3D, ResourceModel, object
-class NetworkOGSLargeScale3DExternal(NetworkOGS, OGSLargeScale3DExternal):
+# Network, OGSExternal, OGS, ResourceModel, object
+class NetworkOGSExternal(NetworkOGS, OGSExternal):
 
     def __init__(self, args):
         # Load init method from NetworkOGS, which includes init
-        # method of OGSLargeScale3D and reading of network import parameters
+        # method of OGS and reading of network import parameters
         super().__init__(args)
 
     # This function allows external communication
@@ -66,7 +66,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGS, OGSLargeScale3DExternal):
             print("WARNING: All plants are dead.")
 
         # Get salinity information from OGS in kg/kg (defined in
-        # OGSLargeScale3D.py)
+        # OGS.py)
         super().calculatePlantSalinity()
 
         ## NetworkOGS stuff (defined in Network.py)
@@ -94,7 +94,7 @@ class NetworkOGSLargeScale3DExternal(NetworkOGS, OGSLargeScale3DExternal):
     # which contain information about the cumulated salinity in each cell and
     # the number of calls, calculated by OGS
     def setExternalInformation(self, **args):
-        # set external information as defined in OGSLargeScale3DExternal.py
+        # set external information as defined in OGSExternal.py
         super().setExternalInformation(**args)
 
     ## Getter for external information

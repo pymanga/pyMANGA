@@ -4,18 +4,18 @@ import numpy as np
 from os import path
 
 from ResourceLib.BelowGround.Network.Network import Network
-from ResourceLib.BelowGround.Individual.OGSLargeScale3D import OGSLargeScale3D
+from ResourceLib.BelowGround.Individual.OGS import OGS
 
 
-class NetworkOGS(Network, OGSLargeScale3D):
+class NetworkOGS(Network, OGS):
     def __init__(self, args):
         """
         Below-ground resource concept.
-        MRO: NetworkOGS, Network, OGSLargeScale3D, ResourceModel, object.
+        MRO: NetworkOGS, Network, OGS, ResourceModel, object.
         Args:
             args: NetworkOGS module specifications from project file tags
         """
-        OGSLargeScale3D.__init__(self, args)
+        OGS.__init__(self, args)
         super().getInputParameters(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -23,7 +23,7 @@ class NetworkOGS(Network, OGSLargeScale3D):
         # The only parameters occurring in both are t_ini and t_end and as
         # the ones from OGS are needed, OGS needs to be loaded after network
         super().prepareNextTimeStep(t_ini, t_end)
-        OGSLargeScale3D.prepareNextTimeStep(self, t_ini, t_end)
+        OGS.prepareNextTimeStep(self, t_ini, t_end)
 
     def addPlant(self, plant):
         # Network stuff

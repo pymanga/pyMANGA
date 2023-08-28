@@ -196,6 +196,7 @@ class MangaProject:
             class
         """
         arg = self.args["model_output"]
+        time = self.args["time_loop"]
         case = arg.find("type").text
         if case == "NONE":
             from ModelOutputLib.NONE import NONE as createOut
@@ -213,7 +214,7 @@ class MangaProject:
         print(case + " model output successfully initiated.")
 
         ## Containing configuration on model_output
-        self.model_output_concept = createOut(arg)
+        self.model_output_concept = createOut(arg, time)
 
     def getModelOutputConcept(self):
         """

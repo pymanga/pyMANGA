@@ -6,7 +6,7 @@ from ModelOutputLib.ModelOutput import ModelOutput
 
 class OneFile(ModelOutput):
 
-    def __init__(self, args):
+    def __init__(self, args, time):
         """
         Model output concept.
         Create a single file for all model output.
@@ -14,7 +14,7 @@ class OneFile(ModelOutput):
         Args:
             args: module specifications from project file tags
         """
-        super().__init__(args)
+        super().__init__(args, time)
 
         self.delimiter = "\t"
         self.createFileWithHeader(filename='Population.csv')

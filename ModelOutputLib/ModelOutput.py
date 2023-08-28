@@ -8,7 +8,7 @@ class ModelOutput:
     Parent class for all model output modules.
     """
 
-    def __init__(self, args):
+    def __init__(self, args, time):
         """
         Get relevant tags from project file and create output directory and/or file.
         Check if output file exists and can be overwritten.
@@ -32,11 +32,16 @@ class ModelOutput:
         else:
             allow_previous_output = False
         ## Check if specific timesteps for output are defined
-        output_times = args.find("output_times")
-        if output_times is not None:
-            self.output_times = eval(output_times.text)
-        else:
-            self.output_times = None
+        self.output_times = args.find("output_times")
+        self.output_time_range = args.find("output_time_range")
+        if self.output_times is not None:
+            self.output_times = eval(self.output_times.text)
+
+        if self.output_time_range is not None:
+            self.output_time_range = eval(self.output_time_range.text)
+            if len(self.output_time_range) != 2:
+                raise ValueError("The tag \'<output_time_range>\' in the xml file"
+                                 " caused an error. Please check your input!")
 
         ## Geometric measures included in output
         self.geometry_outputs = []
@@ -181,6 +186,10 @@ class ModelOutput:
             self._it_is_output_time = (self._output_counter == 0)
         if self.output_times is not None:
             self._it_is_output_time = (time in self.output_times)
+        if self.output_time_range is not None:
+            self._it_is_output_time = (self.output_time_range[0] <=
+                                       time <=
+                                       self.output_time_range[1])
         if force_output or group_died:
             self._it_is_output_time = True
 

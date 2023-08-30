@@ -39,9 +39,7 @@
         <type> NONE </type>
     </visualization>
     <output>
-        <type> OneFile </type>
-        <output_each_nth_timestep>1</output_each_nth_timestep>
-        <allow_previous_output>True</allow_previous_output>
+        <type> OneFile </type><allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>

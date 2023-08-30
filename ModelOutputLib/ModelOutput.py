@@ -33,10 +33,9 @@ class ModelOutput:
             allow_previous_output = False
         ## Check if specific timesteps for output are defined
         self.output_times = args.find("output_times")
-        self.output_time_range = args.find("output_time_range")
         if self.output_times is not None:
             self.output_times = eval(self.output_times.text)
-
+        self.output_time_range = args.find("output_time_range")
         if self.output_time_range is not None:
             self.output_time_range = eval(self.output_time_range.text)
             if len(self.output_time_range) != 2:
@@ -180,16 +179,22 @@ class ModelOutput:
             force_output (bool): indicate whether writing output is forced
             group_died (bool): indicate whether a whole plant group died
         """
+        self._it_is_output_time = False
+        self.cond1, self.cond2, self.cond3 = False, False, False
         if self.output_each_nth_timestep is not None:
             self._output_counter = (self._output_counter %
                                     self.output_each_nth_timestep)
-            self._it_is_output_time = (self._output_counter == 0)
+            self.cond1 = (self._output_counter == 0)
+
         if self.output_times is not None:
-            self._it_is_output_time = (time in self.output_times)
+            self.cond2 = (time in self.output_times)
         if self.output_time_range is not None:
-            self._it_is_output_time = (self.output_time_range[0] <=
+            self.cond3 = (self.output_time_range[0] <=
                                        time <=
                                        self.output_time_range[1])
+        if any([self.cond1, self.cond2, self.cond3]):
+            self._it_is_output_time = True
+
         if force_output or group_died:
             self._it_is_output_time = True
 
@@ -197,7 +202,6 @@ class ModelOutput:
             self.outputContent(plant_groups=plant_groups,
                                time=time,
                                group_died=group_died)
-            self._it_is_output_time = False
         self._output_counter += 1
 
     def outputContent(self, plant_groups, time, **kwargs):

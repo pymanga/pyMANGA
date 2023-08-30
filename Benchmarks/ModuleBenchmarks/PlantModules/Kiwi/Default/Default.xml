@@ -33,7 +33,8 @@
         <type> NONE </type>
     </visualization>
     <output>
-         <type> OneTimestepOneFile </type><output_times> [2e6, 5e8] </output_times>
+         <type> OneTimestepOneFile </type>
+		<output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/ModuleBenchmarks/PlantModules/Kiwi/Default/ReferenceFiles/Default</output_dir>
         <geometry_output> r_stem </geometry_output>

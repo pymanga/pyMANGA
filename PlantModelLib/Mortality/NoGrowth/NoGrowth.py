@@ -11,7 +11,7 @@ class NoGrowth:
             args: module specification from project file tags. No required.
             case: "NoGrowth" (module name)
         """
-        print("Initiate mortality of type `" + case + "`.")
+        print("Initiate mortality concept of type {}...".format(case))
 
     def setSurvive(self, plant_module):
         """

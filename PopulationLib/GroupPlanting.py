@@ -28,9 +28,9 @@ class GroupPlanting(PlantGroup):
 
         distribution = self.tags_group.find("distribution")
         distribution_type = distribution.find("type").text
-        print("Initialise plant group " + self.name + " with " +
-              distribution_type + " distribution type and plants of species " +
-              self.species + ".")
+        print("Plant group set to {}.".format(self.name) +
+              "\nDistribution type set to {}.".format(distribution_type) +
+              "\nSpecies set to {}.".format(self.species))
         if distribution_type == "Random":
             self.plantRandomDistributedPlants()
         elif distribution_type == "GroupFromFile":

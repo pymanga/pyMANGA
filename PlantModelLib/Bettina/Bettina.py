@@ -12,7 +12,7 @@ class Bettina(PlantModel):
             args: Bettina module specifications from project file tags
         """
         case = args.find("vegetation_model_type").text
-        print("Growth and death dynamics of type " + case + ".")
+        print("Initiate dynamic concept of type {}...".format(case))
         super().iniMortalityConcept(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):

@@ -4,6 +4,7 @@ from VisualizationLib import Visualization
 import PopulationLib
 from TimeLoopLib import DynamicTimeLoop
 import numpy as np
+import datetime
 
 
 class MangaProject:
@@ -16,6 +17,7 @@ class MangaProject:
         Sets:
             multiple dictionaries
         """
+        self.iniInitiation()
         self.iniNumpyRandomSeed()
         self.iniAbovegroundResourceConcept()
         self.iniBelowgroundResourceConcept()
@@ -31,15 +33,26 @@ class MangaProject:
             class
         """
         return self.belowground_resource_concept
+    
+    def iniInitiation(self):
+        """
+        Initiate pyMANGA simulation.
+        """
+        print("Running pyMANGA v2.0.0 - ", 
+              datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+              "\n==============================================",
+              "\nSimulation Settings:",
+              "\n--------------------")
+        
 
     def iniNumpyRandomSeed(self):
         """
         Set random seed.
         """
         if self.args["random_seed"] is not None:
-            print("Setting seed for random number generator.")
             _seed = int(self.args["random_seed"].text.strip())
             np.random.seed(_seed)
+            print("Seed set to {}.".format(_seed))
 
     def iniBelowgroundResourceConcept(self):
         """
@@ -81,7 +94,7 @@ class MangaProject:
             raise KeyError("Required below-ground competition case " + case +
                            " not implemented.")
         self.belowground_resource_concept = createBC(arg)
-        print(case + " below-ground competition successfully initiated.")
+        print("Belowground competition set to {}.".format(case))
 
     def getAbovegroundResourceConcept(self):
         """
@@ -106,7 +119,7 @@ class MangaProject:
         else:
             raise KeyError("Required above-ground competition not implemented.")
         self.aboveground_resource_concept = createAC(arg)
-        print(case + " above-ground competition successfully initiated.")
+        print("Aboveground competition set to {}.".format(case))
 
     def getPlantDynamicConcept(self):
         """
@@ -135,7 +148,7 @@ class MangaProject:
         else:
             raise KeyError("Required plant dynamic concept not implemented.")
         self.plant_dynamic_concept = createGD(arg)
-        print(case + " plant dynamic concept initiated.")
+        print("Plant dynamic concept set to {}.".format(case))
 
     def iniPopulationConcept(self):
         """

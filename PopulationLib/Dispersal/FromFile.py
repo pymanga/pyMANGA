@@ -94,7 +94,6 @@ class FromFile(PlantGroup):
                 max_y = max(max_y, y)
                 min_x = min(min_x, x)
                 min_y = min(min_y, y)
-                self.addPlant(x, y, initial_geometry=geometry)
         self.x_1 = min_x
         self.y_1 = min_y
         self.l_x = max_x - self.x_1

@@ -36,12 +36,9 @@ class GroupPlanting(PlantGroup):
             from PopulationLib.Dispersal.FromFile import FromFile
             self.dispersal = FromFile(args)
             self.dispersal.plantPlantsFromFile(args=distribution)
-            print("<<<<<<<", self.dispersal.initializePopulation)
         else:
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")
-        for i in range(len(self.dispersal.x_i)):
-            self.addPlant(self.dispersal.x_i[i], self.dispersal.y_i[i])
 
     ## Function initializing plant population of size n_individuals within given
     #  rectangular domain.

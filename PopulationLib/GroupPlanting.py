@@ -49,7 +49,6 @@ class GroupPlanting(PlantGroup):
         }
         self.getInputParameters(**tags)
         self.n_individuals = int(self.n_individuals)
-        self.n_recruitment_per_step = int(self.n_recruitment_per_step)
         self.l_x = self.x_2 - self.x_1
         self.l_y = self.y_2 - self.y_1
         for i in range(self.n_individuals):
@@ -65,7 +64,8 @@ class GroupPlanting(PlantGroup):
     def plantPlantsFromFile(self, args):
         tags = {
             "prj_file": args,
-            "required": ["type", "filename"]
+            "required": ["type", "filename"],
+            "optional": ["n_recruitment_per_step"]
         }
         self.getInputParameters(**tags)
 
@@ -190,6 +190,6 @@ class GroupPlanting(PlantGroup):
                 "Missing input parameters (in project file) for population module initialisation: " + string)
 
         try:
-            self.n_recruitment_per_step
+            self.n_recruitment_per_step = int(self.n_recruitment_per_step)
         except AttributeError:
-             self.n_recruitment_per_step = 0
+            self.n_recruitment_per_step = 0

@@ -45,7 +45,7 @@
     </visualization>
     <output>
         <type> OneTreeOneFile </type>
-        <output_each_nth_timestep> 1 </output_each_nth_timestep>
+        <output_each_nth_timestep> [1] </output_each_nth_timestep>
         <output_dir> Benchmarks/ExampleSetups/ExternalSetup/TreeOutput </output_dir>
         <allow_previous_output>True</allow_previous_output>
         <geometry_output> r_stem </geometry_output>

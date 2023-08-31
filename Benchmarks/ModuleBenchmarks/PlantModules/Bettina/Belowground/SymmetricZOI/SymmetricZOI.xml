@@ -6,14 +6,14 @@
         </aboveground>
         <belowground>
             <type> SymmetricZOI </type>
-                <domain>
-                    <x_1> 0 </x_1>
-                    <y_1> 0 </y_1>
-                    <x_2> 22 </x_2>
-                    <y_2> 22 </y_2>
-                </domain>
-            <x_resolution> 88 </x_resolution>
-            <y_resolution> 88 </y_resolution>
+            <domain>
+                <x_1>0</x_1>
+                <y_1> 0 </y_1>
+                <x_2> 22 </x_2>
+                <y_2> 22 </y_2>
+                <x_resolution> 88 </x_resolution>
+                <y_resolution> 88 </y_resolution>
+            </domain>
         </belowground>
     </resources>
     <plant_dynamics>

@@ -31,15 +31,13 @@ class GroupPlanting(PlantGroup):
         if distribution_type == "Random":
             from PopulationLib.Dispersal.Random import Random
             self.dispersal = Random(args)
-            self.dispersal.initializePopulation(args=distribution)
         elif distribution_type == "FromFile":
             from PopulationLib.Dispersal.FromFile import FromFile
             self.dispersal = FromFile(args)
-            self.dispersal.plantPlantsFromFile(args=distribution)
         else:
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")
-
+        self.dispersal.initializePopulation(args=distribution)
     ## Function initializing plant population of size n_individuals within given
     #  rectangular domain.
     #  @param args: arguments specified in project file. Please see tag
@@ -64,7 +62,7 @@ class GroupPlanting(PlantGroup):
     #  rectangular domain.
     #  @param args: arguments specified in project file. Please see tag
     #  documentation.
-    def plantPlantsFromFile(self, args):
+    def initializePopulation(self, args):
         tags = {
             "prj_file": args,
             "required": ["type", "filename"]

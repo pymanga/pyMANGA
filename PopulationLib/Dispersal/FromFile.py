@@ -1,6 +1,7 @@
 import numpy as np
 from PopulationLib import PlantGroup
 
+
 class FromFile(PlantGroup):
     def __init__(self, args):
         """
@@ -10,7 +11,7 @@ class FromFile(PlantGroup):
         """
         pass
 
-    def plantPlantsFromFile(self, args):
+    def initializePopulation(self, args):
         """
         Function initializing plant population of size n_individuals from a file within given
         rectangular domain.
@@ -100,12 +101,5 @@ class FromFile(PlantGroup):
         self.l_y = max_y - self.y_1
 
     def recruitPlants(self):
-            """
-            Randomly recruiting trees within given domain.
-            Returns: random x and y of n_recruitment in the corresponding domain.
-            """
-            for i in range(self.n_recruitment):
-                r_x, r_y = (np.random.rand(2))
-                x_i = self.x_1 + self.l_x * r_x
-                y_i = self.y_1 + self.l_y * r_y
-                self.addTree(x_i, y_i)
+        from PopulationLib.Dispersal.Random import Random
+        Random.recruitPlants(self)

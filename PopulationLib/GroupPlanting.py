@@ -48,7 +48,7 @@ class GroupPlanting(PlantGroup):
             "optional": ["n_recruitment_per_step"]
         }
         self.getInputParameters(**tags)
-
+        self.n_individuals = int(self.n_individuals)
         self.l_x = self.x_2 - self.x_1
         self.l_y = self.y_2 - self.y_1
         for i in range(self.n_individuals):

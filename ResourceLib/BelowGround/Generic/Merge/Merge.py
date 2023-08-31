@@ -18,6 +18,7 @@ class Merge(ResourceModel):
             print("Error: No module specifications found.")
 
         self.bg_concepts = []
+        modules = modules.split()
         for module in modules:
             if module == "FixedSalinity":
                 from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity

@@ -51,7 +51,7 @@
     </visualization>
     <output>
         <type> OneFile </type>
-        <output_each_nth_timestep>10</output_each_nth_timestep>
+        <output_each_nth_timestep>[10]10</output_each_nth_timestep>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/ExampleSetups/FirstApplication/ModelOutput/</output_dir>
         <geometry_output> r_stem </geometry_output>

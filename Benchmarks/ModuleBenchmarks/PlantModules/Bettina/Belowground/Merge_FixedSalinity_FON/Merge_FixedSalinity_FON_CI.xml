@@ -41,7 +41,7 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 2e8 </t_end>
+        <t_end> 2e6 </t_end>
         <delta_t> 1e6 </delta_t>
     </time_loop>
     <visualization>

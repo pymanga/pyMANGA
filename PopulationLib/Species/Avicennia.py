@@ -18,7 +18,7 @@ def createPlant():
     geometry["h_stem"] = 0.05
     geometry["r_crown"] = 0.2
     parameter["leaf_water_potential"] = -7.86e6
-    parameter["kf_sap"] = 1.04e10
+    parameter["kf_sap"] = 1.04e-10
     parameter["lp"] = 0.33e-14
     parameter["k_geom"] = 4000
     parameter["half_max_h_growth_weight"] = 0.12

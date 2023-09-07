@@ -38,4 +38,8 @@ def createPlant():
     parameter["b3"] = 0.172
     parameter["mortality_constant"] = 0.467
     parameter["a_zoi_scaling"] = 10
+    # resource module FON
+    parameter["aa"] = 10
+    parameter["bb"] = 1
+    parameter["fmin"] = 0.1
     return geometry, parameter

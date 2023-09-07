@@ -24,7 +24,6 @@ class FON(ResourceModel):
         self._fon_area = []
         self._fon_impact = []
         self._resource_limitation = []
-        self._salinity_reduction = []
         self._xe = []
         self._ye = []
         self._salt_effect_d = []
@@ -32,7 +31,7 @@ class FON(ResourceModel):
         self._r_stem = []
         self._t_ini = t_ini
         self._t_end = t_end
-        self._fon_height = np.zeros_like(self._my_grid[0])
+        self._fon_height = np.zeros_like(self.my_grid[0])
 
     def addPlant(self, plant):
         x, y = plant.getPosition()
@@ -46,15 +45,14 @@ class FON(ResourceModel):
 
     def calculateBelowgroundResources(self):
         """
-        Calculate a growth reduction factor for each plant based on competition and
-        pore-water salinity below the centre of each plant.
+        Calculate a growth reduction factor for each plant based on competition with neighboring plants.
         Sets:
             numpy array with shape(number_of_plants)
         """
         self._r_stem = np.array(self._r_stem)
-        distance = (((self._my_grid[0][:, :, np.newaxis] -
+        distance = (((self.my_grid[0][:, :, np.newaxis] -
                       np.array(self._xe)[np.newaxis, np.newaxis, :])**2 +
-                     (self._my_grid[1][:, :, np.newaxis] -
+                     (self.my_grid[1][:, :, np.newaxis] -
                       np.array(self._ye)[np.newaxis, np.newaxis, :])**2)**0.5)
         my_fon = self.calculateFonFromDistance(distance=distance)
 
@@ -98,12 +96,15 @@ class FON(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
-                         "y_resolution", "aa", "bb", "fmin", "salinity"]
+                         "y_resolution", "aa", "bb", "fmin"]
         }
         super().getInputParameters(**tags)
+        self._x_1 = self.x_1
+        self._x_2 = self.x_2
+        self._y_1 = self.y_1
+        self._y_2 = self.y_2
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
         self._aa = self.aa
         self._bb = self.bb
         self._fmin = self.fmin
-        self._salinity = self.salinity

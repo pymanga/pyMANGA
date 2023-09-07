@@ -48,7 +48,7 @@ class GroupPlanting(PlantGroup):
             "optional": ["n_recruitment_per_step"]
         }
         self.getInputParameters(**tags)
-
+        self.n_individuals = int(self.n_individuals)
         self.l_x = self.x_2 - self.x_1
         self.l_y = self.y_2 - self.y_1
         for i in range(self.n_individuals):
@@ -64,7 +64,8 @@ class GroupPlanting(PlantGroup):
     def plantPlantsFromFile(self, args):
         tags = {
             "prj_file": args,
-            "required": ["type", "filename"]
+            "required": ["type", "filename"],
+            "optional": ["n_recruitment_per_step"]
         }
         self.getInputParameters(**tags)
 
@@ -127,7 +128,7 @@ class GroupPlanting(PlantGroup):
 
     ## Randomly recruiting plants within given domain.
     def recruitPlants(self):
-        for i in range(self.n_recruitment):
+        for i in range(self.n_recruitment_per_step):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
@@ -138,7 +139,7 @@ class GroupPlanting(PlantGroup):
         return self.plant_group
 
     def getNRecruits(self):
-        return self.n_recruitment
+        return self.n_recruitment_per_step
 
     def getInputParameters(self, **tags):
         """
@@ -188,5 +189,7 @@ class GroupPlanting(PlantGroup):
             raise KeyError(
                 "Missing input parameters (in project file) for population module initialisation: " + string)
 
-        if not hasattr(GroupPlanting, "n_recruitment"):
-            self.n_recruitment = 0
+        try:
+            self.n_recruitment_per_step = int(self.n_recruitment_per_step)
+        except AttributeError:
+            self.n_recruitment_per_step = 0

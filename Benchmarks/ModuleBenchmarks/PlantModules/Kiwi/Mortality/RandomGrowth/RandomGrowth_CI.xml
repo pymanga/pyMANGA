@@ -11,7 +11,7 @@
     <plant_dynamics>
         <type> Kiwi </type>
         <mortality>RandomGrowth</mortality>
-        <k_die> 1e-9 </k_die>
+        <k_die> 1e-11 </k_die>
     </plant_dynamics>
     <population>
         <group>

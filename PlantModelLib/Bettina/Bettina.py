@@ -83,6 +83,8 @@ class Bettina(PlantModel):
             self.weight_crowngrowth
         growth_concept_information["weight_rootgrowth"] = \
             self.weight_rootgrowth
+        growth_concept_information["bg_factor"] = belowground_resources
+        growth_concept_information["ag_factor"] = aboveground_resources
 
         # Get Mortality-related variables
         super().getMortalityVariables(growth_concept_information)

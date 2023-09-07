@@ -42,6 +42,9 @@ class FON(ResourceModel):
         self._salt_effect_d.append(parameter["salt_effect_d"])
         self._salt_effect_ui.append(parameter["salt_effect_ui"])
         self._r_stem.append(geometry["r_stem"])
+        self.aa = parameter["aa"]
+        self.bb = parameter["bb"]
+        self.fmin = parameter["fmin"]
 
     def calculateBelowgroundResources(self):
         """
@@ -65,7 +68,7 @@ class FON(ResourceModel):
         fon_heigths = my_fon.sum(axis=-1)
 
         fon_impacts = fon_heigths[:, :, np.newaxis] - my_fon
-        fon_impacts[np.where(my_fon < self._fmin)] = 0
+        fon_impacts[np.where(my_fon < self.fmin)] = 0
         fon_impacts = fon_impacts.sum(axis=(0, 1))
 
         # tree-to-tree competition, eq. (7) Berger & Hildenbrandt (2000)
@@ -84,19 +87,19 @@ class FON(ResourceModel):
             numpy array with shape(x_grid_points, y_grid_points, number_of_plants)
         """
         # fon radius, eq. (1) Berger et al. 2002
-        fon_radius = self._aa * self._r_stem**self._bb
-        cc = -np.log(self._fmin) / (fon_radius - self._r_stem)
+        fon_radius = self.aa * self._r_stem**self.bb
+        cc = -np.log(self.fmin) / (fon_radius - self._r_stem)
         height = np.exp(-cc[np.newaxis, np.newaxis, :] *
                         (distance - self._r_stem[np.newaxis, np.newaxis, :]))
         height[height > 1] = 1
-        height[height < self._fmin] = 0
+        height[height < self.fmin] = 0
         return height
 
     def getInputParameters(self, args, required_tags=None):
         tags = {
             "prj_file": args,
             "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
-                         "y_resolution", "aa", "bb", "fmin"]
+                         "y_resolution"]
         }
         super().getInputParameters(**tags)
         self._x_1 = self.x_1
@@ -105,6 +108,3 @@ class FON(ResourceModel):
         self._y_2 = self.y_2
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
-        self._aa = self.aa
-        self._bb = self.bb
-        self._fmin = self.fmin

@@ -5,7 +5,7 @@ import os
 
 
 class OneTimestepOneFile(ModelOutput):
-    def __init__(self, args):
+    def __init__(self, args, time):
         """
         Model output concept.
         Create one file for each time step, i.e., each file contains the complete population of a single time step.
@@ -14,7 +14,7 @@ class OneTimestepOneFile(ModelOutput):
         Args:
             args: module specifications from project file tags
         """
-        super().__init__(args)
+        super().__init__(args, time)
 
     def outputContent(self, plant_groups, time, **kwargs):
         delimiter = "\t"

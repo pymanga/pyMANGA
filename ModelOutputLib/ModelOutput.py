@@ -8,7 +8,7 @@ class ModelOutput:
     Parent class for all model output modules.
     """
 
-    def __init__(self, args):
+    def __init__(self, args, time):
         """
         Get relevant tags from project file and create output directory and/or file.
         Check if output file exists and can be overwritten.
@@ -21,8 +21,12 @@ class ModelOutput:
         ## N-timesteps between two outputs
         self.output_each_nth_timestep = args.find("output_each_nth_timestep")
         if self.output_each_nth_timestep is not None:
-            self.output_each_nth_timestep = int(
-                self.checkRequiredKey("output_each_nth_timestep", args))
+            self.output_each_nth_timestep = eval(self.output_each_nth_timestep.text)
+            if len(self.output_each_nth_timestep) == 1:
+                self.output_each_nth_timestep.append(1)
+            elif len(self.output_each_nth_timestep) > 2:
+                raise ValueError("The tag \'<output_each_nth_timestep>\' in the xml file"
+                                 " caused an error. Please check your input!")
         else:
             self.output_each_nth_timestep = None
         ## Check if overwrite of previous output is allowed
@@ -32,11 +36,15 @@ class ModelOutput:
         else:
             allow_previous_output = False
         ## Check if specific timesteps for output are defined
-        output_times = args.find("output_times")
-        if output_times is not None:
-            self.output_times = eval(output_times.text)
-        else:
-            self.output_times = None
+        self.output_times = args.find("output_times")
+        if self.output_times is not None:
+            self.output_times = eval(self.output_times.text)
+        self.output_time_range = args.find("output_time_range")
+        if self.output_time_range is not None:
+            self.output_time_range = eval(self.output_time_range.text)
+            if len(self.output_time_range) != 2:
+                raise ValueError("The tag \'<output_time_range>\' in the xml file"
+                                 " caused an error. Please check your input!")
 
         ## Geometric measures included in output
         self.geometry_outputs = []
@@ -48,6 +56,8 @@ class ModelOutput:
         self.network_outputs = []
         ## Counter for output generation
         self._output_counter = 0
+        self._output_counter2 = 0
+
         for key in args.iterchildren("geometry_output"):
             self.geometry_outputs.append(key.text.strip())
         for key in args.iterchildren("parameter_output"):
@@ -139,9 +149,6 @@ class ModelOutput:
                     growth_information[growth_output_key] = "NaN"
                     string += delimiter + str(
                         growth_information[growth_output_key])
-                    # print("Key " + growth_output_key +
-                    #       " might be not available in growth " + "concept!" +
-                    #       " Please read growth concept documentation.")
         if len(self.network_outputs) > 0:
             network = plant.getNetwork()
             for network_output in self.network_outputs:
@@ -175,12 +182,40 @@ class ModelOutput:
             force_output (bool): indicate whether writing output is forced
             group_died (bool): indicate whether a whole plant group died
         """
+        self._it_is_output_time = False
+        self.cond1, self.cond2, self.cond3, self.cond3a, self.cond3b = False, False, False, False, False
+        # Condition whether we are in the n-th timestep
         if self.output_each_nth_timestep is not None:
-            self._output_counter = (self._output_counter %
-                                    self.output_each_nth_timestep)
-            self._it_is_output_time = (self._output_counter == 0)
+            if int(self.output_each_nth_timestep[0]) == 1:
+                self.cond1 = True
+            else:
+                self._output_counter = (self._output_counter %
+                                        int(self.output_each_nth_timestep[0]))
+                self.cond1 = (self._output_counter == 1)
+        # Condition whether we are in a certain output time
         if self.output_times is not None:
-            self._it_is_output_time = (time in self.output_times)
+            self.cond2 = (time in self.output_times)
+        # Condition whether we are in the output time range
+        if self.output_time_range is not None:
+            self.cond3a = (self.output_time_range[0] <=
+                                       time <=
+                                       self.output_time_range[1])
+            # Condition whether we are in the n-th timestep
+            if self.output_each_nth_timestep is not None:
+                if int(self.output_each_nth_timestep[1]) == 1:
+                    self.cond3b = True
+                else:
+                    self._output_counter2 = (self._output_counter2 %
+                                            int(self.output_each_nth_timestep[1]))
+                    self.cond3b = (self._output_counter2 == 1)
+            else:
+                self.cond3b = True
+            self.cond3 = all([self.cond3a, self.cond3b])
+
+        # Check whether one of the above conditions is fulfilled
+        if any([self.cond1, self.cond2, self.cond3]):
+            self._it_is_output_time = True
+
         if force_output or group_died:
             self._it_is_output_time = True
 
@@ -188,8 +223,8 @@ class ModelOutput:
             self.outputContent(plant_groups=plant_groups,
                                time=time,
                                group_died=group_died)
-            self._it_is_output_time = False
         self._output_counter += 1
+        self._output_counter2 = self._output_counter
 
     def outputContent(self, plant_groups, time, **kwargs):
         """

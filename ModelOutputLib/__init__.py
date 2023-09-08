@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 """
 Library of model output modules.
+
+.. include:: ./ModelOutput.md
+
 """
 
 from .ModelOutput import ModelOutput

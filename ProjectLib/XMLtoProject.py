@@ -23,7 +23,6 @@ class XMLtoProject(MangaProject):
         self.readProjectFile()
         self.addNumpyRandomSeed()
         self.addResourceConcept()
-        # self.addPlantDynamicConcept()
         self.addPopulationConcept()
         self.addPlantTimeLoopConcept()
         self.addVisualizationConcept()

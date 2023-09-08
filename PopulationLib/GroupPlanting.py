@@ -88,7 +88,6 @@ class GroupPlanting(PlantGroup):
                 j = 0
                 for tag in line:
                     tag = tag.strip()
-                    #print(tag)
                     if tag == "x" and x_idx == 99999:
                         x_idx = int(j)
                         i += 1

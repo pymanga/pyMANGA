@@ -8,16 +8,14 @@
             <type> Default </type>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <vegetation_model_type> Bettina </vegetation_model_type>
-        <mortality>Memory</mortality>
-        <threshold> 0.005 </threshold>
-        <period> 31557600 </period>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality>Memory</mortality>
+            <threshold> 0.005 </threshold>
+            <period> 31557600 </period>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>

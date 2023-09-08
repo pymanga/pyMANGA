@@ -16,14 +16,12 @@
             </domain>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Kiwi </type>
-        <mortality>NoGrowth</mortality>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> Kiwi </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
@@ -42,7 +40,6 @@
     </visualization>
     <output>
          <type> OneTimestepOneFile </type>
-        <output_each_nth_timestep>1</output_each_nth_timestep>
         <output_times> [2e6] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>

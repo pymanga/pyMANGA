@@ -119,8 +119,8 @@ class Plant:
             from PlantModelLib.Bettina import Bettina as createGD
         elif case == "Kiwi":
             from PlantModelLib.Kiwi import Kiwi as createGD
-        elif case == "NetworkBettina":
-            from PlantModelLib.NetworkBettina import NetworkBettina as createGD
+        elif case == "BettinaNetwork":
+            from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
         else:
             raise KeyError("Required plant dynamic concept not implemented.")
         self.plant_dynamic_concept = createGD(self.args)

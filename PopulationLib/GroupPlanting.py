@@ -19,21 +19,22 @@ class GroupPlanting(PlantGroup):
     #  @param args: arguments specified in project file. Please see tag
     #  documentation.
     def __init__(self, args):
-        self.species = args.find("species").text
-        self.name = args.find("name").text
-        self.plant_model = args.find("vegetation_model_type").text
+        self.tags_group = args
+        self.species = self.tags_group.find("species").text
+        self.name = self.tags_group.find("name").text
+        self.plant_model = self.tags_group.find("vegetation_model_type").text
         self.plants = []
         self.max_id = 0
 
-        distribution = args.find("distribution")
+        distribution = self.tags_group.find("distribution")
         distribution_type = distribution.find("type").text
         print("Initialise plant group " + self.name + " with " +
               distribution_type + " distribution type and plants of species " +
               self.species + ".")
         if distribution_type == "Random":
-            self.plantRandomDistributedPlants(args)
+            self.plantRandomDistributedPlants()
         elif distribution_type == "GroupFromFile":
-            self.plantPlantsFromFile(args)
+            self.plantPlantsFromFile()
         else:
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")
@@ -42,9 +43,9 @@ class GroupPlanting(PlantGroup):
     #  rectangular domain.
     #  @param args: arguments specified in project file. Please see tag
     #  documentation.
-    def plantRandomDistributedPlants(self, args):
+    def plantRandomDistributedPlants(self):
         tags = {
-            "prj_file": args,
+            "prj_file": self.tags_group,
             "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "n_individuals"],
             "optional": ["n_recruitment_per_step"]
         }
@@ -56,17 +57,17 @@ class GroupPlanting(PlantGroup):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
-            self.addPlant(x=x_i, y=y_i, xml_args=args,
+            self.addPlant(x=x_i, y=y_i, xml_args=self.tags_group,
                           plant_model=self.plant_model,
                           initial_geometry=False)
 
     ## Function initializing plant population of size n_individuals within given
     #  rectangular domain.
-    #  @param args: arguments specified in project file. Please see tag
+    #  @param self.tags_group: arguments specified in project file. Please see tag
     #  documentation.
-    def plantPlantsFromFile(self, args):
+    def plantPlantsFromFile(self):
         tags = {
-            "prj_file": args,
+            "prj_file": self.tags_group,
             "required": ["type", "filename"],
             "optional": ["n_recruitment_per_step"]
         }
@@ -122,7 +123,8 @@ class GroupPlanting(PlantGroup):
                 max_y = max(max_y, y)
                 min_x = min(min_x, x)
                 min_y = min(min_y, y)
-                self.addPlant(x=x, y=y, xml_args=args, plant_model=self.plant_model, initial_geometry=geometry)
+                self.addPlant(x=x, y=y, xml_args=self.tags_group,
+                              plant_model=self.plant_model, initial_geometry=geometry)
         self.x_1 = min_x
         self.y_1 = min_y
         self.l_x = max_x - self.x_1
@@ -134,7 +136,7 @@ class GroupPlanting(PlantGroup):
             r_x, r_y = (np.random.rand(2))
             x_i = self.x_1 + self.l_x * r_x
             y_i = self.y_1 + self.l_y * r_y
-            self.addPlant(x=x_i, y=y_i, xml_args=self.args,
+            self.addPlant(x=x_i, y=y_i, xml_args=self.tags_group,
                           plant_model=self.plant_model,
                           initial_geometry=False)
 

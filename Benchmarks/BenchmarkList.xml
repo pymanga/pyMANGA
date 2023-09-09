@@ -114,10 +114,10 @@
         </TreeOutput>
         <Population>
             <FromFile>
-                <test> FromFile_CI </test>
+                <test> FromFile_CI.xml </test>
             </FromFile>
             <Random>
-                <test> Random_CI </test>
+                <test> Random_CI.xml </test>
             </Random>
         </Population>
     </ModuleBenchmarks>

@@ -11,7 +11,6 @@ class Default(ResourceModel):
             args: FixedSalinity module specifications from project file tags
         """
         case = args.find("type").text
-        print("Initiate belowground competition of type " + case + ".")
 
     def prepareNextTimeStep(self, t_ini, t_end):
         self.plants = []

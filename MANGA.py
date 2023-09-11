@@ -70,14 +70,14 @@ def main(argv):
     except UnboundLocalError:
         raise UnboundLocalError('Wrong usage of pyMANGA. Type "python' +
                                 ' main.py -h" for additional help.')
-    print("MANGA started at", t_start)
-    print('Running pyMANGA project', project_file)
+    print("--------------------\npyMANGA started at", t_start)
+    print('Running pyMANGA project file:', project_file)
     time_stepper = DynamicTimeStep(prj)
     prj.runProject(time_stepper)
     t_end = datetime.datetime.now()
-    print('pyMANGA project', project_file, ' successfully evaluated.')
-    print("MANGA finished at", t_end)
-    print("Total execution took", (t_end - t_start).seconds, " seconds")
+    print('pyMANGA project', project_file, 'successfully evaluated.')
+    print("pyMANGA finished at", t_end)
+    print("Total execution took", (t_end - t_start).seconds, "seconds")
 
 
 if __name__ == "__main__":

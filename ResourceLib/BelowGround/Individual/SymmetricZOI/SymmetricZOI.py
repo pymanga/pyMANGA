@@ -19,7 +19,6 @@ class SymmetricZOI(ResourceModel):
     #  @date: 2019 - Today
     def __init__(self, args):
         case = args.find("type").text
-        print("Initiate belowground competition of type " + case + ".")
         self.getInputParameters(args)
         super().makeGrid()
 

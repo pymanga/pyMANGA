@@ -15,7 +15,6 @@ class Default(ResourceModel):
         #  @param: Tags to define Default: type
         #  @date: 2019 - Today
         case = args.find("type").text
-        print("Initiate aboveground competition of type " + case + "...")
 
     def calculateAbovegroundResources(self):
         ## This function returns the AbovegroundResources calculated in the

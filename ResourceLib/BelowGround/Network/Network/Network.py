@@ -12,7 +12,6 @@ class Network(ResourceModel):
             args (lxml.etree._Element): Network module specifications from project file tags
         """
         case = args.find("type").text
-        print("Initiate below-ground competition of type " + case + ".")
         self.getInputParameters(args=args)
 
     def prepareNextTimeStep(self, t_ini, t_end):

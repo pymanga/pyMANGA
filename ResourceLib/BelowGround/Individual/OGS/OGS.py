@@ -24,7 +24,6 @@ class OGS(ResourceModel):
     def __init__(self, args):
         self.case = args.find("type").text
         self._abiotic_drivers = args.find("abiotic_drivers")
-        print("Initiate belowground competition of type " + self.case + ".")
         self._ogs_project_folder = args.find("ogs_project_folder").text.strip()
         if not path.isabs(self._ogs_project_folder):
             self._ogs_project_folder = \

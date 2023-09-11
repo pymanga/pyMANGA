@@ -130,6 +130,8 @@ class GroupPlanting(PlantGroup):
         self.l_x = max_x - self.x_1
         self.l_y = max_y - self.y_1
 
+        print("Plant population initialised and planted.")
+
     ## Randomly recruiting plants within given domain.
     def recruitPlants(self):
         for i in range(self.n_recruitment_per_step):

@@ -10,7 +10,6 @@ class Merge(ResourceModel):
             args: Merge module specifications from project file tags
         """
         case = args.find("type").text
-        print("Initiate belowground competition of type " + case + ".")
 
         try:
             modules = args.find("modules").text

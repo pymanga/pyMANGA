@@ -16,7 +16,6 @@ class AsymmetricZOI(ResourceModel):
     #  @date: 2019 - Today
     def __init__(self, args):
         case = args.find("type").text
-        print("Initiate aboveground competition of type " + case + ".")
         self.getInputParameters(args)
         super().makeGrid()
 

@@ -223,7 +223,7 @@ class MangaProject:
         else:
             raise KeyError("Required model_output of type '" + case +
                            "' not implemented!")
-        print(case + " model output successfully initiated.")
+        print("Model output set to {}.".format(case))
 
         ## Containing configuration on model_output
         self.model_output_concept = createOut(arg, time)

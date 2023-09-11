@@ -80,9 +80,9 @@ class ModelOutput:
 
         self._it_is_output_time = True
         print(
-            "Output to '" + os.path.join(os.getcwd(), self.output_dir) +
-            "' of plant positions, the " + "parameters ",
-            self.parameter_outputs, " and geometric" + " measures ",
+            "Output file can be found here: " + os.path.join(os.getcwd(), self.output_dir) + "\n" +
+            "The output file contains the parameters ", 
+            self.parameter_outputs, " and the geometric measures ",
             self.geometry_outputs, " at every " +
             str(self.output_each_nth_timestep) + " timesteps initialized.")
 

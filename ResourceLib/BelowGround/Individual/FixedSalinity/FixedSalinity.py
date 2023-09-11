@@ -13,7 +13,6 @@ class FixedSalinity(ResourceModel):
             args: FixedSalinity module specifications from project file tags
         """
         case = args.find("type").text
-        print("Initiate belowground competition of type " + case + "...")
         self.variant = None
         self.getInputParameters(args)
 

@@ -12,7 +12,6 @@ from ProjectLib import XMLtoProject
 from TimeLoopLib import DynamicTimeStep
 import datetime
 
-
 class Model():
     ## Class to run the model from other programs
     #  @param project_file: path to pymanga project file.
@@ -55,6 +54,7 @@ def main(argv):
         print("""pyMANGA wrong usage. Type "python main.py -h"
   for additional help.""")
         sys.exit(0)
+    log_flag = False
     for opt, arg in opts:
         if opt == '-h':
             print("""pyMANGA arguments:
@@ -62,6 +62,26 @@ def main(argv):
             sys.exit()
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)
+        elif opt in ("-l", "--logging"):
+            log_flag = True
+    
+    if log_flag:
+        # Duplicate output stream (logfile) back to stdout for console output
+        class DualOutput:
+            def __init__(self, *outputs):
+                self.outputs = outputs
+
+            def write(self, text):
+                for output in self.outputs:
+                    output.write(text)
+
+            def flush(self):
+                for output in self.outputs:
+                    output.flush()
+        file_output = open('logfile.log', 'wt')
+        dual_output = DualOutput(file_output, sys.stdout)
+        sys.stdout = dual_output
+
     t_start = datetime.datetime.now()
 
     try:

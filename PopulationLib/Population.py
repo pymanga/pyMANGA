@@ -5,9 +5,8 @@
 @author: jasper.bathmann@ufz.de
 """
 
-import PopulationLib as PLib
 from PopulationLib import PlantGroup
-
+from PopulationLib.Dispersal import GroupPlanting
 
 class Population(PlantGroup):
 
@@ -19,7 +18,7 @@ class Population(PlantGroup):
             self.addPlantGroup(arg)
 
     def addPlantGroup(self, args):
-        plant_group = PLib.GroupPlanting(args)
+        plant_group = GroupPlanting(args)
         self.plant_groups[plant_group.name] = plant_group
         self.max_id += plant_group.getNumberOfPlants()
 

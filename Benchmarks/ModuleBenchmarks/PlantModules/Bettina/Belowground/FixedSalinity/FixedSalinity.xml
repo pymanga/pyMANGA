@@ -11,14 +11,12 @@
             <salinity>0.025 0.035</salinity>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Bettina </type>
-        <mortality>NoGrowth</mortality>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
@@ -29,8 +27,8 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 5e8 </t_end>
-        <delta_t> 1e6 </delta_t>
+        <t_end> 1e11 </t_end>
+        <delta_t> 1 </delta_t>
     </time_loop>
     <visualization>
         <type> NONE </type>

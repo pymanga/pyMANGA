@@ -11,7 +11,7 @@ class Bettina(PlantModel):
         Args:
             args: Bettina module specifications from project file tags
         """
-        case = args.find("type").text
+        case = args.find("vegetation_model_type").text
         print("Growth and death dynamics of type " + case + ".")
         super().iniMortalityConcept(args)
 

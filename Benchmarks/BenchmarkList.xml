@@ -2,6 +2,9 @@
 <Benchmarks>
     <ModuleBenchmarks>
         <PlantModules>
+            <TwoPlantModules>
+                <test> 2Plants_CI.xml </test>
+            </TwoPlantModules>
             <BettinaNetwork>
                 <Belowground>
                     <NetworkFixedSalinity>
@@ -22,9 +25,18 @@
                     <FixedSalinity>
                         <test> FixedSalinity_CI.xml </test>
                     </FixedSalinity>
+                    <FON>
+                        <test> FON_CI.xml </test>
+                    </FON>
                     <SymmetricZOI>
                         <test> SymmetricZOI_CI.xml </test>
                     </SymmetricZOI>
+                    <Merge_FixedSalinity_sZOI>
+                        <test> Merge_FixedSalinity_sZOI_CI.xml </test>
+                    </Merge_FixedSalinity_sZOI>
+                    <Merge_FixedSalinity_FON>
+                        <test> Merge_FixedSalinity_FON_CI.xml </test>
+                    </Merge_FixedSalinity_FON>
                 </Belowground>
                 <Mortality>
                     <Memory>
@@ -54,6 +66,18 @@
                     <FixedSalinity>
                         <test> FixedSalinity_CI.xml </test>
                     </FixedSalinity>
+                    <FON>
+                        <test> FON_CI.xml </test>
+                    </FON>
+                    <SymmetricZOI>
+                        <test> SymmetricZOI_CI.xml </test>
+                    </SymmetricZOI>
+                    <Merge_FixedSalinity_sZOI>
+                        <test> Merge_FixedSalinity_sZOI_CI.xml </test>
+                    </Merge_FixedSalinity_sZOI>
+                    <Merge_FixedSalinity_FON>
+                        <test> Merge_FixedSalinity_FON_CI.xml </test>
+                    </Merge_FixedSalinity_FON>
                 </Belowground>
                 <Mortality>
                     <Memory>
@@ -91,5 +115,13 @@
                 <test> OneTimestepOneFilePerGroup_CI.xml </test>
             </OneTimestepOneFilePerGroup>
         </TreeOutput>
+        <Population>
+            <FromFile>
+                <test> FromFile_CI.xml </test>
+            </FromFile>
+            <Random>
+                <test> Random_CI.xml </test>
+            </Random>
+        </Population>
     </ModuleBenchmarks>
 </Benchmarks>

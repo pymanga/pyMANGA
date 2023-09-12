@@ -19,16 +19,14 @@
             <python_script>python_script.py</python_script>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> BettinaNetwork </type>
-        <mortality>NoGrowth</mortality>
-        <f_growth> 0.25 </f_growth>
-        <variant> V2_adapted </variant>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> BettinaNetwork </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
+            <f_growth> 0.25 </f_growth>
+            <variant> V2_adapted </variant>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>

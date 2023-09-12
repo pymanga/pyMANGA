@@ -23,18 +23,16 @@
             <fmin>0.1</fmin>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Bettina </type>
-        <mortality>NoGrowth</mortality>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> Kiwi </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/bg_initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Kiwi/initial_population.csv </filename>
             </distribution>
         </group>
     </population>
@@ -53,13 +51,10 @@
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>
-        <geometry_output> h_stem </geometry_output>
-        <geometry_output> r_crown </geometry_output>
-        <geometry_output> r_root </geometry_output>
+        <geometry_output> height </geometry_output>
         <growth_output> growth </growth_output>
-        <growth_output> ag_resources </growth_output>
-        <growth_output> bg_resources </growth_output>
-        <growth_output> salinity </growth_output>
+        <growth_output> ag_factor </growth_output>
+        <growth_output> bg_factor </growth_output>
     </output>
 </MangaProject>
 

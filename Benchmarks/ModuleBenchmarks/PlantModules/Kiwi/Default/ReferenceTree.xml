@@ -8,14 +8,12 @@
             <type> Default </type>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Kiwi </type>
-        <mortality>NoGrowth</mortality>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> Kiwi </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
                 <type> Random </type>
                 <domain>
@@ -40,7 +38,7 @@
     </visualization>
     <output>
         <type> OneFile </type>
-        <output_each_nth_timestep>1</output_each_nth_timestep>
+        <output_each_nth_timestep>[1]</output_each_nth_timestep>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>

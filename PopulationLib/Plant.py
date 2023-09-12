@@ -28,7 +28,6 @@ class Plant:
         self.survival = 1
         self.group_name = group_name
         self.plant_model = plant_model
-        self.iniPlantDynamicConcept()
         ## This initialization is only required if networks (root grafts) are
         # simulated
         self.iniNetwork()
@@ -56,6 +55,24 @@ class Plant:
             self.geometry["r_stem"] = initial_geometry["r_stem"]
             self.geometry["h_stem"] = initial_geometry["h_stem"]
         self.growth_concept_information = {}
+
+        self.iniPlantDynamicConcept()
+
+    def iniPlantDynamicConcept(self):
+        case = self.args.find("vegetation_model_type").text
+        if case == "Default":
+            from PlantModelLib.Default import Default as createGD
+        elif case == "Bettina":
+            from PlantModelLib.Bettina import Bettina as createGD
+        elif case == "Kiwi":
+            from PlantModelLib.Kiwi import Kiwi as createGD
+        elif case == "BettinaNetwork":
+            from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
+        else:
+            raise KeyError("Required plant dynamic concept not implemented.")
+        self.plant_dynamic_concept = createGD(self.args)
+        print(case + " plant dynamic concept initiated.")
+
 
     def getPosition(self):
         return self.x, self.y
@@ -110,21 +127,6 @@ class Plant:
         self.network['r_gr_rgf'] = []
         self.network['l_gr_rgf'] = []
         self.network['variant'] = None
-
-    def iniPlantDynamicConcept(self):
-        case = self.args.find("vegetation_model_type").text
-        if case == "Default":
-            from PlantModelLib.Default import Default as createGD
-        elif case == "Bettina":
-            from PlantModelLib.Bettina import Bettina as createGD
-        elif case == "Kiwi":
-            from PlantModelLib.Kiwi import Kiwi as createGD
-        elif case == "BettinaNetwork":
-            from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
-        else:
-            raise KeyError("Required plant dynamic concept not implemented.")
-        self.plant_dynamic_concept = createGD(self.args)
-        print("Plant dynamic concept: " + case + ".")
 
     def getNetwork(self):
         return self.network

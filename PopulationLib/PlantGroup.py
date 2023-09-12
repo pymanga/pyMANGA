@@ -5,39 +5,56 @@
 @author: jasper.bathmann@ufz.de
 """
 import PopulationLib as PLib
-
-if __name__ == '__main__' and __package__ is None:
-    from os import sys, path
-    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+from PopulationLib.Dispersal import Dispersal
+from PopulationLib.Plant import Plant
 
 
 class PlantGroup:
 
-    def __init__(self, name, species):
-        self.name = name
-        self.species = species
-        self.plants = []
-        self.max_id = 0
+    def addGroup(self, xml_group):
+        print("-----------------")
+        print("PlantGroup")
+
+        plant_model = xml_group.find("vegetation_model_type").text
+        self.group_name = xml_group.find("name").text
+        species = xml_group.find("species").text
+
+        dispersal = Dispersal(xml_group)
+        xi, yi = dispersal.getPositions()
+
+        for x, y in zip(xi, yi):
+            self.addPlant(x=x, y=y,
+                          xml_args=xml_group,
+                          #group_name=self.group_name,
+                          plant_model=plant_model,
+                          species=species,
+                          initial_geometry=False)
 
     ## Adds a new plant instance to the plant group
     #  @param x: x-position of the new plant
     #  @param y: y-position of the new plant
     #  @param initial_geometry: controls, whether an initial geometry is
     #  parsed to the plant
-    def addPlant(self, x, y, xml_args, plant_model, initial_geometry=False):
+    def addPlant(self, x, y, xml_args, plant_model, species, initial_geometry=False):
+        print("\t\t\taddPlant")
         self.max_id += 1
         self.plants.append(
             PLib.Plant(x,
                        y,
                        xml_args=xml_args,
-                       species=self.species,
+                       species=species,
                        plant_id=self.max_id,
                        initial_geometry=initial_geometry,
                        plant_model=plant_model,
-                       group_name=self.name))
+                       group_name=self.group_name))
+        print("...........")
+        print(self.plants)
 
     def getPlants(self):
         return self.plants
+
+    def getGroupName(self):
+        return self.group_name
 
     def getNumberOfPlants(self):
         return len(self.plants)

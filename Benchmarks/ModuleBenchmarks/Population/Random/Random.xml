@@ -33,7 +33,7 @@
                     <x_2> 22 </x_2>
                     <y_2> 22 </y_2>
                 </domain>
-                <n_individuals> 1 </n_individuals>
+                <n_individuals> 2 </n_individuals>
                 <n_recruitment_per_step> 1 </n_recruitment_per_step>
             </distribution>
         </group>

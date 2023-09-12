@@ -21,7 +21,7 @@
     </resources>
     <population>
         <group>
-            <name> Initial </name>
+            <name> Group1 </name>
             <species> Avicennia </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
             <mortality>NoGrowth</mortality>
@@ -33,7 +33,24 @@
                     <x_2> 22 </x_2>
                     <y_2> 22 </y_2>
                 </domain>
-                <n_individuals> 1 </n_individuals>
+                <n_individuals> 2 </n_individuals>
+                <n_recruitment_per_step> 1 </n_recruitment_per_step>
+            </distribution>
+        </group>
+        <group>
+            <name> Group2 </name>
+            <species> Avicennia </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
+            <distribution>
+                <type> Random </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
+                </domain>
+                <n_individuals> 2 </n_individuals>
                 <n_recruitment_per_step> 1 </n_recruitment_per_step>
             </distribution>
         </group>
@@ -43,6 +60,7 @@
         <t_start> 0 </t_start>
         <t_end> 2e6 </t_end>
         <delta_t> 1e6 </delta_t>
+        <terminal_print> days </terminal_print>
     </time_loop>
     <visualization>
         <type> NONE </type>

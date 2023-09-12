@@ -5,147 +5,39 @@
 @author: jasper.bathmann@ufz.de
 """
 import numpy as np
-if __name__ == '__main__' and __package__ is None:
-    from os import sys, path
-    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-from PopulationLib import PlantGroup
 
 
-## Initializes groups of plant population and defines necessary functions.
-class Dispersal(PlantGroup):
-    ## Function initializing plant group and initial population of this group,
-    #  depending on specification in project file.
-    #  @param args: arguments specified in project file. Please see tag
-    #  documentation.
-    def __init__(self, args):
-        self.tags_group = args
-        self.species = self.tags_group.find("species").text
-        self.name = self.tags_group.find("name").text
-        self.plant_model = self.tags_group.find("vegetation_model_type").text
-        self.plants = []
-        self.max_id = 0
+class Dispersal:
+    def __init__(self, xml_group):
+        """
+        Constructor to initialize dispersal modules,
+        by calling respective initialization methods.
 
-        distribution = self.tags_group.find("distribution")
+        Args:
+            args:
+        """
+        distribution = xml_group.find("distribution")
         distribution_type = distribution.find("type").text
-        print("Plant group name: {}.".format(self.name) +
-              "\nDistribution type: {}.".format(distribution_type) +
-              "\nSpecies: {}.".format(self.species))
+
+        print("\tDispersal:", distribution_type, xml_group)
         if distribution_type == "Random":
-            self.plantRandomDistributedPlants()
+            from .Random import Random as DC
         elif distribution_type == "GroupFromFile":
-            self.plantPlantsFromFile()
+            from .FromFile import FromFile as DC
         else:
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")
-
-    ## Function initializing plant population of size n_individuals within given
-    #  rectangular domain.
-    #  @param args: arguments specified in project file. Please see tag
-    #  documentation.
-    def plantRandomDistributedPlants(self):
-        tags = {
-            "prj_file": self.tags_group,
-            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "n_individuals"],
-            "optional": ["n_recruitment_per_step"]
-        }
+        self.dispersal = DC(xml_group)
+        tags = self.dispersal.getTags()
         self.getInputParameters(**tags)
         self.n_individuals = int(self.n_individuals)
         self.l_x = self.x_2 - self.x_1
         self.l_y = self.y_2 - self.y_1
-        for i in range(self.n_individuals):
-            r_x, r_y = (np.random.rand(2))
-            x_i = self.x_1 + self.l_x * r_x
-            y_i = self.y_1 + self.l_y * r_y
-            self.addPlant(x=x_i, y=y_i, xml_args=self.tags_group,
-                          plant_model=self.plant_model,
-                          initial_geometry=False)
+        self.dispersal.initializeGroup(others=self)
 
-    ## Function initializing plant population of size n_individuals within given
-    #  rectangular domain.
-    #  @param self.tags_group: arguments specified in project file. Please see tag
-    #  documentation.
-    def plantPlantsFromFile(self):
-        tags = {
-            "prj_file": self.tags_group,
-            "required": ["type", "filename"],
-            "optional": ["n_recruitment_per_step"]
-        }
-        self.getInputParameters(**tags)
-
-        # Loading the Population Data
-        plant_file = open(self.filename)
-        i = 0
-        x_idx, y_idx = 99999, 99999
-        r_crown_idx, r_stem_idx, r_root_idx, h_stem_idx = (99999, 99999, 99999,
-                                                           99999)
-        geometry = {}
-        max_x, max_y = -99999, -99999
-        min_x, min_y = 99999, 99999
-        for line in plant_file.readlines():
-            line = line.replace("\t", "").split(",")
-
-            if i == 0:
-                j = 0
-                for tag in line:
-                    tag = tag.strip()
-                    if tag == "x" and x_idx == 99999:
-                        x_idx = int(j)
-                        i += 1
-                    if tag == "y" and y_idx == 99999:
-                        y_idx = int(j)
-                        i += 1
-                    if tag == "r_crown" and r_crown_idx == 99999:
-                        r_crown_idx = int(j)
-                        i += 1
-                    if tag == "r_stem" and r_stem_idx == 99999:
-                        r_stem_idx = int(j)
-                        i += 1
-                    if tag == "r_root" and r_root_idx == 99999:
-                        r_root_idx = int(j)
-                        i += 1
-                    if tag == "h_stem" and h_stem_idx == 99999:
-                        i += 1
-                        h_stem_idx = int(j)
-                    j += 1
-                if i != 6:
-                    raise KeyError(
-                        6 - i, "Plant properties were not correctly " +
-                        "indicated in the population input file! " +
-                        "Please check the documentation!")
-            else:
-                x, y = float(line[x_idx]), float(line[y_idx])
-                geometry["r_crown"] = float(line[r_crown_idx])
-                geometry["r_root"] = float(line[r_root_idx])
-                geometry["r_stem"] = float(line[r_stem_idx])
-                geometry["h_stem"] = float(line[h_stem_idx])
-                max_x = max(max_x, x)
-                max_y = max(max_y, y)
-                min_x = min(min_x, x)
-                min_y = min(min_y, y)
-                self.addPlant(x=x, y=y, xml_args=self.tags_group,
-                              plant_model=self.plant_model, initial_geometry=geometry)
-        self.x_1 = min_x
-        self.y_1 = min_y
-        self.l_x = max_x - self.x_1
-        self.l_y = max_y - self.y_1
-
-
-    ## Randomly recruiting plants within given domain.
-    def recruitPlants(self):
-        for i in range(self.n_recruitment_per_step):
-            r_x, r_y = (np.random.rand(2))
-            x_i = self.x_1 + self.l_x * r_x
-            y_i = self.y_1 + self.l_y * r_y
-            self.addPlant(x=x_i, y=y_i, xml_args=self.tags_group,
-                          plant_model=self.plant_model,
-                          initial_geometry=False)
-
-    ## Returns all living plants belonging to this group.
-    def getGroup(self):
-        return self.plant_group
-
-    def getNRecruits(self):
-        return self.n_recruitment_per_step
+    def getPositions(self):
+        print("\t\tgetPositions")
+        return list([self.dispersal.xi, self.dispersal.yi])
 
     def getInputParameters(self, **tags):
         """

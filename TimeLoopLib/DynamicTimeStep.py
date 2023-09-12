@@ -20,6 +20,7 @@ class DynamicTimeStep:
         self.aboveground_resource_concept = project.getAbovegroundResourceConcept()
         self.belowground_resource_concept = project.getBelowgroundResourceConcept()
         self.population_concept = project.getPopulationConcept()
+        print("::::::::::::", self.population_concept)
         self.visualization_concept = project.getVisualizationConcept()
         self.visualization_concept.update(self.population_concept.getPlantGroups(), "Begin")
         ## Output configuration
@@ -48,8 +49,10 @@ class DynamicTimeStep:
 
         self.model_output_concept.writeOutput(plant_groups, t_start)
         # Initialize plant counter variable
+        print("_____________ In Dynamic ", plant_groups)
         number_of_plants = 0
         for group_name, plant_group in plant_groups.items():
+            print(".................", plant_group)
             for plant in plant_group.getPlants():
                 plant.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
                 number_of_plants += 1

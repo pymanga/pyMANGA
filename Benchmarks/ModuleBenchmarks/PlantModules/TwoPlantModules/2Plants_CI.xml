@@ -2,30 +2,36 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground>
-            <type> AsymmetricZOI </type>
-            <domain>
-                <x_1> 0 </x_1>
-                <y_1> 0 </y_1>
-                <x_2> 22 </x_2>
-                <y_2> 22 </y_2>
-            <x_resolution> 88 </x_resolution>
-            <y_resolution> 88 </y_resolution>
-            </domain>
+            <type> Default </type>
         </aboveground>
         <belowground>
-            <type> Default </type>
+            <type> FixedSalinity </type>
+            <min_x>0</min_x>
+            <max_x>22</max_x>
+            <salinity>0.025 0.035</salinity>
         </belowground>
     </resources>
     <population>
         <group>
-            <name> Initial </name>
+            <name> Bettina </name>
             <species> Avicennia </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
             <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/ag_initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/TwoPlantModules/Bettina.csv </filename>
+            </distribution>
+        </group>
+        <group>
+            <name> Kiwi </name>
+            <species> Avicennia </species>
+            <vegetation_model_type> Kiwi </vegetation_model_type>
+            <mortality>Random</mortality>
+            <distribution>
+                <type> GroupFromFile </type>
+                <n_recruitment_per_step> 0 </n_recruitment_per_step>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/TwoPlantModules/Kiwi.csv </filename>
             </distribution>
         </group>
     </population>
@@ -39,10 +45,10 @@
         <type> NONE </type>
     </visualization>
     <output>
-         <type> OneTimestepOneFile </type>
-		<output_times> [2e6] </output_times>
+        <type> OneTimestepOneFile </type>
+        <output_times> [2e6] </output_times>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/TestOutputs/</output_dir>
+        <output_dir>Benchmarks/TestOutputs</output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <geometry_output> r_crown </geometry_output>

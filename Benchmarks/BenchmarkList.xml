@@ -2,6 +2,9 @@
 <Benchmarks>
     <ModuleBenchmarks>
         <PlantModules>
+            <TwoPlantModules>
+                <test> 2Plants_CI.xml </test>
+            </TwoPlantModules>
             <BettinaNetwork>
                 <Belowground>
                     <NetworkFixedSalinity>

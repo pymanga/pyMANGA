@@ -20,7 +20,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/2PlantModules/Bettina.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/TwoPlantModules/Bettina.csv </filename>
             </distribution>
         </group>
         <group>
@@ -31,7 +31,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/2PlantModules/Kiwi.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/TwoPlantModules/Kiwi.csv </filename>
             </distribution>
         </group>
     </population>
@@ -56,7 +56,6 @@
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
-        <growth_output> salinity </growth_output>
     </output>
 </MangaProject>
 

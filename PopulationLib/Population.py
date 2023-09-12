@@ -6,7 +6,7 @@
 """
 
 from PopulationLib import PlantGroup
-from PopulationLib.Dispersal import GroupPlanting
+from PopulationLib.Dispersal import Dispersal
 
 class Population(PlantGroup):
 
@@ -18,7 +18,7 @@ class Population(PlantGroup):
             self.addPlantGroup(arg)
 
     def addPlantGroup(self, args):
-        plant_group = GroupPlanting(args)
+        plant_group = Dispersal(args)
         self.plant_groups[plant_group.name] = plant_group
         self.max_id += plant_group.getNumberOfPlants()
 

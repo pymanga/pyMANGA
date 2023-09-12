@@ -12,7 +12,7 @@ from PopulationLib import PlantGroup
 
 
 ## Initializes groups of plant population and defines necessary functions.
-class GroupPlanting(PlantGroup):
+class Dispersal(PlantGroup):
     ## Function initializing plant group and initial population of this group,
     #  depending on specification in project file.
     #  @param args: arguments specified in project file. Please see tag
@@ -173,9 +173,9 @@ class GroupPlanting(PlantGroup):
             for i in range(0, len(required_tags)):
                 if tag == required_tags[i]:
                     try:
-                        super(GroupPlanting, self).__setattr__(tag, float(arg.text))
+                        super(Dispersal, self).__setattr__(tag, float(arg.text))
                     except ValueError:
-                        super(GroupPlanting, self).__setattr__(tag, str(arg.text))
+                        super(Dispersal, self).__setattr__(tag, str(arg.text))
             try:
                 required_tags.remove(tag)
             except ValueError:
@@ -184,9 +184,9 @@ class GroupPlanting(PlantGroup):
             for i in range(0, len(optional_tags)):
                 if tag == optional_tags[i]:
                     try:
-                        super(GroupPlanting, self).__setattr__(tag, float(arg.text))
+                        super(Dispersal, self).__setattr__(tag, float(arg.text))
                     except ValueError:
-                        super(GroupPlanting, self).__setattr__(tag, str(arg.text))
+                        super(Dispersal, self).__setattr__(tag, str(arg.text))
 
         if len(required_tags) > 0:
             string = ""

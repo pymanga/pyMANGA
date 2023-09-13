@@ -23,7 +23,6 @@
         <group>
             <name> Species_2 </name>
             <species> Benchmarks/ModuleBenchmarks/OutputModules/species2.py </species>
-            <species> Benchmarks/ModuleBenchmarks/TreeOutput/species2.py </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
             <mortality>NoGrowth</mortality>
             <distribution>

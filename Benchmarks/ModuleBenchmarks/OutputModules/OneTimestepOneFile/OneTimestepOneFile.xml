@@ -11,24 +11,24 @@
     <population>
         <group>
             <name> Species_1 </name>
-            <species> Benchmarks/ModuleBenchmarks/TreeOutput/species1.py </species>
+            <species> Benchmarks/ModuleBenchmarks/OutputModules/species1.py </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
             <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/TreeOutput/initial_population_1.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/OutputModules/initial_population_1.csv </filename>
             </distribution>
         </group>
         <group>
             <name> Species_2 </name>
-            <species> Benchmarks/ModuleBenchmarks/TreeOutput/species2.py </species>
+            <species> Benchmarks/ModuleBenchmarks/OutputModules/species2.py </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
             <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/TreeOutput/initial_population_2.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/OutputModules/initial_population_2.csv </filename>
             </distribution>
         </group>
     </population>

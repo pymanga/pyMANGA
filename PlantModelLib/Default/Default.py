@@ -15,7 +15,6 @@ class Default(ResourceModel):
         #  @param: Tags to define Default: type
         #  @date: 2019 - Today
         case = args.find("type").text
-        print("Initiate belowground competition of type " + case + ".")
 
     def prepareNextTimeStep(self, t_ini, t_end):
         ## This functions prepares the cgrowth and death concept.

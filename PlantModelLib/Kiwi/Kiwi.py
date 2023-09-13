@@ -14,7 +14,6 @@ class Kiwi(PlantModel):
     #  @date 2019 - Today
     def __init__(self, args):
         case = args.find("vegetation_model_type").text
-        print("Growth and death dynamics of type " + case + ".")
         super().iniMortalityConcept(args)
 
     ## This functions prepares the growth and death concept.

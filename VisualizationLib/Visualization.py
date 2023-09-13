@@ -16,11 +16,11 @@ class Visualization:
         if self.case == "SimplePyplot":
             self.iniSimplePyplot(args)
         elif self.case == "NONE":
-            self.case = "No"
+            self.case = "NONE"
             self.iniNONE(args)
         else:
             raise KeyError("Required visualization type not implemented.")
-        print(self.case + " visualization successfully initiated.")
+        print("Visualization: {}.".format(self.case))
 
     ## Initiatiates visualization of type Pyplot
     def iniSimplePyplot(self, args):

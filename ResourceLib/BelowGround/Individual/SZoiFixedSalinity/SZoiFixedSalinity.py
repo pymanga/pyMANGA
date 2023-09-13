@@ -16,7 +16,6 @@ class SZoiFixedSalinity(SymmetricZOI, FixedSalinity):
     #  @date: 2020 - Today
     def __init__(self, args):
         case = args.find("type").text
-        print("Initiate belowground competition of type " + case + ".")
         super().makeGrid(args=args)
         self.getInputParameters(args=args)
 

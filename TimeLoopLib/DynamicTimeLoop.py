@@ -24,8 +24,6 @@ class DynamicTimeLoop:
         except:
             self.terminal_print = False
 
-        print(case + " time stepping successfully initiated.")
-
     def iniSimpleTimeStepping(self, args):
         """
         Initialize time stepping of type "Default".

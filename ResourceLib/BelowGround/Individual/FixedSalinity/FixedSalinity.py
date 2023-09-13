@@ -13,7 +13,6 @@ class FixedSalinity(ResourceModel):
             args: FixedSalinity module specifications from project file tags
         """
         case = args.find("type").text
-        print("Initiate belowground competition of type " + case + ".")
         self.variant = None
         self.getInputParameters(args)
 
@@ -141,19 +140,12 @@ class FixedSalinity(ResourceModel):
                 # Two constant values over time for seaward and
                 # landward salinity
                 if len(arg.text.split()) == 2:
-                    print("In the control file, two values were given for " +
-                          "salinity at two given position values." +
-                          " These are constant over time and are linearly " +
-                          "interpolated using the provided points S(x).")
                     self._salinity = arg.text.split()
                     self._salinity[0] = float(self._salinity[0])
                     self._salinity[1] = float(self._salinity[1])
 
                 # Path to a file containing salinity values that vary over time
                 elif os.path.exists(arg.text) is True:
-                    print('In the control file a path to a file with ' +
-                          'values of the salt concentration over time was ' +
-                          'found.')
 
                     # Reading salinity values from a csv-file
                     self._salinity_over_t = np.loadtxt(

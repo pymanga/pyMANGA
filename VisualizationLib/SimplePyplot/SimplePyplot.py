@@ -17,7 +17,6 @@ class SimplePyplot(Visualization):
     def __init__(self, args):
         self.case = args.find("type").text
 
-        print("Initiate visualization of type " + self.case + ".")
         try:
             self._max_fps = float(args.find("max_fps").text)
         except AttributeError:

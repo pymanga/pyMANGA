@@ -12,7 +12,6 @@ class FON(ResourceModel):
             args: FON module specifications from project file tags
         """
         case = args.find("type").text
-        print("Initiate belowground competition of type " + case + ".")
         self.getInputParameters(args)
         super().makeGrid()
         if self._mesh_size > 0.25:

@@ -28,9 +28,9 @@ class GroupPlanting(PlantGroup):
 
         distribution = self.tags_group.find("distribution")
         distribution_type = distribution.find("type").text
-        print("Plant group set to {}.".format(self.name) +
-              "\nDistribution type set to {}.".format(distribution_type) +
-              "\nSpecies set to {}.".format(self.species))
+        print("Plant group name: {}.".format(self.name) +
+              "\nDistribution type: {}.".format(distribution_type) +
+              "\nSpecies: {}.".format(self.species))
         if distribution_type == "Random":
             self.plantRandomDistributedPlants()
         elif distribution_type == "GroupFromFile":
@@ -130,7 +130,6 @@ class GroupPlanting(PlantGroup):
         self.l_x = max_x - self.x_1
         self.l_y = max_y - self.y_1
 
-        print("Plant population initialised and planted.")
 
     ## Randomly recruiting plants within given domain.
     def recruitPlants(self):

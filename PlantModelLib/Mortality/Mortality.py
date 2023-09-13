@@ -36,7 +36,7 @@ class Mortality:
                 raise KeyError("Required mortality not implemented. "
                                "Available concepts: `NoGrowth`, `Random`, "
                                "`RandomGrowth`, `Memory`")
-            print("Mortality concept set to {}.".format(case))
+            print("Plant mortality: {}.".format(case))
 
     def iniNoGrowth(self, args, case):
         """

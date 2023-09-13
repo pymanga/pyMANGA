@@ -12,7 +12,7 @@ class SimpleLoop:
             args: module specifications from project file tags
         """
         case = args.find("type").text
-        print("Time loop set to {}.".format(case))
+        print("Time loop: {}.".format(case))
         self.t_start = float(args.find("t_start").text)
         self.t_end = float(args.find("t_end").text)
         self.t_2 = self.t_start

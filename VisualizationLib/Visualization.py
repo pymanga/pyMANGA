@@ -20,7 +20,7 @@ class Visualization:
             self.iniNONE(args)
         else:
             raise KeyError("Required visualization type not implemented.")
-        print("Visualization set to {}.".format(self.case))
+        print("Visualization: {}.".format(self.case))
 
     ## Initiatiates visualization of type Pyplot
     def iniSimplePyplot(self, args):

@@ -52,7 +52,7 @@ class MangaProject:
         if self.args["random_seed"] is not None:
             _seed = int(self.args["random_seed"].text.strip())
             np.random.seed(_seed)
-            print("Seed set to {}.".format(_seed))
+            print("Random Seed: {}.".format(_seed))
 
     def iniBelowgroundResourceConcept(self):
         """
@@ -94,7 +94,7 @@ class MangaProject:
             raise KeyError("Required below-ground competition case " + case +
                            " not implemented.")
         self.belowground_resource_concept = createBC(arg)
-        print("Belowground competition set to {}.".format(case))
+        print("Below-ground resources: {}.".format(case))
 
     def getAbovegroundResourceConcept(self):
         """
@@ -119,7 +119,7 @@ class MangaProject:
         else:
             raise KeyError("Required above-ground competition not implemented.")
         self.aboveground_resource_concept = createAC(arg)
-        print("Aboveground competition set to {}.".format(case))
+        print("Above-ground resources: {}.".format(case))
 
     def getPlantDynamicConcept(self):
         """
@@ -148,7 +148,7 @@ class MangaProject:
         else:
             raise KeyError("Required plant dynamic concept not implemented.")
         self.plant_dynamic_concept = createGD(arg)
-        print("Plant dynamic concept set to {}.".format(case))
+        print("Plant growth: {}.".format(case))
 
     def iniPopulationConcept(self):
         """
@@ -223,7 +223,7 @@ class MangaProject:
         else:
             raise KeyError("Required model_output of type '" + case +
                            "' not implemented!")
-        print("Model output set to {}.".format(case))
+        print("Model output: {}.".format(case))
 
         ## Containing configuration on model_output
         self.model_output_concept = createOut(arg, time)

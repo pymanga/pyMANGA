@@ -50,8 +50,9 @@ class DynamicTimeStep:
         # Initialize plant counter variable
         number_of_plants = 0
         for group_name, plant_group in plant_groups.items():
+            plant_group.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
+
             for plant in plant_group.getPlants():
-                plant.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
                 number_of_plants += 1
                 if update_ag:
                     self.aboveground_resource_concept.addPlant(plant)
@@ -80,7 +81,7 @@ class DynamicTimeStep:
                 try:
                     ag = self.aboveground_resources[j]
                     bg = self.belowground_resources[j]
-                    plant.plant_dynamic_concept.progressPlant(plant, ag, bg)
+                    plant_group.plant_dynamic_concept.progressPlant(plant, ag, bg)
                 except IndexError:
                     plant.setSurvival(1)
 

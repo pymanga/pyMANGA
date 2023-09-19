@@ -22,6 +22,22 @@ class PlantGroup:
         self.dispersal = Dispersal(self.xml_group)
 
         self.addGroup()
+        self.iniPlantDynamicConcept()
+
+    def iniPlantDynamicConcept(self):
+        case = self.xml_group.find("vegetation_model_type").text
+        if case == "Default":
+            from PlantModelLib.Default import Default as createGD
+        elif case == "Bettina":
+            from PlantModelLib.Bettina import Bettina as createGD
+        elif case == "Kiwi":
+            from PlantModelLib.Kiwi import Kiwi as createGD
+        elif case == "BettinaNetwork":
+            from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
+        else:
+            raise KeyError("Required plant dynamic concept not implemented.")
+        self.plant_dynamic_concept = createGD(self.xml_group)
+        print(case + " plant dynamic concept initiated.")
 
     def addGroup(self):
         plant_attributes = self.dispersal.getPlantAttributes()

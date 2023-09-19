@@ -27,7 +27,13 @@
             <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
-                <n_recruitment_per_step> 1 </n_recruitment_per_step>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
+                </domain>
+                <n_recruitment_per_step> 3 </n_recruitment_per_step>
                 <filename> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/bg_initial_population.csv </filename>
             </distribution>
         </group>
@@ -37,13 +43,13 @@
         <t_start> 0 </t_start>
         <t_end> 2e6 </t_end>
         <delta_t> 1e6 </delta_t>
+        <terminal_print> days </terminal_print>
     </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
     <output>
-        <type> OneTimestepOneFile </type>
-        <output_times> [2e6] </output_times>
+        <type> OneFile </type>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs</output_dir>
         <geometry_output> r_stem </geometry_output>

@@ -16,10 +16,10 @@ class Dispersal:
         Args:
             args:
         """
-        distribution = xml_group.find("distribution")
+        self.xml_group = xml_group
+        distribution = self.xml_group.find("distribution")
         distribution_type = distribution.find("type").text
 
-        print("\tDispersal:", distribution_type, xml_group)
         if distribution_type == "Random":
             from .Random import Random as DC
         elif distribution_type == "GroupFromFile":
@@ -27,17 +27,20 @@ class Dispersal:
         else:
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")
-        self.dispersal = DC(xml_group)
+        self.dispersal = DC(self.xml_group)
         tags = self.dispersal.getTags()
         self.getInputParameters(**tags)
-        self.n_individuals = int(self.n_individuals)
-        self.l_x = self.x_2 - self.x_1
-        self.l_y = self.y_2 - self.y_1
+
         self.dispersal.initializeGroup(others=self)
 
     def getPositions(self):
-        print("\t\tgetPositions")
         return list([self.dispersal.xi, self.dispersal.yi])
+
+    def getPlantAttributes(self):
+        return self.dispersal.plant_attributes
+
+    def recruitPlants(self):
+        self.dispersal.recruitPlants(others=self)
 
     def getInputParameters(self, **tags):
         """
@@ -91,3 +94,11 @@ class Dispersal:
             self.n_recruitment_per_step = int(self.n_recruitment_per_step)
         except AttributeError:
             self.n_recruitment_per_step = 0
+
+        try:
+            self.n_individuals = int(self.n_individuals)
+        except AttributeError:
+            pass
+
+        self.l_x = self.x_2 - self.x_1
+        self.l_y = self.y_2 - self.y_1

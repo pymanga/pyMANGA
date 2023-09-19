@@ -4,12 +4,10 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from lxml import etree
 import importlib.util
 
 
 class Plant:
-
     def __init__(self,
                  x,
                  y,
@@ -72,7 +70,6 @@ class Plant:
             raise KeyError("Required plant dynamic concept not implemented.")
         self.plant_dynamic_concept = createGD(self.args)
         print(case + " plant dynamic concept initiated.")
-
 
     def getPosition(self):
         return self.x, self.y

@@ -34,24 +34,7 @@
                     <y_2> 22 </y_2>
                 </domain>
                 <n_individuals> 2 </n_individuals>
-                <n_recruitment_per_step> 1 </n_recruitment_per_step>
-            </distribution>
-        </group>
-        <group>
-            <name> Group2 </name>
-            <species> Avicennia </species>
-            <vegetation_model_type> Bettina </vegetation_model_type>
-            <mortality>NoGrowth</mortality>
-            <distribution>
-                <type> Random </type>
-                <domain>
-                    <x_1> 0 </x_1>
-                    <y_1> 0 </y_1>
-                    <x_2> 22 </x_2>
-                    <y_2> 22 </y_2>
-                </domain>
-                <n_individuals> 2 </n_individuals>
-                <n_recruitment_per_step> 1 </n_recruitment_per_step>
+                <n_recruitment_per_step> 0 </n_recruitment_per_step>
             </distribution>
         </group>
     </population>
@@ -66,7 +49,7 @@
         <type> NONE </type>
     </visualization>
     <output>
-        <type> OneTimestepOneFile </type>
+        <type> OneFile </type>
         <output_times> [2e6] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs</output_dir>

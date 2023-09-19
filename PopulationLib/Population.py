@@ -8,22 +8,17 @@
 from PopulationLib import PlantGroup
 
 
-class Population(PlantGroup):
+class Population:
 
     def __init__(self, args):
         self.plant_groups = {}
         self.plants = []
-        self.max_id = 0
         for arg in args.iter("group"):
             self.addPlantGroup(arg)
 
     def addPlantGroup(self, args):
-        super().addGroup(args)
-
-        plant_group = self.plants
-        self.plant_groups[self.group_name] = plant_group
-        print("GROUPSSSSSSSSSSSSS: ", self.plant_groups)
-        #self.max_id += plant_group.getNumberOfPlants()
+        plant_group = PlantGroup(xml_group=args)
+        self.plant_groups[plant_group.name] = plant_group
 
     def getPlantGroups(self):
         return self.plant_groups

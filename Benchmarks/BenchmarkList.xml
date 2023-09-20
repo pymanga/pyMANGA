@@ -98,7 +98,7 @@
                 </Default>
             </Kiwi>
         </PlantModules>
-        <TreeOutput>
+        <OutputModules>
             <OneFile>
                 <test> OneFile_CI.xml </test>
             </OneFile>
@@ -114,7 +114,7 @@
             <OneTimestepOneFilePerGroup>
                 <test> OneTimestepOneFilePerGroup_CI.xml </test>
             </OneTimestepOneFilePerGroup>
-        </TreeOutput>
+        </OutputModules>
         <Population>
             <FromFile>
                 <test> FromFile_CI.xml </test>

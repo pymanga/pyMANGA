@@ -4,7 +4,7 @@ from PopulationLib.Dispersal.Random import Random
 
 class FromFile:
     def __init__(self, xml_group):
-        print("FROM FILE")
+        print("Population: FromFile.")
         self.tags_group = xml_group
 
     def getTags(self):
@@ -16,7 +16,6 @@ class FromFile:
         return tags
 
     def initializeGroup(self, others):
-        print("\t--------initializeGroup")
         self.plant_attributes_file = self.getPlantsFromFile(others=others)
 
         # Get parameters that are required for the selected plant module
@@ -47,7 +46,6 @@ class FromFile:
                                                      number_of_plants=others.n_recruitment_per_step)
 
     def getPlantsFromFile(self, others):
-        print("\tgetPlantsFromFile")
         # Loading the Population Data
         plant_file = pd.read_csv(others.filename)
         headers = plant_file.head()

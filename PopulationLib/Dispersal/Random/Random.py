@@ -4,6 +4,7 @@ import numpy as np
 
 class Random:
     def __init__(self, xml_group):
+        print("Population: Random.")
         self.tags_group = xml_group
 
     def getTags(self):

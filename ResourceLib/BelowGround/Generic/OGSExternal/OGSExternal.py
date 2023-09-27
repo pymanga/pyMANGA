@@ -32,14 +32,14 @@ class OGSExternal(OGS):
     ## This functions prepares the next timestep for the competition
     #  concept. In the OGS concept, information on t_ini and t_end is stored.
     #  Additionally, arrays are prepared to store information on water uptake
-    #  of the participating trees. Moreover, the ogs-prj-file for the next
+    #  of the participating plants. Moreover, the ogs-prj-file for the next
     #  time step is updated and saved in the ogs-project folder.
     #  @param t_ini: initial time of next time step
     #  @param t_end: end time of next time step
     def prepareNextTimeStep(self, t_ini, t_end):
-        self.n_trees = 0
+        self.n_plants = 0
 
-        # Arrays with length 'no. of trees'
+        # Arrays with length 'no. of plants'
         self._total_resistance = []
 
         self._psi_leaf = np.empty(0)
@@ -50,22 +50,22 @@ class OGSExternal(OGS):
 
         super().prepareOGSparameters()
 
-    ## Before being able to calculate the resources, all tree enteties need
+    ## Before being able to calculate the resources, all plant enteties need
     #  to be added with their current implementation for the next time step.
-    #  Here, in the OGS case, each tree is represented by a contribution to
+    #  Here, in the OGS case, each plant is represented by a contribution to
     #  python source terms in OGS.
-    #  @param tree
-    def addPlant(self, tree):
-        x, y = tree.getPosition()
-        geometry = tree.getGeometry()
-        parameter = tree.getParameter()
+    #  @param plant
+    def addPlant(self, plant):
+        x, y = plant.getPosition()
+        geometry = plant.getGeometry()
+        parameter = plant.getParameter()
 
-        # Cells affected by tree water uptake
+        # Cells affected by plant water uptake
         root_radius = geometry["r_root"]
         super().addCellCharateristics(x, y, root_radius)
 
-        # Resistances against water flow in tree
-        # Calculate total tree resistance
+        # Resistances against water flow in plant
+        # Calculate total plant resistance
         total_resistance = super().totalTreeResistance(parameter, geometry)
         self._total_resistance.append(total_resistance)
 
@@ -77,20 +77,20 @@ class OGSExternal(OGS):
              [-(2 * geometry["r_crown"] + geometry["h_stem"]) * 9810]))
 
     ## This function updates and returns BelowgroundResources in the current
-    #  time step. For each tree a reduction factor is calculated which is
+    #  time step. For each plant a reduction factor is calculated which is
     #  defined as: resource uptake at zero salinity/ real resource uptake.
     def calculateBelowgroundResources(self):
-        # Number of trees
-        self.no_trees = len(self._total_resistance)
-        # Salinity below each tree
-        self._tree_salinity = np.empty(self.no_trees)
-        if self.no_trees <= 0:
-            print("WARNING: All trees are dead.")
+        # Number of plants
+        self.no_plants = len(self._total_resistance)
+        # Salinity below each plant
+        self._plant_salinity = np.empty(self.no_plants)
+        if self.no_plants <= 0:
+            print("WARNING: All plants are dead.")
 
-        # Calculate salinity (and psi_osmo) below tree
+        # Calculate salinity (and psi_osmo) below plant
         super().calculatePlantSalinity()
 
-        self._tree_water_uptake = -(self._psi_leaf - self._psi_height -
+        self._plant_water_uptake = -(self._psi_leaf - self._psi_height -
                                    self._psi_osmo) / \
                                  self._total_resistance / np.pi * 1000  # kg/s
         self.belowground_resources = 1 - (self._psi_osmo /
@@ -113,4 +113,4 @@ class OGSExternal(OGS):
     # This function returns the estimated water withdrawal in each cell
     # as rate (kg per sec per cell volume)
     def getExternalInformation(self):
-        return self._tree_contribution_per_cell
+        return self._plant_contribution_per_cell

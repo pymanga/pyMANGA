@@ -14,9 +14,6 @@
                 <x_resolution> 88 </x_resolution>
                 <y_resolution> 88 </y_resolution>
             </domain>
-            <aa>10</aa>
-            <bb>1</bb>
-            <fmin>0.1</fmin>
         </belowground>
     </resources>
     <population>

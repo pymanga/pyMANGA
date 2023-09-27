@@ -16,9 +16,9 @@ Attributes:
     y_2 (domain-nested int): y-coordinate of top border of grid
     x_resolution (domain-nested int): x-resolution of grid
     y_resolution (domain-nested int): y-resolution of grid
-    aa (float): FON parameter *a* 
-    bb (float): FON parameter *b* 
-    fmin (float): FON parameter *F<sub>min</sub>* 
+
+Note:
+    FON parameters *a*, *b* and *F<sub>min</sub>* are defined in the species file.
 
 Examples:
     
@@ -34,9 +34,6 @@ FON without the effect of salinity:
         <x_resolution> 88 </x_resolution>
         <y_resolution> 88 </y_resolution>
     </domain>
-    <aa>10</aa>
-    <bb>1</bb>
-    <fmin>0.1</fmin>
 </belowground>
 ```
 FON with the effect of salinity:
@@ -52,9 +49,6 @@ FON with the effect of salinity:
         <x_resolution> 88 </x_resolution>
         <y_resolution> 88 </y_resolution>
     </domain>
-    <aa>10</aa>
-    <bb>1</bb>
-    <fmin>0.1</fmin>
     <salinity> 0.025 0.035 </salinity>
     <min_x>0</min_x>
     <max_x>22</max_x>

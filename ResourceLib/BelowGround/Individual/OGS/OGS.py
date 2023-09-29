@@ -180,6 +180,10 @@ class OGS(ResourceModel):
     def addCellCharateristics(self, x, y, root_radius):
         affected_cells = self._cell_information.getCellIDsAtXY(
             x, y, root_radius)
+        if not affected_cells:
+            print("Error: plants are outside of model domain")
+            print("Plant coordinates (x, y): ", x, y)
+            exit()
         self._plant_cell_ids.append(affected_cells)
         # Get volume of affected cells
         v = self.getVolume(affected_cells)

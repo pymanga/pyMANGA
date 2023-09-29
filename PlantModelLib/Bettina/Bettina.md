@@ -28,6 +28,8 @@ Possible outputs:
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
+        <growth_output> ag_factor </growth_output>
+        <growth_output> bg_factor </growth_output>
     </output>
     ```
 

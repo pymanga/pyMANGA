@@ -75,9 +75,6 @@ class MangaProject:
         elif case == "SymmetricZOI":
             from ResourceLib.BelowGround.Individual.SymmetricZOI import \
                 SymmetricZOI as createBC
-        elif case == "SZoiFixedSalinity":
-            from ResourceLib.BelowGround.Individual.SZoiFixedSalinity import \
-                SZoiFixedSalinity as createBC
         elif case == "Network":
             from ResourceLib.BelowGround.Network.Network import Network as createBC
         elif case == "NetworkFixedSalinity":

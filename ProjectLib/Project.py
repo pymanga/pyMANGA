@@ -126,27 +126,6 @@ class MangaProject:
         """
         return self.plant_dynamic_concept
 
-    def iniPlantDynamicConcept(self):
-        """
-        Initialize plant model concept.
-        Sets:
-            class
-        """
-        arg = self.args["plant_dynamics"]
-        case = arg.find("type").text
-        if case == "Default":
-            from PlantModelLib.Default import Default as createGD
-        elif case == "Bettina":
-            from PlantModelLib.Bettina import Bettina as createGD
-        elif case == "Kiwi":
-            from PlantModelLib.Kiwi import Kiwi as createGD
-        elif case == "BettinaNetwork":
-            from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
-        else:
-            raise KeyError("Required plant dynamic concept not implemented.")
-        self.plant_dynamic_concept = createGD(arg)
-        print("Plant growth: {}.".format(case))
-
     def iniPopulationConcept(self):
         """
         Initialize population concept.

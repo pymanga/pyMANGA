@@ -2,6 +2,9 @@
 <Benchmarks>
     <ModuleBenchmarks>
         <PlantModules>
+            <Default>
+                <test> Default_CI.xml </test>
+            </Default>
             <TwoPlantModules>
                 <test> 2Plants_CI.xml </test>
             </TwoPlantModules>

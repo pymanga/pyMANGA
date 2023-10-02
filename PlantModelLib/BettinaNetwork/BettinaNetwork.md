@@ -3,7 +3,7 @@ The BettinaNetwork plant model concept.
 BettinaNetwork accounts for resource allocation to root graft formation.
 Root grafts are the fusion of root tissue, allowing woody plants to exchange resources such as water ([Graham and Bormann, 1966](https://doi.org/10.1007/BF02858662)).
 
-BettinaNetwork is a child module of `pyMANGA.PlantModelLib.Bettina.Bettina`, i.e., plant geometry and growth is based on the single tree model Bettina ([Peters et al., 2014](https://doi.org/10.1016/j.ecolmodel.2014.04.001)).
+BettinaNetwork is a child module of `pyMANGA.PlantModelLib.Bettina`, i.e., plant geometry and growth is based on the single tree model Bettina ([Peters et al., 2014](https://doi.org/10.1016/j.ecolmodel.2014.04.001)).
 In combination with Network below-ground modules, this module allows water exchange between root grafted plants. 
 
 One of the following processes can be used to simulate a root graft formation:

@@ -30,5 +30,11 @@ class Default(ResourceModel):
     def progressPlant(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
+        growth_concept_information = tree.getGrowthConceptInformation()
+
         tree.setGeometry(geometry)
         tree.setSurvival(1)
+
+        growth_concept_information["bg_factor"] = belowground_resources
+        growth_concept_information["ag_factor"] = aboveground_resources
+

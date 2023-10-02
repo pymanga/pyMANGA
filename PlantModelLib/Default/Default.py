@@ -14,7 +14,7 @@ class Default(ResourceModel):
         #  defined to test the passing of information between the instances.
         #  @param: Tags to define Default: type
         #  @date: 2019 - Today
-        case = args.find("type").text
+        case = args.find("vegetation_model_type").text
 
     def prepareNextTimeStep(self, t_ini, t_end):
         ## This functions prepares the cgrowth and death concept.

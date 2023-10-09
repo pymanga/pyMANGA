@@ -14,7 +14,7 @@ class Default(ResourceModel):
         #  defined to test the passing of information between the instances.
         #  @param: Tags to define Default: type
         #  @date: 2019 - Today
-        case = args.find("type").text
+        case = args.find("vegetation_model_type").text
 
     def prepareNextTimeStep(self, t_ini, t_end):
         ## This functions prepares the cgrowth and death concept.
@@ -30,5 +30,11 @@ class Default(ResourceModel):
     def progressPlant(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         parameter = tree.getParameter()
+        growth_concept_information = tree.getGrowthConceptInformation()
+
         tree.setGeometry(geometry)
         tree.setSurvival(1)
+
+        growth_concept_information["bg_factor"] = belowground_resources
+        growth_concept_information["ag_factor"] = aboveground_resources
+

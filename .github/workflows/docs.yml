@@ -28,7 +28,7 @@ jobs:
       # install all dependencies (including pdoc)
       - run: pip install -r requirements.txt
       # build your documentation into docs/.
-      - run: pdoc --docformat google -o ./docs ../pyMANGA/
+      - run: pdoc --docformat google --math -o ./docs ../pyMANGA/
 
       - uses: actions/upload-pages-artifact@v1
         with:

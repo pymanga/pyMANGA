@@ -105,6 +105,9 @@
             <OneFile>
                 <test> OneFile_CI.xml </test>
             </OneFile>
+            <OneFilePerGroup>
+                <test> OneFilePerGroup_CI.xml </test>
+            </OneFilePerGroup>
             <OnePlantOneFile>
                 <test> OnePlantOneFile_CI.xml </test>
             </OnePlantOneFile>

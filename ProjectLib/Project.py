@@ -214,6 +214,8 @@ class MangaProject:
             from ModelOutputLib.NONE import NONE as createOut
         elif case == "OneFile":
             from ModelOutputLib.OneFile import OneFile as createOut
+        elif case == "OneFilePerGroup":
+            from ModelOutputLib.OneFilePerGroup import OneFilePerGroup as createOut
         elif case == "OneTimestepOneFile":
             from ModelOutputLib.OneTimestepOneFile import OneTimestepOneFile as createOut
         elif case == "OnePlantOneFile":

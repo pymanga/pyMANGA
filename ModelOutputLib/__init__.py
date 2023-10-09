@@ -11,4 +11,5 @@ from .ModelOutput import ModelOutput
 from .OneTimestepOneFile import OneTimestepOneFile
 from .OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup
 from .OneFile import OneFile
+from .OneFilePerGroup import OneFilePerGroup
 from .NONE import NONE

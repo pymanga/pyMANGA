@@ -8,8 +8,8 @@
                 <y_1> 0 </y_1>
                 <x_2> 22 </x_2>
                 <y_2> 22 </y_2>
-	        <x_resolution> 80 </x_resolution>
-	        <y_resolution> 80 </y_resolution>
+	            <x_resolution> 80 </x_resolution>
+	            <y_resolution> 80 </y_resolution>
             </domain>
          </aboveground>
         <belowground>
@@ -19,14 +19,12 @@
             <salinity>0.035 0.035</salinity>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Bettina </type>
-        <mortality>NoGrowth</mortality>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
                 <type> Random </type>
                 <domain>
@@ -62,6 +60,8 @@
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
         <growth_output> salinity </growth_output>
+        <growth_output> ag_factor </growth_output>
+        <growth_output> bg_factor </growth_output>
     </output>
 </MangaProject>
 

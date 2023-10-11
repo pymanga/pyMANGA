@@ -124,7 +124,7 @@ class Plant:
         else:
             raise KeyError("Required plant dynamic concept not implemented.")
         self.plant_dynamic_concept = createGD(self.args)
-        print(case + " plant dynamic concept initiated.")
+        print("Plant dynamic concept: " + case + ".")
 
     def getNetwork(self):
         return self.network

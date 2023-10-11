@@ -10,4 +10,3 @@ from .OGS import OGS
 from .OGS.helpers import CellInformation
 from .FixedSalinity import FixedSalinity
 from .SymmetricZOI import SymmetricZOI
-from .SZoiFixedSalinity import SZoiFixedSalinity

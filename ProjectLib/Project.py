@@ -75,9 +75,6 @@ class MangaProject:
         elif case == "SymmetricZOI":
             from ResourceLib.BelowGround.Individual.SymmetricZOI import \
                 SymmetricZOI as createBC
-        elif case == "SZoiFixedSalinity":
-            from ResourceLib.BelowGround.Individual.SZoiFixedSalinity import \
-                SZoiFixedSalinity as createBC
         elif case == "Network":
             from ResourceLib.BelowGround.Network.Network import Network as createBC
         elif case == "NetworkFixedSalinity":
@@ -128,27 +125,6 @@ class MangaProject:
             class
         """
         return self.plant_dynamic_concept
-
-    def iniPlantDynamicConcept(self):
-        """
-        Initialize plant model concept.
-        Sets:
-            class
-        """
-        arg = self.args["plant_dynamics"]
-        case = arg.find("type").text
-        if case == "Default":
-            from PlantModelLib.Default import Default as createGD
-        elif case == "Bettina":
-            from PlantModelLib.Bettina import Bettina as createGD
-        elif case == "Kiwi":
-            from PlantModelLib.Kiwi import Kiwi as createGD
-        elif case == "BettinaNetwork":
-            from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
-        else:
-            raise KeyError("Required plant dynamic concept not implemented.")
-        self.plant_dynamic_concept = createGD(arg)
-        print("Plant growth: {}.".format(case))
 
     def iniPopulationConcept(self):
         """

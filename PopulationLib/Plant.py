@@ -35,6 +35,9 @@ class Plant:
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createPlant()
+        elif species == "Saltmarsh":
+            from PopulationLib.Species import Saltmarsh
+            self.geometry, self.parameter = Saltmarsh.createPlant()
         elif "/" in species:
             try:
                 spec = importlib.util.spec_from_file_location("", species)
@@ -117,6 +120,8 @@ class Plant:
             from PlantModelLib.Default import Default as createGD
         elif case == "Bettina":
             from PlantModelLib.Bettina import Bettina as createGD
+        elif case == "Saltmarsh":
+            from PlantModelLib.Saltmarsh import Saltmarsh as createGD
         elif case == "Kiwi":
             from PlantModelLib.Kiwi import Kiwi as createGD
         elif case == "BettinaNetwork":

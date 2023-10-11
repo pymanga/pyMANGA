@@ -33,7 +33,7 @@
             <species>Avicennia</species>
             <vegetation_model_type>BettinaNetwork</vegetation_model_type>
             <mortality>NoGrowth</mortality>
-            <variant>V0_instant</variant>
+            <variant>v0</variant>
             <f_growth>0.25</f_growth>
             <distribution>
                 <type>FromFile</type>

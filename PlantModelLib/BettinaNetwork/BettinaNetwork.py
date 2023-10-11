@@ -74,7 +74,7 @@ class BettinaNetwork(Bettina):
         Sets:
             multiple float
         """
-        if self.variant == 'V2_adapted':
+        if "v2" in self.variant:
             self.treeGrowthWeightsV2()
         else:
             super().treeGrowthWeights()
@@ -88,9 +88,9 @@ class BettinaNetwork(Bettina):
             multiple float
         """
         super().growthResources()
-        if self.variant == "V0_instant":
+        if "v0" in self.variant:
             self.rootGraftFormationV0()
-        if self.variant == "V1_fixed":
+        if "v1" in self.variant:
             self.rootGraftFormationV1()
 
     def treeGrowthWeightsV2(self):
@@ -174,3 +174,5 @@ class BettinaNetwork(Bettina):
             "optional": ["f_growth"]
         }
         super().getInputParameters(**tags)
+
+

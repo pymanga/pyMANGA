@@ -312,7 +312,8 @@ class Network(ResourceModel):
         # dictionary contains all links, no matter if they are functional
         for i in range(0, len(self._partner_indices)):
             graph_dict_incomplete[i] = set(self._partner_indices[i])
-        if self._variant[0] == "V0_instant":
+
+        if self._variant[0] and "v0" in self._variant[0]:
             self.graph_dict = graph_dict_incomplete
         else:
             # helper
@@ -519,8 +520,7 @@ class Network(ResourceModel):
                 self._rgf_counter[l1], self._rgf_counter[l2] = 1, 1
                 self._potential_partner[l1], self._potential_partner[l2] = \
                     self._plant_names[l2], self._plant_names[l1]
-                if (self._variant[l1] == "V2_adapted") and \
-                        (self._variant[l2] == "V2_adapted"):
+                if "v2" in (self._variant[l1] and self._variant[l2]):
                     # Set initial size of grafted root radius
                     self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
                     # Get min. radius of grafted roots

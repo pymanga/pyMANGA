@@ -6,6 +6,7 @@
 """
 import PopulationLib as PLib
 from PopulationLib.Dispersal import Dispersal
+from PopulationLib.Dispersal.Random import Random
 
 
 class PlantGroup:
@@ -40,8 +41,9 @@ class PlantGroup:
         print(case + " plant dynamic concept initiated.")
 
     def addGroup(self):
+        print("ADDDDDDDDDDD GROUP")
         plant_attributes = self.dispersal.getPlantAttributes()
-
+        print(len(plant_attributes))
         # ToDo: Brauchen wir die Schleife wirklich doppelt?
         if len(plant_attributes) == 2:
             for i in range(0, len(plant_attributes["x"])):
@@ -56,7 +58,7 @@ class PlantGroup:
                 # Build geometry dictionary
                 geometry = {}
                 for plant_attribute in plant_attributes:
-                    # ToDo: Geht das schöner?
+                    # ToDo: Geht das schöner? Ja!
                     if plant_attribute != "x" and plant_attribute != "y":
                         geometry[plant_attribute] = plant_attributes[plant_attribute][i]
                 self.addPlant(x=plant_attributes["x"][i],
@@ -72,6 +74,7 @@ class PlantGroup:
     #  @param initial_geometry: controls, whether an initial geometry is
     #  parsed to the plant
     def addPlant(self, x, y, xml_args, plant_model, species, initial_geometry=False):
+        print("ADDDDDDDD PLANT", self.max_id+1)
         self.max_id += 1
         self.plants.append(
             PLib.Plant(x,
@@ -84,9 +87,18 @@ class PlantGroup:
                        group_name=self.group_name))
 
     def recruitPlants(self):
+        print("---- recruitPlants", self.dispersal.n_recruitment_per_step)
         self.dispersal.recruitPlants()
         if self.dispersal.n_recruitment_per_step != 0:
-            self.addGroup()
+            plant_attributes = Random.getRandomPositions(self, others=self, number_of_plants=self.dispersal.n_recruitment_per_step)
+
+            for i in range(0, self.dispersal.n_recruitment_per_step):
+                self.addPlant(x=plant_attributes[i]['x'],
+                              y=plant_attributes[i]['y'],
+                              xml_args=self.xml_group, # ToDo kann weg, da self
+                              plant_model=self.plant_model,  #ToDo: s.o.
+                              species=self.species, #ToDo: s.o.
+                              initial_geometry=False)
 
     def getPlants(self):
         return self.plants

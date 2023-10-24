@@ -24,12 +24,26 @@ Attributes:
     salinity (float float or string): either two values representing the salinity (kg/kg) range 
         from min_x (first value) to max_x (second value) <strong>or</strong> the path to a csv file containing a time series of salinity (see description above and 
         example below)
-    variant (string): Variant to calculate salinity reduction factor. Default is "bettina". See Notes for more information.
+    variant (string): (optional) Variant to calculate salinity reduction factor. Default is "bettina". See Notes for more information.
+    sine (nesting-tag): (optional) Calculate salinity for each time step based on a sine function. See notes for details.
+    amplitude (float): parameter defining the amplitude of the sine function
+    stretch_h (float): parameter defining the horizontal stretch of the sine function. Default: 58
+    deviation (float): parameter defining the standard deviation to pick salinity value from sine function. Default: 0
 
-Notes:  
-**Variants** to calculate salinity reduction factor  
-- "bettina" (default): ratio of zero-salinity and actual water potential. Zero-salinity water potential based on water potential difference between leaf (minimum leaf water potential) and porewater (osmotic potential).
-- "forman": sigmoidal salinity stress factor based on FORMAN model by Chen and Twilley (1998)
+**Notes:**
+
+*Variant*
+- Calculate salinity reduction factor  
+    - "bettina" (default): ratio of zero-salinity and actual water potential. Zero-salinity water potential based on water potential difference between leaf (minimum leaf water potential) and porewater (osmotic potential).
+    - "forman": sigmoidal salinity stress factor based on FORMAN model by Chen and Twilley (1998)
+
+*Sine*
+- Calculate salinity ($sal_{xi}$) on the left and right model domain using a sine function
+  - $x_{i} = amplitude * sin(\frac{time}{stetch_h} + stetch_v)$
+- The vertical stretch ($stetch_v$) of the function is defined by values defined in \<salinity>
+- Apply noise by drawing a random number from the normal distribution with $x_{i}$ as mean
+  - $sal_{xi} = random.normal(size=1, loc=x_i, scale=deviation)$
+
 
 Examples:
     
@@ -53,11 +67,19 @@ Option (iii): time series of salinity
 <salinity> test/SmallTests/inputFiles/salinity_A.csv </salinity>
 ```
 
-- Example csv file:
+Example csv file:
 ```json
 t_step;salinity_1;salinity_2
 0;0.010;0.020
 1000000;0.011;0.021
 2000000;0.012;0.022    
 ```
-      
+
+Example sine function:
+```xml
+<sine>
+    <amplitude>15</amplitude>
+    <stretch_h>58</stretch_h>
+    <deviation>0</deviation>
+</sine>
+```

@@ -18,6 +18,12 @@
             <period> 31557600 </period>
             <distribution>
                 <type> GroupFromFile </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
+                </domain>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
                 <filename> Benchmarks/ModuleBenchmarks/PlantModules/Kiwi/initial_population.csv </filename>
             </distribution>

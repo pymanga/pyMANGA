@@ -87,14 +87,19 @@ class PlantGroup:
                        group_name=self.group_name))
 
     def recruitPlants(self):
-        print("---- recruitPlants", self.dispersal.n_recruitment_per_step)
         self.dispersal.recruitPlants()
+
         if self.dispersal.n_recruitment_per_step != 0:
-            plant_attributes = Random.getRandomPositions(self, others=self, number_of_plants=self.dispersal.n_recruitment_per_step)
+            plant_attributes = Random.getRandomPositions(self,
+                                                         x_1=self.dispersal.x_1,
+                                                         y_1=self.dispersal.y_1,
+                                                         l_x=self.dispersal.l_x,
+                                                         l_y=self.dispersal.l_y,
+                                                         number_of_plants=self.dispersal.n_recruitment_per_step)
 
             for i in range(0, self.dispersal.n_recruitment_per_step):
-                self.addPlant(x=plant_attributes[i]['x'],
-                              y=plant_attributes[i]['y'],
+                self.addPlant(x=plant_attributes['x'][i],
+                              y=plant_attributes['y'][i],
                               xml_args=self.xml_group, # ToDo kann weg, da self
                               plant_model=self.plant_model,  #ToDo: s.o.
                               species=self.species, #ToDo: s.o.

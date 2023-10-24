@@ -56,7 +56,10 @@ class FromFile:
 
     def recruitPlants(self, others):
         self.xi, self.yi = Random.getRandomPositions(self=self,
-                                                     others=others,
+                                                     x_1=others.x_1,
+                                                     y_1=others.y_1,
+                                                     l_x=others.l_x,
+                                                     l_y=others.l_y,
                                                      number_of_plants=others.n_recruitment_per_step)
 
     def getPlantsFromFile(self, others):

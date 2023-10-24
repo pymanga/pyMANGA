@@ -10,23 +10,21 @@ from PopulationLib.Dispersal.Random import Random
 
 
 class PlantGroup:
-    def __init__(self, xml_group):
-        self.xml_group = xml_group # ToDo: unify name for tag variable
+    def __init__(self, xml_args):
+        self.xml_args = xml_args # ToDo: unify name for tag variable
+        self.plant_model = self.xml_args.find("vegetation_model_type").text
+        self.group_name = self.xml_args.find("name").text
+        self.species = self.xml_args.find("species").text
         self.max_id = 0
         self.plants = []
-        self.name = xml_group.find("name").text
 
-        self.plant_model = self.xml_group.find("vegetation_model_type").text
-        self.group_name = self.xml_group.find("name").text
-        self.species = self.xml_group.find("species").text
+        self.dispersal = Dispersal(self.xml_args)
 
-        self.dispersal = Dispersal(self.xml_group)
-
-        self.addGroup()
+        self.recruitPlants(initial_group=True)
         self.iniPlantDynamicConcept()
 
     def iniPlantDynamicConcept(self):
-        case = self.xml_group.find("vegetation_model_type").text
+        case = self.xml_args.find("vegetation_model_type").text
         if case == "Default":
             from PlantModelLib.Default import Default as createGD
         elif case == "Bettina":
@@ -37,73 +35,25 @@ class PlantGroup:
             from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
         else:
             raise KeyError("Required plant dynamic concept not implemented.")
-        self.plant_dynamic_concept = createGD(self.xml_group)
-        print(case + " plant dynamic concept initiated.")
+        self.plant_dynamic_concept = createGD(self.xml_args)
+        print("Plant dynamics: " + case + ".")
 
-    def addGroup(self):
-        print("ADDDDDDDDDDD GROUP")
-        plant_attributes = self.dispersal.getPlantAttributes()
-        print(len(plant_attributes))
-        # ToDo: Brauchen wir die Schleife wirklich doppelt?
-        if len(plant_attributes) == 2:
-            for i in range(0, len(plant_attributes["x"])):
-                self.addPlant(x=plant_attributes["x"][i],
-                              y=plant_attributes["y"][i],
-                              xml_args=self.xml_group,
-                              plant_model=self.plant_model,
-                              species=self.species,
-                              initial_geometry=False)
-        else:
-            for i in range(0, len(plant_attributes["x"])):
-                # Build geometry dictionary
-                geometry = {}
-                for plant_attribute in plant_attributes:
-                    # ToDo: Geht das schöner? Ja!
-                    if plant_attribute != "x" and plant_attribute != "y":
-                        geometry[plant_attribute] = plant_attributes[plant_attribute][i]
-                self.addPlant(x=plant_attributes["x"][i],
-                              y=plant_attributes["y"][i],
-                              xml_args=self.xml_group,
-                              plant_model=self.plant_model,
-                              species=self.species,
-                              initial_geometry=geometry)
+    def recruitPlants(self, initial_group=False):
+        positions, geometry = self.dispersal.getPlantAttributes(initial_group=initial_group)
+        for i in range(0, len(positions["x"])):
+            if isinstance(geometry, dict):
+                plant_geometry = {}
+                for key, value in geometry.items():
+                    plant_geometry[key] = value[i]
+            else:
+                plant_geometry = geometry
 
-    ## Adds a new plant instance to the plant group
-    #  @param x: x-position of the new plant
-    #  @param y: y-position of the new plant
-    #  @param initial_geometry: controls, whether an initial geometry is
-    #  parsed to the plant
-    def addPlant(self, x, y, xml_args, plant_model, species, initial_geometry=False):
-        print("ADDDDDDDD PLANT", self.max_id+1)
-        self.max_id += 1
-        self.plants.append(
-            PLib.Plant(x,
-                       y,
-                       xml_args=xml_args,
-                       species=species,
-                       plant_id=self.max_id,
-                       initial_geometry=initial_geometry,
-                       plant_model=plant_model,
-                       group_name=self.group_name))
-
-    def recruitPlants(self):
-        self.dispersal.recruitPlants()
-
-        if self.dispersal.n_recruitment_per_step != 0:
-            plant_attributes = Random.getRandomPositions(self,
-                                                         x_1=self.dispersal.x_1,
-                                                         y_1=self.dispersal.y_1,
-                                                         l_x=self.dispersal.l_x,
-                                                         l_y=self.dispersal.l_y,
-                                                         number_of_plants=self.dispersal.n_recruitment_per_step)
-
-            for i in range(0, self.dispersal.n_recruitment_per_step):
-                self.addPlant(x=plant_attributes['x'][i],
-                              y=plant_attributes['y'][i],
-                              xml_args=self.xml_group, # ToDo kann weg, da self
-                              plant_model=self.plant_model,  #ToDo: s.o.
-                              species=self.species, #ToDo: s.o.
-                              initial_geometry=False)
+            self.max_id += 1
+            self.plants.append(
+                PLib.Plant(other=self,
+                           x=positions["x"][i],
+                           y=positions["y"][i],
+                           initial_geometry=plant_geometry))
 
     def getPlants(self):
         return self.plants

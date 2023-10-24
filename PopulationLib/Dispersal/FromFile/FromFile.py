@@ -1,70 +1,61 @@
 import pandas as pd
+import numpy as np
 from PopulationLib.Dispersal.Random import Random
 
 
 class FromFile:
-    def __init__(self, xml_group):
-        print("Population: FromFile.")
-        self.tags_group = xml_group
+    def __init__(self, xml_args):
+        self.xml_args = xml_args
 
     def getTags(self):
         tags = {
-            "prj_file": self.tags_group,
+            "prj_file": self.xml_args,
             "required": ["type", "filename", "domain", "x_1", "x_2", "y_1", "y_2"],
             "optional": ["n_recruitment_per_step"]
         }
         return tags
 
-    def setTags(self, others):
-        # ToDo: DAS MUSS WEG
-        self.filename = others.filename
-        self.x_1 = others.x_1
-        self.x_2 = others.x_2
-        self.y_1 = others.y_1
-        self.y_2 = others.y_2
-        self.l_x = others.l_x
-        self.l_y = others.l_y
-        try:
-            self.n_recruitment_per_step = others.n_recruitment_per_step
-        except:
-            pass
-
-    def initializeGroup(self, others):
-        self.plant_attributes_file = self.getPlantsFromFile(others=others)
-
+    def getInitialGroup(self):
+        plant_attributes_file = self.getPlantsFromFile()
         # Get parameters that are required for the selected plant module
-        parameter_list = self.getParameterList()
-        self.plant_attributes = {}
-        for parameter in parameter_list:
+        geometry_list = self.getGeometryList()
+        geometry = {}
+        for geo in geometry_list:
             try:
-                self.plant_attributes[parameter] = self.plant_attributes_file[parameter].flatten()
-            except AttributeError:
-                print("Something went wrong")
-                # ToDo: bessere Variablennamen + Error message
+                geometry[geo] = plant_attributes_file[geo].flatten()
+            except KeyError:
+                print("ERROR: geometry parameters in initial population do not match plant module.")
+                exit()
+        positions = {"x": plant_attributes_file["x"].flatten(),
+                     "y": plant_attributes_file["y"].flatten()}
+        return positions, geometry
 
-    def getParameterList(self):
-        plant_model = self.tags_group.find("vegetation_model_type").text
-        if plant_model == "Bettina" or plant_model == "BettinaNetwork":
-            pl = ["r_stem", "h_stem", "r_crown", "r_root"]
-        if plant_model == "Kiwi":
-            pl = ["r_stem"]
-        # ToDo: geht das auch cooler?
-        parameter_list = ["x", "y"]
-        for p in pl:
-            parameter_list.append(p)
-        return parameter_list
+    def getGeometryList(self):
+        # ToDo: Liste mit notwendigen Parametern irgendwoher holen?
+        plant_model = self.xml_args.find("vegetation_model_type").text
+        if plant_model == "Default":
+            # ToDo: Welche Geomtrie soll für Default definiert werden? Anpassung Benchmarks&ini_pop.csv notwendig
+            #geometry_list = ["r_ag", "h_ag", "r_bg", "h_bg"]
+            geometry_list = ["r_stem", "h_stem", "r_crown", "r_root"]
+        elif plant_model == "Bettina" or "BettinaNetwork":
+            geometry_list = ["r_stem", "h_stem", "r_crown", "r_root"]
+        elif plant_model == "Kiwi":
+            geometry_list = ["r_stem"]
+        return geometry_list
 
-    def recruitPlants(self, others):
-        self.xi, self.yi = Random.getRandomPositions(self=self,
-                                                     x_1=others.x_1,
-                                                     y_1=others.y_1,
-                                                     l_x=others.l_x,
-                                                     l_y=others.l_y,
-                                                     number_of_plants=others.n_recruitment_per_step)
+    def getPlantAttributes(self, initial_group):
+        if initial_group:
+            positions, geometry = self.getInitialGroup()
+        else:
+            number_of_plants = self.n_recruitment_per_step
+            positions = Random.getRandomPositions(self=self,
+                                                  number_of_plants=number_of_plants)
+            geometry = np.full(len(positions["x"]), False)
+        return positions, geometry
 
-    def getPlantsFromFile(self, others):
+    def getPlantsFromFile(self):
         # Loading the Population Data
-        plant_file = pd.read_csv(others.filename)
+        plant_file = pd.read_csv(self.filename)
         headers = plant_file.head()
         plant_attributes = {}
         for header in headers:

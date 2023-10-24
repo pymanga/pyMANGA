@@ -93,7 +93,7 @@ class DynamicTimeStep:
             # If all plants of a group died, make a copy of this plant set
             if len(kill_indices) > 0 and plant_group.getNRecruits() == 0:
                 if len(kill_indices) == plant_group.getNumberOfPlants():
-                    eliminated_plant_groups[plant_group.name] = copy.deepcopy(
+                    eliminated_plant_groups[plant_group.group_name] = copy.deepcopy(
                         plant_group)
                     self.model_output_concept.writeOutput(eliminated_plant_groups,
                                                  t_start,

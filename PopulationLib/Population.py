@@ -17,8 +17,8 @@ class Population:
             self.addPlantGroup(arg)
 
     def addPlantGroup(self, args):
-        plant_group = PlantGroup(xml_group=args)
-        self.plant_groups[plant_group.name] = plant_group
+        plant_group = PlantGroup(xml_args=args)
+        self.plant_groups[plant_group.group_name] = plant_group
 
     def getPlantGroups(self):
         return self.plant_groups

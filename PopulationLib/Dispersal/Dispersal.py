@@ -32,6 +32,7 @@ class Dispersal:
         self.getInputParameters(**tags)
 
         self.dispersal.initializeGroup(others=self)
+        self.dispersal.setTags(others=self)
 
     def getPositions(self):
         return list([self.dispersal.xi, self.dispersal.yi])

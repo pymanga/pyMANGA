@@ -15,6 +15,19 @@ class Random:
         }
         return tags
 
+    def setTags(self, others):
+        # ToDo: DAS MUSS WEG
+        self.x_1 = others.x_1
+        self.x_2 = others.x_2
+        self.y_1 = others.y_1
+        self.y_2 = others.y_2
+        self.l_x = others.l_x
+        self.l_y = others.l_y
+        try:
+            self.n_recruitment_per_step = others.n_recruitment_per_step
+        except:
+            pass
+
     def initializeGroup(self, others):
         self.plant_attributes = self.getRandomPositions(others=others,
                                                         number_of_plants=others.n_individuals)

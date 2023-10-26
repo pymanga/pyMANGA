@@ -25,11 +25,9 @@ Attributes:
 
 Examples:
     ```xml
-    <plant_dynamics>
-        <type> BettinaNetwork </type>
-        <variant> V2_adapted </variant>
-        <f_growth> 0.25 </f_growth>
-    </plant_dynamics>
+    <vegetation_model_type> BettinaNetwork </vegetation_model_type>
+    <variant> V2_adapted </variant>
+    <f_growth> 0.25 </f_growth>
     ```
 
 Possible outputs:

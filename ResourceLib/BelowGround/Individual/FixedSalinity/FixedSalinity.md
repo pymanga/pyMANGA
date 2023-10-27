@@ -35,7 +35,7 @@ Attributes:
 *Variant*
 - Calculate salinity reduction factor  
     - "bettina" (default): ratio of zero-salinity and actual water potential. Zero-salinity water potential based on water potential difference between leaf (minimum leaf water potential) and porewater (osmotic potential).
-    - "forman": sigmoidal salinity stress factor based on FORMAN model by Chen and Twilley (1998)
+    - "forman": sigmoidal salinity stress factor based on FORMAN model by Chen and Twilley (1998). See pyMANGA sensitivity repository for [details](https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/FixedSalinity/forman.md).
 
 *Sine*
 - Calculate salinity ($sal_{xi}$) on the left and right model domain using a sine function
@@ -43,7 +43,7 @@ Attributes:
 - The vertical stretch ($stetch_v$) of the function is defined by values defined in \<salinity>
 - Apply noise by drawing a random number from the normal distribution with $x_{i}$ as mean
   - $sal_{xi} = random.normal(size=1, loc=x_i, scale=deviation)$
-
+- See pyMANGA sensitivity repository for [details](https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/FixedSalinity/sine.md)
 
 Examples:
     

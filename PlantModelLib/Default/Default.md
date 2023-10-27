@@ -13,9 +13,7 @@ Attributes:
 
 Examples:
     ```xml
-    <plant_dynamics>
-        <type> Bettina </type>
-    </plant_dynamics>
+    <vegetation_model_type> Default </vegetation_model_type>
     ```
 Possible outputs:
     ```xml

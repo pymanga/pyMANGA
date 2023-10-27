@@ -71,6 +71,15 @@ class Saltmarsh(PlantModel):
             self.inc_r_bg
         growth_concept_information["inc_h_bg"] = \
             self.inc_h_bg
+
+        growth_concept_information["w_h_bg"] = \
+            self.w_h_bg
+        growth_concept_information["w_r_bg"] = \
+            self.w_r_bg
+        growth_concept_information["w_h_ag"] = \
+            self.w_h_ag
+        growth_concept_information["w_r_ag"] = \
+            self.w_r_ag
         # growth_concept_information["salinity"] = tree.salinity
 
         # Get Mortality-related variables
@@ -128,13 +137,20 @@ class Saltmarsh(PlantModel):
         Sets:
             multiple float
         """
-        self.w_r_ag = self.parameter['w_r_ag']
 
-        self.w_h_ag = self.parameter['w_h_ag']
+        self.w_ratio_b_a = self.parameter['w_b_a']
 
-        self.w_r_bg = self.parameter['w_r_bg']
+        self.w_ratio_b_a = self.w_ratio_b_a + self.w_ratio_b_a * self.ratio_b_a_resource
 
-        self.w_h_bg = self.parameter['w_h_bg']
+        self.w_r_ag = self.w_ratio_b_a * self.parameter['w_ag']
+
+        self.w_h_ag = self.w_ratio_b_a * (1 -
+            self.parameter['w_ag'])
+
+        self.w_r_bg = (1 - self.w_ratio_b_a) * self.parameter['w_bg']
+
+        self.w_h_bg = (1 - self.w_ratio_b_a) * (1 -
+            self.parameter['w_bg'])
 
     def plantMaintenance(self):
         """
@@ -200,7 +216,12 @@ class Saltmarsh(PlantModel):
             multiple float
         """
         self.available_resources = min(self.ag_resources, self.bg_resources)
-        print('______', self.available_resources)
+
+        if not self.bg_resources is 0 and not self.ag_resources is 0:
+            self.ratio_b_a_resource = ((self.bg_resources /
+                (self.bg_resources + self.ag_resources)) - 0.5) / 5
+        else:
+            self.ratio_b_a_resource = -0.1
         self.grow = (self.parameter["growth_factor"] *
                      (self.available_resources)) # - self.maint))
         # Check if trees survive based on selected mortality concepts

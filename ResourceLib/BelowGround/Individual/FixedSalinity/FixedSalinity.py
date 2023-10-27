@@ -66,59 +66,10 @@ class FixedSalinity(ResourceModel):
             numpy array with shape(number_of_trees)
         """
         self._xe = np.array(self._xe)
-
         if hasattr(self, "t_variable"):
-            # The values for the salinity of the current time step are
-            # explicitly given
-            if self._t_ini in self._salinity_over_t[:, 0]:
-                self._salinity = self._salinity_over_t[np.where(
-                    self._salinity_over_t[:, 0] == self._t_ini)[0], 1:][0]
-
-            # The values for the salinity of the current time step are not
-            # explicitly given and have to be interpolted
-            elif self._t_ini not in self._salinity_over_t[:, 0]:
-
-                try:
-                    # Check if there is a value for salinity before and
-                    # after the current time step
-                    ts_after = min(np.where(
-                        self._salinity_over_t[:, 0] > self._t_ini)[0])
-                    ts_before = max(np.where(
-                        self._salinity_over_t[:, 0] < self._t_ini)[0])
-
-                    # Interpolation of salinity values over time
-
-                    # salinity on left bc
-                    salinity_left = (self._salinity_over_t[ts_before, 1] +
-                                     ((self._t_ini -
-                                       self._salinity_over_t[ts_before, 0]) *
-                                      (self._salinity_over_t[ts_after, 1] -
-                                       self._salinity_over_t[ts_before, 1])) /
-                                     (self._salinity_over_t[ts_after, 0] -
-                                      self._salinity_over_t[ts_before, 0]))
-
-                    # salinity on right bc
-                    salinity_right = (self._salinity_over_t[ts_before, 2] +
-                                      ((self._t_ini -
-                                        self._salinity_over_t[ts_before, 0]) *
-                                       (self._salinity_over_t[ts_after, 2] -
-                                        self._salinity_over_t[ts_before, 2])) /
-                                      (self._salinity_over_t[ts_after, 0] -
-                                      self._salinity_over_t[ts_before, 0]))
-
-                    self._salinity = [salinity_left, salinity_right]
-
-                except:
-                    # If a value is missing before or after the current
-                    # time step, the last or first available one is used.
-                    if self._salinity_over_t[0, 0] > self._t_ini:
-                        self._salinity = [self._salinity_over_t[0, 1],
-                                          self._salinity_over_t[0, 2]]
-
-                    elif self._salinity_over_t[0, 0] > self._t_ini:
-                        self._salinity = [self._salinity_over_t[-1, 1],
-                                          self._salinity_over_t[-1, 2]]
-
+            self.getSalinityTimeseries()
+        elif hasattr(self, "amplitude"):
+            self.getSalinitySine()
         # Interpolation of salinity over space
         salinity_plant = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
@@ -127,67 +78,124 @@ class FixedSalinity(ResourceModel):
 
         return salinity_plant
 
-    def getInputParameters(self, args):
-        missing_tags = ["type", "variant", "min_x", "max_x", "salinity"]
+    def getSalinitySine(self):
+        left = self.amplitude * np.sin(self._t_ini / 3600 / 24 / self.stretch_h) + self.left_bc*10**3
+        self._salinity[0] = np.random.normal(size=1, loc=left, scale=self.deviation) / 10**3
+        self._salinity[0] = self._salinity[0] if self._salinity[0] > 0 else 0
 
-        for arg in args.iterdescendants():
-            tag = arg.tag
-            if tag == "variant":
-                self.variant = str(args.find("variant").text)
-                self.variant.lower()
+        right = self.amplitude * np.sin(self._t_ini / 3600 / 24 / self.stretch_h) + self.right_bc*10**3
+        self._salinity[1] = np.random.normal(size=1, loc=right, scale=self.deviation) / 10**3
+        self._salinity[1] = self._salinity[1] if self._salinity[1] > 0 else 0
 
-            if tag == "salinity":
-                # Two constant values over time for seaward and
-                # landward salinity
-                if len(arg.text.split()) == 2:
-                    self._salinity = arg.text.split()
-                    self._salinity[0] = float(self._salinity[0])
-                    self._salinity[1] = float(self._salinity[1])
+    def getSalinityTimeseries(self):
+        # The values for the salinity of the current time step are
+        # explicitly given
+        if self._t_ini in self._salinity_over_t[:, 0]:
+            self._salinity = self._salinity_over_t[np.where(
+                self._salinity_over_t[:, 0] == self._t_ini)[0], 1:][0]
 
-                # Path to a file containing salinity values that vary over time
-                elif os.path.exists(arg.text) is True:
+        # The values for the salinity of the current time step are not
+        # explicitly given and have to be interpolted
+        elif self._t_ini not in self._salinity_over_t[:, 0]:
 
-                    # Reading salinity values from a csv-file
-                    self._salinity_over_t = np.loadtxt(
-                        arg.text, delimiter=';', skiprows=1)
-
-                    # Check if csv separation has worked
-                    try:
-                        assert self._salinity_over_t.shape[1] == 3
-
-                    except:
-                        raise (KeyError("Problems occurred when reading" +
-                                        " the salinity values from the file." +
-                                        " Please check the file for correct" +
-                                        " formatting."))
-
-                    self.t_variable = True
-
-                else:
-                    raise (KeyError("Wrong definition of salinity in the " +
-                                    "belowground competition definition. " +
-                                    "Please read the " +
-                                    "corresponding section in the " +
-                                    "documentation!"))
-
-            if tag == "min_x":
-                self._min_x = float(args.find("min_x").text)
-            if tag == "max_x":
-                self._max_x = float(args.find("max_x").text)
-
-            elif tag == "type":
-                case = args.find("type").text
             try:
-                missing_tags.remove(tag)
-            except ValueError:
-                print("WARNING: Tag " + tag + " not specified for " + case +
-                      " below-ground " + "initialisation!")
+                # Check if there is a value for salinity before and
+                # after the current time step
+                ts_after = min(np.where(
+                    self._salinity_over_t[:, 0] > self._t_ini)[0])
+                ts_before = max(np.where(
+                    self._salinity_over_t[:, 0] < self._t_ini)[0])
 
-        if len(missing_tags) > 1:
-            string = ""
-            for tag in missing_tags:
-                string += tag + " "
-            raise KeyError(
-                "Tag(s) " + string +
-                "are not given for below-ground initialisation " +
-                "in project file.")
+                # Interpolation of salinity values over time
+
+                # salinity on left bc
+                salinity_left = (self._salinity_over_t[ts_before, 1] +
+                                 ((self._t_ini -
+                                   self._salinity_over_t[ts_before, 0]) *
+                                  (self._salinity_over_t[ts_after, 1] -
+                                   self._salinity_over_t[ts_before, 1])) /
+                                 (self._salinity_over_t[ts_after, 0] -
+                                  self._salinity_over_t[ts_before, 0]))
+
+                # salinity on right bc
+                salinity_right = (self._salinity_over_t[ts_before, 2] +
+                                  ((self._t_ini -
+                                    self._salinity_over_t[ts_before, 0]) *
+                                   (self._salinity_over_t[ts_after, 2] -
+                                    self._salinity_over_t[ts_before, 2])) /
+                                  (self._salinity_over_t[ts_after, 0] -
+                                   self._salinity_over_t[ts_before, 0]))
+
+                self._salinity = [salinity_left, salinity_right]
+
+            except:
+                # If a value is missing before or after the current
+                # time step, the last or first available one is used.
+                if self._salinity_over_t[0, 0] > self._t_ini:
+                    self._salinity = [self._salinity_over_t[0, 1],
+                                      self._salinity_over_t[0, 2]]
+
+                elif self._salinity_over_t[0, 0] > self._t_ini:
+                    self._salinity = [self._salinity_over_t[-1, 1],
+                                      self._salinity_over_t[-1, 2]]
+
+    def getInputParameters(self, args):
+        tags = {
+            "prj_file": args,
+            "required": ["type", "min_x", "max_x", "salinity"],
+            "optional": ["variant", "sine", "amplitude", "stretch_h", "deviation"]
+        }
+        super().getInputParameters(**tags)
+        self._salinity = self.salinity
+        self._min_x = self.min_x
+        self._max_x = self.max_x
+        self.readSalinityTag()
+        try:
+            self.variant.lower()
+        except AttributeError:
+            pass
+
+        if hasattr(self, "sine"):
+            if not hasattr(self, "stretch_h"):
+                print("> Set sine parameter strech_h to default: 58")
+                self.stretch_h = 58
+            if not hasattr(self, "deviation"):
+                print("> Set sine parameter strech_h to deviation: 1")
+                self.deviation = 0
+
+
+    def readSalinityTag(self):
+        # Two constant values over time for seaward and
+        # landward salinity
+        if len(self._salinity.split()) == 2:
+            self._salinity = self._salinity.split()
+            self._salinity[0] = float(self._salinity[0])
+            self._salinity[1] = float(self._salinity[1])
+            self.left_bc = self._salinity[0]
+            self.right_bc = self._salinity[1]
+
+        # Path to a file containing salinity values that vary over time
+        elif os.path.exists(self._salinity) is True:
+
+            # Reading salinity values from a csv-file
+            self._salinity_over_t = np.loadtxt(
+                self._salinity, delimiter=';', skiprows=1)
+
+            # Check if csv separation has worked
+            try:
+                assert self._salinity_over_t.shape[1] == 3
+
+            except:
+                raise (KeyError("Problems occurred when reading" +
+                                " the salinity values from the file." +
+                                " Please check the file for correct" +
+                                " formatting."))
+
+            self.t_variable = True
+
+        else:
+            raise (KeyError("Wrong definition of salinity in the " +
+                            "belowground competition definition. " +
+                            "Please read the " +
+                            "corresponding section in the " +
+                            "documentation!"))

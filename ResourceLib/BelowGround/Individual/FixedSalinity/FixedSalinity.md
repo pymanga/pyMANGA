@@ -26,9 +26,9 @@ Attributes:
         example below)
     variant (string): (optional) Variant to calculate salinity reduction factor. Default is "bettina". See Notes for more information.
     sine (nesting-tag): (optional) Calculate salinity for each time step based on a sine function. See notes for details.
-    amplitude (float): parameter defining the amplitude of the sine function
-    stretch_h (float): parameter defining the horizontal stretch of the sine function. Default: 58
-    deviation (float): parameter defining the standard deviation to pick salinity value from sine function. Default: 0
+    amplitude (sine-nested float): parameter defining the amplitude of the sine function
+    stretch_h (sine-nested float): parameter defining the horizontal stretch of the sine function. Default: 58
+    deviation (sine-nested float): parameter defining the standard deviation to pick salinity value from sine function. Default: 0
 
 **Notes:**
 

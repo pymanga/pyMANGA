@@ -20,12 +20,12 @@ Possible outputs:
         <geometry_output> r_root </geometry_output> <!-- root radius, in m -->
         <growth_output> root_surface_resistance </growth_output> <!-- root surface resistance, in s * Pa per m³ -->
         <growth_output> xylem_resistance </growth_output> <!-- xylem resistance, in s * Pa per m³ -->
-        <growth_output> available_resources </growth_output> <!-- resources available, in kg per time step -->
         <growth_output> psi_zero </growth_output> <!-- water potential gradient with soil water potential = 0, in Pa -->
         <growth_output> salinity </growth_output> <!-- salinity below plant, in kg per kg -->
         <growth_output> growth </growth_output> <!-- biomass increment, in kg per time step -->
-        <growth_output> ag_resources </growth_output> <!-- above-ground resources, in kg per time step -->
-        <growth_output> bg_resources </growth_output> <!-- below-ground resources, in kg per time step -->
+        <growth_output> ag_resources </growth_output> <!-- above-ground resources, in m³ per time step -->
+        <growth_output> bg_resources </growth_output> <!-- below-ground resources, in m³ per time step -->
+        <growth_output> available_resources </growth_output> <!-- resources available, in m³ per time step -->
         <growth_output> ag_factor </growth_output> <!-- above-ground growth reduction factor, unitless -->
         <growth_output> bg_factor </growth_output> <!-- below-ground growth reduction factor, unitless -->
     </output>

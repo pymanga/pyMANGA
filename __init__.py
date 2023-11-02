@@ -7,7 +7,10 @@ pyMANGA is modular, and descriptions of individual tree growth, resource availab
 The documentation of a module consists of the following parts
 1. module description
 2. specification of tags to be used in the pyMANGA project file (if applicable)
-3. Source code documentation.
+3. source code documentation.
+
+*Note*
+All parameters are defined in SI units unless indicated otherwise.
 
 For general information about the pyMANGA project and tutorials visit our website: http://pymanga.forst.tu-dresden.de/
 

@@ -24,6 +24,7 @@ Attributes:
 
 Note:
     If the `allow_interpolation` tag is set to True and the grid is coarse, the calculation of above-ground resource uptake will be inaccurate and this may affect plant growth.
+    See [pyMANGA sensitivity repository](https://github.com/pymanga/sensitivity/blob/main/ResourceLib/AboveGround/AsymmetricZOI/allow_interpolation/allow_interpolation.md) for more information.
 
 Examples:
     

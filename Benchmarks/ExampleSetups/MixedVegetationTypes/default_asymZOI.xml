@@ -2,7 +2,7 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground>
-            <type> SimpleAsymmetricZOI </type>
+            <type> AsymmetricZOI </type>
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
@@ -10,7 +10,8 @@
                 <y_2> 22 </y_2>
             <x_resolution> 88 </x_resolution>
             <y_resolution> 88 </y_resolution>
-            </domain>        </aboveground>
+            </domain>
+        </aboveground>
         <belowground>
             <type> Default </type>
         </belowground>

@@ -28,6 +28,7 @@ class GroupPlanting(PlantGroup):
 
         distribution = self.tags_group.find("distribution")
         distribution_type = distribution.find("type").text
+        self.distribution_type = distribution_type
         print("Plant group name: {}.".format(self.name) +
               "\nDistribution type: {}.".format(distribution_type) +
               "\nSpecies: {}.".format(self.species))

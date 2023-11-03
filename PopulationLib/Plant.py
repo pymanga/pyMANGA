@@ -35,6 +35,9 @@ class Plant:
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createPlant()
+        elif species == "Rhizophora":
+            from PopulationLib.Species import Rhizophora
+            self.geometry, self.parameter = Rhizophora.createPlant()
         elif "/" in species:
             try:
                 spec = importlib.util.spec_from_file_location("", species)
@@ -48,6 +51,7 @@ class Plant:
                 raise AttributeError("The file " + species + " is not " +
                                      "correctly defining a plant species. "
                                      "Please review the file.")
+
         else:
             raise KeyError("Species " + species + " unknown!")
         if initial_geometry:

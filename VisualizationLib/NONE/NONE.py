@@ -10,7 +10,8 @@ from VisualizationLib.Visualization import Visualization
 class NONE(Visualization):
     ## Constructor of dummy objects in order to drop visualization
     def __init__(self, args):
-        self.case = args.find("type").text
+        self.case = args[0].find("type").text
+        print("Running without visualization.")
 
     ## Dummy update function
     def update(self, plant_groups, time):

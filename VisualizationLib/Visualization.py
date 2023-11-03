@@ -12,9 +12,11 @@ class Visualization:
     #  Depending on project-arguments the different constructors are called.
     #  @param args the visualization arguments taken from input
     def __init__(self, args):
-        self.case = args.find("type").text
+        self.case = args[0].find("type").text
         if self.case == "SimplePyplot":
             self.iniSimplePyplot(args)
+        if self.case == "ComplexPyplot":
+            self.iniComplexPyplot(args)
         elif self.case == "NONE":
             self.case = "NONE"
             self.iniNONE(args)
@@ -26,6 +28,10 @@ class Visualization:
     def iniSimplePyplot(self, args):
         from .SimplePyplot import SimplePyplot
         self.visualization = SimplePyplot(args)
+
+    def iniComplexPyplot(self, args):
+        from .ComplexPyplot import ComplexPyplot
+        self.visualization = ComplexPyplot(args)
 
     ## Initiates visualization of type NONE
     def iniNONE(self, args):

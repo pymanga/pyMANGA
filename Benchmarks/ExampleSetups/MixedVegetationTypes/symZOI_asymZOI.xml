@@ -2,7 +2,7 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground>
-            <type> SimpleAsymmetricZOI </type>
+            <type> AsymmetricZOI </type>
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
@@ -30,8 +30,14 @@
             <vegetation_model_type> Bettina </vegetation_model_type>
             <distribution>
                 <type> GroupFromFile </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
+                </domain>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/TreeOutput/initial_population_1.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/OutputModules/initial_population_1.csv </filename>
             </distribution>
         </group>
         <group>
@@ -40,8 +46,14 @@
             <vegetation_model_type> Kiwi </vegetation_model_type>
             <distribution>
                 <type> GroupFromFile </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
+                </domain>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/TreeOutput/initial_population_2.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/OutputModules/initial_population_2.csv </filename>
             </distribution>
         </group>
     </population>
@@ -56,7 +68,7 @@
     </visualization>
     <output>
          <type> OneFile </type>
-        <output_each_nth_timestep>1</output_each_nth_timestep>
+        <output_each_nth_timestep>[1]</output_each_nth_timestep>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>

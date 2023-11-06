@@ -20,16 +20,20 @@
             <max_x> 22 </max_x>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Bettina </type>
-        <mortality>NoGrowth</mortality>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
+                </domain>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
                 <filename> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/bg_initial_population.csv </filename>
             </distribution>
@@ -46,7 +50,7 @@
     </visualization>
     <output>
         <type> OneFile </type>
-        <output_each_nth_timestep>50</output_each_nth_timestep>
+        <output_each_nth_timestep>[50]</output_each_nth_timestep>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/ExampleSetups/MergeModules/Merge/</output_dir>
         <geometry_output> r_stem </geometry_output>

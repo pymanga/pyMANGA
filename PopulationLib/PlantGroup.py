@@ -46,8 +46,7 @@ class PlantGroup:
                 for key, value in geometry.items():
                     plant_geometry[key] = value[i]
             else:
-                plant_geometry = geometry
-
+                plant_geometry = geometry[i]
             self.max_id += 1
             self.plants.append(
                 PLib.Plant(other=self,

@@ -31,11 +31,13 @@ class FixedSalinity(ResourceModel):
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
         self._xe.append(x)
-        self._h_stem.append(geometry["h_stem"])
-        self._r_crown.append(geometry["r_crown"])
-        self._psi_leaf.append(parameter["leaf_water_potential"])
 
-        if self.variant == "forman":
+        if self.variant == 'Bettina':
+            self._h_stem.append(geometry["h_stem"])
+            self._r_crown.append(geometry["r_crown"])
+            self._psi_leaf.append(parameter["leaf_water_potential"])
+
+        elif self.variant == "forman":
             self._salt_effect_d.append(parameter["salt_effect_d"])
             self._salt_effect_ui.append(parameter["salt_effect_ui"])
 
@@ -57,7 +59,7 @@ class FixedSalinity(ResourceModel):
             # eq. requires salinity in ppt not kg/kg
             self.belowground_resources = (1 / (1 + np.exp(
                 np.array(self._salt_effect_d) *
-                (np.array(self._salt_effect_ui) - (salinity_plant/10**3)))))
+                (np.array(self._salt_effect_ui) - (salinity_plant*10**3)))))
 
     def getPlantSalinity(self):
         """

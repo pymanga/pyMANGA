@@ -12,8 +12,8 @@ def createPlant():
     ini_h_ag = 0.01
     ini_r_bg = 0.005
     ini_h_bg = 0.01
-    maint_factor = 0.00000000002
-    growth_factor = 0.6
+    maint_factor = 0.000002
+    growth_factor = 0.0000004
     max_h = 1.5
     w_b_a = 0.7
     w_ag = 0.2
@@ -35,8 +35,8 @@ def createPlant():
     parameter["sun_c"] = sun_c
     # plant module KIWI
     geometry["height"] = 0
-    parameter["salt_effect_d"] = -0.18
-    parameter["salt_effect_ui"] = 72
+    parameter["salt_effect_d"] = -0.05
+    parameter["salt_effect_ui"] = 100
     parameter["max_height"] = 3500 # cm
     parameter["max_dbh"] = 140 # cm
     parameter["max_growth"] = 162

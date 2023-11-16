@@ -12,7 +12,7 @@ def createPlant():
     ini_h_ag = 0.01
     ini_r_bg = 0.005
     ini_h_bg = 0.01
-    maint_factor = 0.00000000002
+    maint_factor = 0.0002
     growth_factor = 0.6
     max_h = 1.5
     w_b_a = 0.7

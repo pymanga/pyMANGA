@@ -12,13 +12,13 @@
     <population>
         <group>
             <name> Initial </name>
-            <species> Saltmarsh </species>
+            <species> PopulationLib/Species/Saltmarsh_1.py </species>
             <vegetation_model_type> Saltmarsh </vegetation_model_type>
             <mortality> NoGrowth </mortality>
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> MyModel/OnePlant.csv </filename>
+                <filename> MyModel/input_OnePlant.csv </filename>
             </distribution>
         </group>
     </population>
@@ -26,7 +26,7 @@
         <type> Simple </type>
         <t_start> 0 </t_start>
         <t_end> 51840000 </t_end>
-        <delta_t> 864000 </delta_t>
+        <delta_t> 86400 </delta_t>
     </time_loop>
     <visualization>
         <type> NONE </type>
@@ -35,12 +35,13 @@
         <type> OnePlantOneFile </type>
         <output_time_range > [0, 51840000] </output_time_range >
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>MyModel/Outputs/</output_dir>
+        <output_dir>MyModel/Outputs/OnePlant_maint</output_dir>
         <geometry_output> r_ag </geometry_output>
         <geometry_output> h_ag </geometry_output>
         <geometry_output> r_bg </geometry_output>
         <geometry_output> h_bg </geometry_output>
         <growth_output> growth </growth_output>
+        <growth_output> maint </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
         <growth_output> inc_r_ag </growth_output>
@@ -53,4 +54,3 @@
         <growth_output> w_h_bg </growth_output>
     </output>
 </MangaProject>
-

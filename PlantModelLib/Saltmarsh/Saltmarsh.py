@@ -47,7 +47,7 @@ class Saltmarsh(PlantModel):
         # concepts
         super().setMortalityVariables(growth_concept_information)
 
-        # self.plantMaintenance()
+        self.plantMaintenance()
         self.bgResources(belowground_resources)
         self.agResources(aboveground_resources)
         self.growthResources()
@@ -61,6 +61,8 @@ class Saltmarsh(PlantModel):
         growth_concept_information["ag_resources"] = self.ag_resources
         growth_concept_information["bg_resources"] = self.bg_resources
         growth_concept_information["growth"] = self.grow
+        growth_concept_information["maint"] = self.maint
+        growth_concept_information["volume"] = self.volume
         growth_concept_information["available_resources"] = (
             self.available_resources)
         growth_concept_information["inc_r_ag"] = \
@@ -87,6 +89,7 @@ class Saltmarsh(PlantModel):
 
         plant.setGeometry(geometry)
         plant.setGrowthConceptInformation(growth_concept_information)
+        print(plant.growth_concept_information)
         if self.survive == 1:
             plant.setSurvival(1)
         else:
@@ -222,7 +225,7 @@ class Saltmarsh(PlantModel):
                 (self.bg_resources + self.ag_resources)) - 0.5) / 5
         else:
             self.ratio_b_a_resource = -0.1
-        self.grow = (self.parameter["growth_factor"] *
-                     (self.available_resources)) # - self.maint))
+        self.grow = (self.parameter["growth_factor"] * self.time *
+                     (self.available_resources)) - self.maint
         # Check if trees survive based on selected mortality concepts
         super().setTreeKiller()

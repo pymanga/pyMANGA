@@ -13,7 +13,7 @@ import matplotlib.patches as patch
 # filepath_examplesetups = path.join(path.dirname(path.abspath(__file__)),
 #                                    "testSetupsWithoutOGS/*.xml")
 
-outputs = glob.glob(r"..\pyMANGA-1\test\testoutputs\*.csv")
+outputs = glob.glob(r"*.csv")
 
 datas = []
 

@@ -1,0 +1,99 @@
+<MangaProject>
+    <random_seed>643879</random_seed>
+    <resources>
+        <aboveground>
+            <type> Default </type>
+        </aboveground>
+        <belowground>
+            <type> FixedSalinity </type>
+            <variant> forman </variant>
+            <min_x>0</min_x>
+            <max_x>20</max_x>
+            <salinity>0.035 0.15</salinity>
+        </belowground>
+    </resources>
+    <population>
+        <group>
+            <name> saltmarsh_1 </name>
+            <species> PopulationLib/Species/Saltmarsh_1.py </species>
+            <vegetation_model_type> Saltmarsh </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
+            <distribution>
+                <type> Random </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 20 </x_2>
+                    <y_2> 5 </y_2>
+                </domain>
+                <n_individuals> 100 </n_individuals>
+                <n_recruitment_per_step> 100 </n_recruitment_per_step>
+            </distribution>
+        </group>
+        <group>
+            <name> saltmarsh_2 </name>
+            <species> PopulationLib/Species/Saltmarsh_2.py </species>
+            <vegetation_model_type> Saltmarsh </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
+            <distribution>
+                <type> Random </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 20 </x_2>
+                    <y_2> 5 </y_2>
+                </domain>
+                <n_individuals> 100 </n_individuals>
+                <n_recruitment_per_step> 100 </n_recruitment_per_step>
+            </distribution>
+        </group>
+        <group>
+            <name> saltmarsh_3 </name>
+            <species> PopulationLib/Species/Saltmarsh_3.py </species>
+            <vegetation_model_type> Saltmarsh </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
+            <distribution>
+                <type> Random </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 20 </x_2>
+                    <y_2> 5 </y_2>
+                </domain>
+                <n_individuals> 100 </n_individuals>
+                <n_recruitment_per_step> 100 </n_recruitment_per_step>
+            </distribution>
+        </group>
+    </population>
+    <time_loop>
+        <type> Simple </type>
+        <t_start> 0 </t_start>
+        <t_end> 51840000 </t_end>
+        <delta_t> 864000 </delta_t>
+    </time_loop>
+    <visualization>
+        <type> NONE </type>
+    </visualization>
+    <output>
+        <type> OneTimestepOneFilePerGroup </type>
+        <output_time_range > [0, 51840000] </output_time_range >
+        <allow_previous_output>True</allow_previous_output>
+        <output_dir>MyModel/Outputs/Gradient</output_dir>
+        <geometry_output> r_ag </geometry_output>
+        <geometry_output> h_ag </geometry_output>
+        <geometry_output> r_bg </geometry_output>
+        <geometry_output> h_bg </geometry_output>
+        <growth_output> growth </growth_output>
+        <growth_output> ag_resources </growth_output>
+        <growth_output> bg_resources </growth_output>
+        <growth_output> inc_r_ag </growth_output>
+        <growth_output> inc_h_ag </growth_output>
+        <growth_output> inc_r_bg </growth_output>
+        <growth_output> inc_h_bg </growth_output>
+        <growth_output> w_r_ag </growth_output>
+        <growth_output> w_h_ag </growth_output>
+        <growth_output> w_r_bg </growth_output>
+        <growth_output> w_h_bg </growth_output>
+        <growth_output> volume </growth_output>
+    </output>
+</MangaProject>

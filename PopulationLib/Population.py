@@ -5,23 +5,20 @@
 @author: jasper.bathmann@ufz.de
 """
 
-import PopulationLib as PLib
 from PopulationLib import PlantGroup
 
 
-class Population(PlantGroup):
+class Population:
 
     def __init__(self, args):
         self.plant_groups = {}
         self.plants = []
-        self.max_id = 0
         for arg in args.iter("group"):
             self.addPlantGroup(arg)
 
     def addPlantGroup(self, args):
-        plant_group = PLib.GroupPlanting(args)
-        self.plant_groups[plant_group.name] = plant_group
-        self.max_id += plant_group.getNumberOfPlants()
+        plant_group = PlantGroup(xml_args=args)
+        self.plant_groups[plant_group.group_name] = plant_group
 
     def getPlantGroups(self):
         return self.plant_groups

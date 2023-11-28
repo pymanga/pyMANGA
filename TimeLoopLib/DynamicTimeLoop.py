@@ -58,13 +58,13 @@ class DynamicTimeLoop:
             elif self.terminal_print == 'days':
                 abb = "d"
             if abb:
-                print("Next time step to propagate" +
-                      " plant population with starting time " + '%4.2f' %
+                print('Calculated timesteps: ' +
+                      str(int((self.loop.t_1 / self.loop.t_end) * 100)) + ' %',
+                      '(%4.2f' %
                       (float(self.loop.t_1) / self.print_unit) + " " +
-                      abb + " and end time " + '%4.2f' %
-                      (float(self.loop.t_2) / self.print_unit) + " " + abb + "." +
-                      '\nCalculated timesteps: ' +
-                      str(int((self.loop.t_1 / self.loop.t_end) * 100)) + ' %')
+                      abb + " - " + '%4.2f' %
+                      (float(self.loop.t_2) / self.print_unit) + " " + abb + ")"
+                      )
             time_stepper.step(t_start=self.loop.t_1,
                               t_end=self.loop.t_2,
                               update_ag=self.loop.update_ag,

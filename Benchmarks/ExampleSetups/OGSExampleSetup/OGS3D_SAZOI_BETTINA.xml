@@ -26,15 +26,19 @@
             <python_script>python_script.py</python_script>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type>Bettina</type>
-    </plant_dynamics>
     <population>
         <group>
             <name>Initial</name>
             <species>Avicennia</species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
             <distribution>
                 <type>GroupFromFile</type>
+                <domain>
+                <x_1>0</x_1>
+                <y_1>0</y_1>
+                <x_2>20</x_2>
+                <y_2>10</y_2>
+                </domain>
                 <filename>Benchmarks/ExampleSetups/OGSExampleSetup/initial_trees.csv</filename>
             </distribution>
         </group>
@@ -42,8 +46,8 @@
     <time_loop>
         <type>Simple</type>
         <t_start>0</t_start>
-        <t_end> 3e9 </t_end> <!-- ~ 95 a-->
-        <delta_t> 3e6</delta_t> <!-- ~ 35 d-->
+        <t_end> 3e9 </t_end>
+        <delta_t> 3e6</delta_t>
     </time_loop>
     <visualization>
         <type>NONE</type>

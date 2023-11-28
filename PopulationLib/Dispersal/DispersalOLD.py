@@ -8,17 +8,23 @@ import numpy as np
 if __name__ == '__main__' and __package__ is None:
     from os import sys, path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-import PopulationLib as PLib
 from PopulationLib import PlantGroup
 
 
 ## Initializes groups of plant population and defines necessary functions.
-class GroupPlanting(PlantGroup):
+class Dispersal(PlantGroup):
     ## Function initializing plant group and initial population of this group,
     #  depending on specification in project file.
     #  @param args: arguments specified in project file. Please see tag
     #  documentation.
     def __init__(self, args):
+        """
+        Constructor to initialize dispersal modules,
+        by calling respective initialization methods.
+
+        Args:
+            args:
+        """
         self.tags_group = args
         self.species = self.tags_group.find("species").text
         self.name = self.tags_group.find("name").text
@@ -28,9 +34,9 @@ class GroupPlanting(PlantGroup):
 
         distribution = self.tags_group.find("distribution")
         distribution_type = distribution.find("type").text
-        print("Plant group name: {}.".format(self.name) +
-              "\nDistribution type: {}.".format(distribution_type) +
-              "\nSpecies: {}.".format(self.species))
+        print("Initialise plant group " + self.name + " with " +
+              distribution_type + " distribution type and plants of species " +
+              self.species + ".")
         if distribution_type == "Random":
             self.plantRandomDistributedPlants()
         elif distribution_type == "GroupFromFile":
@@ -130,7 +136,6 @@ class GroupPlanting(PlantGroup):
         self.l_x = max_x - self.x_1
         self.l_y = max_y - self.y_1
 
-
     ## Randomly recruiting plants within given domain.
     def recruitPlants(self):
         for i in range(self.n_recruitment_per_step):
@@ -174,9 +179,9 @@ class GroupPlanting(PlantGroup):
             for i in range(0, len(required_tags)):
                 if tag == required_tags[i]:
                     try:
-                        super(GroupPlanting, self).__setattr__(tag, float(arg.text))
+                        super(Dispersal, self).__setattr__(tag, float(arg.text))
                     except ValueError:
-                        super(GroupPlanting, self).__setattr__(tag, str(arg.text))
+                        super(Dispersal, self).__setattr__(tag, str(arg.text))
             try:
                 required_tags.remove(tag)
             except ValueError:
@@ -185,9 +190,9 @@ class GroupPlanting(PlantGroup):
             for i in range(0, len(optional_tags)):
                 if tag == optional_tags[i]:
                     try:
-                        super(GroupPlanting, self).__setattr__(tag, float(arg.text))
+                        super(Dispersal, self).__setattr__(tag, float(arg.text))
                     except ValueError:
-                        super(GroupPlanting, self).__setattr__(tag, str(arg.text))
+                        super(Dispersal, self).__setattr__(tag, str(arg.text))
 
         if len(required_tags) > 0:
             string = ""

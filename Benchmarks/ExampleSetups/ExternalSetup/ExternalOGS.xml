@@ -15,13 +15,11 @@
             </abiotic_drivers>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Default </type>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
             <distribution>
                 <type> Random </type>
                 <domain>
@@ -39,12 +37,12 @@
         <t_start> 0 </t_start>
         <t_end> 1e9 </t_end>
         <delta_t> 1e7 </delta_t>
-    </time_loop>
+    </time_loop>F
     <visualization>
         <type> NONE </type>
     </visualization>
     <output>
-        <type> OneTreeOneFile </type>
+        <type> OneTimestepOneFile </type>
         <output_each_nth_timestep> [1] </output_each_nth_timestep>
         <output_dir> Benchmarks/ExampleSetups/ExternalSetup/TreeOutput </output_dir>
         <allow_previous_output>True</allow_previous_output>

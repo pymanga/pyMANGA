@@ -26,13 +26,11 @@
             <python_script>python_script.py</python_script>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Bettina </type>
-    </plant_dynamics>
     <population>
         <group>
             <name> Recruiting </name>
             <species> Benchmarks/ExampleSetups/ExmouthGulf/Avicennia.py </species>
+            <vegetation_model_type> Default </vegetation_model_type>
             <distribution>
                 <type> Random </type>
                 <domain>

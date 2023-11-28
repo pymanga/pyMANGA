@@ -50,8 +50,9 @@ class DynamicTimeStep:
         # Initialize plant counter variable
         number_of_plants = 0
         for group_name, plant_group in plant_groups.items():
+            plant_group.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
+
             for plant in plant_group.getPlants():
-                plant.plant_dynamic_concept.prepareNextTimeStep(t_start, t_end)
                 number_of_plants += 1
                 if update_ag:
                     self.aboveground_resource_concept.addPlant(plant)
@@ -80,7 +81,7 @@ class DynamicTimeStep:
                 try:
                     ag = self.aboveground_resources[j]
                     bg = self.belowground_resources[j]
-                    plant.plant_dynamic_concept.progressPlant(plant, ag, bg)
+                    plant_group.plant_dynamic_concept.progressPlant(plant, ag, bg)
                 except IndexError:
                     plant.setSurvival(1)
 
@@ -92,7 +93,7 @@ class DynamicTimeStep:
             # If all plants of a group died, make a copy of this plant set
             if len(kill_indices) > 0 and plant_group.getNRecruits() == 0:
                 if len(kill_indices) == plant_group.getNumberOfPlants():
-                    eliminated_plant_groups[plant_group.name] = copy.deepcopy(
+                    eliminated_plant_groups[plant_group.group_name] = copy.deepcopy(
                         plant_group)
                     self.model_output_concept.writeOutput(eliminated_plant_groups,
                                                  t_start,

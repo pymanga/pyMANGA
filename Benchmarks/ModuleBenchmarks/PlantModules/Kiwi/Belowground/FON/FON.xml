@@ -24,6 +24,12 @@
             <mortality>NoGrowth</mortality>
             <distribution>
                 <type> GroupFromFile </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
+                </domain>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
                 <filename> Benchmarks/ModuleBenchmarks/PlantModules/Kiwi/initial_population.csv </filename>
             </distribution>
@@ -40,7 +46,7 @@
     </visualization>
     <output>
          <type> OneTimestepOneFile </type>
-        <output_each_nth_timestep>1</output_each_nth_timestep>
+        <output_each_nth_timestep>[1]</output_each_nth_timestep>
         <output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/ModuleBenchmarks/PlantModules/Kiwi/Belowground/FON/ReferenceFiles/FON</output_dir>

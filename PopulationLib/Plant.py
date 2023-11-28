@@ -4,58 +4,46 @@
 @date: 2018-Today
 @author: jasper.bathmann@ufz.de
 """
-from lxml import etree
 import importlib.util
 
 
 class Plant:
-
-    def __init__(self,
-                 x,
-                 y,
-                 xml_args,
-                 species,
-                 plant_id,
-                 plant_model,
-                 initial_geometry=False,
-                 group_name=""):
-        self.plant_id = plant_id
-        self.species = species
-        self.plants = []
+    def __init__(self, other, x, y,
+                 initial_geometry=False):
         self.x = x
         self.y = y
-        self.args = xml_args
+        self.plant_id = other.max_id
+        self.species = other.species
+        self.args = other.xml_args
         self.survival = 1
-        self.group_name = group_name
-        self.plant_model = plant_model
-        self.iniPlantDynamicConcept()
-        ## This initialization is only required if networks (root grafts) are
-        # simulated
-        self.iniNetwork()
-        if species == "Avicennia":
+        self.group_name = other.group_name
+        self.plant_model = other.plant_model
+
+        if self.species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createPlant()
-        elif "/" in species:
+        elif "/" in self.species:
             try:
-                spec = importlib.util.spec_from_file_location("", species)
+                spec = importlib.util.spec_from_file_location("", self.species)
                 foo = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(foo)
                 self.geometry, self.parameter = foo.createPlant()
             except FileNotFoundError:
-                raise FileNotFoundError("The file " + species +
+                raise FileNotFoundError("The file " + self.species +
                                         " does not exist.")
             except AttributeError:
-                raise AttributeError("The file " + species + " is not " +
+                raise AttributeError("The file " + self.species + " is not " +
                                      "correctly defining a plant species. "
                                      "Please review the file.")
         else:
-            raise KeyError("Species " + species + " unknown!")
+            raise KeyError("Species " + self.species + " unknown!")
         if initial_geometry:
-            self.geometry["r_crown"] = initial_geometry["r_crown"]
-            self.geometry["r_root"] = initial_geometry["r_root"]
-            self.geometry["r_stem"] = initial_geometry["r_stem"]
-            self.geometry["h_stem"] = initial_geometry["h_stem"]
+            self.geometry.update(initial_geometry)
         self.growth_concept_information = {}
+
+        ## This initialization is only required if networks (root grafts) are
+        # simulated
+        self.iniNetwork()
 
     def getPosition(self):
         return self.x, self.y
@@ -110,21 +98,6 @@ class Plant:
         self.network['r_gr_rgf'] = []
         self.network['l_gr_rgf'] = []
         self.network['variant'] = None
-
-    def iniPlantDynamicConcept(self):
-        case = self.args.find("vegetation_model_type").text
-        if case == "Default":
-            from PlantModelLib.Default import Default as createGD
-        elif case == "Bettina":
-            from PlantModelLib.Bettina import Bettina as createGD
-        elif case == "Kiwi":
-            from PlantModelLib.Kiwi import Kiwi as createGD
-        elif case == "BettinaNetwork":
-            from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
-        else:
-            raise KeyError("Required plant dynamic concept not implemented.")
-        self.plant_dynamic_concept = createGD(self.args)
-        print("Plant dynamic concept: " + case + ".")
 
     def getNetwork(self):
         return self.network

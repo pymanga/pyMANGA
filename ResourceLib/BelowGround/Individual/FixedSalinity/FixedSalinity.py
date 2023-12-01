@@ -57,7 +57,7 @@ class FixedSalinity(ResourceModel):
             # eq. requires salinity in ppt not kg/kg
             self.belowground_resources = (1 / (1 + np.exp(
                 np.array(self._salt_effect_d) *
-                (np.array(self._salt_effect_ui) - (salinity_plant/10**3)))))
+                (np.array(self._salt_effect_ui) - (salinity_plant*10**3)))))
 
     def getPlantSalinity(self):
         """

@@ -57,7 +57,7 @@
         <type>NONE</type>
     </visualization>
     <output>
-        <type>OnePlantOneFile</type>
+        <type>OneFile</type>
         <allow_previous_output>True</allow_previous_output>
         <output_each_nth_timestep>[1]</output_each_nth_timestep>
         <output_dir>Benchmarks/ExampleSetups/OGSExampleSetup/ModelOutputNetwork</output_dir>

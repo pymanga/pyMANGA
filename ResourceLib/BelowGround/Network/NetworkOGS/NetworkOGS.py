@@ -22,8 +22,11 @@ class NetworkOGS(Network, OGS):
         ## Load both prepartNextTimeStep methods
         # The only parameters occurring in both are t_ini and t_end and as
         # the ones from OGS are needed, OGS needs to be loaded after network
-        super().prepareNextTimeStep(t_ini, t_end)
+        self.prepareNetworkParameters(t_ini, t_end)
         OGS.prepareNextTimeStep(self, t_ini, t_end)
+
+    def prepareNetworkParameters(self, t_ini, t_end):
+        super().prepareNextTimeStep(t_ini, t_end)
 
     def addPlant(self, plant):
         # Network stuff

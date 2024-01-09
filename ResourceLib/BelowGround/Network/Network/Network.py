@@ -209,7 +209,6 @@ class Network(ResourceModel):
             "prj_file": args,
             "required": ["type", "f_radius"]
         }
-        print("IN NETWORK", tags)
         super().getInputParameters(**tags)
 
     '''

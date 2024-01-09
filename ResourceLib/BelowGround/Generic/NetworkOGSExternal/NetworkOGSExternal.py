@@ -42,7 +42,8 @@ class NetworkOGSExternal(NetworkOGS, OGSExternal):
 
         # Load init and parameters that are required to get/ process
         # information from OGS and Network
-        super().prepareNextTimeStep(t_ini, t_end)
+        super().prepareNetworkParameters(t_ini, t_end)
+        super().prepareOGSparameters()
 
     ## Before being able to calculate the resources, all plant enteties need
     #  to be added with their current implementation for the next time step.

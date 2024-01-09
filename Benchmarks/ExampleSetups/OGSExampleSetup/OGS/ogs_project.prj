@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <OpenGeoSysProject>
     <meshes>
-        <mesh>testbulk.vtu</mesh>
-        <mesh>left_boundary.vtu</mesh>
-        <mesh>right_boundary.vtu</mesh>
-	    <mesh>top_boundary.vtu</mesh>
-        <mesh>source_domain.vtu</mesh>
+        <mesh>mesh_bulk.vtu</mesh>
+        <mesh>mesh_left_boundary.vtu</mesh>
+        <mesh>mesh_right_boundary.vtu</mesh>
+	    <mesh>mesh_top_boundary.vtu</mesh>
+        <mesh>mesh_source.vtu</mesh>
     </meshes>
     <python_script>python_source.py</python_script>
     <processes>
@@ -107,8 +108,8 @@
                 </time_discretization>
                 <time_stepping>
                     <type>FixedTimeStepping</type>
-                    <t_end>86400.0</t_end> <!--5 a -->
-                    <t_initial>0.0</t_initial>
+                    <t_end> 315360000 </t_end> <!--5 a -->
+                    <t_initial> 0 </t_initial>
                     <timesteps>
                         <pair>
                             <delta_t>86400</delta_t> <!--24 h -->
@@ -193,13 +194,13 @@
             <name>p_left</name>
             <type>MeshNode</type>
             <field_name>p_ini</field_name>
-            <mesh>left_boundary</mesh>
+            <mesh>mesh_left_boundary</mesh>
         </parameter>
         <parameter>
             <name>p_right</name>
             <type>MeshNode</type>
             <field_name>p_ini</field_name>
-            <mesh>right_boundary</mesh>
+            <mesh>mesh_right_boundary</mesh>
         </parameter>
     </parameters>
     <process_variables>
@@ -210,23 +211,23 @@
             <initial_condition>c_ini</initial_condition>
             <boundary_conditions>
                 <boundary_condition>
-                    <mesh>left_boundary</mesh>
+                    <mesh>mesh_left_boundary</mesh>
                     <type>Dirichlet</type>
                     <parameter>c_left</parameter>
                 </boundary_condition>
                 <boundary_condition>
-                    <mesh>right_boundary</mesh>
+                    <mesh>mesh_right_boundary</mesh>
                     <type>Dirichlet</type>
                     <parameter>c_right</parameter>
                 </boundary_condition>
 <!--                <boundary_condition>
                     <type>Python</type>
-                    <mesh>top_boundary</mesh>
+                    <mesh>mesh_top_boundary</mesh>
                     <bc_object>bc_tide_C</bc_object>
                 </boundary_condition>-->
 <!--                <boundary_condition>
                     <type>Python</type>
-                    <mesh>right_boundary</mesh>
+                    <mesh>mesh_right_boundary</mesh>
                     <bc_object>bc_tide_C</bc_object>
                 </boundary_condition>-->
             </boundary_conditions>
@@ -239,26 +240,26 @@
             <boundary_conditions>
                 <!-- <boundary_condition>
                     <type>Python</type>
-                    <mesh>top_boundary</mesh>
+                    <mesh>mesh_top_boundary</mesh>
                     <bc_object>bc_tide_p</bc_object>
                 </boundary_condition>
                 <boundary_condition>
                     <type>Python</type>
-                    <mesh>right_boundary</mesh>
+                    <mesh>mesh_right_boundary</mesh>
                     <bc_object>bc_tide_p</bc_object>
                 </boundary_condition>-->
                 <boundary_condition>
-                    <mesh>left_boundary</mesh>
+                    <mesh>mesh_left_boundary</mesh>
                     <type>Dirichlet</type>
                     <parameter>p_left</parameter>
                 </boundary_condition>
                 <boundary_condition>
-                    <mesh>right_boundary</mesh>
+                    <mesh>mesh_right_boundary</mesh>
                     <type>Dirichlet</type>
                     <parameter>p_right</parameter>
                 </boundary_condition>
                 <boundary_condition>
-                    <mesh>right_boundary</mesh>
+                    <mesh>mesh_right_boundary</mesh>
                     <type>Python</type>
                     <bc_object>bc_source_helper</bc_object>
                 </boundary_condition>
@@ -266,7 +267,7 @@
             <source_terms>
                 <source_term>
                     <type>Python</type>
-                    <mesh>source_domain</mesh>
+                    <mesh>mesh_source</mesh>
                     <source_term_object>flux_to_trees</source_term_object>
                     <flush_stdout> true </flush_stdout>
                 </source_term>

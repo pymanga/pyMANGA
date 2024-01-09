@@ -16,27 +16,25 @@
         <belowground>
             <type>NetworkOGS</type>
             <f_radius>0.25</f_radius>
-            <ogs_project_folder>Benchmarks/ExampleSetups/OGSExampleSetup</ogs_project_folder>
-            <ogs_project_file>testmodel.prj</ogs_project_file>
-            <source_mesh>source_domain.vtu</source_mesh>
-            <bulk_mesh>testbulk.vtu</bulk_mesh>
-            <delta_t_ogs>86400</delta_t_ogs>
+            <ogs_project_folder>Benchmarks/ExampleSetups/OGSExampleSetup/OGS/</ogs_project_folder>
+            <ogs_project_file>ogs_project.prj</ogs_project_file>
+            <source_mesh>mesh_source.vtu</source_mesh>
+            <bulk_mesh>mesh_bulk.vtu</bulk_mesh>
+            <delta_t_ogs>2592000</delta_t_ogs>
             <abiotic_drivers>
                 <seaward_salinity>0.035</seaward_salinity>
             </abiotic_drivers>
             <python_script>python_script.py</python_script>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type>BettinaNetwork</type>
-        <variant>V0_instant</variant>
-        <f_growth>0.25</f_growth>
-    </plant_dynamics>
     <population>
         <group>
             <name>Initial</name>
             <species>Avicennia</species>
-            <vegetation_model_type> Bettina </vegetation_model_type>
+            <vegetation_model_type>BettinaNetwork</vegetation_model_type>
+            <mortality>NoGrowth</mortality>
+            <variant>V0_instant</variant>
+            <f_growth>0.25</f_growth>
             <distribution>
                 <type>GroupFromFile</type>
                 <domain>
@@ -59,10 +57,10 @@
         <type>NONE</type>
     </visualization>
     <output>
-        <type>OnePlantOneFile</type>
+        <type>OneFile</type>
         <allow_previous_output>True</allow_previous_output>
         <output_each_nth_timestep>[1]</output_each_nth_timestep>
-        <output_dir>Benchmarks/ExampleSetups/OGSExampleSetup/TreeOutputNetwork</output_dir>
+        <output_dir>Benchmarks/ExampleSetups/OGSExampleSetup/ModelOutputNetwork</output_dir>
         <geometry_output>r_stem</geometry_output>
         <geometry_output>h_stem</geometry_output>
         <geometry_output>r_crown</geometry_output>

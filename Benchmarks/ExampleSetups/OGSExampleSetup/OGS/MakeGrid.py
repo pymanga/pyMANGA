@@ -18,21 +18,19 @@ lcar = 3.
 c_left = 0.025
 c_right = 0.035
 
+
 def transectElevation(x, m):
     return float(m * x)
 
 
 # Pressure at a given point. Here, pressure is 0 at the surface
-
-
 def ini_pressure_function(point):
     return -(1000 * 9.81 * (point[2] - transectElevation(x=point[0])))
 
+
 # Concentration at a given point. Here, c_ini is constant 0.035 kg/kg.
-
-
 def c(point):
-    c_sea = c_left + (c_right-c_left)*point[0]/l_x
+    c_sea = c_left + (c_right - c_left) * point[0] / l_x
     return c_sea
 
 
@@ -48,21 +46,21 @@ def addCandPtoMesh(mesh):
         point = points.GetPoint(point)
         c_ini.InsertNextTuple1(c(point))
         p_ini.InsertNextTuple1(-(1000 * 9.81 *
-                               (point[2] -
+                                 (point[2] -
                                   transectElevation(x=point[0],
-m=hydraulic_gradient))))
+                                                    m=hydraulic_gradient))))
     mesh.GetPointData().AddArray(p_ini)
     mesh.GetPointData().AddArray(c_ini)
 
+
 def createSurface(l_x, l_y, z,
-                  m, lcar, transect_elevation, geom, origin=[0.,0.,0.]):
+                  m, lcar, transect_elevation, geom, origin=[0., 0., 0.]):
     p1 = [origin[0], origin[1], origin[2] + transect_elevation(0, m=m)]
     p2 = [origin[0], origin[1] + l_y, origin[2] +
           transect_elevation(0, m=m)]
     p3 = [origin[0] + l_x, origin[1] + l_y, origin[2] +
           transect_elevation(l_x, m=m)]
-    p4 = [origin[0] + l_x, origin[1], origin[2] +
-          transect_elevation(l_x, m=m)]
+    p4 = [origin[0] + l_x, origin[1], origin[2] + transect_elevation(l_x, m=m)]
     p1[2] = p1[2] + z
     p2[2] = p2[2] + z
     p3[2] = p3[2] + z
@@ -71,25 +69,14 @@ def createSurface(l_x, l_y, z,
     p2 = geom.add_point(p2, lcar)
     p3 = geom.add_point(p3, lcar)
     p4 = geom.add_point(p4, lcar)
-
     points = [p1, p2, p3, p4]
-
     lines = []
     lines.append(geom.add_line(points[0], points[3]))
     lines.append(geom.add_line(points[3], points[2]))
     lines.append(geom.add_line(points[2], points[1]))
     lines.append(geom.add_line(points[1], points[0]))
-
     line_loop = geom.add_curve_loop(lines)
     surface = geom.add_plane_surface(line_loop)
-
-    baum_1 = [10, 11, transect_elevation(10, m=m) + z]
-    p_baum_1 = geom.add_point(baum_1, lcar / 3)
-    geom.in_surface(p_baum_1, surface)
-
-    baum_2 = [12, 11, transect_elevation(12, m=m) + z]
-    p_baum_2 = geom.add_point(baum_2, lcar / 3)
-    geom.in_surface(p_baum_2, surface)
     return surface
 
 
@@ -97,29 +84,28 @@ def createSurface(l_x, l_y, z,
 #  @param z: shift in z-direction
 #  @param l_z_top: depth of the top layer (if only one layer created, value
 #  defines the depth)
-#  @param l_z_mid: depth of mid layer
-#  @param l_z_bottom: depth of the bottom layer
+#  @param l_z_bottom: depth of the bottom layer (if two layers created, value
+#  defines the depth of the bottom layer)
 #  @param num_top: resolution of top layer
-#  @param num_mid: resolution of mid layer
 #  @param num_bottom: resolution of bottom layer
-#  @param l_x: x-extension of domain
-#  @param l_y: y-extension of domain
+#  @param l_y: y-extension of grid
+#  @param l_z_mid: depth of mid layer, if constructed
+#  @param num_mid: resolution of mid layer
+#  @param l_x: x-extension of model
 #  @param lcar: characteristic lengthscale in x- and y-direction in meters
 #  @param transect_elevation: Function, which returns a z-value for given x-val
-#  @param m: terrain slope
 def meshGen(z,
-            l_z_top=l_z_top,
-            l_z_mid=l_z_mid,
-            l_z_bottom=l_z_bottom,
-            num_top=num_top,
-            num_mid=num_mid,
-            num_bottom=num_bottom,
-            l_y=l_y,
-            l_x=l_x,
-            lcar=lcar,
+            l_z_top,
+            l_z_mid=0,
+            l_z_bottom=0,
+            num_top=1,
+            num_mid=0,
+            num_bottom=0,
+            l_y=5,
+            l_x=100,
+            lcar=8,
             transect_elevation=transectElevation,
-            m=hydraulic_gradient):
-
+            m=1e-2):
     with pygmsh.occ.Geometry() as geom:
         geom.characteristic_length_min = lcar / 20
         geom.characteristic_length_max = lcar * 20
@@ -130,16 +116,13 @@ def meshGen(z,
         if l_z_mid != 0:
             mid_surface = geom.copy(surface)
             geom.translate(mid_surface, [0, 0, -l_z_top])
-
             geom.extrude(
                 mid_surface, [0, 0, -l_z_mid], num_layers=num_mid)
         if l_z_bottom != 0:
             bottom_surface = geom.copy(surface)
             geom.translate(bottom_surface, [0, 0, -l_z_top - l_z_mid])
-
             geom.extrude(
                 bottom_surface, [0, 0, -l_z_bottom], num_layers=num_bottom)
-
         mesh = geom.generate_mesh()
         return mesh
 
@@ -152,14 +135,12 @@ bulky = meshGen(z=0,
                 num_top=num_top,
                 num_mid=num_mid,
                 num_bottom=num_bottom,
+                m=hydraulic_gradient,
                 l_y=l_y,
                 l_x=l_x,
-                lcar=lcar,
-                transect_elevation=transectElevation,
-                m=hydraulic_gradient)
+                lcar=lcar)
 # Extraction of Bulk Mesh points
 points = bulky.points
-
 
 bulk = vtk.vtkUnstructuredGrid()
 bulk_points = vtk.vtkPoints()
@@ -169,8 +150,6 @@ for i in range(len(points)):
     bulk_points.InsertNextPoint(point)
 bulk.SetPoints(bulk_points)
 
-
-
 propertyvector = vtk.vtkDoubleArray()
 propertyvector.SetName("permeability")
 bulk_cells = vtk.vtkCellArray()
@@ -178,13 +157,10 @@ for cell_point_ids in bulky.cells[2].data:
     cell = vtk.vtkTetra()
     for i in range(4):
         cell.GetPointIds().SetId(i, cell_point_ids[i])
-
     propertyvector.InsertNextTuple1(3.0e-11)
-
     bulk_cells.InsertNextCell(cell)
 bulk.SetCells(10, bulk_cells)
 bulk.GetCellData().AddArray(propertyvector)
-
 
 # Clean the data with non-zero tolerance
 clean1 = vtk.vtkStaticCleanUnstructuredGrid()
@@ -192,7 +168,6 @@ clean1.SetInputData(bulk)
 clean1.ToleranceIsAbsoluteOff()
 clean1.SetTolerance(0.0001)
 clean1.RemoveUnusedPointsOn()
-
 clean1.Update()
 bulk = clean1.GetOutput()
 propertyvector = vtk.vtkDataArray.CreateDataArray(
@@ -202,35 +177,28 @@ for i in range(bulk.GetNumberOfPoints()):
     propertyvector.InsertNextTuple1(i)
 bulk.GetPointData().AddArray(propertyvector)
 
-
 # Adding pressure and concentration field to mesh
 addCandPtoMesh(bulk)
 # Output of bulk-mesh
 writer = vtk.vtkXMLUnstructuredGridWriter()
-writer.SetFileName("my_first_model.vtu")
+writer.SetFileName("mesh_bulk.vtu")
 writer.SetInputData(bulk)
 writer.Write()
 
 # Generating source mesh
 sourcey = meshGen(z=-l_z_top,
                   l_z_top=l_z_mid,
-                  l_z_mid=0,
-                  l_z_bottom=0,
                   num_top=num_mid,
-                  num_mid=0,
-                  num_bottom=0,
+                  m=hydraulic_gradient,
                   l_y=l_y,
                   l_x=l_x,
-                  lcar=lcar,
-                  transect_elevation=transectElevation,
-                  m=hydraulic_gradient)
+                  lcar=lcar)
 source = vtk.vtkUnstructuredGrid()
 source_points = vtk.vtkPoints()
 for i in range(len(sourcey.points)):
     point = sourcey.points[i]
     source_points.InsertNextPoint(point)
 source.SetPoints(source_points)
-
 source_cells = vtk.vtkCellArray()
 for cell_point_ids in sourcey.cells[2].data:
     cell = vtk.vtkTetra()
@@ -238,7 +206,6 @@ for cell_point_ids in sourcey.cells[2].data:
         cell.GetPointIds().SetId(i, cell_point_ids[i])
     source_cells.InsertNextCell(cell)
 source.SetCells(10, source_cells)
-
 ncells = (source.GetCells().GetNumberOfCells())
 cells = source.GetCells()
 points = source.GetPoints()
@@ -260,21 +227,17 @@ for i in range(ncells):
         v2 = (p3 - p0)
         V = np.absolute(np.dot(v0, np.cross(v1, v2))) / 6.
         cell_volumes[i] = V
-
-
 resample_filter = vtk.vtkResampleWithDataSet()
 resample_filter.SetSourceData(bulk)
 resample_filter.SetInputData(source)
 resample_filter.Update()
 source = resample_filter.GetOutput()
-
 for value in cell_volumes:
     propertyvector.InsertNextTuple1(value)
 source.GetCellData().AddArray(propertyvector)
-
 # Output of source-mesh
 source_writer = vtk.vtkXMLUnstructuredGridWriter()
-source_writer.SetFileName("my_first_model.vtu")
+source_writer.SetFileName("mesh_source.vtu")
 source_writer.SetInputData(source)
 source_writer.Write()
 
@@ -284,22 +247,19 @@ os = platform.system()
 
 
 if os == "Windows":
-
-    ogs_utilities_string = "ABSOLUTE/PATH/TO/PYMANGA/pyMANGA" \
-                           "/TreeModelLib/BelowgroundCompetition/OGS" \
-                           "/bin/"
+    ogs_utilities_string = "ABSOLUTE/PATH/TO/PYMANGA/pyMANGA/ResourceLib/BelowGround/Individual/OGS/bin/"
 
     subprocess.call(ogs_utilities_string + "ExtractSurface -i "
-                                           "my_first_model.vtu -o "
-                                           "right_boundary.vtu -x -1"
-                                           " -y 0 -z 0-a 0.")
+                                           "bulk.vtu -o "
+                                           "mesh_right_boundary.vtu -x -1"
+                                           " -y 0 -z 0 -a 0.")
     subprocess.call(ogs_utilities_string + "ExtractSurface -i "
-                                           "my_first_model.vtu -o "
-                                           "left_boundary.vtu -x 1 -y"
+                                           "bulk.vtu -o "
+                                           "mesh_left_boundary.vtu -x 1 -y"
                                            " 0 -z 0 -a 0.")
     subprocess.call(ogs_utilities_string + "ExtractSurface -i "
-                                           "my_first_model.vtu -o "
-                                           "top_boundary.vtu -x 0 -y"
+                                           "bulk.vtu -o "
+                                           "mesh_top_boundary.vtu -x 0 -y"
                                            " 0 -z -1 -a 30.")
 
 
@@ -310,13 +270,13 @@ elif os == "Linux":
     "ogs_container.sif "
 
     subprocess.call(ogs_container_string + "ExtractSurface -x -1 -y 0"
-                    " -z 0 -a 0. -i my_first_model.vtu -o right_boundary.vtu",
+                    " -z 0 -a 0. -i my_first_model.vtu -o mesh_right_boundary.vtu",
                     shell=True)
     subprocess.call(ogs_container_string + "ExtractSurface -x 1 -y 0"
-                    " -z 0 -a 0. -i my_first_model.vtu -o left_boundary.vtu",
+                    " -z 0 -a 0. -i my_first_model.vtu -o mesh_left_boundary.vtu",
                     shell=True)
     subprocess.call(ogs_container_string + "ExtractSurface -x 0 -y 0"
-                    " -z -1 -a 30. -i my_first_model.vtu -o top_boundary.vtu",
+                    " -z -1 -a 30. -i my_first_model.vtu -o mesh_top_boundary.vtu",
                     shell=True)
 
 

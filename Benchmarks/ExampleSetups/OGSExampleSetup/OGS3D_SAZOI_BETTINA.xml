@@ -15,10 +15,10 @@
         </aboveground>
         <belowground>
             <type>OGS</type>
-            <ogs_project_folder>Benchmarks/ExampleSetups/OGSExampleSetup/</ogs_project_folder>
-            <ogs_project_file>testmodel.prj</ogs_project_file>
-            <source_mesh>source_domain.vtu</source_mesh>
-            <bulk_mesh>testbulk.vtu</bulk_mesh>
+            <ogs_project_folder>Benchmarks/ExampleSetups/OGSExampleSetup/OGS/</ogs_project_folder>
+            <ogs_project_file>ogs_project.prj</ogs_project_file>
+            <source_mesh>mesh_source.vtu</source_mesh>
+            <bulk_mesh>mesh_bulk.vtu</bulk_mesh>
             <delta_t_ogs>2592000</delta_t_ogs>
             <abiotic_drivers>
                 <seaward_salinity>0.035</seaward_salinity>
@@ -30,7 +30,8 @@
         <group>
             <name>Initial</name>
             <species>Avicennia</species>
-            <vegetation_model_type> Bettina </vegetation_model_type>
+            <vegetation_model_type>Bettina</vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
                 <type>GroupFromFile</type>
                 <domain>
@@ -53,10 +54,10 @@
         <type>NONE</type>
     </visualization>
     <output>
-        <type>OnePlantOneFile</type>
+        <type>OneFile</type>
         <allow_previous_output>True</allow_previous_output>
         <output_each_nth_timestep>[1]</output_each_nth_timestep>
-        <output_dir>Benchmarks/ExampleSetups/OGSExampleSetup/TreeOutput/</output_dir>
+        <output_dir>Benchmarks/ExampleSetups/OGSExampleSetup/ModelOutput/</output_dir>
         <geometry_output>r_stem</geometry_output>
         <geometry_output>h_stem</geometry_output>
         <geometry_output>r_crown</geometry_output>
@@ -64,6 +65,7 @@
         <growth_output>root_surface_resistance</growth_output>
         <growth_output>xylem_resistance</growth_output>
         <growth_output>growth</growth_output>
+        <growth_output>salinity</growth_output>
     </output>
 </MangaProject>
 

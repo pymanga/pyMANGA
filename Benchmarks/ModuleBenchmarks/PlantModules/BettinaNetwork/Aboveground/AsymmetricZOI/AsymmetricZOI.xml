@@ -25,7 +25,7 @@
             <f_growth> 0.25 </f_growth>
             <variant> V2_adapted </variant>
             <distribution>
-                <type> GroupFromFile </type>
+                <type> FromFile </type>
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>

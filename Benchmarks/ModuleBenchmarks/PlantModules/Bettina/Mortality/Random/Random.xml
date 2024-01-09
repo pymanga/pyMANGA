@@ -15,7 +15,7 @@
             <mortality>Random</mortality>
             <probability>0.016 </probability>
             <distribution>
-                <type> GroupFromFile </type>
+                <type> FromFile </type>
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>

@@ -22,7 +22,7 @@
             <species> Avicennia </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
             <distribution>
-                <type> GroupFromFile </type>
+                <type> FromFile </type>
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
@@ -38,7 +38,7 @@
             <species> Avicennia </species>
             <vegetation_model_type> Kiwi </vegetation_model_type>
             <distribution>
-                <type> GroupFromFile </type>
+                <type> FromFile </type>
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>

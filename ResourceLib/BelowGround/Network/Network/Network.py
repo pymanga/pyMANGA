@@ -12,6 +12,7 @@ class Network(ResourceModel):
             args (lxml.etree._Element): Network module specifications from project file tags
         """
         case = args.find("type").text
+        self.exchange = "on"
         self.getInputParameters(args=args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -207,7 +208,8 @@ class Network(ResourceModel):
     def getInputParameters(self, args):
         tags = {
             "prj_file": args,
-            "required": ["type", "f_radius"]
+            "required": ["type", "f_radius"],
+            "optional": ["exchange"]
         }
         super().getInputParameters(**tags)
 
@@ -564,7 +566,7 @@ class Network(ResourceModel):
             # make a list with indices of connected plants of the group
             link_list_group = np.array(
                 self.getLinkList(graph_dict=graph_dict_group))
-            if len(link_list_group) == 0:
+            if len(link_list_group) == 0 or self.exchange == "off":
                 ## if the plant is not grafted water_absorbed and
                 # water_available corresponds to SimpleBettina water uptake
                 # and water_exchange is 0

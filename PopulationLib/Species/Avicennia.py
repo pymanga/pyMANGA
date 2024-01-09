@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-List containing species specific plant model parameters.
-@date: 2018 - Today
-@author: jasper.bathmann@ufz.de
+List containing species-specific plant model parameters required in `pyMANGA.PlantModelLib.Bettina`,
+ `pyMANGA.PlantModelLib.Kiwi` and `pyMANGA.ResourceLib.BelowGround.Individual.FON`.
 """
 
 

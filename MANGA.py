@@ -58,7 +58,7 @@ def main(argv):
     for opt, arg in opts:
         if opt == '-h':
             print("""pyMANGA arguments:
-  -i,--project_file <path/to/xml/project/file>""")
+  -i,--project_file <path/to/xml/project/file>,\n  -l,--logging""")
             sys.exit()
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)

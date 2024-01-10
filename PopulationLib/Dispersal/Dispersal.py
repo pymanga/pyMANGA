@@ -22,7 +22,7 @@ class Dispersal:
 
         if distribution_type == "Random":
             from .Random import Random as BC
-        elif distribution_type == "GroupFromFile":
+        elif distribution_type == "FromFile":
             from .FromFile import FromFile as BC
         else:
             raise KeyError("Population initialisation of type " +

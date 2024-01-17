@@ -58,11 +58,11 @@ def main(argv):
     for opt, arg in opts:
         if opt == '-h':
             print("""pyMANGA arguments:
-  -i,--project_file <path/to/xml/project/file>,\n  -l,--logging""")
+  -i,--project_file <path/to/xml/project/file>,\n  -l, enables logging of console output to logfile.log""")
             sys.exit()
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)
-        elif opt in ("-l", "enables logging of console output to logfile.log"):
+        elif opt in ("-l", "--logging"):
             log_flag = True
     
     if log_flag:

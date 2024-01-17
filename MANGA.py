@@ -62,7 +62,7 @@ def main(argv):
             sys.exit()
         elif opt in ("-i", "--project_file"):
             project_file = str(arg)
-        elif opt in ("-l", "--logging"):
+        elif opt in ("-l", "enables logging of console output to logfile.log"):
             log_flag = True
     
     if log_flag:

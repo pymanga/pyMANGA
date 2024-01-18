@@ -500,7 +500,7 @@ class Network(ResourceModel):
     def getRGFforGrowthAndDeath(self, pairs):
         """
         Modify the plant-own variable 'rgf_counter'.
-        If a pair of plants are ready to start root graft formation the variable is set to 1 and the adjacent plant is
+        If a pair of plants is ready to start root graft formation, the variable is set to 1 and the adjacent plant is
         added to the list of partners.
         Args:
             pairs (array): a 2d array with plant indices of connected plants (format: from, to)

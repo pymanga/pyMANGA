@@ -44,6 +44,5 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
                         self, plant, string, delimiter, growth_information)
                     string += "\n"
                     file.write(string)
-                    for growth_output in self.growth_outputs:
-                        del (growth_information[growth_output])
+
                 file.close()

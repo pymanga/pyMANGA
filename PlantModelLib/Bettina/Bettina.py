@@ -84,6 +84,10 @@ class Bettina(PlantModel):
             self.weight_rootgrowth
         growth_concept_information["bg_factor"] = belowground_resources
         growth_concept_information["ag_factor"] = aboveground_resources
+        try:
+            growth_concept_information["age"] += self.time
+        except KeyError:
+            growth_concept_information["age"] = self.time
 
         # Get Mortality-related variables
         super().getMortalityVariables(growth_concept_information)

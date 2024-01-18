@@ -61,6 +61,10 @@ class Kiwi(PlantModel):
         growth_concept_information["growth"] = self.grow
         growth_concept_information["bg_factor"] = belowground_resources
         growth_concept_information["ag_factor"] = aboveground_resources
+        try:
+            growth_concept_information["age"] += self.time
+        except KeyError:
+            growth_concept_information["age"] = self.time
 
         tree.setGeometry(geometry)
         tree.setGrowthConceptInformation(growth_concept_information)

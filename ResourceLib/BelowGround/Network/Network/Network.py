@@ -12,6 +12,7 @@ class Network(ResourceModel):
             args (lxml.etree._Element): Network module specifications from project file tags
         """
         case = args.find("type").text
+        self.exchange = "on"
         self.getInputParameters(args=args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -207,7 +208,8 @@ class Network(ResourceModel):
     def getInputParameters(self, args):
         tags = {
             "prj_file": args,
-            "required": ["type", "f_radius"]
+            "required": ["type", "f_radius"],
+            "optional": ["exchange"]
         }
         super().getInputParameters(**tags)
 
@@ -310,7 +312,8 @@ class Network(ResourceModel):
         # dictionary contains all links, no matter if they are functional
         for i in range(0, len(self._partner_indices)):
             graph_dict_incomplete[i] = set(self._partner_indices[i])
-        if self._variant[0] == "V0_instant":
+
+        if self._variant[0] and "v0" in self._variant[0]:
             self.graph_dict = graph_dict_incomplete
         else:
             # helper
@@ -498,7 +501,7 @@ class Network(ResourceModel):
     def getRGFforGrowthAndDeath(self, pairs):
         """
         Modify the plant-own variable 'rgf_counter'.
-        If a pair of plants are ready to start root graft formation the variable is set to 1 and the adjacent plant is
+        If a pair of plants is ready to start root graft formation, the variable is set to 1 and the adjacent plant is
         added to the list of partners.
         Args:
             pairs (array): a 2d array with plant indices of connected plants (format: from, to)
@@ -517,8 +520,7 @@ class Network(ResourceModel):
                 self._rgf_counter[l1], self._rgf_counter[l2] = 1, 1
                 self._potential_partner[l1], self._potential_partner[l2] = \
                     self._plant_names[l2], self._plant_names[l1]
-                if (self._variant[l1] == "V2_adapted") and \
-                        (self._variant[l2] == "V2_adapted"):
+                if "v2" in (self._variant[l1] and self._variant[l2]):
                     # Set initial size of grafted root radius
                     self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
                     # Get min. radius of grafted roots
@@ -564,7 +566,7 @@ class Network(ResourceModel):
             # make a list with indices of connected plants of the group
             link_list_group = np.array(
                 self.getLinkList(graph_dict=graph_dict_group))
-            if len(link_list_group) == 0:
+            if len(link_list_group) == 0 or self.exchange == "off":
                 ## if the plant is not grafted water_absorbed and
                 # water_available corresponds to SimpleBettina water uptake
                 # and water_exchange is 0

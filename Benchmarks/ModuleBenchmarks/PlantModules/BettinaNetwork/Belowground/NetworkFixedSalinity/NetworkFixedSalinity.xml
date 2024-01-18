@@ -19,7 +19,7 @@
             <vegetation_model_type> BettinaNetwork </vegetation_model_type>
             <mortality>NoGrowth</mortality>
             <f_growth> 0.25 </f_growth>
-            <variant> V2_adapted </variant>
+            <variant> v2 </variant>
             <distribution>
                 <type> FromFile </type>
                 <domain>

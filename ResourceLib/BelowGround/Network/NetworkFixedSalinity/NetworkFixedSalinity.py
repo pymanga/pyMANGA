@@ -13,6 +13,7 @@ class NetworkFixedSalinity(Network, FixedSalinity):
             args: NetworkFixedSalinity module specifications from project file tags
         """
         case = args.find("type").text
+        super().__init__(args)
         self.getInputParameters(args=args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -45,6 +46,8 @@ class NetworkFixedSalinity(Network, FixedSalinity):
         # Get Network inputs
         tags = {
             "prj_file": args,
-            "required": ["f_radius"]
+            "required": ["f_radius"],
+            "optional": ["exchange"]
+
         }
         super(FixedSalinity, self).getInputParameters(**tags)

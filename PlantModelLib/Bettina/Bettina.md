@@ -28,6 +28,7 @@ Possible outputs:
         <growth_output> available_resources </growth_output> <!-- resources available, in m³ per time step -->
         <growth_output> ag_factor </growth_output> <!-- above-ground growth reduction factor, unitless -->
         <growth_output> bg_factor </growth_output> <!-- below-ground growth reduction factor, unitless -->
+        <growth_output> age </growth_output> <!-- tree age, in sec -->
     </output>
     ```
 

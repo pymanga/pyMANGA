@@ -131,24 +131,25 @@ class ModelOutput:
         if len(self.geometry_outputs) > 0:
             geometry = plant.getGeometry()
             for geometry_output in self.geometry_outputs:
-                string += delimiter + str(geometry[geometry_output])
+                string += delimiter + self.getNewValue(geometry, geometry_output)
         if len(self.parameter_outputs) > 0:
             parameter = plant.getParameter()
             for parameter_output in self.parameter_outputs:
-                string += delimiter + str(parameter[parameter_output])
+                string += delimiter + self.getNewValue(parameter, parameter_output)
         if len(self.growth_outputs) > 0:
             for growth_output_key in self.growth_outputs:
-                try:
-                    string += delimiter + str(
-                        growth_information[growth_output_key])
-                except KeyError:
-                    growth_information[growth_output_key] = "NaN"
-                    string += delimiter + str(
-                        growth_information[growth_output_key])
+                string += delimiter + self.getNewValue(growth_information, growth_output_key)
         if len(self.network_outputs) > 0:
             network = plant.getNetwork()
             for network_output in self.network_outputs:
-                string += delimiter + str(network[network_output])
+                string += delimiter + self.getNewValue(network, network_output)
+        return string
+
+    def getNewValue(self, key, value):
+        try:
+            string = str(key[value])
+        except KeyError:
+            string = "NaN"
         return string
 
     def checkRequiredKey(self, key, args):

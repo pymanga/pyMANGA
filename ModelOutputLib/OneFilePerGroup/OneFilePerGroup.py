@@ -62,7 +62,6 @@ class OneFilePerGroup(ModelOutput):
                 string = self.addSelectedOutputs(plant, string, self.delimiter,
                                                  growth_information)
                 string += "\n"
-                for growth_output in self.growth_outputs:
-                    del (growth_information[growth_output])
+
             file.write(string)
             file.close()

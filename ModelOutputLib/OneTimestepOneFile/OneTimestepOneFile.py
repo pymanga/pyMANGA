@@ -43,6 +43,5 @@ class OneTimestepOneFile(ModelOutput):
                                                  growth_information)
                 string += "\n"
                 file.write(string)
-                for growth_output in self.growth_outputs:
-                    del (growth_information[growth_output])
+
         file.close()

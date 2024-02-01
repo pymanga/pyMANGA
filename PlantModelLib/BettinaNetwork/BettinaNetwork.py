@@ -151,11 +151,11 @@ class BettinaNetwork(Bettina):
             # Append partner
             self.partner.append(self.potential_partner)
             # Reset rgf parameters
-            self.r_gr_rgf = 0.004
             self.rgf = -1
-            # analyse rgf duration
             self.potential_partner = []
             self.r_gr_min = []
+            self.l_gr_rgf = 0
+            self.r_gr_rgf = 0.004
         else:
             # if rgf is not finished, the grafted roots must grow
             self.weight_gr = self.weight_girthgrowth * self.f_growth
@@ -174,5 +174,4 @@ class BettinaNetwork(Bettina):
             "optional": ["f_growth"]
         }
         super().getInputParameters(**tags)
-
-
+        self.variant = self.variant.lower()

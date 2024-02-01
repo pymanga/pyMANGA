@@ -169,8 +169,8 @@ class FixedSalinity(ResourceModel):
         # landward salinity
         if len(self._salinity.split()) == 2:
             self._salinity = self._salinity.split()
-            self._salinity[0] = float(self._salinity[0])
-            self._salinity[1] = float(self._salinity[1])
+            self._salinity[0] = float(eval(self._salinity[0]))
+            self._salinity[1] = float(eval(self._salinity[1]))
             self.left_bc = self._salinity[0]
             self.right_bc = self._salinity[1]
 

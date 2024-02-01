@@ -13,10 +13,10 @@ class SimpleLoop:
         """
         case = args.find("type").text
         print("Time loop: {}.".format(case))
-        self.t_start = float(args.find("t_start").text)
-        self.t_end = float(args.find("t_end").text)
+        self.t_start = float(eval(args.find("t_start").text))
+        self.t_end = float(eval(args.find("t_end").text))
         self.t_2 = self.t_start
-        self.delta_t = float(args.find("delta_t").text)
+        self.delta_t = float(eval(args.find("delta_t").text))
 
         ## The following variables determine the frequencies when to
         # update particular concepts (e.g. below-ground c.)

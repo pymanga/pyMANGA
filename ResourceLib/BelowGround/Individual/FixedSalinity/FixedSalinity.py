@@ -79,12 +79,12 @@ class FixedSalinity(ResourceModel):
         return salinity_plant
 
     def getSalinitySine(self):
-        left = self.amplitude * np.sin(self._t_ini / 3600 / 24 / self.stretch_h) + self.left_bc*10**3
-        self._salinity[0] = np.random.normal(size=1, loc=left, scale=self.deviation) / 10**3
+        left = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset) + self.left_bc
+        self._salinity[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
         self._salinity[0] = self._salinity[0] if self._salinity[0] > 0 else 0
 
-        right = self.amplitude * np.sin(self._t_ini / 3600 / 24 / self.stretch_h) + self.right_bc*10**3
-        self._salinity[1] = np.random.normal(size=1, loc=right, scale=self.deviation) / 10**3
+        right = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset) + self.right_bc
+        self._salinity[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
         self._salinity[1] = self._salinity[1] if self._salinity[1] > 0 else 0
 
     def getSalinityTimeseries(self):
@@ -143,7 +143,7 @@ class FixedSalinity(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "min_x", "max_x", "salinity"],
-            "optional": ["variant", "sine", "amplitude", "stretch_h", "deviation"]
+            "optional": ["variant", "sine", "amplitude", "stretch", "offset", "deviation"]
         }
         super().getInputParameters(**tags)
         self._salinity = self.salinity
@@ -156,21 +156,26 @@ class FixedSalinity(ResourceModel):
             pass
 
         if hasattr(self, "sine"):
-            if not hasattr(self, "stretch_h"):
-                print("> Set sine parameter strech_h to default: 58")
-                self.stretch_h = 58
+            if not hasattr(self, "amplitude"):
+                print("> Set sine parameter 'amplitude' to default: 0")
+                self.amplitude = 0
+            if not hasattr(self, "stretch"):
+                print("> Set sine parameter 'stretch' to default: 58*3600*24")
+                self.stretch = 58
             if not hasattr(self, "deviation"):
-                print("> Set sine parameter strech_h to deviation: 1")
+                print("> Set sine parameter 'deviation' to deviation: 0")
                 self.deviation = 0
-
+            if not hasattr(self, "offset"):
+                print("> Set sine parameter 'offset' to offset: 0")
+                self.offset = 0
 
     def readSalinityTag(self):
         # Two constant values over time for seaward and
         # landward salinity
         if len(self._salinity.split()) == 2:
             self._salinity = self._salinity.split()
-            self._salinity[0] = float(self._salinity[0])
-            self._salinity[1] = float(self._salinity[1])
+            self._salinity[0] = float(eval(self._salinity[0]))
+            self._salinity[1] = float(eval(self._salinity[1]))
             self.left_bc = self._salinity[0]
             self.right_bc = self._salinity[1]
 

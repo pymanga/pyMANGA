@@ -68,8 +68,8 @@ class ResourceModel:
             for i in range(0, len(required_tags)):
                 if tag == required_tags[i]:
                     try:
-                        super(ResourceModel, self).__setattr__(tag, float(arg.text))
-                    except ValueError:
+                        super(ResourceModel, self).__setattr__(tag, float(eval(arg.text)))
+                    except (ValueError, NameError, SyntaxError):
                         super(ResourceModel, self).__setattr__(tag, str(arg.text))
             try:
                 required_tags.remove(tag)
@@ -79,8 +79,8 @@ class ResourceModel:
             for i in range(0, len(optional_tags)):
                 if tag == optional_tags[i]:
                     try:
-                        super(ResourceModel, self).__setattr__(tag, float(arg.text))
-                    except ValueError:
+                        super(ResourceModel, self).__setattr__(tag, float(eval(arg.text)))
+                    except (ValueError, NameError, SyntaxError):
                         super(ResourceModel, self).__setattr__(tag, str(arg.text))
 
         if len(required_tags) > 0:

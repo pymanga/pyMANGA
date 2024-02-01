@@ -55,7 +55,7 @@ class AsymmetricZOI(ResourceModel):
     #  @param distance - distance from the stem position(shape: (x_res, y_res))
     def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
         min_distance = np.min(distance)
-        # If root radius < mesh size, set it to mesh size
+        # If crown radius < mesh size, set it to mesh size
         crown_radius[np.where(crown_radius < min_distance)] = min_distance
 
         bools = crown_radius >= distance

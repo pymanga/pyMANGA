@@ -24,7 +24,6 @@ class NoGrowth:
         self._survive = 1
         if plant_module.grow <= 0:
             self._survive = 0
-            print("\t Plant died (NoGrowth).")
 
     def getSurvive(self):
         """

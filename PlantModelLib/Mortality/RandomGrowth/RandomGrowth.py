@@ -45,7 +45,6 @@ class RandomGrowth(Random):
         r = np.random.uniform(0, 1, 1)
         if r < p_die:
             self._survive = 0
-            print("\t Plant died (RandomGrowth).")
 
     def getSurvive(self):
         """

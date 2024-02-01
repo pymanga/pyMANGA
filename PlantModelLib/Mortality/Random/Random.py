@@ -42,7 +42,6 @@ class Random(NoGrowth):
         # yearly mortality
         if r * steps_per_year < self._probability:
             self._survive = 0
-            print("\t Plant died (Random).")
 
     def getSurvive(self):
         """

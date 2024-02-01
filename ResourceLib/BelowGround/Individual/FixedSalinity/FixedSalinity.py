@@ -13,7 +13,7 @@ class FixedSalinity(ResourceModel):
             args: FixedSalinity module specifications from project file tags
         """
         case = args.find("type").text
-        self.variant = None
+        self.variant = "bettina"
         self.getInputParameters(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -32,7 +32,7 @@ class FixedSalinity(ResourceModel):
         parameter = plant.getParameter()
         self._xe.append(x)
 
-        if self.variant == 'Bettina':
+        if self.variant == "bettina":
             self._h_stem.append(geometry["h_stem"])
             self._r_crown.append(geometry["r_crown"])
             self._psi_leaf.append(parameter["leaf_water_potential"])

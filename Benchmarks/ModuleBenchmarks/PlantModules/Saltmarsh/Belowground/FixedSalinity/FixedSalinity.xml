@@ -6,6 +6,7 @@
         </aboveground>
         <belowground>
             <type> FixedSalinity </type>
+            <variant> forman </variant>
             <min_x>0</min_x>
             <max_x>22</max_x>
             <salinity>0.025 0.035</salinity>
@@ -20,7 +21,7 @@
             <distribution>
                 <type> GroupFromFile </type>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/bg_initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/initial_population.csv </filename>
             </distribution>
         </group>
     </population>
@@ -28,7 +29,7 @@
         <type> Simple </type>
         <t_start> 0 </t_start>
         <t_end> 1e11 </t_end>
-        <delta_t> 1 </delta_t>
+        <delta_t> 1e6 </delta_t>
     </time_loop>
     <visualization>
         <type> NONE </type>
@@ -38,10 +39,10 @@
 		<output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
-        <geometry_output> r_stem </geometry_output>
-        <geometry_output> h_stem </geometry_output>
-        <geometry_output> r_crown </geometry_output>
-        <geometry_output> r_root </geometry_output>
+        <geometry_output> r_ag </geometry_output>
+        <geometry_output> h_ag </geometry_output>
+        <geometry_output> r_bg </geometry_output>
+        <geometry_output> h_bg </geometry_output>
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>

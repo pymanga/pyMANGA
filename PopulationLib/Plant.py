@@ -35,9 +35,21 @@ class Plant:
         if species == "Avicennia":
             from PopulationLib.Species import Avicennia
             self.geometry, self.parameter = Avicennia.createPlant()
+            if initial_geometry:
+                self.geometry["r_crown"] = initial_geometry["r_crown"]
+                self.geometry["r_root"] = initial_geometry["r_root"]
+                self.geometry["r_stem"] = initial_geometry["r_stem"]
+                self.geometry["h_stem"] = initial_geometry["h_stem"]
+
         elif species == "Saltmarsh":
             from PopulationLib.Species import Saltmarsh
             self.geometry, self.parameter = Saltmarsh.createPlant()
+            if initial_geometry:
+                self.geometry["r_ag"] = initial_geometry["r_ag"]
+                self.geometry["h_ag"] = initial_geometry["h_ag"]
+                self.geometry["r_bg"] = initial_geometry["r_bg"]
+                self.geometry["h_bg"] = initial_geometry["h_bg"]
+
         elif "/" in species:
             try:
                 spec = importlib.util.spec_from_file_location("", species)
@@ -53,11 +65,6 @@ class Plant:
                                      "Please review the file.")
         else:
             raise KeyError("Species " + species + " unknown!")
-        if initial_geometry:
-            self.geometry["r_crown"] = initial_geometry["r_crown"]
-            self.geometry["r_root"] = initial_geometry["r_root"]
-            self.geometry["r_stem"] = initial_geometry["r_stem"]
-            self.geometry["h_stem"] = initial_geometry["h_stem"]
         self.growth_concept_information = {}
 
     def getPosition(self):

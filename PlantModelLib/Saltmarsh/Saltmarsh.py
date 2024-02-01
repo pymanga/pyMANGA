@@ -3,6 +3,7 @@
 from PlantModelLib import PlantModel
 import numpy as np
 
+
 class Saltmarsh(PlantModel):
     def __init__(self, args):
         """
@@ -20,17 +21,20 @@ class Saltmarsh(PlantModel):
             t_end (int): end of current time step in seconds
         """
         self.time = t_end - t_ini
+        self.w_h_bg = 0
+        self.w_r_bg = 0
+        self.w_h_ag = 0
+        self.w_r_ag = 0
 
-    def progressPlant(self, plant, aboveground_resources, belowground_resources):
+    def progressPlant(self, plant, aboveground_factor, belowground_factor):
         """
-        Manage growth procedures for a timestep --- read tree geometry and parameters,
-        schedule computations, and update tree geometry and survival.
+        Manage growth procedures for a timestep --- read plant geometry and parameters,
+        schedule computations, and update plant geometry and survival.
         Args:
-            tree (dict): tree object
-            aboveground_resources (float): aboveground resource growth reduction factor
-            belowground_resources (float): belowground resource growth reduction factor
+            plant (dict): plant object
+            aboveground_factor (float): aboveground resource growth reduction factor
+            belowground_factor (float): belowground resource growth reduction factor
         """
-        # print(tree.getGrowthConceptInformation()['salinity'])
         geometry = plant.getGeometry()
         growth_concept_information = plant.getGrowthConceptInformation()
         self.parameter = plant.getParameter()
@@ -40,6 +44,8 @@ class Saltmarsh(PlantModel):
         self.h_bg = geometry["h_bg"]
         self.max_h = self.parameter["max_h"]
         self.survive = 1
+        self.ag_factor = aboveground_factor
+        self.bg_factor = belowground_factor
 
         self.plantVolume()
 
@@ -48,8 +54,6 @@ class Saltmarsh(PlantModel):
         super().setMortalityVariables(growth_concept_information)
 
         self.plantMaintenance()
-        self.bgResources(belowground_resources)
-        self.agResources(aboveground_resources)
         self.growthResources()
         self.plantGrowthWeights()
         self.plantGrowth()
@@ -58,38 +62,23 @@ class Saltmarsh(PlantModel):
         geometry["h_ag"] = self.h_ag
         geometry["r_bg"] = self.r_bg
         geometry["h_bg"] = self.h_bg
-        growth_concept_information["ag_resources"] = self.ag_resources
-        growth_concept_information["bg_resources"] = self.bg_resources
+        growth_concept_information["ag_factor"] = self.ag_factor
+        growth_concept_information["bg_factor"] = self.bg_factor
         growth_concept_information["growth"] = self.grow
         growth_concept_information["maint"] = self.maint
         growth_concept_information["volume"] = self.volume
-        growth_concept_information["available_resources"] = (
-            self.available_resources)
-        growth_concept_information["inc_r_ag"] = \
-            self.inc_r_ag
-        growth_concept_information["inc_h_ag"] = \
-            self.inc_h_ag
-        growth_concept_information["inc_r_bg"] = \
-            self.inc_r_bg
-        growth_concept_information["inc_h_bg"] = \
-            self.inc_h_bg
 
-        growth_concept_information["w_h_bg"] = \
-            self.w_h_bg
-        growth_concept_information["w_r_bg"] = \
-            self.w_r_bg
-        growth_concept_information["w_h_ag"] = \
-            self.w_h_ag
-        growth_concept_information["w_r_ag"] = \
-            self.w_r_ag
-        # growth_concept_information["salinity"] = tree.salinity
+        growth_concept_information["w_h_bg"] = self.w_h_bg
+        growth_concept_information["w_r_bg"] = self.w_r_bg
+        growth_concept_information["w_h_ag"] = self.w_h_ag
+        growth_concept_information["w_r_ag"] = self.w_r_ag
 
         # Get Mortality-related variables
         super().getMortalityVariables(growth_concept_information)
 
         plant.setGeometry(geometry)
         plant.setGrowthConceptInformation(growth_concept_information)
-        print(plant.growth_concept_information)
+
         if self.survive == 1:
             plant.setSurvival(1)
         else:
@@ -97,16 +86,12 @@ class Saltmarsh(PlantModel):
 
     def plantGrowth(self):
         """
-        Update plant geometry.
-
-        For equation formulation, see Peters, Olagoke and Berger
-        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
-        heading 'increase of allometric measures'.
+        Growth of the different geometries of the plant.
         Sets:
-            multiple float
+            floats
         """
         self.inc_h_ag = self.w_h_ag * self.grow
-
+        print(self.h_ag, self.inc_h_ag, self.max_h, self.w_h_ag, self.grow)
         if self.h_ag + self.inc_h_ag < self.max_h:
             self.h_ag += self.inc_h_ag
 
@@ -118,114 +103,54 @@ class Saltmarsh(PlantModel):
 
             self.inc_h_bg = self.w_h_bg * self.grow
             self.h_bg += self.inc_h_bg
-
         else:
-
-            print('nein   , max_h', self.max_h, '    h_ag: ', self.h_ag)
             self.inc_r_ag = 0
-
             self.inc_h_ag = 0
-
             self.inc_r_bg = 0
-
             self.inc_h_bg = 0
 
     def plantGrowthWeights(self):
         """
-        Calculate the growth weights for distributing biomass increment to the tree geometries.
-
-        For equation formulation, see Peters, Olagoke and Berger
-        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
-        heading 'weights'.
+        Calculation of the growth weights for the different geometries of the plant.
         Sets:
-            multiple float
+            float
         """
+        if self.bg_factor != 0 or self.ag_factor != 0:
+            ratio_b_a_resource = ((self.bg_factor /
+                                   (self.bg_factor + self.ag_factor)) - 0.5) / 5
+            w_ratio_b_a = self.parameter['w_b_a'] * (1 + ratio_b_a_resource)
 
-        self.w_ratio_b_a = self.parameter['w_b_a']
-
-        self.w_ratio_b_a = self.w_ratio_b_a + self.w_ratio_b_a * self.ratio_b_a_resource
-
-        self.w_r_ag = self.w_ratio_b_a * self.parameter['w_ag']
-
-        self.w_h_ag = self.w_ratio_b_a * (1 -
-            self.parameter['w_ag'])
-
-        self.w_r_bg = (1 - self.w_ratio_b_a) * self.parameter['w_bg']
-
-        self.w_h_bg = (1 - self.w_ratio_b_a) * (1 -
-            self.parameter['w_bg'])
+            self.w_r_ag = w_ratio_b_a * self.parameter['w_ag']
+            self.w_h_ag = w_ratio_b_a * (1 - self.parameter['w_ag'])
+            self.w_r_bg = self.parameter['w_bg'] * (1 - w_ratio_b_a)
+            self.w_h_bg = (1 - w_ratio_b_a) * (1 - self.parameter['w_bg'])
 
     def plantMaintenance(self):
         """
-        Calculate the resource demand for biomass maintenance.
-
-        For parameter reference, see Peters, Olagoke and Berger
-        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 2.5.
+        Calculate the maintenance of the plant.
         Sets:
             float
         """
         self.maint = self.volume * self.parameter["maint_factor"] * self.time
 
-    ## This function calculates the total tree volume.
     def plantVolume(self):
         """
-        Calculate the total tree volume.
-
-        For equation formulation, see Peters, Olagoke and Berger
-        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
-        heading 'volume of plant components'.
+        Calculate the total plant volume.
         Sets:
             float
         """
-        self.volume = np.pi * self.r_ag**2 * self.h_ag + \
-                      np.pi * self.r_bg**2 * self.h_bg
-
-    def agResources(self, aboveground_resources):
-        """
-        Calculate the available aboveground resources (intercepted light measured equivalent to respective water uptake).
-
-        For equation formulation, see Peters, Olagoke and Berger
-        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
-        heading 'resistances'.
-        Args:
-            aboveground_resources (float): aboveground resource growth reduction factor
-        Sets:
-            float
-        """
-        self.ag_resources = aboveground_resources
-
-    def bgResources(self, belowground_resources):
-        """
-        Calculate the available belowground resources (m³ water per time step).
-
-        For equation formulation, see Peters, Olagoke and Berger
-        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
-        heading 'resistances'.
-        Args:
-            belowground_resources (float): belowground resource growth reduction factor
-        Sets:
-            float
-        """
-        self.bg_resources = belowground_resources
+        self.volume = np.pi * self.r_ag ** 2 * self.h_ag + \
+                      np.pi * self.r_bg ** 2 * self.h_bg
 
     def growthResources(self):
         """
-        Calculate the available resources and the biomass increment.
-
-        For equation formulation, see Peters, Olagoke and Berger
-        ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
-        heading 'resources'.
+        calculates the resources available for growth and the growth factor.
         Sets:
-            multiple float
+            floats
         """
-        self.available_resources = min(self.ag_resources, self.bg_resources)
+        self.available_resources = min(self.ag_factor, self.bg_factor) * self.time
 
-        if not self.bg_resources is 0 and not self.ag_resources is 0:
-            self.ratio_b_a_resource = ((self.bg_resources /
-                (self.bg_resources + self.ag_resources)) - 0.5) / 5
-        else:
-            self.ratio_b_a_resource = -0.1
-        self.grow = (self.parameter["growth_factor"] * self.time *
-                     (self.available_resources)) - self.maint
+        self.grow = self.parameter["growth_factor"] * (self.available_resources - self.maint)
+
         # Check if trees survive based on selected mortality concepts
         super().setTreeKiller()

@@ -1,10 +1,10 @@
-## Description
+# Description
 
 This module calculates the reduction in below-ground resource availability caused by pore water salinity beneath a plant.
 The calculation is based on the salinity at the model's left and right boundaries.
 There is no feedback between plant water uptake and pore water salinity, and no competition.
 
-## Usage
+# Usage
 
 ```xml
 <belowground>
@@ -15,7 +15,7 @@ There is no feedback between plant water uptake and pore water salinity, and no 
 </belowground>
 ```
 
-## Attributes
+# Attributes
 
 - ``type`` (string): "FixedSalinity"
 - ``min_x`` (float): x-coordinate of the left border (x = 0)
@@ -25,34 +25,34 @@ There is no feedback between plant water uptake and pore water salinity, and no 
 - ``variant`` (string): (optional) variant to calculate salinity reduction factor. Default is "bettina". See Notes for more information.
 - ``sine`` (nesting-tag): (optional) calculate salinity for each time step based on a sine function. See notes for details.
   - ``amplitude`` (float): (optional) amplitude of the sine function. Default: 0
-  - ``stretch`` (float): (optional) stretch of the sine function, i.e., length a full period. Default: 24\*3600\*58 (approx. 1 year)
+  - ``stretch`` (float): (optional) stretch of the sine function, i.e., length of a full period. Default: 24\*3600\*58 (approx. 1 year)
   - ``offset`` (float): (optional) offset of the sine function (along the time axis). Default: 0
   - ``deviation`` (float): (optional) standard deviation to pick salinity value from sine function. Default: 0
 
 *Note*: all values are given in SI units, but can be provided using equations (see examples).
-For salinity, this means typical seawater salinity of 35 ppt is given as 0.035 kg/kg or 35*10**-3 kg/kg.
+For salinity, this means typical seawater salinity of 35 ppt is given as 0.035 kg/kg or 35\*10\**-3 kg/kg.
 
-## Value
+# Value
 
 This factor describes the availability of below-ground resources for each plant (dimensionless). 
 The factor ranges from 0 to 1, with 1 indicating no limitations and 0 indicating full limitations.
 
-## Details
-### Purpose
+# Details
+## Purpose
 
 This module describes the below-ground resource limitation induced by the presence of salt. 
 Salinity reduces the osmotic water potential and therefore makes it more difficult for halophytic plants to take up water from the soil column. 
 This resource limitation corresponds physiologically to drought stress in terrestrial systems. 
 The limitation is expressed as a factor varying between 0 and 1.
 
-### Process overview
+## Process overview
 
 Each time step, *calculateBelowgroundResources* calls the following sub-procedures:
 -	*getPlantSalinity*: calculate salinity below each tree based on the chosen variant
 -	*getBGfactor*: calculate below-ground factor
 
-### Sub-processes
-#### getPlantSalinity
+## Sub-processes
+### getPlantSalinity
 
 Salinity within the model domain is defined by two values: salinity (``s_xmin``, ``s_xmax``) on the left (``x_min``) and right (``x_max``) border, respectively. 
 Based on those values and the x-position of trees (``x_i``), the salinity below a tree (``s_i``) is interpolated with
@@ -71,14 +71,15 @@ s_xm_t = a * sin(t / b + c) + s_xi
 ```
 where ``a`` and ``b`` define the vertical and horizontal stretch of the function, respectively, ``c`` the offset along the time axis, ``t`` the time and ``s_xi`` the salinity at the borders (i.e., ``s_xmin`` and ``s_xmax``). 
 More specifically, ``b`` specifies the length of a full period. 
-For  example , if one period equals one year (in seconds), b is equal to (365*3600*24)/2π. Additionally, noise can be added by drawing s_(i,t) from a normal distribution with s_(i,t) (from eq. 15) as mean and a user-defined standard deviation.
+For  example , if one period equals one year (in seconds), b is equal to (365\*3600\*24)/2π. 
+Additionally, noise can be added by drawing ``s_i_t`` from a normal distribution with ``s_i_t`` (from eq. 15) as mean and a user-defined standard deviation.
 If ``s_xm_t`` becomes negative, it is set to 0. 
 
 See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/FixedSalinity/sine.md" target="_blank">this example</a> for the effect of each parameter.       
 
-#### getBGfactor
+### getBGfactor
 
-The below-ground factor (belowground_resources) is the ratio of the tree water potential with (psi_wSal) and without (psi_woSal) the effect of salinity. 
+The below-ground factor (``belowground_resources``) is the ratio of the tree water potential with (``psi_wSal``) and without (``psi_woSal``) the effect of salinity. 
 If this module is used in with a BETTINA tree, this is calculated as follows:
 
 ```
@@ -89,18 +90,18 @@ psi_wSal = ψ_0 + 85e6 * s_i
 
 85e6 Pa per kg is the factor to transfer salinity in Pa.
 
-## References
+# References
 
 
-## Author(s)
+# Author(s)
 
 Jasper Bathmann, Jonas Vollhüter, Marie-Christin Wimmler
 
-## See Also
+# See Also
 
 `pyMANGA.ResourceLib.BelowGround`, `pyMANGA.PlantModelLib.Bettina`
 
-## Examples
+# Examples
 
 - Define salinity of 35 ppt, homogenous in space and constant over time, on a model domain of 22 m
 

@@ -110,3 +110,21 @@ class ResourceModel:
                          endpoint=True)
         self.my_grid = np.meshgrid(xe, ye)
         self._mesh_size = np.maximum(x_step, y_step)
+
+    def makeBoolFromArg(self, var_name):
+        """
+        Transform input variable in boolean, excepting various options to indicate True.
+        Args:
+            var_name (string): name of variable
+        Returns:
+            bool
+        """
+        if hasattr(self, var_name):
+            var = str(getattr(self, var_name))
+            if var.lower() in ['true', '1', '1.0', 't', 'y', 'yes']:
+                var = True
+            else:
+                var = False
+        else:
+            var = False
+        return var

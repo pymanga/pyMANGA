@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-List containing species-specific plant model parameters required in `pyMANGA.PlantModelLib.Bettina`
- and `pyMANGA.ResourceLib.BelowGround.Individual.FON`.
-"""
 
 
 def createPlant():

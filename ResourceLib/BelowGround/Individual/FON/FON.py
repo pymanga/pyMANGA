@@ -25,8 +25,6 @@ class FON(ResourceModel):
         self._resource_limitation = []
         self._xe = []
         self._ye = []
-        self._salt_effect_d = []
-        self._salt_effect_ui = []
         self._r_stem = []
         self._t_ini = t_ini
         self._t_end = t_end
@@ -38,8 +36,6 @@ class FON(ResourceModel):
         parameter = plant.getParameter()
         self._xe.append(x)
         self._ye.append(y)
-        self._salt_effect_d.append(parameter["salt_effect_d"])
-        self._salt_effect_ui.append(parameter["salt_effect_ui"])
         self._r_stem.append(geometry["r_stem"])
         self.aa = parameter["aa"]
         self.bb = parameter["bb"]

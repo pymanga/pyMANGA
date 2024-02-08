@@ -239,6 +239,7 @@ class Network(ResourceModel):
         Sets:
             array of shape(number_of_plants)
         """
+        self._plant_names = np.array(self._plant_names, dtype=object)
         for i in range(0, len(self._partner_names)):
             partners_delete = []
             for j in range(0, len(self._partner_names[i])):

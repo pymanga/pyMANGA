@@ -6,4 +6,3 @@ Library of population modules.
 from .PlantGroup import PlantGroup
 from .Population import Population
 from .Plant import Plant
-from .Species import Avicennia

@@ -5,6 +5,8 @@
 @author: jasper.bathmann@ufz.de
 """
 import importlib.util
+import os
+import importlib
 
 
 class Plant:
@@ -19,9 +21,11 @@ class Plant:
         self.group_name = other.group_name
         self.plant_model = other.plant_model
 
-        if self.species == "Avicennia":
-            from PopulationLib.Species import Avicennia
-            self.geometry, self.parameter = Avicennia.createPlant()
+        species_file_exists = os.path.isfile(os.path.join("PopulationLib", "Species", self.species, self.species + ".py"))
+        if species_file_exists:
+            module_name = 'PopulationLib.Species.' + self.species
+            module = importlib.import_module(module_name)
+            self.geometry, self.parameter = module.createPlant()
         elif "/" in self.species:
             try:
                 spec = importlib.util.spec_from_file_location("", self.species)

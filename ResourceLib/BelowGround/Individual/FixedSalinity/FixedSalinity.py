@@ -13,7 +13,6 @@ class FixedSalinity(ResourceModel):
             args: FixedSalinity module specifications from project file tags
         """
         case = args.find("type").text
-        self.variant = None
         self.getInputParameters(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -23,6 +22,7 @@ class FixedSalinity(ResourceModel):
         self._xe = []
         self._t_ini = t_ini
         self._t_end = t_end
+        self._r_salinity = []
         self._salt_effect_d = []
         self._salt_effect_ui = []
 
@@ -33,11 +33,20 @@ class FixedSalinity(ResourceModel):
         self._xe.append(x)
         self._h_stem.append(geometry["h_stem"])
         self._r_crown.append(geometry["r_crown"])
-        self._psi_leaf.append(parameter["leaf_water_potential"])
-
-        if self.variant == "forman":
+        self._r_salinity.append(parameter["r_salinity"])
+        # The following parameters depend on the salinity response function of the plant
+        # (see species file)
+        try:
             self._salt_effect_d.append(parameter["salt_effect_d"])
             self._salt_effect_ui.append(parameter["salt_effect_ui"])
+        except KeyError:
+            self._salt_effect_d.append(None)
+            self._salt_effect_ui.append(None)
+
+        try:
+            self._psi_leaf.append(parameter["leaf_water_potential"])
+        except KeyError:
+            self._psi_leaf.append(None)
 
     def calculateBelowgroundResources(self):
         """
@@ -47,17 +56,21 @@ class FixedSalinity(ResourceModel):
             numpy array of shape(number_of_trees)
         """
         salinity_plant = self.getPlantSalinity()
-
-        if self.variant is None or self.variant == "bettina":
-            psi_zero = np.array(self._psi_leaf) + (2 * np.array(self._r_crown) +
-                                                   np.array(self._h_stem)) * 9810
-            psi_sali = np.array(psi_zero) + 85000000 * salinity_plant
-            self.belowground_resources = psi_sali / psi_zero
-        if self.variant == "forman":
+        # find indices with r_salinity = bettina or forman
+        idx_f = np.where(np.array(self._r_salinity) == "forman")
+        idx_b = np.where(np.array(self._r_salinity) == "bettina")
+        self.belowground_resources = np.zeros(len(salinity_plant))
+        if "bettina" in self._r_salinity:
+            psi_zero = np.array(self._psi_leaf)[idx_b] + (2 * np.array(self._r_crown)[idx_b] +
+                                                   np.array(self._h_stem)[idx_b]) * 9810
+            psi_sali = np.array(psi_zero) + 85000000 * salinity_plant[idx_b]
+            self.belowground_resources[idx_b] = psi_sali / psi_zero
+        if "forman" in self._r_salinity:
             # eq. requires salinity in ppt not kg/kg
-            self.belowground_resources = (1 / (1 + np.exp(
-                np.array(self._salt_effect_d) *
-                (np.array(self._salt_effect_ui) - (salinity_plant*10**3)))))
+            exp = np.array(self._salt_effect_d)[idx_f] * \
+                  (np.array(self._salt_effect_ui)[idx_f] - salinity_plant[idx_f]*10**3)
+            exp = np.array(exp, dtype=np.float32)
+            self.belowground_resources[idx_f] = 1 / (1 + np.exp(exp))
 
     def getPlantSalinity(self):
         """
@@ -143,17 +156,13 @@ class FixedSalinity(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "min_x", "max_x", "salinity"],
-            "optional": ["variant", "sine", "amplitude", "stretch", "offset", "deviation"]
+            "optional": ["sine", "amplitude", "stretch", "offset", "deviation"]
         }
         super().getInputParameters(**tags)
         self._salinity = self.salinity
         self._min_x = self.min_x
         self._max_x = self.max_x
         self.readSalinityTag()
-        try:
-            self.variant.lower()
-        except AttributeError:
-            pass
 
         if hasattr(self, "sine"):
             if not hasattr(self, "amplitude"):
@@ -189,7 +198,6 @@ class FixedSalinity(ResourceModel):
             # Check if csv separation has worked
             try:
                 assert self._salinity_over_t.shape[1] == 3
-
             except:
                 raise (KeyError("Problems occurred when reading" +
                                 " the salinity values from the file." +

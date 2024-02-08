@@ -57,7 +57,7 @@ class FromFile:
 
     def getPlantsFromFile(self):
         # Loading the Population Data
-        plant_file = pd.read_csv(self.filename)
+        plant_file = pd.read_csv(self.filename, delimiter=";|,|\t", engine='python')
         headers = plant_file.head()
         plant_attributes = {}
         for header in headers:

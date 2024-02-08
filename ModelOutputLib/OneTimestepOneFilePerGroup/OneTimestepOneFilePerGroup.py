@@ -18,7 +18,6 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
         super().__init__(args, time)
 
     def outputContent(self, plant_groups, time, **kwargs):
-        delimiter = "\t"
         for group_name, plant_group in plant_groups.items():
             if not plant_group.getNumberOfPlants() == 0:
                 if not kwargs["group_died"]:
@@ -28,20 +27,19 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
 
                 file = open(os.path.join(self.output_dir, filename), "w")
                 string = ""
-                string += 'plant' + delimiter + 'time' + delimiter + 'x' +  \
-                          delimiter + 'y'
-                string = OneTimestepOneFile.addSelectedHeadings(
-                    self, string, delimiter)
+                string += 'plant' + self.delimiter + 'time' + self.delimiter + 'x' +  \
+                          self.delimiter + 'y'
+                string = OneTimestepOneFile.addSelectedHeadings(self, string)
                 string += "\n"
                 file.write(string)
                 for plant in plant_group.getPlants():
                     growth_information = plant.getGrowthConceptInformation()
                     string = ""
                     string += (group_name + "_" + "%09.0d" % (plant.getId()) +
-                               delimiter + str(time) + delimiter + str(plant.x) +
-                               delimiter + str(plant.y))
+                               self.delimiter + str(time) + self.delimiter + str(plant.x) +
+                               self.delimiter + str(plant.y))
                     string = OneTimestepOneFile.addSelectedOutputs(
-                        self, plant, string, delimiter, growth_information)
+                        self, plant, string, growth_information)
                     string += "\n"
                     file.write(string)
 

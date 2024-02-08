@@ -17,8 +17,6 @@ class OneTimestepOneFile(ModelOutput):
         super().__init__(args, time)
 
     def outputContent(self, plant_groups, time, **kwargs):
-        delimiter = "\t"
-
         if not kwargs["group_died"]:
             filename = ("Population_t_%012.1f" % (time) + ".csv")
         else:
@@ -26,9 +24,9 @@ class OneTimestepOneFile(ModelOutput):
 
         file = open(os.path.join(self.output_dir, filename), "w")
         string = ""
-        string += 'plant' + delimiter + 'time' + delimiter + 'x' + \
-                  delimiter + 'y'
-        string = self.addSelectedHeadings(string, delimiter)
+        string += 'plant' + self.delimiter + 'time' + self.delimiter + 'x' + \
+                  self.delimiter + 'y'
+        string = self.addSelectedHeadings(string)
 
         string += "\n"
         file.write(string)
@@ -37,10 +35,9 @@ class OneTimestepOneFile(ModelOutput):
                 growth_information = plant.getGrowthConceptInformation()
                 string = ""
                 string += (group_name + "_" + "%09.0d" % (plant.getId()) +
-                           delimiter + str(time) + delimiter + str(plant.x) +
-                           delimiter + str(plant.y))
-                string = self.addSelectedOutputs(plant, string, delimiter,
-                                                 growth_information)
+                           self.delimiter + str(time) + self.delimiter + str(plant.x) +
+                           self.delimiter + str(plant.y))
+                string = self.addSelectedOutputs(plant, string, growth_information)
                 string += "\n"
                 file.write(string)
 

@@ -20,8 +20,6 @@ class OneFilePerGroup(ModelOutput):
             if os.path.isfile(full_path):
                 os.remove(full_path)
 
-        self.delimiter = "\t"
-
     def createFileWithHeader(self, filename):
         """
         Create csv file with selected headings.
@@ -33,7 +31,7 @@ class OneFilePerGroup(ModelOutput):
         string = ""
         string += 'plant' + self.delimiter + 'time' + self.delimiter + 'x' + \
                   self.delimiter + 'y'
-        string = self.addSelectedHeadings(string, self.delimiter)
+        string = self.addSelectedHeadings(string)
 
         string += "\n"
         file.write(string)
@@ -59,8 +57,7 @@ class OneFilePerGroup(ModelOutput):
                 string += (group_name + "_" + "%09.0d" % (plant.getId()) +
                            self.delimiter + str(time) + self.delimiter +
                            str(plant.x) + self.delimiter + str(plant.y))
-                string = self.addSelectedOutputs(plant, string, self.delimiter,
-                                                 growth_information)
+                string = self.addSelectedOutputs(plant, string, growth_information)
                 string += "\n"
 
             file.write(string)

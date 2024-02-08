@@ -15,8 +15,6 @@ class OneFile(ModelOutput):
             args: module specifications from project file tags
         """
         super().__init__(args, time)
-
-        self.delimiter = "\t"
         self.createFileWithHeader(filename='Population.csv')
 
     def createFileWithHeader(self, filename):
@@ -30,7 +28,7 @@ class OneFile(ModelOutput):
         string = ""
         string += 'plant' + self.delimiter + 'time' + self.delimiter + 'x' + \
                   self.delimiter + 'y'
-        string = self.addSelectedHeadings(string, self.delimiter)
+        string = self.addSelectedHeadings(string)
 
         string += "\n"
         file.write(string)
@@ -52,8 +50,7 @@ class OneFile(ModelOutput):
                 string += (group_name + "_" + "%09.0d" % (plant.getId()) +
                            self.delimiter + str(time) + self.delimiter +
                            str(plant.x) + self.delimiter + str(plant.y))
-                string = self.addSelectedOutputs(plant, string, self.delimiter,
-                                                 growth_information)
+                string = self.addSelectedOutputs(plant, string, growth_information)
                 string += "\n"
 
         file.write(string)

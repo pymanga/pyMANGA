@@ -80,11 +80,13 @@ class SymmetricZOI(ResourceModel):
         # Calculate reciprocal of cell-own variables (array to count wins)
         # BETTINA ODD 2017: variable 'compete_below'
         # [res_x, res_y]
-        plants_present_reci = 1. / plants_present.sum(axis=-1)
+        denom = plants_present.sum(axis=-1)
+        plants_present_reci = np.divide(1, denom, where=denom != 0)
 
         # Sum up wins of each plant = plants_present_reci[plant]
         n_plants = len(plants_present[0, 0, :])
         plant_wins = np.zeros(n_plants)
+
         for i in range(n_plants):
             plant_wins[i] = np.sum(plants_present_reci[np.where(
                 plants_present[:, :, i])])
@@ -103,7 +105,6 @@ class SymmetricZOI(ResourceModel):
         self._y_2 = self.y_2
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
-        try:
-            self.allow_interpolation = eval(self.allow_interpolation)
-        except AttributeError:
-            pass
+
+        self.allow_interpolation = super().makeBoolFromArg("allow_interpolation")
+

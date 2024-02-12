@@ -79,10 +79,9 @@ class AsymmetricZOI(ResourceModel):
         self._y_2 = self.y_2
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
-        try:
-            self.allow_interpolation = eval(self.allow_interpolation)
-        except AttributeError:
-            pass
+
+        self.allow_interpolation = super().makeBoolFromArg("allow_interpolation")
+
 
     ## This functions prepares arrays for the competition
     #  concept. In the SimpleAssymmetricZOI concept, plants geometric measures

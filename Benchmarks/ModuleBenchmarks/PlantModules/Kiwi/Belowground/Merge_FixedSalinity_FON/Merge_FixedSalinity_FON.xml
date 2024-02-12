@@ -24,7 +24,7 @@
     <population>
         <group>
             <name> Initial </name>
-            <species> Avicennia </species>
+            <species> AvicenniaKiwi </species>
             <vegetation_model_type> Kiwi </vegetation_model_type>
             <mortality>NoGrowth</mortality>
             <distribution>

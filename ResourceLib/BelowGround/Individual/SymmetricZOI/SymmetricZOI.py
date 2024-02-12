@@ -40,7 +40,12 @@ class SymmetricZOI(ResourceModel):
     def addPlant(self, plant):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
-        if geometry["r_root"] < (self._mesh_size * 1 / 2**0.5):
+        # ToDo: resolve when all geometries are renamed
+        try:
+            r_root = geometry["r_root"]
+        except KeyError:
+            r_root = geometry["r_bg"]
+        if r_root < (self._mesh_size * 1 / 2**0.5):
             if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:
                 print("ERROR: mesh too course for below-ground module!")
                 print("Please refine mesh or increase initial root radius above " +
@@ -52,7 +57,7 @@ class SymmetricZOI(ResourceModel):
                              in project file!!""")
         self.xe.append(x)
         self.ye.append(y)
-        self.r_root.append(geometry["r_root"])
+        self.r_root.append(r_root)
 
     ## This function returns the BelowgroundResources calculated in the
     #  subsequent timestep.\n

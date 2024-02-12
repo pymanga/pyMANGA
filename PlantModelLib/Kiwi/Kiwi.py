@@ -58,6 +58,8 @@ class Kiwi(PlantModel):
         geometry["r_root"] = r_zoi              # in m
         geometry["r_crown"] = r_zoi             # in m
         geometry["height"] = height / 100       # in m
+        geometry["h_stem"] = height / 100 - 2*r_zoi      # in m
+
         growth_concept_information["growth"] = self.grow
         growth_concept_information["bg_factor"] = belowground_resources
         growth_concept_information["ag_factor"] = aboveground_resources

@@ -37,7 +37,7 @@ class AsymmetricZOI(ResourceModel):
                          (self.my_grid[1] - np.array(self.ye)[i])**2)**0.5)
             # As the geometry is "complex", my_height is position dependent
             my_height, canopy_bools = self.calculateHeightFromDistance(
-                np.array([self.h_stem[i]]), np.array([self.r_crown[i]]),
+                np.array([self.h_stem[i]]), np.array([self.r_ag[i]]),
                 distance)
             crown_areas[i] = np.sum(canopy_bools)
             indices = np.where(np.less(canopy_height, my_height))
@@ -94,7 +94,7 @@ class AsymmetricZOI(ResourceModel):
         self.xe = []
         self.ye = []
         self.h_stem = []
-        self.r_crown = []
+        self.r_ag = []
         self.t_ini = t_ini
         self.t_end = t_end
 
@@ -104,8 +104,14 @@ class AsymmetricZOI(ResourceModel):
     def addPlant(self, plant):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
-        parameter = plant.getParameter()
-        if geometry["r_crown"] < (self._mesh_size * 1 / 2**0.5):
+        # ToDo: resolve when all geometries are renamed
+        try:
+            r_ag = geometry["r_crown"]
+            h_stem = geometry["h_stem"]
+        except KeyError:
+            r_ag = geometry["r_ag"]
+            h_stem = geometry["height"] - 2*r_ag
+        if r_ag < (self._mesh_size * 1 / 2**0.5):
             if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:
                 print("Error: mesh not fine enough for crown dimensions!")
                 print(
@@ -118,5 +124,5 @@ class AsymmetricZOI(ResourceModel):
                              in project file!!""")
         self.xe.append(x)
         self.ye.append(y)
-        self.h_stem.append(geometry["h_stem"])
-        self.r_crown.append(geometry["r_crown"])
+        self.h_stem.append(h_stem)
+        self.r_ag.append(r_ag)

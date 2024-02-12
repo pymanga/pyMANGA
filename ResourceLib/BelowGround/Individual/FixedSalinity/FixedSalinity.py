@@ -32,8 +32,6 @@ class FixedSalinity(ResourceModel):
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
         self._xe.append(x)
-        self._h_stem.append(geometry["h_stem"])
-        self._r_crown.append(geometry["r_crown"])
         self._r_salinity.append(parameter["r_salinity"])
         # The following parameters depend on the salinity response function of the plant
         # (see species file)
@@ -45,6 +43,8 @@ class FixedSalinity(ResourceModel):
             self._salt_effect_ui.append(None)
 
         try:
+            self._h_stem.append(geometry["h_stem"])
+            self._r_crown.append(geometry["r_crown"])
             self._psi_leaf.append(parameter["leaf_water_potential"])
         except KeyError:
             self._psi_leaf.append(None)

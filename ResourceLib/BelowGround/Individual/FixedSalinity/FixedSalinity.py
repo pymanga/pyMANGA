@@ -123,6 +123,7 @@ class FixedSalinity(ResourceModel):
         # The values for the salinity of the current time step are not
         # explicitly given and have to be interpolted
         elif self._t_ini not in self._salinity_over_t[:, 0]:
+
             try:
                 # Check if there is a value for salinity before and
                 # after the current time step
@@ -168,7 +169,7 @@ class FixedSalinity(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "min_x", "max_x", "salinity"],
-            "optional": ["sine", "amplitude", "stretch", "offset", "deviation"]
+            "optional": ["sine", "amplitude", "stretch", "offset", "noise"]
         }
         super().getInputParameters(**tags)
         self._salinity = self.salinity
@@ -183,8 +184,8 @@ class FixedSalinity(ResourceModel):
             if not hasattr(self, "stretch"):
                 print("> Set sine parameter 'stretch' to default: 58*3600*24")
                 self.stretch = 58*3600*24
-            if not hasattr(self, "deviation"):
-                print("> Set sine parameter 'deviation' to deviation: 0")
+            if not hasattr(self, "noise"):
+                print("> Set sine parameter 'noise' to noise: 0")
                 self.deviation = 0
             if not hasattr(self, "offset"):
                 print("> Set sine parameter 'offset' to offset: 0")

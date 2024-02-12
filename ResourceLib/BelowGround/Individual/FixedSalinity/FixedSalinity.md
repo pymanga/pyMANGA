@@ -22,12 +22,11 @@ There is no feedback between plant water uptake and pore water salinity, and no 
 - ``max_x`` (float): x-coordinate of the right border (x = max.)
 - ``salinity`` (float float or string): either two values representing the salinity (kg/kg) at ``min_x`` and ``max_x`` <strong>or</strong> the path to a csv file containing a time series of salinity (see description above and 
         example below)
-- ``variant`` (string): (optional) variant to calculate salinity reduction factor. Default is "bettina". See Notes for more information.
 - ``sine`` (nesting-tag): (optional) calculate salinity for each time step based on a sine function. See notes for details.
   - ``amplitude`` (float): (optional) amplitude of the sine function. Default: 0
   - ``stretch`` (float): (optional) stretch of the sine function, i.e., length of a full period. Default: 24\*3600\*58 (approx. 1 year)
   - ``offset`` (float): (optional) offset of the sine function (along the time axis). Default: 0
-  - ``deviation`` (float): (optional) standard deviation to pick salinity value from sine function. Default: 0
+  - ``noise`` (float): (optional) standard deviation to pick salinity value from sine function. Default: 0
 
 *Note*: all values are given in SI units, but can be provided using equations (see examples).
 For salinity, this means typical seawater salinity of 35 ppt is given as 0.035 kg/kg or 35\*10\**-3 kg/kg.
@@ -79,8 +78,14 @@ See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowG
 
 ### getBGfactor
 
-The below-ground factor (``belowground_resources``) is the ratio of the tree water potential with (``psi_wSal``) and without (``psi_woSal``) the effect of salinity. 
-If this module is used in with a BETTINA tree, this is calculated as follows:
+The below-ground factor (``belowground_resources``) is calculated based on the salinity response function of the plant module.
+This is specified as ``r_salinity`` in the species file.
+There are two possible responses, introduced in the following.
+
+**bettina**
+
+If the response is based on the BETTINA approach (i.e., ``parameter["r_salinity"] = "bettina"``), the below-ground factor (``belowground_resources``) is the ratio of the tree water potential with (``psi_wSal``) and without (``psi_woSal``) the effect of salinity. 
+This is calculated as follows:
 
 ```
 belowground_resources = psi_wSal / psi_woSal 
@@ -90,7 +95,25 @@ psi_wSal = ψ_0 + 85e6 * s_i
 
 85e6 Pa per kg is the factor to transfer salinity in Pa.
 
+
+**forman**
+
+If the response is based on the Forman approach (i.e., ``parameter["r_salinity"] = "forman"``), the below-ground factor (``belowground_resources``) is follows a sigmoid function. 
+This is calculated as follows:
+
+```
+e = salt_effect_d * salt_effect_ui - salinity_plant*10**3
+belowground_resources = 1 / (1 + np.exp(e))
+```
+
+``salt_effect_d`` and ``salt_effect_ui`` are species-specific calibration factors.
+
+
 # References
+
+<a href="https://doi.org/10.1016/j.ecolmodel.2014.04.001" target="_blank">Peters et al. (2014)</a>,
+<a href="https://doi.org/10.1016/S0304-3800(00)00298-2" target="_blank">Berger & Hildenbrandt (2000)</a>,
+<a href="https://doi.org/10.1046/j.1365-2745.1998.00233.x" target="_blank">Chen & Twilley (1998)</a>
 
 
 # Author(s)
@@ -99,7 +122,7 @@ Jasper Bathmann, Jonas Vollhüter, Marie-Christin Wimmler
 
 # See Also
 
-`pyMANGA.ResourceLib.BelowGround`, `pyMANGA.PlantModelLib.Bettina`
+`pyMANGA.ResourceLib.BelowGround`, `pyMANGA.PlantModelLib.Bettina`, `pyMANGA.PopulationLib.Species.Avicennia`
 
 # Examples
 
@@ -139,7 +162,7 @@ Jasper Bathmann, Jonas Vollhüter, Marie-Christin Wimmler
     <amplitude>10/10**3</amplitude>
     <offset>np.pi/2</offset>
     <stretch>3600*24*365/2/np.pi</stretch>
-    <deviation>1/10**3</deviation>
+    <noise>1/10**3</noise>
 </sine>
 ```
 *or*
@@ -149,6 +172,6 @@ Jasper Bathmann, Jonas Vollhüter, Marie-Christin Wimmler
     <amplitude>0.01</amplitude>
     <offset>1.57</offset>
     <stretch>5019110</stretch>
-    <deviation>0.001</deviation>
+    <noise>0.001</noise>
 </sine>
 ```

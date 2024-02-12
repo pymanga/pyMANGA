@@ -91,7 +91,6 @@ class Saltmarsh(PlantModel):
             floats
         """
         self.inc_h_ag = self.w_h_ag * self.grow
-        print(self.h_ag, self.inc_h_ag, self.max_h, self.w_h_ag, self.grow)
         if self.h_ag + self.inc_h_ag < self.max_h:
             self.h_ag += self.inc_h_ag
 
@@ -151,6 +150,8 @@ class Saltmarsh(PlantModel):
         self.available_resources = min(self.ag_factor, self.bg_factor) * self.time
 
         self.grow = self.parameter["growth_factor"] * (self.available_resources - self.maint)
-
+        print('available_resources ' + str(self.available_resources))
+        print('grow ' + str(self.grow))
+        print('maint ' + str(self.maint))
         # Check if trees survive based on selected mortality concepts
         super().setTreeKiller()

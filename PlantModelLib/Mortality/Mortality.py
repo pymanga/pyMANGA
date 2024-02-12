@@ -32,6 +32,8 @@ class Mortality:
                 self.iniRandomGrowth(args, case)
             elif case == "Memory":
                 self.iniMemory(args, case)
+            elif case == "Saltmarsh":
+                self.iniSaltmarsh(args, case)
             else:
                 raise KeyError("Required mortality not implemented. "
                                "Available concepts: `NoGrowth`, `Random`, "
@@ -85,3 +87,12 @@ class Mortality:
             mortality object (class)
         """
         return self.mortality_concept
+    def iniSaltmarsh(self, args, case):
+        """
+        Initialize mortality module "NoGrowth".
+        Args:
+            args: NoGrowth module(s) specification from project file tags
+            case: "NoGrowth" (name of the module)
+        """
+        from .Saltmarsh import Saltmarsh
+        self.mortality_concept.append(Saltmarsh(args, case))

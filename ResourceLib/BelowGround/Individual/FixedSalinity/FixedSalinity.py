@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import numpy as np
+import pandas as pd
 import os
 from ResourceLib import ResourceModel
 
@@ -192,8 +193,8 @@ class FixedSalinity(ResourceModel):
         elif os.path.exists(self._salinity) is True:
 
             # Reading salinity values from a csv-file
-            self._salinity_over_t = np.loadtxt(
-                self._salinity, delimiter=';', skiprows=1)
+            salinity_over_t = pd.read_csv(self._salinity, delimiter=";|,|\t", engine='python')
+            self._salinity_over_t = salinity_over_t.to_numpy()
 
             # Check if csv separation has worked
             try:

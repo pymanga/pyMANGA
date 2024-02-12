@@ -33,14 +33,16 @@ class FromFile:
     def getGeometryList(self):
         # ToDo: Liste mit notwendigen Parametern irgendwoher holen?
         plant_model = self.xml_args.find("vegetation_model_type").text
+
         if plant_model == "Default":
-            # ToDo: Welche Geomtrie soll für Default definiert werden? Anpassung Benchmarks&ini_pop.csv notwendig
-            #geometry_list = ["r_ag", "h_ag", "r_bg", "h_bg"]
+            # ToDo: Welche Geometrie soll für Default definiert werden? Anpassung Benchmarks&ini_pop.csv notwendig
+            # geometry_list = ["r_ag", "h_ag", "r_bg", "h_bg"]
             geometry_list = ["r_stem", "h_stem", "r_crown", "r_root"]
-        elif plant_model == "Bettina" or "BettinaNetwork":
+        elif plant_model in ["Bettina", "BettinaNetwork"]:
             geometry_list = ["r_stem", "h_stem", "r_crown", "r_root"]
         elif plant_model == "Kiwi":
             geometry_list = ["r_stem"]
+
         return geometry_list
 
     def getPlantAttributes(self, initial_group):
@@ -55,7 +57,7 @@ class FromFile:
 
     def getPlantsFromFile(self):
         # Loading the Population Data
-        plant_file = pd.read_csv(self.filename)
+        plant_file = pd.read_csv(self.filename, delimiter=";|,|\t", engine='python')
         headers = plant_file.head()
         plant_attributes = {}
         for header in headers:

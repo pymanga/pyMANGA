@@ -21,7 +21,6 @@ class OnePlantOneFile(ModelOutput):
                 os.remove(full_path)
 
     def outputContent(self, plant_groups, time, **kwargs):
-        delimiter = "\t"
         files_in_folder = os.listdir(self.output_dir)
         for group_name, plant_group in plant_groups.items():
             for plant in plant_group.getPlants():
@@ -35,15 +34,14 @@ class OnePlantOneFile(ModelOutput):
                 file = open(os.path.join(self.output_dir, filename), "a")
                 if filename not in files_in_folder:
                     string = ""
-                    string += 'time' + delimiter + 'x' + delimiter + 'y'
-                    string = super().addSelectedHeadings(string, delimiter)
+                    string += 'time' + self.delimiter + 'x' + self.delimiter + 'y'
+                    string = super().addSelectedHeadings(string)
                     string += "\n"
                     file.write(string)
                 string = ""
-                string += (str(time) + delimiter + str(plant.x) + delimiter +
+                string += (str(time) + self.delimiter + str(plant.x) + self.delimiter +
                            str(plant.y))
-                string = super().addSelectedOutputs(plant, string, delimiter,
-                                                    growth_information)
+                string = super().addSelectedOutputs(plant, string, growth_information)
                 string += "\n"
                 file.write(string)
                 file.close()

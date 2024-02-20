@@ -42,14 +42,14 @@ netInSWRad = pyeto.net_in_sol_rad(solRad, albedo=albedo)
 
 # clear sky radiation
 altitude = 0 # estimate for sea level
-CSRad = pyeto.cs_rad(altitude, etRad)
+cSRad = pyeto.cs_rad(altitude, etRad)
 
 # actual vapor pressure (usually from tdeq or humdity data but can be estimated from tmin)
 # recommended to substract 2 °C from tmin for arid areas (Allen et al, 1998; Annex 6)
 aVP = pyeto.avp_from_tmin(tmin)
 
 # net outgoing longwave rad.
-netOutLWRad = pyeto.net_out_lw_rad(tmin, tmax, solRad, CSRad, aVP)
+netOutLWRad = pyeto.net_out_lw_rad(tmin, tmax, solRad, cSRad, aVP)
 
 ## daily net radiation
 # Based on equation 40 in Allen et al (1998)

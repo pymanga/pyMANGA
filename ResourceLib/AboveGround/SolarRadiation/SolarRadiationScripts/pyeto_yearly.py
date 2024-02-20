@@ -6,7 +6,7 @@ lat = 0.9
 tmin = 1.3 
 tmax = 5.6 
 
-# assumptions
+# assumptions (see pyeto_daily script or pyeto documentation)
 albedo = 0.23 
 altitude = 0 
 
@@ -20,9 +20,9 @@ for day in range(1, 366):
     etRad = pyeto.et_rad(lat, solDec, sHA, iRD)
     solRad = pyeto.sol_rad_island(etRad)
     netInSWRad = pyeto.net_in_sol_rad(solRad, albedo=albedo)
-    CSRad = pyeto.cs_rad(altitude, etRad)
+    cSRad = pyeto.cs_rad(altitude, etRad)
     aVP = pyeto.avp_from_tmin(tmin)
-    netOutLWRad = pyeto.net_out_lw_rad(tmin, tmax, solRad, CSRad, aVP)
+    netOutLWRad = pyeto.net_out_lw_rad(tmin, tmax, solRad, cSRad, aVP)
     dailyNetRad = pyeto.net_rad(netInSWRad, netOutLWRad)
 
     # save dailyNetRad to list

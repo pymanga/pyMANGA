@@ -120,29 +120,6 @@ class MangaProject:
         self.aboveground_resource_concept = createAC(arg)
         print("Above-ground resources: {}.".format(case))
 
-    def getSolarRadiationConcept(self):
-        """
-        Get radiation object.
-        Returns:
-            class
-        """
-        return self.radiation_concept
-    
-    def iniSolarRadiationConcept(self):
-        """
-        Initialize radiation concept.
-        Sets:
-            class
-        """
-        arg = self.args["radiation"]
-        case = arg.find("type").text
-        if case == "SolarRadiation":
-            from ResourceLib.SolarRadiation.SolarRadiation import SolarRadiation as createSR
-        else:
-            raise KeyError("Solar radiation not implemented.")
-        self.solar_radiation_concept = createSR(arg)
-        print("Solar radiation: {}.".format(case))
-
     def getPlantDynamicConcept(self):
         """
         Get plant model object.

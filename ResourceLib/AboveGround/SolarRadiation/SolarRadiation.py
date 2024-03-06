@@ -143,13 +143,14 @@ class SolarRadiation(ResourceModel):
     Sine parameters are then used to estimate net radiation for any day of the year skipping the calculations.
     """
     def __init__(self, args):
-        case = args.find("SolarRadiation").text
+        case = args.find("type").text
         self.getInputParameters(args)
 >>>>>>> cd15d636 ([radiation] update & moved to aboveground)
 
     def getInputParameters(self, args):
         tags = {
             "prj_file": args,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             "required": ["type", "latitude", "tmin", "tmax"],
@@ -205,6 +206,9 @@ class SolarRadiation(ResourceModel):
 =======
             "required": ["radiation", "day_of_year", "latitude", "tmin", "tmax"]
 >>>>>>> a263e7b4 ([radiation] pyeto implementation)
+=======
+            "required": ["type", "day_of_year", "latitude", "tmin", "tmax"]
+>>>>>>> df860a45 ([radiation] fixed input parameters)
         }
         super().getInputParameters(**tags)
         self._doy = self.day_of_year #day of the year

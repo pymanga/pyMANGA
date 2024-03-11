@@ -7,6 +7,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import numpy as np
 from scipy.optimize import curve_fit
 from ResourceLib import ResourceModel
@@ -131,6 +132,8 @@ import pyeto
 =======
 >>>>>>> e8a009eb ([radiation] removed extra packages)
 import datetime
+=======
+>>>>>>> 14136542 ([radiation] updated initialisation)
 import numpy as np
 from scipy.optimize import curve_fit
 from ResourceLib import ResourceModel
@@ -147,6 +150,7 @@ class SolarRadiation(ResourceModel):
         self.getInputParameters(args)
 >>>>>>> cd15d636 ([radiation] update & moved to aboveground)
 
+<<<<<<< HEAD
     def getInputParameters(self, args):
         tags = {
             "prj_file": args,
@@ -220,9 +224,12 @@ class SolarRadiation(ResourceModel):
         """ 
         Calculates daily net radiation based on Allen et al 1998.
         """
+=======
+        # calculate monthly radiation
+>>>>>>> 14136542 ([radiation] updated initialisation)
         self.monthly_net_rad = []
         self.doy15 = [15, 46, 74, 105, 135, 166, 196, 227, 258, 288, 319, 349] # 15th of each month
-        for doy, tmin, tmax in zip(self.doy15, self.tmin, self.tmax):
+        for doy in self.doy15:
             a = 0.23 # green vegetation has an albedo of about 0.20-0.25 (Allen et al, 1998).
             # solar declination
             d = 0.409*np.sin((2*np.pi/365)*doy-1.39)
@@ -241,17 +248,24 @@ class SolarRadiation(ResourceModel):
             # net shortwave radiation
             r_ns = (1-a)*r_s
             # actual vapor pressure (substract 2 deg C from tmin in arid/semi arid areas)
-            e_a = 0.611 * np.exp((17.27 * tmin) / (tmin + 237.3)) 
+            e_a = 0.611 * np.exp((17.27 * self._tmin) / (self._tmin + 237.3)) 
             # clear sky radiation
             altitude = 0
             r_so = (0.00002 * altitude + 0.75)*r_a
             # net longwave radiation
-            r_nl = 0.000000004903*(((tmax)**4+(tmin)**4)/2)*(0.34-(0.14*np.sqrt(e_a)))*(1.35*(r_s/r_so)-0.35)
+            r_nl = 0.000000004903*(((self._tmax)**4+(self._tmin)**4)/2)*(0.34-(0.14*np.sqrt(e_a)))*(1.35*(r_s/r_so)-0.35)
 
             # daily net radiation
             r_n = r_ns - r_nl  
 
             self.monthly_net_rad.append(r_n)
+
+        # fit sine curve to monthly net radiation
+        popt, pcov = curve_fit(self.sineFunction, self.doy15, self.monthly_net_rad)
+        self.sinus_params = popt
+
+        self.net_rad_365 = self.sineFunction(np.arange(1, 366), *self.sinus_params)
+        self.net_rad_max = max(self.net_rad_365)
     
     def sineFunction(self, t, amplitude, frequency, phase_shift, vertical_shift):
         """
@@ -259,21 +273,27 @@ class SolarRadiation(ResourceModel):
         """
         return amplitude * np.sin(2 * np.pi * frequency * t + phase_shift) + vertical_shift
 
-    def fitRadiation(self):
-        """ 
-        Fits a sine curve to the calculated monthly net radiation to estimate daily net radiation 
-        """
-        popt, pcov = curve_fit(self.sineFunction(), self.doy15, self.monthly_net_rad)
-        self.sinus_params = popt
+    def getInputParameters(self, args):
+        tags = {
+            "prj_file": args,
+            "required": ["type", "day_of_year", "latitude", "tmin", "tmax"]
+        }
+        super().getInputParameters(**tags)
+        self._doy = self.day_of_year #day of the year
+        self._latitude = self.latitude
+        self._tmin = self.tmin
+        self._tmax = self.tmax
     
-    def estimateDailyRadiation(self, doy):
+    def calculateAbovegroundResources(self):
         """ 
-        Estimates net radiation for any day of the year based on the fitted sine curve and adds noise.
+        Scales radiation between 0 and 1 to make it accessible for the resource model.
         """
+        # estimate 
         noise = np.random.normal(0,0.15) # +- 15% 
-        net_rad_raw = self.sineFunction(doy, *self.sinus_params)
+        net_rad_raw = self.sineFunction(self._doy, *self.sinus_params)
         self.net_rad = np.clip(net_rad_raw + noise, 0, net_rad_raw)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         # solar shortwave radiation
         # An island is defined as a land mass with width perpendicular to the coastline <= 20 km. 
@@ -336,3 +356,17 @@ class SolarRadiation(ResourceModel):
         self.net_rad_factor = self.net_rad / max(self.net_rad)
         return self.daily_net_rad_factor
 >>>>>>> e8a009eb ([radiation] removed extra packages)
+=======
+        # factor
+        self.net_rad_factor = self.net_rad / self.net_rad_max
+        self.aboveground_resources =  self.net_rad_factor
+    
+    def prepareNextTimeStep(self, t_ini, t_end):
+        self.radiation = [] 
+        self.t_ini = t_ini
+        self.t_end = t_end
+        self._doy = self._doy + 1 if self._doy < 365 else 1 
+
+    def addPlant(self, plant):
+        pass
+>>>>>>> 14136542 ([radiation] updated initialisation)

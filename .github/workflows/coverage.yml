@@ -27,7 +27,7 @@ jobs:
       - name: Get report testcov
         run: |
           echo "$(python -m coverage report --skip-covered --show-missing)"
-      - name: Create testcov Badge
+      - name: Create Awesome Badge
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           # https://gist.github.com/pymanga/b95d546b7e0b224d0c625a2e49f8f3cc

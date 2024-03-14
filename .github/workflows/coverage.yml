@@ -1,4 +1,4 @@
-name: Test Coverage
+name: Coverage testcov and doccov
 on:
   push:
     branches:
@@ -17,7 +17,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run test coverage
+      - name: Run testcov
         run: |
           python -m coverage run --omit="VisualizationLib/*,*/*OGS*/*" ./Benchmarks/test_Benchmarks_CI.py
       - name: Get total testcov
@@ -34,15 +34,23 @@ jobs:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: b95d546b7e0b224d0c625a2e49f8f3cc
           filename: coverage.json
-          label: Test Coverage
+          label: testcov
           message: ${{ env.total }} %
           valColorRange: ${{ env.total }}
           minColorRange: 0
           maxColorRange: 100
-      - name: Run documentation coverage
+      - name: Run docstrcov
         run: |
-          echo "doccov=$(python -m interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+%' | tail -n1)" >> $GITHUB_ENV
-      - name: Run documentation coverage REPORT
-        run: |
-          echo "$(python -m interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+%' | tail -n1)"
-
+          echo "doccov=$(python -m interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+' | tail -n1)" >> $GITHUB_ENV
+      - name: Create docstrcov Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          # https://gist.github.com/pymanga/3ed540b4cee708db3a80270e13126074
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 3ed540b4cee708db3a80270e13126074
+          filename: coverage.json
+          label: doccov
+          message: ${{ env.doccov }} 
+          valColorRange: ${{ env.doccov }}
+          minColorRange: 0
+          maxColorRange: 100

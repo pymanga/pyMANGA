@@ -6,7 +6,7 @@ import os
 
 
 class OneTimestepOneFilePerGroup(OneTimestepOneFile):
-    def __init__(self, args, time):
+    def __init__(self, args):
         """
         Model output concept.
         Create one file per group for each time step, i.e., each file contains plants of one group for each time step.
@@ -15,7 +15,7 @@ class OneTimestepOneFilePerGroup(OneTimestepOneFile):
         Args:
             args: module specifications from project file tags
         """
-        super().__init__(args, time)
+        super().__init__(args)
 
     def outputContent(self, plant_groups, time, **kwargs):
         for group_name, plant_group in plant_groups.items():

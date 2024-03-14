@@ -8,7 +8,7 @@ class ModelOutput:
     Parent class for all model output modules.
     """
 
-    def __init__(self, args, time):
+    def __init__(self, args):
         """
         Get relevant tags from project file and create output directory and/or file.
         Check if output file exists and can be overwritten.

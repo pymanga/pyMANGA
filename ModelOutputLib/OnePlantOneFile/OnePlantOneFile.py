@@ -5,7 +5,7 @@ import os
 
 
 class OnePlantOneFile(ModelOutput):
-    def __init__(self, args, time):
+    def __init__(self, args):
         """
         Model output concept.
         Create one file for each plant, i.e., a plant's progress is stored in a file.
@@ -14,7 +14,7 @@ class OnePlantOneFile(ModelOutput):
         Args:
             args: module specifications from project file tags
         """
-        super().__init__(args, time)
+        super().__init__(args)
         for path in os.listdir(self.output_dir):
             full_path = os.path.join(self.output_dir, path)
             if os.path.isfile(full_path):

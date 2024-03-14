@@ -14,7 +14,7 @@ class OneFile(ModelOutput):
         Args:
             args: module specifications from project file tags
         """
-        super().__init__(args, time)
+        super().__init__(args)
         self.createFileWithHeader(filename='Population.csv')
 
     def createFileWithHeader(self, filename):

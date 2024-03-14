@@ -4,7 +4,10 @@ from ModelOutputLib.ModelOutput import ModelOutput
 
 
 class NONE(ModelOutput):
-    def __init__(self, args, time):
+    """
+    Dummy class to avoid writing model output.
+    """
+    def __init__(self, args):
         """
         Dummy class to avoid writing model output.
         Args:

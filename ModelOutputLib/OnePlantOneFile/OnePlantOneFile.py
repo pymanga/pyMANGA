@@ -5,16 +5,18 @@ import os
 
 
 class OnePlantOneFile(ModelOutput):
-    def __init__(self, args, time):
+    """
+    Model output concept.
+    Create one file for each plant, i.e., a plant's progress is stored in a file.
+    Filename includes plant ID, e.g. 'GroupA_<plantID>'.
+    Each line contains time, position and user selected output parameters.
+    """
+    def __init__(self, args):
         """
-        Model output concept.
-        Create one file for each plant, i.e., a plant's progress is stored in a file.
-        Filename includes plant ID, e.g. 'GroupA_<plantID>'.
-        Each line contains time, position and user selected output parameters.
         Args:
             args: module specifications from project file tags
         """
-        super().__init__(args, time)
+        super().__init__(args)
         for path in os.listdir(self.output_dir):
             full_path = os.path.join(self.output_dir, path)
             if os.path.isfile(full_path):

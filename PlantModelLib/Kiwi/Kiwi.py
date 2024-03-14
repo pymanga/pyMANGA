@@ -8,25 +8,20 @@ from PlantModelLib import PlantModel
 
 
 class Kiwi(PlantModel):
-    ## Kiwi for death and growth dynamics. For details see
-    #  https://doi.org/10.1016/S0304-3800(00)00298-2 \n
-    #  @param Tags to define Kiwi, see tag documentation \n
-    #  @date 2019 - Today
+    """
+    Kiwi plant model.
+    """
     def __init__(self, args):
+        """
+        Args:
+            args: Bettina module specifications from project file tags
+        """
         case = args.find("vegetation_model_type").text
         super().iniMortalityConcept(args)
 
-    ## This functions prepares the growth and death concept.
-    #  In the Kiwi concept, the timestepping is updated.
-    #  @param t_ini - initial time for next timestep \n
-    #  @param t_end - end time for next
     def prepareNextTimeStep(self, t_ini, t_end):
         self.time = t_end - t_ini
 
-    ## This function calculates tree growth based on resource availability and updates stem diameter.\n
-    #  @param tree - object of type tree\n
-    #  @param aboveground_resources - fraction of maximum light interception (shading effect)\n
-    #  @param belowground_resources - fraction of max water uptake (competition and/or salinity > 0)
     def progressPlant(self, tree, aboveground_resources, belowground_resources):
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()

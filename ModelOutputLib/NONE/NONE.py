@@ -4,9 +4,11 @@ from ModelOutputLib.ModelOutput import ModelOutput
 
 
 class NONE(ModelOutput):
-    def __init__(self, args, time):
+    """
+    Dummy class to avoid writing model output.
+    """
+    def __init__(self, args):
         """
-        Dummy class to avoid writing model output.
         Args:
             args: module specifications from project file tags
         """
@@ -16,6 +18,5 @@ class NONE(ModelOutput):
     def writeOutput(self, plant_groups, time, force_output=False, group_died=False):
         pass
 
-    ## This function returns the output directory
     def getOutputDir(self):
         return ""

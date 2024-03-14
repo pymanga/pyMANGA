@@ -8,9 +8,11 @@ from ResourceLib.BelowGround.Individual.OGS import OGS
 
 
 class NetworkOGS(Network, OGS):
+    """
+    NetworkOGS below-ground resource concept.
+    """
     def __init__(self, args):
         """
-        Below-ground resource concept.
         MRO: NetworkOGS, Network, OGS, ResourceModel, object.
         Args:
             args: NetworkOGS module specifications from project file tags
@@ -26,6 +28,9 @@ class NetworkOGS(Network, OGS):
         OGS.prepareNextTimeStep(self, t_ini, t_end)
 
     def prepareNetworkParameters(self, t_ini, t_end):
+        """
+        Call Network method to prepare next time step.
+        """
         super().prepareNextTimeStep(t_ini, t_end)
 
     def addPlant(self, plant):
@@ -65,6 +70,12 @@ class NetworkOGS(Network, OGS):
                 self._psi_osmo.append(mean_of_others)
 
     def calculateBelowgroundResources(self):
+        """
+        Calculate a growth reduction factor for each tree based on water exchange between grafted trees
+        and on the pore-water salinity below the center of each tree.
+        Sets:
+            numpy array of shape(number_of_plants)
+        """
         ## Network stuff - calculate amount of water absorbed from
         # soil column
         # Convert psi_osmo to np array in order to use in

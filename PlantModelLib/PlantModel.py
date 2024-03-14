@@ -7,17 +7,32 @@
 
 
 class PlantModel:
+    """
+    Dummy class for all plant models.
+    """
 
     def getAbovegroundResources(self):
+        """
+        Return a plant's available below-ground resources as factor.
+        Returns:
+            numeric
+        """
         return self.aboveground_resources
 
     def getBelowgroundResources(self):
+        """
+        Return a plant's available below-ground resources as factor.
+        Returns:
+            numeric
+        """
         return self.belowground_resources
 
-    ## This function initializes and returns the names of all selected
-    # mortality concepts
-    # @param args: xml project file
     def iniMortalityConcept(self, args):
+        """
+        Initialize selected mortality modules
+        Args:
+            args (lxml.etree): mortality module specifications from project file tags
+        """
         from PlantModelLib import Mortality
         M = Mortality.Mortality(args)
         self.mortality_concepts = M.getMortConcept()
@@ -26,23 +41,33 @@ class PlantModel:
             self.mortality_concept_names.append(concept.getConceptName())
 
     def getMortalityConceptNames(self):
+        """
+        Return list with selected mortality module names.
+        Returns:
+            list
+        """
         return self.mortality_concept_names
 
-    ## This function calls setMortalityVariables() of all selected mortality
-    # concepts and initiates variables that are not yet in available in the
-    # selected growth concept but are required for the mortality concept.
-    # @param growth_concept_information: growth_concept_information dictionary
     def setMortalityVariables(self, growth_concept_information):
+        """
+        Call all selected mortality modules and initiates variables that are not yet in available in the
+        selected growth module.
+        Args:
+            growth_concept_information (dict): collection of growth parameters
+        """
         for mortality_concept in self.mortality_concepts:
             mortality_concept.setMortalityVariables(
                 plant_module=self,
                 growth_concept_information=growth_concept_information)
 
-    ## This function calls getMortalityVariables() of all selected mortality
-    # concepts and return variables that are not yet in available in the
-    # selected growth concept but are required for the mortality concept.
-    # @param growth_concept_information: growth_concept_information dictionary
     def getMortalityVariables(self, growth_concept_information):
+        """
+        Call all selected mortality modules and retrieve required plant growth parameters.
+        Args:
+            growth_concept_information (dict): collection of growth parameters
+        Returns:
+            dict
+        """
         for mortality_concept in self.mortality_concepts:
             growth_concept_information = \
                 mortality_concept.getMortalityVariables(
@@ -50,9 +75,13 @@ class PlantModel:
                     growth_concept_information=growth_concept_information)
         return growth_concept_information
 
-    ## This function calls setSurvive() of all selected mortality
-    # concepts and checks if the conditions for death are met.
     def setTreeKiller(self):
+        """
+        Call all selected mortality modules and retrieve survival status of a plant.
+        If survival status is zero (plant died) in one of the modules, the plant dies.
+        Returns:
+            numeric
+        """
         survive = []
         for mortality_concept in self.mortality_concepts:
             mortality_concept.setSurvive(plant_module=self)
@@ -60,6 +89,17 @@ class PlantModel:
 
         if 0 in survive:
             self.survive = 0
+
+    def progressPlant(self, tree, aboveground_resources, belowground_resources):
+        """
+        Manage growth procedures for a timestep --- read tree geometry and parameters,
+        schedule computations, and update tree geometry and survival.
+        Args:
+            tree (dict): tree object
+            aboveground_resources (float): aboveground resource growth reduction factor
+            belowground_resources (float): belowground resource growth reduction factor
+        """
+        pass
 
     def getInputParameters(self, **tags):
         """

@@ -5,16 +5,18 @@ import os
 
 
 class OneTimestepOneFile(ModelOutput):
-    def __init__(self, args, time):
+    """
+    Model output concept.
+    Create one file for each time step, i.e., each file contains the complete population of a single time step.
+    Filename includes time step in seconds, e.g. 'Population_t_<time_step>'.
+    Each line contains plant, time, position and user selected output parameters.
+    """
+    def __init__(self, args):
         """
-        Model output concept.
-        Create one file for each time step, i.e., each file contains the complete population of a single time step.
-        Filename includes time step in seconds, e.g. 'Population_t_<time_step>'.
-        Each line contains plant, time, position and user selected output parameters.
         Args:
             args: module specifications from project file tags
         """
-        super().__init__(args, time)
+        super().__init__(args)
 
     def outputContent(self, plant_groups, time, **kwargs):
         if not kwargs["group_died"]:

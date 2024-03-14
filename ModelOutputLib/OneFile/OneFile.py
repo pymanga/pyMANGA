@@ -5,16 +5,17 @@ from ModelOutputLib.ModelOutput import ModelOutput
 
 
 class OneFile(ModelOutput):
-
-    def __init__(self, args, time):
-        """
+    """
         Model output concept.
         Create a single file for all model output.
         Each line contains plant ID, time, position and user selected output parameters.
+    """
+    def __init__(self, args):
+        """
         Args:
             args: module specifications from project file tags
         """
-        super().__init__(args, time)
+        super().__init__(args)
         self.createFileWithHeader(filename='Population.csv')
 
     def createFileWithHeader(self, filename):

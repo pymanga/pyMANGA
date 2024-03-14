@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 class Mortality:
+    """
+    Constructor to initialize (multiple) mortality modules,
+    by calling respective initialization methods.
+    """
     def __init__(self, args):
         """
-        Constructor to initialize (multiple) mortality modules,
-        by calling respective initialization methods.
-
         Args:
             args: mortality module(s) specification from project file tags
         """

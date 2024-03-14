@@ -8,13 +8,13 @@ import numpy as np
 
 
 class Dispersal:
+    """
+    Constructor to initialize dispersal modules, by calling respective initialization methods.
+    """
     def __init__(self, xml_args):
         """
-        Constructor to initialize dispersal modules,
-        by calling respective initialization methods.
-
         Args:
-            xml_args:
+            xml_args: plant dispersal module specifications from project file tags
         """
         self.xml_args = xml_args
         distribution = self.xml_args.find("distribution")
@@ -34,6 +34,13 @@ class Dispersal:
         self.getInputParameters(**tags)
 
     def getPlantAttributes(self, initial_group):
+        """
+        Return positions and geometries of plants.
+        Args:
+            initial_group (bool): indicate whether these are the first plants in the system (initial population).
+        Returns:
+            dict, np.array
+        """
         positions, geometry = self.dispersal.getPlantAttributes(initial_group=initial_group)
         return positions, geometry
 

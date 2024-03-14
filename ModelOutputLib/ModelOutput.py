@@ -8,7 +8,7 @@ class ModelOutput:
     Parent class for all model output modules.
     """
 
-    def __init__(self, args, time):
+    def __init__(self, args):
         """
         Get relevant tags from project file and create output directory and/or file.
         Check if output file exists and can be overwritten.
@@ -149,6 +149,14 @@ class ModelOutput:
         return string
 
     def getNewValue(self, key, value):
+        """
+        Extract variable value from dictionary
+        Args:
+            key (dict): dictionary of plant variables
+            value (string): name of output variable
+        Returns:
+            numeric or string
+        """
         try:
             string = str(key[value])
         except KeyError:

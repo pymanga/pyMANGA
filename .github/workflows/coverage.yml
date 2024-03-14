@@ -17,17 +17,17 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: "Run tests with coverage"
+      - name: Run test coverage
         run: |
           python -m coverage run --omit="VisualizationLib/*,*/*OGS*/*" ./Benchmarks/test_Benchmarks_CI.py
-      - name: "Get total"
+      - name: Get total testcov
         id: total
         run: |
           echo "total=$(python -m coverage report --format=total)" >> $GITHUB_ENV
-      - name: "Get report"
+      - name: Get report testcov
         run: |
           echo "$(python -m coverage report --skip-covered --show-missing)"
-      - name: Create Awesome Badge
+      - name: Create testcov Badge
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           # https://gist.github.com/pymanga/b95d546b7e0b224d0c625a2e49f8f3cc
@@ -39,3 +39,10 @@ jobs:
           valColorRange: ${{ env.total }}
           minColorRange: 0
           maxColorRange: 100
+      - name: Run documentation coverage
+        run: |
+          echo "doccov=$(python interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+%' | tail -n1)" >> $GITHUB_ENV
+      - name: Run documentation coverage REPORT
+        run: |
+          echo "$(python interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+%' | tail -n1)"
+

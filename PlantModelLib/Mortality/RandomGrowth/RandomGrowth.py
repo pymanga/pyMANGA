@@ -15,13 +15,6 @@ class RandomGrowth(Random):
         super(Random, self).__init__(args, case)
         # Read input parameters from xml file
         self.getInputParameters(args)
-        # Default values if no inputs are given
-        try:
-            self._k_die
-        except:
-            # Calibration factor default: 1e-12
-            self._k_die = 1e-12
-            print("NOTE: Use default `probability`: " + str(self._k_die) + ".")
 
     def setSurvive(self, plant_module):
         """
@@ -39,7 +32,7 @@ class RandomGrowth(Random):
         # = dV/dt/V
         relative_volume_increment = plant_module.delta_volume / (plant_module.time *
                                                          plant_module.volume)
-        p_die = self._k_die / relative_volume_increment
+        p_die = self.k_die / relative_volume_increment
 
         # Get a random number
         r = np.random.uniform(0, 1, 1)
@@ -94,7 +87,8 @@ class RandomGrowth(Random):
             "optional": ["type", "mortality", "k_die"]
         }
         super(Random, self).getInputParameters(**tags)
-        try:
-            self._k_die = self.k_die
-        except:
-            pass
+
+        # Default values if no inputs are given
+        if not hasattr(self, "k_die"):
+            self.k_die = 1e-12
+            print("> Set mortality parameter 'k_die' to default:", self.k_die)

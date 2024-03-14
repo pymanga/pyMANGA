@@ -15,20 +15,6 @@ class Memory(NoGrowth):
         super().__init__(args, case)
         # Read input parameters from xml file
         self.getInputParameters(args)
-        # Default values if no inputs are given
-        try:
-            self._threshold
-        except:
-            # Threshold for biomass increment: 0.5 %
-            self._threshold = 0.5 / 100
-            print("NOTE: Use default `threshold`: " + str(self._threshold) +
-                  ".")
-        try:
-            self._period
-        except:
-            # Duration of growth memory: 1 year
-            self._period = 1 * 365.25 * 24 * 3600
-            print("NOTE: Use default `period`: " + str(self._period) + ".")
 
     def setSurvive(self, plant_module):
         """
@@ -42,7 +28,7 @@ class Memory(NoGrowth):
         self._survive = 1
 
         # Get the number of values representing the memory period
-        steps = int(self._period / plant_module.time)
+        steps = int(self.period / plant_module.time)
 
         # Slice grow_memory array to get only relevant data
         relevant_grow_memory = plant_module.grow_memory[-steps:]
@@ -58,7 +44,7 @@ class Memory(NoGrowth):
             steps_per_year = super().getStepsPerYear(plant_module)
             # Check if relative growth is below a certain threshold (multiply relative growth
             # with number of time steps per year to induce a yearly mortality)
-            if relative_grow*steps_per_year < self._threshold:
+            if relative_grow*steps_per_year < self.threshold:
                 self._survive = 0
 
     def getSurvive(self):
@@ -105,8 +91,11 @@ class Memory(NoGrowth):
             "optional": ["type", "mortality", "threshold", "period"]
         }
         super().getInputParameters(**tags)
-        try:
-            self._threshold = self.threshold
-            self._period = self.period
-        except:
-            pass
+
+        # Set default values if no inputs are given
+        if not hasattr(self, "threshold"):
+            self.threshold = 0.5 / 100
+            print("> Set mortality parameter 'threshold' to default:", self.threshold)
+        if not hasattr(self, "threshold"):
+            self.period = 1 * 365.25 * 24 * 3600
+            print("> Set mortality parameter 'period' to default:", self.period)

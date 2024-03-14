@@ -42,6 +42,9 @@ jobs:
       - name: Run docstrcov
         run: |
           echo "doccov=$(python -m interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+' | tail -n1)" >> $GITHUB_ENV
+      - name: Get report docstrcov
+        run: |
+          echo "$(python -m interrogate -c docstr_coverage.toml -v)"
       - name: Create docstrcov Badge
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
@@ -50,7 +53,7 @@ jobs:
           gistID: 3ed540b4cee708db3a80270e13126074
           filename: doccov.json
           label: doccov
-          message: ${{ env.doccov }} 
+          message: ${{ env.doccov }} %
           valColorRange: ${{ env.doccov }}
           minColorRange: 0
           maxColorRange: 100

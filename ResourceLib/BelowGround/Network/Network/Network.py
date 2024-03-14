@@ -5,14 +5,16 @@ from ResourceLib import ResourceModel
 
 
 class Network(ResourceModel):
+    """
+    Network below-ground resource concept.
+    """
+
     def __init__(self, args):
         """
-        Blow-ground resource concept.
         Args:
             args (lxml.etree._Element): Network module specifications from project file tags
         """
         case = args.find("type").text
-        self.exchange = "on"
         self.getInputParameters(args=args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -146,8 +148,7 @@ class Network(ResourceModel):
 
     def calculateBelowgroundResources(self):
         """
-        Calculate a growth reduction factor for each tree based on pore-water salinity below the
-        center of each tree.
+        Calculate a growth reduction factor for each tree based on water exchange between grafted trees.
         In Network resource concepts, this factor can reduce or facilitate growth.<br>
         If factor > 1: plant gets water from its neighbour<br>
         If factor == 1: no exchange and resource limitation<br>
@@ -212,6 +213,9 @@ class Network(ResourceModel):
             "optional": ["exchange"]
         }
         super().getInputParameters(**tags)
+        if not hasattr(self, "exchange"):
+            self.exchange = "on"
+            print("> Set below-ground network parameter 'exchange' to default:", self.exchange)
 
     '''
     ##############################

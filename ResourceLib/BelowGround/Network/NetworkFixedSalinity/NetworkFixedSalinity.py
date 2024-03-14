@@ -5,6 +5,9 @@ from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity
 
 
 class NetworkFixedSalinity(Network, FixedSalinity):
+    """
+    NetworkFixedSalinity below-ground resource concept.
+    """
     def __init__(self, args):
         """
         Blow-ground resource concept.
@@ -25,6 +28,12 @@ class NetworkFixedSalinity(Network, FixedSalinity):
         super().addPlant(plant=plant)
 
     def calculateBelowgroundResources(self):
+        """
+        Calculate a growth reduction factor for each plant based on pore-water salinity below the
+        center of each plant and the exchange between grafted trees.
+        Sets:
+            numpy array of shape(number_of_trees)
+        """
         # FixedSalinity start
         self.calculatePsiOsmo()
         # FixedSalinity end

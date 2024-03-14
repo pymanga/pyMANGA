@@ -7,9 +7,11 @@ from ResourceLib import ResourceModel
 
 
 class FixedSalinity(ResourceModel):
+    """
+    FixedSalinity below-ground resource concept.
+    """
     def __init__(self, args):
         """
-        Below-ground resource concept.
         Args:
             args: FixedSalinity module specifications from project file tags
         """
@@ -93,6 +95,10 @@ class FixedSalinity(ResourceModel):
         return salinity_plant
 
     def getSalinitySine(self):
+        """
+        Calculate salinity of the current time step using a sine function.
+        Set salinity at the current time step at the left and right model boundary.
+        """
         left = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset) + self.left_bc
         self._salinity[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
         self._salinity[0] = self._salinity[0] if self._salinity[0] > 0 else 0
@@ -102,6 +108,12 @@ class FixedSalinity(ResourceModel):
         self._salinity[1] = self._salinity[1] if self._salinity[1] > 0 else 0
 
     def getSalinityTimeseries(self):
+        """
+        Get salinity of the current time step from user-defined time series (csv-file).
+        If current time step is not in the time series, interpolate salinity values between
+        previous and next time step.
+        Set salinity at the current time step at the left and right model boundary.
+        """
         # The values for the salinity of the current time step are
         # explicitly given
         if self._t_ini in self._salinity_over_t[:, 0]:
@@ -111,7 +123,6 @@ class FixedSalinity(ResourceModel):
         # The values for the salinity of the current time step are not
         # explicitly given and have to be interpolted
         elif self._t_ini not in self._salinity_over_t[:, 0]:
-
             try:
                 # Check if there is a value for salinity before and
                 # after the current time step
@@ -180,6 +191,10 @@ class FixedSalinity(ResourceModel):
                 self.offset = 0
 
     def readSalinityTag(self):
+        """
+        Read salinity tag in project file.
+        Assign variables depending on user input (numeric or path to csv).
+        """
         # Two constant values over time for seaward and
         # landward salinity
         if len(self._salinity.split()) == 2:
@@ -199,7 +214,7 @@ class FixedSalinity(ResourceModel):
             # Check if csv separation has worked
             try:
                 assert self._salinity_over_t.shape[1] == 3
-            except:
+            except AssertionError:
                 raise (KeyError("Problems occurred when reading" +
                                 " the salinity values from the file." +
                                 " Please check the file for correct" +

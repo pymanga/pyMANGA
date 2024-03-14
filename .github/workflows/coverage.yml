@@ -48,7 +48,7 @@ jobs:
           # https://gist.github.com/pymanga/3ed540b4cee708db3a80270e13126074
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 3ed540b4cee708db3a80270e13126074
-          filename: coverage.json
+          filename: doccov.json
           label: doccov
           message: ${{ env.doccov }} 
           valColorRange: ${{ env.doccov }}

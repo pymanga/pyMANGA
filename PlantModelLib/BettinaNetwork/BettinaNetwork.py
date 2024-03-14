@@ -5,9 +5,11 @@ import numpy as np
 
 
 class BettinaNetwork(Bettina):
+    """
+    BettinaNetwork plant model.
+    """
     def __init__(self, args):
         """
-        Plant model concept.
         This module inherits the tree growth functionality of Bettina, but can account for resource loss and water
         transfer through root grafts.
         MRO: BettinaNetwork, Bettina, TreeModel, object

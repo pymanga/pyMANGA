@@ -3,10 +3,12 @@
 
 
 class NoGrowth:
-
+    """
+    NoGrowth mortality module.
+    This serves the constructor (super class) for other mortality modules.
+    """
     def __init__(self, args, case):
         """
-        Mortality module and super class of other mortality modules containing required constructors.
         Args:
             args: module specification from project file tags. No required.
             case: "NoGrowth" (module name)

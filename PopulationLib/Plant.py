@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
-"""
 import importlib.util
 import os
 import importlib
 
 
 class Plant:
+    """
+    Module defining structure of a plant.
+    """
     def __init__(self, other, x, y,
                  initial_geometry=False):
+        """
+        Args:
+            other: instance of class PlantGroup
+            x (numeric): x-position of plant
+            y (numeric): y-position of plant
+            initial_geometry (dict): geometry of the plant
+        """
         self.x = x
         self.y = y
         self.plant_id = other.max_id
@@ -21,6 +27,7 @@ class Plant:
         self.group_name = other.group_name
         self.plant_model = other.plant_model
 
+        # Retrieve geometry and plant parameters from species files
         species_file_exists = os.path.isfile(os.path.join("PopulationLib", "Species", self.species, self.species + ".py"))
         if species_file_exists:
             module_name = 'PopulationLib.Species.' + self.species
@@ -50,35 +57,81 @@ class Plant:
         self.iniNetwork()
 
     def getPosition(self):
+        """
+        Return position (x, y) of a plant.
+        Returns:
+            numeric
+        """
         return self.x, self.y
 
     def getGeometry(self):
+        """
+        Return dictionary with plant geometries.
+        Returns:
+            dict
+        """
         return self.geometry
 
     def setGeometry(self, geometry):
+        """
+        Set dictionary with plant geometries.
+        Args:
+            geometry (dict): plant geometry
+        """
         self.geometry = geometry
 
     def getGrowthConceptInformation(self):
+        """
+        Return dictionary with plant growth variables.
+        Returns:
+            dict
+        """
         return self.growth_concept_information
 
     def setGrowthConceptInformation(self, growth_concept_information):
+        """
+        Set dictionary with plant growth variables.
+        Args:
+            growth_concept_information (dict): plant growth variables
+        """
         self.growth_concept_information = growth_concept_information
 
     def getParameter(self):
+        """
+        Return dictionary with plant growth parameters.
+        Returns:
+            dict
+        """
         return self.parameter
 
     def getSurvival(self):
+        """
+        Return boolean indicating plant survival.
+        Returns:
+            boolean
+        """
         return self.survival
 
     def setSurvival(self, survival):
+        """
+        Set boolean indicating plant survival.
+        Args:
+            survival (bool): plant survival
+        """
         self.survival = survival
 
     def getId(self):
+        """
+        Return ID of a plant.
+        Returns:
+            boolean
+        """
         return self.plant_id
 
-    ## This function initializes a dictionary containing parameters required
-    # to build a network of grafted plants
     def iniNetwork(self):
+        """
+        Initialize network dictionary.
+        """
         self.network = {}
         ## Counter to track or define the time required for root graft
         # formation, if -1 no root graft formation takes place at the moment
@@ -104,7 +157,17 @@ class Plant:
         self.network['variant'] = None
 
     def getNetwork(self):
+        """
+        Return network dictionary.
+        Returns:
+            dict
+        """
         return self.network
 
     def setNetwork(self, network):
+        """
+        Set network dictionary
+        Args:
+            network (dict): dictionary with network (root graft) variables
+        """
         self.network = network

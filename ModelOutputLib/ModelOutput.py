@@ -149,6 +149,14 @@ class ModelOutput:
         return string
 
     def getNewValue(self, key, value):
+        """
+        Extract variable value from dictionary
+        Args:
+            key (dict): dictionary of plant variables
+            value (string): name of output variable
+        Returns:
+            numeric or string
+        """
         try:
             string = str(key[value])
         except KeyError:

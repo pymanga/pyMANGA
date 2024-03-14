@@ -5,9 +5,11 @@ import numpy as np
 
 
 class Bettina(PlantModel):
+    """
+    Bettina plant model.
+    """
     def __init__(self, args):
         """
-        Plant model concept.
         Args:
             args: Bettina module specifications from project file tags
         """
@@ -24,14 +26,6 @@ class Bettina(PlantModel):
         self.time = t_end - t_ini
 
     def progressPlant(self, tree, aboveground_resources, belowground_resources):
-        """
-        Manage growth procedures for a timestep --- read tree geometry and parameters,
-        schedule computations, and update tree geometry and survival.
-        Args:
-            tree (dict): tree object
-            aboveground_resources (float): aboveground resource growth reduction factor
-            belowground_resources (float): belowground resource growth reduction factor
-        """
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()
         self.parameter = tree.getParameter()

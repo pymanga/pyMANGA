@@ -3,6 +3,11 @@
 
 
 def createPlant():
+    """
+    Constructor containing species-specific parameters and the initial geometry of a plant required by the Bettina plant module.
+    Returns:
+        multiple dict
+    """
     geometry = {}
     parameter = {}
     # plant module BETTINA

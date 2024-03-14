@@ -5,9 +5,11 @@ from PlantModelLib.Mortality.Random import Random
 
 
 class RandomGrowth(Random):
+    """
+    RandomGrowth mortality module.
+    """
     def __init__(self, args, case):
         """
-        Mortality module.
         Args:
             args: module specification from project file tags
             case: "RandomGrowth" (module name)

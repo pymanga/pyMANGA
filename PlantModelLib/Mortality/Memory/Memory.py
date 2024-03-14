@@ -4,10 +4,13 @@ import numpy as np
 from PlantModelLib.Mortality.NoGrowth import NoGrowth
 from PlantModelLib.PlantModel import PlantModel
 
+
 class Memory(NoGrowth):
+    """
+    Memory mortality module.
+    """
     def __init__(self, args, case):
         """
-        Mortality module.
         Args:
             args: module specification from project file tags
             case: "Memory" (module name)

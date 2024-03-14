@@ -5,10 +5,11 @@ from PlantModelLib.Mortality.NoGrowth import NoGrowth
 
 
 class Random(NoGrowth):
-
+    """
+    Random mortality module.
+    """
     def __init__(self, args, case):
         """
-        Mortality module.
         Args:
             args: module specification from project file tags
             case: "Random" (module name)

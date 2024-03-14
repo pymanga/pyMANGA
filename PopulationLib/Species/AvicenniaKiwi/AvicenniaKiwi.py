@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-List containing species-specific plant model parameters required in `pyMANGA.PlantModelLib.Kiwi` and `pyMANGA.ResourceLib.BelowGround.Individual.FON`.
-"""
 
 
 def createPlant():
+    """
+    Constructor containing species-specific parameters and the initial geometry of a plant required by the Kiwi plant module.
+    Returns:
+        multiple dict
+    """
     geometry = {}
     parameter = {}
     geometry["height"] = 0                              # m

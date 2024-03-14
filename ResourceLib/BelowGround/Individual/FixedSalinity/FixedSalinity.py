@@ -171,7 +171,7 @@ class FixedSalinity(ResourceModel):
                 self.amplitude = 0
             if not hasattr(self, "stretch"):
                 print("> Set sine parameter 'stretch' to default: 58*3600*24")
-                self.stretch = 58
+                self.stretch = 58*3600*24
             if not hasattr(self, "deviation"):
                 print("> Set sine parameter 'deviation' to deviation: 0")
                 self.deviation = 0

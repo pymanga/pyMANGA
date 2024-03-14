@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: ronny.peters@tu-dresden.de
-"""
 import numpy as np
 from ResourceLib import ResourceModel
 
 
 class AsymmetricZOI(ResourceModel):
-    ## AsymmetricZOI case for aboveground competition concept. Asymmetric
-    #  Zone Of Influence with the highest plant at a meshpoint gets all the light at
-    #  this meshpoint (BETTINA geometry of a plant assumed).\n
-    #  @param Tags to define AsymmetricZOI: see tag documentation
-    #  @date: 2019 - Today
+    """
+    AsymmetricZOI above-ground resource concept.
+    """
     def __init__(self, args):
+        """
+        Args:
+            args: AsymmetricZOI module specifications from project file tags
+        """
         case = args.find("type").text
         self.getInputParameters(args)
         super().makeGrid()
 
-    ## This function returns the AbovegroundResources calculated in the
-    #  subsequent timestep.\n
-    #  @return: np.array with $N_plant$ scalars
     def calculateAbovegroundResources(self):
+        """
+        Calculate a growth reduction factor for each plant based on the asymmetric zone of influence concept.
+        Sets:
+            numpy array of shape(number_of_trees)
+        """
         #Array to save value of highest plant with shape = (res_x, res_y)
         canopy_height = np.zeros_like(self.my_grid[0])
         #Array to safe index of highest plant with shape = (res_x, res_y)
@@ -48,12 +48,17 @@ class AsymmetricZOI(ResourceModel):
             wins[i] = len(np.where(highest_plant == i)[0])
         self.aboveground_resources = wins / crown_areas
 
-    ## This function calculates the plant height at a (mesh-)point depending
-    #  on the distance from the plant position.\n
-    #  @param stem_height - stem height (shape: (n_plants))\n
-    #  @param crown_radius - crown radius (shape: (n_plants))\n
-    #  @param distance - distance from the stem position(shape: (x_res, y_res))
     def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
+        """
+        Calculate plant heights at each mesh point (node) based on the distance between plant and node.
+        Args:
+            stem_height (array): stem heights (shape: n_plants)
+            crown_radius (array): crown radii (shape: n_plants)
+            distance (array): distance between node and stem positions (shape: x_res, y_res)
+
+        Returns:
+            array, array (shape: x_res, y_res)
+        """
         min_distance = np.min(distance)
         # If crown radius < mesh size, set it to mesh size
         crown_radius[np.where(crown_radius < min_distance)] = min_distance
@@ -82,14 +87,6 @@ class AsymmetricZOI(ResourceModel):
 
         self.allow_interpolation = super().makeBoolFromArg("allow_interpolation")
 
-
-    ## This functions prepares arrays for the competition
-    #  concept. In the SimpleAssymmetricZOI concept, plants geometric measures
-    #  are saved in simple lists and the timestepping is updated. Two numpy
-    #  arrays similar to the mesh array for canopy height and plant ID of the highest plant
-    #  at corresponding mesh point are initialised. \n
-    #  @param t_ini - initial time for next timestep \n
-    #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         self.xe = []
         self.ye = []
@@ -98,9 +95,6 @@ class AsymmetricZOI(ResourceModel):
         self.t_ini = t_ini
         self.t_end = t_end
 
-    ## Before being able to calculate the resources, all plant entities need
-    #  to be added with their current implementation for the next timestep.
-    #  @param plant
     def addPlant(self, plant):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()

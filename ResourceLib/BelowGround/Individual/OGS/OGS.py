@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
-"""
 import numpy as np
 from ResourceLib import ResourceModel
 from ResourceLib.BelowGround.Individual.OGS.helpers import CellInformation
@@ -14,14 +10,17 @@ import platform
 import inspect
 
 
-# OGS integration for below-ground competition concept. This case is
-#  using the OGS software to calculate changes in pore water salinity using
-#  a detailed groundwater model.
-#  @param args: Please see input file tag documentation for details
-#  @date: 2019 - Today
 class OGS(ResourceModel):
-
+    """
+    OGS below-ground resource concept.
+    This module used OpenGeoSys to calculate changes in pore water salinity using a detailed
+    groundwater model.
+    """
     def __init__(self, args):
+        """
+        Args:
+            args: OGS module specifications from project file tags
+        """
         self.case = args.find("type").text
         self._abiotic_drivers = args.find("abiotic_drivers")
         self._ogs_project_folder = args.find("ogs_project_folder").text.strip()
@@ -64,10 +63,13 @@ class OGS(ResourceModel):
         self._xml_tree.find("python_script").text = "python_source.py"
         self._t_end_list = []
 
-    # This function updates and returns BelowgroundResources in the current
-    #  timestep. For each plant a reduction factor is calculated which is defined
-    #  as: resource uptake at zero salinity/ real resource uptake.
     def calculateBelowgroundResources(self):
+        """
+        Calculate a growth reduction factor for each plant based on pore-water salinity below the
+        center of each plant.
+        Sets:
+            numpy array of shape(number_of_trees)
+        """
         # Number of plants
         self.no_plants = len(self._plant_constant_contribution)
 
@@ -97,13 +99,6 @@ class OGS(ResourceModel):
 
         self.renameParameters()
 
-    # This functions prepares the next timestep for the competition
-    #  concept. In the OGS concept, information on t_ini and t_end is stored.
-    #  Additionally, arrays are prepared to store information on water uptake
-    #  of the participating plants. Moreover, the ogs-prj-file for the next
-    #  timestep is updated and saved in the ogs-project folder.
-    #  @param t_ini: initial time of next timestep
-    #  @param t_end: end time of next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         self._t_ini = t_ini
         if self._use_fixed_ogs_delta_t:
@@ -135,21 +130,16 @@ class OGS(ResourceModel):
 
         self.prepareOGSparameters()
 
-    # This function initializes variables required also in OGSExternal
-    # concepts.
     def prepareOGSparameters(self):
+        """
+        Initialize variables also required in OGSExternal.
+        """
         self._total_resistance = []
         self.belowground_resources = []
         self._plant_cell_ids = []
         self._plant_salinity = np.empty(0)
         self._plant_cell_volume = []
 
-    # Before being able to calculate the resources, all plant entities need
-    #  to be added with their current implementation for the next timestep.
-    #  Here, in the OGS case, each plant is represented by a contribution to
-    #  python source terms in OGS. To this end, their constant and salinity
-    #  dependent resource uptake is saved in numpy arrays.
-    #  @param plant
     def addPlant(self, plant):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
@@ -171,13 +161,14 @@ class OGS(ResourceModel):
         salinity_prefactor = -85000 * 1000 / total_resistance * 1000 / np.pi
         self._plant_salinity_prefactor.append(salinity_prefactor)
 
-    # This function extracts the cells affected by each plant and the
-    # respective volume of these cells in plant-own variables.
-    # @param x: x-coordinate of plant
-    # @param y: y-coordinate of plant
-    # @param radius: search radius around the previously given coordinates
-    #                within which the cell finder locates cells
     def addCellCharateristics(self, x, y, root_radius):
+        """
+        Extract the cells affected by plants and their respective volume.
+        Args:
+            x (float): x-position of plant
+            y (float): y-position of plant
+            root_radius (float): root radius of plant
+        """
         affected_cells = self._cell_information.getCellIDsAtXY(
             x, y, root_radius)
         if not affected_cells:
@@ -189,18 +180,30 @@ class OGS(ResourceModel):
         v = self.getVolume(affected_cells)
         self._plant_cell_volume.append(v)
 
-    # This function calculates the total resistance against water flow,
-    # including the resistance at the root surface and the xylem resistance
     def totalTreeResistance(self, parameter, geometry):
+        """
+        Calculate resistance against water flow at the root surface and in the xylem based
+        on Bettina approach.
+        Args:
+            parameter (dict): species-specific parameters
+            geometry (dict): plant geometry
+        Returns:
+            array (shape: no_plants)
+        """
         root_surface_resistance = self.rootSurfaceResistance(
             parameter, geometry)
         xylem_resistance = self.xylemResistance(parameter, geometry)
         return root_surface_resistance + xylem_resistance
 
-    # This function calculates the root surface resistance.
-    #  @param parameter: list of hydraulic and initial plant parameters
-    #  @param geometry: plant geometry
     def rootSurfaceResistance(self, parameter, geometry):
+        """
+        Calculate resistance against water flow at the root surface.
+        Args:
+            parameter (dict): species-specific parameters
+            geometry (dict): plant geometry
+        Returns:
+            array (shape: no_plants)
+        """
         lp = parameter["lp"]
         k_geom = parameter["k_geom"]
         r_root = geometry["r_root"]
@@ -209,10 +212,16 @@ class OGS(ResourceModel):
                                    h_root)
         return root_surface_resistance
 
-    # This function calculates the root surface resistance.
-    #  @param parameter: list of hydraulic and initial plant parameters
-    #  @param geometry: plant geometry
     def xylemResistance(self, parameter, geometry):
+        """
+        Calculate resistance against water flow in the xylem based
+        on Bettina approach.
+        Args:
+            parameter (dict): species-specific parameters
+            geometry (dict): plant geometry
+        Returns:
+            array (shape: no_plants)
+        """
         r_crown = geometry["r_crown"]
         h_stem = geometry["h_stem"]
         r_root = geometry["r_root"]
@@ -222,28 +231,35 @@ class OGS(ResourceModel):
         xylem_resistance = (flow_length / kf_sap / np.pi / r_stem**2)
         return xylem_resistance
 
-    # This function calculates the volume of the cells affected by one plant.
-    # @param affected_cells: IDs of affected cells
-    # @return: numeric
     def getVolume(self, affected_cells):
+        """
+        Calculate volume of cells affected by a plant.
+        Args:
+            affected_cells (array): IDs of affected cells
+        Returns:
+
+        """
         v = 0
         for cell_id in affected_cells:
             v_i = self._volumes.GetTuple(cell_id)[0]
             v += v_i
         return v
 
-    # This function reads cumulated salinity and calls per cell from
-    # external files and calculates the salinity in each cell
     def getCellSalinity(self):
+        """
+        Read cumulated salinity and calls per cell from external files
+        (OGS output) and calculate salinity in each cell.
+        """
         cumsum_salinity = np.load(
             path.join(self._ogs_project_folder, "cumsum_salinity.npy"))
         calls_per_cell = np.load(
             path.join(self._ogs_project_folder, "calls_in_last_timestep.npy"))
         self._salinity = cumsum_salinity / calls_per_cell
 
-    # This function calculates the salinity below each plant as the mean of
-    # all plant-affected cells
     def calculatePlantSalinity(self):
+        """
+        Calculate salinity below each plant as mean of all plant-affected cells.
+        """
         self._plant_salinity = np.zeros(self.no_plants)
         for plant_id in range(self.no_plants):
             ids = self._plant_cell_ids[plant_id]
@@ -251,10 +267,11 @@ class OGS(ResourceModel):
             self._plant_salinity[plant_id] = mean_salinity_for_plant
         self._psi_osmo = -self._plant_salinity * 1000 * 85000
 
-    # This function calculates the water withdrawal in each cell split
-    # in a constant contribution and a salinity prefactor.
-    # Unit: kg per sec per cell volume
     def calculateSplittedTreeContribution(self):
+        """
+        Calculate water withdrawal in each cell, divided in constant and salinity contribution,
+        in kg per second per cell volume.
+        """
         self._constant_contributions = np.zeros(len(self._salinity))
         self._salinity_prefactors = np.zeros(len(self._salinity))
 

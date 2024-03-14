@@ -8,7 +8,6 @@ class Network(ResourceModel):
     """
     Network below-ground resource concept.
     """
-
     def __init__(self, args):
         """
         Args:

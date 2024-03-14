@@ -3,6 +3,9 @@ from ResourceLib import ResourceModel
 
 
 class Merge(ResourceModel):
+    """
+    Merge below-ground resource concept.
+    """
     def __init__(self, args):
         """
         Below-ground resource concept.

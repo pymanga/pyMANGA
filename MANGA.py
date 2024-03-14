@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de, marie-christin.wimmler@tu-dresden.de
-"""
-
 import getopt
 import sys
 from os import path
@@ -12,42 +7,81 @@ from ProjectLib import XMLtoProject
 from TimeLoopLib import DynamicTimeStep
 import datetime
 
-class Model():
-    ## Class to run the model from other programs
-    #  @param project_file: path to pymanga project file.
-    #  @date: 2021 - Today
-    #  @author: jasper.bathmann@ufz.de
+
+class Model:
+    """
+    pyMANGA model.
+    Class to run pyMANGA externally.
+    """
     def __init__(self, project_file):
+        """
+        Args:
+            project_file (str): path to project-file
+        """
         self.prj = XMLtoProject(xml_project_file=project_file)
 
     def createExternalTimeStepper(self, t_0=0):
+        """
+        Initialize time stepper for external use.
+        Args:
+            t_0 (float): start time, default: 0
+        """
         from TimeLoopLib import ExternalDynamicTimeStep
         self.timestepper = ExternalDynamicTimeStep(self.prj, t_0)
 
     def setSteps(self, step_ag, step_bg):
+        """
+        Set steps for above- and below-ground updates.
+        Args:
+            step_ag (int): n-th time step to update above-ground resources (i.e., =1, update every time step)
+            step_bg (int): n-th time step to update below-ground resources (i.e., =1, update every time step)
+        """
         self.timestepper.setSteps(step_ag, step_bg)
 
     def setResources(self, ag_resources, bg_resources):
+        """
+        Transfer resources to time stepper.
+        Args:
+            ag_resources (array): above-ground resource factor (shape: no_trees)
+            bg_resources (array): below-ground resource factor (shape: no_trees)
+        """
         self.timestepper.setResources(ag_resources, bg_resources)
 
     def getResources(self):
+        """
+        Get resources of the current time step.
+        Returns:
+
+        """
         return self.timestepper.getResources()
 
-    ## This call propagates the model from the last timestep.
-    #  Default starting point is t=0 and will be updated with every call
-    #  @param t: time, for end of next timestep
     def propagateModel(self, t_end):
+        """
+        Propagate the model from the last time step to the next, i.e., run one time step.
+        Args:
+            t_end (float): end of the next timestep
+        """
         self.timestepper.step(t_end)
 
     def setBelowgroundInformation(self, **args):
+        """
+        Set information required in selected below-ground module.
+        """
         self.prj.getBelowgroundResourceConcept().setExternalInformation(**args)
 
-    ## Getter for external information
     def getBelowgroundInformation(self):
+        """
+        Return information from selected below-ground module.
+        """
         return self.prj.getBelowgroundResourceConcept().getExternalInformation()
 
 
 def main(argv):
+    """
+    Main module to run pyMANGA model.
+    Args:
+        argv (array): command line input
+    """
     try:
         opts, args = getopt.getopt(argv, "hi:l", ["project_file=", "logging"])
     except getopt.GetoptError:

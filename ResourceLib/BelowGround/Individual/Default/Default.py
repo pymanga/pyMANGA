@@ -4,9 +4,11 @@ from ResourceLib import ResourceModel
 
 
 class Default(ResourceModel):
+    """
+    Default below-ground resource concept.
+    """
     def __init__(self, args):
         """
-        Below-ground resource concept.
         Args:
             args: FixedSalinity module specifications from project file tags
         """

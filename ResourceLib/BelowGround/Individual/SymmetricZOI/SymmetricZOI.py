@@ -1,32 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2022-Today
-@author: marie-christin.wimmler@tu-dresden.de based on AsymmetricZOI
-by ronny.peters@tu-dresden.de
-"""
-
 import numpy as np
 from ResourceLib import ResourceModel
 
 
 class SymmetricZOI(ResourceModel):
-    ## SymmetricZOI case for below ground competition concept. Symmetric
-    #  Zone Of Influence with plants occupying the same node of the grid share
-    #  the below-ground resource of this node equally (BETTINA geometry of a
-    #  plant assumed). See Peters 2017: ODD protocol of the model BETTINA IBM\n
-    #  @param Tags to define AsymmetricZOI: see tag documentation
-    #  @date: 2019 - Today
+    """
+    SymmetricZOI below-ground resource concept.
+    """
     def __init__(self, args):
+        """
+        Args:
+            args: FON module specifications from project file tags
+        """
         case = args.find("type").text
         self.getInputParameters(args)
         super().makeGrid()
 
-    ## This functions prepares arrays for the competition
-    #  concept. In the SymmetricZOI concept, plants geometric measures
-    #  are saved in simple lists and the timestepping is updated. \n
-    #  @param t_ini - initial time for next timestep \n
-    #  @param t_end - end time for next timestep
     def prepareNextTimeStep(self, t_ini, t_end):
         self.xe = []
         self.ye = []
@@ -34,9 +24,6 @@ class SymmetricZOI(ResourceModel):
         self.t_ini = t_ini
         self.t_end = t_end
 
-    ## Before being able to calculate the resources, all plant entities need
-    #  to be added with their current implementation for the next timestep.
-    #  @param plant
     def addPlant(self, plant):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
@@ -59,10 +46,12 @@ class SymmetricZOI(ResourceModel):
         self.ye.append(y)
         self.r_root.append(r_root)
 
-    ## This function returns the BelowgroundResources calculated in the
-    #  subsequent timestep.\n
-    #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
+        """
+        Calculate a growth reduction factor for each plant based on competition with neighboring plants.
+        Sets:
+            numpy array with shape(number_of_plants)
+        """
         # Numpy array of shape [res_x, res_y, n_plants]
         distance = (((self.my_grid[0][:, :, np.newaxis] -
                       np.array(self.xe)[np.newaxis, np.newaxis, :])**2 +

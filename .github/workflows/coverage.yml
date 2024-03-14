@@ -41,8 +41,8 @@ jobs:
           maxColorRange: 100
       - name: Run documentation coverage
         run: |
-          echo "doccov=$(python interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+%' | tail -n1)" >> $GITHUB_ENV
+          echo "doccov=$(python -m interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+%' | tail -n1)" >> $GITHUB_ENV
       - name: Run documentation coverage REPORT
         run: |
-          echo "$(python interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+%' | tail -n1)"
+          echo "$(python -m interrogate -c docstr_coverage.toml | grep -m2 -Po '\d+\.\d+%' | tail -n1)"
 

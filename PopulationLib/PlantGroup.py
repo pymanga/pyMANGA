@@ -38,6 +38,8 @@ class PlantGroup:
             from PlantModelLib.Kiwi import Kiwi as createGD
         elif case == "BettinaNetwork":
             from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
+        elif case == "Saltmarsh":
+            from PlantModelLib.Saltmarsh import Saltmarsh as createGD
         else:
             raise KeyError("Required plant dynamic concept not implemented.")
         self.plant_dynamic_concept = createGD(self.xml_args)

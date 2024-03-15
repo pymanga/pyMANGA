@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class Saltmarsh:
+class Saltmarsh_2
 
     def __init__(self, args, case):
         """
@@ -23,13 +23,8 @@ class Saltmarsh:
         """
         self._survive = 1
         if plant_module.grow <= 0:
-            if plant_module.sickly is True and plant_module.r_volum_ag_bg > 0.2: # MARKER
-                pass
-            elif plant_module.sickly is False and plant_module.r_volum_ag_bg >= 0.2:
-                plant_module.sickly = True
-            elif plant_module.r_volum_ag_bg < 0.2:
-                self._survive = 0
-                print("\t Plant died (NoGrowth).")
+            self._survive = 0
+            print("\t Plant died (NoGrowth).")
 
     def getSurvive(self):
         """

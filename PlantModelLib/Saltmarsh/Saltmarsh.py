@@ -12,6 +12,7 @@ class Saltmarsh(PlantModel):
             args: Saltmarsh module specifications from project file tags
         """
         super().iniMortalityConcept(args)
+        self.sickly = False
 
     def prepareNextTimeStep(self, t_ini, t_end):
         """
@@ -138,8 +139,10 @@ class Saltmarsh(PlantModel):
         Sets:
             float
         """
-        self.volume = np.pi * self.r_ag ** 2 * self.h_ag + \
-                      np.pi * self.r_bg ** 2 * self.h_bg
+        volume_ag = np.pi * self.r_ag ** 2 * self.h_ag
+        volume_bg = np.pi * self.r_bg ** 2 * self.h_bg
+        self.r_volum_ag_bg = volume_ag / volume_bg
+        self.volume = volume_ag + volume_bg
 
     def growthResources(self):
         """
@@ -150,8 +153,5 @@ class Saltmarsh(PlantModel):
         self.available_resources = min(self.ag_factor, self.bg_factor) * self.time
 
         self.grow = self.parameter["growth_factor"] * (self.available_resources - self.maint)
-        print('available_resources ' + str(self.available_resources))
-        print('grow ' + str(self.grow))
-        print('maint ' + str(self.maint))
         # Check if trees survive based on selected mortality concepts
         super().setTreeKiller()

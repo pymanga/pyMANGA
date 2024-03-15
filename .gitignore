@@ -112,6 +112,7 @@ venv.bak/
 *.csv
 *.prj
 *.pvd
+*.png
 
 # OGS source
 ResourceLib/BelowGround/Individual/OGS/bin

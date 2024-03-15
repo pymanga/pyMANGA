@@ -9,7 +9,7 @@
             <variant> forman </variant>
             <min_x>0</min_x>
             <max_x>20</max_x>
-            <salinity>MyModel/Input/Salinity_4_seasons.csv</salinity>
+            <salinity>MyModel/Input/Salinity_4_seasons_high.csv</salinity>
         </belowground>
     </resources>
     <population>
@@ -44,7 +44,7 @@
         <type> OnePlantOneFile </type>
         <output_time_range > [0, 3.2e+7] </output_time_range >
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>MyModel/Outputs/Test/4_seasons</output_dir>
+        <output_dir>MyModel/Outputs/Test/4_seasons_high</output_dir>
         <geometry_output> r_ag </geometry_output>
         <geometry_output> h_ag </geometry_output>
         <geometry_output> r_bg </geometry_output>

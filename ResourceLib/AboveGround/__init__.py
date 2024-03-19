@@ -6,3 +6,4 @@ Sub-library containing above-ground resource modules.
 
 from .Default import Default
 from .AsymmetricZOI import AsymmetricZOI
+from .SolarRadiation import SolarRadiation

@@ -11,7 +11,7 @@ class PlantGroup:
     def __init__(self, xml_args):
         """
         Args:
-            xml_args: plant group module specifications from project file tags
+            xml_args (lxml.etree._Element): group module specifications from project file tags
         """
         self.xml_args = xml_args # ToDo: unify name for tag variable
         self.plant_model = self.xml_args.find("vegetation_model_type").text

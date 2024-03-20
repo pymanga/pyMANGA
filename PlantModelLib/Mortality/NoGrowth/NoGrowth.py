@@ -10,7 +10,7 @@ class NoGrowth:
     def __init__(self, args, case):
         """
         Args:
-            args: module specification from project file tags. No required.
+            args (lxml.etree._Element): mortality module specifications from project file tags
             case: "NoGrowth" (module name)
         """
 

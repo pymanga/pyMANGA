@@ -14,7 +14,7 @@ class Dispersal:
     def __init__(self, xml_args):
         """
         Args:
-            xml_args: plant dispersal module specifications from project file tags
+            xml_args (lxml.etree._Element): distribution module specifications from project file tags
         """
         self.xml_args = xml_args
         distribution = self.xml_args.find("distribution")

@@ -10,7 +10,7 @@ class Default(ResourceModel):
     def __init__(self, args):
         """
         Args:
-            args: Default module specifications from project file tags
+            args (lxml.etree._Element): above-ground module specifications from project file tags
         """
         case = args.find("type").text
 

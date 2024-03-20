@@ -14,7 +14,7 @@ class OGSExternal(OGS):
         OpenGeoSys below-ground module adapted for external use.
         MRO: OGSExternal, OGS, TreeModel, object
         Args:
-            args:
+            args (lxml.etree._Element): below-ground module specifications from project file tags
         """
         super().__init__(args)
 

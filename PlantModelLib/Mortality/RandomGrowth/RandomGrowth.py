@@ -11,7 +11,7 @@ class RandomGrowth(Random):
     def __init__(self, args, case):
         """
         Args:
-            args: module specification from project file tags
+            args (lxml.etree._Element): mortality module specifications from project file tags
             case: "RandomGrowth" (module name)
         """
         super(Random, self).__init__(args, case)

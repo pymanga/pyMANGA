@@ -12,7 +12,7 @@ class Memory(NoGrowth):
     def __init__(self, args, case):
         """
         Args:
-            args: module specification from project file tags
+            args (lxml.etree._Element): mortality module specifications from project file tags
             case: "Memory" (module name)
         """
         super().__init__(args, case)

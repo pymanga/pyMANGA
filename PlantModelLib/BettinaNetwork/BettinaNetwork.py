@@ -14,7 +14,7 @@ class BettinaNetwork(Bettina):
         transfer through root grafts.
         MRO: BettinaNetwork, Bettina, TreeModel, object
         Args:
-            args: BettinaNetwork module specifications from project file tags
+            args (lxml.etree._Element): plant module specifications from project file tags
         """
         super().__init__(args=args)
         self.getInputParameters(args=args)

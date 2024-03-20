@@ -15,7 +15,7 @@ class NetworkOGS(Network, OGS):
         """
         MRO: NetworkOGS, Network, OGS, ResourceModel, object.
         Args:
-            args: NetworkOGS module specifications from project file tags
+            args (lxml.etree._Element): below-ground module specifications from project file tags
         """
         OGS.__init__(self, args)
         super().getInputParameters(args)

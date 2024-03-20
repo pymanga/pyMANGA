@@ -16,7 +16,7 @@ class NetworkOGSExternal(NetworkOGS, OGSExternal):
         # MRO: NetworkOGSExternal, NetworkOGS,
         # Network, OGSExternal, OGS, ResourceModel, object
         Args:
-            args: below-ground module specifications from project file tags
+            args (lxml.etree._Element): below-ground module specifications from project file tags
         """
         # Load init method from NetworkOGS, which includes init
         # method of OGS and reading of network import parameters

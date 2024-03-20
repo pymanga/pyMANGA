@@ -13,7 +13,7 @@ class NetworkFixedSalinity(Network, FixedSalinity):
         Blow-ground resource concept.
         MRO: NetworkFixedSalinity, Network, FixedSalinity, ResourceModel, object
         Args:
-            args: NetworkFixedSalinity module specifications from project file tags
+            args (lxml.etree._Element): below-ground module specifications from project file tags
         """
         case = args.find("type").text
         super().__init__(args)

@@ -8,7 +8,7 @@ class Mortality:
     def __init__(self, args):
         """
         Args:
-            args: mortality module(s) specification from project file tags
+            args (lxml.etree._Element): mortality module specifications from project file tags
         """
         self.mortality_concept = []
         self.survive = 1

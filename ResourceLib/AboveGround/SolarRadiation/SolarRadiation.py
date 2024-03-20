@@ -453,6 +453,8 @@ class SolarRadiation(ResourceModel):
             self._doy = 1
 
     def addPlant(self, plant):
+        # Count the number of plants in the system
+        # self.no_plants += 1
         pass
 <<<<<<< HEAD
 >>>>>>> 14136542 ([radiation] updated initialisation)

@@ -7,11 +7,10 @@ class NoGrowth:
     NoGrowth mortality module.
     This serves the constructor (super class) for other mortality modules.
     """
-    def __init__(self, args, case):
+    def __init__(self, args):
         """
         Args:
-            args: module specification from project file tags. No required.
-            case: "NoGrowth" (module name)
+            args (lxml.etree._Element): mortality module specifications from project file tags
         """
 
     def setSurvive(self, plant_module):

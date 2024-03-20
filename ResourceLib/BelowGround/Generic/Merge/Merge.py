@@ -3,11 +3,14 @@ from ResourceLib import ResourceModel
 
 
 class Merge(ResourceModel):
+    """
+    Merge below-ground resource concept.
+    """
     def __init__(self, args):
         """
         Below-ground resource concept.
         Args:
-            args: Merge module specifications from project file tags
+            args (lxml.etree._Element): below-ground module specifications from project file tags
         """
         case = args.find("type").text
 

@@ -4,6 +4,8 @@ sZOI returns a multiplier accounting for the effect of competition.
 *Note* If the effect of salinity on resource uptake should be considered use below-ground module `pyMANGA.ResourceLib.BelowGround.Generic.Merge.Merge`.
 
 The ZOI concept was originally developed by [Weiner et al. (2001)](https://doi.org/10.1086/321988).
+This implementation is similar to that of Peters 2017 (Bettina ODD).
+
 
 The ZOI module calculates the growth reduction factor based on the ZOI a plant has.
 It calculates how many grid cells are occupied by a plant minus the cells occupied by its neighbors.

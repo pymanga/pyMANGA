@@ -5,11 +5,13 @@ from ResourceLib import ResourceModel
 
 
 class FON(ResourceModel):
+    """
+    FON (Field of Neighborhood) below-ground resource concept.
+    """
     def __init__(self, args):
         """
-        Below-ground resource concept.
         Args:
-            args: FON module specifications from project file tags
+            args (lxml.etree._Element): below-ground module specifications from project file tags
         """
         case = args.find("type").text
         self.getInputParameters(args)

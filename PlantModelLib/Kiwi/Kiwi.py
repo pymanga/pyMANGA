@@ -14,7 +14,7 @@ class Kiwi(PlantModel):
     def __init__(self, args):
         """
         Args:
-            args: Bettina module specifications from project file tags
+            args (lxml.etree._Element): plant module specifications from project file tags
         """
         case = args.find("vegetation_model_type").text
         super().iniMortalityConcept(args)

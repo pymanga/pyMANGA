@@ -8,11 +8,10 @@ class Network(ResourceModel):
     """
     Network below-ground resource concept.
     """
-
     def __init__(self, args):
         """
         Args:
-            args (lxml.etree._Element): Network module specifications from project file tags
+            args (lxml.etree._Element): below-ground module specifications from project file tags
         """
         case = args.find("type").text
         self.getInputParameters(args=args)

@@ -8,13 +8,12 @@ class Random(NoGrowth):
     """
     Random mortality module.
     """
-    def __init__(self, args, case):
+    def __init__(self, args):
         """
         Args:
-            args: module specification from project file tags
-            case: "Random" (module name)
+            args (lxml.etree._Element): mortality module specifications from project file tags
         """
-        super().__init__(args, case)
+        super().__init__(args)
         # Read input parameters from xml file
         self.getInputParameters(args)
 

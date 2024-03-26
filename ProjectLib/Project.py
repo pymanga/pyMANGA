@@ -113,6 +113,8 @@ class MangaProject:
             from ResourceLib.AboveGround.Default import Default as createAC
         elif case == "AsymmetricZOI":
             from ResourceLib.AboveGround.AsymmetricZOI import AsymmetricZOI as createAC
+        elif case == "SolarRadiation":
+            from ResourceLib.AboveGround.SolarRadiation import SolarRadiation as createAC
         else:
             raise KeyError("Required above-ground competition not implemented.")
         self.aboveground_resource_concept = createAC(arg)

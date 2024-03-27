@@ -80,9 +80,12 @@ class Network(ResourceModel):
         self.network = plant.getNetwork()
 
         self.plants.append(plant)
-
         self._rgf_counter.append(self.network['rgf'])
-        self._partner_names.append(self.network['partner'])
+        try:
+            eval_partner = eval(self.network['partner'])
+        except TypeError:
+            eval_partner = self.network['partner']
+        self._partner_names.append(eval_partner)
         self._potential_partner.append(self.network['potential_partner'])
 
         self._variant.append(self.network['variant'])
@@ -524,26 +527,29 @@ class Network(ResourceModel):
                 self._rgf_counter[l1], self._rgf_counter[l2] = 1, 1
                 self._potential_partner[l1], self._potential_partner[l2] = \
                     self._plant_names[l2], self._plant_names[l1]
-                if "v2" in (self._variant[l1] and self._variant[l2]):
-                    # Set initial size of grafted root radius
-                    self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
-                    # Get min. radius of grafted roots
-                    r_gr_min = self.f_radius * min(self._r_stem[l1],
-                                                   self._r_stem[l2])
-                    self._r_gr_min[l1], self._r_gr_min[l2] = [r_gr_min], \
-                                                             [r_gr_min]
+                try:
+                    if "v2" in (self._variant[l1] and self._variant[l2]):
+                        # Set initial size of grafted root radius
+                        self._r_gr_rgf[l1], self._r_gr_rgf[l2] = 0.004, 0.004
+                        # Get min. radius of grafted roots
+                        r_gr_min = self.f_radius * min(self._r_stem[l1],
+                                                       self._r_stem[l2])
+                        self._r_gr_min[l1], self._r_gr_min[l2] = [r_gr_min], \
+                                                                 [r_gr_min]
 
-                    # Get length of grafted root section
-                    distance = self.getDistance(x1=self._xe[l1],
-                                                x2=self._xe[l2],
-                                                y1=self._ye[l1],
-                                                y2=self._ye[l2])
-                    root_sums = self._r_root[l1] + self._r_root[l2]
-                    l_gr = (distance + root_sums) / 2
-                    self._l_gr_rgf[l1], self._l_gr_rgf[l2] = self._r_root[l1] / \
-                                                             root_sums * l_gr, \
-                                                             self._r_root[l2] / \
-                                                             root_sums * l_gr,
+                        # Get length of grafted root section
+                        distance = self.getDistance(x1=self._xe[l1],
+                                                    x2=self._xe[l2],
+                                                    y1=self._ye[l1],
+                                                    y2=self._ye[l2])
+                        root_sums = self._r_root[l1] + self._r_root[l2]
+                        l_gr = (distance + root_sums) / 2
+                        self._l_gr_rgf[l1], self._l_gr_rgf[l2] = self._r_root[l1] / \
+                                                                 root_sums * l_gr, \
+                                                                 self._r_root[l2] / \
+                                                                 root_sums * l_gr
+                except TypeError:
+                    print("WARNING: No network variant assigned.")
 
     '''
     #####################################

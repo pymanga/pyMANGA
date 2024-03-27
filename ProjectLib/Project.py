@@ -56,6 +56,15 @@ class MangaProject:
             print("Random Seed: {}.".format(_seed))
 
     def importModule(self, module_name, modul_dir, prj_args):
+        """
+        Import modules defined in the project file
+        Args:
+            module_name (string): name of the module
+            modul_dir (string): path to the module
+            prj_args (lxml.etree._Element): module specifications from project file tags
+        Returns:
+            class
+        """
         # Path to class
         module_full_path = modul_dir + module_name
         # Try to import class and initialize it

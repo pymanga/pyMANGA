@@ -54,6 +54,20 @@ class MangaProject:
             np.random.seed(_seed)
             print("Random Seed: {}.".format(_seed))
 
+    def importModule(self, module_name, modul_dir, prj_args):
+        # Path to class
+        module_full_path = modul_dir + module_name
+        # Try to import class and initialize it
+        try:
+            module = importlib.import_module(module_full_path)
+            my_class = getattr(module, module_name)
+            my_instance = my_class(prj_args)
+        except ModuleNotFoundError:
+            print("ModuleNotFoundError: No module named '" + module_full_path + "'")
+            print("Make sure the module exists and spelling is correct.")
+            exit()
+        return my_instance
+
     def iniBelowgroundResourceConcept(self):
         """
         Initialize below-ground resource concept.

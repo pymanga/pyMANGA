@@ -35,17 +35,23 @@ class FromFile:
         """
         plant_attributes_file = self.getPlantsFromFile()
         # Get parameters that are required for the selected plant module
-        geometry_list = self.getGeometryList()
-        geometry = {}
+        geometry_list, network_list = self.getGeometryList()
+        geometry, network = {}, {}
         for geo in geometry_list:
             try:
                 geometry[geo] = plant_attributes_file[geo].flatten()
             except KeyError:
                 print("ERROR: geometry parameters in initial population do not match plant module.")
                 exit()
+        for net in network_list:
+            try:
+                network[net] = plant_attributes_file[net].flatten()
+            except KeyError:
+                print("ERROR: geometry parameters in initial population do not match plant module.")
+                exit()
         positions = {"x": plant_attributes_file["x"].flatten(),
                      "y": plant_attributes_file["y"].flatten()}
-        return positions, geometry
+        return positions, geometry, network
 
     def getGeometryList(self):
         """
@@ -55,16 +61,19 @@ class FromFile:
         """
         # ToDo: Liste mit notwendigen Parametern irgendwoher holen?
         plant_model = self.xml_args.find("vegetation_model_type").text
-
+        network_list = []
         if plant_model == "Default":
             # ToDo: Welche Geometrie soll für Default definiert werden? Anpassung Benchmarks&ini_pop.csv notwendig
             # geometry_list = ["r_ag", "h_ag", "r_bg", "h_bg"]
             geometry_list = ["r_stem", "h_stem", "r_crown", "r_root"]
-        elif plant_model in ["Bettina", "BettinaNetwork"]:
+        elif plant_model in ["Bettina"]:
             geometry_list = ["r_stem", "h_stem", "r_crown", "r_root"]
+        elif plant_model in ["BettinaNetwork"]:
+            geometry_list = ["r_stem", "h_stem", "r_crown", "r_root"]
+            network_list = ["partner"]
         elif plant_model == "Kiwi":
             geometry_list = ["r_stem"]
-        return geometry_list
+        return geometry_list, network_list
 
     def getPlantsFromFile(self):
         """
@@ -73,7 +82,10 @@ class FromFile:
             dict
         """
         # Loading the Population Data
-        plant_file = pd.read_csv(self.filename, delimiter=";|,|\t", engine='python')
+        try:
+            plant_file = pd.read_csv(self.filename, delimiter=";|,|\t", engine='python')
+        except pd.errors.ParserError:
+            plant_file = pd.read_csv(self.filename, delimiter=";", engine='python')
         headers = plant_file.head()
         plant_attributes = {}
         for header in headers:
@@ -82,13 +94,14 @@ class FromFile:
 
     def getPlantAttributes(self, initial_group):
         if initial_group:
-            positions, geometry = self.getInitialGroup()
+            positions, geometry, network = self.getInitialGroup()
         else:
             number_of_plants = self.n_recruitment_per_step
             positions = Random.getRandomPositions(self=self,
                                                   number_of_plants=number_of_plants)
             geometry = np.full(len(positions["x"]), False)
-        return positions, geometry
+            network = {}
+        return positions, geometry, network
 
 
 

@@ -5,12 +5,14 @@ import PopulationLib
 from TimeLoopLib import DynamicTimeLoop
 import numpy as np
 import datetime
+import importlib
 
 
 class MangaProject:
     """
     Store and manage all the information needed to run a MANGA model.
     """
+
     def argsToProject(self):
         """
         Initialize selected modules and pass arguments from project file.
@@ -33,17 +35,16 @@ class MangaProject:
             class
         """
         return self.belowground_resource_concept
-    
+
     def iniInitiation(self):
         """
         Initiate pyMANGA simulation.
         """
-        print("Running pyMANGA v3.1.0 - ", 
+        print("Running pyMANGA v3.1.0 - ",
               datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
               "\n==============================================",
               "\nSimulation Settings:",
               "\n--------------------")
-        
 
     def iniNumpyRandomSeed(self):
         """
@@ -76,35 +77,16 @@ class MangaProject:
         """
         arg = self.args["belowground_resource_concept"]
         case = arg.find("type").text
-        if case == "Default":
-            from ResourceLib.BelowGround.Individual.Default import Default as createBC
-        elif case == "OGS":
-            from ResourceLib.BelowGround.Individual.OGS import OGS as createBC
-        elif case == "OGSWithoutFeedback":
-            from ResourceLib.BelowGround.Individual.OGSWithoutFeedback import OGSWithoutFeedback as createBC
-        elif case == "FON":
-            from ResourceLib.BelowGround.Individual.FON import FON as createBC
-        elif case == "FixedSalinity":
-            from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity as createBC
-        elif case == "SymmetricZOI":
-            from ResourceLib.BelowGround.Individual.SymmetricZOI import \
-                SymmetricZOI as createBC
-        elif case == "Network":
-            from ResourceLib.BelowGround.Network.Network import Network as createBC
-        elif case == "NetworkFixedSalinity":
-            from ResourceLib.BelowGround.Network.NetworkFixedSalinity import NetworkFixedSalinity as createBC
-        elif case == "NetworkOGS":
-            from ResourceLib.BelowGround.Network import NetworkOGS as createBC
-        elif case == "OGSExternal":
-            from ResourceLib.BelowGround.Generic.OGSExternal import OGSExternal as createBC
-        elif case == "NetworkOGSExternal":
-            from ResourceLib.BelowGround.Generic import NetworkOGSExternal as createBC
-        elif case == "Merge":
-            from ResourceLib.BelowGround.Generic import Merge as createBC
+        if "network" in case.lower():
+            module_dir = 'ResourceLib.BelowGround.Network.'
+        elif "merge" in case.lower():
+            module_dir = 'ResourceLib.BelowGround.Generic.'
         else:
-            raise KeyError("Required below-ground competition case " + case +
-                           " not implemented.")
-        self.belowground_resource_concept = createBC(arg)
+            module_dir = 'ResourceLib.BelowGround.Individual.'
+
+        self.belowground_resource_concept = self.importModule(module_name=case,
+                                                              modul_dir=module_dir,
+                                                              prj_args=arg)
         print("Below-ground resources: {}.".format(case))
 
     def getAbovegroundResourceConcept(self):
@@ -123,15 +105,11 @@ class MangaProject:
         """
         arg = self.args["aboveground_resources_concept"]
         case = arg.find("type").text
-        if case == "Default":
-            from ResourceLib.AboveGround.Default import Default as createAC
-        elif case == "AsymmetricZOI":
-            from ResourceLib.AboveGround.AsymmetricZOI import AsymmetricZOI as createAC
-        elif case == "SolarRadiation":
-            from ResourceLib.AboveGround.SolarRadiation import SolarRadiation as createAC
-        else:
-            raise KeyError("Required above-ground competition not implemented.")
-        self.aboveground_resource_concept = createAC(arg)
+
+        module_dir = 'ResourceLib.AboveGround.'
+        self.aboveground_resource_concept = self.importModule(module_name=case,
+                                                              modul_dir=module_dir,
+                                                              prj_args=arg)
         print("Above-ground resources: {}.".format(case))
 
     def getPlantDynamicConcept(self):
@@ -201,25 +179,11 @@ class MangaProject:
         """
         arg = self.args["model_output"]
         case = arg.find("type").text
-        if case == "NONE":
-            from ModelOutputLib.NONE import NONE as createOut
-        elif case == "OneFile":
-            from ModelOutputLib.OneFile import OneFile as createOut
-        elif case == "OneFilePerGroup":
-            from ModelOutputLib.OneFilePerGroup import OneFilePerGroup as createOut
-        elif case == "OneTimestepOneFile":
-            from ModelOutputLib.OneTimestepOneFile import OneTimestepOneFile as createOut
-        elif case == "OnePlantOneFile":
-            from ModelOutputLib.OnePlantOneFile import OnePlantOneFile as createOut
-        elif case == "OneTimestepOneFilePerGroup":
-            from ModelOutputLib.OneTimestepOneFilePerGroup import OneTimestepOneFilePerGroup as createOut
-        else:
-            raise KeyError("Required model_output of type '" + case +
-                           "' not implemented!")
+        module_dir = 'ModelOutputLib.'
+        self.model_output_concept = self.importModule(module_name=case,
+                                                      modul_dir=module_dir,
+                                                      prj_args=arg)
         print("Model output: {}.".format(case))
-
-        ## Containing configuration on model_output
-        self.model_output_concept = createOut(arg)
 
     def getModelOutputConcept(self):
         """

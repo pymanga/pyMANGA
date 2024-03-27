@@ -49,7 +49,7 @@ class PlantGroup:
         Args:
             initial_group (bool): indicate whether this is model initialization (true) or a later time step (false)
         """
-        positions, geometry = self.dispersal.getPlantAttributes(initial_group=initial_group)
+        positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group)
         for i in range(0, len(positions["x"])):
             if isinstance(geometry, dict):
                 plant_geometry = {}
@@ -57,12 +57,19 @@ class PlantGroup:
                     plant_geometry[key] = value[i]
             else:
                 plant_geometry = geometry[i]
+            if isinstance(network, dict):
+                plant_network = {}
+                for key, value in network.items():
+                    plant_network[key] = value[i]
+            else:
+                plant_network = network[i]
             self.max_id += 1
             self.plants.append(
                 PLib.Plant(other=self,
                            x=positions["x"][i],
                            y=positions["y"][i],
-                           initial_geometry=plant_geometry))
+                           initial_geometry=plant_geometry,
+                           initial_network=plant_network))
 
     def getPlants(self):
         """

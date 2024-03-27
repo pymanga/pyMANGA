@@ -8,12 +8,13 @@ class PlantGroup:
     """
     Module defining structure of a group of plants.
     """
+
     def __init__(self, xml_args):
         """
         Args:
             xml_args (lxml.etree._Element): group module specifications from project file tags
         """
-        self.xml_args = xml_args # ToDo: unify name for tag variable
+        self.xml_args = xml_args  # ToDo: unify name for tag variable
         self.plant_model = self.xml_args.find("vegetation_model_type").text
         self.group_name = self.xml_args.find("name").text
         self.species = self.xml_args.find("species").text
@@ -29,18 +30,15 @@ class PlantGroup:
         """
         Initialize plant module selected in the project-file.
         """
+        # Class needs to be imported on demand to avoid circular import
+        from ProjectLib.Project import MangaProject
+
         case = self.xml_args.find("vegetation_model_type").text
-        if case == "Default":
-            from PlantModelLib.Default import Default as createGD
-        elif case == "Bettina":
-            from PlantModelLib.Bettina import Bettina as createGD
-        elif case == "Kiwi":
-            from PlantModelLib.Kiwi import Kiwi as createGD
-        elif case == "BettinaNetwork":
-            from PlantModelLib.BettinaNetwork import BettinaNetwork as createGD
-        else:
-            raise KeyError("Required plant dynamic concept not implemented.")
-        self.plant_dynamic_concept = createGD(self.xml_args)
+        module_dir = 'PlantModelLib.'
+        self.plant_dynamic_concept = MangaProject.importModule(self=self,
+                                                               module_name=case,
+                                                               modul_dir=module_dir,
+                                                               prj_args=self.xml_args)
         print("Plant dynamics: " + case + ".")
 
     def recruitPlants(self, initial_group=False):

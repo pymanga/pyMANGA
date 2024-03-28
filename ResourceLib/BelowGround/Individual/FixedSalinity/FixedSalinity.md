@@ -4,6 +4,9 @@ This module calculates the reduction in below-ground resource availability cause
 The calculation is based on the salinity at the model's left and right boundaries.
 There is no feedback between plant water uptake and pore water salinity, and no competition.
 
+This module can be used in simulations where salt is a limiting growth factor, e.g. mangrove forests or abandoned mines.
+Salinity can also be used as a proxy for drought stress. Salinity decreases soil water potential, similar to a decrease in water content.
+
 # Usage
 
 ```xml
@@ -15,9 +18,12 @@ There is no feedback between plant water uptake and pore water salinity, and no 
 </belowground>
 ```
 
+Go to [Examples](#examples) for more information
+
+
 # Attributes
 
-- ``type`` (string): "FixedSalinity"
+- ``type`` (string): "FixedSalinity" (no other values accepted)
 - ``min_x`` (float): x-coordinate of the left border (x = 0)
 - ``max_x`` (float): x-coordinate of the right border (x = max.)
 - ``salinity`` (float float or string): either two values representing the salinity (kg/kg) at ``min_x`` and ``max_x`` <strong>or</strong> the path to a csv file containing a time series of salinity (see description above and 
@@ -33,7 +39,9 @@ For salinity, this means typical seawater salinity of 35 ppt is given as 0.035 k
 
 # Value
 
-This factor describes the availability of below-ground resources for each plant (dimensionless). 
+A list of values with length = number of plant.
+
+Each value describes the availability of below-ground resources for a plant (dimensionless). 
 The factor ranges from 0 to 1, with 1 indicating no limitations and 0 indicating full limitations.
 
 # Details
@@ -47,14 +55,14 @@ The limitation is expressed as a factor varying between 0 and 1.
 ## Process overview
 
 Each time step, *calculateBelowgroundResources* calls the following sub-procedures:
--	*getPlantSalinity*: calculate salinity below each tree based on the chosen variant
+-	*getPlantSalinity*: calculate salinity below each plant based on the chosen variant
 -	*getBGfactor*: calculate below-ground factor
 
 ## Sub-processes
 ### getPlantSalinity
 
 Salinity within the model domain is defined by two values: salinity (``s_xmin``, ``s_xmax``) on the left (``x_min``) and right (``x_max``) border, respectively. 
-Based on those values and the x-position of trees (``x_i``), the salinity below a tree (``s_i``) is interpolated with
+Based on those values and the x-position of plants (``x_i``), the salinity below a plant (``s_i``) is interpolated with
 
 ```
 s_i = s_xmin + (x_i - x_min) * (s_xmax - s_xmin) / (x_max - x_min)
@@ -71,7 +79,7 @@ s_xm_t = a * sin(t / b + c) + s_xi
 where ``a`` and ``b`` define the vertical and horizontal stretch of the function, respectively, ``c`` the offset along the time axis, ``t`` the time and ``s_xi`` the salinity at the borders (i.e., ``s_xmin`` and ``s_xmax``). 
 More specifically, ``b`` specifies the length of a full period. 
 For  example , if one period equals one year (in seconds), b is equal to (365\*3600\*24)/2π. 
-Additionally, noise can be added by drawing ``s_i_t`` from a normal distribution with ``s_i_t`` (from eq. 15) as mean and a user-defined standard deviation.
+Additionally, noise can be added by drawing ``s_i_t`` from a normal distribution with ``s_i_t`` as mean and a user-defined standard deviation.
 If ``s_xm_t`` becomes negative, it is set to 0. 
 
 See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/FixedSalinity/sine.md" target="_blank">this example</a> for the effect of each parameter.       
@@ -84,7 +92,7 @@ There are two possible responses, introduced in the following.
 
 **bettina**
 
-If the response is based on the BETTINA approach (i.e., ``parameter["r_salinity"] = "bettina"``), the below-ground factor (``belowground_resources``) is the ratio of the tree water potential with (``psi_wSal``) and without (``psi_woSal``) the effect of salinity. 
+If the response is based on the BETTINA approach (i.e., ``parameter["r_salinity"] = "bettina"``), the below-ground factor (``belowground_resources``) is the ratio of the plant water potential with (``psi_wSal``) and without (``psi_woSal``) the effect of salinity. 
 This is calculated as follows:
 
 ```
@@ -108,6 +116,16 @@ belowground_resources = 1 / (1 + np.exp(e))
 
 ``salt_effect_d`` and ``salt_effect_ui`` are species-specific calibration factors.
 
+## Application & Restrictions
+
+**Application**
+
+- It is not useful to use this module with any `Network` module, e.g. `pyMANGA.PlantModelLib.BettinaNetwork`.
+- This module can be used with other resource module via `pyMANGA.ResourceLib.BelowGround.Generic.Merge` to combine resource limitation and competition
+
+**Restrictions**
+
+- There are no restrictions on input parameters. However, very high salinity values will result in immediate plant death.
 
 # References
 
@@ -125,6 +143,7 @@ Jasper Bathmann, Jonas Vollhüter, Marie-Christin Wimmler
 `pyMANGA.ResourceLib.BelowGround`, `pyMANGA.PlantModelLib.Bettina`, `pyMANGA.PopulationLib.Species.Avicennia`
 
 # Examples
+## Project file snippets
 
 - Define salinity of 35 ppt, homogenous in space and constant over time, on a model domain of 22 m
 
@@ -174,4 +193,23 @@ Jasper Bathmann, Jonas Vollhüter, Marie-Christin Wimmler
     <stretch>5019110</stretch>
     <noise>0.001</noise>
 </sine>
+```
+
+## Run this module
+
+Check out our <a target="_blank" href="https://github.com/pymanga/pyMANGA/tree/master/Benchmarks"> benchmark library</a>. There are several benchmarks that include ``FixedSalinity``.
+
+Run the module in combination with the Bettina plant growth module with the following code (from the pyMANGA root directory)
+
+```
+py .\MANGA.py -i .\Benchmarks\ModuleBenchmarks\PlantModules\Bettina\Belowground\FixedSalinity\FixedSalinity.
+xml
+```
+
+or in combination with the Kiwi plant growth module
+
+
+```
+py .\MANGA.py -i .\Benchmarks\ModuleBenchmarks\PlantModules\Kiwi\Belowground\FixedSalinity\FixedSalinity.
+xml
 ```

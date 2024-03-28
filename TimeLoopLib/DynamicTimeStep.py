@@ -68,6 +68,17 @@ class DynamicTimeStep:
                 self.belowground_resource_concept.calculateBelowgroundResources()
                 self.belowground_resources = (
                     self.belowground_resource_concept.getBelowgroundResources())
+
+        try:
+            # If an error is raised here, it is likely that plant or resource data are not of
+            # the right shape
+            if number_of_plants != (len(self.aboveground_resources) | len(self.belowground_resources)):
+                print("pyMANGA ERROR: Number of plants does not match resource factor.")
+                exit()
+        except TypeError:
+            print("pyMANGA ERROR: Number of plants does not match resource factor.")
+            exit()
+
         j = 0
         number_of_plants = 0
         eliminated_plant_groups = {}

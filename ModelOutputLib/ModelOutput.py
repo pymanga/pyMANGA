@@ -13,44 +13,96 @@ class ModelOutput:
         Get relevant tags from project file and create output directory and/or file.
         Check if output file exists and can be overwritten.
         Args:
-            args: module specifications from project file tags
+            args (lxml.etree._Element): module specifications from project file tags
         """
-        ## Directory, where output is saved. Please make sure it is empty
-        #  or set allow_previous_output to true
-        self.output_dir = self.checkRequiredKey("output_dir", args)
+        self.prj_args = args
+        self.createOutputDir()
+        self.setOutputTime()
+        self.setOutputVariables()
+
+        # Set initial parameters
+        self._output_counter = 0
+        self._output_counter2 = 0
+        self._it_is_output_time = True
+
         try:
-            self.delimiter = args.find("delimiter").text
+            self.delimiter = self.prj_args.find("delimiter").text
         except AttributeError:
             self.delimiter = "\t"
 
-        ## N-timesteps between two outputs
-        self.output_each_nth_timestep = args.find("output_each_nth_timestep")
-        if self.output_each_nth_timestep is not None:
-            self.output_each_nth_timestep = eval(self.output_each_nth_timestep.text)
-            if len(self.output_each_nth_timestep) == 1:
-                self.output_each_nth_timestep.append(1)
-            elif len(self.output_each_nth_timestep) > 2:
-                raise ValueError("The tag \'<output_each_nth_timestep>\' in the xml file"
-                                 " caused an error. Please check your input!")
-        else:
-            self.output_each_nth_timestep = None
-        ## Check if overwrite of previous output is allowed
-        allow_previous_output = args.find("allow_previous_output")
+    def createOutputDir(self):
+        """
+        Create a directory where the output will be saved.
+        If not specified in the project file, it must be empty.
+        """
+        self.output_dir = self.checkRequiredKey("output_dir")
+
+        # Check if overwriting previous output is allowed
+        allow_previous_output = self.prj_args.find("allow_previous_output")
         if allow_previous_output is not None:
             allow_previous_output = eval(allow_previous_output.text)
         else:
             allow_previous_output = False
-        ## Check if specific timesteps for output are defined
-        self.output_times = args.find("output_times")
-        if self.output_times is not None:
-            self.output_times = eval(self.output_times.text)
-        self.output_time_range = args.find("output_time_range")
-        if self.output_time_range is not None:
-            self.output_time_range = eval(self.output_time_range.text)
-            if len(self.output_time_range) != 2:
-                raise ValueError("The tag \'<output_time_range>\' in the xml file"
-                                 " caused an error. Please check your input!")
 
+        # If overwriting is not allowed, check if the directory is empty
+        if not allow_previous_output:
+            dir_files = 0
+            try:
+                dir_files = len(os.listdir(self.output_dir))
+            except FileNotFoundError:
+                pass
+
+            if dir_files > 0:
+                print("ERROR: Output directory '" + self.output_dir + "' is not empty.")
+                exit()
+
+        # Create directory, if it does not already exist
+        try:
+            os.mkdir(self.output_dir)
+        except FileExistsError:
+            pass
+        print("Output file path: " + os.path.join(os.getcwd(), self.output_dir))
+
+    def setOutputTime(self):
+        """
+        Set variables defining when output is written.
+        If nothing is defined in the project file, write output at every time step.
+        """
+        self.output_each_nth_timestep = self.prj_args.find("output_each_nth_timestep")
+        self.output_times = self.prj_args.find("output_times")
+        self.output_time_range = self.prj_args.find("output_time_range")
+
+        # If nothing is defined, write output every timestep
+        if all(v is None for v in [self.output_each_nth_timestep, self.output_times, self.output_time_range]):
+            self.output_each_nth_timestep = [1, 1]
+        else:
+            # Get output time steps for two periods (shape: [i, j])
+            if self.output_each_nth_timestep is not None:
+                self.output_each_nth_timestep = eval(self.output_each_nth_timestep.text)
+                # If only one value is provided, output is written in every timestep during the second period
+                if len(self.output_each_nth_timestep) == 1:
+                    self.output_each_nth_timestep.append(1)
+                elif len(self.output_each_nth_timestep) > 2:
+                    raise ValueError("The tag \'<output_each_nth_timestep>\' in the xml file"
+                                     " caused an error. Please check your input!")
+            else:
+                self.output_each_nth_timestep = None
+
+            # Check if specific time steps to write output are defined
+            if self.output_times is not None:
+                self.output_times = eval(self.output_times.text)
+
+            # Check if period to write output with different frequencies are defined
+            if self.output_time_range is not None:
+                self.output_time_range = eval(self.output_time_range.text)
+                if len(self.output_time_range) != 2:
+                    raise ValueError("The tag \'<output_time_range>\' in the xml file"
+                                     " caused an error. Please check your input!")
+
+    def setOutputVariables(self):
+        """
+        Set variables that are written to the output file
+        """
         ## Geometric measures included in output
         self.geometry_outputs = []
         ## Parameters included in output
@@ -59,33 +111,14 @@ class ModelOutput:
         self.growth_outputs = []
         ## Network information included in output
         self.network_outputs = []
-        ## Counter for output generation
-        self._output_counter = 0
-        self._output_counter2 = 0
-
-        for key in args.iterchildren("geometry_output"):
+        for key in self.prj_args.iterchildren("geometry_output"):
             self.geometry_outputs.append(key.text.strip())
-        for key in args.iterchildren("parameter_output"):
+        for key in self.prj_args.iterchildren("parameter_output"):
             self.parameter_outputs.append(key.text.strip())
-        for key in args.iterchildren("growth_output"):
+        for key in self.prj_args.iterchildren("growth_output"):
             self.growth_outputs.append(key.text.strip())
-        for key in args.iterchildren("network_output"):
+        for key in self.prj_args.iterchildren("network_output"):
             self.network_outputs.append(key.text.strip())
-        try:
-            dir_files = len(os.listdir(self.output_dir))
-        except FileNotFoundError:
-            print("No such directory: '" + self.output_dir +
-                  "' as defined in the project file." +
-                  " Creating directory...")
-            os.mkdir(self.output_dir)
-            dir_files = 0
-        if (dir_files > 0 and allow_previous_output == False):
-            raise ValueError("Output directory '" + self.output_dir +
-                             "' is not empty.")
-
-        self._it_is_output_time = True
-        print(
-            "Output file path: " + os.path.join(os.getcwd(), self.output_dir))
 
     def getOutputType(self):
         """
@@ -163,16 +196,15 @@ class ModelOutput:
             string = "NaN"
         return string
 
-    def checkRequiredKey(self, key, args):
+    def checkRequiredKey(self, key):
         """
         Check whether a key (i.e., required element) is specified in project file.
         Args:
             key (string): name of key to be checked
-            args (lxml.etree._Element): module specifications from project file tags
         Returns:
             string or raise KeyError
         """
-        tmp = args.find(key)
+        tmp = self.prj_args.find(key)
         if tmp is None:
             raise KeyError("Required key '" + key + "' in project file at " +
                            "position MangaProject_model_output is missing.")

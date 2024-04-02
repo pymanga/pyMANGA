@@ -1,6 +1,5 @@
 # Description
 
-The solar radiation above-ground resource concept.  
 This module calculates the reduction in above-ground resource availability caused by available net solar radiation. Calculations for net radiation are based on the FAO guidelines for computing crop water requirements [Allen et al. 1998](https://agris.fao.org/search/en/providers/122621/records/647231eb53aa8c896301eadc). Net solar radiation is the difference between incoming net solar radiation and the outgoing net longwave radiation and it depends on the latitude and temperature of a certain location. 
 
 The above-ground resource factor is the ratio of actual to maximum net radiation at a given time and location. Maximum net radiation is the maximum radiation for the given location.

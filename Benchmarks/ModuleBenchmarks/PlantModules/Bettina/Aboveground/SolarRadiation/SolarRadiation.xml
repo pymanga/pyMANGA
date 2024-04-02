@@ -3,7 +3,6 @@
     <resources>
         <aboveground>
             <type> SolarRadiation </type>
-            <day_of_year> 180 </day_of_year>
             <latitude> 0.65 </latitude>
             <tmin>24.33</tmin>
             <tmax>30.7</tmax>

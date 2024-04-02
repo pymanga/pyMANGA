@@ -25,7 +25,7 @@ Calculations are simplified by only needing yearly maximum and minimum temperatu
 # Attributes
 
 * `type` (string): "SolarRadiation"
-* `latitude` (float): Latitude of the location in radians.
+* `latitude` (float): Latitude of the location in radians ( = degrees * PI / 180).
 * `tmin` (float): Minimum temperature in degrees Celsius.
 * `tmax` (float): Maximum temperature in degrees Celsius.
 * `albedo` (float): (optional) Albedo of the surface. Default: 0.23.

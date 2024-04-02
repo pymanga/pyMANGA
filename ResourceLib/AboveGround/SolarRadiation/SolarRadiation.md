@@ -34,7 +34,7 @@ Calculations are simplified by only needing yearly maximum and minimum temperatu
 
 # Value
 
-This factor is used to calculate the above-ground resources for the simulation. It is a float value between 0 and 1.  
+This factor is used to calculate the above-ground resources for the simulation. It is a float value between 0 and 1, with 1 indicating no limitations and 0 indicating full limitations..  
 
 # Details 
 

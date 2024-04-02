@@ -57,7 +57,7 @@ class SolarRadiation(ResourceModel):
             ird = 1 + (0.033*np.cos((2*np.pi/365)*doy))
             # extraterrestrial radiation
             solarconstant = 0.0820  # MJ m-2 min-1
-            r_a_temp1 = ((24*60)/np.pi)
+            r_a_temp1 = (24*60)/np.pi
             r_a_temp2 = w_s * np.sin(self._latitude) * np.sin(d)
             r_a_temp3 = np.cos(self._latitude) * np.cos(d) * np.sin(w_s)
             r_a = r_a_temp1 * solarconstant * ird * (r_a_temp2 + r_a_temp3)

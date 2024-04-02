@@ -4,7 +4,7 @@ This module calculates the reduction in above-ground resource availability cause
 
 The above-ground resource factor is the ratio of actual to maximum net radiation at a given time and location. Maximum net radiation is the maximum radiation for the given location.
 
-Calculations are simplified by only needing yearly maximum and minimum temperature to reduce required user input. Results do not change significantly when using yearly temperatures compared to monthly temperatures. Each time step is then estimated from a sine curve that is fitted to the solar radiation data. By doing so, all calculations are done during the initialisation and do not require any further calculations during the simulation.  
+Calculations are simplified by fitting a sine function. The module only uses annual maximum and minimum temperatures, as the results do not change significantly when using annual temperatures compared to monthly temperatures.   
 
 # Usage 
 

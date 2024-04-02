@@ -44,7 +44,7 @@ This module calculates the amount of solar radiation that is available for the p
 
 ## Process overview
 
-When `SolarRadiation` is initialized, the solar radiation is calculated for the whole year. Then, at each time step, `calculateAbovegroundResources` is called and pulls the solar radiation for the respective day of the year and converts it into a factor usable by the `ResourceModel`.  
+When `SolarRadiation` is initialized, the solar radiation is calculated for one year. Then, at each time step, `calculateAbovegroundResources` is called and pulls the solar radiation for the respective day of the year and converts it into a factor usable by the `ResourceModel`.  
 
 ## Sub-processes
 

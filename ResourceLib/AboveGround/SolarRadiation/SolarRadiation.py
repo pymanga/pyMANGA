@@ -20,17 +20,6 @@ class SolarRadiation(ResourceModel):
         """
         case = args.find("type").text
         self.getInputParameters(args)
-        try:
-            self._albedo
-        except:
-            # defaul albedo assumes green vegetation (Allen et al, 1998)
-            self._albedo = 0.23
-        try:
-            self._altitude
-        except:
-            # default altitude assumes sea level
-            self._altitude = 0
-        self._doy = 1
         self.calculateNetRadiation()
 
     def calculateNetRadiation(self):
@@ -62,7 +51,8 @@ class SolarRadiation(ResourceModel):
             r_a_temp3 = np.cos(self._latitude) * np.cos(d) * np.sin(w_s)
             r_a = r_a_temp1 * solarconstant * ird * (r_a_temp2 + r_a_temp3)
             # incoming solar radiation
-            r_s = (0.7*r_a)-4  # assuming island #(0.25 + (0.5 * N))*R_a
+            b = 4  # empirical constant for location in proximity to the ocean where some clouds are usually present
+            r_s = (0.7*r_a)-b  # 0.7*r_a approximates nearly clear sky
             # net shortwave radiation
             r_ns = (1-self._albedo)*r_s
             # actual vapor pressure (substract 2 deg C from tmin in arid/semi arid areas)
@@ -70,7 +60,8 @@ class SolarRadiation(ResourceModel):
             # clear sky radiation
             r_so = (0.00002 * self._altitude + 0.75)*r_a
             # net longwave radiation
-            boltzmann = 0.000000004903 # Stefan Boltzmann constant [MJ K-4 m-2 day-1]
+            # Stefan Boltzmann constant [MJ K-4 m-2 day-1]
+            boltzmann = 0.000000004903
             r_nl = boltzmann*(((self._tmax)**4+(self._tmin)**4)/2) * \
                 (0.34-(0.14*np.sqrt(e_a)))*(1.35*(r_s/r_so)-0.35)
             # daily net radiation
@@ -88,31 +79,19 @@ class SolarRadiation(ResourceModel):
             np.arange(1, 366), *self.sinus_params)
         self.net_rad_max = max(self.net_rad_365)
 
-        # add noise
-        try:
-            # user input noise
-            self._noise
-            noise = np.random.normal(
-                scale=self._noise, size=self.net_rad_365.shape)
-            self.net_rad_365_noise = self.net_rad_365 + noise
-            self.net_rad_365_clipped = np.clip(
-                self.net_rad_365_noise, 0, self.net_rad_365)
-        # use standard deviation std as default
-        except:
-            # default noise
-            noise = np.random.normal(
-                scale=0.5*np.std(self.net_rad_365), size=self.net_rad_365.shape)
-            self.net_rad_365_noise = self.net_rad_365 + noise
-            # moving average is nearly constant for summer months (Barr et al 2014)
-            # add higher noise for summer months
-            noise2 = np.random.normal(
-                scale=5*np.std(self.net_rad_365[104:250]), size=self.net_rad_365[104:250].shape)
-            self.net_rad_365_noise[104:250] -= + noise2
-            # clip noise
-            # noise can only add "negative noise" as net radiation is calculated from a theoretical clear sky maximum
-            # net radiation can not be negative so we clip the noise at 0
-            self.net_rad_365_clipped = np.clip(
-                self.net_rad_365_noise, 0, self.net_rad_365)
+        # noise
+        # noise is drawn from a normal distribution and multiplied with a 
+        # percentage of the solar radiation value to fit to empirical results.
+        # moving average is nearly constant for summer months (Barr et al 2014)
+        percentage = self._noise_strength
+        noise = np.random.normal(
+            loc=0, scale=1, size=self.net_rad_365.shape) * percentage * self.net_rad_365
+        self.net_rad_365_noise = self.net_rad_365 + noise
+        # clip noise
+        # noise can only add "negative noise" as net radiation is calculated from a theoretical clear sky maximum
+        # net radiation is assumed to be positive so we clip the noise at 0
+        self.net_rad_365_clipped = np.clip(
+            self.net_rad_365_noise, 0, self.net_rad_365)
 
         # final net radiation
         self.net_rad_year = self.net_rad_365_clipped
@@ -127,7 +106,7 @@ class SolarRadiation(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "latitude", "tmin", "tmax"],
-            "optional": ["albedo", "altitude", "noise"]
+            "optional": ["albedo", "altitude", "noise_strength"]
         }
         super().getInputParameters(**tags)
         if -np.pi/2 <= self.latitude <= np.pi/2:
@@ -138,18 +117,25 @@ class SolarRadiation(ResourceModel):
             self._latitude = np.deg2rad(self.latitude)
         self._tmin = self.tmin
         self._tmax = self.tmax
-        try:
+        self._doy = 1
+        if hasattr(self, "albedo"):
             self._albedo = self.albedo
-        except:
-            pass
-        try:
+        else:
+            # defaul albedo assumes green vegetation (Allen et al, 1998)
+            self._albedo = 0.23
+            print("> Default albedo: 0.23.")
+        if hasattr(self, "altitude"):
             self._altitude = self.altitude
-        except:
-            pass
-        try:
-            self._noise = self.noise
-        except:
-            pass
+        else:
+            # default altitude assumes sea level
+            self._altitude = 0
+            print("> Default altitude: 0.")
+        if hasattr(self, "noise_strength"):
+            self._noise_strength = self.noise_strength
+        else:
+            # default noise strength
+            self._noise_strength = 0.35
+            print("> Default noise strength: 0.35.")
 
     def calculateAbovegroundResources(self):
         """ 

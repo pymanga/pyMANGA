@@ -30,6 +30,9 @@ class SolarRadiation(ResourceModel):
         Normal distribution mean is either taken from user input or based on the standard deviation of the net radiation estimate.
         Default noise takes into account a more stable moving average for summer months based on Barr et al. 2014.
         Final net radiation is clipped at 0 to avoid negative net radiation and at the clear sky maximum net radiation.
+        
+        For additional equation formulation, see Allen et al. 
+        ([1998](https://www.fao.org/3/X0490E/x0490e00.html)), Chapter 3: Meteorological data - Radiation.  
         """
         # calculate monthly radiation
         self.monthly_net_rad = []

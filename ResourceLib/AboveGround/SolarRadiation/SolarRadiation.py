@@ -82,23 +82,6 @@ class SolarRadiation(ResourceModel):
             np.arange(1, 366), *self.sinus_params)
         self.net_rad_max = max(self.net_rad_365)
 
-        # noise
-        # noise is drawn from a normal distribution and multiplied with a 
-        # percentage of the solar radiation value to fit to empirical results.
-        # moving average is nearly constant for summer months (Barr et al 2014)
-        percentage = self._noise_strength
-        noise = np.random.normal(
-            loc=0, scale=1, size=self.net_rad_365.shape) * percentage * self.net_rad_365
-        self.net_rad_365_noise = self.net_rad_365 + noise
-        # clip noise
-        # noise can only add "negative noise" as net radiation is calculated from a theoretical clear sky maximum
-        # net radiation is assumed to be positive so we clip the noise at 0
-        self.net_rad_365_clipped = np.clip(
-            self.net_rad_365_noise, 0, self.net_rad_365)
-
-        # final net radiation
-        self.net_rad_year = self.net_rad_365_clipped
-
     def sineFunction(self, t, amplitude, frequency, phase_shift, vertical_shift):
         """
         Basic sine function skeleton to fit to the monthly net radiation.
@@ -114,10 +97,10 @@ class SolarRadiation(ResourceModel):
         super().getInputParameters(**tags)
         if -np.pi/2 <= self.latitude <= np.pi/2:
             self._latitude = self.latitude
-            print(
-                "If latitude input ranges from -pi/2 to pi/2 pyMANGA assumes radians.")
         else:
-            self._latitude = np.deg2rad(self.latitude)
+            self._latitude = np.round(np.deg2rad(self.latitude),2)
+            print("> Latitude converted to radians: " +
+                  str(self._latitude) + ".")
         self._tmin = self.tmin
         self._tmax = self.tmax
         self._doy = 1
@@ -137,8 +120,8 @@ class SolarRadiation(ResourceModel):
             self._noise_strength = self.noise_strength
         else:
             # default noise strength
-            self._noise_strength = 0.35
-            print("> Default noise strength: 0.35.")
+            self._noise_strength = 0.2
+            print("> Default noise strength: 0.2.")
 
     def calculateAbovegroundResources(self):
         """ 
@@ -146,20 +129,36 @@ class SolarRadiation(ResourceModel):
         to make it accessible for the resource model.
         """
         # pull radiation for current day
-        self.net_rad = self.net_rad_year[self._doy-1]
+        self.net_rad_raw = self.net_rad_365[self._doy-1]
+
+        # noise
+        # noise is drawn from a normal distribution with net solar radiation being the mean 
+        # standard deviation (`scale`) is given by a percentage of the solar radiation
+        # this is done to approximate a moving average that is nearly constant for summer months (Barr et al 2014).
+        percentage = self._noise_strength
+        self.net_rad_noise = np.random.normal(
+            loc=self.net_rad_raw, scale=percentage*self.net_rad_raw, size=1)
+        # clip noise
+        # noise can only add "negative noise" as net radiation is calculated from a theoretical clear sky maximum
+        # net radiation is assumed to be positive so we clip the noise at 0
+        self.net_rad_clipped = np.clip(
+            self.net_rad_noise, 0, self.net_rad_raw)
+
+        # final net radiation
+        self.net_rad = self.net_rad_clipped
 
         # scale net radiation between 0 and 1
         self.net_rad_scale = self.net_rad / self.net_rad_max
-        self.aboveground_resources = self.net_rad_scale
+        self.aboveground_resources = np.full(
+            self.no_plants, self.net_rad_scale)
 
     def prepareNextTimeStep(self, t_ini, t_end):
         self.radiation = []
         self.t_ini = t_ini
         self.t_end = t_end
-        if self._doy < 365:
-            self._doy += 1
-        else:
-            self._doy = 1
+        self._doy = int(np.round(t_ini/86400)) % 365
+        if self._doy == 0:
+            self._doy = 365
         self.no_plants = 0
 
     def addPlant(self, plant):

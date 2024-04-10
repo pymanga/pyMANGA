@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 def createPlant():
     geometry = {}
     parameter = {}
@@ -9,12 +8,11 @@ def createPlant():
     geometry["h_ag"] = 0.01
     geometry["r_bg"] = 0.005
     geometry["h_bg"] = 0.01
-    parameter["maint_factor"] = 50
+    parameter["maint_factor"] = 0.00002
     parameter["growth_factor"] = 0.0000002
     parameter['w_b_a'] = 0.7
     parameter['w_ag'] = 0.2
-    parameter['w_bg'] = 0.3
-    parameter["max_h"] = 1.5
+    parameter['w_bg'] = 0.6
     parameter["r_salinity"] = "forman"
     # resource module FON
     parameter["aa"] = 10

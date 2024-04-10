@@ -12,7 +12,6 @@ class Saltmarsh(PlantModel):
             args: Saltmarsh module specifications from project file tags
         """
         super().iniMortalityConcept(args)
-        self.sickly = False
 
     def prepareNextTimeStep(self, t_ini, t_end):
         """
@@ -145,7 +144,8 @@ class Saltmarsh(PlantModel):
         self.volume = volume_ag + volume_bg
 
     def growthResources(self):
-        """
+        """git s
+
         calculates the resources available for growth and the growth factor.
         Sets:
             floats

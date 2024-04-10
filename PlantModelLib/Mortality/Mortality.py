@@ -33,6 +33,8 @@ class Mortality:
                 self.iniRandomGrowth(args, case)
             elif case == "Memory":
                 self.iniMemory(args, case)
+            elif case == "Threshold":
+                self.iniThreshold(args, case)
             else:
                 raise KeyError("Required mortality not implemented. "
                                "Available concepts: `NoGrowth`, `Random`, "
@@ -78,6 +80,16 @@ class Mortality:
         """
         from .Memory import Memory
         self.mortality_concept.append(Memory(args, case))
+
+    def iniThreshold(self, args, case):
+        """
+        Initialize mortality module "Memory".
+        Args:
+            args: Threshold module(s) specification from project file tags
+            case: "Threshold" (name of the module)
+        """
+        from .Threshold import Threshold
+        self.mortality_concept.append(Threshold(args, case))
 
     def getMortConcept(self):
         """

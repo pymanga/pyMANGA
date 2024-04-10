@@ -20,6 +20,9 @@
                     <AsymmetricZOI>
                         <test> AsymmetricZOI_CI.xml </test>
                     </AsymmetricZOI>
+                    <SolarRadiation>
+                        <test> SolarRadiation_CI.xml </test>
+                    </SolarRadiation>
                 </Aboveground>
                 <Belowground>
                     <FixedSalinity>

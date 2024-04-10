@@ -92,7 +92,7 @@ class SolarRadiation(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "latitude", "tmin", "tmax"],
-            "optional": ["albedo", "altitude", "noise_strength"]
+            "optional": ["albedo", "altitude", "noise"]
         }
         super().getInputParameters(**tags)
         if -np.pi/2 <= self.latitude <= np.pi/2:
@@ -116,12 +116,12 @@ class SolarRadiation(ResourceModel):
             # default altitude assumes sea level
             self._altitude = 0
             print("> Default altitude: 0.")
-        if hasattr(self, "noise_strength"):
-            self._noise_strength = self.noise_strength
+        if hasattr(self, "noise"):
+            self._noise = self.noise
         else:
-            # default noise strength
-            self._noise_strength = 0.2
-            print("> Default noise strength: 0.2.")
+            # default noise
+            self._noise = 0
+            print("> Default noise: 0")
 
     def calculateAbovegroundResources(self):
         """ 
@@ -133,9 +133,9 @@ class SolarRadiation(ResourceModel):
 
         # noise
         # noise is drawn from a normal distribution with net solar radiation being the mean 
-        # standard deviation (`scale`) is given by a percentage of the solar radiation
+        # standard deviation (`scale`) is given by a percentage (`noise`) of the solar radiation
         # this is done to approximate a moving average that is nearly constant for summer months (Barr et al 2014).
-        percentage = self._noise_strength
+        percentage = self._noise
         self.net_rad_noise = np.random.normal(
             loc=self.net_rad_raw, scale=percentage*self.net_rad_raw, size=1)
         # clip noise

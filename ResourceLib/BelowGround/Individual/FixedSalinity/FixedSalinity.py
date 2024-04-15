@@ -99,11 +99,12 @@ class FixedSalinity(ResourceModel):
         Calculate salinity of the current time step using a sine function.
         Set salinity at the current time step at the left and right model boundary.
         """
-        left = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset) + self.left_bc
+        s0 = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset)
+        left = s0 + self.left_bc
         self._salinity[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
         self._salinity[0] = self._salinity[0] if self._salinity[0] > 0 else 0
 
-        right = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset) + self.right_bc
+        right = s0 + self.right_bc
         self._salinity[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
         self._salinity[1] = self._salinity[1] if self._salinity[1] > 0 else 0
 

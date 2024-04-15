@@ -30,7 +30,8 @@ class Plant:
         self.plant_model = other.plant_model
 
         # Retrieve geometry and plant parameters from species files
-        species_file_exists = os.path.isfile(os.path.join("PopulationLib", "Species", self.species, self.species + ".py"))
+        poplib_path = os.path.dirname(os.path.realpath(__file__))
+        species_file_exists = os.path.isfile(os.path.join(poplib_path, "Species", self.species, self.species + ".py"))
         if species_file_exists:
             module_name = 'PopulationLib.Species.' + self.species
             module = importlib.import_module(module_name)

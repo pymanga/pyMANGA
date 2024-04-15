@@ -6,8 +6,7 @@ name: documentation
 on:
   push:
     branches:
-      - master
-      - pdoc
+      - new_doc_structure
 
 # security: restrict permissions for CI jobs.
 permissions:

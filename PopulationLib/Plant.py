@@ -10,13 +10,15 @@ class Plant:
     Module defining structure of a plant.
     """
     def __init__(self, other, x, y,
-                 initial_geometry=False):
+                 initial_geometry=False,
+                 initial_network=False):
         """
         Args:
             other: instance of class PlantGroup
             x (numeric): x-position of plant
             y (numeric): y-position of plant
             initial_geometry (dict): geometry of the plant
+            initial_network (dict): network variables of the plant
         """
         self.x = x
         self.y = y
@@ -50,11 +52,14 @@ class Plant:
             raise KeyError("Species " + self.species + " unknown!")
         if initial_geometry:
             self.geometry.update(initial_geometry)
+
         self.growth_concept_information = {}
 
         ## This initialization is only required if networks (root grafts) are
         # simulated
         self.iniNetwork()
+        if initial_network:
+            self.network.update(initial_network)
 
     def getPosition(self):
         """

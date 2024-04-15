@@ -41,8 +41,8 @@ class Dispersal:
         Returns:
             dict, np.array
         """
-        positions, geometry = self.dispersal.getPlantAttributes(initial_group=initial_group)
-        return positions, geometry
+        positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group)
+        return positions, geometry, network
 
     def getInputParameters(self, **tags):
         """

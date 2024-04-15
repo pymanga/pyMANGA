@@ -1,11 +1,13 @@
 import numpy as np
 from ResourceLib import ResourceModel
+from ProjectLib.Project import MangaProject
 
 
 class Merge(ResourceModel):
     """
     Merge below-ground resource concept.
     """
+
     def __init__(self, args):
         """
         Below-ground resource concept.
@@ -20,32 +22,20 @@ class Merge(ResourceModel):
             print("Error: No module specifications found.")
 
         self.bg_concepts = []
+        # Get names of individual modules
         modules = modules.split()
+        # Iterate through module list
         for module in modules:
-            if module == "FixedSalinity":
-                from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity
-                self.bg_concepts.append(FixedSalinity(args))
-            elif module == "FON":
-                from ResourceLib.BelowGround.Individual.FON import FON
-                self.bg_concepts.append(FON(args))
-            elif module == "OGS":
-                from ResourceLib.BelowGround.Individual.OGS import OGS
-                self.bg_concepts.append(OGS(args))
-            elif module == "FON":
-                from ResourceLib.BelowGround.Individual.OGSWithoutFeedback import OGSWithoutFeedback
-                self.bg_concepts.append(OGSWithoutFeedback(args))
-            elif module == "SymmetricZOI":
-                from ResourceLib.BelowGround.Individual.SymmetricZOI import SymmetricZOI
-                self.bg_concepts.append(SymmetricZOI(args))
-            elif module == "Network":
-                from ResourceLib.BelowGround.Network.Network import Network
-                self.bg_concepts.append(Network(args))
-            elif module == "NetworkFixedSalinity":
-                from ResourceLib.BelowGround.Network.NetworkFixedSalinity import NetworkFixedSalinity
-                self.bg_concepts.append(NetworkFixedSalinity(args))
-            elif module == "NetworkOGS":
-                from ResourceLib.BelowGround.Network.NetworkOGS import NetworkOGS
-                self.bg_concepts.append(NetworkOGS(args))
+            # Find belowground resource subfolde
+            if "network" in module.lower():
+                module_dir = 'ResourceLib.BelowGround.Network.'
+            else:
+                module_dir = 'ResourceLib.BelowGround.Individual.'
+            my_instance = MangaProject.importModule(self=self,
+                                                    module_name=module,
+                                                    modul_dir=module_dir,
+                                                    prj_args=args)
+            self.bg_concepts.append(my_instance)
 
     def prepareNextTimeStep(self, t_ini, t_end):
         for bg_concept in self.bg_concepts:
@@ -70,4 +60,3 @@ class Merge(ResourceModel):
         bg = list(map(np.prod, bg))
 
         self.belowground_resources = bg
-

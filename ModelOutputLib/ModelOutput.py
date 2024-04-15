@@ -229,8 +229,11 @@ class ModelOutput:
             if int(self.output_each_nth_timestep[0]) == 1:
                 self.cond1 = True
             else:
-                self._output_counter = (self._output_counter %
-                                        int(self.output_each_nth_timestep[0]))
+                try:
+                    self._output_counter = (self._output_counter %
+                                            int(self.output_each_nth_timestep[0]))
+                except ZeroDivisionError:
+                    self._output_counter = 0
                 self.cond1 = (self._output_counter == 1)
         # Condition whether we are in a certain output time
         if self.output_times is not None:

@@ -38,7 +38,7 @@ class MangaProject:
         """
         Initiate pyMANGA simulation.
         """
-        print("Running pyMANGA v2.0.0 - ", 
+        print("Running pyMANGA v3.1.0 - ", 
               datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
               "\n==============================================",
               "\nSimulation Settings:",

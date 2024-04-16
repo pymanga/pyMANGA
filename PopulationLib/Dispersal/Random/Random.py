@@ -32,7 +32,8 @@ class Random:
             number_of_plants = self.n_recruitment_per_step
         positions = self.getRandomPositions(number_of_plants=number_of_plants)
         geometry = np.full(len(positions["x"]), False)
-        return positions, geometry
+        network = {}
+        return positions, geometry, network
 
     def getRandomPositions(self, number_of_plants):
         """

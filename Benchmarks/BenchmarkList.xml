@@ -121,5 +121,13 @@
                 <test> OneTimestepOneFilePerGroup_CI.xml </test>
             </OneTimestepOneFilePerGroup>
         </OutputModules>
+        <Population>
+            <Random>
+                <test> Random_CI.xml </test>
+            </Random>
+            <FromFile>
+                <test> FromFile_CI.xml </test>
+            </FromFile>
+        </Population>
     </ModuleBenchmarks>
 </Benchmarks>

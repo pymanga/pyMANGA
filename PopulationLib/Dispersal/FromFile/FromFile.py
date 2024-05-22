@@ -73,6 +73,8 @@ class FromFile:
             network_list = ["partner"]
         elif plant_model == "Kiwi":
             geometry_list = ["r_stem"]
+        elif plant_model in ['Saltmarsh']:
+            geometry_list = ["h_ag", "h_bg", "r_ag", "r_bg"]
         return geometry_list, network_list
 
     def getPlantsFromFile(self):

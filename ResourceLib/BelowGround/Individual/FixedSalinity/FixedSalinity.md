@@ -1,6 +1,7 @@
 # Description
 
 This module calculates the reduction in below-ground resource availability caused by pore water salinity beneath a plant.
+The area beneath a plant depends on the abstraction of the plant geometry in chosen plant growth model.
 The calculation is based on the salinity at the model's left and right boundaries.
 There is no feedback between plant water uptake and pore water salinity, and no competition.
 

@@ -9,13 +9,14 @@
             <min_x>0</min_x>
             <max_x>22</max_x>
             <salinity>0.025 0.035</salinity>
+            <variant>forman</variant>
         </belowground>
     </resources>
     <population>
         <group>
-            <name> Bettina </name>
-            <species> Avicennia </species>
-            <vegetation_model_type> Bettina </vegetation_model_type>
+            <name> Initial </name>
+            <species> AvicenniaKiwi </species>
+            <vegetation_model_type> Jabowa </vegetation_model_type>
             <mortality>NoGrowth</mortality>
             <distribution>
                 <type> FromFile </type>
@@ -26,24 +27,7 @@
                     <y_2> 22 </y_2>
                 </domain>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/TwoPlantModules/Bettina.csv </filename>
-            </distribution>
-        </group>
-        <group>
-            <name> Jabowa </name>
-            <species> AvicenniaKiwi </species>
-            <vegetation_model_type> Jabowa </vegetation_model_type>
-            <mortality>Random</mortality>
-            <distribution>
-                <type> FromFile </type>
-                <domain>
-                    <x_1> 0 </x_1>
-                    <y_1> 0 </y_1>
-                    <x_2> 22 </x_2>
-                    <y_2> 22 </y_2>
-                </domain>
-                <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/TwoPlantModules/Jabowa.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Jabowa/initial_population.csv </filename>
             </distribution>
         </group>
     </population>
@@ -57,16 +41,14 @@
         <type> NONE </type>
     </visualization>
     <output>
-        <type> OneTimestepOneFile </type>
-        <output_times> [2e6] </output_times>
+         <type> OneTimestepOneFile </type>
+		<output_times> [2e6] </output_times>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/TestOutputs</output_dir>
+        <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>
-        <geometry_output> h_stem </geometry_output>
-        <geometry_output> r_crown </geometry_output>
-        <geometry_output> r_root </geometry_output>
+        <geometry_output> height </geometry_output>
         <growth_output> growth </growth_output>
-        <growth_output> ag_resources </growth_output>
-        <growth_output> bg_resources </growth_output>
+        <growth_output> ag_factor </growth_output>
+        <growth_output> bg_factor </growth_output>
     </output>
 </MangaProject>

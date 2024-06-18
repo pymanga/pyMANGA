@@ -71,7 +71,7 @@ class FromFile:
         elif plant_model in ["BettinaNetwork"]:
             geometry_list = ["r_stem", "h_stem", "r_crown", "r_root"]
             network_list = ["partner"]
-        elif plant_model == "Kiwi":
+        elif plant_model == "Jabowa":
             geometry_list = ["r_stem"]
         return geometry_list, network_list
 

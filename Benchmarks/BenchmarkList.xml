@@ -59,7 +59,7 @@
                     <test> Default_CI.xml </test>
                 </Default>
             </Bettina>
-            <Kiwi>
+            <Jabowa>
                 <Aboveground>
                     <AsymmetricZOI>
                         <test> AsymmetricZOI_CI.xml </test>
@@ -99,7 +99,7 @@
                 <Default>
                     <test> Default_CI.xml </test>
                 </Default>
-            </Kiwi>
+            </Jabowa>
         </PlantModules>
         <OutputModules>
             <OneFile>

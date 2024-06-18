@@ -30,9 +30,9 @@
             </distribution>
         </group>
         <group>
-            <name> Kiwi </name>
+            <name> Jabowa </name>
             <species> Avicennia </species>
-            <vegetation_model_type> Kiwi </vegetation_model_type>
+            <vegetation_model_type> Jabowa </vegetation_model_type>
             <mortality>Random</mortality>
             <distribution>
                 <type> FromFile </type>
@@ -43,7 +43,7 @@
                     <y_2> 22 </y_2>
                 </domain>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/TwoPlantModules/Kiwi.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/TwoPlantModules/Jabowa.csv </filename>
             </distribution>
         </group>
     </population>

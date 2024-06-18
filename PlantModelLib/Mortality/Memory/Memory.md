@@ -4,8 +4,9 @@ This module determines whether a plant is dying or not based on the individual p
 This means that the probability of a plant dying increases as the growth rate decreases and the age of the plant increases.
 However, a sudden decrease in growth, e.g. due to resource limitation, does not necessarily lead to the death of the plant.
 
-In this concept, a plant does not die for mechanistic reasons. 
-No stochasticity involved in this module.
+In this concept, plant mortality is intrinsic and is dependent on plant growth.
+This mortality concept includes stochasticity.
+
 It is useful to combine ``Memory`` with ``NoGrowth`` or ``Random``.
 
 

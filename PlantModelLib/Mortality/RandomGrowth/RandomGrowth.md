@@ -6,7 +6,9 @@ This means, the probability that a plant dies increases with growth reduction an
 The module requires a species-specific calibration parameter (`k_die`).
 An analysis of the effect of this parameter on individual plant mortality can be found in <a href="https://github.com/pymanga/sensitivity/blob/main/PlantModels/Mortality/RandomGrowth/RandomGrowth.md" target="_blank">pyMANGA's sensitivity repository</a>.
 
-In this concept, a plant does not die for mechanistic reasons. 
+In this concept, plant mortality is intrinsic and is dependent on plant growth.
+This mortality concept includes stochasticity.
+
 It is useful to combine ``RandomGrowth`` with ``NoGrowth`` or ``Memory``.
 
 

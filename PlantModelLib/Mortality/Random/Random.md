@@ -3,7 +3,9 @@
 This module determines whether a plant is dying or not based on the annual mortality probability. 
 Values for the mangrove species *Avicennia germinans* and *Rhizophora mangle* can be found e.g. in <a href="https://doi.org/https://doi.org/10.1016/S0304-3800(00)00298-2" target="_blank">Berger & Hildenbrandt (2000)</a>.
 
-In this concept, a plant does not die for mechanistic reasons. 
+In this concept, plant mortality is extrinsic, i.e., a result of external factors and not dependent on the plant. 
+This mortality concept is purely stochastic.
+
 It is useful to combine ``Random`` with ``NoGrowth`` or ``Memory``.
 
 

@@ -3,6 +3,7 @@
 This module determines whether a plant is dying or not.
 Plants die if growth is equal or below zero, i.e., the plant doesn't grow in a timestep.
 
+In this concept, plant mortality is intrinsic and is dependent on plant growth.
 This mortality concept represents mechanistic causes, e.g., a resource deficit, and did not include any stochasticity.
 
 

@@ -4,7 +4,7 @@
 ![Docstring-Coverage Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fpymanga%2F3ed540b4cee708db3a80270e13126074%2Fraw%2Fdoccov.json)
 
 
-PYthon Models for AGeNt-based resource GAthering
+**PY**thon **M**odels for **A**ge**N**t-based resource **GA**thering
 
 # Homepage
 

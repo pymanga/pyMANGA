@@ -29,11 +29,15 @@ Go to [Examples](#examples) for more information
 - ``max_x`` (float): x-coordinate of the right border (x = max.)
 - ``salinity`` (float float or string): either two values representing the salinity (kg/kg) at ``min_x`` and ``max_x`` <strong>or</strong> the path to a csv file containing a time series of salinity (see description above and 
         example below)
-- ``sine`` (nesting-tag): (optional) calculate salinity for each time step based on a sine function. See notes for details.
+- ``sine`` (nesting-tag): (optional) calculate salinity for each time step based on a sine function. See 'Details' for more information.
   - ``amplitude`` (float): (optional) amplitude of the sine function. Default: 0
   - ``stretch`` (float): (optional) stretch of the sine function, i.e., length of a full period. Default: 24\*3600\*58 (approx. 1 year)
   - ``offset`` (float): (optional) offset of the sine function (along the time axis). Default: 0
   - ``noise`` (float): (optional) standard deviation to pick salinity value from sine function. Default: 0
+- ``distribution`` (nesting-tag): (optional) draw salinity below each plant and for each time step from a distribution. See 'Details' for more information.
+  - ``type`` (string): (optional) string indicating the distribution, i.e., 'normal', 'poission', 'uniform'
+  - ``deviation`` (float): (optional) deviation if normal distribution is selected, given as relative value between 0 and 1 (e.g., a deviation of 5 % is given as 0.05). Default is 0.05.
+- 
 
 *Note*: all values are given in SI units, but can be provided using equations (see examples).
 For salinity, this means typical seawater salinity of 35 ppt is given as 0.035 kg/kg or 35\*10\**-3 kg/kg.
@@ -84,6 +88,19 @@ Additionally, noise can be added by drawing ``s_i_t`` from a normal distribution
 If ``s_xm_t`` becomes negative, it is set to 0. 
 
 See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/FixedSalinity/sine.md" target="_blank">this example</a> for the effect of each parameter.       
+
+If the flag ``distribution`` is set, the salinity below each plant ``s_i`` is randomized (``s_i_rand``), depending on the choosen distribution.
+The following options are available:
+- ``normal``:  
+  + ``s_i_rand`` is drawn from a normal distribution 
+  + where  ``s_i`` is the mean, and
+  + where ``s_i`` * ``deviation`` is the standard deviation
+- ``uniform``:  
+  + ``s_i_rand`` is drawn from a uniform distribution 
+  + where  ``s_xmin`` and ``s_xmax`` are the interval limits
+- ``poission``:  
+  + ``s_i_rand`` is drawn from a poisson distribution 
+  + where  ``s_i`` is the lambda parameter
 
 ### getBGfactor
 

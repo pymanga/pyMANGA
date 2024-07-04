@@ -86,13 +86,27 @@ class FixedSalinity(ResourceModel):
             self.getSalinityTimeseries()
         elif hasattr(self, "amplitude"):
             self.getSalinitySine()
+
         # Interpolation of salinity over space
         salinity_plant = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
                          (self._salinity[1] - self._salinity[0]) +
                          self._salinity[0])
 
+        if hasattr(self, "distribution"):
+            salinity_plant = self.getSalinityDistribution(salinity_plant)
+
         return salinity_plant
+
+    def getSalinityDistribution(self, salinity_plant):
+        if self.type.startswith("norm"):
+            salinity_plant_new = [np.random.normal(i, i * self.deviation) for i in salinity_plant]
+        if self.type.startswith("uni"):
+            salinity_plant_new = [np.random.uniform(self._salinity[0], self._salinity[1])]
+        if self.type.startswith("pois"):
+            salinity_plant_new = [np.random.poisson(lam=i) for i in salinity_plant]
+
+        return np.array(salinity_plant_new)
 
     def getSalinitySine(self):
         """
@@ -170,7 +184,8 @@ class FixedSalinity(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "min_x", "max_x", "salinity"],
-            "optional": ["sine", "amplitude", "stretch", "offset", "noise"]
+            "optional": ["sine", "amplitude", "stretch", "offset", "noise",
+                         "distribution", "type", "deviation"]
         }
         super().getInputParameters(**tags)
         self._salinity = self.salinity
@@ -191,6 +206,14 @@ class FixedSalinity(ResourceModel):
             if not hasattr(self, "offset"):
                 print("> Set sine parameter 'offset' to offset: 0")
                 self.offset = 0
+
+        if hasattr(self, "distribution"):
+            if not hasattr(self, "type"):
+                print("> Set distribution parameter 'type' to default: normal")
+                self.distribution = "normal"
+            if not hasattr(self, "deviation"):
+                print("> Set distribution parameter 'deviation' to default: 5 %")
+                self.distribution = 5/100
 
     def readSalinityTag(self):
         """

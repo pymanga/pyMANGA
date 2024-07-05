@@ -115,11 +115,11 @@ class FixedSalinity(ResourceModel):
         """
         s0 = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset)
         left = s0 + self.left_bc
-        self._salinity[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
+        self._salinity[0] = np.random.normal(size=1, loc=left, scale=self.noise)
         self._salinity[0] = self._salinity[0] if self._salinity[0] > 0 else 0
 
         right = s0 + self.right_bc
-        self._salinity[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
+        self._salinity[1] = np.random.normal(size=1, loc=right, scale=self.noise)
         self._salinity[1] = self._salinity[1] if self._salinity[1] > 0 else 0
 
     def getSalinityTimeseries(self):
@@ -202,7 +202,7 @@ class FixedSalinity(ResourceModel):
                 self.stretch = 58*3600*24
             if not hasattr(self, "noise"):
                 print("> Set sine parameter 'noise' to noise: 0")
-                self.deviation = 0
+                self.noise = 0
             if not hasattr(self, "offset"):
                 print("> Set sine parameter 'offset' to offset: 0")
                 self.offset = 0

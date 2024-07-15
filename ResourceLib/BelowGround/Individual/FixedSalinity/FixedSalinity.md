@@ -35,9 +35,9 @@ Go to [Examples](#examples) for more information
   - ``offset`` (float): (optional) offset of the sine function (along the time axis). Default: 0
   - ``noise`` (float): (optional) standard deviation to pick salinity value from sine function. Default: 0
 - ``distribution`` (nesting-tag): (optional) draw salinity below each plant and for each time step from a distribution. See 'Details' for more information.
-  - ``type`` (string): (optional) string indicating the distribution, i.e., 'normal', 'poission', 'uniform'
-  - ``deviation`` (float): (optional) deviation if normal distribution is selected, given as relative value between 0 and 1 (e.g., a deviation of 5 % is given as 0.05). Default is 0.05.
-- 
+  - ``type`` (string): (optional) string indicating the distribution, i.e., 'normal', 'uniform'
+  - ``deviation`` (float): (optional) deviation if normal distribution is selected, given either as relative or absolute value (see <relative>). Default is 0.005.
+  - ``relative`` (bool): (optional) If True, the deviation is interpreted as relative value (e.g., a deviation of 0.05 is interpreted as 5 %). If False (Default), deviation is interpreted as salinity unit (e.g., a deviation of 0.005 is interpreted as 5 ppt).
 
 *Note*: all values are given in SI units, but can be provided using equations (see examples).
 For salinity, this means typical seawater salinity of 35 ppt is given as 0.035 kg/kg or 35\*10\**-3 kg/kg.
@@ -94,13 +94,12 @@ The following options are available:
 - ``normal``:  
   + ``s_i_rand`` is drawn from a normal distribution 
   + where  ``s_i`` is the mean, and
-  + where ``s_i`` * ``deviation`` is the standard deviation
+  + where ``s_i`` * ``deviation`` is the standard deviation if provided as relative value (i.e., tag <relative> is set to True)
+  + where ``deviation`` is the standard deviation if provided as absolute value (i.e., tag <relative> is set to False)
 - ``uniform``:  
   + ``s_i_rand`` is drawn from a uniform distribution 
   + where  ``s_xmin`` and ``s_xmax`` are the interval limits
-- ``poission``:  
-  + ``s_i_rand`` is drawn from a poisson distribution 
-  + where  ``s_i`` is the lambda parameter
+
 
 ### getBGfactor
 
@@ -211,6 +210,17 @@ Jasper Bathmann, Jonas Vollhüter, Marie-Christin Wimmler
     <stretch>5019110</stretch>
     <noise>0.001</noise>
 </sine>
+```
+
+- Add stochasticity to salinity below each plant, drawn from a normal distribution with a mean value of 35 ppt (because no gradient is defined) and a standard deviation of 3 ppt
+
+```xml
+<salinity>35*10**-3 35*10**-3</salinity>
+<distribution>
+    <type>norm</type>
+    <deviation>3/1000</deviation>
+    <relative> false </relative>
+</distribution>
 ```
 
 ## Run this module

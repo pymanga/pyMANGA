@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import numpy as np
+import pandas as pd
 
 
 class Dispersal:
@@ -30,15 +31,17 @@ class Dispersal:
             "prj_file": self.xml_args,
             "required": ["domain", "x_1", "x_2", "y_1", "y_2"],
             "optional": ["n_recruitment_per_step",
-                         "weight_formula", "x_res", "y_res"]
+                         "weight_formula", "weight_file", "x_res", "y_res"]
         }
         tags = self.dispersal.getTags(tags)
         self.getInputParameters(**tags)
 
-        if hasattr(self, "weight_formula"):
-            self.iniWeights()
+        if hasattr(self, "weight_file"):
+            self.iniWeightsFile()
+        elif hasattr(self, "weight_formula"):
+            self.iniWeightsFormula()
 
-    def iniWeights(self):
+    def iniWeightsFormula(self):
         """
         Create map (grid) with weights indicating suitability for recruitment.
         Map is initialized at the beginning of the simulation for each plant group.
@@ -63,6 +66,31 @@ class Dispersal:
         # Calculate weights based on function
         weighting_function = self.string_to_function(self.weight_formula)
         self.dispersal.weights = weighting_function(self.dispersal.grid_x, self.dispersal.grid_y)
+
+    def iniWeightsFile(self):
+        """
+
+        Returns:
+
+        """
+        try:
+            weight_file = pd.read_csv(self.weight_file, delimiter=";|,|\t", engine='python')
+        except pd.errors.ParserError:
+            weight_file = pd.read_csv(self.weight_file, delimiter=";", engine='python')
+
+        if not set(['x', 'y', 'weight']).issubset(weight_file.columns):
+            print("Error: Wrong column names in weight map file (population > distribution > weight_file).\n"
+                  "Required column names: x, y, weight (without quotes).")
+            exit()
+
+        self.dispersal.grid_x = weight_file['x'].to_numpy()
+        self.dispersal.grid_y = weight_file['y'].to_numpy()
+        self.dispersal.weights = weight_file['weight'].to_numpy()
+
+        self.dispersal.x_r = np.mean(np.diff(weight_file['x'].unique()))
+        self.dispersal.y_r = np.mean(np.diff(weight_file['y'].unique()))
+
+        print()
 
     def string_to_function(self, expression):
         """

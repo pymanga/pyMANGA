@@ -67,9 +67,12 @@ class Dispersal:
         weighting_function = self.string_to_function(self.weight_formula)
         self.dispersal.weights = weighting_function(self.dispersal.grid_x, self.dispersal.grid_y)
 
+        if np.max(self.dispersal.weights) > 1:
+            print("WARNING: dispersal weights are > 1.")
+
     def iniWeightsFile(self):
         """
-
+        Read grid and weights from csv-file.
         Returns:
 
         """
@@ -90,7 +93,8 @@ class Dispersal:
         self.dispersal.x_r = np.mean(np.diff(weight_file['x'].unique()))
         self.dispersal.y_r = np.mean(np.diff(weight_file['y'].unique()))
 
-        print()
+        if np.max(self.dispersal.weights) > 1:
+            print("WARNING: dispersal weights are > 1.")
 
     def string_to_function(self, expression):
         """

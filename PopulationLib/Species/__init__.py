@@ -1,3 +1,3 @@
 """
-Sub-library containing species files.
+.. include:: ./Species.md
 """

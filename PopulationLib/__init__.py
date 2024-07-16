@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Library of population modules.
+.. include:: ./Population.md
 """
 from .PlantGroup import PlantGroup
 from .Population import Population

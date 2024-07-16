@@ -1,4 +1,4 @@
 """
-Sub-library containing seed dispersal modules.
+.. include:: ./Dispersal.md
 """
 from .Dispersal import Dispersal

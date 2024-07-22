@@ -59,6 +59,9 @@ class FixedSalinity(ResourceModel):
             numpy array of shape(number_of_trees)
         """
         salinity_plant = self.getPlantSalinity()
+        self.calculatePlantResources(salinity_plant)
+
+    def calculatePlantResources(self, salinity_plant):
         # find indices with r_salinity = bettina or forman
         idx_f = np.where(np.array(self._r_salinity) == "forman")
         idx_b = np.where(np.array(self._r_salinity) == "bettina")
@@ -208,6 +211,9 @@ class FixedSalinity(ResourceModel):
                          "distribution", "type", "deviation", "relative"]
         }
         super().getInputParameters(**tags)
+        self.setDefaultParameters()
+
+    def setDefaultParameters(self):
         self._salinity = self.salinity
         self._min_x = self.min_x
         self._max_x = self.max_x

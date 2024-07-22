@@ -102,11 +102,11 @@ class ResourceModel:
         y_step = l_y / self.y_resolution
         xe = np.linspace(self.x_1 + x_step / 2.,
                          self.x_2 - x_step / 2.,
-                         self.x_resolution,
+                         int(self.x_resolution),
                          endpoint=True)
         ye = np.linspace(self.y_1 + y_step / 2.,
                          self.y_2 - y_step / 2.,
-                         self.y_resolution,
+                         int(self.y_resolution),
                          endpoint=True)
         self.my_grid = np.meshgrid(xe, ye)
         self._mesh_size = np.maximum(x_step, y_step)

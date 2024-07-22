@@ -9,14 +9,19 @@
             <domain>
                 <x_1>0</x_1>
                 <y_1> 0 </y_1>
-                <x_2> 20 </x_2>
-                <y_2> 10 </y_2>
-                <x_resolution> 80 </x_resolution>
-                <y_resolution> 40 </y_resolution>
-                <salinity>0.025 0.035</salinity>
-                <min_x>0</min_x>
-                <max_x>20</max_x>
+                <x_2> 22 </x_2>
+                <y_2> 22 </y_2>
+                <x_resolution> 88 </x_resolution>
+                <y_resolution> 88 </y_resolution>
             </domain>
+            <salinity>0.035 0.045</salinity>
+            <min_x>0</min_x>
+            <max_x>22</max_x>
+            <q_cell>0.6</q_cell>
+            <f_mix>0.25</f_mix>
+            <sine>
+                <amplitude>0</amplitude>
+            </sine>
         </belowground>
     </resources>
     <population>
@@ -41,8 +46,8 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 3600*24*7*365 </t_end>
-        <delta_t> 3600*24*7 </delta_t>
+        <t_end> 3600*24*365.25* 100 </t_end>
+        <delta_t> 3600*24*365.25/12 </delta_t>
         <terminal_print>days</terminal_print>
     </time_loop>
     <visualization>

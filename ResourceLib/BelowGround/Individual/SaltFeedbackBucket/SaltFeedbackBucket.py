@@ -8,7 +8,6 @@ class SaltFeedbackBucket(FixedSalinity):
             self.getInputParameters(args)
             self.cell_height = 1
         except KeyError:
-            print("\t>>>>>>>>>>>>> Debug mode")
             self.setDebugParameters()
 
         self.expandGrid()
@@ -33,20 +32,22 @@ class SaltFeedbackBucket(FixedSalinity):
         self._r_crown = 3
         self._h_stem = 3
 
+        self._r_salinity = "bettina"
+
     def getInflowSalinity(self):
         x_min = min(self.my_grid[0])
         x_dif = max(self.my_grid[0]) - x_min
         if len(self.my_grid[0]) == 1:
             # If only 1 cell exist take mean of border salinity
-            self.sal_cell_inflow = [0.5 * (self._salinity[0] + self._salinity[1])]
+            self.sal_cell_inflow = np.array([0.5 * (self._salinity[0] + self._salinity[1])])
         else:
             self.sal_cell_inflow = (self.my_grid[0] - x_min) / x_dif * (self._salinity[1] - self._salinity[0]) + self._salinity[0]
 
     def prepareNextTimeStep(self, t_ini, t_end):
         super().prepareNextTimeStep(t_ini, t_end)
         self.timesteplength = t_end - t_ini
-        # ToDo: Ist q_cell eher porosity = m³ * tsl
-        self.vol_water_cell = self.vol_cell * self.q_cell * self.timesteplength #/ 3600 / 24
+        # ToDo: Ist vol_cell eher relatives Volumen ohne Einheit: - * m³/d * tsl/s*d
+        self.vol_water_cell = self.vol_cell * self.q_cell * self.timesteplength / 3600 / 24
         self.vol_sink_cell = np.zeros(np.shape(self.my_grid)[1])
         self.plant_cells = []
         self.no_plants = 0

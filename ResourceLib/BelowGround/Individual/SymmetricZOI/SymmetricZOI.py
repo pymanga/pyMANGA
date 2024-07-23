@@ -16,7 +16,6 @@ class SymmetricZOI(ResourceModel):
         case = args.find("type").text
         self.getInputParameters(args)
         super().makeGrid()
-        print(case)
 
     def prepareNextTimeStep(self, t_ini, t_end):
         self.xe = []

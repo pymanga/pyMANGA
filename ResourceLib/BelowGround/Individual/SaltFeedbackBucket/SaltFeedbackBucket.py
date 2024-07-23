@@ -10,7 +10,8 @@ class SaltFeedbackBucket(FixedSalinity):
         except KeyError:
             self.setDebugParameters()
 
-        self.expandGrid()
+        super().makeGrid()
+        self.getCellVolume()
 
         self.getInflowSalinity()
         self.sal_cell = self.sal_cell_inflow
@@ -35,20 +36,21 @@ class SaltFeedbackBucket(FixedSalinity):
         self._r_salinity = "bettina"
 
     def getInflowSalinity(self):
-        x_min = min(self.my_grid[0])
-        x_dif = max(self.my_grid[0]) - x_min
+        # x_min = np.min(self.my_grid[0])
+        # x_dif = max(self.my_grid[0]) - x_min
+        x_dif = self.x_2 - self.x_1
         if len(self.my_grid[0]) == 1:
             # If only 1 cell exist take mean of border salinity
             self.sal_cell_inflow = np.array([0.5 * (self._salinity[0] + self._salinity[1])])
         else:
-            self.sal_cell_inflow = (self.my_grid[0] - x_min) / x_dif * (self._salinity[1] - self._salinity[0]) + self._salinity[0]
+            self.sal_cell_inflow = (self.my_grid[0] - self.x_1) / x_dif * (self._salinity[1] - self._salinity[0]) + self._salinity[0]
 
     def prepareNextTimeStep(self, t_ini, t_end):
         super().prepareNextTimeStep(t_ini, t_end)
         self.timesteplength = t_end - t_ini
         # ToDo: Ist vol_cell eher relatives Volumen ohne Einheit: - * m³/d * tsl/s*d
         self.vol_water_cell = self.vol_cell * self.q_cell * self.timesteplength / 3600 / 24
-        self.vol_sink_cell = np.zeros(np.shape(self.my_grid)[1])
+        self.vol_sink_cell = np.zeros(np.shape(self.my_grid[0]))
         self.plant_cells = []
         self.no_plants = 0
 
@@ -81,16 +83,15 @@ class SaltFeedbackBucket(FixedSalinity):
             # Example uptake 10 L per day
             plant_water_uptake = 10 / 10**3      # m³ water per time step
 
-        if rrp < self.mesh_size:
+        if rrp < self._mesh_size:
             #print("\t> Interpolate root radius")
-            rrp = self.mesh_size
+            rrp = self._mesh_size
 
         idx = self.getAffectedCellsIdx(xp, yp, rrp)
         self.plant_cells.append(idx)
         if plant_water_uptake != 0:
-            no_cells = len(idx)
+            no_cells = len(idx[0])
             sink_per_cell = plant_water_uptake / no_cells
-
             self.vol_sink_cell[idx] += sink_per_cell
 
     def calculateBelowgroundResources(self):
@@ -99,6 +100,7 @@ class SaltFeedbackBucket(FixedSalinity):
         self.getInflowSalinity()
 
         self.calculateCellSalinity()
+
         salinity_plant = self.getPlantSalinity()
         self.calculatePlantResources(salinity_plant)
 
@@ -149,43 +151,19 @@ class SaltFeedbackBucket(FixedSalinity):
         return salinity_plant
 
     def readGridSalinity(self):
-        self.sal_cell = np.loadtxt('grid_salinity.txt', usecols=[3])
+        self.sal_cell = np.loadtxt('grid_salinity.txt', usecols=range(len(self.my_grid[0][0])))
 
     def writeGridSalinity(self, t):
-        t = np.full(len(self.sal_cell), t)
-        np.savetxt('grid_salinity.txt', np.c_[t, self.my_grid[0], self.my_grid[1], self.sal_cell])
+        np.savetxt('grid_salinity.txt', self.sal_cell)
 
     def getAffectedCellsIdx(self, xp, yp, rrp):
-        xmin = xp - rrp
-        xmax = xp + rrp
-        ymin = yp - rrp
-        ymax = yp + rrp
-
-        x1 = np.where(self.my_grid[0] >= xmin)
-        x2 = np.where(self.my_grid[0] <= xmax)
-        idxx = np.intersect1d(x1, x2)
-
-        y1 = np.where(self.my_grid[1] >= ymin)
-        y2 = np.where(self.my_grid[1] <= ymax)
-        idxy = np.intersect1d(y1, y2)
-        idx = np.intersect1d(idxx, idxy)
-        self.no_affected_cells = len(idx)
+        distance = (((self.my_grid[0] - np.array(xp)) ** 2 +
+                     (self.my_grid[1] - np.array(yp)) ** 2) ** 0.5)
+        idx = np.where(distance < rrp)
         return idx
 
-    def expandGrid(self):
-        xs = self.x_2 / self.x_resolution
-        xe = np.arange(xs/2, self.x_2, xs)
-
-        ys = self.y_2 / self.y_resolution
-        ye = np.arange(ys/2, self.y_2, ys)
-
-        self.my_grid = [(x, y) for x in xe for y in ye]
-        self.my_grid = np.array(self.my_grid).transpose()
-        self.mesh_size = min(xs, ys)
-        self.getCellVolume(xs, ys)
-
-    def getCellVolume(self, xs, ys):
-        self.vol_cell = xs * ys * self.cell_height
+    def getCellVolume(self):
+        self.vol_cell = (self.x_2 / self.x_resolution) * self.y_2 / self.y_resolution * self.cell_height
         print("> Domain volume:", self.x_2*self.y_2, "m**3, cell volume", self.vol_cell, "m**3")
 
     def getInputParameters(self, args):

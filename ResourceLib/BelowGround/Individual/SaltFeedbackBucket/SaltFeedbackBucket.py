@@ -14,6 +14,7 @@ class SaltFeedbackBucket(FixedSalinity):
         self.getCellVolume()
 
         self.getInflowSalinity()
+        self.getInflowMixingRate()
         self.sal_cell = self.sal_cell_inflow
         self.writeGridSalinity(t=0)
 
@@ -36,13 +37,11 @@ class SaltFeedbackBucket(FixedSalinity):
         self._r_salinity = "bettina"
 
     def getInflowSalinity(self):
-        # x_min = np.min(self.my_grid[0])
-        # x_dif = max(self.my_grid[0]) - x_min
-        x_dif = self.x_2 - self.x_1
         if len(self.my_grid[0]) == 1:
             # If only 1 cell exist take mean of border salinity
             self.sal_cell_inflow = np.array([0.5 * (self._salinity[0] + self._salinity[1])])
         else:
+            x_dif = self.x_2 - self.x_1
             self.sal_cell_inflow = (self.my_grid[0] - self.x_1) / x_dif * (self._salinity[1] - self._salinity[0]) + self._salinity[0]
 
     def prepareNextTimeStep(self, t_ini, t_end):
@@ -119,7 +118,7 @@ class SaltFeedbackBucket(FixedSalinity):
         sal_cell_new = m_cell / vol_cell_remain #/ 10**3
 
         # Mixing
-        vol_out = self.f_mix * self.vol_water_cell
+        vol_out = self.f_mix_inflow * self.vol_water_cell
         m_out = self.sal_cell_inflow * vol_out #* 10**3
         v_remain = self.vol_water_cell - vol_out
         m_remain = sal_cell_new * v_remain #* 10**3
@@ -129,13 +128,6 @@ class SaltFeedbackBucket(FixedSalinity):
         self.sal_cell = m_cell / self.vol_water_cell #/ 10**3
 
         self.writeGridSalinity(t=self._t_end)
-
-    def getBorderSalinity(self):
-        self._xe = np.array(self._xe)
-        if hasattr(self, "t_variable"):
-            self.getSalinityTimeseries()
-        elif hasattr(self, "amplitude"):
-            self.getSalinitySine()
 
     def getPlantSalinity(self):
         """
@@ -169,12 +161,60 @@ class SaltFeedbackBucket(FixedSalinity):
     def getInputParameters(self, args):
         tags = {
             "prj_file": args,
-            "required": ["type", "min_x", "max_x", "salinity", "x_1", "x_2", "y_1", "y_2",
+            "required": ["type", "salinity", "x_1", "x_2", "y_1", "y_2",
                          "x_resolution", "y_resolution", "q_cell", "f_mix"],
-            "optional": ["sine", "amplitude", "stretch", "offset", "noise"]
+            "optional": ["sine", "amplitude", "stretch", "offset", "noise",
+                         "medium"]
         }
         super(FixedSalinity, self).getInputParameters(**tags)
         super().setDefaultParameters()
+
+        self.readMixingRateTag()
+
+    def getBorderSalinity(self):
+        self._xe = np.array(self._xe)
+        if hasattr(self, "t_variable"):
+            self.getSalinityTimeseries()
+        elif hasattr(self, "amplitude"):
+            if hasattr(self, "medium"):
+                if "water" in self.medium.lower():
+                    self.getMixingRateSine()
+                if "salt" in self.medium.lower():
+                    self.getSalinitySine()
+            else:
+                self.getSalinitySine()
+
+    def getMixingRateSine(self):
+        """
+        Calculate salinity of the current time step using a sine function.
+        Set salinity at the current time step at the left and right model boundary.
+        """
+        s0 = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset)
+        left = s0 + self.left_bc
+        self.f_mix[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
+        self.f_mix[0] = self.f_mix[0] if self.f_mix[0] > 0 else 0
+
+        right = s0 + self.right_bc
+        self.f_mix[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
+        self.f_mix[1] = self.f_mix[1] if self.f_mix[1] > 0 else 0
+
+
+    def readMixingRateTag(self):
+        if isinstance(self.f_mix, float):
+            self.f_mix = [self.f_mix, self.f_mix]
+
+        else:
+            if len(self.f_mix.split()) == 2:
+                self.f_mix = self.f_mix.split()
+                self.f_mix[0] = float(eval(self.f_mix[0]))
+                self.f_mix[1] = float(eval(self.f_mix[1]))
+
+    def getInflowMixingRate(self):
+        if len(self.my_grid[0]) == 1:
+            self.f_mix_inflow = np.array([0.5 * (self.f_mix[0] + self.f_mix[1])])
+        else:
+            x_dif = self.x_2 - self.x_1
+            self.f_mix_inflow = (self.my_grid[0] - self.x_1) / x_dif * (self.f_mix[1] - self.f_mix[0]) + self.f_mix[0]
 
 
 if __name__ == '__main__':

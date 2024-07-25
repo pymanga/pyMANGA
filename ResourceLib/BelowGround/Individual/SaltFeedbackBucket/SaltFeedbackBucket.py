@@ -95,8 +95,9 @@ class SaltFeedbackBucket(FixedSalinity):
 
     def calculateBelowgroundResources(self):
         self.readGridSalinity()
-        self.getBorderSalinity()
+        self.getBorderValues()
         self.getInflowSalinity()
+        self.getInflowMixingRate()
 
         self.calculateCellSalinity()
 
@@ -150,7 +151,6 @@ class SaltFeedbackBucket(FixedSalinity):
 
         if hasattr(self, "save_salinity_ts"):
             if t_end == 0 or t_end % (self.save_salinity_ts * tsl) == 0:
-                print(">>>>>>>>>>>>>>>>>>")
                 np.savetxt('grid_salinity_' + str(t_end) + '.txt', self.sal_cell)
 
     def getAffectedCellsIdx(self, xp, yp, rrp):
@@ -176,7 +176,7 @@ class SaltFeedbackBucket(FixedSalinity):
 
         self.readMixingRateTag()
 
-    def getBorderSalinity(self):
+    def getBorderValues(self):
         self._xe = np.array(self._xe)
         if hasattr(self, "t_variable"):
             self.getSalinityTimeseries()
@@ -195,14 +195,13 @@ class SaltFeedbackBucket(FixedSalinity):
         Set salinity at the current time step at the left and right model boundary.
         """
         s0 = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset)
-        left = s0 + self.left_bc
+        left = s0 + self.left_bc_f_mix
         self.f_mix[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
         self.f_mix[0] = self.f_mix[0] if self.f_mix[0] > 0 else 0
 
-        right = s0 + self.right_bc
+        right = s0 + self.right_bc_f_mix
         self.f_mix[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
         self.f_mix[1] = self.f_mix[1] if self.f_mix[1] > 0 else 0
-
 
     def readMixingRateTag(self):
         if isinstance(self.f_mix, float):
@@ -213,6 +212,9 @@ class SaltFeedbackBucket(FixedSalinity):
                 self.f_mix = self.f_mix.split()
                 self.f_mix[0] = float(eval(self.f_mix[0]))
                 self.f_mix[1] = float(eval(self.f_mix[1]))
+
+        self.left_bc_f_mix = self.f_mix[0]
+        self.right_bc_f_mix = self.f_mix[1]
 
     def getInflowMixingRate(self):
         if len(self.my_grid[0]) == 1:

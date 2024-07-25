@@ -16,7 +16,7 @@ class SaltFeedbackBucket(FixedSalinity):
         self.getInflowSalinity()
         self.getInflowMixingRate()
         self.sal_cell = self.sal_cell_inflow
-        self.writeGridSalinity(t=0)
+        self.writeGridSalinity(t_end=0, tsl=0)
 
     def setDebugParameters(self):
         print("\t>>>>>>>>>>>>> Debug mode")
@@ -127,7 +127,7 @@ class SaltFeedbackBucket(FixedSalinity):
 
         self.sal_cell = m_cell / self.vol_water_cell #/ 10**3
 
-        self.writeGridSalinity(t=self._t_end)
+        self.writeGridSalinity(t_end=self._t_end, tsl=self.timesteplength)
 
     def getPlantSalinity(self):
         """
@@ -145,8 +145,13 @@ class SaltFeedbackBucket(FixedSalinity):
     def readGridSalinity(self):
         self.sal_cell = np.loadtxt('grid_salinity.txt', usecols=range(len(self.my_grid[0][0])))
 
-    def writeGridSalinity(self, t):
+    def writeGridSalinity(self, t_end, tsl):
         np.savetxt('grid_salinity.txt', self.sal_cell)
+
+        if hasattr(self, "save_salinity_ts"):
+            if t_end == 0 or t_end % (self.save_salinity_ts * tsl) == 0:
+                print(">>>>>>>>>>>>>>>>>>")
+                np.savetxt('grid_salinity_' + str(t_end) + '.txt', self.sal_cell)
 
     def getAffectedCellsIdx(self, xp, yp, rrp):
         distance = (((self.my_grid[0] - np.array(xp)) ** 2 +
@@ -164,7 +169,7 @@ class SaltFeedbackBucket(FixedSalinity):
             "required": ["type", "salinity", "x_1", "x_2", "y_1", "y_2",
                          "x_resolution", "y_resolution", "q_cell", "f_mix"],
             "optional": ["sine", "amplitude", "stretch", "offset", "noise",
-                         "medium"]
+                         "medium", "save_salinity_ts"]
         }
         super(FixedSalinity, self).getInputParameters(**tags)
         super().setDefaultParameters()

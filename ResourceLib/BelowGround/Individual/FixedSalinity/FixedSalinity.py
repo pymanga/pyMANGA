@@ -84,12 +84,7 @@ class FixedSalinity(ResourceModel):
         Returns:
             numpy array with shape(number_of_trees)
         """
-        self._xe = np.array(self._xe)
-        if hasattr(self, "t_variable"):
-            self.getSalinityTimeseries()
-        elif hasattr(self, "amplitude"):
-            self.getSalinitySine()
-
+        self.getBorderSalinity()
         # Interpolation of salinity over space
         salinity_plant = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
@@ -100,6 +95,13 @@ class FixedSalinity(ResourceModel):
             salinity_plant = self.getSalinityDistribution(salinity_plant)
 
         return salinity_plant
+
+    def getBorderSalinity(self):
+        self._xe = np.array(self._xe)
+        if hasattr(self, "t_variable"):
+            self.getSalinityTimeseries()
+        elif hasattr(self, "amplitude"):
+            self.getSalinitySine()
 
     def getSalinityDistribution(self, salinity_plant):
         """
@@ -215,8 +217,11 @@ class FixedSalinity(ResourceModel):
 
     def setDefaultParameters(self):
         self._salinity = self.salinity
-        self._min_x = self.min_x
-        self._max_x = self.max_x
+        try:
+            self._min_x = self.min_x
+            self._max_x = self.max_x
+        except AttributeError:
+            pass
         self.readSalinityTag()
         self.relative = super().makeBoolFromArg("relative")
 

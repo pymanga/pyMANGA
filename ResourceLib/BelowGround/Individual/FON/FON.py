@@ -16,7 +16,7 @@ class FON(ResourceModel):
         case = args.find("type").text
         self.getInputParameters(args)
         super().makeGrid()
-        if self._mesh_size > 0.25:
+        if self.mesh_size > 0.25:
             print("Error: mesh not fine enough for FON!")
             print("Please refine mesh to grid size < 0.25m !")
             exit()

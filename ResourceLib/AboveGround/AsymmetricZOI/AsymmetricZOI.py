@@ -105,12 +105,12 @@ class AsymmetricZOI(ResourceModel):
         except KeyError:
             r_ag = geometry["r_ag"]
             h_stem = geometry["height"] - 2*r_ag
-        if r_ag < (self._mesh_size * 1 / 2**0.5):
+        if r_ag < (self.mesh_size * 1 / 2**0.5):
             if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:
                 print("Error: mesh not fine enough for crown dimensions!")
                 print(
                     "Please refine mesh or increase initial crown radius above " +
-                    str(self._mesh_size) + "m !")
+                    str(self.mesh_size) + "m !")
                 exit()
         if not ((self._x_1 <= x <= self._x_2) and (self._y_1 <= y <= self._y_2)):
             raise ValueError("""It appears as a plant is located outside of the

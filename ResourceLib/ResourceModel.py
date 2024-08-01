@@ -109,7 +109,7 @@ class ResourceModel:
                          int(self.y_resolution),
                          endpoint=True)
         self.my_grid = np.meshgrid(xe, ye)
-        self._mesh_size = np.maximum(x_step, y_step)
+        self.mesh_size = np.maximum(x_step, y_step)
         self.cell_area = x_step * y_step
 
     def makeBoolFromArg(self, var_name):

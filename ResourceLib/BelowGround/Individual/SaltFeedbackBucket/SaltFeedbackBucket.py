@@ -43,8 +43,8 @@ class SaltFeedbackBucket(FixedSalinity):
             plant_water_uptake = 0
 
         # Extrapolate root radius, if radius is smaller than mesh size
-        if rrp < self._mesh_size:
-            rrp = self._mesh_size
+        if rrp < self.mesh_size:
+            rrp = self.mesh_size
 
         # Assign plant water uptake to cells
         idx = self.getAffectedCellsIdx(xp, yp, rrp)

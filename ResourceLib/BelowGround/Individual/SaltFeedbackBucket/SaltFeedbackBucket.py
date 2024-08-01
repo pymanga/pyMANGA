@@ -46,13 +46,16 @@ class SaltFeedbackBucket(FixedSalinity):
         if rrp < self.mesh_size:
             rrp = self.mesh_size
 
+        self.calculatePlantSink(xp, yp, rrp, plant_water_uptake)
+
+    def calculatePlantSink(self, x, y, r_root, bg_resources):
         # Assign plant water uptake to cells
-        idx = self.getAffectedCellsIdx(xp, yp, rrp)
+        idx = self.getAffectedCellsIdx(x, y, r_root)
         self.plant_cells.append(idx)
-        if plant_water_uptake != 0:
+        if bg_resources != 0:
             no_cells = len(idx[0])
             # Calculate transpiration based on area of occupied cells in m³ per m² per time step = m/s
-            sink_per_cell = plant_water_uptake / (self.cell_area * no_cells) / self.timesteplength
+            sink_per_cell = bg_resources / (self.cell_area * no_cells) / self.timesteplength
             self.vol_sink_cell[idx] += sink_per_cell
 
     def calculateBelowgroundResources(self):
@@ -101,6 +104,7 @@ class SaltFeedbackBucket(FixedSalinity):
         for pc in range(len(self.plant_cells)):
             affected_cells = self.plant_cells[pc]
             salinity_plant[pc] = np.mean(self.sal_cell[affected_cells])
+
         return salinity_plant
 
     def writeGridSalinity(self, t_end, tsl):
@@ -189,7 +193,7 @@ class SaltFeedbackBucket(FixedSalinity):
         self.r_mix[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
         self.r_mix[1] = self.r_mix[1] if self.r_mix[1] > 0 else 0
 
-    def getInputParameters(self, args):
+    def getInputTags(self, args):
         tags = {
             "prj_file": args,
             "required": ["type", "salinity", "x_1", "x_2", "y_1", "y_2",
@@ -198,7 +202,14 @@ class SaltFeedbackBucket(FixedSalinity):
                          "medium", "save_salinity_ts", "save_file",
                          "depth"]
         }
+        return tags
+
+    def getInputParameters(self, args):
+        tags = self.getInputTags(args)
         super(FixedSalinity, self).getInputParameters(**tags)
+        self.setInputParameters()
+
+    def setInputParameters(self):
         super().setDefaultParameters()
         if not hasattr(self, "depth"):
             print("> Set below-ground parameter 'depth' to default: 1")

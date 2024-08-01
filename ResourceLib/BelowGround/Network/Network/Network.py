@@ -208,12 +208,16 @@ class Network(ResourceModel):
 
             plant.setNetwork(network)
 
-    def getInputParameters(self, args):
+    def getInputTags(self, args):
         tags = {
             "prj_file": args,
             "required": ["type", "f_radius"],
             "optional": ["exchange"]
         }
+        return tags
+
+    def getInputParameters(self, args):
+        tags = self.getInputTags(args)
         super().getInputParameters(**tags)
         if not hasattr(self, "exchange"):
             self.exchange = "on"

@@ -97,6 +97,9 @@ class FixedSalinity(ResourceModel):
         return salinity_plant
 
     def getBorderSalinity(self):
+        """
+        Determine the salinity at the left and right boundaries of the model.
+        """
         self._xe = np.array(self._xe)
         if hasattr(self, "t_variable"):
             self.getSalinityTimeseries()

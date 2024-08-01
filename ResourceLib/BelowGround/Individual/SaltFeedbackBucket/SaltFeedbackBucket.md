@@ -15,21 +15,21 @@ There is no direct competition.
 <belowground>
     <type> SaltFeedbackBucket </type>
     <domain>
-        <x_1>0</x_1>
+        <x_1> 0 </x_1>
         <y_1> 0 </y_1>
-        <x_2> 30 </x_2>
-        <y_2> 5 </y_2>
-        <x_resolution> 120 </x_resolution>
-        <y_resolution> 20 </y_resolution>
+        <x_2> 22 </x_2>
+        <y_2> 22 </y_2>
+        <x_resolution> 88 </x_resolution>
+        <y_resolution> 88 </y_resolution>
     </domain>
-    <salinity>0.035 0.045</salinity>
-    <q_cell>0.3</q_cell>
-    <f_mix>0.25 0.1</f_mix>
+    <salinity> 0.035 0.035 </salinity>
+    <r_mix> 0.01/3600/24 0.015/3600/24 </r_mix>
+    <depth> 1 </depth>
     <sine>
-        <medium>water</medium>
-        <amplitude>0.1</amplitude>
+        <medium> water </medium>
+        <amplitude> 0.1 </amplitude>
     </sine>
-    <save_salinity_ts>120</save_salinity_ts>
+    <save_salinity_ts> 120 </save_salinity_ts>
 </belowground>
 ```
 
@@ -45,8 +45,8 @@ There is no direct competition.
     - ``y_resolution`` (float): y-resolution of the grid
 - ``salinity`` (float float or string): either two values representing the salinity (kg/kg) at ``min_x`` and ``max_x`` <strong>or</strong> the path to a csv file containing a time series of salinity (see description above and 
         example below)
-- ``f_mix`` (float or float float): one or two values defining the mixing rate (-) at ``x_1`` and ``x_2``. If only one value is given, the rate at ``x_1`` and ``x_2`` is equal .
-- ``q_cell`` (float): ...
+- ``r_mix`` (float or float float): one or two values defining the mixing rate (m per second) at ``x_1`` and ``x_2``. If only one value is given, the rate at ``x_1`` and ``x_2`` is equal .
+- ``depth`` (float): Cell depth (corresponding to theoretical aquifer thickness). Default: 1.
 - ``sine`` (nesting-tag): (optional) calculate salinity for each time step based on a sine function. See notes for details.
   - ``medium`` (string): (optional) medium to which the sinusoidal option is applied. Possible values: "salt", "water", "salt water". Default: "salt"
   - ``amplitude`` (float): (optional) amplitude of the sine function. Default: 0
@@ -54,6 +54,9 @@ There is no direct competition.
   - ``offset`` (float): (optional) offset of the sine function (along the time axis). Default: 0
   - ``noise`` (float): (optional) standard deviation to pick salinity value from sine function. Default: 0
 - ``save_salinity_ts`` (int): (optional) number indicating at which nth timestep the salinity in each cell is written to a text file. 
+
+See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/SaltFeedbackBucket/SaltFeedbackBucket.md" target="_blank">this example</a> for the effect discretization parameters. 
+
 
 # Value
 
@@ -74,7 +77,6 @@ This in turn makes it more difficult for the plant to take up water (i.e. reduce
 
 Initialize the module
 - *makeGrid*: create regular grid (see ``pyMANGA.ResourceLib``)
-- *getCellVolume*: calculate the volume of each cell, assuming a height of 1m.
 - *getInflowSalinity*: calculate salinity in each cell
 - *getInflowMixingRate*: calculate mixing rate in each cell
 - *writeGridSalinity*: write cell salinity to file
@@ -94,20 +96,12 @@ If the model domain consists of only 1 cell, the average of the left and right b
 
 #### getInflowMixingRate
 
-The mixing rate in each cell (`f_mix_inflow`) is linearly interpolated based on the mixing rate at the left and right boundaries (`f_mix`).
+The mixing rate in each cell (`r_mix_inflow`) is linearly interpolated based on the mixing rate at the left and right boundaries (`r_mix`).
 
 #### writeGridSalinity/readGridSalinity
 
 The salinity of each cell is written to and read from a txt file at the end and beginning of each time step.
 The file will be overwritten each time.
-
-#### prepareNextTimeStep
-
-Calculate the water volume in each cell (``vol_water_cell`` in m³):
-````python
-vol_water_cell = vol_cell * q_cell / 3600 / 24 * timesteplength 
-````
-where ``vol_cell`` is the total volume of a cell and ``q_cell`` the daily flow through each cell (user input).
 
 #### addPlant
 
@@ -116,10 +110,10 @@ Add plant attributes such as position, size, and growth parameters to the resour
 *getAffectedCellsIdx* returns the indices of cells affected by a plant.
 Affected cells are those that are within the centers of the root plate radius.
 
-It is assumed that the water uptake (``plant_water_uptake``) of a plant is uniformly distributed over all affected cells.
-Thus, the sink term of each cell is
+It is assumed that the water uptake (``plant_water_uptake``, in m³ per timestep) of a plant is uniformly distributed over all affected cells, defined by their area (`cell_area)` and number (`no_cells`).
+Thus, the sink term (`sink_per_cell`, in m per s) of each cell is
 ````python
-sink_per_cell = plant_water_uptake / no_cells
+sink_per_cell = plant_water_uptake / (cell_area * no_cells) / timesteplength
 ````
 
 #### calculateBelowgroundResources
@@ -146,19 +140,10 @@ Salinity in each cell is calculated assuming a simple water bucket approach, whe
 - outflow: water extraction through plant, with salinity = 0
 - inflow: water inflow, with salinity = variable
 
-The salinity of each cell is calculated as follows:
-- Before uptake: mass of salt in cell ``m_cell = sal_cell * vol_water_cell``
-- After uptake: 
-  - cell water volume ``vol_cell_remain = vol_water_cell - vol_sink_cell``
-  - salt content ``sal_cell_new = m_cell / vol_cell_remain``
-- Mixing of cell water and inflowing water
-  - volume of exchanged water ``f_mix * vol_water_cell``
-  - mass of salt of exchanged water ``m_out = sal_cell_inflow * vol_out``
-  - volume of remaining water ``vol_water_cell - vol_out``
-  - mass of salt of exchanged water ``m_remain = sal_cell_new * v_remain``
-  - total mass of salt ``m_cell = m_remain + m_out``
-  - new cell salinity ``m_cell / vol_water_cell``
-- Assign the new salinity as ``sal_cell`` and write it to txt file (*writeGridSalinity*)
+````python
+ht = exp(- r_mix_inflow / depth * timesteplength)
+sal_cell = sal_cell * ht + (vol_sink_cell + r_mix_inflow) / r_mix_inflow * sal_cell_inflow * (1 - ht)
+````
 
 ## Application & Restrictions
 

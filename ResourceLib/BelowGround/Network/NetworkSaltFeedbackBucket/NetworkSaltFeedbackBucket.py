@@ -48,7 +48,6 @@ class NetworkSaltFeedbackBucket(Network, SaltFeedbackBucket):
             numpy array of shape(number_of_trees)
         """
         # SaltFeedbackBucket start
-        self.readGridSalinity()
         self.getBorderSalinity()
         self.getInflowSalinity()
         self.getInflowMixingRate()

@@ -16,7 +16,6 @@ class SaltFeedbackBucket(FixedSalinity):
         self.getInflowSalinity()
         self.getInflowMixingRate()
         self.sal_cell = self.sal_cell_inflow
-        self.writeGridSalinity(t_end=0, tsl=0)
 
     def prepareNextTimeStep(self, t_ini, t_end):
         super().prepareNextTimeStep(t_ini, t_end)
@@ -57,7 +56,6 @@ class SaltFeedbackBucket(FixedSalinity):
             self.vol_sink_cell[idx] += sink_per_cell
 
     def calculateBelowgroundResources(self):
-        self.readGridSalinity()
         self.getBorderValues()
         self.getInflowSalinity()
         self.getInflowMixingRate()
@@ -105,23 +103,14 @@ class SaltFeedbackBucket(FixedSalinity):
             salinity_plant[pc] = np.mean(self.sal_cell[affected_cells])
         return salinity_plant
 
-    def readGridSalinity(self):
-        """
-        Read salinity of previous timestep from text file.
-        Overwrites the existing file.
-        """
-        self.sal_cell = np.loadtxt('grid_salinity.txt', usecols=range(len(self.my_grid[0][0])))
-
     def writeGridSalinity(self, t_end, tsl):
         """
         Write salinity of current timestep to text file.
         If enabled write additional file including timestep.
         """
-        np.savetxt('grid_salinity.txt', self.sal_cell)
-
-        if hasattr(self, "save_salinity_ts"):
+        if hasattr(self, "save_file"):
             if t_end == 0 or t_end % (self.save_salinity_ts * tsl) == 0:
-                np.savetxt('grid_salinity_' + str(t_end) + '.txt', self.sal_cell)
+                np.savetxt(self.save_file + "_" + str(t_end) + '.txt', self.sal_cell)
 
     def getAffectedCellsIdx(self, xp, yp, rrp):
         """
@@ -206,7 +195,8 @@ class SaltFeedbackBucket(FixedSalinity):
             "required": ["type", "salinity", "x_1", "x_2", "y_1", "y_2",
                          "x_resolution", "y_resolution", "r_mix"],
             "optional": ["sine", "amplitude", "stretch", "offset", "noise",
-                         "medium", "save_salinity_ts", "depth"]
+                         "medium", "save_salinity_ts", "save_file",
+                         "depth"]
         }
         super(FixedSalinity, self).getInputParameters(**tags)
         super().setDefaultParameters()
@@ -214,3 +204,7 @@ class SaltFeedbackBucket(FixedSalinity):
             print("> Set below-ground parameter 'depth' to default: 1")
             self.depth = 1
         self.readMixingRateTag()
+
+        if hasattr(self, "save_file"):
+            if not hasattr(self, "save_salinity_ts"):
+                self.save_salinity_ts = 1

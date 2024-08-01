@@ -9,19 +9,21 @@
             <domain>
                 <x_1>0</x_1>
                 <y_1> 0 </y_1>
-                <x_2> 22 </x_2>
-                <y_2> 22 </y_2>
-                <x_resolution> 88 </x_resolution>
-                <y_resolution> 88 </y_resolution>
+                <x_2> 10 </x_2>
+                <y_2> 20 </y_2>
+                <x_resolution> 10 </x_resolution>
+                <y_resolution> 20 </y_resolution>
             </domain>
             <salinity>0.035 0.045</salinity>
             <min_x>0</min_x>
             <max_x>22</max_x>
-            <q_cell>0.6</q_cell>
-            <f_mix>0.25</f_mix>
+            <depth>1</depth>
+            <r_mix>0.01/3600/24</r_mix>
             <sine>
                 <amplitude>0</amplitude>
             </sine>
+            <save_file> grid_salinity </save_file>
+            <save_salinity_ts> 120 </save_salinity_ts>
         </belowground>
     </resources>
     <population>
@@ -46,7 +48,7 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 3600*24*365.25* 100 </t_end>
+        <t_end> 3600*24*365.25* 1 </t_end>
         <delta_t> 3600*24*365.25/12 </delta_t>
         <terminal_print>days</terminal_print>
     </time_loop>
@@ -57,7 +59,7 @@
         <type> OneFile </type>
         <allow_previous_output>True</allow_previous_output>
         <output_each_nth_timestep>[1]</output_each_nth_timestep>
-        <output_dir>Benchmarks/TestOutputs/</output_dir>
+        <output_dir>Benchmarks/TestOutputs2/</output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <geometry_output> r_crown </geometry_output>

@@ -3,94 +3,57 @@ from ResourceLib.BelowGround.Individual.FixedSalinity import FixedSalinity
 
 
 class SaltFeedbackBucket(FixedSalinity):
+    """
+    SaltFeedbackBucket below-ground resource concept.
+    """
     def __init__(self, args):
-        try:
-            self.getInputParameters(args)
-            self.cell_height = 1
-        except KeyError:
-            self.setDebugParameters()
-
+        """
+        Args:
+            args (lxml.etree._Element): below-ground module specifications from project file tags
+        """
+        self.getInputParameters(args)
         super().makeGrid()
-        self.getCellVolume()
-
         self.getInflowSalinity()
         self.getInflowMixingRate()
         self.sal_cell = self.sal_cell_inflow
         self.writeGridSalinity(t_end=0, tsl=0)
 
-    def setDebugParameters(self):
-        print("\t>>>>>>>>>>>>> Debug mode")
-        self.x_2 = 2
-        self.y_2 = 2
-        self.x_resolution = 1
-        self.y_resolution = 1
-
-        self.cell_height = 1
-        self.f_mix = 0.5  # 10 %
-        self.q_cell = 0.3  # m³/d
-        self._salinity = [35 / 1000, 35 / 1000]
-
-        self._psi_leaf = -7.86 * 10 ** 6
-        self._r_crown = 3
-        self._h_stem = 3
-
-        self._r_salinity = "bettina"
-
-    def getInflowSalinity(self):
-        if len(self.my_grid[0]) == 1:
-            # If only 1 cell exist take mean of border salinity
-            self.sal_cell_inflow = np.array([0.5 * (self._salinity[0] + self._salinity[1])])
-        else:
-            x_dif = self.x_2 - self.x_1
-            self.sal_cell_inflow = (self.my_grid[0] - self.x_1) / x_dif * (self._salinity[1] - self._salinity[0]) + self._salinity[0]
-
     def prepareNextTimeStep(self, t_ini, t_end):
         super().prepareNextTimeStep(t_ini, t_end)
         self.timesteplength = t_end - t_ini
-        # ToDo: Ist vol_cell eher relatives Volumen ohne Einheit: - * m³/d * tsl/s*d
-        self.vol_water_cell = self.vol_cell * self.q_cell * self.timesteplength / 3600 / 24
         self.vol_sink_cell = np.zeros(np.shape(self.my_grid[0]))
         self.plant_cells = []
-        self.no_plants = 0
 
     def addPlant(self, plant):
-        self.no_plants += 1
+        xp, yp = plant.getPosition()
+        geometry = plant.getGeometry()
+        parameter = plant.getParameter()
+        gci = plant.getGrowthConceptInformation()
+        rrp = geometry["r_root"]
+        self._r_salinity.append(parameter["r_salinity"])
+        self._h_stem.append(geometry["h_stem"])
+        self._r_crown.append(geometry["r_crown"])
+        self._psi_leaf.append(parameter["leaf_water_potential"])
+        self._xe.append(xp)
+
+        # If below-ground resources does not yet exist for the plant, set
+        # sink term to 0
         try:
-            xp, yp = plant.getPosition()
-            geometry = plant.getGeometry()
-            parameter = plant.getParameter()
-            gci = plant.getGrowthConceptInformation()
-            rrp = geometry["r_root"]
-            self._r_salinity.append(parameter["r_salinity"])
-            self._h_stem.append(geometry["h_stem"])
-            self._r_crown.append(geometry["r_crown"])
-            self._psi_leaf.append(parameter["leaf_water_potential"])
+            plant_water_uptake = gci["bg_resources"]  # m³ water per time step
+        except KeyError:
+            plant_water_uptake = 0
 
-            self._xe.append(xp)
-
-            # If below-ground resources does not yet exist for the plant, set
-            # sink term to 0
-            try:
-                plant_water_uptake = gci["bg_resources"]  # m³ water per time step
-            except KeyError:
-                plant_water_uptake = 0
-
-        except AttributeError:
-            print("\t>>>>>>>>>>>>> Debug mode")
-            xp, yp = 0.5, .5
-            rrp = 1
-            # Example uptake 10 L per day
-            plant_water_uptake = 10 / 10**3      # m³ water per time step
-
+        # Extrapolate root radius, if radius is smaller than mesh size
         if rrp < self._mesh_size:
-            #print("\t> Interpolate root radius")
             rrp = self._mesh_size
 
+        # Assign plant water uptake to cells
         idx = self.getAffectedCellsIdx(xp, yp, rrp)
         self.plant_cells.append(idx)
         if plant_water_uptake != 0:
             no_cells = len(idx[0])
-            sink_per_cell = plant_water_uptake / no_cells
+            # Calculate transpiration based on area of occupied cells in m³ per m² per time step = m/s
+            sink_per_cell = plant_water_uptake / (self.cell_area * no_cells) / self.timesteplength
             self.vol_sink_cell[idx] += sink_per_cell
 
     def calculateBelowgroundResources(self):
@@ -104,29 +67,28 @@ class SaltFeedbackBucket(FixedSalinity):
         salinity_plant = self.getPlantSalinity()
         self.calculatePlantResources(salinity_plant)
 
+    def getInflowSalinity(self):
+        """
+        Calculate salinity of inflowing water of each cell, such as tidal water.
+        Salinity is linearly interpolated between the left and right model boundaries.
+        """
+        if len(self.my_grid[0]) == 1:
+            # If only 1 cell exist take mean of border salinity
+            self.sal_cell_inflow = np.array([0.5 * (self._salinity[0] + self._salinity[1])])
+        else:
+            x_dif = self.x_2 - self.x_1
+            self.sal_cell_inflow = (self.my_grid[0] - self.x_1) / x_dif * (self._salinity[1] - self._salinity[0]) + self._salinity[0]
+
     def calculateCellSalinity(self):
-        # Load in kg = kg/kg * m**3 * 10**3kg/m**3 = kg
-        # Calculate salinity load in each cell
-        # cell salinity * V_cell
-        m_cell = self.sal_cell * self.vol_water_cell #* 10**3
-
-        # Calculate cell volume after plant water uptake
-        # m³ = m³ - m³
-        vol_cell_remain = self.vol_water_cell - self.vol_sink_cell
-
-        # Calculate salinity in cell
-        # kg/kg = kg / m³ / 10**3kg/m**3 =  kg/kg
-        sal_cell_new = m_cell / vol_cell_remain #/ 10**3
-
-        # Mixing
-        vol_out = self.f_mix_inflow * self.vol_water_cell
-        m_out = self.sal_cell_inflow * vol_out #* 10**3
-        v_remain = self.vol_water_cell - vol_out
-        m_remain = sal_cell_new * v_remain #* 10**3
-
-        m_cell = m_remain + m_out
-
-        self.sal_cell = m_cell / self.vol_water_cell #/ 10**3
+        """
+        Calculate salinity in each cell considering
+        - extraction of fresh water by plants
+        - mixing with inflowing water.
+        Additionally, write cell salinity to text file.
+        """
+        ht = np.exp(- self.r_mix_inflow / self.depth * self.timesteplength)
+        self.sal_cell = self.sal_cell * ht + (self.vol_sink_cell + self.r_mix_inflow) / \
+                        self.r_mix_inflow * self.sal_cell_inflow * (1 - ht)
 
         self.writeGridSalinity(t_end=self._t_end, tsl=self.timesteplength)
 
@@ -144,9 +106,17 @@ class SaltFeedbackBucket(FixedSalinity):
         return salinity_plant
 
     def readGridSalinity(self):
+        """
+        Read salinity of previous timestep from text file.
+        Overwrites the existing file.
+        """
         self.sal_cell = np.loadtxt('grid_salinity.txt', usecols=range(len(self.my_grid[0][0])))
 
     def writeGridSalinity(self, t_end, tsl):
+        """
+        Write salinity of current timestep to text file.
+        If enabled write additional file including timestep.
+        """
         np.savetxt('grid_salinity.txt', self.sal_cell)
 
         if hasattr(self, "save_salinity_ts"):
@@ -154,30 +124,24 @@ class SaltFeedbackBucket(FixedSalinity):
                 np.savetxt('grid_salinity_' + str(t_end) + '.txt', self.sal_cell)
 
     def getAffectedCellsIdx(self, xp, yp, rrp):
+        """
+        Identify cells affected by a specific plant.
+        Args:
+            xp (float): x-coordinate of the plant
+            yp (float): y-coordinate of the plant
+            rrp (float): root radius of the plant
+        Returns:
+            array
+        """
         distance = (((self.my_grid[0] - np.array(xp)) ** 2 +
                      (self.my_grid[1] - np.array(yp)) ** 2) ** 0.5)
         idx = np.where(distance < rrp)
         return idx
 
-    def getCellVolume(self):
-        self.vol_cell = (self.x_2 / self.x_resolution) * self.y_2 / self.y_resolution * self.cell_height
-        print("> Domain volume:", self.x_2*self.y_2, "m**3, cell volume", self.vol_cell, "m**3")
-
-    def getInputParameters(self, args):
-        tags = {
-            "prj_file": args,
-            "required": ["type", "salinity", "x_1", "x_2", "y_1", "y_2",
-                         "x_resolution", "y_resolution", "q_cell", "f_mix"],
-            "optional": ["sine", "amplitude", "stretch", "offset", "noise",
-                         "medium", "save_salinity_ts"]
-        }
-        super(FixedSalinity, self).getInputParameters(**tags)
-        super().setDefaultParameters()
-
-        self.readMixingRateTag()
-
     def getBorderValues(self):
-        self._xe = np.array(self._xe)
+        """
+        Determine the salinity and/or mixing rate at the left and right boundaries of the model.
+        """
         if hasattr(self, "t_variable"):
             self.getSalinityTimeseries()
         elif hasattr(self, "amplitude"):
@@ -189,51 +153,64 @@ class SaltFeedbackBucket(FixedSalinity):
             else:
                 self.getSalinitySine()
 
-    def getMixingRateSine(self):
-        """
-        Calculate salinity of the current time step using a sine function.
-        Set salinity at the current time step at the left and right model boundary.
-        """
-        s0 = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset)
-        left = s0 + self.left_bc_f_mix
-        self.f_mix[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
-        self.f_mix[0] = self.f_mix[0] if self.f_mix[0] > 0 else 0
-
-        right = s0 + self.right_bc_f_mix
-        self.f_mix[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
-        self.f_mix[1] = self.f_mix[1] if self.f_mix[1] > 0 else 0
-
     def readMixingRateTag(self):
-        if isinstance(self.f_mix, float):
-            self.f_mix = [self.f_mix, self.f_mix]
-
+        """
+        Read the mixing rate tag <r_mix> from the project file and assign the values at the left and right
+        model boundary.
+        """
+        if isinstance(self.r_mix, float):
+            self.r_mix = [self.r_mix, self.r_mix]
         else:
-            if len(self.f_mix.split()) == 2:
-                self.f_mix = self.f_mix.split()
-                self.f_mix[0] = float(eval(self.f_mix[0]))
-                self.f_mix[1] = float(eval(self.f_mix[1]))
-
-        self.left_bc_f_mix = self.f_mix[0]
-        self.right_bc_f_mix = self.f_mix[1]
+            if len(self.r_mix.split()) == 2:
+                try:
+                    self.r_mix = self.r_mix.split()
+                    self.r_mix[0] = float(eval(self.r_mix[0]))
+                    self.r_mix[1] = float(eval(self.r_mix[1]))
+                except NameError:
+                    print("Error: Mix rate tag <r_mix> not properly defined.")
+                    exit()
+            else:
+                print("Error: Mix rate tag <r_mix> not properly defined.")
+                exit()
+        self.left_bc_r_mix = self.r_mix[0]
+        self.right_bc_r_mix = self.r_mix[1]
 
     def getInflowMixingRate(self):
+        """
+        Calculate the mixing rate of each cell.
+        The rate is linearly interpolated between the left and right model boundaries.
+        """
         if len(self.my_grid[0]) == 1:
-            self.f_mix_inflow = np.array([0.5 * (self.f_mix[0] + self.f_mix[1])])
+            self.r_mix_inflow = np.array([0.5 * (self.r_mix[0] + self.r_mix[1])])
         else:
             x_dif = self.x_2 - self.x_1
-            self.f_mix_inflow = (self.my_grid[0] - self.x_1) / x_dif * (self.f_mix[1] - self.f_mix[0]) + self.f_mix[0]
+            self.r_mix_inflow = (self.my_grid[0] - self.x_1) / x_dif * (self.r_mix[1] - self.r_mix[0]) + self.r_mix[0]
 
+    def getMixingRateSine(self):
+        """
+        Calculate mixing rate of the current time step using a sine function and assign the values at the left and right
+        model boundary.
+        """
+        s0 = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset)
+        left = s0 + self.left_bc_r_mix
+        self.r_mix[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
+        self.r_mix[0] = self.r_mix[0] if self.r_mix[0] > 0 else 0
 
-if __name__ == '__main__':
-    # Build xml tree snippet
-    from lxml import etree
+        right = s0 + self.right_bc_r_mix
+        self.r_mix[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
+        self.r_mix[1] = self.r_mix[1] if self.r_mix[1] > 0 else 0
 
-    root = etree.Element("belowground")
-    etree.SubElement(root, "type").text = "SaltFeedbackBucket"
-
-    resource = SaltFeedbackBucket(args=root)
-    resource.prepareNextTimeStep(t_ini=0, t_end=3600 * 24 * 100)
-    resource.addPlant(plant={})
-    resource.calculateBelowgroundResources()
-
-
+    def getInputParameters(self, args):
+        tags = {
+            "prj_file": args,
+            "required": ["type", "salinity", "x_1", "x_2", "y_1", "y_2",
+                         "x_resolution", "y_resolution", "r_mix"],
+            "optional": ["sine", "amplitude", "stretch", "offset", "noise",
+                         "medium", "save_salinity_ts", "depth"]
+        }
+        super(FixedSalinity, self).getInputParameters(**tags)
+        super().setDefaultParameters()
+        if not hasattr(self, "depth"):
+            print("> Set below-ground parameter 'depth' to default: 1")
+            self.depth = 1
+        self.readMixingRateTag()

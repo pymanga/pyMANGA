@@ -29,6 +29,7 @@ There is no direct competition.
         <medium> water </medium>
         <amplitude> 0.1 </amplitude>
     </sine>
+    <save_file> path/to/grid_salinity </save_file>
     <save_salinity_ts> 120 </save_salinity_ts>
 </belowground>
 ```
@@ -53,7 +54,8 @@ There is no direct competition.
   - ``stretch`` (float): (optional) stretch of the sine function, i.e., length of a full period. Default: 24\*3600\*58 (approx. 1 year)
   - ``offset`` (float): (optional) offset of the sine function (along the time axis). Default: 0
   - ``noise`` (float): (optional) standard deviation to pick salinity value from sine function. Default: 0
-- ``save_salinity_ts`` (int): (optional) number indicating at which nth timestep the salinity in each cell is written to a text file. 
+- ``save_file`` (str): (optional) file name or path of cell salinity file (without file format). If no path is defined, the file is saved in the root directory.
+- ``save_salinity_ts`` (int): (optional) number indicating at which nth timestep the salinity in each cell is written to a text file. Default: 1.
 
 See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/SaltFeedbackBucket/SaltFeedbackBucket.md" target="_blank">this example</a> for the effect discretization parameters. 
 
@@ -98,10 +100,10 @@ If the model domain consists of only 1 cell, the average of the left and right b
 
 The mixing rate in each cell (`r_mix_inflow`) is linearly interpolated based on the mixing rate at the left and right boundaries (`r_mix`).
 
-#### writeGridSalinity/readGridSalinity
+#### writeGridSalinity
 
-The salinity of each cell is written to and read from a txt file at the end and beginning of each time step.
-The file will be overwritten each time.
+The salinity of each cell is written to a txt file at the end of a time step, if defined in the project file.
+The file contains the salinity matrix of shape (row: y_resolution, col: x_resolution) 
 
 #### addPlant
 
@@ -120,7 +122,6 @@ sink_per_cell = plant_water_uptake / (cell_area * no_cells) / timesteplength
 
 - *getBorderValues* Calculate the salinity and mixing rate at the left and right domain boundaries based on ``pyMANGA.BelowGround.Individual.FixedSalinity``.
 - *getInflowSalinity* Calculate the inflowing salinity in each cell using linear interpolation (see method *getInflowSalinity*).
-- *readGridSalinity* Read salinity of each cell from previous time step.
 - *calculateCellSalinity* Calculate the salinity of the current time step using a simple bucket model approach (see below).
 - *getPlantSalinity* Calculate mean cell salinity of affected cells for each plant (``salinity_plant``)
 - *calculatePlantResources* Calculate salinity below each plant based on ``pyMANGA.BelowGround.Individual.FixedSalinity``.

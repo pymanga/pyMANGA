@@ -12,10 +12,18 @@ class SaltFeedbackBucket(FixedSalinity):
             args (lxml.etree._Element): below-ground module specifications from project file tags
         """
         self.getInputParameters(args)
+        self._t_ini = 0
         super().makeGrid()
+        self.getBorderValues()
         self.getInflowSalinity()
         self.getInflowMixingRate()
-        self.sal_cell = self.sal_cell_inflow
+        self.assignInitialCellSalinity()
+
+    def assignInitialCellSalinity(self):
+        if hasattr(self, "initial_salinity_file"):
+            self.sal_cell = np.loadtxt('initial_salinity_file', usecols=range(len(self.my_grid[0][0])))
+        else:
+            self.sal_cell = self.sal_cell_inflow
 
     def prepareNextTimeStep(self, t_ini, t_end):
         super().prepareNextTimeStep(t_ini, t_end)
@@ -200,7 +208,7 @@ class SaltFeedbackBucket(FixedSalinity):
                          "x_resolution", "y_resolution", "r_mix"],
             "optional": ["sine", "amplitude", "stretch", "offset", "noise",
                          "medium", "save_salinity_ts", "save_file",
-                         "depth"]
+                         "depth", "initial_salinity_file"]
         }
         return tags
 
@@ -214,8 +222,11 @@ class SaltFeedbackBucket(FixedSalinity):
         if not hasattr(self, "depth"):
             print("> Set below-ground parameter 'depth' to default: 1")
             self.depth = 1
+        if hasattr(self, "sine"):
+            if not hasattr(self, "depth"):
+                print("> Set below-ground parameter 'medium' to default: salt")
+                self.medium = "salt"
         self.readMixingRateTag()
-
         if hasattr(self, "save_file"):
             if not hasattr(self, "save_salinity_ts"):
                 self.save_salinity_ts = 1

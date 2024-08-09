@@ -207,6 +207,12 @@ class FixedSalinity(ResourceModel):
                 elif self._salinity_over_t[0, 0] > self._t_ini:
                     self._salinity = [self._salinity_over_t[-1, 1],
                                       self._salinity_over_t[-1, 2]]
+        self.checkSalinityInput()
+
+    def checkSalinityInput(self):
+        if any(self._salinity) > 1:
+            print("ERROR: Salinity over 1000 ppt. Are you sure the salinity is in the correct unit (i.e., kg/kg, not ppt)?")
+            exit()
 
     def getInputParameters(self, args):
         tags = {
@@ -217,6 +223,7 @@ class FixedSalinity(ResourceModel):
         }
         super().getInputParameters(**tags)
         self.setDefaultParameters()
+        self.checkSalinityInput()
 
     def setDefaultParameters(self):
         self._salinity = self.salinity
@@ -269,11 +276,9 @@ class FixedSalinity(ResourceModel):
 
         # Path to a file containing salinity values that vary over time
         elif os.path.exists(self._salinity) is True:
-
             # Reading salinity values from a csv-file
             salinity_over_t = pd.read_csv(self._salinity, delimiter=";|,|\t", engine='python')
             self._salinity_over_t = salinity_over_t.to_numpy()
-
             # Check if csv separation has worked
             try:
                 assert self._salinity_over_t.shape[1] == 3

@@ -81,3 +81,11 @@ class NetworkSaltFeedbackBucket(Network, SaltFeedbackBucket):
         if not hasattr(self, "exchange"):
             self.exchange = "on"
             print("> Set below-ground network parameter 'exchange' to default:", self.exchange)
+
+        if not hasattr(self, "depth"):
+            print("> Set below-ground parameter 'depth' to default: 1")
+            self.depth = 1
+        if hasattr(self, "sine"):
+            if not hasattr(self, "medium"):
+                print("> Set below-ground parameter 'medium' to default: salt")
+                self.medium = "salt"

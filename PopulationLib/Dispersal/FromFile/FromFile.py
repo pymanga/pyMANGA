@@ -43,7 +43,7 @@ class FromFile:
             try:
                 network[net] = plant_attributes_file[net].flatten()
             except KeyError:
-                print("ERROR: geometry parameters in initial population do not match plant module.")
+                print("ERROR: network parameters in initial population do not match plant module.")
                 exit()
         positions = {"x": plant_attributes_file["x"].flatten(),
                      "y": plant_attributes_file["y"].flatten()}

@@ -9,3 +9,4 @@ vtk == 9.2.2 # required for OpenGeoSys
 coverage
 interrogate
 scipy # required for SolarRadiation above-ground concept
+importlib

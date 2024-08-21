@@ -29,11 +29,15 @@ Go to [Examples](#examples) for more information
 - ``max_x`` (float): x-coordinate of the right border (x = max.)
 - ``salinity`` (float float or string): either two values representing the salinity (kg/kg) at ``min_x`` and ``max_x`` <strong>or</strong> the path to a csv file containing a time series of salinity (see description above and 
         example below)
-- ``sine`` (nesting-tag): (optional) calculate salinity for each time step based on a sine function. See notes for details.
+- ``sine`` (nesting-tag): (optional) calculate salinity for each time step based on a sine function. See 'Details' for more information.
   - ``amplitude`` (float): (optional) amplitude of the sine function. Default: 0
   - ``stretch`` (float): (optional) stretch of the sine function, i.e., length of a full period. Default: 24\*3600\*58 (approx. 1 year)
   - ``offset`` (float): (optional) offset of the sine function (along the time axis). Default: 0
   - ``noise`` (float): (optional) standard deviation to pick salinity value from sine function. Default: 0
+- ``distribution`` (nesting-tag): (optional) draw salinity below each plant and for each time step from a distribution. See 'Details' for more information.
+  - ``type`` (string): (optional) string indicating the distribution, i.e., 'normal', 'uniform'
+  - ``deviation`` (float): (optional) deviation if normal distribution is selected, given either as relative or absolute value (see <relative>). Default is 0.005.
+  - ``relative`` (bool): (optional) If True, the deviation is interpreted as relative value (e.g., a deviation of 0.05 is interpreted as 5 %). If False (Default), deviation is interpreted as salinity unit (e.g., a deviation of 0.005 is interpreted as 5 ppt).
 
 *Note*: all values are given in SI units, but can be provided using equations (see examples).
 For salinity, this means typical seawater salinity of 35 ppt is given as 0.035 kg/kg or 35\*10\**-3 kg/kg.
@@ -84,6 +88,18 @@ Additionally, noise can be added by drawing ``s_i_t`` from a normal distribution
 If ``s_xm_t`` becomes negative, it is set to 0. 
 
 See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/FixedSalinity/sine.md" target="_blank">this example</a> for the effect of each parameter.       
+
+If the flag ``distribution`` is set, the salinity below each plant ``s_i`` is randomized (``s_i_rand``), depending on the choosen distribution.
+The following options are available:
+- ``normal``:  
+  + ``s_i_rand`` is drawn from a normal distribution 
+  + where  ``s_i`` is the mean, and
+  + where ``s_i`` * ``deviation`` is the standard deviation if provided as relative value (i.e., tag <relative> is set to True)
+  + where ``deviation`` is the standard deviation if provided as absolute value (i.e., tag <relative> is set to False)
+- ``uniform``:  
+  + ``s_i_rand`` is drawn from a uniform distribution 
+  + where  ``s_xmin`` and ``s_xmax`` are the interval limits
+
 
 ### getBGfactor
 
@@ -194,6 +210,17 @@ Jasper Bathmann, Jonas Vollhüter, Marie-Christin Wimmler
     <stretch>5019110</stretch>
     <noise>0.001</noise>
 </sine>
+```
+
+- Add stochasticity to salinity below each plant, drawn from a normal distribution with a mean value of 35 ppt (because no gradient is defined) and a standard deviation of 3 ppt
+
+```xml
+<salinity>35*10**-3 35*10**-3</salinity>
+<distribution>
+    <type>norm</type>
+    <deviation>3/1000</deviation>
+    <relative> false </relative>
+</distribution>
 ```
 
 ## Run this module

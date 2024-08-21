@@ -86,13 +86,47 @@ class FixedSalinity(ResourceModel):
             self.getSalinityTimeseries()
         elif hasattr(self, "amplitude"):
             self.getSalinitySine()
+
         # Interpolation of salinity over space
         salinity_plant = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
                          (self._salinity[1] - self._salinity[0]) +
                          self._salinity[0])
 
+        if hasattr(self, "distribution"):
+            salinity_plant = self.getSalinityDistribution(salinity_plant)
+
         return salinity_plant
+
+    def getSalinityDistribution(self, salinity_plant):
+        """
+        Add stochasticity to the salinity below each plant (in each time step).
+        Stochasticity is added based on the selected probability distribution.
+        Args:
+            salinity_plant (array): salinity below each plant
+        Returns:
+            numpy array with shape(number_of_trees)
+        """
+        # Normal distribution
+        if self.type.startswith("norm"):
+            if self.relative:
+                # Standard deviation is provided as relative value
+                salinity_plant_new = [np.random.normal(i, i * self.deviation) for i in salinity_plant]
+            else:
+                # Standard deviation is provided as absolute value
+                salinity_plant_new = [np.random.normal(i, self.deviation) for i in salinity_plant]
+        # Uniform distribution
+        elif self.type.startswith("uni"):
+            salinity_plant_new = np.random.uniform(self._salinity[0], self._salinity[1], len(salinity_plant))
+        # Poisson distribution
+        else:
+            print("Error: Distribution parameter 'type =", self.type, "' does not exist. Check possible inputs for"
+                  " below-ground resource module `FixedSalinity`.")
+            exit()
+        salinity_plant_new = np.array(salinity_plant_new)
+        salinity_plant_new[salinity_plant_new < 0] = 0
+
+        return salinity_plant_new
 
     def getSalinitySine(self):
         """
@@ -101,11 +135,11 @@ class FixedSalinity(ResourceModel):
         """
         s0 = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset)
         left = s0 + self.left_bc
-        self._salinity[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
+        self._salinity[0] = np.random.normal(size=1, loc=left, scale=self.noise)
         self._salinity[0] = self._salinity[0] if self._salinity[0] > 0 else 0
 
         right = s0 + self.right_bc
-        self._salinity[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
+        self._salinity[1] = np.random.normal(size=1, loc=right, scale=self.noise)
         self._salinity[1] = self._salinity[1] if self._salinity[1] > 0 else 0
 
     def getSalinityTimeseries(self):
@@ -170,13 +204,15 @@ class FixedSalinity(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "min_x", "max_x", "salinity"],
-            "optional": ["sine", "amplitude", "stretch", "offset", "noise"]
+            "optional": ["sine", "amplitude", "stretch", "offset", "noise",
+                         "distribution", "type", "deviation", "relative"]
         }
         super().getInputParameters(**tags)
         self._salinity = self.salinity
         self._min_x = self.min_x
         self._max_x = self.max_x
         self.readSalinityTag()
+        self.relative = super().makeBoolFromArg("relative")
 
         if hasattr(self, "sine"):
             if not hasattr(self, "amplitude"):
@@ -187,10 +223,21 @@ class FixedSalinity(ResourceModel):
                 self.stretch = 58*3600*24
             if not hasattr(self, "noise"):
                 print("> Set sine parameter 'noise' to noise: 0")
-                self.deviation = 0
+                self.noise = 0
             if not hasattr(self, "offset"):
                 print("> Set sine parameter 'offset' to offset: 0")
                 self.offset = 0
+
+        if hasattr(self, "distribution"):
+            if not hasattr(self, "type"):
+                print("> Set distribution parameter 'type' to default: normal")
+                self.distribution = "normal"
+            if not hasattr(self, "deviation"):
+                print("> Set distribution parameter 'deviation' to default: 0.005 (5 ppt)")
+                self.deviation = 5/1000
+            if not hasattr(self, "relative"):
+                print("> Set distribution parameter 'relative' to default: false")
+                self.relative = False
 
     def readSalinityTag(self):
         """

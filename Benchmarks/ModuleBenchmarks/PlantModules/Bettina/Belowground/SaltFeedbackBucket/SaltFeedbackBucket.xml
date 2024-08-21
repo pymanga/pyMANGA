@@ -48,7 +48,7 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 2e6 </t_end>
+        <t_end> 5e8 </t_end>
         <delta_t> 1e6 </delta_t>
     </time_loop>
     <visualization>
@@ -56,7 +56,7 @@
     </visualization>
     <output>
         <type> OneTimestepOneFile </type>
-		<output_times> [2e6] </output_times>
+		<output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>

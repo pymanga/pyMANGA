@@ -12,9 +12,9 @@
                 <y_1> 0 </y_1>
                 <x_2> 5 </x_2>
                 <y_2> 5 </y_2>
+                <x_resolution> 100 </x_resolution>
+                <y_resolution> 100 </y_resolution>
             </domain>
-            <x_resolution> 100 </x_resolution>
-            <y_resolution> 100 </y_resolution>
             <soil_properties>
                 <omega_s>0.488</omega_s>
                 <omega_r>0.028</omega_r>

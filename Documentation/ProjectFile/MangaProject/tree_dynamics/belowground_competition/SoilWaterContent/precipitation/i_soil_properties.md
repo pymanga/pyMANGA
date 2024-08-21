@@ -1,3 +1,0 @@
-
-
-Precipitation data.

@@ -1,5 +1,0 @@
-/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__SoilWaterContent__precipitation__delta_t_per_row &emsp;[spec]delta_t_per_row
-
-Measurement intervals within the datafile. It is assumed, that the samples are provided with a constant rate. 
-Value given in [s].
-*/

@@ -1,5 +1,0 @@
-/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__SoilWaterContent__precipitation__precipitation_col &emsp;[spec]precipitation_col
-
-Column number in which the precipitation data is provided within de data file.
-The first column has the number 1.
-*/

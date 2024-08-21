@@ -1,4 +1,0 @@
-/*! \page project_dox__MangaProject__tree_dynamics__belowground_competition__SoilWaterContent__precipitation__data_file &emsp;[spec]data_file
-
-Path to the file containing precipitation data. Within the file, precipitation shall be given in mm (l/m^2).
-*/

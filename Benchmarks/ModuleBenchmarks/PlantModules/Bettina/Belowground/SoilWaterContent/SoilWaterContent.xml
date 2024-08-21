@@ -2,7 +2,7 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground>
-            <type> SimpleTest </type>
+            <type> Default </type>
         </aboveground>
         <belowground>
             <type> SoilWaterContent </type>
@@ -10,11 +10,11 @@
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
-                <x_2> 5 </x_2>
-                <y_2> 5 </y_2>
+                <x_2> 22 </x_2>
+                <y_2> 22 </y_2>
             </domain>
-            <x_resolution> 100 </x_resolution>
-            <y_resolution> 100 </y_resolution>
+            <x_resolution> 88 </x_resolution>
+            <y_resolution> 88 </y_resolution>
             <soil_properties>
                 <omega_s>0.488</omega_s>
                 <omega_r>0.028</omega_r>
@@ -23,47 +23,46 @@
                 <psi_matrix>-6309.57</psi_matrix>
             </soil_properties>
             <precipitation>
-                <data_file>Benchmarks/ModuleBenchmarks/BelowgroundCompetition/SoilWaterContent/ExamplePrecipitation.txt</data_file>
+                <data_file> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/Belowground/SoilWaterContent/ExamplePrecipitation.txt</data_file>
                 <precipitation_col_number>4</precipitation_col_number>
                 <delta_t_per_row>3600</delta_t_per_row>
             </precipitation>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> SimpleBettina </type>
-        <mortality>NoGrowth</mortality>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
-            <species> PopulationLib/Species/Pinus.py </species>
+            <species> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/Belowground/SoilWaterContent/Pinus.py </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
             <distribution>
-                <type> Random </type>
+                <type> FromFile </type>
                 <domain>
                     <x_1> 0 </x_1>
                     <y_1> 0 </y_1>
-                    <x_2> 5 </x_2>
-                    <y_2> 5 </y_2>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
                 </domain>
-                <n_individuals> 1 </n_individuals>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/bg_initial_population.csv </filename>
             </distribution>
         </group>
     </population>
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 631152000 </t_end>
+        <t_end> 5e8 </t_end>
         <delta_t> 1e6 </delta_t>
+        <terminal_print>years</terminal_print>
     </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
     <output>
-        <type> OneFile </type>
-        <output_each_nth_timestep>24</output_each_nth_timestep>
+        <type> OneTimestepOneFile </type>
+		<output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/Pinus/</output_dir>
+        <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <geometry_output> r_crown </geometry_output>
@@ -71,9 +70,9 @@
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
+        <growth_output> salinity </growth_output>
         <growth_output> ag_factor </growth_output>
         <growth_output> bg_factor </growth_output>
-        <growth_output> salinity </growth_output>
     </output>
 </MangaProject>
 

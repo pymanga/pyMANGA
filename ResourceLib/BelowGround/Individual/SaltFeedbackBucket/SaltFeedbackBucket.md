@@ -31,6 +31,7 @@ There is no direct competition.
     </sine>
     <save_file> path/to/grid_salinity </save_file>
     <save_salinity_ts> 120 </save_salinity_ts>
+    <initial_salinity_file> path/so/salinity.txt </initial_salinity_file>
 </belowground>
 ```
 
@@ -56,6 +57,7 @@ There is no direct competition.
   - ``noise`` (float): (optional) standard deviation to pick salinity value from sine function. Default: 0
 - ``save_file`` (str): (optional) file name or path of cell salinity file (without file format). If no path is defined, the file is saved in the root directory.
 - ``save_salinity_ts`` (int): (optional) number indicating at which nth timestep the salinity in each cell is written to a text file. Default: 1.
+- ``initial_salinity_file`` (str): (optional) path to text file containing initial cell salinity.
 
 See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/SaltFeedbackBucket/SaltFeedbackBucket.md" target="_blank">this example</a> for the effect discretization parameters. 
 
@@ -79,9 +81,10 @@ This in turn makes it more difficult for the plant to take up water (i.e. reduce
 
 Initialize the module
 - *makeGrid*: create regular grid (see ``pyMANGA.ResourceLib``)
+- *getBorderValues* Calculate the salinity and mixing rate at the left and right domain boundaries based on ``pyMANGA.BelowGround.Individual.FixedSalinity``.
 - *getInflowSalinity*: calculate salinity in each cell
 - *getInflowMixingRate*: calculate mixing rate in each cell
-- *writeGridSalinity*: write cell salinity to file
+- *assignInitialCellSalinity*: get initial cell salinity
 
 During each time step:
 - *prepareNextTimeStep*: technical method
@@ -100,10 +103,11 @@ If the model domain consists of only 1 cell, the average of the left and right b
 
 The mixing rate in each cell (`r_mix_inflow`) is linearly interpolated based on the mixing rate at the left and right boundaries (`r_mix`).
 
-#### writeGridSalinity
+#### assignInitialCellSalinity
 
-The salinity of each cell is written to a txt file at the end of a time step, if defined in the project file.
-The file contains the salinity matrix of shape (row: y_resolution, col: x_resolution) 
+If an initial cell salinity is provided as a text file, the file is read and the salinity is assigned.
+The file needs to contain the salinity matrix of shape (row: y_resolution, col: x_resolution).
+If this is not the case, salinity is calculated with *getInflowSalinity*.
 
 #### addPlant
 
@@ -125,6 +129,7 @@ sink_per_cell = plant_water_uptake / (cell_area * no_cells) / timesteplength
 - *calculateCellSalinity* Calculate the salinity of the current time step using a simple bucket model approach (see below).
 - *getPlantSalinity* Calculate mean cell salinity of affected cells for each plant (``salinity_plant``)
 - *calculatePlantResources* Calculate salinity below each plant based on ``pyMANGA.BelowGround.Individual.FixedSalinity``.
+- *writeGridSalinity* Write grid cell salinity to a text file.
 
 ##### getBorderValues
 
@@ -145,6 +150,11 @@ Salinity in each cell is calculated assuming a simple water bucket approach, whe
 ht = exp(- r_mix_inflow / depth * timesteplength)
 sal_cell = sal_cell * ht + (vol_sink_cell + r_mix_inflow) / r_mix_inflow * sal_cell_inflow * (1 - ht)
 ````
+
+#### writeGridSalinity
+
+The salinity of each cell is written to a txt file at the end of a time step, if defined in the project file.
+The file contains the salinity matrix of shape (row: y_resolution, col: x_resolution) 
 
 ## Application & Restrictions
 

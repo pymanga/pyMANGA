@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@date: 2018-Today
-@author: jasper.bathmann@ufz.de
-"""
 import numpy as np
+import pandas as pd
 
 
 class Dispersal:
@@ -30,8 +27,103 @@ class Dispersal:
         print("Population: " + distribution_type + ".")
 
         self.dispersal = BC(self.xml_args)
-        tags = self.dispersal.getTags()
+        tags = {
+            "prj_file": self.xml_args,
+            "required": ["domain", "x_1", "x_2", "y_1", "y_2"],
+            "optional": ["n_recruitment_per_step",
+                         "weight_formula", "weight_file", "x_res", "y_res"]
+        }
+        tags = self.dispersal.getTags(tags)
         self.getInputParameters(**tags)
+
+        if hasattr(self, "weight_file"):
+            self.iniWeightsFile()
+        elif hasattr(self, "weight_formula"):
+            self.iniWeightsFormula()
+
+    def iniWeightsFormula(self):
+        """
+        Create map (grid) with weights indicating suitability for recruitment.
+        Map is initialized at the beginning of the simulation for each plant group.
+        Weights should range between 0 (not suitable) and 1 (suitable).
+        """
+        if not hasattr(self, "x_res"):
+            self.x_res = self.x_2 - self.x_1
+            print("> Set dispersal parameter 'x_res' to default:", self.x_res)
+        if not hasattr(self, "y_res"):
+            self.y_res = self.y_2 - self.y_1
+            print("> Set dispersal parameter 'y_res' to default:", self.y_res)
+
+        # Cell dimensions
+        self.dispersal.x_r = 1 / (self.x_res / self.l_x)
+        self.dispersal.y_r = 1 / (self.y_res / self.l_y)
+
+        # Create xy coordinates of all nodes in the grid
+        x, y = np.linspace(self.dispersal.x_r, self.l_x, int(self.x_res)),\
+            np.linspace(self.dispersal.y_r, self.l_y, int(self.y_res))
+        self.dispersal.grid_x, self.dispersal.grid_y = self.expand_grid(x, y)
+
+        # Calculate weights based on function
+        weighting_function = self.string_to_function(self.weight_formula)
+        self.dispersal.weights = weighting_function(self.dispersal.grid_x, self.dispersal.grid_y)
+
+        if np.max(self.dispersal.weights) > 1:
+            print("WARNING: dispersal weights are > 1.")
+
+    def iniWeightsFile(self):
+        """
+        Read grid and weights from csv-file.
+        Returns:
+
+        """
+        try:
+            weight_file = pd.read_csv(self.weight_file, delimiter=";|,|\t", engine='python')
+        except pd.errors.ParserError:
+            weight_file = pd.read_csv(self.weight_file, delimiter=";", engine='python')
+
+        if not set(['x', 'y', 'weight']).issubset(weight_file.columns):
+            print("Error: Wrong column names in weight map file (population > distribution > weight_file).\n"
+                  "Required column names: x, y, weight (without quotes).")
+            exit()
+
+        self.dispersal.grid_x = weight_file['x'].to_numpy()
+        self.dispersal.grid_y = weight_file['y'].to_numpy()
+        self.dispersal.weights = weight_file['weight'].to_numpy()
+
+        self.dispersal.x_r = np.mean(np.diff(weight_file['x'].unique()))
+        self.dispersal.y_r = np.mean(np.diff(weight_file['y'].unique()))
+
+        if np.max(self.dispersal.weights) > 1:
+            print("WARNING: dispersal weights are > 1.")
+
+    def string_to_function(self, expression):
+        """
+        Evaluate formula from project file
+        Credits: https://saturncloud.io/blog/pythonnumpyscipy-converting-string-to-mathematical-function/#numpys-frompyfunc-function
+        Args:
+            expression (string): weighting formula (from prj file)
+        Returns:
+            array
+        """
+        def function(x, y):
+            return eval(expression)
+
+        return np.frompyfunc(function, 2, 1)
+
+    def expand_grid(self, x, y):
+        """
+        Create grid based on xy coordinates.
+        Args:
+            x (array): x-coordinates
+            y (array): y-coordinates
+        Returns:
+            list(array, array)
+        """
+        xG, yG = np.meshgrid(x, y)
+        xG = xG.flatten()
+        yG = yG.flatten()
+
+        return [xG, yG]
 
     def getPlantAttributes(self, initial_group):
         """

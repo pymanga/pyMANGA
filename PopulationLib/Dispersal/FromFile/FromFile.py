@@ -14,17 +14,13 @@ class FromFile:
         """
         self.xml_args = xml_args
 
-    def getTags(self):
+    def getTags(self, tags):
         """
         Return tags to search for in the project file
         Returns:
             dict
         """
-        tags = {
-            "prj_file": self.xml_args,
-            "required": ["type", "filename", "domain", "x_1", "x_2", "y_1", "y_2"],
-            "optional": ["n_recruitment_per_step"]
-        }
+        tags["required"] += ["type", "filename"]
         return tags
 
     def getInitialGroup(self):
@@ -101,8 +97,8 @@ class FromFile:
             positions, geometry, network = self.getInitialGroup()
         else:
             number_of_plants = self.n_recruitment_per_step
-            positions = Random.getRandomPositions(self=self,
-                                                  number_of_plants=number_of_plants)
+            positions = Random.getPositions(self=self,
+                                            number_of_plants=number_of_plants)
             geometry = np.full(len(positions["x"]), False)
             network = {}
         return positions, geometry, network

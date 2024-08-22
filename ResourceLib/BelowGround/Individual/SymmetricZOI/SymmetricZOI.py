@@ -38,10 +38,7 @@ class SymmetricZOI(ResourceModel):
                 print("Please refine mesh or increase initial root radius above " +
                       str(self._mesh_size) + "m or allow interpolation.")
                 exit()
-        if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
-            raise ValueError("""It appears as a plant is located outside of the
-                             domain, where BC is defined. Please check domains
-                             in project file!!""")
+
         self.xe.append(x)
         self.ye.append(y)
         self.r_root.append(r_root)

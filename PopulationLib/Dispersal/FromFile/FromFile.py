@@ -61,7 +61,7 @@ class FromFile:
         """
         # ToDo: Liste mit notwendigen Parametern irgendwoher holen?
         plant_model = self.xml_args.find("vegetation_model_type").text
-        network_list = []
+        geometry_list, network_list = [], []
         if plant_model == "Default":
             # ToDo: Welche Geometrie soll für Default definiert werden? Anpassung Benchmarks&ini_pop.csv notwendig
             # geometry_list = ["r_ag", "h_ag", "r_bg", "h_bg"]
@@ -73,6 +73,10 @@ class FromFile:
             network_list = ["partner"]
         elif plant_model == "Jabowa":
             geometry_list = ["r_stem"]
+
+        if not geometry_list:
+            print("ERROR: No plant geometry is implemented for the selected plant type.")
+            exit()
         return geometry_list, network_list
 
     def getPlantsFromFile(self):

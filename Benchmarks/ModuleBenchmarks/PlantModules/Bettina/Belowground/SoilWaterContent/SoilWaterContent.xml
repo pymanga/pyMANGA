@@ -6,7 +6,7 @@
         </aboveground>
         <belowground>
             <type> SoilWaterContent </type>
-            <delta_t_concept> 3600 </delta_t_concept>
+            <delta_t_concept> 3600*24 </delta_t_concept>
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>

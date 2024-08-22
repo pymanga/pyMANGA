@@ -6,7 +6,7 @@
         </aboveground>
         <belowground>
             <type> SoilWaterContent </type>
-            <delta_t_concept> 3600 </delta_t_concept>
+            <delta_t_concept> 3600*24 </delta_t_concept>
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
@@ -23,7 +23,7 @@
                 <psi_matrix>-6309.57</psi_matrix>
             </soil_properties>
             <precipitation>
-                <data_file>Benchmarks/ModuleBenchmarks/BelowgroundCompetition/SoilWaterContent/ExamplePrecipitation.txt</data_file>
+                <data_file> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/Belowground/SoilWaterContent/ExamplePrecipitation.txt</data_file>
                 <precipitation_col_number>4</precipitation_col_number>
                 <delta_t_per_row>3600</delta_t_per_row>
             </precipitation>
@@ -32,7 +32,7 @@
     <population>
         <group>
             <name> Initial </name>
-            <species> PopulationLib/Species/Pinus.py </species>
+            <species> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/Belowground/SoilWaterContent/Pinus.py </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
             <mortality>NoGrowth</mortality>
             <distribution>

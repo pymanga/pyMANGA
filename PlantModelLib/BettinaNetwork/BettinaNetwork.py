@@ -46,8 +46,8 @@ class BettinaNetwork(Bettina):
         self.name = str(tree.group_name) + str(tree.plant_id)
         # Simple bettina tree progress
         super().progressPlant(tree=tree,
-                             aboveground_resources=aboveground_resources,
-                             belowground_resources=belowground_resources)
+                              ag_factor=aboveground_resources,
+                              bg_factor=belowground_resources)
 
         network['variant'] = self.variant
         network['rgf'] = self.rgf

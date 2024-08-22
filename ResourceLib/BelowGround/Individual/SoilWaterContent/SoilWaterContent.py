@@ -37,10 +37,9 @@ class SoilWaterContent(ResourceModel):
     ## Initialization of soil properties according to Janosh ODD
     def initializeSoil(self):
         ## Maximal soil water content [m**3]
-        self.max_soil_water_content = (
-            self.omega_r + (self.omega_s - self.omega_r) / ((
-                1 + (-self.alpha * self.psi_matrix / 100)**self.n)**(
-                    1 - 1 / self.n))) * np.ones_like(self.my_grid[1])
+        self.max_soil_water_content = (self.omega_r + (self.omega_s - self.omega_r) /
+                                       ((1 + (-self.alpha * self.psi_matrix / 100)**self.n)**(1 - 1 / self.n))) *\
+                                      np.ones_like(self.my_grid[1])
         ## Current soil water content [m**3]
         self.soil_water_content = 0 + self.max_soil_water_content # 0 + -- creates copy
 
@@ -66,6 +65,15 @@ class SoilWaterContent(ResourceModel):
     def prepareNextTimeStep(self, t_ini, t_end):
         self.xe = []
         self.ye = []
+        self.r_roots = []
+        self.r_crowns = []
+        self.h_stems = []
+        self.delta_psis = []
+        self.flow_lengths = []
+        self.plant_volums = []
+        self.flow_resistances = []
+
+
         self.t_ini = t_ini
         self.t_end = t_end
         self.plants = []
@@ -101,8 +109,7 @@ class SoilWaterContent(ResourceModel):
             contribution_middle += np.sum(self.precipitation_input[
                 :int(t_1_idx)])
 
-        integrated_precipitation = (
-            contribution_left + contribution_right + contribution_middle)
+        integrated_precipitation = contribution_left + contribution_right + contribution_middle
         # Update of soil water content with new precipitation
         self.updateSoilWaterContent(integrated_precipitation)
 
@@ -116,8 +123,7 @@ class SoilWaterContent(ResourceModel):
         idx = np.where(self.soil_water_content > self.max_soil_water_content)
         self.soil_water_content[idx] = self.max_soil_water_content[idx]
         ## Cut SWC at minimum value (residual water content)
-        self.soil_water_content[
-            np.where(self.soil_water_content < self.omega_r)] = self.omega_r
+        self.soil_water_content[np.where(self.soil_water_content < self.omega_r)] = self.omega_r
 
     ## Before being able to calculate the resources, all plant entities need
     #  to be added with their current implementation for the next timestep.
@@ -125,8 +131,22 @@ class SoilWaterContent(ResourceModel):
     def addPlant(self, plant):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
-        parameter = plant.getParameter()
-        self.pf = parameter["pF"]
+        self.parameter = plant.getParameter()
+        growth_concept_information = plant.getGrowthConceptInformation()
+        self.pf = self.parameter["pF"]
+        try:
+            root_surface_resistance = growth_concept_information["root_surface_resistance"]
+            xylem_resistances = growth_concept_information["xylem_resistance"]
+            flow = growth_concept_information["bg_resources"]
+        except KeyError:
+            root_surface_resistance = 0
+            xylem_resistances = 0
+            flow = 0
+            print("WARNING: Set flow resistance & water uptake to 0 as values are not available.")
+            # This should only happen in the very first timestep.
+
+        self.flow_resistances.append(root_surface_resistance+xylem_resistances)
+
         if geometry["r_root"] < self._mesh_size * 1 / 2**0.5:
             print("Error: mesh not fine enough for root dimensions!")
             print("Please refine mesh or increase initial root radius above ",
@@ -136,8 +156,25 @@ class SoilWaterContent(ResourceModel):
             raise ValueError("""It appears as a plant is located outside of the
                              domain, where BC is defined. Please check domains
                              in project file!!""")
+
+        self.r_crown = geometry["r_crown"]
+        self.h_crown = geometry["h_crown"]
+        self.r_root = geometry["r_root"]
+        self.h_root = geometry["h_root"]
+
+        self.r_stem = geometry["r_stem"]
+        self.h_stem = geometry["h_stem"]
+
         self.xe.append(x)
         self.ye.append(y)
+        self.r_roots.append(self.r_root)
+        self.r_crowns.append(self.r_crown)
+        self.h_stems.append(self.h_stem)
+        delta_psi = Bettina.deltaPsi(self=self)
+        self.delta_psis.append(delta_psi)
+        self.flow_lengths.append(Bettina.flowLength(self=self))
+        self.plant_volums.append(Bettina.treeVolume(self=self))
+
         ## List of plants
         self.plants.append(plant)
         ## List containing current flow for each plant [m]
@@ -145,13 +182,11 @@ class SoilWaterContent(ResourceModel):
 
         # Calculation of potential maximal flow for plant
         self.calculateMatrixPotential(self.max_soil_water_content)
-        self.extractRelevantInformation(
-            geometry=geometry,
-            parameter=parameter)
-        flow = (self.bgResources(
-            (self.deltaPsi() - self.psi_matrix[0, 0]
-             ) / self.deltaPsi(),
-            self.t_end - self.t_ini))
+
+        self.time = self.delta_t_concept
+
+        # flow = self.bgResources(bg_factor=(delta_psi - self.psi_matrix[0, 0]) / delta_psi,
+        #                         delta_time=self.t_end - self.t_ini)
         ## List containing potential flow for each plant [m]
         self.max_plant_flows.append(flow)
 
@@ -159,100 +194,69 @@ class SoilWaterContent(ResourceModel):
     #  subsequent timestep.\n
     #  @return: np.array with $N_plant$ scalars
     def calculateBelowgroundResources(self):
-        t_1 = self.t_ini
-        t_2 = 0
-        # Numpy array of shape [res_x, res_y, n_plants]
-        # Distance of all nodes to each plant
-        distance = (((self.my_grid[0][
-            :, :, np.newaxis] - np.array(self.xe)[
-                np.newaxis, np.newaxis, :])**2 + (
-                    self.my_grid[1][
-                        :, :, np.newaxis] - np.array(self.ye)[
-                            np.newaxis, np.newaxis, :])**2)**0.5)
-        # While loop applies concept native timestepping
-        # If delta_t_concept < delta_t, time stepping is refined
-        # otherwise, delta_t is used
-        while t_2 < self.t_end:
-            if (t_1 + self.delta_t_concept) <= self.t_end:
-                t_2 = t_1 + self.delta_t_concept
-            else:
-                t_2 = self.t_end
-            # Array to store data for total water flux per timestep
-            flux = np.zeros_like(self.soil_water_content)
-            # Update precipitation
-            self.integratePrecipitationData(t_1, t_2)
-            # Calculate resulting soil potentials
-            self.calculateMatrixPotential(self.soil_water_content)
-            for i in range(len(self.plants)):
-                plant = self.plants[i]
-                # Calculation of possible water uptake for each plant
-                self.extractRelevantInformation(
-                    geometry=plant.getGeometry(),
-                    parameter=plant.getParameter())
-                root_radius = plant.geometry["r_root"]
-                plant_nodes = np.where(root_radius > distance[:, :, i])
-                # Actual flow for plant i
-                flow = (self.bgResources(
-                    (self.deltaPsi() - self.psi_matrix[plant_nodes]
-                     ) / self.deltaPsi(),
-                    t_2 - t_1))
-                # Contribution to the fluxes in and out of the grid
-                flux[plant_nodes] -= flow / float(len(plant_nodes[0]))
-                # Average flow for plant
-                self.plant_flows[i] += np.sum(flow) / float(len(plant_nodes[0]))
+        if np.sum(self.max_plant_flows) == 0:
+            print("WARNING: Set bg_factor to 1 because no plant water uptake occurred.")
+            self.belowground_resources = np.full(shape=len(self.xe), fill_value=1)
+        else:
+            t_1 = self.t_ini
+            t_2 = 0
+            # Numpy array of shape [res_x, res_y, n_plants]
+            # Distance of all nodes to each plant
+            distance = ((self.my_grid[0][:, :, np.newaxis] - np.array(self.xe)[np.newaxis, np.newaxis, :])**2 +
+                        (self.my_grid[1][:, :, np.newaxis] - np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5
+            # While loop applies concept native timestepping
+            # If delta_t_concept < delta_t, time stepping is refined
+            # otherwise, delta_t is used
+            while t_2 < self.t_end:
+                if (t_1 + self.delta_t_concept) <= self.t_end:
+                    t_2 = t_1 + self.delta_t_concept
+                else:
+                    t_2 = self.t_end
+                # Array to store data for total water flux per timestep
+                flux = np.zeros_like(self.soil_water_content)
+                # Update precipitation
+                self.integratePrecipitationData(t_1, t_2)
+                # Calculate resulting soil potentials
+                self.calculateMatrixPotential(self.soil_water_content)
+                for i in range(len(self.plants)):
+                    root_radius = self.r_roots[i]
 
-            self.updateSoilWaterContent(flux)
-            t_1 = t_2
-        # Belowground resources is real flow divided by potential flow
-        self.belowground_resources = np.array(
-            self.plant_flows) / np.array(self.max_plant_flows)
+                    plant_nodes = np.where(root_radius > distance[:, :, i])
+                    # Actual flow for plant i
+                    psi_matrix = self.psi_matrix[plant_nodes]
+                    flow = self.bgResources(idx_plant=i,
+                                            psi_matrix=psi_matrix,
+                                            delta_time=t_2 - t_1)
+                    # Contribution to the fluxes in and out of the grid
+                    flux[plant_nodes] -= flow / float(len(plant_nodes[0]))
+                    # Average flow for plant
+                    self.plant_flows[i] += np.sum(flow) / float(len(plant_nodes[0]))
+                self.updateSoilWaterContent(flux)
+                t_1 = t_2
+            # Belowground resources is real flow divided by potential flow
+            bg_factor = np.array(self.plant_flows) / np.array(self.max_plant_flows)
+            self.belowground_resources = np.where(bg_factor >= 1, 1, bg_factor)
 
     ## Calculates matrix potential according to equation from janosch
     # Matrix potential ~ pF value (transformed)
     # psi_matrix = -100 * 10**pF
     #  @param water_content - water content of the soil
     def calculateMatrixPotential(self, water_content):
-        # base = ((self.omega_s - self.omega_r) / (
-        #     water_content - self.omega_r))
-        # exponent = 1 / (1 - 1 / self.n)
-        # self.psi_matrix = - (
-        #     base ** exponent - 1) ** (1 / self.n) / self.alpha
-        self.psi_matrix = water_content * 0
-        self.psi_matrix = -100 * (10**self.pf) + self.psi_matrix
-        self.psi_matrix[np.where(self.psi_matrix < -7860000)] = -7860000
+        # ToDo: Was ist hier der richtige Code?
+        base = (self.omega_s - self.omega_r) / (water_content - self.omega_r)
+        exponent = 1 / (1 - 1 / self.n)
+        self.psi_matrix = - (base ** exponent - 1) ** (1 / self.n) / self.alpha
 
-    ## Runs all functions relevant to calculate plant water uptake using Bettina
-    #  @param geometry - plant geometry
-    #  @param parameter - plant parameter
-    def extractRelevantInformation(self, geometry, parameter):
-        self.time = self.delta_t_concept
-        Bettina.extractRelevantInformation(self=self, geometry=geometry, parameter=parameter)
+        # self.psi_matrix = water_content * 0
+        # self.psi_matrix = -100 * (10**self.pf) + self.psi_matrix
+        # self.psi_matrix[np.where(self.psi_matrix < -7860000)] = -7860000
 
-    ## Composite from BETTINA
-    def flowLength(self):
-        Bettina.flowLength(self=self)
-
-    ## Composite from BETTINA
-    def treeVolume(self):
-        Bettina.treeVolume(self=self)
-
-    ## Composite from BETTINA
-    def rootSurfaceResistance(self):
-        Bettina.rootSurfaceResistance(self=self)
-
-    ## Composite from BETTINA
-    def xylemResistance(self):
-        Bettina.xylemResistance(self=self)
-
-    ## Composite from BETTINA
-    def deltaPsi(self):
-        return Bettina.deltaPsi(self=self)
-
-    ## Composite from BETTINA: TODO: needed?
-    def bgResources(self, bg_resources, delta_time):
-        self.time = delta_time
-        Bettina.bgResources(self=self, belowground_resources=bg_resources)
-        return self.bg_resources
+    def bgResources(self, idx_plant, psi_matrix, delta_time):
+        delta_psi = self.delta_psis[idx_plant]
+        tot_res = self.flow_resistances[idx_plant]
+        bg_factor = (delta_psi - psi_matrix) / delta_psi
+        bg_resources = bg_factor * (-delta_time * delta_psi / tot_res / np.pi)
+        return bg_resources
 
     def getInputParameters(self, args):
         tags = {
@@ -269,5 +273,3 @@ class SoilWaterContent(ResourceModel):
         self._y_2 = self.y_2
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
-
-        self.allow_interpolation = super().makeBoolFromArg("allow_interpolation")

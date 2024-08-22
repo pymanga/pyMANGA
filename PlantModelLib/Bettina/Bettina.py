@@ -25,10 +25,21 @@ class Bettina(PlantModel):
         """
         self.time = t_end - t_ini
 
-    def progressPlant(self, tree, aboveground_resources, belowground_resources):
+    def progressPlant(self, tree, ag_factor, bg_factor):
         geometry = tree.getGeometry()
         growth_concept_information = tree.getGrowthConceptInformation()
-        self.extractRelevantInformation(geometry, tree.getParameter())
+        self.parameter = tree.getParameter()
+        self.r_crown = geometry["r_crown"]
+        self.h_crown = geometry["h_crown"]
+        self.r_root = geometry["r_root"]
+        self.h_root = geometry["h_root"]
+        self.r_stem = geometry["r_stem"]
+        self.h_stem = geometry["h_stem"]
+
+        self.flowLength()
+        self.treeVolume()
+        self.rootSurfaceResistance()
+        self.xylemResistance()
 
         self.survive = 1
         # Define variables that are only required for specific Mortality
@@ -36,8 +47,8 @@ class Bettina(PlantModel):
         super().setMortalityVariables(growth_concept_information)
 
         self.treeMaintenance()
-        self.bgResources(belowground_resources)
-        self.agResources(aboveground_resources)
+        self.bgResources(bg_factor)
+        self.agResources(ag_factor)
         self.growthResources()
         self.treeGrowthWeights()
         self.treeGrowth()
@@ -47,20 +58,19 @@ class Bettina(PlantModel):
         geometry["h_root"] = self.h_root
         geometry["r_stem"] = self.r_stem
         geometry["h_stem"] = self.h_stem
-        growth_concept_information[
-            "root_surface_resistance"] = self.root_surface_resistance
+        growth_concept_information["root_surface_resistance"] = self.root_surface_resistance
         growth_concept_information["xylem_resistance"] = self.xylem_resistance
         growth_concept_information["ag_resources"] = self.ag_resources
         growth_concept_information["bg_resources"] = self.bg_resources
-        growth_concept_information["bg_factor"] = belowground_resources
-        growth_concept_information["ag_factor"] = aboveground_resources
+        growth_concept_information["bg_factor"] = bg_factor
+        growth_concept_information["ag_factor"] = ag_factor
         growth_concept_information["growth"] = self.grow
         growth_concept_information["available_resources"] = (
             self.available_resources)
         psi_zero = self.deltaPsi()
         growth_concept_information["psi_zero"] = psi_zero
         growth_concept_information["salinity"] = (
-            (belowground_resources * psi_zero - psi_zero) / 85000000.)
+            (bg_factor * psi_zero - psi_zero) / 85000000.)
         growth_concept_information["weight_girthgrowth"] = \
             self.weight_girthgrowth
         growth_concept_information["weight_stemgrowth"] = \
@@ -69,8 +79,6 @@ class Bettina(PlantModel):
             self.weight_crowngrowth
         growth_concept_information["weight_rootgrowth"] = \
             self.weight_rootgrowth
-        growth_concept_information["bg_factor"] = belowground_resources
-        growth_concept_information["ag_factor"] = aboveground_resources
         try:
             growth_concept_information["age"] += self.time
         except KeyError:
@@ -85,20 +93,6 @@ class Bettina(PlantModel):
             tree.setSurvival(1)
         else:
             tree.setSurvival(0)
-
-    def extractRelevantInformation(self, geometry, parameter):
-        self.parameter = parameter
-        self.r_crown = geometry["r_crown"]
-        self.h_crown = geometry["h_crown"]
-        self.r_root = geometry["r_root"]
-        self.h_root = geometry["h_root"]
-        self.r_stem = geometry["r_stem"]
-        self.h_stem = geometry["h_stem"]
-
-        self.flowLength()
-        self.treeVolume()
-        self.rootSurfaceResistance()
-        self.xylemResistance()
 
     ## This functions updates the geometric measures of the tree.
     def treeGrowth(self):
@@ -191,7 +185,7 @@ class Bettina(PlantModel):
                        self.flow_length * np.pi * self.r_stem**2 +
                        self.h_crown * np.pi * self.r_crown**2)
 
-    def agResources(self, aboveground_resources):
+    def agResources(self, ag_factor):
         """
         Calculate the available aboveground resources (intercepted light measured equivalent to respective water uptake).
 
@@ -199,14 +193,14 @@ class Bettina(PlantModel):
         ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
         heading 'resistances'.
         Args:
-            aboveground_resources (float): aboveground resource growth reduction factor
+            ag_factor (float): aboveground resource growth reduction factor
         Sets:
             float
         """
-        self.ag_resources = aboveground_resources * (
+        self.ag_resources = ag_factor * (
             np.pi * self.r_crown**2 * self.parameter["sun_c"] * self.time)
 
-    def bgResources(self, belowground_resources):
+    def bgResources(self, bg_factor):
         """
         Calculate the available belowground resources (m³ water per time step).
 
@@ -214,13 +208,13 @@ class Bettina(PlantModel):
         ([2018](https://doi.org/10.1016/j.ecolmodel.2018.10.005)), Appendix B (Bettina ODD), section 7.2,
         heading 'resistances'.
         Args:
-            belowground_resources (float): belowground resource growth reduction factor
+            bg_factor (float): belowground resource growth reduction factor
         Sets:
             float
         """
         self.rootSurfaceResistance()
         self.xylemResistance()
-        self.bg_resources = belowground_resources * (
+        self.bg_resources = bg_factor * (
             (-self.time * self.deltaPsi() /
              (self.root_surface_resistance + self.xylem_resistance) / np.pi))
 

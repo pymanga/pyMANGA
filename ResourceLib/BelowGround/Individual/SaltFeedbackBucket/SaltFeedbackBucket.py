@@ -50,7 +50,7 @@ class SaltFeedbackBucket(FixedSalinity):
         except KeyError:
             plant_water_uptake = 0
 
-        # Extrapolate root radius, if radius is smaller than mesh size
+        # Extend root radius, if radius is smaller than mesh size
         if rrp < self.mesh_size:
             rrp = self.mesh_size
 
@@ -95,7 +95,9 @@ class SaltFeedbackBucket(FixedSalinity):
         - mixing with inflowing water.
         Additionally, write cell salinity to text file.
         """
+        # [-] = m/s / m * s
         ht = np.exp(- self.r_mix_inflow / self.depth * self.timesteplength)
+        # kg/kg = kg/kg + m/s / m/s * kg/kg
         self.sal_cell = self.sal_cell * ht + (self.vol_sink_cell + self.r_mix_inflow) / \
                         self.r_mix_inflow * self.sal_cell_inflow * (1 - ht)
 

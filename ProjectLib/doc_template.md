@@ -2,6 +2,8 @@
 
 # Usage
 
+*The values shown here are examples. See Attributes for more information.*
+
 ```xml
 
 ```

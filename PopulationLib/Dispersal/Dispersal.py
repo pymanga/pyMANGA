@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import pandas as pd
+from ProjectLib.Helper import *
 
 
 class Dispersal:
@@ -30,7 +31,7 @@ class Dispersal:
         tags = {
             "prj_file": self.xml_args,
             "required": ["domain", "x_1", "x_2", "y_1", "y_2"],
-            "optional": ["n_recruitment_per_step",
+            "optional": ["n_recruitment_per_step",      # ToDo: only kept for backwards compatibility (now in production)
                          "weight_formula", "weight_file", "x_res", "y_res"]
         }
         tags = self.dispersal.getTags(tags)
@@ -64,7 +65,7 @@ class Dispersal:
         self.dispersal.grid_x, self.dispersal.grid_y = self.expand_grid(x, y)
 
         # Calculate weights based on function
-        weighting_function = self.string_to_function(self.weight_formula)
+        weighting_function = string_to_function(self.weight_formula)
         self.dispersal.weights = weighting_function(self.dispersal.grid_x, self.dispersal.grid_y)
 
         if np.max(self.dispersal.weights) > 1:
@@ -96,20 +97,6 @@ class Dispersal:
         if np.max(self.dispersal.weights) > 1:
             print("WARNING: dispersal weights are > 1.")
 
-    def string_to_function(self, expression):
-        """
-        Evaluate formula from project file
-        Credits: https://saturncloud.io/blog/pythonnumpyscipy-converting-string-to-mathematical-function/#numpys-frompyfunc-function
-        Args:
-            expression (string): weighting formula (from prj file)
-        Returns:
-            array
-        """
-        def function(x, y):
-            return eval(expression)
-
-        return np.frompyfunc(function, 2, 1)
-
     def expand_grid(self, x, y):
         """
         Create grid based on xy coordinates.
@@ -125,7 +112,7 @@ class Dispersal:
 
         return [xG, yG]
 
-    def getPlantAttributes(self, initial_group):
+    def getPlantAttributes(self, initial_group, no_recruits):
         """
         Return positions and geometries of plants.
         Args:
@@ -133,18 +120,8 @@ class Dispersal:
         Returns:
             dict, np.array
         """
-        positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group)
-
-        # Check if plants are inside model domain
-        if len(positions['x']) > 0:
-            nx, mx = min(positions['x']), max(positions['x'])
-            ny, my = min(positions['y']), max(positions['y'])
-            borderx = [self.x_1, self.x_2]
-            bordery = [self.y_1, self.y_2]
-            if any([nx < x < mx for x in borderx]) or any([ny < y < my for y in bordery]):
-                print("ERROR: Plant(s) are positioned outside model domain: X(", self.x_1, ", ", self.x_2, "), Y(",
-                      self.y_1, ", ", self.y_2, "). Please check the population input file.")
-                exit()
+        positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group,
+                                                                         no_recruits=no_recruits)
         return positions, geometry, network
 
     def getInputParameters(self, **tags):

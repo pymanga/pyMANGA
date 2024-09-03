@@ -196,11 +196,11 @@ class SaltFeedbackBucket(FixedSalinity):
         """
         s0 = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset)
         left = s0 + self.left_bc_r_mix
-        self.r_mix[0] = np.random.normal(size=1, loc=left, scale=self.deviation)
+        self.r_mix[0] = np.random.normal(size=1, loc=left, scale=self.noise)
         self.r_mix[0] = self.r_mix[0] if self.r_mix[0] > 0 else 0
 
         right = s0 + self.right_bc_r_mix
-        self.r_mix[1] = np.random.normal(size=1, loc=right, scale=self.deviation)
+        self.r_mix[1] = np.random.normal(size=1, loc=right, scale=self.noise)
         self.r_mix[1] = self.r_mix[1] if self.r_mix[1] > 0 else 0
 
     def getInputTags(self, args):

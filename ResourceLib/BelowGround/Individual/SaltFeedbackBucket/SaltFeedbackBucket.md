@@ -19,6 +19,8 @@ The tidal water concentration and mixing rate are linearly interpolated between 
 The spatial and temporal interpolation of tidal salinity and the mixing rate is described in more detail in ``pyMANGA.BelowGround.Individual.FixedSalinity``.
 Spatial interpolation is linear between the left and right model boundaries.
 Temporal interpolation can follow a sine function or be based on an input file.
+The temporal resolution depends on the selected time step length. 
+For example, it can represent daily tides or seasonal variations.
 
 # Usage
 
@@ -112,6 +114,8 @@ The salinity at the boundaries of the model is calculated as described in ``pyMA
 The salinity in each cell is linearly interpolated (spatial interpolation).
 If the model domain consists of only 1 cell, the average of the left and right boundaries is taken.
 
+Both salinity
+
 #### getInflowMixingRate
 
 The mixing rate in each cell (`r_mix_inflow`) is linearly interpolated based on the mixing rate at the left and right boundaries (`r_mix`).
@@ -188,7 +192,7 @@ Marie-Christin Wimmler, Ronny Peters
 
 # Examples
 
-A 20x5 m transect with regular grid cells (0.25x0.25 m, depth 1 m) has a base salinity of 35 ppt at it's left and right boundaries.
+A 20x5 m transect with regular grid cells (0.25x0.25 m², depth 1 m) has a base salinity of 35 ppt at it's left and right boundaries.
 The mixing rate is 0.01 m per day and 0.015 m per day at the left and right boundaries, respectively.
 In addition, the mixing rate follows an annual sinusoidal cycle with an amplitude of 0.001 m per day.
 The salinity of each cell is saved to a text file every 10th time step.

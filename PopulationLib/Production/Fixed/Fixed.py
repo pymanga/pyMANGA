@@ -22,5 +22,12 @@ class Fixed:
         return tags
 
     def getNumberOfSeeds(self, plants):
+        """
+        Return the total number of seeds produced in the system, based on the number defined in the project file.
+        Args:
+            plants: - not used
+        Returns:
+            integer
+        """
         return self.n_recruitment_per_step
 

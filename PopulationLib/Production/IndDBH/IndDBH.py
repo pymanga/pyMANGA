@@ -23,9 +23,18 @@ class IndDBH:
         return tags
 
     def iniProductionFormula(self):
+        """
+        Convert the formula for calculating individual production, given as a string in the project file,
+        into an evaluable formula.
+        """
         self.production_function = string_to_function(self.formula)
 
     def isProductionTime(self):
+        """
+        Verification that seed production is taking place in the current time step.
+        Returns:
+            bool
+        """
         self.prod_counter += 1
         if self.prod_counter % self.production_nth_timestep == 0:
             return True
@@ -33,6 +42,13 @@ class IndDBH:
             return False
 
     def getNumberOfSeeds(self, plants):
+        """
+        Calculate the total number of seeds produced in the system, based on the individual plant dbh.
+        Args:
+            plants (dict): dictionary of all plants and there attributes
+        Returns:
+            integer
+        """
         if self.isProductionTime():
             no_seeds = []
             for plant in plants:

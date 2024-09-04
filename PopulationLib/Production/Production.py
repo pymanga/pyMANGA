@@ -19,10 +19,10 @@ class Production:
 
         if self.production_type.lower() == "fixed":
             from .Fixed import Fixed as BC
-        elif self.production_type.lower() == "dbhdependent":
-            from .DBHdependent import DBHdependent as BC
+        elif self.production_type.lower() == "indDBH".lower():
+            from .IndDBH import IndDBH as BC
         else:
-            raise KeyError("Population initialisation of type", self.production_type, "not implemented!")
+            raise KeyError("Production of type", self.production_type, "not implemented!")
         print("Population: " + self.production_type + ".")
 
         self.production = BC(self.xml_args)

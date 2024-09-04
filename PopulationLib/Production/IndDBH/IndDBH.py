@@ -1,7 +1,7 @@
 from ProjectLib.Helper import *
 
 
-class DBHdependent:
+class IndDBH:
     """
     Random dispersal module
     """

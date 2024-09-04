@@ -26,7 +26,7 @@
             <vegetation_model_type> Bettina </vegetation_model_type>
             <mortality>NoGrowth</mortality>
             <production>
-                <type>dbhdependent</type>
+                <type> IndDBH </type>
                 <formula>0.279 + 0.01152*x</formula>
                 <production_nth_timestep> 2 </production_nth_timestep>
 <!--                <type>fixed</type>-->

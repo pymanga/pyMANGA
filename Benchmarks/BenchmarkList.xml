@@ -45,6 +45,9 @@
                     </SaltFeedbackBucket>
                 </Belowground>
                 <Mortality>
+                    <MaxAge>
+                        <test> MaxAge_CI.xml </test>
+                    </MaxAge>
                     <Memory>
                         <test> Memory_CI.xml </test>
                     </Memory>

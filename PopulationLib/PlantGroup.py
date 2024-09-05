@@ -15,9 +15,15 @@ class PlantGroup:
             xml_args (lxml.etree._Element): group module specifications from project file tags
         """
         self.xml_args = xml_args  # ToDo: unify name for tag variable
-        self.plant_model = self.xml_args.find("vegetation_model_type").text
-        self.group_name = self.xml_args.find("name").text
-        self.species = self.xml_args.find("species").text
+        try:
+            self.plant_model = self.xml_args.find("vegetation_model_type").text
+            self.group_name = self.xml_args.find("name").text
+            self.species = self.xml_args.find("species").text
+        except AttributeError:
+            print("Error: Missing input parameters (in project file) for population initialization (i.e., "
+                  "'vegetation_model_type', 'name', 'species').")
+            exit()
+
         self.max_id = 0
         self.plants = []
 

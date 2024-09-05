@@ -134,6 +134,17 @@ class Dispersal:
             dict, np.array
         """
         positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group)
+
+        # Check if plants are inside model domain
+        if len(positions['x']) > 0:
+            nx, mx = min(positions['x']), max(positions['x'])
+            ny, my = min(positions['y']), max(positions['y'])
+            borderx = [self.x_1, self.x_2]
+            bordery = [self.y_1, self.y_2]
+            if any([nx < x < mx for x in borderx]) or any([ny < y < my for y in bordery]):
+                print("ERROR: Plant(s) are positioned outside model domain: X(", self.x_1, ", ", self.x_2, "), Y(",
+                      self.y_1, ", ", self.y_2, "). Please check the population input file.")
+                exit()
         return positions, geometry, network
 
     def getInputParameters(self, **tags):

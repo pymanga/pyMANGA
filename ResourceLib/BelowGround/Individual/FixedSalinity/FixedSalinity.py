@@ -164,7 +164,7 @@ class FixedSalinity(ResourceModel):
                 self._salinity_over_t[:, 0] == self._t_ini)[0], 1:][0]
 
         # The values for the salinity of the current time step are not
-        # explicitly given and have to be interpolted
+        # explicitly given and have to be interpolated
         elif self._t_ini not in self._salinity_over_t[:, 0]:
 
             try:

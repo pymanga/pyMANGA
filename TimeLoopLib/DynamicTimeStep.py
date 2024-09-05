@@ -110,6 +110,7 @@ class DynamicTimeStep:
                                                  t_start,
                                                  group_died=True)
             plant_group.removePlantsAtIndices(kill_indices)
+            plant_group.produceSeeds()
             plant_group.recruitPlants()
 
             # Add number of recruited plants to counter

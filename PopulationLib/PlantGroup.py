@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import PopulationLib as PLib
 from PopulationLib.Dispersal import Dispersal
+from PopulationLib.Production import Production
 
 
 class PlantGroup:
@@ -28,6 +29,7 @@ class PlantGroup:
         self.plants = []
 
         self.dispersal = Dispersal(self.xml_args)
+        self.production = Production(self.xml_args)
 
         self.recruitPlants(initial_group=True)
         self.iniPlantDynamicConcept()
@@ -47,14 +49,23 @@ class PlantGroup:
                                                                prj_args=self.xml_args)
         print("Plant dynamics: " + case + ".")
 
+    def produceSeeds(self):
+        self.dispersal.n_recruitment_per_step = self.production.getNumberOfSeeds(plants=self.plants)
+
     def recruitPlants(self, initial_group=False):
         """
         Add new plants to the model.
         Args:
             initial_group (bool): indicate whether this is model initialization (true) or a later time step (false)
         """
-        positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group)
-        for i in range(0, len(positions["x"])):
+        no_recruits = self.dispersal.n_recruitment_per_step
+        positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group,
+                                                                         no_recruits=no_recruits)
+
+        # the following code can be simplified but is kept to allow backwards compatibility 09/2024
+        itera = no_recruits if len(positions["x"]) == 0 else len(positions["x"])
+
+        for i in range(0, itera):
             if isinstance(geometry, dict):
                 plant_geometry = {}
                 for key, value in geometry.items():

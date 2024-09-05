@@ -43,7 +43,6 @@
         <t_start> 0 </t_start>
         <t_end> 2e6 </t_end>
         <delta_t> 1e6 </delta_t>
-        <terminal_print> days </terminal_print>
     </time_loop>
     <visualization>
         <type> NONE </type>

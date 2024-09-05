@@ -32,11 +32,11 @@ class SymmetricZOI(ResourceModel):
             r_root = geometry["r_root"]
         except KeyError:
             r_root = geometry["r_bg"]
-        if r_root < (self._mesh_size * 1 / 2**0.5):
+        if r_root < (self.mesh_size * 1 / 2**0.5):
             if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:
                 print("ERROR: mesh too course for below-ground module!")
                 print("Please refine mesh or increase initial root radius above " +
-                      str(self._mesh_size) + "m or allow interpolation.")
+                      str(self.mesh_size) + "m or allow interpolation.")
                 exit()
         if not ((self._x_1 < x < self._x_2) and (self._y_1 < y < self._y_2)):
             raise ValueError("""It appears as a plant is located outside of the

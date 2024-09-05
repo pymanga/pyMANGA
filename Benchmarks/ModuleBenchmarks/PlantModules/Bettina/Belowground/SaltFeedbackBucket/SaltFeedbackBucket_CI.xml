@@ -5,10 +5,25 @@
             <type> Default </type>
         </aboveground>
         <belowground>
-            <type> FixedSalinity </type>
+            <type> SaltFeedbackBucket </type>
+            <domain>
+                <x_1>0</x_1>
+                <y_1> 0 </y_1>
+                <x_2> 22 </x_2>
+                <y_2> 22 </y_2>
+                <x_resolution> 88 </x_resolution>
+                <y_resolution> 88 </y_resolution>
+            </domain>
+            <salinity>0.025 0.035</salinity>
             <min_x>0</min_x>
             <max_x>22</max_x>
-            <salinity>0.025 0.035</salinity>
+            <depth>1</depth>
+            <r_mix>0.01/3600/24</r_mix>
+            <sine>
+                <amplitude>0</amplitude>
+            </sine>
+            <save_file> grid_salinity </save_file>
+            <save_salinity_ts> 120 </save_salinity_ts>
         </belowground>
     </resources>
     <population>

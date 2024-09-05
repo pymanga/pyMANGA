@@ -96,20 +96,21 @@ class ResourceModel:
         Sets:
             multiple float
         """
-        l_x = self._x_2 - self._x_1
-        l_y = self._y_2 - self._y_1
+        l_x = self.x_2 - self.x_1
+        l_y = self.y_2 - self.y_1
         x_step = l_x / self.x_resolution
         y_step = l_y / self.y_resolution
-        xe = np.linspace(self._x_1 + x_step / 2.,
-                         self._x_2 - x_step / 2.,
-                         self.x_resolution,
+        xe = np.linspace(self.x_1 + x_step / 2.,
+                         self.x_2 - x_step / 2.,
+                         int(self.x_resolution),
                          endpoint=True)
-        ye = np.linspace(self._y_1 + y_step / 2.,
-                         self._y_2 - y_step / 2.,
-                         self.y_resolution,
+        ye = np.linspace(self.y_1 + y_step / 2.,
+                         self.y_2 - y_step / 2.,
+                         int(self.y_resolution),
                          endpoint=True)
         self.my_grid = np.meshgrid(xe, ye)
-        self._mesh_size = np.maximum(x_step, y_step)
+        self.mesh_size = np.maximum(x_step, y_step)
+        self.cell_area = x_step * y_step
 
     def makeBoolFromArg(self, var_name):
         """

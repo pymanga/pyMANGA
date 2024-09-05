@@ -40,6 +40,9 @@
                     <Merge_FixedSalinity_FON>
                         <test> Merge_FixedSalinity_FON_CI.xml </test>
                     </Merge_FixedSalinity_FON>
+                    <SaltFeedbackBucket>
+                        <test> SaltFeedbackBucket_CI.xml </test>
+                    </SaltFeedbackBucket>
                 </Belowground>
                 <Mortality>
                     <Memory>

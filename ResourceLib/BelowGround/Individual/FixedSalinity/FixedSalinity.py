@@ -59,6 +59,9 @@ class FixedSalinity(ResourceModel):
             numpy array of shape(number_of_trees)
         """
         salinity_plant = self.getPlantSalinity()
+        self.calculatePlantResources(salinity_plant)
+
+    def calculatePlantResources(self, salinity_plant):
         # find indices with r_salinity = bettina or forman
         idx_f = np.where(np.array(self._r_salinity) == "forman")
         idx_b = np.where(np.array(self._r_salinity) == "bettina")
@@ -81,12 +84,7 @@ class FixedSalinity(ResourceModel):
         Returns:
             numpy array with shape(number_of_trees)
         """
-        self._xe = np.array(self._xe)
-        if hasattr(self, "t_variable"):
-            self.getSalinityTimeseries()
-        elif hasattr(self, "amplitude"):
-            self.getSalinitySine()
-
+        self.getBorderSalinity()
         # Interpolation of salinity over space
         salinity_plant = ((self._xe - self._min_x) /
                          (self._max_x - self._min_x) *
@@ -97,6 +95,16 @@ class FixedSalinity(ResourceModel):
             salinity_plant = self.getSalinityDistribution(salinity_plant)
 
         return salinity_plant
+
+    def getBorderSalinity(self):
+        """
+        Determine the salinity at the left and right boundaries of the model.
+        """
+        self._xe = np.array(self._xe)
+        if hasattr(self, "t_variable"):
+            self.getSalinityTimeseries()
+        elif hasattr(self, "amplitude"):
+            self.getSalinitySine()
 
     def getSalinityDistribution(self, salinity_plant):
         """
@@ -199,6 +207,12 @@ class FixedSalinity(ResourceModel):
                 elif self._salinity_over_t[0, 0] > self._t_ini:
                     self._salinity = [self._salinity_over_t[-1, 1],
                                       self._salinity_over_t[-1, 2]]
+        self.checkSalinityInput()
+
+    def checkSalinityInput(self):
+        if any(self._salinity) > 1:
+            print("ERROR: Salinity over 1000 ppt. Are you sure the salinity is in the correct unit (i.e., kg/kg, not ppt)?")
+            exit()
 
     def getInputParameters(self, args):
         tags = {
@@ -208,9 +222,16 @@ class FixedSalinity(ResourceModel):
                          "distribution", "type", "deviation", "relative"]
         }
         super().getInputParameters(**tags)
+        self.setDefaultParameters()
+        self.checkSalinityInput()
+
+    def setDefaultParameters(self):
         self._salinity = self.salinity
-        self._min_x = self.min_x
-        self._max_x = self.max_x
+        try:
+            self._min_x = self.min_x
+            self._max_x = self.max_x
+        except AttributeError:
+            pass
         self.readSalinityTag()
         self.relative = super().makeBoolFromArg("relative")
 
@@ -255,11 +276,9 @@ class FixedSalinity(ResourceModel):
 
         # Path to a file containing salinity values that vary over time
         elif os.path.exists(self._salinity) is True:
-
             # Reading salinity values from a csv-file
             salinity_over_t = pd.read_csv(self._salinity, delimiter=";|,|\t", engine='python')
             self._salinity_over_t = salinity_over_t.to_numpy()
-
             # Check if csv separation has worked
             try:
                 assert self._salinity_over_t.shape[1] == 3

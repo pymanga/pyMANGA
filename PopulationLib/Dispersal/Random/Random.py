@@ -21,15 +21,15 @@ class Random:
         tags["required"] += ["type", "n_individuals"]
         return tags
 
-    def getPlantAttributes(self, initial_group):
+    def getPlantAttributes(self, initial_group, plants):
         if initial_group:
             number_of_plants = self.n_individuals
         else:
             number_of_plants = self.n_recruitment_per_step
         positions = self.getPositions(number_of_plants=number_of_plants)
         geometry = np.full(len(positions["x"]), False)
-        network = {}
-        return positions, geometry, network
+        network, parameter = {}, {}
+        return positions, geometry, network, parameter
 
     def getPositions(self, number_of_plants):
         """

@@ -17,10 +17,13 @@ class Dispersal:
         distribution = self.xml_args.find("distribution")
         distribution_type = distribution.find("type").text
 
+        # ToDo: simplify as in Resource modules
         if distribution_type == "Random":
             from .Random import Random as BC
         elif distribution_type == "FromFile":
             from .FromFile import FromFile as BC
+        elif distribution_type == "FromParents":
+            from .FromParents import FromParents as BC
         else:
             raise KeyError("Population initialisation of type " +
                            distribution_type + " not implemented!")
@@ -125,7 +128,7 @@ class Dispersal:
 
         return [xG, yG]
 
-    def getPlantAttributes(self, initial_group):
+    def getPlantAttributes(self, initial_group, plants):
         """
         Return positions and geometries of plants.
         Args:
@@ -133,8 +136,8 @@ class Dispersal:
         Returns:
             dict, np.array
         """
-        positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group)
-
+        positions, geometry, network, parameter = self.dispersal.getPlantAttributes(initial_group=initial_group,
+                                                                         plants=plants)
         # Check if plants are inside model domain
         if len(positions['x']) > 0:
             nx, mx = min(positions['x']), max(positions['x'])
@@ -145,7 +148,7 @@ class Dispersal:
                 print("ERROR: Plant(s) are positioned outside model domain: X(", self.x_1, ", ", self.x_2, "), Y(",
                       self.y_1, ", ", self.y_2, "). Please check the population input file.")
                 exit()
-        return positions, geometry, network
+        return positions, geometry, network, parameter
 
     def getInputParameters(self, **tags):
         """

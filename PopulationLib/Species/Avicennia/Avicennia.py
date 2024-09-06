@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import numpy as np
 
 
 def createPlant():
@@ -27,6 +28,9 @@ def createPlant():
     parameter["growth_factor"] = 0.0047                 # -
     parameter["h_sigmo_slope"] = 0.5                    # -
     parameter["sigmo_slope"] = 0.015                    # -
+
+    parameter["prod_fitness"] = np.random.random(1)[0]                  # -
+
     # resource module FixedSalinity
     parameter["r_salinity"] = "bettina"
     # resource module FON

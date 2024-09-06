@@ -92,7 +92,7 @@ class FromFile:
             plant_attributes[plant_file[header].name] = plant_file[header].to_numpy()
         return plant_attributes
 
-    def getPlantAttributes(self, initial_group):
+    def getPlantAttributes(self, initial_group, plants):
         if initial_group:
             positions, geometry, network = self.getInitialGroup()
         else:
@@ -100,8 +100,8 @@ class FromFile:
             positions = Random.getPositions(self=self,
                                             number_of_plants=number_of_plants)
             geometry = np.full(len(positions["x"]), False)
-            network = {}
-        return positions, geometry, network
+            network, parameter = {}, {}
+        return positions, geometry, network, parameter
 
 
 

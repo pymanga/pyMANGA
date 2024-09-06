@@ -53,7 +53,8 @@ class PlantGroup:
         Args:
             initial_group (bool): indicate whether this is model initialization (true) or a later time step (false)
         """
-        positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group)
+        positions, geometry, network, parameter = self.dispersal.getPlantAttributes(initial_group=initial_group,
+                                                                                    plants=self.plants)
         for i in range(0, len(positions["x"])):
             if isinstance(geometry, dict):
                 plant_geometry = {}

@@ -17,12 +17,15 @@ class DynamicTimeLoop:
         # value for the conversion of time unit gets defined in 'print_unit'.
         try:
             self.terminal_print = args.find('terminal_print').text
-            if self.terminal_print == 'years':
+            if self.terminal_print.lower() in 'years':
                 self.print_unit = 86400 * 365.25
-            elif self.terminal_print == 'days':
+                self.terminal_print_unit = "a"
+            elif self.terminal_print.lower() in 'days':
                 self.print_unit = 86400
-        except:
+                self.terminal_print_unit = "d"
+        except AttributeError:
             self.terminal_print = False
+            self.terminal_print_unit = False
 
     def iniSimpleTimeStepping(self, args):
         """
@@ -49,21 +52,16 @@ class DynamicTimeLoop:
             time_stepper: time stepper object
         """
         self.getNextTimeStepBoundaries()
-        while (self.loop.step_on):
+        while self.loop.step_on:
             # If terminal_print is defined as 'years' or 'day' the
             # respective text gets printed after each time step
-            abb = False
-            if self.terminal_print == 'years':
-                abb = "a"
-            elif self.terminal_print == 'days':
-                abb = "d"
-            if abb:
+            if self.terminal_print_unit:
                 print('Calculated timesteps: ' +
                       str(int((self.loop.t_1 / self.loop.t_end) * 100)) + ' %',
                       '(%4.2f' %
                       (float(self.loop.t_1) / self.print_unit) + " " +
-                      abb + " - " + '%4.2f' %
-                      (float(self.loop.t_2) / self.print_unit) + " " + abb + ")"
+                      self.terminal_print_unit + " - " + '%4.2f' %
+                      (float(self.loop.t_2) / self.print_unit) + " " + self.terminal_print_unit + ")"
                       )
             time_stepper.step(t_start=self.loop.t_1,
                               t_end=self.loop.t_2,

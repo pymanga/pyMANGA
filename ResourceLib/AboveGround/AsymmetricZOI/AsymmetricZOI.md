@@ -37,6 +37,8 @@ There is no temporal variation in light availability.
     - ``y_resolution`` (float): y-resolution of the grid
 - ``allow_interpolation`` (bool): (optional) If True, the ZOI of a plant can be smaller than a grid cell, and it will be
   assigned to the nearest node. Default: False.
+- ``curved_crown`` (bool): (optional) If True, a curve-shaped crown is assumed. See pyMANGAs <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/AboveGround/AsymmetricZOI/curved_crown/curved_crown.md" target="_blank">sensetivity repository</a> for more information. Default: True
+
 
 # Value
 

@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import numpy as np
 import PopulationLib as PLib
+from PopulationLib.InitialPop import InitialPop
+from PopulationLib.Production import Production
 from PopulationLib.Dispersal import Dispersal
+from PopulationLib.Dispersal_v310 import Dispersal_v310
+from ProjectLib import helpers as helpers
 
 
 class PlantGroup:
     """
     Module defining structure of a group of plants.
+    This method has been restructured with version v3.2.0.
+    Backward compatibility is maintained by retaining deprecated objects and methods, indicated by '_v310_'.
     """
 
     def __init__(self, xml_args):
@@ -14,7 +21,36 @@ class PlantGroup:
         Args:
             xml_args (lxml.etree._Element): group module specifications from project file tags
         """
+        print("> PlantGroup init")
         self.xml_args = xml_args  # ToDo: unify name for tag variable
+        self.max_id = 0
+        self.plants = []
+        self.positions, self.geometry, self.network = {}, {}, {}
+
+        self.iniPlantDynamicConcept()
+
+        # Check if pyMANGA <= v3.1.0 needs to be used
+        try:
+            self.iniDomain()
+            self.iniDispersal()
+            self.iniInitialPopulation()
+            self.iniProduction()
+            self.use_v310 = False
+        except AttributeError:
+            self.dispersal_v310 = Dispersal_v310(self.xml_args)
+            self.recruitPlants_v310(initial_group=True)
+            self.use_v310 = True
+            print("................................................................................")
+            print("....... CAUTION.................................................................")
+            print("........This method is deprecated...............................................")
+            print("....... pyMANGA v3.1.0 is used..................................................")
+            print("....... If you want to use a newer version of pyMANGA, update the control file..")
+            print("................................................................................")
+
+    def iniPlantDynamicConcept(self):
+        """
+        Initialize plant module selected in the project-file.
+        """
         try:
             self.plant_model = self.xml_args.find("vegetation_model_type").text
             self.group_name = self.xml_args.find("name").text
@@ -24,18 +60,6 @@ class PlantGroup:
                   "'vegetation_model_type', 'name', 'species').")
             exit()
 
-        self.max_id = 0
-        self.plants = []
-
-        self.dispersal = Dispersal(self.xml_args)
-
-        self.recruitPlants(initial_group=True)
-        self.iniPlantDynamicConcept()
-
-    def iniPlantDynamicConcept(self):
-        """
-        Initialize plant module selected in the project-file.
-        """
         # Class needs to be imported on demand to avoid circular import
         from ProjectLib.Project import MangaProject
 
@@ -47,14 +71,77 @@ class PlantGroup:
                                                                prj_args=self.xml_args)
         print("Plant dynamics: " + case + ".")
 
-    def recruitPlants(self, initial_group=False):
+    def iniDomain(self):
+        """
+        Initialize the model domain, i.e. set domain boundaries in submodules.
+        """
+        tags = {
+            "prj_file": self.xml_args,
+            "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2"]
+        }
+        myself = super(PlantGroup, self)
+        helpers.getInputParameters(myself, **tags)
+
+    def iniInitialPopulation(self):
+        """
+        Initialize the initial population module.
+        """
+        initial_population = InitialPop(self.xml_args.find("initial_population"))
+        initial_population.setModelDomain(x1=self.x_1, x2=self.x_2,
+                                          y1=self.y_1, y2=self.y_2)
+        positions, geometry, network = initial_population.getPlantAttributes()
+        self.planting(positions, geometry, network)
+
+    def iniProduction(self):
+        """
+        Initialize the seedling production module.
+        """
+        self.production = Production(self.xml_args.find("production"))
+        self.production.setModelDomain(x1=self.x_1, x2=self.x_2,
+                                          y1=self.y_1, y2=self.y_2)
+
+    def iniDispersal(self):
+        """
+        Initialize the seedling dispersal module.
+        """
+        self.dispersal = Dispersal(self.xml_args.find("dispersal"))
+        self.dispersal.setModelDomain(x1=self.x_1, x2=self.x_2,
+                                      y1=self.y_1, y2=self.y_2)
+
+    def setNumberOfSeeds(self):
+        """
+        Set the number of new seeds or seedlings produced.
+        """
+        self.number_of_seeds = self.production.getNumberSeeds(plants=self.plants)
+
+    def recruitPlants(self):
         """
         Add new plants to the model.
-        Args:
-            initial_group (bool): indicate whether this is model initialization (true) or a later time step (false)
+        The number of seeds or seedlings depends on the selected <production> module,
+        and the position depends on the selected <dispersal> module.
         """
-        positions, geometry, network = self.dispersal.getPlantAttributes(initial_group=initial_group)
+        print("> PlantGroup recruitPlants")
+        if self.use_v310:
+            self.recruitPlants_v310()
+        else:
+            self.setNumberOfSeeds()
+            positions = self.dispersal.getPositions(self.number_of_seeds)
+            geometry = np.full(len(positions["x"]), False)
+            network = {}
+            self.planting(positions, geometry, network)
+
+    def planting(self, positions, geometry, network):
+        """
+        Add new plants to the model, by calling Plant object.
+        Args:
+            positions (dict): plant positions
+            geometry (dict): plant geometries
+            network (dict): plant network characteristics
+        """
+        print("> PlantGroup Planting")
         for i in range(0, len(positions["x"])):
+            # If geometry and network are defined, use these values
+            # Else fill dictionaries with 0
             if isinstance(geometry, dict):
                 plant_geometry = {}
                 for key, value in geometry.items():
@@ -114,4 +201,36 @@ class PlantGroup:
         Returns:
             numeric
         """
-        return self.dispersal.n_recruitment_per_step
+        if self.use_v310:
+            return self.dispersal_v310.n_recruitment_per_step
+        else:
+            return self.number_of_seeds
+
+    def recruitPlants_v310(self, initial_group=False):
+        """
+        This function is deprecated.
+        Add new plants to the model.
+        Args:
+            initial_group (bool): indicate whether this is model initialization (true) or a later time step (false)
+        """
+        positions, geometry, network = self.dispersal_v310.getPlantAttributes(initial_group=initial_group)
+        for i in range(0, len(positions["x"])):
+            if isinstance(geometry, dict):
+                plant_geometry = {}
+                for key, value in geometry.items():
+                    plant_geometry[key] = value[i]
+            else:
+                plant_geometry = geometry[i]
+            if isinstance(network, dict):
+                plant_network = {}
+                for key, value in network.items():
+                    plant_network[key] = value[i]
+            else:
+                plant_network = network[i]
+            self.max_id += 1
+            self.plants.append(
+                PLib.Plant(other=self,
+                           x=positions["x"][i],
+                           y=positions["y"][i],
+                           initial_geometry=plant_geometry,
+                           initial_network=plant_network))

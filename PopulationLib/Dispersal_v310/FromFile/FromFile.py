@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from PopulationLib.Dispersal.Random import Random
+from PopulationLib.Dispersal_v310.Random import Random
 
 
 class FromFile:

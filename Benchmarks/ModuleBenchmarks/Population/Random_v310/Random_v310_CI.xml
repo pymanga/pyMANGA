@@ -25,25 +25,17 @@
             <species> Avicennia </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
             <mortality>NoGrowth</mortality>
-            <domain>
-                <x_1> 0 </x_1>
-                <y_1> 0 </y_1>
-                <x_2> 22 </x_2>
-                <y_2> 22 </y_2>
-            </domain>
-            <initial_population>
-                <type>Random</type>
+            <distribution>
+                <type> Random </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 22 </x_2>
+                    <y_2> 22 </y_2>
+                </domain>
                 <n_individuals> 1 </n_individuals>
-            </initial_population>
-            <production>
-                <type>FixedRate</type>
-                <per_individual>False</per_individual>
-                <per_ha>False</per_ha>
-                <n_individuals> 1 </n_individuals>
-            </production>
-            <dispersal>
-                <type> Uniform </type>
-            </dispersal>
+                <n_recruitment_per_step> 1 </n_recruitment_per_step>
+            </distribution>
         </group>
     </population>
     <time_loop>

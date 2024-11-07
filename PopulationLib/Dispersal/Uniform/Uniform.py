@@ -1,0 +1,50 @@
+import numpy as np
+from ProjectLib import helpers as helpers
+from PopulationLib.Dispersal.Dispersal import Dispersal
+
+
+class Uniform(Dispersal):
+    """
+    Random dispersal module
+    """
+    def __init__(self, xml_args):
+        """
+        Args:
+            xml_args (lxml.etree._Element): distribution module specifications from project file tags
+        """
+        self.xml_args = xml_args
+        print(">>> Uniform init")
+        self.getInputParameters(args=xml_args)
+
+    def getInputParameters(self, args):
+        tags = {
+            "prj_file": args,
+            "required": ["type"] #, "domain", "x_1", "x_2", "y_1", "y_2"]
+        }
+        myself = super(Uniform, self)
+        helpers.getInputParameters(myself, **tags)
+
+    def getPositions(self, number_of_plants):
+        """
+        Return positions of new plants, which are drawn from a uniform distribution.
+        Args:
+            number_of_plants (int): number of plants that will be added to the model
+        Returns:
+            dict
+        """
+        print(">>> Uniform getPositions")
+        if np.isscalar(number_of_plants):
+            number_of_plants = int(number_of_plants)
+        else:
+            number_of_plants = int(np.sum(number_of_plants))
+        xi, yi = [], []
+        for i in range(number_of_plants):
+            r_x, r_y = np.random.rand(2)
+            xi.append(self.x_1 + self.l_x * r_x)
+            yi.append(self.y_1 + self.l_y * r_y)
+        plant_positions = {"x": xi, "y": yi}
+        return plant_positions
+
+    def setModelDomain(self, x1, x2, y1, y2):
+        print(">>> Uniform setModelDomain")
+        helpers.setModelDomain(self, x1, x2, y1, y2)

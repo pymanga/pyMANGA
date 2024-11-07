@@ -134,6 +134,12 @@
             <FromFile>
                 <test> FromFile_CI.xml </test>
             </FromFile>
+            <Random_v310>
+                <test> Random_v310_CI.xml </test>
+            </Random_v310>
+            <FromFile_v310>
+                <test> FromFile_v310_CI.xml </test>
+            </FromFile_v310>
         </Population>
     </ModuleBenchmarks>
 </Benchmarks>

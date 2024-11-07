@@ -25,33 +25,49 @@
             <species> Avicennia </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
             <mortality>NoGrowth</mortality>
-            <distribution>
-                <type> Random </type>
-                <domain>
-                    <x_1> 0 </x_1>
-                    <y_1> 0 </y_1>
-                    <x_2> 22 </x_2>
-                    <y_2> 22 </y_2>
-                </domain>
+
+            <domain>
+                <x_1> 0 </x_1>
+                <y_1> 0 </y_1>
+                <x_2> 22 </x_2>
+                <y_2> 22 </y_2>
+            </domain>
+
+            <initial_population>
+                <type>Random</type>
+                <filename>Benchmarks/ModuleBenchmarks/PlantModules/Bettina/ag_initial_population.csv</filename>
                 <n_individuals> 1 </n_individuals>
-                <n_recruitment_per_step> 1 </n_recruitment_per_step>
-            </distribution>
+            </initial_population>
+
+            <production>
+                <type>FixedRate</type>
+                <per_individual>False</per_individual>
+                <per_ha>True</per_ha>
+                <n_individuals> 2 </n_individuals>
+                <unit>time</unit>
+            </production>
+
+            <dispersal>
+                <type> Uniform </type>
+                <weight_file>weights.csv</weight_file>
+            </dispersal>
+
         </group>
     </population>
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 5e8 </t_end>
+        <t_end> 2e6 </t_end>
         <delta_t> 1e6 </delta_t>
+        <terminal_print>days</terminal_print>
     </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
     <output>
-        <type> OneTimestepOneFile </type>
-        <output_times> [2e6, 5e8] </output_times>
+        <type> OneFile </type>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/ModuleBenchmarks/Population/Random/ReferenceFiles/Random</output_dir>
+        <output_dir>00Random/</output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <geometry_output> r_crown </geometry_output>

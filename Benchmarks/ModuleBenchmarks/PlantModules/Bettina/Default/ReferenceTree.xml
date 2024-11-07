@@ -8,14 +8,12 @@
             <type> Default </type>
         </belowground>
     </resources>
-    <plant_dynamics>
-        <type> Bettina </type>
-        <mortality>NoGrowth</mortality>
-    </plant_dynamics>
     <population>
         <group>
             <name> Initial </name>
             <species> Avicennia </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality> NoGrowth </mortality>
             <distribution>
                 <type> Random </type>
                 <domain>
@@ -32,8 +30,8 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 5e9 </t_end>
-        <delta_t> 1e6 </delta_t>
+        <t_end> 3600*24*365.25*50 </t_end>
+        <delta_t> 3600*24*365.25/12 </delta_t>
     </time_loop>
     <visualization>
         <type> NONE </type>
@@ -41,7 +39,7 @@
     <output>
         <type> OneFile </type>
 		<allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/TestOutputs/</output_dir>
+        <output_dir>Benchmarks/h_008/</output_dir>
         <geometry_output> r_stem </geometry_output>
         <geometry_output> h_stem </geometry_output>
         <geometry_output> r_crown </geometry_output>

@@ -140,6 +140,9 @@
             <FromFile_v310>
                 <test> FromFile_v310_CI.xml </test>
             </FromFile_v310>
+            <Weighted>
+                <test> Weighted_CI.xml </test>
+            </Weighted>
         </Population>
     </ModuleBenchmarks>
 </Benchmarks>

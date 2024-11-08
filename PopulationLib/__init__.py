@@ -3,6 +3,3 @@
 """
 .. include:: ./Population.md
 """
-from .PlantGroup import PlantGroup
-from .Population import Population
-from .Plant import Plant

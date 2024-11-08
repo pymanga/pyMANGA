@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import numpy as np
-import PopulationLib as PLib
+#import PopulationLib as PLib
 from PopulationLib.InitialPop import InitialPop
 from PopulationLib.Production import Production
 from PopulationLib.Dispersal import Dispersal
 from PopulationLib.Dispersal_v310 import Dispersal_v310
 from ProjectLib import helpers as helpers
+from PopulationLib.PopManager.Plant import Plant
 
 
 class PlantGroup:
@@ -138,7 +139,6 @@ class PlantGroup:
             geometry (dict): plant geometries
             network (dict): plant network characteristics
         """
-        print("> PlantGroup Planting")
         for i in range(0, len(positions["x"])):
             # If geometry and network are defined, use these values
             # Else fill dictionaries with 0
@@ -155,12 +155,11 @@ class PlantGroup:
             else:
                 plant_network = network[i]
             self.max_id += 1
-            self.plants.append(
-                PLib.Plant(other=self,
-                           x=positions["x"][i],
-                           y=positions["y"][i],
-                           initial_geometry=plant_geometry,
-                           initial_network=plant_network))
+            self.plants.append(Plant(other=self,
+                                     x=positions["x"][i],
+                                     y=positions["y"][i],
+                                     initial_geometry=plant_geometry,
+                                     initial_network=plant_network))
 
     def getPlants(self):
         """
@@ -228,9 +227,8 @@ class PlantGroup:
             else:
                 plant_network = network[i]
             self.max_id += 1
-            self.plants.append(
-                PLib.Plant(other=self,
-                           x=positions["x"][i],
-                           y=positions["y"][i],
-                           initial_geometry=plant_geometry,
-                           initial_network=plant_network))
+            self.plants.append(Plant(other=self,
+                                     x=positions["x"][i],
+                                     y=positions["y"][i],
+                                     initial_geometry=plant_geometry,
+                                     initial_network=plant_network))

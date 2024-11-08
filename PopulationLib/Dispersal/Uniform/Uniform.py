@@ -1,9 +1,8 @@
 import numpy as np
 from ProjectLib import helpers as helpers
-from PopulationLib.Dispersal.Dispersal import Dispersal
 
 
-class Uniform(Dispersal):
+class Uniform:
     """
     Uniform dispersal module
     """

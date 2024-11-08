@@ -10,7 +10,7 @@ class Population:
     def __init__(self, args):
         """
         Args:
-            xml_args (lxml.etree._Element): group module specifications from project file tags
+            xml_args (lxml.etree._Element): population module specifications from project file tags
         """
         self.plant_groups = {}
         self.plants = []

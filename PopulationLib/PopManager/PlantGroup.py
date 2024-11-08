@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import numpy as np
-#import PopulationLib as PLib
 from PopulationLib.InitialPop import InitialPop
 from PopulationLib.Production import Production
 from PopulationLib.Dispersal import Dispersal
@@ -22,7 +21,6 @@ class PlantGroup:
         Args:
             xml_args (lxml.etree._Element): group module specifications from project file tags
         """
-        print("> PlantGroup init")
         self.xml_args = xml_args  # ToDo: unify name for tag variable
         self.max_id = 0
         self.plants = []
@@ -41,12 +39,12 @@ class PlantGroup:
             self.dispersal_v310 = Dispersal_v310(self.xml_args)
             self.recruitPlants_v310(initial_group=True)
             self.use_v310 = True
-            print("................................................................................")
-            print("....... CAUTION.................................................................")
-            print("........This method is deprecated...............................................")
-            print("....... pyMANGA v3.1.0 is used..................................................")
-            print("....... If you want to use a newer version of pyMANGA, update the control file..")
-            print("................................................................................")
+            print("..............................................................................")
+            print("... CAUTION ..................................................................")
+            print("... This method is deprecated ................................................")
+            print("... pyMANGA v3.1.0 is used ...................................................")
+            print("... If you want to use a newer version of pyMANGA, update the control file ...")
+            print("..............................................................................")
 
     def iniPlantDynamicConcept(self):
         """
@@ -63,7 +61,6 @@ class PlantGroup:
 
         # Class needs to be imported on demand to avoid circular import
         from ProjectLib.Project import MangaProject
-
         case = self.xml_args.find("vegetation_model_type").text
         module_dir = 'PlantModelLib.'
         self.plant_dynamic_concept = MangaProject.importModule(self=self,
@@ -121,7 +118,6 @@ class PlantGroup:
         The number of seeds or seedlings depends on the selected <production> module,
         and the position depends on the selected <dispersal> module.
         """
-        print("> PlantGroup recruitPlants")
         if self.use_v310:
             self.recruitPlants_v310()
         else:

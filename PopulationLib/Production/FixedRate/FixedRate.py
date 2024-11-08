@@ -1,17 +1,15 @@
-import numpy as np
 from ProjectLib import helpers as helpers
 
 
 class FixedRate:
     """
-    Random dispersal module
+    FixedRate production module
     """
     def __init__(self, xml_args):
         """
         Args:
-            xml_args (lxml.etree._Element): distribution module specifications from project file tags
+            xml_args (lxml.etree._Element): production module specifications from project file tags
         """
-        print(">>> FixedRate init")
         self.getInputParameters(args=xml_args)
 
     def getInputParameters(self, args):
@@ -33,13 +31,32 @@ class FixedRate:
                   self.per_ha)
 
     def getSeedsPerPlant(self, no_plants):
+        """
+        Create array with the number of seeds/seedlings per plant in the previous timestep.
+        Args:
+            no_plants (int): number of plants in previous timestep
+        Returns:
+            array of length = number of plants in previous timestep
+        """
         return [self.n_individuals] * no_plants
 
     def getSeedsPerHa(self):
+        """
+        Calculate number of seeds/seedlings per hectare based on defined spatial domain for the respective group.
+        Returns:
+            int
+        """
         domain_ha = (self.l_x * self.l_y) / 10000
         return domain_ha * self.n_individuals
 
     def getNumberSeeds(self, plants):
+        """
+        Get number of seeds/seedlings produced in the current timestep.
+        Args:
+            plants (dict): plant object, see ``pyMANGA.PopulationLib.PopManager.Plant``
+        Returns:
+            int or array of length = number of plants in previous timestep
+        """
         if self.per_individual:
             return self.getSeedsPerPlant(no_plants=len(plants))
         elif self.per_ha:
@@ -48,6 +65,13 @@ class FixedRate:
             return self.n_individuals
 
     def setModelDomain(self, x1, x2, y1, y2):
-        print(">>> Uniform setModelDomain")
+        """
+        Adds model domain boundaries to the object.
+        Args:
+            x1 (float): x-coordinate of left bottom border of grid
+            x2 (float): x-coordinate of right bottom border of grid
+            y1 (float): y-coordinate of left top border of grid
+            y2 (float): y-coordinate of right top border of grid
+        """
         helpers.setModelDomain(self, x1, x2, y1, y2)
 

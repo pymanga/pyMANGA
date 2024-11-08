@@ -11,7 +11,6 @@ class Random:
             xml_args (lxml.etree._Element): distribution module specifications from project file tags
         """
         self.xml_args = xml_args
-        print("........Dispersal method Random is deprecated...............................................")
 
     def getTags(self, tags):
         """

@@ -12,7 +12,6 @@ class Random:
         Args:
             xml_args (lxml.etree._Element): distribution module specifications from project file tags
         """
-        print(">>>>>> Random init")
         self.getInputParameters(args=xml_args)
 
     def getInputParameters(self, args):
@@ -24,6 +23,12 @@ class Random:
         helpers.getInputParameters(myself, **tags)
 
     def getPlantAttributes(self):
+        """
+        Return group dictionaries (i.e., plant positions, geometries and network parameters).
+        Geometry and network are empty dictionaries.
+        Returns:
+            three dicts
+        """
         positions = self.getPositions()
         geometry = np.full(len(positions["x"]), False)
         network = {}
@@ -42,5 +47,12 @@ class Random:
         return plant_positions
 
     def setModelDomain(self, x1, x2, y1, y2):
-        print(">>> Random setModelDomain")
+        """
+        Adds model domain boundaries to the object.
+        Args:
+            x1 (float): x-coordinate of left bottom border of grid
+            x2 (float): x-coordinate of right bottom border of grid
+            y1 (float): y-coordinate of left top border of grid
+            y2 (float): y-coordinate of right top border of grid
+        """
         helpers.setModelDomain(self, x1, x2, y1, y2)

@@ -5,7 +5,7 @@ from PopulationLib.Dispersal.Dispersal import Dispersal
 
 class Uniform(Dispersal):
     """
-    Random dispersal module
+    Uniform dispersal module
     """
     def __init__(self, xml_args):
         """
@@ -13,7 +13,6 @@ class Uniform(Dispersal):
             xml_args (lxml.etree._Element): distribution module specifications from project file tags
         """
         self.xml_args = xml_args
-        print(">>> Uniform init")
         self.getInputParameters(args=xml_args)
 
     def getInputParameters(self, args):
@@ -32,7 +31,6 @@ class Uniform(Dispersal):
         Returns:
             dict
         """
-        print(">>> Uniform getPositions")
         if np.isscalar(number_of_plants):
             number_of_plants = int(number_of_plants)
         else:
@@ -46,5 +44,12 @@ class Uniform(Dispersal):
         return plant_positions
 
     def setModelDomain(self, x1, x2, y1, y2):
-        print(">>> Uniform setModelDomain")
+        """
+        Adds model domain boundaries to the object.
+        Args:
+            x1 (float): x-coordinate of left bottom border of grid
+            x2 (float): x-coordinate of right bottom border of grid
+            y1 (float): y-coordinate of left top border of grid
+            y2 (float): y-coordinate of right top border of grid
+        """
         helpers.setModelDomain(self, x1, x2, y1, y2)

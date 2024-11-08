@@ -48,6 +48,14 @@ def getInputParameters(myself, **tags):
 
 
 def setModelDomain(self, x1, x2, y1, y2):
+    """
+    Adds model domain boundaries to the object.
+    Args:
+        x1 (float): x-coordinate of left bottom border of grid
+        x2 (float): x-coordinate of right bottom border of grid
+        y1 (float): y-coordinate of left top border of grid
+        y2 (float): y-coordinate of right top border of grid
+    """
     self.x_1, self.x_2 = x1, x2
     self.y_1, self.y_2 = y1, y2
 

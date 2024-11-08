@@ -18,7 +18,7 @@ class Uniform(Dispersal):
     def getInputParameters(self, args):
         tags = {
             "prj_file": args,
-            "required": ["type"] #, "domain", "x_1", "x_2", "y_1", "y_2"]
+            "required": ["type"]
         }
         myself = super(Uniform, self)
         helpers.getInputParameters(myself, **tags)

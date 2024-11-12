@@ -85,8 +85,11 @@ class PlantGroup:
         Initialize the initial population module.
         """
         initial_population = InitialPop(self.xml_args.find("initial_population"))
-        initial_population.setModelDomain(x1=self.x_1, x2=self.x_2,
-                                          y1=self.y_1, y2=self.y_2)
+        try:
+            initial_population.setModelDomain(x1=self.x_1, x2=self.x_2,
+                                              y1=self.y_1, y2=self.y_2)
+        except AttributeError:
+            pass
         positions, geometry, network = initial_population.getPlantAttributes()
         self.planting(positions, geometry, network)
 
@@ -95,8 +98,11 @@ class PlantGroup:
         Initialize the seedling production module.
         """
         self.production = Production(self.xml_args.find("production"))
-        self.production.setModelDomain(x1=self.x_1, x2=self.x_2,
-                                          y1=self.y_1, y2=self.y_2)
+        try:
+            self.production.setModelDomain(x1=self.x_1, x2=self.x_2,
+                                           y1=self.y_1, y2=self.y_2)
+        except AttributeError:
+            pass
 
     def iniDispersal(self):
         """

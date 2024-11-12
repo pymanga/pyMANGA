@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def getInputParameters(myself, **tags):
     """
     Read module tags from project file.
@@ -61,3 +64,18 @@ def setModelDomain(self, x1, x2, y1, y2):
 
     self.l_x = self.x_2 - self.x_1
     self.l_y = self.y_2 - self.y_1
+
+
+def string_to_function(self, expression):
+    """
+    Evaluate formula from project file
+    Credits: https://saturncloud.io/blog/pythonnumpyscipy-converting-string-to-mathematical-function/#numpys-frompyfunc-function
+    Args:
+        expression (string): weighting formula (from prj file)
+    Returns:
+        array
+    """
+    def function(x, y):
+        return eval(expression)
+
+    return np.frompyfunc(function, 2, 1)

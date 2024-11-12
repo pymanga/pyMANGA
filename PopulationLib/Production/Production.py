@@ -30,7 +30,7 @@ class Production:
             self.nth_timestep = int(xml_args.find("nth_timestep").text)
         except AttributeError:
             self.nth_timestep = 1
-            print("INFO: production parameter 'nth_timestep' set to default:", self.nth_timestep)
+            print("INFO: Default value for <production><nth_timestep> is used. Default: ",  self.nth_timestep)
 
     def isProductionTime(self):
         self.timestep_counter += 1

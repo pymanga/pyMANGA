@@ -14,7 +14,7 @@ Dispersal is part of the definition of the population (see ``pyMANGA.PopulationL
 
 # Attributes
 
-- ``dispersal`` (string): Nesting tag to define a group
+- ``dispersal`` (string): Nesting tag to define the dispersal strategy of a group
 - ``type`` (string): Name of the selected module
 
 # Value

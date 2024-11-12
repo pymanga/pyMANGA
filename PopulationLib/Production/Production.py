@@ -8,6 +8,7 @@ class Production:
             xml_args (lxml.etree._Element): production module specifications from project file tags
         """
         self.iniProduction(xml_args=xml_args)
+        self.timestep_counter = 0
 
     def iniProduction(self, xml_args):
         """
@@ -24,6 +25,20 @@ class Production:
                                                     modul_dir=module_dir,
                                                     prj_args=xml_args)
 
+        # Get production time step
+        try:
+            self.nth_timestep = int(xml_args.find("nth_timestep").text)
+        except AttributeError:
+            self.nth_timestep = 1
+            print("INFO: production parameter 'nth_timestep' set to default:", self.nth_timestep)
+
+    def isProductionTime(self):
+        self.timestep_counter += 1
+        if self.timestep_counter % self.nth_timestep == 0:
+            return True
+        else:
+            return False
+
     def getNumberSeeds(self, plants):
         """
         Get number of produced seeds/plants from selected production module.
@@ -32,7 +47,10 @@ class Production:
         Returns:
             int or list of ints
         """
-        return self.production.getNumberSeeds(plants)
+        if self.isProductionTime():
+            return self.production.getNumberSeeds(plants)
+        else:
+            return 0
 
     def setModelDomain(self, x1, x2, y1, y2):
         """

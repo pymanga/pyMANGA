@@ -1,16 +1,14 @@
 # Description
 
-Population module that defines the location of new plants.
+Production module that defines the number of new seeds or seedlings based on a fixed rate.
+This rate can be related to the model domain, the number of existing individuals, or independent of both.
 
-New plants are randomly distributed in the model domain.
-The number of plants is the same at each time step.
-The size (geometry) and attributes of a plant are taken from the species file (see ``pyMANGA.PopulationLib.Species``).
 
 # Usage
 
 ```xml
 <production>
-    <type> Random </type>
+    <type> FixedRate </type>
     <n_individuals> 10000 </n_individuals>
     <per_individual> False </per_individual>
     <per_ha> True </per_ha>
@@ -19,7 +17,7 @@ The size (geometry) and attributes of a plant are taken from the species file (s
 
 # Attributes
 
-- ``type`` (string): "Random"
+- ``type`` (string): "FixedRate"
 - ``n_individuals`` (int): Number of plants recruited in the beginning of the simulation
 - ``per_individual`` (bool): optional - If True, the number of individuals refers to new individuals per existing individual of the group. Default: False.
 - ``per_ha`` (bool): optional - If True, the number of individuals refers to new individuals per hectare. Default: False.
@@ -31,7 +29,7 @@ integer or list of length number of plants
 # Details
 ## Purpose
 
-Define the location of new plants added to the model.
+Define the number of new plants added to the model.
 
 ## Process overview
 ### getNumberSeeds
@@ -40,6 +38,8 @@ Return the number of seeds or seedling produced per time step.
 If <per_individual> is true, this is:
 
 ``[n_individuals] * no_plants``
+
+**Note** The number of new seeds can increase exponentially, if no other process reduces reproduction, such as competition or mortality.
 
 If <per_individual> is true, this is:
 
@@ -70,12 +70,15 @@ Marie-Christin Wimmler, Jasper Bathmann
 
 # Examples
 
+Produce 1 new seedling per existing plant in every 12th time step.
+
 ````xml
 <production>
-    <type> Random </type>
-    <n_individuals> 10000 </n_individuals>
-    <per_individual> False </per_individual>
-    <per_ha> True </per_ha>
+    <type> FixedRate </type>
+    <n_individuals> 1 </n_individuals>
+    <per_individual> True </per_individual>
+    <per_ha> False </per_ha>
+    <nth_timestep>12</nth_timestep>
 </production>
 ````
 

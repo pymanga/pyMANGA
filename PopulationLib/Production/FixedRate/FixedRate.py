@@ -29,6 +29,10 @@ class FixedRate:
             self.per_ha = False
             print("INFO: Default value for <production><FixedRate><per_ha> is used. Default: ",
                   self.per_ha)
+        if self.per_individual and self.per_ha:
+            print("ERROR in Production module.")
+            print("Both parameters, per_individual and per_ha are set True but only one can be True.")
+            exit()
 
     def getSeedsPerPlant(self, no_plants):
         """

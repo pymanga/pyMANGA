@@ -48,6 +48,5 @@ class SizeDependent:
             if self.log:
                 no_per_plant = int(10 ** no_per_plant - 1)
             no_new_plants.append(no_per_plant)
-        print(no_new_plants)
         return no_new_plants
 

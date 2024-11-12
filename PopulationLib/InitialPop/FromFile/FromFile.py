@@ -11,8 +11,6 @@ class FromFile:
         Args:
             xml_args (lxml.etree._Element): distribution module specifications from project file tags
         """
-        print(">>>>>> FromFile init")
-
         self.getInputParameters(args=xml_args)
 
     def getInputParameters(self, args):
@@ -83,10 +81,13 @@ class FromFile:
         return plant_attributes
 
     def getPlantAttributes(self):
-        print(">>>>>> FromFile getPlantAttributes")
-
+        """
+        Return group dictionaries (i.e., plant positions, geometries and network parameters).
+        Geometry and network are empty dictionaries.
+        Returns:
+            three dicts
+        """
         positions, geometry, network = self.getInitialGroup()
-
         return positions, geometry, network
 
 

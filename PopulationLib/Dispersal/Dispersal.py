@@ -24,16 +24,17 @@ class Dispersal:
                                                    modul_dir=module_dir,
                                                    prj_args=xml_args)
 
-    def getPositions(self, number_of_plants):
+    def getPositions(self, number_of_plants, plants):
         """
         Get plant positions from selected dispersal module.
         Args:
             number_of_plants (int or list of ints): total number of plants to be added to the system or a list of
             numbers to be added per existing plant.
+            plants (dict): plant object, see ``pyMANGA.PopulationLib.PopManager.Plant``
         Returns:
             dict
         """
-        return self.dispersal.getPositions(number_of_plants)
+        return self.dispersal.getPositions(number_of_plants, plants)
 
     def setModelDomain(self, x1, x2, y1, y2):
         """

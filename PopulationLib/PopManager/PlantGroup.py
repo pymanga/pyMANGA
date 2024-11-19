@@ -128,7 +128,8 @@ class PlantGroup:
             self.recruitPlants_v310()
         else:
             self.setNumberOfSeeds()
-            positions = self.dispersal.getPositions(self.number_of_seeds)
+            positions = self.dispersal.getPositions(number_of_plants=self.number_of_seeds,
+                                                    plants=self.plants)
             geometry = np.full(len(positions["x"]), False)
             network = {}
             self.planting(positions, geometry, network)

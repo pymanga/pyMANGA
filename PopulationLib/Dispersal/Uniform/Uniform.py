@@ -9,7 +9,7 @@ class Uniform:
     def __init__(self, xml_args):
         """
         Args:
-            xml_args (lxml.etree._Element): distribution module specifications from project file tags
+            xml_args (lxml.etree._Element): dispersal module specifications from project file tags
         """
         self.xml_args = xml_args
         self.getInputParameters(args=xml_args)
@@ -22,11 +22,11 @@ class Uniform:
         myself = super(Uniform, self)
         helpers.getInputParameters(myself, **tags)
 
-    def getPositions(self, number_of_plants):
+    def getPositions(self, number_of_plants, plants):
         """
         Return positions of new plants, which are drawn from a uniform distribution.
         Args:
-            number_of_plants (int): number of plants that will be added to the model
+            number_of_plants (int or list of int): number of plants that will be added to the model
         Returns:
             dict
         """

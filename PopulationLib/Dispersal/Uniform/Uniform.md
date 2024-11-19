@@ -1,6 +1,6 @@
 # Description
 
-Dispersal module that defines the location of initial and new plants.
+Dispersal module that defines the location new plants.
 
 New plants are randomly distributed in the model domain.
 

@@ -43,7 +43,8 @@ class Random:
             dict
         """
         plant_positions = Uniform.getPositions(self=self,
-                                               number_of_plants=self.n_individuals)
+                                               number_of_plants=self.n_individuals,
+                                               plants={})
         return plant_positions
 
     def setModelDomain(self, x1, x2, y1, y2):

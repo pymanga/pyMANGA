@@ -23,6 +23,9 @@ class DynamicTimeLoop:
             elif self.terminal_print.lower() in 'days':
                 self.print_unit = 86400
                 self.terminal_print_unit = "d"
+            elif self.terminal_print.lower() in 'seconds':
+                self.print_unit = 1
+                self.terminal_print_unit = "s"
         except AttributeError:
             self.terminal_print = False
             self.terminal_print_unit = False

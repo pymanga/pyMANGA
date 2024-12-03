@@ -38,6 +38,14 @@ class SymmetricZOI(ResourceModel):
                 print("Please refine mesh or increase initial root radius above " +
                       str(self.mesh_size) + "m or allow interpolation.")
                 exit()
+            else:
+                # Find closest node
+                cx = self.find_nearest(self.my_grid[0][0], x)
+                cy = self.find_nearest(np.transpose(self.my_grid[1])[0], y)
+                # Distance between plant and closest node
+                dist = ((cx - x) ** 2 + (cy - y) ** 2) ** 0.5
+                # Set root radius to min. distance
+                r_root = dist
 
         self.xe.append(x)
         self.ye.append(y)
@@ -54,14 +62,10 @@ class SymmetricZOI(ResourceModel):
                       np.array(self.xe)[np.newaxis, np.newaxis, :])**2 +
                      (self.my_grid[1][:, :, np.newaxis] -
                       np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5)
-        min_distance = np.min(distance)
 
         # Array of shape distance [res_x, res_y, n_plants], indicating which
         # cells are occupied by plant root plates
-        root_radius = np.array(self.r_root)
-        # If root radius < mesh size, set it to mesh size
-        root_radius[np.where(root_radius < min_distance)] = min_distance
-        plants_present = root_radius[np.newaxis, np.newaxis, :] >= distance
+        plants_present = np.array(self.r_root)[np.newaxis, np.newaxis, :] >= distance
 
         # Count all nodes, which are occupied by plants
         # returns array of shape [n_plants]
@@ -82,6 +86,20 @@ class SymmetricZOI(ResourceModel):
             plant_wins[i] = np.sum(plants_present_reci[np.where(
                 plants_present[:, :, i])])
         self.belowground_resources = plant_wins / plant_counts
+
+    def find_nearest(self, array, value):
+        """
+        Get the nearest value in a list
+        Credit: Mateen Ulhaq https://stackoverflow.com/a/2566508
+        Args:
+            array (list): list of numbers
+            value (float): value
+        Returns:
+            float
+        """
+        array = np.asarray(array)
+        idx = (np.abs(array - value)).argmin()
+        return array[idx]
 
     def getInputParameters(self, args):
         tags = {

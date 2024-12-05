@@ -61,7 +61,7 @@ class Random:
             dict
         """
         r = np.random.random(len(self.weights)) ** (1 / self.weights)
-        idx = np.argsort(r)[:number_of_plants]
+        idx = np.argsort(-r)[:number_of_plants]
 
         xi = np.array([np.random.uniform(i - self.x_r, i + self.x_r) for i in self.grid_x[idx]])
         yi = np.array([np.random.uniform(i - self.x_r, i + self.x_r) for i in self.grid_y[idx]])

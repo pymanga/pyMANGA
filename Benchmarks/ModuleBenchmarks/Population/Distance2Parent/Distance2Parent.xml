@@ -1,0 +1,67 @@
+<MangaProject>
+    <random_seed>643879</random_seed>
+    <resources>
+        <aboveground>
+            <type> AsymmetricZOI </type>
+            <domain>
+                <x_1> 0 </x_1>
+                <y_1> 0 </y_1>
+                <x_2> 22 </x_2>
+                <y_2> 22 </y_2>
+                <x_resolution> 22 </x_resolution>
+                <y_resolution> 22 </y_resolution>
+                <allow_interpolation>True</allow_interpolation>
+            </domain>
+         </aboveground>
+        <belowground>
+            <type> Default </type>
+        </belowground>
+    </resources>
+    <population>
+        <group>
+            <name> Initial </name>
+            <species> Avicennia </species>
+            <vegetation_model_type> Bettina </vegetation_model_type>
+            <mortality>NoGrowth</mortality>
+            <domain>
+                <x_1> 0 </x_1>
+                <y_1> 0 </y_1>
+                <x_2> 22 </x_2>
+                <y_2> 22 </y_2>
+            </domain>
+            <initial_population>
+                <type>FromFile</type>
+                <filename>Benchmarks/ModuleBenchmarks/PlantModules/Bettina/ag_initial_population.csv</filename>
+            </initial_population>
+            <production>
+                <type>FixedRate</type>
+                <n_individuals>50</n_individuals>
+                <per_individual>True</per_individual>
+            </production>
+            <dispersal>
+                <type> Distance2Parent </type>
+                <distribution>normal</distribution>
+                <loc>0</loc>
+                <scale>0.5</scale>
+            </dispersal>
+        </group>
+    </population>
+    <time_loop>
+        <type> Simple </type>
+        <t_start> 0 </t_start>
+        <t_end> 1e6 </t_end>
+        <delta_t> 1e6 </delta_t>
+        <terminal_print>year</terminal_print>
+    </time_loop>
+    <visualization>
+        <type> NONE </type>
+    </visualization>
+    <output>
+        <type> OneFile </type>
+        <allow_previous_output>True</allow_previous_output>
+        <output_dir>Benchmarks/ModuleBenchmarks/Population/Distance2Parent/ReferenceFiles/Distance2Parent</output_dir>
+        <geometry_output> r_stem </geometry_output>
+        <growth_output> age </growth_output>
+    </output>
+</MangaProject>
+

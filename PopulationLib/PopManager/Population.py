@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from PopulationLib import PlantGroup
+from PopulationLib.PopManager.PlantGroup import PlantGroup
 
 
 class Population:
@@ -10,7 +10,7 @@ class Population:
     def __init__(self, args):
         """
         Args:
-            xml_args (lxml.etree._Element): group module specifications from project file tags
+            xml_args (lxml.etree._Element): population module specifications from project file tags
         """
         self.plant_groups = {}
         self.plants = []

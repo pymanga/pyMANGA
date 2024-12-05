@@ -9,22 +9,22 @@ This rate can be related to the model domain, the number of existing individuals
 ```xml
 <production>
     <type> FixedRate </type>
-    <n_individuals> 10000 </n_individuals>
-    <per_individual> False </per_individual>
-    <per_ha> True </per_ha>
+    <per_model_area> 10 </per_model_area>    
+    <per_ha> 0 </per_ha>
+    <per_individual> 1 </per_individual>
 </production>
 ```
 
 # Attributes
 
 - ``type`` (string): "FixedRate"
-- ``n_individuals`` (int): Number of plants recruited in the beginning of the simulation
-- ``per_individual`` (bool): optional - If True, the number of individuals refers to new individuals per existing individual of the group. Default: False.
-- ``per_ha`` (bool): optional - If True, the number of individuals refers to new individuals per hectare. Default: False.
+- ``per_model_area`` (int): optional - Number of plants per model area. Default: None.
+- ``per_ha`` (int): optional - Number of plants recruited per hectare. Default: None.
+- ``per_individual`` (int): optional - Number of plants recruited per existing plant. Default: None.
 
 # Value
 
-integer or list of length number of plants
+dict with three items ("per_individual", "per_ha", "per_model_area")
 
 # Details
 ## Purpose
@@ -35,24 +35,30 @@ Define the number of new plants added to the model.
 ### getNumberSeeds
 
 Return the number of seeds or seedling produced per time step.
-If <per_individual> is true, this is:
+If <per_individual> has a value, this is:
 
-``[n_individuals] * no_plants``
+``[per_individual] * no_plants``
 
 **Note** The number of new seeds can increase exponentially, if no other process reduces reproduction, such as competition or mortality.
 
-If <per_individual> is true, this is:
+If <per_ha> has a value, this is:
 
 ``
-domain_ha * n_individuals
+domain_ha * per_ha
 `` 
 
 with ``domain_ha = (l_x * l_y) / 10000``,
 where ``l_x, l_y`` is the xy-extension of the model domain.
 
+If <per_model_area> has a value, this is:
+
+``
+per_model_areaa
+`` 
+
 ## Application & Restrictions
 
--
+- ``per_model_area`` and ``per_ha`` cannot be used simultaneously. But ``per_individual`` can be used with both.
 
 # References
 
@@ -70,14 +76,13 @@ Marie-Christin Wimmler, Jasper Bathmann
 
 # Examples
 
-Produce 1 new seedling per existing plant in every 12th time step.
+Produce 1 new seedling per existing plant and 100 seedlings per hectare in every 12th time step.
 
 ````xml
 <production>
     <type> FixedRate </type>
-    <n_individuals> 1 </n_individuals>
-    <per_individual> True </per_individual>
-    <per_ha> False </per_ha>
+    <per_individual> 1 </per_individual>
+    <per_ha> 100 </per_ha>
     <nth_timestep>12</nth_timestep>
 </production>
 ````

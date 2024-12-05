@@ -26,9 +26,7 @@
             </initial_population>
             <production>
                 <type>FixedRate</type>
-                <per_individual>False</per_individual>
-                <per_ha>False</per_ha>
-                <n_individuals> 2 </n_individuals>
+                <per_model_area> 2 </per_model_area>
             </production>
             <dispersal>
                 <type> Weighted </type>

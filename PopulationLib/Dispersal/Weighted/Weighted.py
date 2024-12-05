@@ -54,7 +54,7 @@ class Weighted:
         Credits: https://stackoverflow.com/a/15205104
         Credits: http://www.sciencedirect.com/science/article/pii/S002001900500298X
         Args:
-            number_of_plants (int or list of int): number of plants that will be added to the model
+            number_of_plants (int or dict): number of plants that will be added to the model
         Returns:
             dict
         """
@@ -62,7 +62,8 @@ class Weighted:
         if np.isscalar(number_of_plants):
             number_of_plants = int(number_of_plants)
         else:
-            number_of_plants = int(np.sum(number_of_plants))
+            inds_l = [*number_of_plants.values()]
+            number_of_plants = int(sum(sum(x) if isinstance(x, list) else x for x in inds_l))
 
         # Create N random numbers, with N = number of grid cells
         r = np.random.random(self.no_weights) ** (1 / self.weights)

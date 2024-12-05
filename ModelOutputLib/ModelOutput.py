@@ -16,14 +16,14 @@ class ModelOutput:
             args (lxml.etree._Element): module specifications from project file tags
         """
         self.prj_args = args
+        # Set initial parameters
+        self._output_counter = 0
+        self.inside_range = False
+        self.output_each_timestep = False
+
         self.createOutputDir()
         self.setOutputTime()
         self.setOutputVariables()
-
-        # Set initial parameters
-        self._output_counter = 0
-        self._output_counter2 = 0
-        self._it_is_output_time = True
 
         try:
             self.delimiter = self.prj_args.find("delimiter").text
@@ -63,6 +63,17 @@ class ModelOutput:
             pass
         print("Output file path: " + os.path.join(os.getcwd(), self.output_dir))
 
+    def all_none(self, l):
+        """
+        Check if all items of a list are None
+        Credits: @Dog eat cat world https://stackoverflow.com/a/62816203
+        Args:
+            l (list): list of items
+        Returns:
+            bool
+        """
+        return not any(map(None.__ne__, l))
+
     def setOutputTime(self):
         """
         Set variables defining when output is written.
@@ -73,8 +84,9 @@ class ModelOutput:
         self.output_time_range = self.prj_args.find("output_time_range")
 
         # If nothing is defined, write output every timestep
-        if all(v is None for v in [self.output_each_nth_timestep, self.output_times, self.output_time_range]):
-            self.output_each_nth_timestep = [1, 1]
+        if self.all_none([self.output_each_nth_timestep, self.output_times, self.output_time_range]):
+            self.output_each_timestep = True
+            print("WARNING: No output frequency has been defined. Output is written at each time step.")
         else:
             # Get output time steps for two periods (shape: [i, j])
             if self.output_each_nth_timestep is not None:
@@ -85,8 +97,6 @@ class ModelOutput:
                 elif len(self.output_each_nth_timestep) > 2:
                     raise ValueError("The tag \'<output_each_nth_timestep>\' in the xml file"
                                      " caused an error. Please check your input!")
-            else:
-                self.output_each_nth_timestep = None
 
             # Check if specific time steps to write output are defined
             if self.output_times is not None:
@@ -98,6 +108,11 @@ class ModelOutput:
                 if len(self.output_time_range) != 2:
                     raise ValueError("The tag \'<output_time_range>\' in the xml file"
                                      " caused an error. Please check your input!")
+                if self.all_none([self.output_each_nth_timestep, self.output_times]):
+                    self.output_each_nth_timestep = [0, 1]
+                    print(
+                        "WARNING: No output frequency has been defined. Output is written at each time step within the "
+                        "defined period.")
 
     def setOutputVariables(self):
         """
@@ -222,52 +237,39 @@ class ModelOutput:
             force_output (bool): indicate whether writing output is forced
             group_died (bool): indicate whether a whole plant group died
         """
-        self._it_is_output_time = False
-        self.cond1, self.cond2, self.cond3, self.cond3a, self.cond3b = False, False, False, False, False
-        # Condition whether we are in the n-th timestep
-        if self.output_each_nth_timestep is not None:
-            if int(self.output_each_nth_timestep[0]) == 1:
-                self.cond1 = True
-            else:
-                try:
-                    self._output_counter = (self._output_counter %
-                                            int(self.output_each_nth_timestep[0]))
-                except ZeroDivisionError:
-                    self._output_counter = 0
-                self.cond1 = (self._output_counter == 1)
-        # Condition whether we are in a certain output time
-        if self.output_times is not None:
-            self.cond2 = (time in self.output_times)
-        # Condition whether we are in the output time range
-        if self.output_time_range is not None:
-            self.cond3a = (self.output_time_range[0] <=
-                                       time <=
-                                       self.output_time_range[1])
-            # Condition whether we are in the n-th timestep
-            if self.output_each_nth_timestep is not None:
-                if int(self.output_each_nth_timestep[1]) == 1:
-                    self.cond3b = True
-                else:
-                    self._output_counter2 = (self._output_counter2 %
-                                            int(self.output_each_nth_timestep[1]))
-                    self.cond3b = (self._output_counter2 == 1)
-            else:
-                self.cond3b = True
-            self.cond3 = all([self.cond3a, self.cond3b])
+        if not any([force_output, group_died]):
+            self.cond, self.inside_range = False, False
+
+            # Condition 1: Are we in a certain output time?
+            if self.output_times is not None:
+                self.cond = time in self.output_times
+
+            if not self.cond:
+                # Condition 2: Are we in the n-th timestep?
+                if self.output_each_nth_timestep is not None:
+                    # Check whether time range is defined
+                    if self.output_time_range is not None:
+                        self.inside_range = self.output_time_range[0] <= time <= self.output_time_range[1]
+
+                    if self.inside_range:
+                        # Condition inside time range
+                        if self.output_each_nth_timestep[1] != 0:
+                            self.cond = self._output_counter % int(self.output_each_nth_timestep[1]) == 0
+                    else:
+                        # Condition outside of range
+                        if self.output_each_nth_timestep[0] != 0:
+                            self.cond = self._output_counter % int(self.output_each_nth_timestep[0]) == 0
 
         # Check whether one of the above conditions is fulfilled
-        if any([self.cond1, self.cond2, self.cond3]):
-            self._it_is_output_time = True
-
-        if force_output or group_died:
-            self._it_is_output_time = True
-
-        if self._it_is_output_time:
+        if any([self.cond, force_output, group_died, self.output_each_timestep]):
             self.outputContent(plant_groups=plant_groups,
                                time=time,
                                group_died=group_died)
-        self._output_counter += 1
-        self._output_counter2 = self._output_counter
+
+        # Only increase counter during regular method calls
+        # Reason: if one or multiple groups die during a time step, an output is forced
+        if not group_died:
+            self._output_counter += 1
 
     def outputContent(self, plant_groups, time, **kwargs):
         """

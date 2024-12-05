@@ -50,7 +50,7 @@ class Production:
         if self.isProductionTime():
             return self.production.getNumberSeeds(plants)
         else:
-            return 0
+            return None
 
     def setModelDomain(self, x1, x2, y1, y2):
         """

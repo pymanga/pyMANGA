@@ -26,14 +26,16 @@ class Uniform:
         """
         Return positions of new plants, which are drawn from a uniform distribution.
         Args:
-            number_of_plants (int or list of int): number of plants that will be added to the model
+            number_of_plants (int or dict): number of plants that will be added to the model
         Returns:
             dict
         """
         if np.isscalar(number_of_plants):
             number_of_plants = int(number_of_plants)
         else:
-            number_of_plants = int(np.sum(number_of_plants))
+            inds_l = [*number_of_plants.values()]
+            number_of_plants = int(sum(sum(x) if isinstance(x, list) else x for x in inds_l))
+
         xi, yi = [], []
         for i in range(number_of_plants):
             r_x, r_y = np.random.rand(2)

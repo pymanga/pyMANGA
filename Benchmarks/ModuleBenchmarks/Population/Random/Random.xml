@@ -33,19 +33,15 @@
             </domain>
             <initial_population>
                 <type>Random</type>
-                <filename>Benchmarks/ModuleBenchmarks/PlantModules/Bettina/ag_initial_population.csv</filename>
                 <n_individuals> 1 </n_individuals>
             </initial_population>
             <production>
                 <type>FixedRate</type>
-                <per_individual>False</per_individual>
-                <per_ha>True</per_ha>
-                <n_individuals> 2 </n_individuals>
-                <unit>time</unit>
+                <per_model_area> 2 </per_model_area>
+                <nth_timestep>2</nth_timestep>
             </production>
             <dispersal>
                 <type> Uniform </type>
-                <weight_file>weights.csv</weight_file>
             </dispersal>
         </group>
     </population>

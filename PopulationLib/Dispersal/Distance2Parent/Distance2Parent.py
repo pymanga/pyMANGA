@@ -37,8 +37,9 @@ class Distance2Parent:
             dict
         """
         if np.isscalar(number_of_plants):
-            print("ERROR: it seems <production><per_individual> is False but needs to be True.")
+            print("ERROR: it seems <production><per_individual> is not defined.")
             exit()
+        number_of_plants = number_of_plants["per_individual"]
 
         self.xi, self.yi = [], []
         for i in range(len(plants)):

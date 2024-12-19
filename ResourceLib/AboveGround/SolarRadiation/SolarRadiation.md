@@ -62,19 +62,19 @@ Calculates the above-ground resource factor based on the net solar radiation. Th
 
 `aboveground_factor = netSolarRadiation / maxNetSolarRadiation`
 
-## References 
+# References 
 
 Allen, R. G., Pereira, L. S., Raes, D., & Smith, M. (1998). Crop evapotranspiration: guidelines for computing crop water requirements. FAO Irrigation and drainage paper, 56, D05109.
 
 Richards, Mark. (2015). PyETo: A Python Package for Calculating Reference Crop Evapotranspiration. https://pyeto.readthedocs.io/en/latest/
 
-## Authors 
+# Authors 
 
 Ruben M Jardner
 
-## See Also
+# See Also
 
-## Examples 
+# Examples 
 
 * Use solar radiation as above-ground resource. Latitude is set at 0.65 radians, minimum temperature is 24.33 degrees Celsius, and maximum temperature is 30.7 degrees Celsius. All other optional parameters are set to default values.  
 

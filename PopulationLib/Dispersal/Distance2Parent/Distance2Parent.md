@@ -21,9 +21,7 @@ The size (geometry) and attributes of a plant are taken from the species file (s
 # Attributes
 
 - ``type`` (string): "Random"
-- ``distribution`` (str): probability density function, i.e., 'normal', 'uniform', 'exponential'.
-- ``scale`` (float): (optional)  Distribution parameter. See [numpy random generator](https://numpy.org/doc/stable/reference/random/legacy.html) for specification.
-- ``loc`` (float): (optional) Distribution parameter. See [numpy random generator](https://numpy.org/doc/stable/reference/random/legacy.html) for specification.
+- ``distribution`` (str): probability density function, i.e., 'normal', 'uniform', 'exponential'. See [numpy random generator](https://numpy.org/doc/stable/reference/random/legacy.html) for specification.
 
 # Value
 
@@ -72,3 +70,19 @@ Marie-Christin Wimmler
 ``pyMANGA.PopulationLib.Production``,
 ``pyMANGA.PopulationLib.Dispersal``,
 ``pyMANGA.PopulationLib.Species``
+
+# Examples
+The seeds of a tree can, for example, be distributed uniformly within a radius of up to 20 meters (high) or exponentially with a scale factor of 0.5 (scale), so that most seeds land close to the parent tree.
+````xml
+<dispersal>
+    <type> Distance2Parent </type>
+    <distribution> uniform </distribution>
+    <high> 20 </high>
+</dispersal>
+or
+<dispersal>
+    <type> Distance2Parent </type>
+    <distribution>exponential</distribution>
+    <scale>0.5</scale>
+</dispersal>
+````

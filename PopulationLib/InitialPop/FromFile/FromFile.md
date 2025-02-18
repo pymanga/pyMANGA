@@ -8,14 +8,14 @@ The parameters describing a plant's geometry depend on the chosen plant module (
 
 ```xml
 <distribution>
-    <type> Random </type>
-    <filename> 10 </filename>
+    <type> FromFile </type>
+    <filename> Benchmarks/ModuleBenchmarks/PlantModules/Bettina/ag_initial_population.csv </filename>
 </distribution>
 ```
 
 # Attributes
 
-- ``type`` (string): "Random"
+- ``type`` (string): "FromFile"
 - ``filename`` (string): Path to input file (csv) containing position and geometry of initial populaiton
 
 # Value

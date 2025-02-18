@@ -52,11 +52,14 @@ class Distance2Parent:
             self.yi.append(yp + dist2parent * np.cos(angle))
 
         # Flatten lists
-        x = np.array(self.xi).flat
-        y = np.array(self.yi).flat
+        x = np.concatenate(self.xi) if self.xi else np.array([])
+        y = np.concatenate(self.yi) if self.yi else np.array([])
 
+        x1, x2 = float(self.x_1), float(self.x_2)
+        y1, y2 = float(self.y_1), float(self.y_2)
         # Drop seeds that are outside the model domain
-        idx = np.where((x < self.x_1) | (x > self.x_2) | (y < self.y_1) | (y > self.y_2))
+        idx = np.where(np.logical_or.reduce((x < x1, x > x2, y < y1, y > y2)))
+
         x = np.delete(x, idx)
         y = np.delete(y, idx)
 

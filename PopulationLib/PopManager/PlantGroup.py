@@ -25,6 +25,7 @@ class PlantGroup:
         self.max_id = 0
         self.plants = []
         self.positions, self.geometry, self.network = {}, {}, {}
+        self.number_of_seeds = None
 
         self.iniPlantDynamicConcept()
 

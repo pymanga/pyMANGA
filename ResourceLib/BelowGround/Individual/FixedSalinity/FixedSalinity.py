@@ -19,6 +19,7 @@ class FixedSalinity(ResourceModel):
         self.getInputParameters(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
+        self.plants = []
         self._h_stem = []
         self._r_crown = []
         self._psi_leaf = []
@@ -33,6 +34,8 @@ class FixedSalinity(ResourceModel):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
+        self.plants.append(plant)
+
         self._xe.append(x)
         self._r_salinity.append(parameter["r_salinity"])
         # The following parameters depend on the salinity response function of the plant
@@ -60,6 +63,10 @@ class FixedSalinity(ResourceModel):
         """
         salinity_plant = self.getPlantSalinity()
         self.calculatePlantResources(salinity_plant)
+
+        for i, plant in zip(range(0, len(self._xe)), self.plants):
+            growth_concept_information = {'salinity': salinity_plant[i]}
+            plant.setGrowthConceptInformation(growth_concept_information)
 
     def calculatePlantResources(self, salinity_plant):
         # find indices with r_salinity = bettina or forman

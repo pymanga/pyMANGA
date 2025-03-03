@@ -66,8 +66,6 @@ class Bettina(PlantModel):
             self.available_resources)
         psi_zero = self.deltaPsi()
         growth_concept_information["psi_zero"] = psi_zero
-        growth_concept_information["salinity"] = (
-            (belowground_resources * psi_zero - psi_zero) / 85000000.)
         growth_concept_information["weight_girthgrowth"] = \
             self.weight_girthgrowth
         growth_concept_information["weight_stemgrowth"] = \

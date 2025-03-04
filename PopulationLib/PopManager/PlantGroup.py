@@ -5,6 +5,7 @@ from PopulationLib.InitialPop import InitialPop
 from PopulationLib.Production import Production
 from PopulationLib.Dispersal import Dispersal
 from PopulationLib.Dispersal_v310 import Dispersal_v310
+from PopulationLib.Recruitment import Recruitment
 from ProjectLib import helpers as helpers
 from PopulationLib.PopManager.Plant import Plant
 
@@ -35,6 +36,7 @@ class PlantGroup:
             self.iniDispersal()
             self.iniInitialPopulation()
             self.iniProduction()
+            self.iniRecruitment()
             self.use_v310 = False
         except AttributeError:
             self.dispersal_v310 = Dispersal_v310(self.xml_args)
@@ -113,6 +115,19 @@ class PlantGroup:
         self.dispersal.setModelDomain(x1=self.x_1, x2=self.x_2,
                                       y1=self.y_1, y2=self.y_2)
 
+    def iniRecruitment(self):
+        """
+        Initialize the seedling recruitment module.
+        Recruitment is optional and is only triggered if defined in the project file.
+        """
+        xml_args = self.xml_args.find("recruitment")
+        if xml_args is not None:
+            self.recruitment = Recruitment(xml_args)
+            self.recruitment.setModelDomain(x1=self.x_1, x2=self.x_2,
+                                            y1=self.y_1, y2=self.y_2)
+        else:
+            self.recruitment = None
+
     def setNumberOfSeeds(self):
         """
         Set the number of new seeds or seedlings produced.
@@ -132,6 +147,10 @@ class PlantGroup:
             if self.number_of_seeds:
                 positions = self.dispersal.getPositions(number_of_plants=self.number_of_seeds,
                                                         plants=self.plants)
+                # Check if produced plants establish
+                if self.recruitment is not None:
+                    positions = self.recruitment.updatePositions(positions)
+
                 geometry = np.full(len(positions["x"]), False)
                 network = {}
                 self.planting(positions, geometry, network)

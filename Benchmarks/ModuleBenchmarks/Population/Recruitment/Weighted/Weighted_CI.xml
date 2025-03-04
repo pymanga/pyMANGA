@@ -26,12 +26,15 @@
             </initial_population>
             <production>
                 <type>FixedRate</type>
-                <per_model_area> 2 </per_model_area>
+                <per_model_area> 10 </per_model_area>
             </production>
             <dispersal>
+                <type> Uniform </type>
+            </dispersal>
+            <recruitment>
                 <type> Weighted </type>
                 <weight_file>Benchmarks/ModuleBenchmarks/Population/Weighted/weight_map.csv</weight_file>
-            </dispersal>
+            </recruitment>
         </group>
     </population>
     <time_loop>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from VisualizationLib import Visualization
-import PopulationLib
+from PopulationLib.PopManager.Population import Population
 from TimeLoopLib import DynamicTimeLoop
 import numpy as np
 import datetime
@@ -136,7 +136,7 @@ class MangaProject:
             class
         """
         arg = self.args["population"]
-        self.population_concept = (PopulationLib.Population(arg))
+        self.population_concept = Population(arg)
 
     def getPopulationConcept(self):
         """

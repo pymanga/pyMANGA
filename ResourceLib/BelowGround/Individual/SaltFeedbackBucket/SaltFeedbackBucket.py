@@ -36,6 +36,8 @@ class SaltFeedbackBucket(FixedSalinity):
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
         gci = plant.getGrowthConceptInformation()
+        self.plants.append(plant)
+
         rrp = geometry["r_root"]
         self._r_salinity.append(parameter["r_salinity"])
         self._h_stem.append(geometry["h_stem"])
@@ -75,6 +77,10 @@ class SaltFeedbackBucket(FixedSalinity):
 
         salinity_plant = self.getPlantSalinity()
         self.calculatePlantResources(salinity_plant)
+
+        for i, plant in zip(range(0, len(self._xe)), self.plants):
+            growth_concept_information = {'salinity': salinity_plant[i]}
+            plant.setGrowthConceptInformation(growth_concept_information)
 
     def getInflowSalinity(self):
         """

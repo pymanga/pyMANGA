@@ -106,6 +106,38 @@
                     <test> Default_CI.xml </test>
                 </Default>
             </Jabowa>
+            <SAMAMO>
+                <Aboveground>
+                    <AsymmetricZOI>
+                        <test> AsymmetricZOI_CI.xml </test>
+                    </AsymmetricZOI>
+                    <SolarRadiation>
+                        <test> SolarRadiation_CI.xml </test>
+                    </SolarRadiation>
+                </Aboveground>
+                <Belowground>
+                    <FixedSalinity>
+                        <test> FixedSalinity_CI.xml </test>
+                    </FixedSalinity>
+                    <SymmetricZOI>
+                        <test> SymmetricZOI_CI.xml </test>
+                    </SymmetricZOI>
+                </Belowground>
+                <Mortality>
+                    <NoGrowth>
+                        <test> NoGrowth_CI.xml </test>
+                    </NoGrowth>
+                    <Random>
+                        <test> Random_CI.xml </test>
+                    </Random>
+                    <Threshold>
+                        <test> Threshold_CI.xml </test>
+                    </Threshold>
+                </Mortality>
+                <Default>
+                    <test> Default_CI.xml </test>
+                </Default>
+            </SAMAMO>
         </PlantModules>
         <OutputModules>
             <OneFile>

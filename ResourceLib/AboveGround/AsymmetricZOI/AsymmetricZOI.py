@@ -104,7 +104,7 @@ class AsymmetricZOI(ResourceModel):
             h_stem = geometry["h_stem"]
         except KeyError:
             r_ag = geometry["r_ag"]
-            h_stem = geometry["height"] - 2*r_ag
+            h_stem = geometry["h_ag"]
         if r_ag < (self.mesh_size * 1 / 2**0.5):
             if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:
                 print("Error: mesh not fine enough for crown dimensions!")

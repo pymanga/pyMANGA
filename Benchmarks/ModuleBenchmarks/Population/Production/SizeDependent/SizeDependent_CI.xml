@@ -8,8 +8,8 @@
                 <y_1> 0 </y_1>
                 <x_2> 22 </x_2>
                 <y_2> 22 </y_2>
-                <x_resolution> 22 </x_resolution>
-                <y_resolution> 22 </y_resolution>
+                <x_resolution> 88 </x_resolution>
+                <y_resolution> 88 </y_resolution>
                 <allow_interpolation>True</allow_interpolation>
             </domain>
          </aboveground>
@@ -30,8 +30,8 @@
                 <y_2> 22 </y_2>
             </domain>
             <initial_population>
-                <type>FromFile</type>
-                <filename>Benchmarks/ModuleBenchmarks/PlantModules/Bettina/ag_initial_population.csv</filename>
+                <type>Random</type>
+                <n_individuals>1</n_individuals>
             </initial_population>
             <production>
                 <type>SizeDependent</type>
@@ -49,6 +49,7 @@
         <t_start> 0 </t_start>
         <t_end> 2e6 </t_end>
         <delta_t> 1e6 </delta_t>
+        <terminal_print>year</terminal_print>
     </time_loop>
     <visualization>
         <type> NONE </type>

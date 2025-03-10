@@ -14,7 +14,10 @@
             </domain>
          </aboveground>
         <belowground>
-            <type> Default </type>
+            <type> FixedSalinity </type>
+            <min_x>0</min_x>
+            <max_x>22</max_x>
+            <salinity>0.035 0.035</salinity>
         </belowground>
     </resources>
     <population>
@@ -27,24 +30,18 @@
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
                 <x_2> 22 </x_2>
-                <y_2> 22 </y_2>
+                <y_2> 22</y_2>
             </domain>
             <initial_population>
                 <type>FromFile</type>
                 <filename>Benchmarks/ModuleBenchmarks/PlantModules/Bettina/ag_initial_population.csv</filename>
             </initial_population>
             <production>
-                <type>SizeDependent</type>
-                <formula>0.6 + 0.01 * 200 * x</formula>
-                <x_geometry>r_stem</x_geometry>
-                <log1>True</log1>
-                <x_min>0.05</x_min>
+                <type> FixedRate </type>
+                <per_model_area> 1 </per_model_area>
             </production>
             <dispersal>
-                <type>Distance2Parent</type>
-                <distribution>normal</distribution>
-                <loc>0</loc>
-                <scale>0.5</scale>
+                <type> Uniform </type>
             </dispersal>
         </group>
     </population>
@@ -53,12 +50,13 @@
         <t_start> 0 </t_start>
         <t_end> 2e6 </t_end>
         <delta_t> 1e6 </delta_t>
+        <terminal_print>year</terminal_print>
     </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
     <output>
-        <type>OneTimestepOneFile </type>
+        <type>OneTimestepOneFile</type>
         <output_times> [2e6] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs</output_dir>
@@ -66,4 +64,3 @@
         <growth_output> age </growth_output>
     </output>
 </MangaProject>
-

@@ -17,23 +17,24 @@
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
-                <x_2> 10 </x_2>
-                <y_2> 10 </y_2>
+                <x_2> 22 </x_2>
+                <y_2> 22 </y_2>
             </domain>
             <initial_population>
-                <type>Random</type>
-                <n_individuals> 0 </n_individuals>
+                <type>FromFile</type>
+                <filename>Benchmarks/ModuleBenchmarks/PlantModules/Bettina/ag_initial_population.csv</filename>
             </initial_population>
             <production>
                 <type>FixedRate</type>
-                <per_model_area> 2 </per_model_area>
+                <per_model_area> 1 </per_model_area>
             </production>
             <dispersal>
-                <type> Uniform </type>
+                <type> Weighted </type>
+                <weight_file>Benchmarks/ModuleBenchmarks/Population/Dispersal/Weighted/Dispersal_weight_map.csv</weight_file>
             </dispersal>
             <recruitment>
                 <type> Weighted </type>
-                <weight_file>Benchmarks/ModuleBenchmarks/Population/Weighted/weight_map.csv</weight_file>
+                <weight_file>Benchmarks/ModuleBenchmarks/Population/Recruitment/Weighted/Recruitment_Weight_Map.csv</weight_file>
             </recruitment>
         </group>
     </population>
@@ -50,8 +51,7 @@
         <type> OneTimestepOneFile </type>
         <output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/ModuleBenchmarks/Population/Weighted/ReferenceFiles/Weighted</output_dir>
+        <output_dir>Benchmarks/ModuleBenchmarks/Population/Recruitment/Weighted/ReferenceFiles/Weighted</output_dir>
         <geometry_output> r_stem </geometry_output>
     </output>
 </MangaProject>
-

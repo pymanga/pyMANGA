@@ -2,62 +2,87 @@ from ProjectLib import helpers as helpers
 
 class SizeDependent:
     """
-    SizeDependent production module with optional threshold for reproduction.
+    SizeDependent production module with an optional threshold for reproduction.
     """
+
     def __init__(self, xml_args):
         """
         Args:
-            xml_args (lxml.etree._Element): production module specifications from project file tags
+            xml_args (lxml.etree._Element): Production module specifications from the project file.
         """
         self.getInputParameters(args=xml_args)
         self.iniProductionFormula()
 
     def getInputParameters(self, args):
+        """
+        Reads and processes the input parameters from the project file.
+
+        Args:
+            args (lxml.etree._Element): XML element containing the module specifications.
+        """
         tags = {
             "prj_file": args,
             "required": ["type", "formula", "x_geometry"],
-            "optional": ["log", "min_r_stem"]  # 🆕 min_r_stem als optionale Variable hinzugefügt
+            "optional": ["log", "log1", "x_min"]
         }
         myself = super(SizeDependent, self)
         helpers.getInputParameters(myself, **tags)
 
+        # Set default values if not provided
         if not hasattr(self, "log"):
             self.log = False
             print("INFO: Default value for <production><log> is used. Default:", self.log)
 
-        if hasattr(self, "min_r_stem"):
-            self.min_r_stem = float(self.min_r_stem)  # Sicherstellen, dass der Wert als Zahl interpretiert wird
+        if not hasattr(self, "log1"):
+            self.log1 = False
+            print("INFO: Default value for <production><log1> is used. Default:", self.log1)
+
+        if hasattr(self, "x_min"):
+            self.x_min = float(self.x_min)
         else:
-            self.min_r_stem = None  # Standardmäßig deaktiviert
+            self.x_min = None
 
     def iniProductionFormula(self):
         """
-        Convert the formula for calculating individual production, given as a string in the project file,
-        into an evaluable formula.
+        Converts the formula for calculating individual production, given as a string in the project file,
+        into an evaluable function.
         """
         self.production_function = helpers.string_to_function(self, self.formula)
 
     def getNumberSeeds(self, plants):
         """
-        Get number of seeds/seedlings produced in the current timestep based on the geometry (size) of the existing plants.
+        Calculates the number of seeds/seedlings based on the size of the plants
+        and provides various statistics on reproduction.
+
         Args:
-            plants (dict): plant object, see ``pyMANGA.PopulationLib.PopManager.Plant``
+            plants (dict): Plant objects from pyMANGA.PopulationLib.PopManager.Plant.
+
         Returns:
-            int or array of length = number of plants in previous timestep
+            dict: {"per_individual": List of seed counts per plant}
         """
         no_new_plants = []
-        for plant in plants:
-            x = plant.getGeometry()[self.x_geometry]
 
-            # 🆕 Falls ein Schwellenwert für r_stem gesetzt ist, prüfen, ob der Baum sich verjüngen darf
-            if self.min_r_stem is not None and x < self.min_r_stem:
-                no_new_plants.append(0)  # Keine Verjüngung für diesen Baum
+        for plant in plants:
+            x = plant.getGeometry().get(self.x_geometry)
+
+            if x is None:
+                print(f"ERROR: Geometry key '{self.x_geometry}' not found in the plant. "
+                      f"Available keys: {list(plant.getGeometry().keys())}")
                 continue
 
-            no_per_plant = self.production_function(x, 0)
-            if self.log:
-                no_per_plant = int(10 ** no_per_plant - 1)
-            no_new_plants.append(no_per_plant)
+            # Check if the plant is capable of reproducing
+            if self.x_min is None or x >= self.x_min:
+
+                no_per_plant = self.production_function(x, 0)
+
+                if self.log:
+                    no_per_plant = int(10 ** no_per_plant)
+
+                if self.log1:
+                    no_per_plant = max(0, int(10 ** no_per_plant - 1))
+
+                no_new_plants.append(no_per_plant)
+            else:
+                no_new_plants.append(0)
 
         return {"per_individual": no_new_plants}
-

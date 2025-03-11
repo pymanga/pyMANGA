@@ -2,16 +2,7 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground>
-            <type> AsymmetricZOI </type>
-            <domain>
-                <x_1> 0 </x_1>
-                <y_1> 0 </y_1>
-                <x_2> 22 </x_2>
-                <y_2> 22 </y_2>
-                <x_resolution> 22 </x_resolution>
-                <y_resolution> 22 </y_resolution>
-                <allow_interpolation>True</allow_interpolation>
-            </domain>
+            <type> Default </type>
          </aboveground>
         <belowground>
             <type> Default </type>
@@ -35,12 +26,16 @@
             </initial_population>
             <production>
                 <type>SizeDependent</type>
-                <formula>0.3 + 0.01*200*x</formula>
+                <formula>0.2 + 0.01 * 200 * x</formula>
                 <x_geometry>r_stem</x_geometry>
-                <log>True</log>
+                <log1>True</log1>
+                <x_min>0.05</x_min>
             </production>
             <dispersal>
-                <type> Uniform </type>
+                <type>Distance2Parent</type>
+                <distribution>normal</distribution>
+                <loc>0</loc>
+                <scale>0.5</scale>
             </dispersal>
         </group>
     </population>
@@ -54,11 +49,12 @@
         <type> NONE </type>
     </visualization>
     <output>
-        <type> OneTimestepOneFile </type>
+        <type>OneTimestepOneFile </type>
         <output_times> [2e6] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs</output_dir>
         <geometry_output> r_stem </geometry_output>
+        <growth_output> age </growth_output>
     </output>
 </MangaProject>
 

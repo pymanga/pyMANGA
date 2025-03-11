@@ -2,16 +2,7 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground>
-            <type> AsymmetricZOI </type>
-            <domain>
-                <x_1> 0 </x_1>
-                <y_1> 0 </y_1>
-                <x_2> 22 </x_2>
-                <y_2> 22 </y_2>
-                <x_resolution> 22 </x_resolution>
-                <y_resolution> 22 </y_resolution>
-                <allow_interpolation>True</allow_interpolation>
-            </domain>
+            <type> Default </type>
          </aboveground>
         <belowground>
             <type> Default </type>
@@ -29,15 +20,16 @@
                 <x_2> 22 </x_2>
                 <y_2> 22 </y_2>
             </domain>
-            <initial_population>
+             <initial_population>
                 <type>FromFile</type>
                 <filename>Benchmarks/ModuleBenchmarks/PlantModules/Bettina/ag_initial_population.csv</filename>
             </initial_population>
             <production>
                 <type>SizeDependent</type>
-                <formula>0.3 + 0.01*200*x</formula>
+                <formula>0.2 + 0.01 * 200 * x</formula>
                 <x_geometry>r_stem</x_geometry>
-                <log>True</log>
+                <log1>True</log1>
+                <x_min>0.05</x_min>
             </production>
             <dispersal>
                 <type> Uniform </type>
@@ -49,7 +41,6 @@
         <t_start> 0 </t_start>
         <t_end> 5e8 </t_end>
         <delta_t> 1e6 </delta_t>
-        <terminal_print>year</terminal_print>
     </time_loop>
     <visualization>
         <type> NONE </type>
@@ -58,7 +49,7 @@
         <type> OneTimestepOneFile </type>
         <output_times> [2e6, 5e8] </output_times>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/ModuleBenchmarks/Population/SizeDependent/ReferenceFiles/SizeDependent</output_dir>
+        <output_dir>Benchmarks/ModuleBenchmarks/Population/Production/SizeDependent/ReferenceFiles/SizeDependent</output_dir>
         <geometry_output> r_stem </geometry_output>
     </output>
 </MangaProject>

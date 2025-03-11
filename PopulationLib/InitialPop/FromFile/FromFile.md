@@ -2,9 +2,7 @@
 
 Population module that defines the position and size of the initial plant population.
 
-Initial plant population is defined in a csv-file (coma-separated).
-This file needs to contain the x,y-position of each individual (i.e., plant unit) and their geometry (i.e., size).
-The parameters describing a plant's geometry depend on the chosen plant module (`pyMANGA.PlantModelLib`).
+The initial plant population is defined in a CSV file (comma-separated). This file needs to contain the x,y-position of each individual (i.e., plant unit) and their geometry (i.e., size). The parameters describing a plant's geometry depend on the chosen plant module (pyMANGA.PlantModelLib).
 
 ```xml
 <distribution>
@@ -24,13 +22,25 @@ see ``pyMANGA.PopulationLib.Dispersal``
 
 # Details
 ## Purpose
-
+The purpose of the FromFile module is to define the initial plant population by reading from a CSV file. The file contains position (x, y) and geometry (such as stem radius, height, and root radius) for each individual plant. This data is then used in plant modules, such as pyMANGA.PlantModelLib, for modeling plant dynamics.
 ## Process overview
-
+Initialization: The module reads the input file specified in the filename attribute and processes the data. It then retrieves the positions and geometries of plants.
+Geometry Validation: The geometry parameters in the file are checked against expected parameters, ensuring that the data corresponds to the required model format.
+Data Extraction: The positions (x, y) and geometries (e.g., stem and root dimensions) are extracted and returned as dictionaries.
 ## Sub-processes
+- getInputParameters: Extracts input parameters (such as the type and filename) from the XML configuration.
 
+- getPlantsFromFile: Reads the initial population data from the specified CSV file.
+
+- getInitialGroup: Returns the positions and geometries of the initial plant population.
+
+- getGeometryList: Provides the list of geometries accepted by the plant module.
 ## Application & Restrictions
+- The input CSV file must contain the required fields for each plant (position and geometry). The geometrical parameters depend on the specific plant model used.
 
+- The geometry parameters are checked against predefined lists for validity.
+
+- If the geometry fields do not match, an error will be raised, and the process will halt.
 
 # References
 

@@ -2,21 +2,10 @@
     <random_seed>643879</random_seed>
     <resources>
         <aboveground>
-            <type> AsymmetricZOI </type>
-            <domain>
-                <x_1> 0 </x_1>
-                <y_1> 0 </y_1>
-                <x_2> 22 </x_2>
-                <y_2> 22 </y_2>
-	        <x_resolution> 80 </x_resolution>
-	        <y_resolution> 80 </y_resolution>
-            </domain>
+            <type> Default </type>
          </aboveground>
         <belowground>
-            <type> FixedSalinity </type>
-            <min_x>0</min_x>
-            <max_x>22</max_x>
-            <salinity>0.035 0.035</salinity>
+            <type> Default </type>
         </belowground>
     </resources>
     <population>

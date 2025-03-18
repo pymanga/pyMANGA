@@ -39,11 +39,11 @@ The position of new seedlings is calculated depending on the parent plant (`xp`,
 Therefore, the distance between the parent and `N` its seedlings is calculated based on a probability density function (``getDistances``).
 Based on the distance (`dist2parent`) the seedlings are randomly distributed around the plant by generating a random ``angle`` (uniform distribution) and using 
 
-``python
+```python
 angle = np.random.uniform(low=0, high=2 * np.pi, size=N)
 x_new = xp + dist2parent * np.sin(angle)
 y_new = yp + dist2parent * np.cos(angle)
-``
+```
 
 #### getDistances
 
@@ -62,7 +62,7 @@ N is determined in ``pyMANGA.PopulationLib.Production``.
 
 # Author(s)
 
-Marie-Christin Wimmler
+Marie-Christin Wimmler, Chris Wudel
 
 
 # See Also

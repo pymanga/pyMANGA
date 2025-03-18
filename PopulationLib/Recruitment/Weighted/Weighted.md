@@ -32,8 +32,8 @@ Weights should be provided as value between 0 and 1, whereby 1 indicates high ch
 
 ## Process overview
 
-- _readWeightsFile_
-- _getPositions_
+- *readWeightsFile*: get weights from csv file
+- *getPositions*: determine plant positions based on weights
 
 ## Sub-processes
 ### readWeightsFile

@@ -14,12 +14,6 @@ class SizeDependent:
         self.iniProductionFormula()
 
     def getInputParameters(self, args):
-        """
-        Reads and processes the input parameters from the project file.
-
-        Args:
-            args (lxml.etree._Element): XML element containing the module specifications.
-        """
         tags = {
             "prj_file": args,
             "required": ["type", "formula", "x_geometry"],

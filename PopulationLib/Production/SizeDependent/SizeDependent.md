@@ -64,7 +64,7 @@ If `x_min` is defined, only plants where the geometry specified by `x_geometry` 
 
 # Author(s)
 
-Marie-Christin Wimmler
+Marie-Christin Wimmler, Chris Wudel
 
 # See Also
 

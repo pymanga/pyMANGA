@@ -31,8 +31,8 @@ Define the location and geometry of new plants added to the model.
 
 ## Process overview
 
-- _getPlantAttributes_
-- _getPositions_
+- *getPlantAttributes*: create dictionary with plant attributes
+- *getPositions*: get position of plants
 
 ## Sub-processes
 ### getPlantAttributes

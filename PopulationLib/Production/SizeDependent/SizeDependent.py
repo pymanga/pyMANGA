@@ -31,6 +31,10 @@ class SizeDependent:
             self.log1 = False
             print("INFO: Default value for <production><log1> is used. Default:", self.log1)
 
+        if self.log and self.log1:
+            print("ERROR: <production><log> and <log1> are both set to TRUE. Only one of them can be TRUE.")
+            exit()
+
         if hasattr(self, "x_min"):
             self.x_min = float(self.x_min)
         else:

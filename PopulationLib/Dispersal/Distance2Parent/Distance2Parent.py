@@ -83,6 +83,10 @@ class Distance2Parent:
 
             if self.distribution in "exponential":
                 return np.random.exponential(scale=self.scale, size=number_of_plants)
+
+            if self.distribution in "gamma":
+                return np.random.gamma(shape=self.loc, scale=self.scale, size=number_of_plants)
+
         except AttributeError:
             print("ERROR: A parameter defining the probability density function is missing. "
                   "Check the documentation of <dispersal>.")

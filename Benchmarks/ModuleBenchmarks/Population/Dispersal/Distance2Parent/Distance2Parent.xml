@@ -13,7 +13,8 @@
             <name> Initial </name>
             <species> Avicennia </species>
             <vegetation_model_type> Bettina </vegetation_model_type>
-            <mortality>NoGrowth</mortality>
+            <mortality>NoGrowth Random</mortality> # Random mortality introduced to reduce the number of trees at the
+            <probability>0.40</probability>        # end of the simulation and keep the CSV file manageable.
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
@@ -44,6 +45,7 @@
         <t_start> 0 </t_start>
         <t_end> 5e8 </t_end>
         <delta_t> 1e6 </delta_t>
+        <!--terminal_print>years</terminal_print-->
     </time_loop>
     <visualization>
         <type> NONE </type>

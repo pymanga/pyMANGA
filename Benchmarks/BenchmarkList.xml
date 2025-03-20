@@ -128,12 +128,43 @@
             </OneTimestepOneFilePerGroup>
         </OutputModules>
         <Population>
-            <Random>
-                <test> Random_CI.xml </test>
-            </Random>
-            <FromFile>
-                <test> FromFile_CI.xml </test>
-            </FromFile>
+            <v310>
+                <Random_v310>
+                    <test> Random_v310_CI.xml </test>
+                </Random_v310>
+                <FromFile_v310>
+                   <test> FromFile_v310_CI.xml </test>
+                </FromFile_v310>
+            </v310>
+            <Dispersal>
+                <Distance2Parent>
+                    <test> Distance2Parent_CI.xml </test>
+                </Distance2Parent>
+                <Uniform>
+                    <test> Uniform_CI.xml </test>
+                </Uniform>
+                <Weighted>
+                    <test> Weighted_CI.xml </test>
+                </Weighted>
+            </Dispersal>
+            <InitialPop>
+                <FromFile>
+                    <test> FromFile_CI.xml </test>
+                </FromFile>
+                <Random>
+                    <test> Random_CI.xml </test>
+                </Random>
+            </InitialPop>
+            <Production>
+                <SizeDependent>
+                    <test> SizeDependent_CI.xml </test>
+                </SizeDependent>
+            </Production>
+            <Recruitment>
+                <Weighted>
+                    <test> Weighted_CI.xml </test>
+                </Weighted>
+            </Recruitment>
         </Population>
     </ModuleBenchmarks>
 </Benchmarks>

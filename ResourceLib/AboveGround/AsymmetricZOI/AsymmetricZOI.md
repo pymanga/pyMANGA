@@ -31,8 +31,8 @@ There is no temporal variation in light availability.
 - ``domain`` (nesting-tag): coordinates to define the model domain (as mesh)
     - ``x_1`` (float): x-coordinate of left bottom border of grid
     - ``x_2`` (float): x-coordinate of right bottom border of grid
-    - ``y_1`` (float): x-coordinate of left top border of grid
-    - ``y_2`` (float): x-coordinate of right top border of grid
+    - ``y_1`` (float): y-coordinate of left top border of grid
+    - ``y_2`` (float): y-coordinate of right top border of grid
     - ``x_resolution`` (float): x-resolution of the grid
     - ``y_resolution`` (float): y-resolution of the grid
 - ``allow_interpolation`` (bool): (optional) If True, the ZOI of a plant can be smaller than a grid cell, and it will be

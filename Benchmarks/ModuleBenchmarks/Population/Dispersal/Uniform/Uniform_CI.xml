@@ -57,7 +57,6 @@
         <growth_output> growth </growth_output>
         <growth_output> ag_resources </growth_output>
         <growth_output> bg_resources </growth_output>
-        <growth_output> salinity </growth_output>
     </output>
 </MangaProject>
 

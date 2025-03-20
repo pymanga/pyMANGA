@@ -67,15 +67,18 @@ class AsymmetricZOI(ResourceModel):
         idx = np.where(bools)
         height = np.zeros_like(distance)
         #Here, the curved top of the plant is considered..
-        height[idx] = stem_height + (4 * crown_radius**2 -
-                                     distance[idx]**2)**0.5
+        if self.curved_crown:
+            height[idx] = stem_height + (4 * crown_radius ** 2 -
+                                         distance[idx] ** 2) ** 0.5
+        else:
+            height[idx] = stem_height + 2 * crown_radius
         return height, bools
 
     def getInputParameters(self, args):
         tags = {
             "prj_file": args,
             "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"],
-            "optional": ["allow_interpolation"]
+            "optional": ["allow_interpolation", "curved_crown"]
         }
         super().getInputParameters(**tags)
         self._x_1 = self.x_1
@@ -86,6 +89,12 @@ class AsymmetricZOI(ResourceModel):
         self.y_resolution = int(self.y_resolution)
 
         self.allow_interpolation = super().makeBoolFromArg("allow_interpolation")
+
+        if not hasattr(self, "curved_crown"):
+            self.curved_crown = True
+            print("INFO: set above-ground parameter curved_crown to default: ", self.curved_crown)
+        else:
+            self.curved_crown = super().makeBoolFromArg("curved_crown")
 
     def prepareNextTimeStep(self, t_ini, t_end):
         self.xe = []

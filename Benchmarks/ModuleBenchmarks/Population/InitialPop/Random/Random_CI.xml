@@ -52,13 +52,7 @@
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs</output_dir>
         <geometry_output> r_stem </geometry_output>
-        <geometry_output> h_stem </geometry_output>
-        <geometry_output> r_crown </geometry_output>
-        <geometry_output> r_root </geometry_output>
-        <growth_output> growth </growth_output>
-        <growth_output> ag_resources </growth_output>
-        <growth_output> bg_resources </growth_output>
-        <growth_output> salinity </growth_output>
+        <growth_output> age </growth_output>
     </output>
 </MangaProject>
 

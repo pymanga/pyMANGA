@@ -29,7 +29,7 @@ See the Plant Growth (`pyMANGA.PlantModelLib`) and Population (`pyMANGA.Populati
 
 # Attributes
 
-- ``type`` (string): "Random" (no other values accepted)
+- ``type`` (string): "RandomGrowth" (no other values accepted)
 - ``k_die`` (float): (optional) annual mortality (default: 0.0016)
 
 # Value

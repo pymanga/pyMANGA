@@ -8,14 +8,14 @@ Production is part of the definition of the population (see ``pyMANGA.Population
 
 ```xml
 <production>
-    <type>...</type>
+    <type> ModuleName </type>
     <nth_timestep>12</nth_timestep>
 </production>
 ```
 
 # Attributes
 
-- ``dispersal`` (string): Nesting tag to define the production strategy of a group
+- ``production`` (string): Nesting tag to define the production strategy of a group
 - ``type`` (string): Name of the selected module
 - ``nth_timestep`` (int): (optional) The time step in which production takes place, e.g. ``nth_timestep=2`` means that production takes place every second time step. Default: 1. 
 

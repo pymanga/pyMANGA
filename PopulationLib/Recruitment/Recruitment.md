@@ -11,7 +11,7 @@ Recruitment is part of the definition of the population (see ``pyMANGA.Populatio
 
 ```xml
 <recruitment>
-    <type> Weighted </type>
+    <type> ModuleName </type>
 </recruitment>
 ```
 

@@ -8,7 +8,7 @@ Dispersal is part of the definition of the population (see ``pyMANGA.PopulationL
 
 ```xml
 <dispersal>
-    <type> Uniform </type>
+    <type> ModuleName </type>
 </dispersal>
 ```
 

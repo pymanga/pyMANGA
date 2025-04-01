@@ -65,7 +65,8 @@ class FixedSalinity(ResourceModel):
         self.calculatePlantResources(salinity_plant)
 
         for i, plant in zip(range(0, len(self._xe)), self.plants):
-            growth_concept_information = {'salinity': salinity_plant[i]}
+            growth_concept_information = plant.getGrowthConceptInformation()
+            growth_concept_information['salinity'] = salinity_plant[i]
             plant.setGrowthConceptInformation(growth_concept_information)
 
     def calculatePlantResources(self, salinity_plant):

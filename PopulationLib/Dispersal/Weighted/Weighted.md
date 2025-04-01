@@ -3,16 +3,17 @@
 Dispersal module that defines the location new plants.
 
 Distribution of new plants is based on a weight map.
+The boundaries of the model area to which seedlings are dispersed are defined by the model domain.
 
 The size (geometry) and attributes of a plant are taken from the species file (see ``pyMANGA.PopulationLib.Species``).
 
 # Usage
 
 ```xml
-<distribution>
+<dispersal>
     <type> Weighted </type>
     <weight_file> path/to/weights.csv </weight_file>
-</distribution>
+</dispersal>
 ```
 
 # Attributes

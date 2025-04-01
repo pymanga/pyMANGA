@@ -9,10 +9,10 @@ The size (geometry) and attributes of a plant are taken from the species file (s
 # Usage
 
 ```xml
-<distribution>
+<recruitment>
     <type> Weighted </type>
     <weight_file> path/to/weights.csv </weight_file>
-</distribution>
+</recruitment>
 ```
 
 # Attributes

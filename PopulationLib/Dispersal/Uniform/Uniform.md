@@ -10,10 +10,10 @@ The size (geometry) and attributes of a plant are taken from the species file (s
 # Usage
 
 ```xml
-<distribution>
+<dispersal>
     <type> Random </type>
     <n_individuals> 10 </n_individuals>
-</distribution>
+</dispersal>
 ```
 
 # Attributes

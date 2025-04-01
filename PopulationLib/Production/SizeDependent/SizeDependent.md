@@ -5,12 +5,14 @@ Production module that defines the number of new seeds or seedlings based on the
 # Usage
 
 ```xml
-<type>SizeDependent</type>
-<formula>0.6 + 0.01 * 200 * x</formula>
-<x_geometry>r_stem</x_geometry>
-<log>True</log>
-<log-1>False</log-1>
-<x_min>0.02</x_min>
+<production>
+    <type>SizeDependent</type>
+    <formula>0.6 + 0.01 * 200 * x</formula>
+    <x_geometry>r_stem</x_geometry>
+    <log>True</log>
+    <log-1>False</log-1>
+    <x_min>0.02</x_min>
+</production>
 ```
 
 # Attributes

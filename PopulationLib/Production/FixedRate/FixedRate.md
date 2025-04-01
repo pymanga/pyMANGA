@@ -59,6 +59,7 @@ per_model_areaa
 ## Application & Restrictions
 
 - ``per_model_area`` and ``per_ha`` cannot be used simultaneously. But ``per_individual`` can be used with both.
+- ``per_individual`` may be combined with ``pyMANGA.PopulationLib.Dispersal.Distance2Parent``, since otherwise all seedlings produced by a plant will be placed within the model domain if the parent tree is close to the boundary.
 
 # References
 

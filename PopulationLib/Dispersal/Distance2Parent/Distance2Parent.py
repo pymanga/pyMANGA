@@ -24,8 +24,17 @@ class Distance2Parent:
         helpers.getInputParameters(myself, **tags)
 
         self.type = self.type.lower()
+
+        # Set default values if not defined in project file
+        if not hasattr(self, "scale"):
+            self.scale = 1
+            print("INFO: Default value for <dispersal><FixedRate><scale> is used. Default: 1")
         if not hasattr(self, "loc"):
             self.loc = 0
+            print("INFO: Default value for <dispersal><FixedRate><loc> is used. Default: 0")
+        if not hasattr(self, "high"):
+            self.high = 1
+            print("INFO: Default value for <dispersal><FixedRate><high> is used. Default: 1")
 
     def getPositions(self, number_of_plants, plants):
         """

@@ -11,15 +11,13 @@ The size (geometry) and attributes of a plant are taken from the species file (s
 
 ```xml
 <dispersal>
-    <type> Random </type>
-    <n_individuals> 10 </n_individuals>
+    <type> Uniform </type>
 </dispersal>
 ```
 
 # Attributes
 
-- ``type`` (string): "Random"
-- ``n_individuals`` (int): Number of plants recruited in the beginning of the simulation
+- ``type`` (string): "Uniform"
 
 # Value
 

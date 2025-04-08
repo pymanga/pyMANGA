@@ -44,8 +44,9 @@ class SymmetricZOI(ResourceModel):
                 cy = self.find_nearest(np.transpose(self.my_grid[1])[0], y)
                 # Distance between plant and closest node
                 dist = ((cx - x) ** 2 + (cy - y) ** 2) ** 0.5
-                # Set root radius to min. distance
-                r_root = dist
+                # Set root radius to the minimum distance between plant and nearest grid cell
+                if r_root < dist:
+                    r_root = dist
 
         self.xe.append(x)
         self.ye.append(y)
@@ -63,9 +64,11 @@ class SymmetricZOI(ResourceModel):
                      (self.my_grid[1][:, :, np.newaxis] -
                       np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5)
 
-        # Array of shape distance [res_x, res_y, n_plants], indicating which
-        # cells are occupied by plant root plates
-        plants_present = np.array(self.r_root)[np.newaxis, np.newaxis, :] >= distance
+        # Use a tolerance of e^-5 for checking whether a plant covers a grid cell
+        allowed_error = np.exp(-5)
+
+        # Check if distance is within the root radius +/- tolerance
+        plants_present = np.abs(np.array(self.r_root)[np.newaxis, np.newaxis, :] - distance) >= allowed_error
 
         # Count all nodes, which are occupied by plants
         # returns array of shape [n_plants]
@@ -87,6 +90,11 @@ class SymmetricZOI(ResourceModel):
                 plants_present[:, :, i])])
         self.belowground_resources = plant_wins / plant_counts
 
+        nan_indices = np.where(np.isnan(self.belowground_resources))[0]
+        if len(nan_indices) > 0:
+            print(f"NaN detected in belowground_resources for plants at indices: {nan_indices}")
+            for i in nan_indices:
+                exit()
     def find_nearest(self, array, value):
         """
         Get the nearest value in a list

@@ -70,14 +70,6 @@ class SymmetricZOI(ResourceModel):
         # Check if distance is within the root radius +/- tolerance
         plants_present = np.array(self.r_root)[np.newaxis, np.newaxis, :] >= (distance - allowed_error)
 
-        plants_present_1 = np.array(self.r_root)[np.newaxis, np.newaxis, :] >= distance
-        print("plants_present:", plants_present)
-        print("plants_present_1:", plants_present)
-
-        difference = plants_present != plants_present_1
-        print("Unterschiede (True = unterschiedlich):", difference)
-        print("Anzahl Unterschiede:", np.sum(difference))
-
         # Count all nodes, which are occupied by plants
         # returns array of shape [n_plants]
         # BETTINA ODD 2017: variable 'countbelow'

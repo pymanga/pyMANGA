@@ -65,10 +65,18 @@ class SymmetricZOI(ResourceModel):
                       np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5)
 
         # Use a tolerance of e^-5 for checking whether a plant covers a grid cell
-        allowed_error = np.exp(-5)
+        allowed_error = np.exp(-20)
 
         # Check if distance is within the root radius +/- tolerance
-        plants_present = np.array(self.r_root)[np.newaxis, np.newaxis, :] - distance >= allowed_error
+        plants_present = np.array(self.r_root)[np.newaxis, np.newaxis, :] >= (distance - allowed_error)
+
+        plants_present_1 = np.array(self.r_root)[np.newaxis, np.newaxis, :] >= distance
+        print("plants_present:", plants_present)
+        print("plants_present_1:", plants_present)
+
+        difference = plants_present != plants_present_1
+        print("Unterschiede (True = unterschiedlich):", difference)
+        print("Anzahl Unterschiede:", np.sum(difference))
 
         # Count all nodes, which are occupied by plants
         # returns array of shape [n_plants]

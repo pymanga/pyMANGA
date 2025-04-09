@@ -68,7 +68,7 @@ class SymmetricZOI(ResourceModel):
         allowed_error = np.exp(-5)
 
         # Check if distance is within the root radius +/- tolerance
-        plants_present = np.abs(np.array(self.r_root)[np.newaxis, np.newaxis, :] - distance) >= allowed_error
+        plants_present = np.array(self.r_root)[np.newaxis, np.newaxis, :] - distance >= allowed_error
 
         # Count all nodes, which are occupied by plants
         # returns array of shape [n_plants]

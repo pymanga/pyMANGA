@@ -92,9 +92,8 @@ class SymmetricZOI(ResourceModel):
 
         nan_indices = np.where(np.isnan(self.belowground_resources))[0]
         if len(nan_indices) > 0:
-            print(f"NaN detected in belowground_resources for plants at indices: {nan_indices}")
-            for i in nan_indices:
-                exit()
+            print(f"ERROR: NaN detected in belowground_resources for plants at indices: {nan_indices}")
+            exit()
     def find_nearest(self, array, value):
         """
         Get the nearest value in a list

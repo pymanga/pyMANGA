@@ -50,6 +50,7 @@ class AsymmetricZOI(ResourceModel):
         self.aboveground_resources = wins / crown_areas
 
         nan_indices = np.where(np.isnan(self.aboveground_resources))[0]
+
         if len(nan_indices) > 0:
             print(f"ERROR: NaN detected in aboveground_resources for plants at indices: {nan_indices}")
             exit()

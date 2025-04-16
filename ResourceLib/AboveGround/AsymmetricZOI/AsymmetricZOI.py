@@ -54,6 +54,7 @@ class AsymmetricZOI(ResourceModel):
         if len(nan_indices) > 0:
             print(f"ERROR: NaN detected in aboveground_resources for plants at indices: {nan_indices}")
             exit()
+
     def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
         """
         Calculate plant heights at each mesh point (node) based on the distance between plant and node.

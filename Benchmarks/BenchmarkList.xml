@@ -106,6 +106,27 @@
                     <test> Default_CI.xml </test>
                 </Default>
             </Jabowa>
+            <Saltmarsh>
+                <Belowground>
+                    <FixedSalinity>
+                        <test> FixedSalinity_CI.xml </test>
+                    </FixedSalinity>
+                    <SymmetricZOI>
+                        <test> SymmetricZOI_CI.xml </test>
+                    </SymmetricZOI>
+                </Belowground>
+                <Mortality>
+                    <Memory>
+                        <test> Memory_CI.xml </test>
+                    </Memory>
+                    <NoGrowth>
+                        <test> NoGrowth_CI.xml </test>
+                    </NoGrowth>
+                    <Random>
+                        <test> Random_CI.xml </test>
+                    </Random>
+                </Mortality>
+            </Saltmarsh>
         </PlantModules>
         <OutputModules>
             <OneFile>

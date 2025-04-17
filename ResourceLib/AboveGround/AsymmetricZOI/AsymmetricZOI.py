@@ -46,7 +46,14 @@ class AsymmetricZOI(ResourceModel):
         #Check for each plant, at which gridpoint it is the highest plant
         for i in range(len(self.xe)):
             wins[i] = len(np.where(highest_plant == i)[0])
+
         self.aboveground_resources = wins / crown_areas
+
+        nan_indices = np.where(np.isnan(self.aboveground_resources))[0]
+
+        if len(nan_indices) > 0:
+            print(f"ERROR: NaN detected in aboveground_resources for plants at indices: {nan_indices}")
+            exit()
 
     def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
         """

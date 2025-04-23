@@ -35,7 +35,8 @@ Defines the location of new plants added to the model based on the position of t
 
 ## Process overview
 ### Model Domain
-The positions of new plants are constrained by the model's spatial boundaries, which are specified in the project file (`pyMANGA.PopulationLib.PopulationLib).
+
+The positions of new plants are constrained by the model's spatial boundaries, which are specified in the project file (`pyMANGA.PopulationLib.PopulationLib`).
 
 ### getPositions
 
@@ -55,7 +56,6 @@ The resulting positions are then checked against the model's boundaries and any 
 
 The distance between the parent plant and seedlings is determined using the chosen probability density function, drawn from the [numpy random generator](https://numpy.org/doc/stable/reference/random/legacy.html).
 The number of seedlings (`N`) is defined by the plant's production, which is handled in the `pyMANGA.PopulationLib.Production` module. 
-The appropriate number of distances are drawn based on the specified distribution.
 
 ## Application & Restrictions
 

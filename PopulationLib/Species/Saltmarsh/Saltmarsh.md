@@ -1,4 +1,4 @@
-Example species file to be used with ``pyMANGA.PlantModelLib.Saltmarsh``, representing a PFT or species of saltmarh species.
+Example species file to be used with ``pyMANGA.PlantModelLib.Saltmarsh``, representing a Plant Functional Type (PFT) or species of saltmarh species.
 
 The file contains the parameterization of 
 - the initial saltmarsh plant geometry

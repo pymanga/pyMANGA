@@ -149,7 +149,7 @@ class Saltmarsh(PlantModel):
         """
         self.volume_ag = np.pi * self.r_ag ** 2 * self.h_ag
         self.volume_bg = np.pi * self.r_bg ** 2 * self.h_bg
-        self.r_volum_ag_bg = self.volume_ag / self.volume_bg
+        self.r_volume_ag_bg = self.volume_ag / self.volume_bg
         self.volume = self.volume_ag + self.volume_bg
 
     def growthResources(self):

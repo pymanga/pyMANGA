@@ -107,6 +107,11 @@
                 </Default>
             </Jabowa>
             <Saltmarsh>
+                <Aboveground>
+                    <AsymmetricZOI>
+                        <test> AsymmetricZOI_CI.xml </test>
+                    </AsymmetricZOI>
+                </Aboveground>
                 <Belowground>
                     <FixedSalinity>
                         <test> FixedSalinity_CI.xml </test>

@@ -55,6 +55,11 @@ The resulting positions are then checked against the model's boundaries and any 
 ### getDistances
 
 The distance between the parent plant and seedlings is determined using the chosen probability density function, drawn from the [numpy random generator](https://numpy.org/doc/stable/reference/random/legacy.html).
+
+When the Weibull distribution is chosen, the distance from the parent to the seedling (dist2parent) is adjusted by a scaling factor (self.scale). 
+By default, this is set to 1, which matches Numpy’s original calculation. However, the scaling factor can be adjusted to modify the model. 
+For all other distributions, such as normal, uniform, exponential, gamma, and lognormal, the positions of the seedlings are calculated directly using Numpy’s implementation without additional adjustments.
+
 The number of seedlings (`N`) is defined by the plant's production, which is handled in the `pyMANGA.PopulationLib.Production` module. 
 
 ## Application & Restrictions

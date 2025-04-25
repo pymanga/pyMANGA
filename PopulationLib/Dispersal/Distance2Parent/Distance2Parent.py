@@ -26,7 +26,7 @@ class Distance2Parent:
 
         # Set default values if not defined in project file
         if not hasattr(self, "scale"):
-            if hasattr(self, "distribution") and self.distribution == "weibull":
+            if self.distribution == "weibull":
                 self.scale = 10
             else:
                 self.scale = 1

@@ -26,7 +26,7 @@ class Distance2Parent:
 
         # Set default values if not defined in project file
         if not hasattr(self, "scale"):
-            self.scale = 1
+            self.scale = 10
             print("INFO: Default value for <dispersal><FixedRate><scale> is used. Default: 1")
         if not hasattr(self, "loc"):
             self.loc = 0

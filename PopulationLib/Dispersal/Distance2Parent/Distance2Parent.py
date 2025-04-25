@@ -109,7 +109,7 @@ class Distance2Parent:
                 return np.random.gamma(shape=self.shape, scale=self.scale, size=number_of_plants)
 
             if self.distribution == "weibull":
-                return np.random.weibull(a=self.a, size=number_of_plants)
+                return np.random.weibull(a=self.a, size=number_of_plants) * self.scale
 
             if self.distribution == "lognormal":
                 return np.random.lognormal(mean=self.loc, sigma=self.scale, size=number_of_plants)

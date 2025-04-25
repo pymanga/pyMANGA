@@ -61,6 +61,8 @@ The number of seedlings (`N`) is defined by the plant's production, which is han
 
 - This module requires seed production per individual, defined in ``pyMANGA.PopulationLib.Production``.
 - The random dispersal function can be customized to any of the supported distributions: 'normal', 'uniform', 'exponential', 'gamma', 'weibull', or 'lognormal'.
+- Note: It is important to choose distribution parameters (e.g., scale, loc, high, etc.) that produce biologically meaningful and spatially realistic dispersal distances. 
+Unrealistic values may result in seedlings being placed, but due to the small area, they may die immediately or frequently fall outside the model domain.
 
 # References
 

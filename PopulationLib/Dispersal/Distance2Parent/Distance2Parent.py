@@ -26,23 +26,26 @@ class Distance2Parent:
 
         # Set default values if not defined in project file
         if not hasattr(self, "scale"):
-            self.scale = 10
-            print("INFO: Default value for <dispersal><FixedRate><scale> is used. Default: 1")
+            if hasattr(self, "distribution") and self.distribution == "weibull":
+                self.scale = 10
+            else:
+                self.scale = 1
+            print("INFO: Default value for <dispersal><FixedRate><scale> is used. Default: " + str(self.scale))
         if not hasattr(self, "loc"):
             self.loc = 0
-            print("INFO: Default value for <dispersal><FixedRate><loc> is used. Default: 0")
+            print("INFO: Default value for <dispersal><FixedRate><loc> is used. Default: " + str(self.loc))
         if not hasattr(self, "shape"):
             self.shape = 1
-            print("INFO: Default value for <dispersal><FixedRate><shape> is used. Default: 1")
+            print("INFO: Default value for <dispersal><FixedRate><shape> is used. Default: " + str(self.shape))
         if not hasattr(self, "high"):
             self.high = 1
-            print("INFO: Default value for <dispersal><FixedRate><high> is used. Default: 1")
+            print("INFO: Default value for <dispersal><FixedRate><high> is used. Default: " + str(self.high))
         if not hasattr(self, "low"):
             self.low = 0
-            print("INFO: Default value for <dispersal><FixedRate><low> is used. Default: 0")
+            print("INFO: Default value for <dispersal><FixedRate><low> is used. Default: " + str(self.low))
         if not hasattr(self, "a"):
             self.a = 1
-            print("INFO: Default value for <dispersal><FixedRate><a> is used. Default: 1")
+            print("INFO: Default value for <dispersal><FixedRate><a> is used. Default: " + str(self.a))
 
     def getPositions(self, number_of_plants, plants):
         """

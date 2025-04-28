@@ -145,12 +145,12 @@ whereby the potential available water is calculated following the ``pyMANGA.Plan
 
 ## Application & Restrictions
 
--
-
+- This module only works properly with the growth module ``pyMANGA.PlantModelLib.BettinaNetwork``.
+- 
 # References
 
 <a href="https://doi.org/10.1093/aob/mcac074" target="_blank">Wimmler et al. (2022)</a>,
-<a href="https://doi.org/10.1016/j.ecolmodel.2024.110916" target="_blank">Wimmler & Berger, 2024</a>,
+<a href="https://doi.org/10.1016/j.ecolmodel.2024.110916" target="_blank">Wimmler & Berger, 2024</a>
 
 
 

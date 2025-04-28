@@ -179,8 +179,7 @@ same as ``pyMANGA.ResourceLib.BelowGround.Individual.FixedSalinity``
 
 # References
 
-<a href="https://doi.org/" target="_blank">Link</a>,
-
+-
 
 # Author(s)
 

@@ -25,14 +25,14 @@ class SizeDependent:
         # Set default values if not provided
         if not hasattr(self, "log"):
             self.log = False
-            print("INFO: Default value for <production><log> is used. Default:", self.log)
+            print("INFO: Default value for <Production><SizeDependent><log> is used. Default:", self.log)
 
         if not hasattr(self, "log1"):
             self.log1 = False
-            print("INFO: Default value for <production><log1> is used. Default:", self.log1)
+            print("INFO: Default value for <Production><SizeDependent><log1> is used. Default:", self.log1)
 
         if self.log and self.log1:
-            print("ERROR: <production><log> and <log1> are both set to TRUE. Only one of them can be TRUE.")
+            print("ERROR: <Production><SizeDependent><log> and <log1> are both set to TRUE. Only one of them can be TRUE.")
             exit()
 
         if hasattr(self, "x_min"):

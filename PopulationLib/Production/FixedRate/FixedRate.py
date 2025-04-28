@@ -23,15 +23,15 @@ class FixedRate:
 
         if not hasattr(self, "per_model_area"):
             self.per_model_area = None
-            print("INFO: Default value for <production><FixedRate><per_ha> is used. Default: ",
+            print("INFO: Default value for <Production><FixedRate><per_ha> is used. Default: ",
                   self.per_model_area)
         if not hasattr(self, "per_individual"):
             self.per_individual = None
-            print("INFO: Default value for <production><FixedRate><per_individual> is used. Default: ",
+            print("INFO: Default value for <Production><FixedRate><per_individual> is used. Default: ",
                   self.per_individual)
         if not hasattr(self, "per_ha"):
             self.per_ha = None
-            print("INFO: Default value for <production><FixedRate><per_ha> is used. Default: ",
+            print("INFO: Default value for <Production><FixedRate><per_ha> is used. Default: ",
                   self.per_ha)
         if all([self.per_model_area, self.per_ha]):
             print("ERROR in Production module.")

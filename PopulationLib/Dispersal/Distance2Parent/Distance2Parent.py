@@ -22,7 +22,8 @@ class Distance2Parent:
         myself = super(Distance2Parent, self)
         helpers.getInputParameters(myself, **tags)
 
-        self.type = self.type.lower()
+        # Make string input case-insensitive
+        self.distribution = self.distribution.lower()
 
         # Set default values if not defined in project file
         if not hasattr(self, "scale"):
@@ -30,22 +31,22 @@ class Distance2Parent:
                 self.scale = 10
             else:
                 self.scale = 1
-            print("INFO: Default value for <dispersal><FixedRate><scale> is used. Default: " + str(self.scale))
+            print("INFO: Default value for <Dispersal><Distance2Parent><scale> is used. Default: " + str(self.scale))
         if not hasattr(self, "loc"):
             self.loc = 0
-            print("INFO: Default value for <dispersal><FixedRate><loc> is used. Default: " + str(self.loc))
+            print("INFO: Default value for <Dispersal><Distance2Parent><loc> is used. Default: " + str(self.loc))
         if not hasattr(self, "shape"):
             self.shape = 1
-            print("INFO: Default value for <dispersal><FixedRate><shape> is used. Default: " + str(self.shape))
+            print("INFO: Default value for <Dispersal><Distance2Parent><shape> is used. Default: " + str(self.shape))
         if not hasattr(self, "high"):
             self.high = 1
-            print("INFO: Default value for <dispersal><FixedRate><high> is used. Default: " + str(self.high))
+            print("INFO: Default value for <Dispersal><Distance2Parent><high> is used. Default: " + str(self.high))
         if not hasattr(self, "low"):
             self.low = 0
-            print("INFO: Default value for <dispersal><FixedRate><low> is used. Default: " + str(self.low))
+            print("INFO: Default value for <Dispersal><Distance2Parent><low> is used. Default: " + str(self.low))
         if not hasattr(self, "a"):
             self.a = 1
-            print("INFO: Default value for <dispersal><FixedRate><a> is used. Default: " + str(self.a))
+            print("INFO: Default value for <Dispersal><Distance2Parent><a> is used. Default: " + str(self.a))
 
     def getPositions(self, number_of_plants, plants):
         """

@@ -3,7 +3,6 @@
 """
 Sub-library of modules on plant mortality.
 
-This page contains the documentation for the mortality modules.
 All mortality modules can be combined.
 In this way, the survival of a plant is assessed on the basis of all selected modules.
 If at least one of the modules indicates the death of the plant, the plant dies.

@@ -10,22 +10,6 @@ class PlantModel:
     Dummy class for all plant models.
     """
 
-    def getAbovegroundResources(self):
-        """
-        Return a plant's available below-ground resources as factor.
-        Returns:
-            numeric
-        """
-        return self.aboveground_resources
-
-    def getBelowgroundResources(self):
-        """
-        Return a plant's available below-ground resources as factor.
-        Returns:
-            numeric
-        """
-        return self.belowground_resources
-
     def iniMortalityConcept(self, args):
         """
         Initialize selected mortality modules

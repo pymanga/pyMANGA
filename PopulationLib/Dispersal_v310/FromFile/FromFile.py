@@ -69,6 +69,8 @@ class FromFile:
             network_list = ["partner"]
         elif plant_model == "Jabowa":
             geometry_list = ["r_stem"]
+        elif plant_model == "Saltmarsh":
+            geometry_list = ["r_ag", "h_ag", "r_bg", "h_bg"]
 
         if not geometry_list:
             print("ERROR: No plant geometry is implemented for the selected plant type.")

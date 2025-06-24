@@ -75,7 +75,10 @@ class Weighted:
 
         establish = np.array(establish).flatten()
         # Keep only plants that 'survived' establishment
-        plant_positions = {"x": xpos[establish], "y": ypos[establish]}
+        if len(establish) == 0:
+            plant_positions = {"x": [], "y": []}
+        else:
+            plant_positions = {"x": xpos[establish], "y": ypos[establish]}
         return plant_positions
 
     def setModelDomain(self, x1, x2, y1, y2):

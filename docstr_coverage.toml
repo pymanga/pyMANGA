@@ -10,7 +10,6 @@ ignore-nested-functions = false
 ignore-nested-classes = true
 ignore-setters = false
 fail-under = 0
-exclude = ["Benchmarks"]
 ignore-regex = ["writeOutput", "getOutputDir", "outputContent",
     "getInputParameters", "getPlantAttributes",
     "prepareNextTimeStep", "addPlant", "progressPlant"]

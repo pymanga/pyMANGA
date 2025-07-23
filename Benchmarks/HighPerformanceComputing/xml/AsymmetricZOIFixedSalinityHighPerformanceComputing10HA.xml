@@ -2,7 +2,7 @@
     <random_seed>922</random_seed>  <!-- random seed -->
     <resources>  <!-- Resources Module Start -->
         <aboveground>  <!-- Aboveground Resources Start -->
-            <type> AsymmetricZOI </type>  
+            <type> AsymmetricZOIHighPerformanceComputing </type>  
             <!-- Using the Asymmetric Zone of Influence model, 
              which represents the asymmetric influence of tree crowns on above-ground resource allocation -->
             <domain>  <!-- Define the spatial domain for resource allocation, 300m × 300m (9 ha) -->
@@ -15,7 +15,7 @@
             </domain>  <!-- Define the spatial domain for resource allocation End -->
         </aboveground>  <!-- Aboveground Resources End -->
         <belowground>   <!-- Belowground Resources Start -->
-            <type> FixedSalinity </type>     
+            <type> FixedSalinityHighPerformanceComputing </type>     
             <!-- Using the FixedSalinity model, which maintains a constant soil pore water salinity throughout the simulation -->
             <min_x>0</min_x>   
             <max_x>500</max_x>
@@ -59,7 +59,7 @@
     <time_loop>  <!-- Time loop module Start -->
         <type> Simple </type>  <!-- Using simple time loop -->
         <t_start> 0 </t_start>  <!-- Simulation start time -->
-        <t_end> 3 * 365.25 * 24 * 3600 </t_end>     <!-- Simulation end time, 10 years -->
+        <t_end> 3 * 365.25 * 24 * 3600 </t_end>     <!-- Simulation end time, 3 years -->
         <delta_t> 365.25 * 24 * 3600 </delta_t>    <!-- Time step set to 1 year -->
     </time_loop> 
     <!-- Time loop module End -->
@@ -73,7 +73,7 @@
         <type> OneTimestepOneFile  </type>  <!-- Output type is single file -->
         <output_each_nth_timestep>[1]</output_each_nth_timestep>  <!-- Output results every 1 time step -->
         <allow_previous_output>True</allow_previous_output>  <!-- Allow overwriting or continuing from existing output -->
-        <output_dir>Benchmarks\HighPerformanceComputing\results\Original\10HA\</output_dir>  <!-- Output directory -->
+        <output_dir>Benchmarks\HighPerformanceComputing\results\HPC\ZOISALINITY\10HA\</output_dir>  <!-- Output directory -->
         <geometry_output> height </geometry_output>   <!-- Output stem height -->
         <geometry_output> r_root </geometry_output>  <!-- Output root radius -->
         <geometry_output> r_stem </geometry_output>   <!-- Output stem radius -->
@@ -88,4 +88,4 @@
     </output>
 </MangaProject>  <!-- Project End -->
 
-<!-- python MANGA.py -i Benchmarks\HighPerformanceComputing\xml\Original10HA.xml -->
+<!-- python MANGA.py -i Benchmarks\HighPerformanceComputing\xml\AsymmetricZOIFixedSalinityHighPerformanceComputing10HA.xml -->

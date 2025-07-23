@@ -55,6 +55,11 @@ Benchmarks\HighPerformanceComputing\xml\Original10HA.xml
 Benchmarks\HighPerformanceComputing\xml\AsymmetricZOIHighPerformanceComputing10HA.xml
 Benchmarks\HighPerformanceComputing\xml\AsymmetricZOIFixedSalinityHighPerformanceComputing10HA.xml
 
+Run the following project files separately to do double resolution simulation compare:
+Benchmarks\HighPerformanceComputing\xml\ZOISaltFeedbackBucket1HA.xml
+Benchmarks\HighPerformanceComputing\xml\AsymmetricZOISaltFeedbackBucketHighPerformanceComputing1HA.xml  
+(This is the large updateoptimized version from ZOISaltFeedbackBucket, in my tests, it is about 10 times faster than the original ZOISaltFeedbackBucket)
+
 If you want, Please try 100HA (cpu will die) :)
 
 Compare the runtime of a single time step. After the simulation, compare the output results.

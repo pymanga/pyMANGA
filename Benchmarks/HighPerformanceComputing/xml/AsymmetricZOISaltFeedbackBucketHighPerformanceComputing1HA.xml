@@ -1,0 +1,101 @@
+<MangaProject>  <!-- Project Start -->
+    <random_seed>922</random_seed>  <!-- random seed -->
+    <resources>  <!-- Resources Module Start -->
+        <aboveground>  <!-- Aboveground Resources Start -->
+            <type> AsymmetricZOIHighPerformanceComputing </type>  
+            <!-- Using the Asymmetric Zone of Influence model, 
+             which represents the asymmetric influence of tree crowns on above-ground resource allocation -->
+            <domain>  <!-- Define the spatial domain for resource allocation, 300m × 300m (9 ha) -->
+                <x_1> 0 </x_1>
+                <y_1> 0 </y_1>
+                <x_2> 100 </x_2>
+                <y_2> 100 </y_2>
+	            <x_resolution> 400 </x_resolution>
+	            <y_resolution> 400 </y_resolution> <!-- Set the resolution to 400 × 400 -->
+            </domain>  <!-- Define the spatial domain for resource allocation End -->
+        </aboveground>  <!-- Aboveground Resources End -->
+        <belowground>   <!-- Belowground Resources Start -->
+            <type> SaltFeedbackBucketHighPerformanceComputing </type>     
+            <!-- Using the FixedSalinity model, which maintains a constant soil pore water salinity throughout the simulation -->
+            <domain> 
+                <x_1> 0 </x_1>
+                <y_1> 0 </y_1>
+                <x_2> 100 </x_2>
+                <y_2> 100 </y_2>
+	            <x_resolution> 400 </x_resolution>
+	            <y_resolution> 400 </y_resolution> 
+            </domain>
+            <salinity>0.035 0.035</salinity>    <!-- Fixed salinity -->
+            <r_mix> 0.01/3600/24 0.015/3600/24 </r_mix>
+            <sine>
+                <medium> salt water </medium>
+                <amplitude> 0.1 </amplitude>
+            </sine>
+        </belowground>  <!-- Belowground Resources End -->
+    </resources>  <!-- Resources Module End -->
+
+    <population>  <!-- The start of the population module -->
+        <group>   <!-- Define a population group -->
+            <name> initial </name>  <!-- The name of the population group -->
+            <species> AvicenniaKiwi </species>  <!-- The species of the population group -->
+            <vegetation_model_type> Jabowa </vegetation_model_type>  <!-- Using the Jabowa model -->
+            <mortality> NoGrowth Random </mortality>  <!-- follows Uta 2000's setting 1/600 -->
+            <probability>0.00167</probability>
+            <domain> <!-- Define the spatial domain for distribution Start -->
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 100 </x_2>
+                    <y_2> 100 </y_2> 
+            </domain> <!-- Define the spatial domain for distribution End -->
+            <initial_population> <!-- Define initial population -->
+                <type>Random</type>   
+                <n_individuals> 350 * 1 </n_individuals>
+            </initial_population>   <!-- Initial population End -->
+            <production>  <!-- Define production -->
+                <type>SizeDependent</type>
+                <formula>0.71155 + 0.06346 * 200 * x - 0.00034290 * 200 * x**2</formula>
+                <x_geometry>r_stem</x_geometry>
+                <log>True</log>
+                <log-1>False</log-1>
+                <x_min>0.05</x_min>
+            </production>  <!-- Production End -->
+            <dispersal>  <!-- Define dispersal -->
+                <type> Uniform </type>  <!-- Using uniform dispersal -->
+            </dispersal>  <!-- Dispersal End -->
+        </group>  <!-- Population group End -->
+    </population>  
+    <!-- Population module End -->
+
+    <time_loop>  <!-- Time loop module Start -->
+        <type> Simple </type>  <!-- Using simple time loop -->
+        <t_start> 0 </t_start>  <!-- Simulation start time -->
+        <t_end> 35 * 365.25 * 24 * 3600 </t_end>     <!-- Simulation end time, 35 years -->
+        <delta_t> 365.25 * 24 * 3600 </delta_t>    <!-- Time step set to 1 year -->
+    </time_loop> 
+    <!-- Time loop module End -->
+
+    <visualization>  <!-- Visualization module Start -->
+        <type> NONE </type>  <!-- NONE or SimplePyplot-->
+    </visualization>   
+    <!-- Visualization module End -->
+
+    <output>  <!-- Output module Start -->
+        <type> OneTimestepOneFile  </type>  <!-- Output type is single file -->
+        <output_each_nth_timestep>[1]</output_each_nth_timestep>  <!-- Output results every 1 time step -->
+        <allow_previous_output>True</allow_previous_output>  <!-- Allow overwriting or continuing from existing output -->
+        <output_dir>Benchmarks\HighPerformanceComputing\results\HPC\ZOISaltFeedbackBucket\1HA\</output_dir>  <!-- Output directory -->
+        <geometry_output> height </geometry_output>   <!-- Output stem height -->
+        <geometry_output> r_root </geometry_output>  <!-- Output root radius -->
+        <geometry_output> r_stem </geometry_output>   <!-- Output stem radius -->
+        <geometry_output> h_stem </geometry_output>  <!-- Output stem height -->
+        <geometry_output> r_crown </geometry_output>   <!-- Output crown radius -->
+        <geometry_output> r_ag </geometry_output>   <!-- Output above-ground radius -->
+        <geometry_output> r_bg </geometry_output>   <!-- Output below-ground radius -->
+        <growth_output> growth </growth_output>       <!-- Output growth status -->
+        <growth_output> salinity </growth_output>      <!-- Output salinity -->     
+        <growth_output> ag_factor </growth_output>     <!-- Output above-ground resource factor -->
+        <growth_output> bg_factor </growth_output>     <!-- Output below-ground resource factor -->
+    </output>
+</MangaProject>  <!-- Project End -->
+
+<!-- python MANGA.py -i Benchmarks\HighPerformanceComputing\xml\AsymmetricZOISaltFeedbackBucketHighPerformanceComputing1HA.xml -->

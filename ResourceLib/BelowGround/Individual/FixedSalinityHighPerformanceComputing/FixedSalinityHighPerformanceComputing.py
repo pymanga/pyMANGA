@@ -27,7 +27,7 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
         self._salt_effect_ui = []
 
     def addPlant(self, plant):
-        x, _ = plant.getPosition()
+        x, y = plant.getPosition()
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
 
@@ -64,6 +64,12 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
         if idx_f[0].size > 0:
             exp = np.array(self._salt_effect_d)[idx_f] * \
                   (np.array(self._salt_effect_ui)[idx_f] - salinity_plant[idx_f] * 1000)
+            exp = np.array(exp, dtype=np.float32)    # Ensure consistent data type
+            # This is the reason for the inconsistent results. 
+            # In my July 23 version, I used the default float64. 
+            # I just checked the original FixedSalinity version, which uses
+            # exp = np.array(exp, dtype=np.float32). 
+            # In the July 24 version, I chose to keep it consistent with the original FixedSalinity to check the consistency of the results and the accuracy of the calculations.
             self.belowground_resources[idx_f] = 1 / (1 + np.exp(exp))
 
     def getPlantSalinity(self):
@@ -85,11 +91,12 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
             self.getSalinitySine()
 
     def getSalinityDistribution(self, salinity_plant):
-        if self.type.startswith("norm"):
+        if self.type.startswith("norm"):    
             if self.relative:
-                return np.array([np.random.normal(i, i * self.deviation) for i in salinity_plant])
+                salinity_plant_new = np.random.normal(loc=salinity_plant, scale=salinity_plant * self.deviation)
             else:
-                return np.array([np.random.normal(i, self.deviation) for i in salinity_plant])
+                salinity_plant_new = np.random.normal(loc=salinity_plant, scale=self.deviation)
+            return np.clip(salinity_plant_new, 0, None)  # salinity >= 0
         elif self.type.startswith("uni"):
             return np.random.uniform(self._salinity[0], self._salinity[1], len(salinity_plant))
         else:

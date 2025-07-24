@@ -1,4 +1,8 @@
 # Description
+stable version!
+Stable version updated after local testing on July 24.
+Read the md file of benchmarks. Refer to the test xml. We welcome more complex and extreme tests.
+
 The High-Performance Computing related code modules follow five main optimization logic:
 1. Parallelized Single-Tree Height Matrix Computation
 joblib.Parallel and delayed are used to parallelize _compute_single_tree.
@@ -79,4 +83,4 @@ To prevent memory explosions and "computational efficiency traps," I have set up
 The "computational efficiency trap" represents a trade-off: Using too many CPU cores simultaneously can increase memory consumption, which may lead to reduced performance or even exceeding memory limits.
 
 # Dangerous
-The calibration of FixedSalinityHighPerformanceComputing is not yet complete, and the result differences are likely caused by float. To reduce memory usage on my local machine, I implemented the module using float32.
+The calibration of FixedSalinityHighPerformanceComputing is not yet complete, and the result differences are likely caused by float. To reduce memory usage on my local machine, I implemented the module using float32.(fixed)

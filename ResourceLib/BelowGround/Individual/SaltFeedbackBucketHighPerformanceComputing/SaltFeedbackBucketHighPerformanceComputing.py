@@ -12,8 +12,7 @@ class SaltFeedbackBucketHighPerformanceComputing(FixedSalinity):
     def __init__(self, args):
         self.getInputParameters(args)
         self._t_ini = 0
-        super().makeGrid()
-        self.readMixingRateTag()  
+        super().makeGrid() 
         self.getBorderValues()
         self.getInflowSalinity()
         self.getInflowMixingRate()
@@ -213,4 +212,9 @@ class SaltFeedbackBucketHighPerformanceComputing(FixedSalinity):
             if not hasattr(self, "medium"):
                 print("> Set below-ground parameter 'medium' to default: salt")
                 self.medium = "salt"
+        self.readMixingRateTag()
+        if hasattr(self, "save_file"):
+            if not hasattr(self, "save_salinity_ts"):
+                self.save_salinity_ts = 1
+
       

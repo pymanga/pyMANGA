@@ -10,12 +10,7 @@ def createPlant():
     """
     geometry = {}
     parameter = {}
-    geometry["h_root"] = 0.004                          # m
-    geometry["h_crown"] = 0.004                         # m
-    geometry["r_root"] = 0.2                            # m
     geometry["r_stem"] = 0.005                          # m
-    geometry["h_stem"] = 0.05                           # m
-    geometry["r_crown"] = 0.2                           # m
     parameter["salt_effect_d"] = -0.18
     parameter["salt_effect_ui"] = 72
     parameter["max_height"] = 3500                      # cm
@@ -34,12 +29,9 @@ def createPlant():
     height_cm = (137 + parameter["b2"] * dbh_cm - parameter["b3"] * dbh_cm ** 2)
     geometry["height"] = height_cm / 100                # m
     # resource module FixedSalinity
-    parameter["r_salinity"] = "bettina"
+    parameter["r_salinity"] = "forman"
     # resource module FON
     parameter["aa"] = 10
     parameter["bb"] = 1
     parameter["fmin"] = 0.1
-    
-    parameter["leaf_water_potential"] = -7.86e6         # Pa
-
     return geometry, parameter

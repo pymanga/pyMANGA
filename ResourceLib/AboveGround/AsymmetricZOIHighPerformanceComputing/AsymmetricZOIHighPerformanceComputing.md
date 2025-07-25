@@ -1,30 +1,28 @@
 # Description
 
-This module calculates the reduction in above-ground resource availability caused by the competition for light between neighboring plants.
-The calculation is based on the overlap of above-ground biomass, using the asymmetric zone-of-influence (ZOI) concept.
-The description of above-ground biomass depends on the abstraction of the plant geometry in chosen plant growth model.
-For example, in `pyMANGA.PlantModelLib.Bettina`, this is the canopy of a tree with the shape of a hemisphere.
+This module calculates the reduction in above-ground resource availability caused by light competition between neighboring plants, using the **asymmetric zone-of-influence (ZOI)** concept.  
+It is a **high-performance computing (HPC)** version of `AsymmetricZOI`, optimized with **batch-parallel processing** (using `joblib.Parallel`) and **memory-efficient merging** to handle large-scale tree populations.
 
-This concepts assumes that a plant without neighbors gets 100% of the available light.
-There is no temporal variation in light availability.
+The calculation is based on the overlap of above-ground biomass (e.g., tree canopies).  
+A plant without neighbors gets 100% of the available light. There is no temporal variation in light availability.
 
 # Usage
 
 ```xml
-
 <aboveground>
-    <type>AsymmetricZOI</type>
+    <type>AsymmetricZOIHighPerformanceComputing</type>
     <domain>
         <x_1>0</x_1>
         <y_1>0</y_1>
-        <x_2>20</x_2>
-        <y_2>20</y_2>
-        <x_resolution>80</x_resolution>
-        <y_resolution>80</y_resolution>
+        <x_2>2000</x_2>
+        <y_2>500</y_2>
+        <x_resolution>8000</x_resolution>
+        <y_resolution>2000</y_resolution>
     </domain>
+    <allow_interpolation>True</allow_interpolation>
+    <curved_crown>True</curved_crown>
 </aboveground>
 ```
-
 # Attributes
 
 - ``type`` (string): "AsymmetricZOI" (no other values accepted)
@@ -50,13 +48,13 @@ The factor ranges from 0 to 1, with 1 indicating no limitations and 0 indicating
 # Details
 
 ## Purpose
+This HPC module simulates light competition between plants based on their crown geometry, while significantly improving computational performance compared to the standard AsymmetricZOI module.
 
-This module describes light competition between plants and quantifies its strength by means of a factor between 0 and 1.
-It follows the asymmetric zone of influence (ZOI) concept introduced
-by (<a href="https://doi.org/10.1086/321988" target="_blank">Weiner et al., 2001</a>). Because light does not reach all
-canopies equally, this resource is shared unevenly between plants. That is, a tall plant with a large canopy intercepts
-more light than a neighboring plant that it shades.
-In this model the ZOI is defined by the crown radius of a plant.
+It introduces:
+Batch processing: plants are processed in smaller subsets to reduce memory overhead.
+Thread parallelization: height and crown area calculations are distributed across CPU cores using joblib.
+
+No other features have been changed.
 
 The implementation in pyMANGA is based on BETTINA model (<a href="https://doi.org/10.1016/j.ecolmodel.2014.04.001" target="_blank">Peters et al., 2014</a>).
 
@@ -138,16 +136,15 @@ Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler
 - Since interpolation is allowed, the canopy can be within a cell without "touching" a node, i.e. with a radius less than 0.177 m. 
 
 ```xml
-
 <aboveground>
-    <type>AsymmetricZOI</type>
+    <type>AsymmetricZOIHighPerformanceComputing</type>
     <domain>
         <x_1>0</x_1>
         <y_1>0</y_1>
-        <x_2>20</x_2>
-        <y_2>20</y_2>
-        <x_resolution>80</x_resolution>
-        <y_resolution>80</y_resolution>
+        <x_2>2000</x_2>
+        <y_2>500</y_2>
+        <x_resolution>8000</x_resolution>
+        <y_resolution>2000</y_resolution>
     </domain>
     <allow_interpolation>True</allow_interpolation>
 </aboveground>

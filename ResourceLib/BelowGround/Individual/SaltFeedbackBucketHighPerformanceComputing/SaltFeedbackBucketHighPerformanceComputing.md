@@ -15,6 +15,12 @@ In addition, the salinity concentration in a cell is determined by the inflowing
 The amount of mixing depends on the salinity of the tidal water and a defined mixing rate (i.e. the amount of water exchanged).  
 The tidal water concentration and mixing rate are linearly interpolated between the left and right model boundaries.
 
+**High-Performance Optimization**  
+This version uses **vectorized NumPy operations** and avoids unnecessary recalculations to handle **large numbers of plants and high-resolution grids** efficiently.
+
+No other features have been changed.
+
+
 **Spatial and temporal interpolation**
 The spatial and temporal interpolation of tidal salinity and the mixing rate is described in more detail in ``pyMANGA.BelowGround.Individual.FixedSalinity``.
 Spatial interpolation is linear between the left and right model boundaries.
@@ -28,25 +34,25 @@ For example, it can represent daily tides or seasonal variations.
 
 ```xml
 <belowground>
-    <type> SaltFeedbackBucket </type>
+    <type>SaltFeedbackBucketHighPerformanceComputing</type>
     <domain>
-        <x_1> 0 </x_1>
-        <y_1> 0 </y_1>
-        <x_2> 22 </x_2>
-        <y_2> 22 </y_2>
-        <x_resolution> 88 </x_resolution>
-        <y_resolution> 88 </y_resolution>
+        <x_1>0</x_1>
+        <y_1>0</y_1>
+        <x_2>2000</x_2>
+        <y_2>500</y_2>
+        <x_resolution>8000</x_resolution>
+        <y_resolution>2000</y_resolution>
     </domain>
-    <salinity> 0.035 0.035 </salinity>
-    <r_mix> 0.01/3600/24 0.015/3600/24 </r_mix>
-    <depth> 1 </depth>
+    <salinity>0.035 0.035</salinity>
+    <r_mix>0.01/3600/24 0.015/3600/24</r_mix>
+    <depth>1</depth>
     <sine>
-        <medium> water </medium>
-        <amplitude> 0.1 </amplitude>
+        <medium>water</medium>
+        <amplitude>0.1</amplitude>
     </sine>
-    <save_file> path/to/grid_salinity </save_file>
-    <save_salinity_ts> 120 </save_salinity_ts>
-    <initial_salinity_file> path/so/salinity.txt </initial_salinity_file>
+    <save_file>path/to/salinity_grid</save_file>
+    <save_salinity_ts>50</save_salinity_ts>
+    <initial_salinity_file>path/to/initial_salinity.txt</initial_salinity_file>
 </belowground>
 ```
 
@@ -191,30 +197,31 @@ Marie-Christin Wimmler, Ronny Peters
 
 # Examples
 
-A 20x5 m transect with regular grid cells (0.25x0.25 m², depth 1 m) has a base salinity of 35 ppt at it's left and right boundaries.
-The mixing rate is 0.01 m per day and 0.015 m per day at the left and right boundaries, respectively.
-In addition, the mixing rate follows an annual sinusoidal cycle with an amplitude of 0.001 m per day.
-The salinity of each cell is saved to a text file every 10th time step.
+- The computational domain is 2000 × 500 m.
+- The grid is discretized into 8000 × 2000 cells (each cell is 0.25 × 0.25 m).
+- The initial salinity is 0.035 kg/kg at both left and right boundaries.
+- The tidal mixing rates vary between 0.01 m/day and 0.015 m/day.
+- Salinity grids are saved every 50 timesteps.
 
 ```xml
 <belowground>
-    <type> SaltFeedbackBucket </type>
+    <type>SaltFeedbackBucketHighPerformanceComputing</type>
     <domain>
-        <x_1> 0 </x_1>
-        <y_1> 0 </y_1>
-        <x_2> 20 </x_2>
-        <y_2> 5 </y_2>
-        <x_resolution> 100 </x_resolution>
-        <y_resolution> 20 </y_resolution>
+        <x_1>0</x_1>
+        <y_1>0</y_1>
+        <x_2>2000</x_2>
+        <y_2>500</y_2>
+        <x_resolution>8000</x_resolution>
+        <y_resolution>2000</y_resolution>
     </domain>
-    <salinity> 0.035 0.035 </salinity>
-    <r_mix> 0.01/3600/24 0.015/3600/24 </r_mix>
-    <depth> 1 </depth>
+    <salinity>0.035 0.035</salinity>
+    <r_mix>0.01/3600/24 0.015/3600/24</r_mix>
+    <depth>1</depth>
     <sine>
-        <medium> water </medium>
-        <amplitude> 0.01/3600/24/10 </amplitude>
+        <medium>water</medium>
+        <amplitude>0.1</amplitude>
     </sine>
-    <save_file> path/to/grid_salinity </save_file>
-    <save_salinity_ts> 10 </save_salinity_ts>
-</belowground>
+    <save_file>path/to/salinity_grid</save_file>
+    <save_salinity_ts>50</save_salinity_ts>
+    <initial_salinity_file>path/to/initial_salinity.txt</initial_salinity_file>
 ```

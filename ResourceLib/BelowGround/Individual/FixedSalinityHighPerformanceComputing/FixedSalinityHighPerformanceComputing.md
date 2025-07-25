@@ -1,20 +1,20 @@
 # Description
-
-This module calculates the reduction in below-ground resource availability caused by pore water salinity beneath a plant.
+This module calculates the reduction in below-ground resource availability caused by **pore water salinity beneath plants**, 
+optimized for high-performance computing (HPC) scenarios with large numbers of plants or high-resolution grids.
 The area beneath a plant depends on the abstraction of the plant geometry in chosen plant growth model.
 The calculation is based on the salinity at the model's left and right boundaries.
 There is no feedback between plant water uptake and pore water salinity, and no competition.
 
 This module can be used in simulations where salt is a limiting growth factor, e.g. mangrove forests or abandoned mines.
 Salinity can also be used as a proxy for drought stress. Salinity decreases soil water potential, similar to a decrease in water content.
-
+No other features have been changed.
 # Usage
 
 ```xml
 <belowground>
-    <type> FixedSalinity </type>
+    <type>FixedSalinityHighPerformanceComputing</type>
     <min_x>0</min_x>
-    <max_x>22</max_x>
+    <max_x>2000</max_x>
     <salinity>0.035 0.035</salinity>
 </belowground>
 ```
@@ -52,15 +52,14 @@ The factor ranges from 0 to 1, with 1 indicating no limitations and 0 indicating
 # Details
 ## Purpose
 
-This module describes the below-ground resource limitation induced by the presence of salt. 
-Salinity reduces the osmotic water potential and therefore makes it more difficult for halophytic plants to take up water from the soil column. 
-This resource limitation corresponds physiologically to drought stress in terrestrial systems. 
-The limitation is expressed as a factor varying between 0 and 1.
+This HPC module provides the same salinity-driven resource limitation as the standard FixedSalinity module but is optimized for faster array operations using NumPy.
+Salinity reduces osmotic potential and mimics water stress. The resulting below-ground factor is calculated using species-specific salinity response functions (bettina or forman).
 
 ## Process overview
 
 Each time step, *calculateBelowgroundResources* calls the following sub-procedures:
 -	*getPlantSalinity*: calculate salinity below each plant based on the chosen variant
+- *calculatePlantResources*: Apply species-specific response curves to determine the below-ground factor
 -	*getBGfactor*: calculate below-ground factor
 
 ## Sub-processes

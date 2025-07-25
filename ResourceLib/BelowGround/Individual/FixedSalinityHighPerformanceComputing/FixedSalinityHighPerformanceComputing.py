@@ -8,13 +8,28 @@ from ResourceLib import ResourceModel
 
 class FixedSalinityHighPerformanceComputing(ResourceModel):
     """
-    FixedSalinity below-ground resource concept (optimized, no random broadcasting).
+        FixedSalinity below-ground resource concept (optimized, with improved handling for arrays
+        and removed random broadcasting overhead).
+        This class computes below-ground resource factors for plants based on soil salinity.
     """
     def __init__(self, args):
+        """
+            Initialize the FixedSalinityHighPerformanceComputing module by reading parameters from XML.
+
+            Args:
+                args (lxml.etree._Element): XML element with below-ground module configuration.
+        """
         case = args.find("type").text
         self.getInputParameters(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
+        """
+            Prepare data structures for the next time step.
+
+            Args:
+                t_ini (float): Start time of this time step.
+                t_end (float): End time of this time step.
+        """
         self.plants = []
         self._h_stem = []
         self._r_crown = []
@@ -27,7 +42,13 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
         self._salt_effect_ui = []
 
     def addPlant(self, plant):
-        x, y = plant.getPosition()
+        """
+            Add plant data for salinity calculation.
+
+            Args:
+                plant: Plant object with position, geometry, and species parameters.
+        """
+        x, y = plant.getPosition()   # y is not used, but kept for compatibility
         geometry = plant.getGeometry()
         parameter = plant.getParameter()
 
@@ -41,6 +62,12 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
         self._psi_leaf.append(parameter.get("leaf_water_potential", None))
 
     def calculateBelowgroundResources(self):
+        """
+            Apply plant salinity response functions to compute below-ground resource factors.
+
+            Args:
+                salinity_plant (numpy.ndarray): Salinity values beneath each plant.
+        """
         salinity_plant = self.getPlantSalinity()
         self.calculatePlantResources(salinity_plant)
         for i, plant in enumerate(self.plants):
@@ -73,6 +100,13 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
             self.belowground_resources[idx_f] = 1 / (1 + np.exp(exp))
 
     def getPlantSalinity(self):
+        """
+            Calculate the salinity for each plant based on position (x-coordinate)
+            and boundary conditions.
+
+            Returns:
+                numpy.ndarray: Salinity for each plant.
+        """
         self.getBorderSalinity()
         xe = np.array(self._xe)
         salinity_plant = ((xe - self._min_x) /
@@ -84,6 +118,10 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
         return salinity_plant
 
     def getBorderSalinity(self):
+        """
+            Update boundary salinity values based on current time step.
+            Uses time series or sine interpolation if configured.
+        """
         self._xe = np.array(self._xe)
         if hasattr(self, "t_variable"):
             self.getSalinityTimeseries()
@@ -91,6 +129,14 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
             self.getSalinitySine()
 
     def getSalinityDistribution(self, salinity_plant):
+        """
+            Apply stochastic variation to salinity values based on a specified distribution.
+
+            Args:
+                salinity_plant (numpy.ndarray): Base salinity values.
+            Returns:
+                numpy.ndarray: Randomized salinity values.
+        """
         if self.type.startswith("norm"):    
             if self.relative:
                 salinity_plant_new = np.random.normal(loc=salinity_plant, scale=salinity_plant * self.deviation)
@@ -103,6 +149,9 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
             raise ValueError(f"Error: Distribution parameter 'type = {self.type}' does not exist.")
 
     def getSalinitySine(self):
+        """
+            Calculate time-dependent salinity using a sine function and add noise if defined.
+        """
         s0 = self.amplitude * np.sin(self._t_ini / self.stretch + self.offset)
         left = s0 + self.left_bc
         self._salinity[0] = max(0, np.random.normal(loc=left, scale=self.noise))
@@ -110,6 +159,9 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
         self._salinity[1] = max(0, np.random.normal(loc=right, scale=self.noise))
 
     def getSalinityTimeseries(self):
+        """
+            Interpolate or retrieve salinity values from a time series for the current timestep.
+        """
         ts = self._salinity_over_t[:, 0]
         if self._t_ini in ts:
             self._salinity = self._salinity_over_t[ts == self._t_ini, 1:][0]
@@ -130,10 +182,19 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
         self.checkSalinityInput()
 
     def checkSalinityInput(self):
+        """
+            Check that salinity values are within valid limits (< 1 kg/kg).
+        """
         if np.any(np.array(self._salinity) > 1):
             raise ValueError("ERROR: Salinity over 1000 ppt. Check units.")
 
     def getInputParameters(self, args):
+        """
+            Parse input parameters from XML.
+
+            Args:
+                args (lxml.etree._Element): XML configuration element.
+        """
         tags = {
             "prj_file": args,
             "required": ["type", "min_x", "max_x", "salinity"],
@@ -145,6 +206,9 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
         self.checkSalinityInput()
 
     def setDefaultParameters(self):
+        """
+            Set default parameter values when not provided by XML.
+        """
         self._salinity = self.salinity
         self._min_x = getattr(self, "min_x", 0)
         self._max_x = getattr(self, "max_x", 1)
@@ -163,6 +227,10 @@ class FixedSalinityHighPerformanceComputing(ResourceModel):
             self.relative = getattr(self, "relative", False)
 
     def readSalinityTag(self):
+        """
+            Parse the <salinity> tag.
+            It can be defined as two constant values or as a CSV file path.
+        """
         if isinstance(self._salinity, str) and len(self._salinity.split()) == 2:
             vals = self._salinity.split()
             self._salinity = [float(eval(vals[0])), float(eval(vals[1]))]

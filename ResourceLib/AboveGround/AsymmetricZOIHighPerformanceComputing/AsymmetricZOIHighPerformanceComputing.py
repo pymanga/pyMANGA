@@ -8,44 +8,80 @@ from multiprocessing import cpu_count
 
 def _compute_single_tree(i, x, y, h_stem, r_ag, grid_x, grid_y, curved_crown, mesh_size, min_r_ag):
     """
-    Compute the height and crown area for a single tree based on its position and crown radius.
+        Calculate the crown height and crown cover area of a single tree.
+        i: index of the tree 
+        x, y: positional coordinates of the tree 
+        h_stem: height of the trunk 
+        r_ag: radius of the crown 
+        grid_x, grid_y: grid coordinate matrix 
+        curved_crown: whether to use a curved crown shape or not 
+        mesh_size: size of the mesh 
+        min_r_ag: threshold for the minimum value of the crown radius
+
+        Note:
+        In joblib parallelization, if _compute_single_tree were defined as a method within 
+        the AsymmetricZOIHighPerformanceComputing class, the entire class instance (self) 
+        would need to be serialized and copied to worker processes or threads, leading to 
+        additional memory overhead and potential serialization failures due to non-pickleable objects. 
+
+        By defining _compute_single_tree as an external standalone function, it can be treated as a 
+        simple function pointer that does not require serializing the class instance, making it faster 
+        and more efficient to distribute tasks across parallel workers while minimizing memory usage.
+
+        ***Important:
+        https://peps.python.org/pep-0008/#naming-conventions
+        In Python, a leading underscore in a function or variable name (e.g., _compute_single_tree) is a naming convention 
+        used to indicate that the function is intended for internal use only within a module or class. 
+
+        It signals to developers that the function is part of the internal implementation and not part 
+        of the public API, even though Python does not enforce strict access control. 
+
+        This convention also helps avoid name collisions when using from module import *, 
+        as names starting with an underscore are not imported by default. In short, the underscore is 
+        a way to communicate that the function is a helper or private utility, rather than something meant 
+        to be called directly by users.
+
+        So, Guanzhen used a leading underscore in the new function's name to indicate that it is a helper function.
     """
-    dx = grid_x - x
-    dy = grid_y - y
-    distance_sq = dx * dx + dy * dy
+    dx = grid_x - x   # Calculate the x-direction distance from the grid point to the tree location
+    dy = grid_y - y   # Calculate the y-direction distance from the grid point to the tree location
+    distance_sq = dx * dx + dy * dy    # Calculate the squared distance from the grid point to the tree location
 
     # determine crown radius
     if r_ag < min_r_ag:
         r_ag = mesh_size
 
-    r_ag_sq = r_ag * r_ag
-    mask = distance_sq <= r_ag_sq
-    my_height = np.zeros_like(distance_sq)
+    r_ag_sq = r_ag * r_ag       # Calculate the squared crown radius
+    mask = distance_sq <= r_ag_sq     # Create a mask for grid points within the crown radius
+    my_height = np.zeros_like(distance_sq)  # Initialize the height array to zero
 
     # calculate height based on distance
     if curved_crown:
-        temp = np.maximum(4 * r_ag_sq - distance_sq[mask], 0)
-        my_height[mask] = h_stem + np.sqrt(temp)
+        temp = np.maximum(4 * r_ag_sq - distance_sq[mask], 0)   # Calculate the height based on the distance for curved crown
+        my_height[mask] = h_stem + np.sqrt(temp)   # Assign the calculated height to the mask positions
     else:
-        my_height[mask] = h_stem + 2 * r_ag
+        my_height[mask] = h_stem + 2 * r_ag    # Assign the height for a flat crown
 
-    crown_area = np.count_nonzero(mask)
-    return i, my_height, crown_area
+    crown_area = np.count_nonzero(mask)   # Calculate the crown area as the number of grid points within the crown radius
+    return i, my_height, crown_area  
 
 
 class AsymmetricZOIHighPerformanceComputing(ResourceModel):
     """
-    AsymmetricZOI with batch-parallel merging, optimized for memory efficiency and wins computation
+        High-performance computing version of the Asymmetric Zone of Influence (Asymmetric ZOI).
+        Batch parallel processing and memory optimization strategies are adopted to improve speed and efficiency during large-scale tree calculations.
     """
 
     def __init__(self, args):
-        case = args.find("type").text
-        self.getInputParameters(args)
-        super().makeGrid()
+        case = args.find("type").text   # Get the case type from the arguments
+        self.getInputParameters(args)   # Get input parameters from the arguments
+        super().makeGrid()              # Create the grid based on the input parameters
 
     def _determine_n_jobs(self, n_plants):
         """
-        Dynamically determine the number of parallel threads based on the number of trees.
+            Dynamically determine the number of parallel threads.
+            n_plants: Number of plants
+            Returns: Recommended number of threads (no more than 10 or the number of CPU cores)
         """
         max_threads = min(10, cpu_count())  #   Limit to 10 threads or available CPU cores
         return min(16, max_threads) if n_plants < 10_000 else max_threads   

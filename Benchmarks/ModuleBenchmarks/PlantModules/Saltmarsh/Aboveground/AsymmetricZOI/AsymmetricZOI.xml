@@ -8,8 +8,8 @@
                 <y_1> 0 </y_1>
                 <x_2> 2 </x_2>
                 <y_2> 2 </y_2>
-            <x_resolution> 200 </x_resolution>
-            <y_resolution> 200 </y_resolution>
+            <x_resolution> 40 </x_resolution>
+            <y_resolution> 40 </y_resolution>
             </domain>
         </aboveground>
         <belowground>
@@ -31,7 +31,7 @@
                     <y_2> 2 </y_2>
                 </domain>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/ag_initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/initial_population.csv </filename>
             </distribution>
         </group>
     </population>

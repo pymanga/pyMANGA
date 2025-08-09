@@ -36,7 +36,7 @@ See the Plant Growth (`pyMANGA.PlantModelLib`) and Population (`pyMANGA.Populati
 
 A bool.
 
-If False, the plant survives, if False the plant dies.
+If True, the plant survives, if False the plant dies.
 
 
 # Details

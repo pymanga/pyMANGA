@@ -23,7 +23,7 @@
                     <y_2> 2 </y_2>
                 </domain>
                 <n_recruitment_per_step> 0 </n_recruitment_per_step>
-                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/ag_initial_population.csv </filename>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/initial_population.csv </filename>
             </distribution>
         </group>
     </population>
@@ -38,7 +38,7 @@
     </visualization>
     <output>
         <type> OneTimestepOneFile </type>
-        <output_times> [2e6] </output_times>
+        <output_times> [864000] </output_times>
         <allow_previous_output>True</allow_previous_output>
         <output_dir>Benchmarks/TestOutputs/</output_dir>
         <geometry_output> r_ag </geometry_output>
@@ -48,6 +48,5 @@
         <growth_output> growth </growth_output>
         <growth_output> ag_factor </growth_output>
         <growth_output> bg_factor </growth_output>
-        <growth_output> salinity </growth_output>
     </output>
 </MangaProject>

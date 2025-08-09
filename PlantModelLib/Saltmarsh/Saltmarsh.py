@@ -8,160 +8,235 @@ import numpy as np
 class Saltmarsh(PlantModel):
     """
     Saltmarsh plant module.
+
+    This class implements an individual-based plant model for saltmarsh vegetation.
+    It simulates growth and mortality based on resource availability, maintenance costs,
+    geometric constraints, and dynamic feedback between above- and belowground structures.
+
+    Growth is resource-driven and constrained by geometrical principles (cylindrical volumes),
+    while mortality can be assessed via modular concepts inherited from the parent class.
     """
+
     def __init__(self, args):
         """
-        Saltmarsh growth model (Saltmarsh) concept.
+        Constructor for the Saltmarsh plant model.
+        Initializes the selected mortality concept from XML specification.
+
         Args:
-            args: Saltmarsh growth model module (Saltmarsh) specifications from project file tags
+            args (lxml.etree._Element): Parameters from project file tags.
         """
         super().iniMortalityConcept(args)
 
     def prepareNextTimeStep(self, t_ini, t_end):
         """
-        Calculates the timestep length
-        and sets the growth weights to zero.
-        Sets:
-            floats
+        Prepares internal state for the next simulation time step.
+
+        This includes calculation of timestep length and resetting all
+        geometric growth weights to zero. These weights are later used
+        to track structural changes (delta h, delta r) in AG and BG organs.
+
+        Args:
+            t_ini (float): Start time of timestep.
+            t_end (float): End time of timestep.
         """
+        self.time = t_end - t_ini  # Duration of timestep in seconds
 
-        # timestep length
-        self.time = t_end - t_ini
-
-        # growth weights
-        self.w_h_bg = 0
-        self.w_r_bg = 0
-        self.w_h_ag = 0
-        self.w_r_ag = 0
+        # Reset growth weight variables (used to store deltas)
+        self.w_h_bg = 0  # Change in belowground height
+        self.w_r_bg = 0  # Change in belowground radius
+        self.w_h_ag = 0  # Change in aboveground height
+        self.w_r_ag = 0  # Change in aboveground radius
 
     def progressPlant(self, plant, aboveground_factor, belowground_factor):
+        """
+        Executes one time step of plant development:
+        - Computes volume and maintenance costs
+        - Calculates available resources
+        - Performs growth allocation
+        - Updates geometry
+        - Applies mortality criteria
 
+        Args:
+            plant (Plant): The plant individual.
+            aboveground_factor (float): AG resource availability [0,1].
+            belowground_factor (float): BG resource availability [0,1].
+        """
+        # INITIALIZATION
         geometry = plant.getGeometry()
         growth_concept_information = plant.getGrowthConceptInformation()
         self.parameter = plant.getParameter()
+
+        # Current geometry values
         self.r_ag = geometry["r_ag"]
         self.h_ag = geometry["h_ag"]
         self.r_bg = geometry["r_bg"]
         self.h_bg = geometry["h_bg"]
-        self.survive = 1
+        self.r_ag_ic = geometry["r_ag_ic"]
+        self.r_bg_ic = geometry["r_bg_ic"]
+        self.volume_ic = geometry["volume_ic"]
+
+        self.survive = 1  # Temporary survival flag
         self.ag_factor = aboveground_factor
         self.bg_factor = belowground_factor
 
-        # Calculate the total plant volume
+        # STEP 1: Volume calculation
         self.plantVolume()
 
-        # Define variables that are only required for specific Mortality
-        # concepts
+        # STEP 2: Setup mortality-related variables (modular concept)
         super().setMortalityVariables(growth_concept_information)
 
-        # Calculate the maintenance of the plant
+        # STEP 3: Maintenance costs
         self.plantMaintenance()
 
-        # Calculate the resources available for growth and the growth factor
+        # STEP 4: Resource availability and growth potential
         self.growthResources()
 
-        # Calculate the growth weights for the different geometries of the plant
-        self.plantGrowthWeights()
-
-        # Calculate the growth of the different geometries of the plant
+        # STEP 5: Geometric growth based on resource allocation
         self.plantGrowth()
 
-        # Update the plant geometry and growth concept information
+        # Recalculate volume after growth
+        self.plantVolume()
+
+        # STEP 6: Update plant internal state
         geometry["r_ag"] = self.r_ag
         geometry["h_ag"] = self.h_ag
         geometry["r_bg"] = self.r_bg
         geometry["h_bg"] = self.h_bg
-        growth_concept_information["ag_factor"] = self.ag_factor
-        growth_concept_information["bg_factor"] = self.bg_factor
-        growth_concept_information["growth"] = self.grow
-        growth_concept_information["maint"] = self.maint
-        growth_concept_information["volume"] = self.volume
 
-        growth_concept_information["w_h_bg"] = self.w_h_bg
-        growth_concept_information["w_r_bg"] = self.w_r_bg
-        growth_concept_information["w_h_ag"] = self.w_h_ag
-        growth_concept_information["w_r_ag"] = self.w_r_ag
+        # Store all relevant model variables in growth concept info
+        growth_concept_information.update({
+            "ag_factor": self.ag_factor,
+            "bg_factor": self.bg_factor,
+            "growth": self.grow,
+            "maint": self.maint,
+            "volume": self.volume,
+            "w_h_bg": self.w_h_bg,
+            "w_r_bg": self.w_r_bg,
+            "w_h_ag": self.w_h_ag,
+            "w_r_ag": self.w_r_ag,
+            "ratio_ag": self.ratio_ag,
+            "w_ratio_b_a": self.w_ratio_ag_bg,
+            "adjustment": self.adjustment
+        })
 
-        # Get Mortality-related variables
+        # Calculate plant age
+        try:
+            growth_concept_information["age"] += self.time
+        except KeyError:
+            growth_concept_information["age"] = self.time
+
+        # Mortality
         super().getMortalityVariables(growth_concept_information)
 
-        # Update the plant variables
+        # Apply all updates to the plant object
         plant.setGeometry(geometry)
         plant.setGrowthConceptInformation(growth_concept_information)
 
+        # set survival status
         if self.survive == 1:
             plant.setSurvival(1)
         else:
             plant.setSurvival(0)
 
-    def plantGrowth(self):
+    def plantVolume(self):
         """
-        Growth of the different geometries of the plant.
+        Calculates total plant volume as sum of two cylinders:
+        - Aboveground cylinder: h_ag, r_ag
+        - Belowground cylinder: h_bg, r_bg
+
         Sets:
-            floats
+            self.V_ag (float): Aboveground volume [m³]
+            self.V_bg (float): Belowground volume [m³]
+            self.volume (float): Total plant volume [m³]
+            self.r_V_ag_bg (float): AG/BG volume ratio [-]
         """
-        self.inc_h_ag = self.w_h_ag * self.grow
-        self.h_ag += self.inc_h_ag
-
-        self.inc_r_ag = self.w_r_ag * self.grow
-        self.r_ag += self.inc_r_ag
-
-        self.inc_r_bg = self.w_r_bg * self.grow
-        self.r_bg += self.inc_r_bg
-
-        self.inc_h_bg = self.w_h_bg * self.grow
-        self.h_bg += self.inc_h_bg
-
-    def plantGrowthWeights(self):
-        """
-        Calculation of the growth weights for the different geometries of the plant.
-        Sets:
-            float
-        """
-        if (self.bg_factor + self.ag_factor) != 0:
-            # normalization leads to adapation of -20 to +20 % of w_ratio_b_a
-            ratio_b_a_resource = ((self.bg_factor / (self.bg_factor + self.ag_factor)) - 0.5) * 0.4
-
-            # new ratio of belowground to aboveground growth weight:
-            w_ratio_b_a = self.parameter['w_b_a'] * (1 + ratio_b_a_resource)
-
-            self.w_r_ag = w_ratio_b_a * self.parameter['w_ag']
-            self.w_h_ag = w_ratio_b_a * (1 - self.parameter['w_ag'])
-            self.w_r_bg = self.parameter['w_bg'] * (1 - w_ratio_b_a)
-            self.w_h_bg = (1 - w_ratio_b_a) * (1 - self.parameter['w_bg'])
+        self.V_ag = np.pi * self.r_ag ** 2 * self.h_ag
+        self.V_bg = np.pi * self.r_bg ** 2 * self.h_bg
+        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-6)  # Avoid division by zero
+        self.volume = self.V_ag + self.V_bg
 
     def plantMaintenance(self):
         """
-        Calculate the maintenance of the plant.
+        Calculates the maintenance cost of the plant for the current timestep.
+
+        Maintenance is modeled as proportional to the total volume,
+        scaled by a species-specific maintenance factor.
+
         Sets:
-            float
+            self.maint (float): Maintenance cost [resource units]
         """
         self.maint = self.volume * self.parameter["maint_factor"] * self.time
 
-    def plantVolume(self):
-        """
-        Calculate the total plant volume.
-        Saltmarsh plants consist of two cylinders, one above- and one belowground.
-        These two cylinders define the aboveground and belowground volume of the plant.
-        These are each characterised by the cylinder height and cylinder radius.
-        Sets:
-            float
-        """
-        self.volume_ag = np.pi * self.r_ag ** 2 * self.h_ag
-        self.volume_bg = np.pi * self.r_bg ** 2 * self.h_bg
-        self.r_volume_ag_bg = self.volume_ag / self.volume_bg
-        self.volume = self.volume_ag + self.volume_bg
-
     def growthResources(self):
         """
-        calculates the resources available for growth and the growth factor.
-        Sets:
-            floats
-        """
+        Calculates resource-limited growth potential.
 
+        Uses the minimum of AG and BG resource availability to ensure
+        symmetric limitation. Maintenance is subtracted to simulate
+        baseline resource consumption.
+
+        Sets:
+            self.available_resources (float)
+            self.grow (float): Net available resource units for growth.
+        """
         self.available_resources = min(self.ag_factor, self.bg_factor)
 
-        self.grow = self.parameter["growth_factor"] * (self.available_resources - self.maint) * self.time
+        growth_potential = (self.available_resources * self.time) - self.maint
+        self.grow = self.parameter["growth_factor"] * growth_potential
 
-        # Check if trees survive based on selected mortality concepts
+        # Mortality concept may adjust internal kill flags
         super().setTreeKiller()
+
+    def plantGrowth(self):
+        """
+        Allocates net growth into above- and belowground volumes.
+
+        - AG/BG allocation is dynamically shifted based on the current volume ratio.
+        - Growth is then translated into updated geometry (r, h).
+        - Negative growth is permitted (biomass loss under resource stress).
+
+        Sets:
+            self.r_ag, self.h_ag, self.r_bg, self.h_bg
+            self.V_ag, self.V_bg
+            self.ratio_ag, self.adjustment, self.w_ratio_ag_bg
+        """
+        ag = self.ag_factor
+        bg = self.bg_factor
+
+        # Resource ratio from AG perspective (normalized between 0 and 1)
+        self.ratio_ag = np.clip(ag / (ag + bg + 1e-22), 1e-6, 0.999999)
+
+        # Compare current AG/BG volume ratio with "optimal" range
+        ratio_vol = self.V_ag / max(self.V_bg, 1e-6)
+
+        # Shift AG/BG allocation depending on mismatch between current ratio and resource ratio
+        self.adjustment = 0.5 - self.ratio_ag
+
+        if ratio_vol > 2.5 and self.adjustment < 0:
+            pass  # AG volume too high → reduce AG growth
+        elif ratio_vol < 0.15 and self.adjustment > 0:
+            pass  # BG volume too high → reduce BG growth
+        elif 0.15 <= ratio_vol <= 2.5:
+            pass  # within target zone
+        else:
+            self.adjustment = 0  # prevent maladaptive adjustment
+
+        # Compute AG/BG allocation weight
+        self.w_ratio_ag_bg = self.parameter['w_b_a'] * (1 - self.adjustment)
+
+        # Split net growth based on calculated ratio
+        if self.grow > 0:
+            V_ag_incr = self.grow * (1 - self.w_ratio_ag_bg)
+            V_bg_incr = self.grow * self.w_ratio_ag_bg
+        else:
+            V_ag_incr = self.grow * 0.5
+            V_bg_incr = self.grow * 0.5
+
+        self.V_ag += V_ag_incr
+        self.V_bg += V_bg_incr
+
+        # Recalculate plant geometry (cylinder geometry → invert volume formula)
+        self.h_ag = (self.V_ag / (np.pi * self.parameter['w_ag'] ** 2)) ** (1 / 3)
+        self.r_ag = self.parameter['w_ag'] * self.h_ag
+        self.h_bg = (self.V_bg / (np.pi * self.parameter['w_bg'] ** 2)) ** (1 / 3)
+        self.r_bg = self.parameter['w_bg'] * self.h_bg

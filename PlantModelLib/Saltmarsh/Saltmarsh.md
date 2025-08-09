@@ -3,8 +3,6 @@
 This module calculates the growth (production of biovolume) of saltmarsh plants.
 The growth is calculated using a simple model based on resource limitation and competition.
 
-This module can be used in simulations where you want to include the growth of saltmarsh plants.
-
 # Usage
 
 ```xml
@@ -16,19 +14,19 @@ This module can be used in simulations where you want to include the growth of s
 </population>
 ```
 
-Go to [Examples](#examples) for more information
+Go to [Examples](#examples) for more information.
 
 # Attributes
 
 - ``vegetation_model_type`` (string): "Saltmarsh" (no other values accepted)
-- ``species`` (string): Saltmarsh species oder PFT. Possible Inputs: "Saltmarsh" or path to individual species file.
+- ``species`` (string): Path to file defining species or plant functional type (PFT). Possible Inputs: "Saltmarsh" (will use default saltmarsh species defined in `PopulationLib.Species.Saltmarsh.createPlant`) or path to custom species file.
 
 # Value
 
 Three dictionaries each with length = 1 (i.e., for each individual plant).
 
-The dictionary ``geometry`` contains information about the plant geometry.
-The dictionary ``growth_concept_information`` contains information plant growth.
+The dictionary ``geometry`` contains information about plant geometry.
+The dictionary ``growth_concept_information`` contains information about plant growth concept.
 The dictionary ``parameter`` contains the relevant parameters.
 
 
@@ -38,6 +36,22 @@ The dictionary ``parameter`` contains the relevant parameters.
 The purpose of this module is to describe the growth of saltmarsh plants based on resource limitation and competition.
 
 ## Plant geometry
+
+Saltmarsh plants are represented as two cylinders:
+
+* one above-ground (AG)
+* one below-ground (BG)
+
+Each cylinder is described by:
+
+* radius ($r_{ag}$, $r_{bg}$)
+* height ($h_{ag}$, $h_{bg}$)
+
+From this, volumes are computed:
+
+* $V_{ag}$ = $\pi \cdot r_{ag}^2 \cdot h_{ag}$
+* $V_{bg}$ = $\pi \cdot r_{bg}^2 \cdot h_{bg}$
+* Total volume: $V_{bio} = V_{ag} + V_{bg}$
 
 ## Process overview
 
@@ -58,7 +72,7 @@ The following sub-procedures are called by the module:
 
 - The resources available to the plant (res_tot) are calculated from the minimum of the two resources (res_bg and res_ag).
 $$
-res_{tot} = \min(res_bg, res_ag)
+res_{tot} = \min(res_{bg}, res_{ag})
 $$
 - The plant can use only a part of this resources for growth.
 First they have to use a part of the resources for maintenance (maint):
@@ -75,40 +89,58 @@ $$
 $$
 res = res_{tot} - maint
 $$
-- Together with the species-specific growth factor (f_growth), the total growth (g_tot) in the corresponding time step ($\Delta t$), can be calculated:
+- Together with the species-specific growth factor (f_growth), the total growth (grow) in the corresponding time step ($\Delta t$), can be calculated:
 $$
-g_{tot} = res \cdot f_{growth} \cdot \Delta t
+growth = res \cdot f_{growth} \cdot \Delta t
 $$
-- This growth is then divided between the different geometries (radius and height of the above-ground and below-ground cylinder). In principle, a species-specific ratio of above-ground and below-ground growth is decisive for this (f_ratio_bg,ag). However, the ratio is corrected by the limiting resource. The plant responds to the limitation by growing the affected part proportionately stronger:
+- If net growth G is positive, it is allocated to the above- and belowground compartment depending on which one is more limiting and thus needs more investment. To account for this, the ratio of available aboveground and belowground resources is computed and normalized to a range between −0.5 and 0.5. This yields the temporary adjustment factor Ad​, defined as:
 $$
-f_{res_{bg,}_{res_{ag}}} = \left( \frac{res_{bg}}{res_{bg} + res_{ag}} - 0.5 \right) \cdot 0.4
+Ad = 0.5 - \left( \frac{res_{bg}}{res_{bg} + res_{ag}}\right)
 $$
 The standardization results to:
 $$
-f_{res_{bg,}_{res_{ag}}} \in [-0.2, 0.2]
+f_{res_{bg/ag}} \in \[ -0.5,\ 0.5\]
 $$
-This means that the species-specific factor that determines the division of biomass growth between below-ground and above-ground biomass (f_ratio_bg,ag) can be changed by a maximum of +/- 20 per cent. This factor is used to correct the distribution of resources to above-ground and below-ground growth depending on the limitation situation:
+The allocation weight for the aboveground compartment $w_ag$ is dynamically updated based on a baseline value $w_{ag_{base}}$ (standard allocation factor under equilibrium conditions between aboveground and belowground resources) and the adjustment factor $Ad$:
+
 $$
-f_{growth}_{bg,ag} = f_{ratio}_{bg,ag} \cdot f_{res_{bg,}_{res_{ag}}}
-$$
-The specific standard weights dependent on the PFTs (w_ag and w_bg). The growth weights of the individual geometries can now be calculated:
-$$
-w_{r_{ag}} = f_{growth_{bg,ag}} \cdot w_{ag}
-w_{h_{ag}} = f_{growth_{bg,ag}} \cdot (1 - w_{ag})
-w_{r_{bg}} = \left( 1 - f_{growth_{bg,ag}} \right) \cdot w_{bg}
-w_{h_{bg}} = \left( 1 - f_{growth_{bg,ag}} \right) \cdot (1 - w_{bg})
-$$
-- Finally, the plant growth:
-$$
-r_ag = r_ag + w_{r_{ag}} \cdot g_{tot}
-h_ag = h_ag + w_{h_{ag}} \cdot g_{tot}
-r_bg = r_bg + w_{r_{bg}} \cdot g_{tot}
-h_bg = h_bg + w_{h_{bg}} \cdot g_{tot}
+w_{bg} = w_{bg_{base}} \cdot (1 - Ad)
 $$
 
-**Application & Restriction**
+This formulation ensures that when aboveground resources are more limited than belowground resources (i.e., $Ad > 0$), the plant allocates more resources to the aboveground compartment and vice versa.
 
--
+Actual growth increment for each compartment is then:
+
+$$
+\Delta V_{bg} = growth \cdot w_{bg}\ and\ \Delta V_{ag} = growth \cdot w_{ag}
+$$
+
+In case of negative net growth G (maintenance greater than available resources), the model symmetrically reduces biovolume of both compartments:
+
+$$
+\Delta V_{bg} = \Delta V_{ag} = \frac{growth}{2}
+$$
+
+Volumes are subsequently updated as:
+
+$$
+V_{bg,t-1} = V_{bg,t} + \Delta V_{bg}
+$$
+
+The plant geometries are recalculated by solving for height h and radius r under the assumption of fixed shape ratios of the cylinders. The new height and radius of each component are derived as:
+
+$$
+h_{ag} = \left( \frac{V_{ag}}{\left( \pi \cdot w_{ag}^{2} \right)} \right)^{2/3}\ and\ \left( \frac{V_{bg}}{\left( \pi \cdot w_{bg}^{2} \right)} \right)^{2/3}
+$$
+
+$$
+r_{ag} = w_{ag} \cdot h_{ag}\ and\ r_{bg} = w_{bg} \cdot h_{bg}
+$$
+
+
+
+
+## Application & Restriction
 
 # References
 

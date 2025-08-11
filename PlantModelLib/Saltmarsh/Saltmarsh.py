@@ -165,7 +165,7 @@ class Saltmarsh(PlantModel):
         Sets:
             self.maint (float): Maintenance cost [resource units]
         """
-        self.maint = self.volume * self.parameter["maint_factor"] * self.time
+        self.maint = self.volume * self.parameter["maint_factor"]
 
     def growthResources(self):
         """
@@ -181,7 +181,7 @@ class Saltmarsh(PlantModel):
         """
         self.available_resources = min(self.ag_factor, self.bg_factor)
 
-        growth_potential = (self.available_resources * self.time) - self.maint
+        growth_potential = (self.available_resources - self.maint) * self.time
         self.grow = self.parameter["growth_factor"] * growth_potential
 
         # Mortality concept may adjust internal kill flags

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="F:\py_Workspace\pyMANGA_TEST_07.2025\22.07\pyMANGA\ResourceLib\AboveGround\AsymmetricZOICPP\AsymmetricZOICPP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\py_Workspace\pyMANGA_TEST_07.2025\22.07\pyMANGA\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{273CF8F7-B3E3-3B19-838B-E375330C18A9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

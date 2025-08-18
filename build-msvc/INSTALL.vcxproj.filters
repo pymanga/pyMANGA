@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="F:\py_Workspace\pyMANGA_TEST_07.2025\22.07\pyMANGA\build-msvc\CMakeFiles\8103eee8659db458bd5e83dba2a4b120\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{449A243F-92AB-35B3-ABBF-C4A7833EA277}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

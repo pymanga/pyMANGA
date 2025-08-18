@@ -1,0 +1,6 @@
+F:/py_Workspace/pyMANGA_TEST_07.2025/22.07/pyMANGA/build-msvc/CMakeFiles/asymzoicpp.dir
+F:/py_Workspace/pyMANGA_TEST_07.2025/22.07/pyMANGA/build-msvc/CMakeFiles/foncpp.dir
+F:/py_Workspace/pyMANGA_TEST_07.2025/22.07/pyMANGA/build-msvc/CMakeFiles/fixedsalcpp.dir
+F:/py_Workspace/pyMANGA_TEST_07.2025/22.07/pyMANGA/build-msvc/CMakeFiles/INSTALL.dir
+F:/py_Workspace/pyMANGA_TEST_07.2025/22.07/pyMANGA/build-msvc/CMakeFiles/ALL_BUILD.dir
+F:/py_Workspace/pyMANGA_TEST_07.2025/22.07/pyMANGA/build-msvc/CMakeFiles/ZERO_CHECK.dir

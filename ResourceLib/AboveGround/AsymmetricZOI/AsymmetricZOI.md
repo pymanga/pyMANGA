@@ -12,6 +12,20 @@ The C++ core parallelizes the grid evaluation using OpenMP, allowing efficient s
 
 
 # Compilation
+Build Requirements：
+- CMake
+- pybind11  
+Installable via conda-forge in your environment.
+Example:
+```bash
+conda install -c conda-forge cmake pybind11
+```
+
+- Visual Studio 2022 (MSVC + Windows SDK)
+need to be installed manually from Microsoft’s official installer:
+https://visualstudio.microsoft.com/downloads/  
+Be sure to include the Desktop development with C++ workload (this provides MSVC, the Windows SDK, and the build tools).
+
 For windows Compile the C++ core with the following commands in PowerShell:
 ```bash
 # Clean the build directory

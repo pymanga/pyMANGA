@@ -210,6 +210,11 @@ class SaltFeedbackBucket(FixedSalinity):
         self.r_mix[1] = np.random.normal(size=1, loc=right, scale=self.noise)
         self.r_mix[1] = self.r_mix[1] if self.r_mix[1] > 0 else 0
 
+        if np.sum(self.r_mix) == 0:
+            print("ERROR: Mixing rate is 0 (in ResourceLib/BelowGround/Individual/SaltFeedbackBucket).",
+                  "The settings in the project file should be checked, e.g. if amplitude is larger than the base mixing rate.")
+            exit()
+
     def getInputTags(self, args):
         tags = {
             "prj_file": args,

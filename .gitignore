@@ -116,3 +116,11 @@ venv.bak/
 # OGS source
 ResourceLib/BelowGround/Individual/OGS/bin
 ResourceLib/BelowGround/Individual/OGS/ogs-*
+
+# Cpp build
+build*/
+CMakeCache.txt
+CMakeFiles/
+
+*.exp
+*.lib

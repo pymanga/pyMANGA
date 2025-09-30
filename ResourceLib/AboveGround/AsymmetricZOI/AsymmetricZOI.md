@@ -1,6 +1,6 @@
 # Description
 
-This module calculates the reduction in above-ground resource availability caused by the competition for light between neighboring plants.
+This module calculates the reduction in above-ground resource availability due to competition for light between neighboring plants, implemented in a high-performance C++ backend and exposed to Python via pybind11.
 The calculation is based on the overlap of above-ground biomass, using the asymmetric zone-of-influence (ZOI) concept.
 The description of above-ground biomass depends on the abstraction of the plant geometry in chosen plant growth model.
 For example, in `pyMANGA.PlantModelLib.Bettina`, this is the canopy of a tree with the shape of a hemisphere.
@@ -8,10 +8,39 @@ For example, in `pyMANGA.PlantModelLib.Bettina`, this is the canopy of a tree wi
 This concepts assumes that a plant without neighbors gets 100% of the available light.
 There is no temporal variation in light availability.
 
+The C++ core parallelizes the grid evaluation using OpenMP, allowing efficient simulation of large stands with many individuals and fine spatial resolution.
+
+
+# Compilation
+Build Requirements：
+- CMake
+- pybind11  
+Installable via conda-forge in your environment.
+Example:
+```bash
+conda install -c conda-forge cmake pybind11
+```
+
+- Visual Studio 2022 (MSVC + Windows SDK)
+need to be installed manually from Microsoft’s official installer:
+https://visualstudio.microsoft.com/downloads/  
+Be sure to include the Desktop development with C++ workload (this provides MSVC, the Windows SDK, and the build tools).
+
+For windows Compile the C++ core with the following commands in PowerShell:
+```bash
+# Clean the build directory
+Remove-Item -Recurse -Force build-msvc -ErrorAction SilentlyContinue
+
+# Compile the C++ core according to CMakeLists.txt
+cmake -S . -B build-msvc -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_BUILD_TYPE=Release `
+  -DPYBIND11_FINDPYTHON=ON
+cmake --build build-msvc --config Release -- /m
+```
+
 # Usage
 
 ```xml
-
 <aboveground>
     <type>AsymmetricZOI</type>
     <domain>
@@ -123,7 +152,7 @@ ag_factor = wins \ crown_areas
 
 # Author(s)
 
-Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler
+Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler, Guanzhen Liu
 
 # See Also
 
@@ -133,8 +162,8 @@ Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler
 
 # Examples
 
-- Define the grid on which to calculate above-ground resource availability.
-- The total size is 20x20 m, and a cell is 0.25 x 0.25 m (20 m / 80 cells = 0.25 m/cell).
+- Define the large grid on which to calculate above-ground resource availability.
+- The total size is 1000x1000 m, and a cell is 0.25 x 0.25 m (20 m / 80 cells = 0.25 m/cell).
 - Since interpolation is allowed, the canopy can be within a cell without "touching" a node, i.e. with a radius less than 0.177 m. 
 
 ```xml
@@ -144,10 +173,10 @@ Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler
     <domain>
         <x_1>0</x_1>
         <y_1>0</y_1>
-        <x_2>20</x_2>
-        <y_2>20</y_2>
-        <x_resolution>80</x_resolution>
-        <y_resolution>80</y_resolution>
+        <x_2>1000</x_2>
+        <y_2>1000</y_2>
+        <x_resolution>4000</x_resolution>
+        <y_resolution>4000</y_resolution>
     </domain>
     <allow_interpolation>True</allow_interpolation>
 </aboveground>

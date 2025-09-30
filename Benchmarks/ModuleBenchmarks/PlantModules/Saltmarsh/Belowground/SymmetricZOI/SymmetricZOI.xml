@@ -1,0 +1,60 @@
+<MangaProject>
+    <random_seed>643879</random_seed>
+    <resources>
+        <aboveground>
+            <type> Default </type>
+        </aboveground>
+        <belowground>
+            <type> SymmetricZOI </type>
+            <domain>
+                <x_1> 0 </x_1>
+                <y_1> 0 </y_1>
+                <x_2> 2 </x_2>
+                <y_2> 2 </y_2>
+            <x_resolution> 40 </x_resolution>
+            <y_resolution> 40 </y_resolution>
+            </domain>
+        </belowground>
+    </resources>
+    <population>
+        <group>
+            <name> Initial </name>
+            <species> Saltmarsh </species>
+            <vegetation_model_type> Saltmarsh </vegetation_model_type>
+            <mortality> NoGrowth </mortality>
+            <distribution>
+                <type> FromFile </type>
+                <domain>
+                    <x_1> 0 </x_1>
+                    <y_1> 0 </y_1>
+                    <x_2> 2 </x_2>
+                    <y_2> 2 </y_2>
+                </domain>
+                <n_recruitment_per_step> 0 </n_recruitment_per_step>
+                <filename> Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/initial_population.csv </filename>
+            </distribution>
+        </group>
+    </population>
+    <time_loop>
+        <type> Simple </type>
+        <t_start> 0 </t_start>
+        <t_end> 8640000 </t_end>
+        <delta_t> 86400 </delta_t>
+    </time_loop>
+    <visualization>
+        <type> NONE </type>
+    </visualization>
+    <output>
+         <type> OneTimestepOneFile </type>
+		<output_times> [864000, 8640000] </output_times>
+        <allow_previous_output>True</allow_previous_output>
+        <output_dir>Benchmarks/TestOutputs/</output_dir>
+        <geometry_output> r_ag </geometry_output>
+        <geometry_output> h_ag </geometry_output>
+        <geometry_output> r_bg </geometry_output>
+        <geometry_output> h_bg </geometry_output>
+        <growth_output> growth </growth_output>
+        <growth_output> ag_factor </growth_output>
+        <growth_output> bg_factor </growth_output>
+    </output>
+</MangaProject>

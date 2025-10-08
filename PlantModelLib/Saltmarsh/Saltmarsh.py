@@ -88,6 +88,10 @@ class Saltmarsh(PlantModel):
         # STEP 3: Maintenance costs
         self.plantMaintenance()
 
+        # MARKER
+        self.agResources()
+        self.bgResources()
+
         # STEP 4: Resource availability and growth potential
         self.growthResources()
 
@@ -107,6 +111,8 @@ class Saltmarsh(PlantModel):
         growth_concept_information.update({
             "ag_factor": self.ag_factor,
             "bg_factor": self.bg_factor,
+            "ag_resources": self.ag_resources,
+            "bg_resources": self.bg_resources,
             "growth": self.grow,
             "maint": self.maint,
             "volume": self.volume,
@@ -165,7 +171,28 @@ class Saltmarsh(PlantModel):
         Sets:
             self.maint (float): Maintenance cost [resource units]
         """
-        self.maint = self.volume * self.parameter["maint_factor"]
+        self.maint = self.volume * self.parameter["maint_factor"] * self.time
+
+
+    def agResources(self):
+        """
+        Sets aboveground resource availability factor.
+
+        Args:
+            ag_factor (float): Aboveground resource availability [0,1]
+        """
+        self.ag_resources = self.ag_factor *\
+            np.pi * self.r_ag**2 * self.parameter["sun_c"] * self.time
+
+    def bgResources(self):
+        """
+        Sets belowground resource availability factor.
+
+        Args:
+            bg_factor (float): Belowground resource availability [0,1]
+        """
+        self.bg_resources = self.bg_factor *\
+                            np.pi * self.r_bg**2 * self.h_bg * self.parameter['param_m/s'] * self.time
 
     def growthResources(self):
         """
@@ -179,10 +206,9 @@ class Saltmarsh(PlantModel):
             self.available_resources (float)
             self.grow (float): Net available resource units for growth.
         """
-        self.available_resources = min(self.ag_factor, self.bg_factor)
-
-        growth_potential = (self.available_resources - self.maint) * self.time
-        self.grow = self.parameter["growth_factor"] * growth_potential
+        self.available_resources = min(self.ag_resources, self.bg_resources)
+        self.grow = self.parameter["growth_factor"] * \
+                    (self.available_resources - self.maint)
 
         # Mortality concept may adjust internal kill flags
         super().setTreeKiller()

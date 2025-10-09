@@ -25,6 +25,7 @@ class VolumeThreshold(NoGrowth):
             args (lxml.etree._Element): XML tag for mortalityConcept (unused)
         """
         super().__init__(args)
+        self.survive = 1  # Default: plant survives
 
     def setSurvive(self, plant_module):
         """
@@ -48,13 +49,11 @@ class VolumeThreshold(NoGrowth):
         volume = plant_module.volume
 
         # Survival condition
-        if (
+        if not (
             r_ag >= r_ag_ic and
             r_bg >= r_bg_ic and
             volume >= volume_ic
         ):
-            self.survive = 1  # Plant survive
-        else:
             self.survive = 0  # Plant dies
 
 

@@ -229,32 +229,34 @@ class Saltmarsh(PlantModel):
         ag = self.ag_factor
         bg = self.bg_factor
 
-        # Resource ratio from AG perspective (normalized between 0 and 1)
-        self.ratio_ag = np.clip(ag / (ag + bg + 1e-22), 1e-6, 0.999999)
-
-        # Compare current AG/BG volume ratio with "optimal" range
-        ratio_vol = self.V_ag / max(self.V_bg, 1e-6)
-
-        # Shift AG/BG allocation depending on mismatch between current ratio and resource ratio
-        self.adjustment = 0.5 - self.ratio_ag
-
-        if ratio_vol > 2.5 and self.adjustment < 0:
-            pass  # AG volume too high → reduce AG growth
-        elif ratio_vol < 0.15 and self.adjustment > 0:
-            pass  # BG volume too high → reduce BG growth
-        elif 0.15 <= ratio_vol <= 2.5:
-            pass  # within target zone
-        else:
-            self.adjustment = 0  # prevent maladaptive adjustment
-
-        # Compute AG/BG allocation weight
-        self.w_ratio_ag_bg = self.parameter['w_b_a'] * (1 - self.adjustment)
-
-        # Split net growth based on calculated ratio
         if self.grow > 0:
+            # Resource ratio from AG perspective (normalized between 0 and 1)
+            self.ratio_ag = np.clip(ag / (ag + bg + 1e-22), 1e-6, 0.999999)
+
+            # Compare current AG/BG volume ratio with "optimal" range
+            ratio_vol = self.V_ag / max(self.V_bg, 1e-6)
+
+            # Shift AG/BG allocation depending on mismatch between current ratio and resource ratio
+            self.adjustment = 0.5 - self.ratio_ag
+
+            if ratio_vol > 2.5 and self.adjustment < 0:
+                pass  # AG volume too high → reduce AG growth
+            elif ratio_vol < 0.15 and self.adjustment > 0:
+                pass  # BG volume too high → reduce BG growth
+            elif 0.15 <= ratio_vol <= 2.5:
+                pass  # within target zone
+            else:
+                self.adjustment = 0  # prevent maladaptive adjustment
+
+            # Compute AG/BG allocation weight
+            self.w_ratio_ag_bg = self.parameter['w_b_a'] * (1 - self.adjustment)
+
+            # Split net growth based on calculated ratio
             V_ag_incr = self.grow * (1 - self.w_ratio_ag_bg)
             V_bg_incr = self.grow * self.w_ratio_ag_bg
+
         else:
+            self.grow = self.available_resources - self.maint  # without growth factor
             V_ag_incr = self.grow * 0.5
             V_bg_incr = self.grow * 0.5
 
@@ -262,6 +264,10 @@ class Saltmarsh(PlantModel):
         self.V_bg += V_bg_incr
 
         # Recalculate plant geometry (cylinder geometry → invert volume formula)
+
+        self.V_ag = max(self.V_ag, 0.0)
+        self.V_bg = max(self.V_bg, 0.0)
+
         self.h_ag = (self.V_ag / (np.pi * self.parameter['w_ag'] ** 2)) ** (1 / 3)
         self.r_ag = self.parameter['w_ag'] * self.h_ag
         self.h_bg = (self.V_bg / (np.pi * self.parameter['w_bg'] ** 2)) ** (1 / 3)

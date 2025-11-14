@@ -49,6 +49,7 @@ class Memory(NoGrowth):
             # with number of time steps per year to induce a yearly mortality)
             if relative_grow*steps_per_year < self.threshold:
                 self._survive = 0
+                print("Plant dies bc of memory")
 
     def getSurvive(self):
         """

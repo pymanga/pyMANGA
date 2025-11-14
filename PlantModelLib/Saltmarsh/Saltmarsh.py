@@ -41,11 +41,11 @@ class Saltmarsh(PlantModel):
         """
         self.time = t_end - t_ini  # Duration of timestep in seconds
 
-        # Reset growth weight variables (used to store deltas)
-        self.w_h_bg = 0  # Change in belowground height
-        self.w_r_bg = 0  # Change in belowground radius
-        self.w_h_ag = 0  # Change in aboveground height
-        self.w_r_ag = 0  # Change in aboveground radius
+        # Reset growth weight variables
+        self.w_h_bg = 0
+        self.w_r_bg = 0
+        self.w_h_ag = 0
+        self.w_r_ag = 0
 
     def progressPlant(self, plant, aboveground_factor, belowground_factor):
         """
@@ -109,27 +109,25 @@ class Saltmarsh(PlantModel):
 
         # Store all relevant model variables in growth concept info
         growth_concept_information.update({
-            "ag_factor": self.ag_factor,
-            "bg_factor": self.bg_factor,
-            "ag_resources": self.ag_resources,
-            "bg_resources": self.bg_resources,
-            "growth": self.grow,
-            "maint": self.maint,
-            "volume": self.volume,
-            "w_h_bg": self.w_h_bg,
-            "w_r_bg": self.w_r_bg,
-            "w_h_ag": self.w_h_ag,
-            "w_r_ag": self.w_r_ag,
-            "ratio_ag": self.ratio_ag,
-            "w_ratio_b_a": self.w_ratio_ag_bg,
-            "adjustment": self.adjustment
+            "ag_factor": self.ag_factor,  #        [-]
+            "bg_factor": self.bg_factor,  #        [-]
+            "ag_resources": self.ag_resources,  #  [J]
+            "bg_resources": self.bg_resources,  #  [J]
+            "grow": self.grow,  #                  [m³]
+            "maint": self.maint,  #                [m³]
+            "volume": self.volume,  #              [m³]
+            "w_h_bg": self.w_h_bg,  #              [-]
+            "w_r_bg": self.w_r_bg,  #              [-]
+            "w_h_ag": self.w_h_ag,  #              [-]
+            "w_r_ag": self.w_r_ag,  #              [-]
+            "ratio_ag": self.ratio_ag  #           [-]
         })
 
         # Calculate plant age
         try:
-            growth_concept_information["age"] += self.time
+            growth_concept_information["age"] += self.time  # [s]
         except KeyError:
-            growth_concept_information["age"] = self.time
+            growth_concept_information["age"] = self.time  # [s]
 
         # Mortality
         super().getMortalityVariables(growth_concept_information)
@@ -138,11 +136,15 @@ class Saltmarsh(PlantModel):
         plant.setGeometry(geometry)
         plant.setGrowthConceptInformation(growth_concept_information)
 
+        super().setTreeKiller()
+
         # set survival status
         if self.survive == 1:
             plant.setSurvival(1)
+            print('plant alive')
         else:
             plant.setSurvival(0)
+            print('plant dead')
 
     def plantVolume(self):
         """
@@ -156,10 +158,11 @@ class Saltmarsh(PlantModel):
             self.volume (float): Total plant volume [m³]
             self.r_V_ag_bg (float): AG/BG volume ratio [-]
         """
-        self.V_ag = np.pi * self.r_ag ** 2 * self.h_ag
-        self.V_bg = np.pi * self.r_bg ** 2 * self.h_bg
-        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-6)  # Avoid division by zero
-        self.volume = self.V_ag + self.V_bg
+        self.V_ag = np.pi * self.r_ag ** 2 * self.h_ag  # [m^3] = [-] * [m] * [m]
+        self.V_bg = np.pi * self.r_bg ** 2 * self.h_bg  # [m^3] = [-] * [m] * [m]
+        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-6)  # [-] = [m^3] / [m^3]
+        self.volume = self.V_ag + self.V_bg  # [m^3] = [m^3] + [m^3]
+        print(str(self.volume))
 
     def plantMaintenance(self):
         """
@@ -171,7 +174,8 @@ class Saltmarsh(PlantModel):
         Sets:
             self.maint (float): Maintenance cost [resource units]
         """
-        self.maint = self.volume * self.parameter["maint_factor"] * self.time
+        self.maint = self.volume * self.parameter["maint_factor"] * self.time  # [m³] = [m^3] * [1/s] * [s]
+        print('maint: ' + str(self.maint))
 
 
     def agResources(self):
@@ -181,8 +185,9 @@ class Saltmarsh(PlantModel):
         Args:
             ag_factor (float): Aboveground resource availability [0,1]
         """
-        self.ag_resources = self.ag_factor *\
-            np.pi * self.r_ag**2 * self.parameter["sun_c"] * self.time
+        self.ag_resources = self.ag_factor * np.pi * self.r_ag**2 * self.parameter["sun_c"] * self.time  # \
+        # [J] = [-] * [-] * [m^2] * [J/(m^2*s)] * [s]
+        print('ag_res: ' + str(self.ag_resources))
 
     def bgResources(self):
         """
@@ -191,8 +196,10 @@ class Saltmarsh(PlantModel):
         Args:
             bg_factor (float): Belowground resource availability [0,1]
         """
-        self.bg_resources = self.bg_factor *\
-                            np.pi * self.r_bg**2 * self.h_bg * self.parameter['param_m/s'] * self.time
+        self.bg_resources = self.bg_factor * np.pi * self.r_bg**2 * self.h_bg * self.parameter['sun_c'] *\
+                            self.parameter['water_c'] * 1/(self.h_ag + 0.5 * self.h_bg) * self.time  # \
+        # [J] = [-] * [-] * [m^2] * [m] * [J/(m^2*s)] * [-] * [1/(m+m)] * [s]
+        print('bg_res: ' + str(self.bg_resources))
 
     def growthResources(self):
         """
@@ -206,12 +213,13 @@ class Saltmarsh(PlantModel):
             self.available_resources (float)
             self.grow (float): Net available resource units for growth.
         """
-        self.available_resources = min(self.ag_resources, self.bg_resources)
-        self.grow = self.parameter["growth_factor"] * \
-                    (self.available_resources - self.maint)
-
-        # Mortality concept may adjust internal kill flags
-        super().setTreeKiller()
+        self.available_resources = min(self.ag_resources, self.bg_resources)  # [J] = min([J], [J])
+        self.growth_pot = self.available_resources * self.parameter["growth_factor"]  # \
+        # [m³] = [J] * [m³ / J]
+        self.grow = self.growth_pot - self.maint  # [m³] = [m³] - [m³]
+        print('grow: '+ str(self.grow))
+        if self.grow < 0:
+            self.grow *= self.parameter["dieback_factor"]
 
     def plantGrowth(self):
         """
@@ -226,13 +234,13 @@ class Saltmarsh(PlantModel):
             self.V_ag, self.V_bg
             self.ratio_ag, self.adjustment, self.w_ratio_ag_bg
         """
-        ag = self.ag_factor
-        bg = self.bg_factor
+        ag = self.ag_factor  # [-]
+        bg = self.bg_factor  # [-]
+
+        # Resource ratio from AG perspective (normalized between 0 and 1)
+        self.ratio_ag = np.clip(ag / (ag + bg + 1e-22), 1e-6, 0.999999)
 
         if self.grow > 0:
-            # Resource ratio from AG perspective (normalized between 0 and 1)
-            self.ratio_ag = np.clip(ag / (ag + bg + 1e-22), 1e-6, 0.999999)
-
             # Compare current AG/BG volume ratio with "optimal" range
             ratio_vol = self.V_ag / max(self.V_bg, 1e-6)
 
@@ -256,7 +264,6 @@ class Saltmarsh(PlantModel):
             V_bg_incr = self.grow * self.w_ratio_ag_bg
 
         else:
-            self.grow = self.available_resources - self.maint  # without growth factor
             V_ag_incr = self.grow * 0.5
             V_bg_incr = self.grow * 0.5
 

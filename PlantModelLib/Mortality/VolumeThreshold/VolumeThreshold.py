@@ -55,6 +55,7 @@ class VolumeThreshold(NoGrowth):
             volume >= volume_ic
         ):
             self.survive = 0  # Plant dies
+            print("plant dies bc of volume")
 
 
     def getSurvive(self):

@@ -38,6 +38,8 @@ class VolumeThreshold(NoGrowth):
             plant (Plant): The plant instance
         """
 
+        self.survive = 1
+
         # Thresholds (species-specific, from species file)
         r_ag_ic = plant_module.r_ag_ic
         r_bg_ic = plant_module.r_bg_ic
@@ -55,7 +57,6 @@ class VolumeThreshold(NoGrowth):
             volume >= volume_ic
         ):
             self.survive = 0  # Plant dies
-            print("plant dies bc of volume")
 
 
     def getSurvive(self):

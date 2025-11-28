@@ -76,8 +76,8 @@ class Saltmarsh(PlantModel):
         self.volume_ic = geometry["volume_ic"]
 
         self.survive = 1  # Temporary survival flag
-        self.ag_factor = aboveground_factor
-        self.bg_factor = belowground_factor
+        self.f_reslim_ag = aboveground_factor
+        self.f_reslim_bg = belowground_factor
 
         # STEP 1: Volume calculation
         self.plantVolume()
@@ -101,6 +101,9 @@ class Saltmarsh(PlantModel):
         # Recalculate volume after growth
         self.plantVolume()
 
+        self.waterUptake()
+        growth_concept_information["transpiration"] = self.transpiration
+
         # STEP 6: Update plant internal state
         geometry["r_ag"] = self.r_ag
         geometry["h_ag"] = self.h_ag
@@ -109,18 +112,18 @@ class Saltmarsh(PlantModel):
 
         # Store all relevant model variables in growth concept info
         growth_concept_information.update({
-            "ag_factor": self.ag_factor,  #        [-]
-            "bg_factor": self.bg_factor,  #        [-]
-            "ag_resources": self.ag_resources,  #  [J]
-            "bg_resources": self.bg_resources,  #  [J]
-            "grow": self.grow,  #                  [m³]
-            "maint": self.maint,  #                [m³]
-            "volume": self.volume,  #              [m³]
-            "w_h_bg": self.w_h_bg,  #              [-]
-            "w_r_bg": self.w_r_bg,  #              [-]
-            "w_h_ag": self.w_h_ag,  #              [-]
-            "w_r_ag": self.w_r_ag,  #              [-]
-            "ratio_ag": self.ratio_ag  #           [-]
+            "f_reslim_ag": self.f_reslim_ag,  #     [-]
+            "f_reslim_bg": self.f_reslim_bg,  #     [-]
+            "res_ag": self.res_ag,  #               [J]
+            "res_bg": self.res_bg,  #               [J]
+            "res_available": self.res_available,  # [J]
+            "grow": self.grow,  #                   [m³]
+            "maint": self.maint,  #                 [m³]
+            "volume": self.volume,  #               [m³]
+            "w_h_bg": self.w_h_bg,  #               [-]
+            "w_r_bg": self.w_r_bg,  #               [-]
+            "w_h_ag": self.w_h_ag,  #               [-]
+            "w_r_ag": self.w_r_ag,  #               [-]
         })
 
         # Calculate plant age
@@ -141,10 +144,8 @@ class Saltmarsh(PlantModel):
         # set survival status
         if self.survive == 1:
             plant.setSurvival(1)
-            print('plant alive')
         else:
             plant.setSurvival(0)
-            print('plant dead')
 
     def plantVolume(self):
         """
@@ -160,9 +161,8 @@ class Saltmarsh(PlantModel):
         """
         self.V_ag = np.pi * self.r_ag ** 2 * self.h_ag  # [m^3] = [-] * [m] * [m]
         self.V_bg = np.pi * self.r_bg ** 2 * self.h_bg  # [m^3] = [-] * [m] * [m]
-        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-6)  # [-] = [m^3] / [m^3]
+        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-22)  # [-] = [m^3] / [m^3]
         self.volume = self.V_ag + self.V_bg  # [m^3] = [m^3] + [m^3]
-        print(str(self.volume))
 
     def plantMaintenance(self):
         """
@@ -172,10 +172,9 @@ class Saltmarsh(PlantModel):
         scaled by a species-specific maintenance factor.
 
         Sets:
-            self.maint (float): Maintenance cost [resource units]
+            self.maint (float): Maintenance cost [m³]
         """
-        self.maint = self.volume * self.parameter["maint_factor"] * self.time  # [m³] = [m^3] * [1/s] * [s]
-        print('maint: ' + str(self.maint))
+        self.maint = self.volume * self.parameter["p_maint"] * self.time  # [m³] = [m^3] * [1/s] * [s]
 
 
     def agResources(self):
@@ -183,23 +182,21 @@ class Saltmarsh(PlantModel):
         Sets aboveground resource availability factor.
 
         Args:
-            ag_factor (float): Aboveground resource availability [0,1]
+            f_reslim_ag (float): Aboveground resource availability [0,1]
         """
-        self.ag_resources = self.ag_factor * np.pi * self.r_ag**2 * self.parameter["sun_c"] * self.time  # \
+        self.res_ag = self.f_reslim_ag * np.pi * self.r_ag**2 * self.parameter["p_sun"] * self.time  # \
         # [J] = [-] * [-] * [m^2] * [J/(m^2*s)] * [s]
-        print('ag_res: ' + str(self.ag_resources))
 
     def bgResources(self):
         """
         Sets belowground resource availability factor.
 
         Args:
-            bg_factor (float): Belowground resource availability [0,1]
+            f_reslim_bg (float): Belowground resource availability [0,1]
         """
-        self.bg_resources = self.bg_factor * np.pi * self.r_bg**2 * self.h_bg * self.parameter['sun_c'] *\
-                            self.parameter['water_c'] * 1/(self.h_ag + 0.5 * self.h_bg) * self.time  # \
+        self.res_bg = self.f_reslim_bg * np.pi * self.r_bg**2 * self.h_bg * self.parameter['p_sun'] *\
+                            self.parameter['p_water'] * 1/(self.h_ag + 0.5 * self.h_bg) * self.time  # \
         # [J] = [-] * [-] * [m^2] * [m] * [J/(m^2*s)] * [-] * [1/(m+m)] * [s]
-        print('bg_res: ' + str(self.bg_resources))
 
     def growthResources(self):
         """
@@ -210,20 +207,19 @@ class Saltmarsh(PlantModel):
         baseline resource consumption.
 
         Sets:
-            self.available_resources (float)
+            self.res_available (float)
             self.grow (float): Net available resource units for growth.
         """
-        self.available_resources = min(self.ag_resources, self.bg_resources)  # [J] = min([J], [J])
-        self.growth_pot = self.available_resources * self.parameter["growth_factor"]  # \
+        self.res_available = min(self.res_ag, self.res_bg)  # [J] = min([J], [J])
+        self.grow_pot = self.res_available * self.parameter["p_growth"]  # \
         # [m³] = [J] * [m³ / J]
-        self.grow = self.growth_pot - self.maint  # [m³] = [m³] - [m³]
-        print('grow: '+ str(self.grow))
+        self.grow = self.grow_pot - self.maint  # [m³] = [m³] - [m³]
         if self.grow < 0:
-            self.grow *= self.parameter["dieback_factor"]
+            self.grow *= self.parameter["p_dieback"]
 
     def plantGrowth(self):
         """
-        Allocates net growth into above- and belowground volumes.
+        Allocate net growth into above- and belowground volumes.
 
         - AG/BG allocation is dynamically shifted based on the current volume ratio.
         - Growth is then translated into updated geometry (r, h).
@@ -234,18 +230,18 @@ class Saltmarsh(PlantModel):
             self.V_ag, self.V_bg
             self.ratio_ag, self.adjustment, self.w_ratio_ag_bg
         """
-        ag = self.ag_factor  # [-]
-        bg = self.bg_factor  # [-]
+        ag = self.f_reslim_ag  # [-]
+        bg = self.f_reslim_bg  # [-]
 
         # Resource ratio from AG perspective (normalized between 0 and 1)
-        self.ratio_ag = np.clip(ag / (ag + bg + 1e-22), 1e-6, 0.999999)
+        self.ratio_ag_bg = np.clip(ag / (ag + bg + 1e-22), 1e-6, 0.999999)
 
         if self.grow > 0:
             # Compare current AG/BG volume ratio with "optimal" range
             ratio_vol = self.V_ag / max(self.V_bg, 1e-6)
 
             # Shift AG/BG allocation depending on mismatch between current ratio and resource ratio
-            self.adjustment = 0.5 - self.ratio_ag
+            self.adjustment = 0.5 - self.ratio_ag_bg
 
             if ratio_vol > 2.5 and self.adjustment < 0:
                 pass  # AG volume too high → reduce AG growth
@@ -257,7 +253,7 @@ class Saltmarsh(PlantModel):
                 self.adjustment = 0  # prevent maladaptive adjustment
 
             # Compute AG/BG allocation weight
-            self.w_ratio_ag_bg = self.parameter['w_b_a'] * (1 - self.adjustment)
+            self.w_ratio_ag_bg = self.parameter['p_ratio_ag_bg'] * (1 - self.adjustment)
 
             # Split net growth based on calculated ratio
             V_ag_incr = self.grow * (1 - self.w_ratio_ag_bg)
@@ -270,12 +266,30 @@ class Saltmarsh(PlantModel):
         self.V_ag += V_ag_incr
         self.V_bg += V_bg_incr
 
-        # Recalculate plant geometry (cylinder geometry → invert volume formula)
+        # Recalculate plant geometry
 
         self.V_ag = max(self.V_ag, 0.0)
         self.V_bg = max(self.V_bg, 0.0)
 
-        self.h_ag = (self.V_ag / (np.pi * self.parameter['w_ag'] ** 2)) ** (1 / 3)
-        self.r_ag = self.parameter['w_ag'] * self.h_ag
-        self.h_bg = (self.V_bg / (np.pi * self.parameter['w_bg'] ** 2)) ** (1 / 3)
-        self.r_bg = self.parameter['w_bg'] * self.h_bg
+        self.h_ag = (self.V_ag / (np.pi * self.parameter['p_ratio_ag'] ** 2)) ** (1 / 3)
+        self.r_ag = self.parameter['p_ratio_ag'] * self.h_ag
+        self.h_bg = (self.V_bg / (np.pi * self.parameter['p_ratio_bg'] ** 2)) ** (1 / 3)
+        self.r_bg = self.parameter['p_ratio_bg'] * self.h_bg
+
+    def waterUptake(self):
+        """
+        Calculate transpiration (soil water uptake)
+
+        Sets:
+            self.transpiration
+        """
+        self.transpiration = self.volume * self.parameter['p_transpiration']
+
+    def getTranspiration(self):
+        """
+        Get transpiration (soil water uptake)
+
+        Returns:
+            Transpiration
+        """
+        return self.transpiration

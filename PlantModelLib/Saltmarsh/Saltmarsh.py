@@ -116,7 +116,7 @@ class Saltmarsh(PlantModel):
             "f_reslim_bg": self.f_reslim_bg,  #     [-]
             "res_ag": self.res_ag,  #               [J]
             "res_bg": self.res_bg,  #               [J]
-            "res_available": self.res_available,  # [J]
+            "res_eff": self.res_eff,  # [J]
             "grow": self.grow,  #                   [m³]
             "maint": self.maint,  #                 [m³]
             "volume": self.volume,  #               [m³]
@@ -207,11 +207,11 @@ class Saltmarsh(PlantModel):
         baseline resource consumption.
 
         Sets:
-            self.res_available (float)
+            self.res_eff (float)
             self.grow (float): Net available resource units for growth.
         """
-        self.res_available = min(self.res_ag, self.res_bg)  # [J] = min([J], [J])
-        self.grow_pot = self.res_available * self.parameter["p_growth"]  # \
+        self.res_eff = min(self.res_ag, self.res_bg)  # [J] = min([J], [J])
+        self.grow_pot = self.res_eff * self.parameter["p_grow"]  # \
         # [m³] = [J] * [m³ / J]
         self.grow = self.grow_pot - self.maint  # [m³] = [m³] - [m³]
         if self.grow < 0:
@@ -228,7 +228,7 @@ class Saltmarsh(PlantModel):
         Sets:
             self.r_ag, self.h_ag, self.r_bg, self.h_bg
             self.V_ag, self.V_bg
-            self.ratio_ag, self.adjustment, self.w_ratio_ag_bg
+            self.ratio_ag, self.f_ad, self.w_ratio_ag_bg
         """
         ag = self.f_reslim_ag  # [-]
         bg = self.f_reslim_bg  # [-]
@@ -241,19 +241,19 @@ class Saltmarsh(PlantModel):
             ratio_vol = self.V_ag / max(self.V_bg, 1e-6)
 
             # Shift AG/BG allocation depending on mismatch between current ratio and resource ratio
-            self.adjustment = 0.5 - self.ratio_ag_bg
+            self.f_ad = 0.5 - self.ratio_ag_bg
 
-            if ratio_vol > 2.5 and self.adjustment < 0:
+            if ratio_vol > 2.5 and self.f_ad < 0:
                 pass  # AG volume too high → reduce AG growth
-            elif ratio_vol < 0.15 and self.adjustment > 0:
+            elif ratio_vol < 0.15 and self.f_ad > 0:
                 pass  # BG volume too high → reduce BG growth
             elif 0.15 <= ratio_vol <= 2.5:
                 pass  # within target zone
             else:
-                self.adjustment = 0  # prevent maladaptive adjustment
+                self.f_ad = 0  # prevent maladaptive adjustment
 
             # Compute AG/BG allocation weight
-            self.w_ratio_ag_bg = self.parameter['p_ratio_ag_bg'] * (1 - self.adjustment)
+            self.w_ratio_ag_bg = self.parameter['p_ratio_ag_bg'] * (1 - self.f_ad)
 
             # Split net growth based on calculated ratio
             V_ag_incr = self.grow * (1 - self.w_ratio_ag_bg)

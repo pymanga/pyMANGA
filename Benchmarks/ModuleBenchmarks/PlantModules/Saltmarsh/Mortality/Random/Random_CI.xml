@@ -40,7 +40,7 @@
         <type> OneTimestepOneFile </type>
         <output_times> [864000] </output_times>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/TestOutputs/</output_dir>
+        <output_dir>Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/Mortality/Random/ReferenceFiles/Random_CI</output_dir>
         <geometry_output> r_ag </geometry_output>
         <geometry_output> h_ag </geometry_output>
         <geometry_output> r_bg </geometry_output>

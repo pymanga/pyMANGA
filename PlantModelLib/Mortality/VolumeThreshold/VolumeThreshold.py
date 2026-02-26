@@ -18,9 +18,6 @@ class VolumeThreshold(NoGrowth):
 
     def __init__(self, args):
         """
-        Constructor – required to match the interface, but no input
-        parameters are read from XML in this concept.
-
         Args:
             args (lxml.etree._Element): XML tag for mortalityConcept (unused)
         """
@@ -35,7 +32,6 @@ class VolumeThreshold(NoGrowth):
 
         Args:
             plant_module (PlantModel): Active plant model (e.g. Saltmarsh)
-            plant (Plant): The plant instance
         """
 
         self.survive = 1

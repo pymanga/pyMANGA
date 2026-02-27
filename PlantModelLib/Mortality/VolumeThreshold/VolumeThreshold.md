@@ -1,7 +1,7 @@
 # Description
 
 This module determines whether a plant is dying or not based on the individual plant's geometry. 
-If (i) the current biovolume falls below the initial biovolume, or (ii) the aboveground radius becomes smaller than the initial aboveground radius, or (iii) the belowground radius becomes smaller than the initial belowground radius, the plant dies.
+If (i) the current biovolume falls below a threshold biovolume, or (ii) the aboveground radius becomes smaller than the threshold aboveground radius, or (iii) the belowground radius becomes smaller than the threshold belowground radius, the plant dies.
 
 In this concept, plant mortality is intrinsic and is dependent on plant growth.
 This mortality concept includes no stochasticity.
@@ -35,10 +35,7 @@ If True, the plant survives, if False the plant dies.
 # Details
 ## Purpose
 
-Plant mortality depends on relative growth over a defined period.
-Growth is based on the growth variable of the selected plant module.
-
-If (i) the current biovolume falls below the initial biovolume, or (ii) the aboveground radius becomes smaller than the initial aboveground radius, or (iii) the belowground radius becomes smaller than the initial belowground radius, the plant dies.
+If (i) the current biovolume falls below the threshold biovolume, or (ii) the aboveground radius becomes smaller than the threshold aboveground radius, or (iii) the belowground radius becomes smaller than the threshold belowground radius, the plant dies.
 
 
 ## Process overview
@@ -78,7 +75,6 @@ Jonas Vollhüter
 <population>
     <group>
         <name> Initial </name>
-        <species> Avicennia </species>
         <vegetation_model_type> Saltmarsh </vegetation_model_type>
         <mortality> Memory </mortality>
         <distribution>

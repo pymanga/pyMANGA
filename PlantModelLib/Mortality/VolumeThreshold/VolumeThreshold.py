@@ -13,7 +13,7 @@ class VolumeThreshold(NoGrowth):
     - total volume (volume)
 
     These thresholds are specified per species in the species file
-    (geometry["*_ic"]).
+    (geometry["*_thr"]).
     """
 
     def __init__(self, args):
@@ -37,9 +37,9 @@ class VolumeThreshold(NoGrowth):
         self.survive = 1
 
         # Thresholds (species-specific, from species file)
-        r_ag_ic = plant_module.r_ag_ic
-        r_bg_ic = plant_module.r_bg_ic
-        volume_ic = plant_module.volume_ic
+        r_ag_thr = plant_module.r_ag_thr
+        r_bg_thr = plant_module.r_bg_thr
+        volume_thr = plant_module.volume_thr
 
         # Current state from model
         r_ag = plant_module.r_ag
@@ -48,9 +48,9 @@ class VolumeThreshold(NoGrowth):
 
         # Survival condition
         if not (
-            r_ag >= r_ag_ic and
-            r_bg >= r_bg_ic and
-            volume >= volume_ic
+            r_ag >= r_ag_thr and
+            r_bg >= r_bg_thr and
+            volume >= volume_thr
         ):
             self.survive = 0  # Plant dies
 

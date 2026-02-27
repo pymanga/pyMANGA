@@ -49,96 +49,156 @@ Each cylinder is described by:
 
 From this, volumes are computed:
 
-* $V_{ag}$ = $\pi \cdot r_{ag}^2 \cdot h_{ag}$
-* $V_{bg}$ = $\pi \cdot r_{bg}^2 \cdot h_{bg}$
-* Total volume: $V_{bio} = V_{ag} + V_{bg}$
+* Above-ground volume: $V_{ag}$ = $\pi \cdot r_{ag}^2 \cdot h_{ag}$
+* Below-ground volume: $V_{bg}$ = $\pi \cdot r_{bg}^2 \cdot h_{bg}$
+* Total volume: $V_{total} = V_{ag} + V_{bg}$
 
 ## Process overview
 
-The following sub-procedures are called by the module:
-
-- ``plantVolume``: Calculates the biovolume of the plant
-  - Set plant variable volume
-- ``plantMaintenance``: Calculates the maintenance of the plant
-  - Set plant variable maint, volume_ag, volume_bg, r_volume_ag_bg
-- ``growthResources``: Calculates the resources available to the plant and the total plant growth
-  - Set plant variable available_resources and grow
-- ``plantGrowthWeights``: Calculates the growth weights of the plant
-  - Set plant variable w_r_ag, w_h_ag, w_r_bg, w_h_bg
-- ``plantGrowth``: Calculates the growth of the different geometries of the plant
-  - Set plant variable inc_r_ag, inc_h_ag, inc_r_bg, inc_h_bg
+- ``plantVolume``: calculates $V_{ag}$, $V_{bg}$, and $V_{total}$
+- ``plantMaintenance``: computes maintenance costs $maint$
+- ``agResources``: computes available aboveground resources $res_ag$
+- ``bgResources``: computes available belowground resources $res_bg$
+- ``growthResources``: computes effective resources $res_eff$ and net growth $grow$
+- ``plantGrowth``: allocates net growth to $V_{ag}$ and $V_{bg}$ and updates geometries ($r$, $h$)
+- ``plantVolume`` (again): recalculates volumes after geometry update
+- ``waterUptake``: computes transpiration
 
 ## Sub-processes
 
-- The resources available to the plant (res_tot) are calculated from the minimum of the two resources (res_bg and res_ag).
-$$
-res_{tot} = \min(res_{bg}, res_{ag})
-$$
-- The plant can use only a part of this resources for growth.
-First they have to use a part of the resources for maintenance (maint):
-$$
-maint = \left( V_{bio} \cdot f_{maint} \right) \cdot \Delta t
-$$
-- In this module, a plant is described by two cylinders, one above-ground (ag) and one below-ground (bg).
-These cylinders have two parameters each, i.e., height (h) and radius (r).
-With this four parameters (h_ag, r_ag, h_bg, r_bg) the biovolume is calculated with the following equation:
-$$
-V_{bio} = \pi \cdot r_{ag}^2 \cdot h_{ag} + \pi \cdot r_{bg}^2 \cdot h_{bg}
-$$
-- Maintenance (maint) now can be used to calculate the part of the resources (res) that leads to an increase or decrease in biomass:
-$$
-res = res_{tot} - maint
-$$
-- Together with the species-specific growth factor (f_growth), the total growth (grow) in the corresponding time step ($\Delta t$), can be calculated:
-$$
-growth = res \cdot f_{growth} \cdot \Delta t
-$$
-- If net growth G is positive, it is allocated to the above- and belowground compartment depending on which one is more limiting and thus needs more investment. To account for this, the ratio of available aboveground and belowground resources is computed and normalized to a range between −0.5 and 0.5. This yields the temporary adjustment factor Ad​, defined as:
-$$
-Ad = 0.5 - \left( \frac{res_{bg}}{res_{bg} + res_{ag}}\right)
-$$
-The standardization results to:
-$$
-f_{res_{bg/ag}} \in \[ -0.5,\ 0.5\]
-$$
-The allocation weight for the aboveground compartment $w_ag$ is dynamically updated based on a baseline value $w_{ag_{base}}$ (standard allocation factor under equilibrium conditions between aboveground and belowground resources) and the adjustment factor $Ad$:
+### Aboveground resources
+
+Available aboveground resources depend on the aboveground limitation factor ($f_{reslim,ag} \in (0,1)$) , plant aboveground radius ($r_{ag}$), solar radiation ($p_{sun}$), and the timestep length ($\Delta t$):
 
 $$
-w_{bg} = w_{bg_{base}} \cdot (1 - Ad)
+res_{ag} = f_{reslim,ag} \cdot \pi \cdot r_{ag}^{2} \cdot p_{sun} \cdot \Delta t
 $$
 
-This formulation ensures that when aboveground resources are more limited than belowground resources (i.e., $Ad > 0$), the plant allocates more resources to the aboveground compartment and vice versa.
+### Belowground resources
 
-Actual growth increment for each compartment is then:
-
-$$
-\Delta V_{bg} = growth \cdot w_{bg}\ and\ \Delta V_{ag} = growth \cdot w_{ag}
-$$
-
-In case of negative net growth G (maintenance greater than available resources), the model symmetrically reduces biovolume of both compartments:
+Available belowground resources depend on the belowground limitation factor ($f_{reslim,bg} \in (0,1)$), plant geometry ($r_{bg}, h_{bg}, h_{ag}$), solar radiation ($p_{sun}$), hydraulic conductivity ($p_{water}$) and timestep length ($\Delta t$):
 
 $$
-\Delta V_{bg} = \Delta V_{ag} = \frac{growth}{2}
+res_{bg} = f_{reslim,bg} \cdot \pi \cdot r_{bg}^{2} \cdot h_{bg} \cdot p_{sun} \cdot p_{water}
+\cdot \left( h_{ag} + 0.5 \cdot h_{bg} \right)^{-1} \cdot \Delta t
 $$
 
-Volumes are subsequently updated as:
+### Maintenance costs
+
+Maintenance costs ($maint$) are proportional to total biovolume ($V_{total}$) and scaled by the species-specific maintenance factor ($p_{maint}$):
 
 $$
-V_{bg,t-1} = V_{bg,t} + \Delta V_{bg}
+maint = V_{total} \cdot p_{maint} \cdot \Delta t
 $$
 
-The plant geometries are recalculated by solving for height h and radius r under the assumption of fixed shape ratios of the cylinders. The new height and radius of each component are derived as:
+### Effective resources and net growth
+
+The resources effectively available to the plant $res_{eff}$ are given by the minimum of the aboveground and belowground resources ($res_{ag}$ and $res_{bg}$):
 
 $$
-h_{ag} = \left( \frac{V_{ag}}{\left( \pi \cdot w_{ag}^{2} \right)} \right)^{2/3}\ and\ \left( \frac{V_{bg}}{\left( \pi \cdot w_{bg}^{2} \right)} \right)^{2/3}
+res_{eff} = \min(res_{ag},\ res_{bg})
 $$
 
+Potential growth ($grow_{pot}$) is obtained using the species-specific growth factor ($p_{grow}$):
+
 $$
-r_{ag} = w_{ag} \cdot h_{ag}\ and\ r_{bg} = w_{bg} \cdot h_{bg}
+grow_{pot} = res_{eff} \cdot p_{grow}
 $$
 
+Subtracting maintenance costs ($maint$) from potential growth ($grow_{pot}$) yields the net growth or shrinkage ($grow$):
 
+$$
+grow = grow_{pot} - maint
+$$
 
+If grow is negative, the plant shrinks. In this case, it is additionally multiplied by the species- or PFT-specific dieback factor ($p_{dieback}$):
+
+$$
+grow = grow \cdot p_{dieback} \quad \text{if} \ grow < 0
+$$
+
+### AG/BG allocation and biovolume update if $grow > 0$
+
+Net growth is allocated dynamically adjusted based on the relative limitation of AG vs BG.
+
+The resource limitation ratio $ratio_{ag,bg}$ is computed from the limitation factors ($f_{reslim,ag}$ and $f_{reslim,bg}$):
+
+$$
+ratio_{ag,bg} = \frac{f_{reslim,ag}}{f_{reslim,ag} + f_{reslim,bg}}
+$$
+
+Since $f_{\mathrm{reslim},ag} \in (0,1)$ and $f_{\mathrm{reslim},bg} \in (0,1)$, it follows that $ratio_{ag,bg} \in (0,1)$.
+
+A temporary adjustment factor ($Ad$) is defined as:
+
+$$
+f_{ad} = 0.5 - ratio_{ag,bg}
+$$
+
+Thus:
+
+$$
+f_{ad} \in (-0.5,\ 0.5)
+$$
+
+The allocation weight ($w_{ratio_{ag,bg}}$) is then obtained by multiplying the species-specific baseline allocation parameter $p_{ratio_{ag,bg}}$ by the adjustment factor $f_{ad}$ :
+
+$$
+w_{ratio_{ag,bg}} = p_{ratio_{ag,bg}} \cdot (1 - f_{ad})
+$$
+
+Net growth is then split as:
+
+$$
+\Delta V_{bg} = grow \cdot w_{ratio_{ag,bg}}
+\qquad \text{and} \qquad
+\Delta V_{ag} = grow \cdot (1 - w_{ratio_{ag,bg}})
+$$
+
+### AG/BG allocation and biovolume update if $grow \le 0$
+
+The model symmetrically reduces AG and BG biovolume:
+
+$$
+\Delta V_{ag} = \Delta V_{bg} = \frac{grow}{2}
+$$
+
+### Volume update and geometry recalculation
+
+$$
+V_{ag} = V_{ag} + \Delta V_{ag}
+\qquad \text{and} \qquad
+V_{bg} = V_{bg} + \Delta V_{bg}
+$$
+
+Plant geometry is recalculated from updated compartment volumes with species specific shape parameters ($p_{ratio\_ag}$ and $p_{ratio\_bg}$) that define the ratio of radius to height for AG and BG cylinders, respectively:
+
+- $r_{ag} = p_{ratio\_{ag}} \cdot h_{ag}$
+- $r_{bg} = p_{ratio\_{bg}} \cdot h_{bg}$
+
+With these fixed ratios, height is derived from cylinder volume:
+
+$$
+h_{ag} = \left( \frac{V_{ag}}{\pi \cdot p_{ratio\_ag}^{2}} \right)^{1/3}
+\qquad \text{and} \qquad
+h_{bg} = \left( \frac{V_{bg}}{\pi \cdot p_{ratio\_bg}^{2}} \right)^{1/3}
+$$
+
+Radii follow directly:
+
+$$
+r_{ag} = p_{ratio\_{ag}} \cdot h_{ag}
+\qquad \text{and} \qquad
+r_{bg} = p_{ratio\_{bg}} \cdot h_{bg}
+$$
+
+### Water uptake / transpiration
+
+Transpiration is computed proportional to total plant volume, species-specific transpiration factor ($p_{transpiration}$) and timestep length ($\Delta t$):
+
+$$
+transpiration = V_{total} \cdot p_{transpiration} \cdot \Delta t
+$$
 
 ## Application & Restriction
 

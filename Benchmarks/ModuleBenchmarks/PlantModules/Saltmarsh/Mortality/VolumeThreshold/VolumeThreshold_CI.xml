@@ -13,7 +13,7 @@
             <name> Initial </name>
             <species> Saltmarsh </species>
             <vegetation_model_type> Saltmarsh </vegetation_model_type>
-            <mortality> NoGrowth </mortality>
+            <mortality> VolumeThreshold </mortality>
             <distribution>
                 <type> FromFile </type>
                 <domain>
@@ -30,17 +30,17 @@
     <time_loop>
         <type> Simple </type>
         <t_start> 0 </t_start>
-        <t_end> 8640000 </t_end>
+        <t_end> 864000 </t_end>
         <delta_t> 86400 </delta_t>
     </time_loop>
     <visualization>
         <type> NONE </type>
     </visualization>
     <output>
-         <type> OneTimestepOneFile </type>
-		<output_times> [864000, 8640000] </output_times>
+        <type> OneTimestepOneFile </type>
+        <output_times> [864000] </output_times>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/TestOutputs/</output_dir>
+        <output_dir>Benchmarks/TestOutputs</output_dir>
         <geometry_output> r_ag </geometry_output>
         <geometry_output> h_ag </geometry_output>
         <geometry_output> r_bg </geometry_output>
@@ -48,5 +48,6 @@
         <growth_output> grow </growth_output>
         <growth_output> f_reslim_ag </growth_output>
         <growth_output> f_reslim_bg </growth_output>
+        <growth_output> salinity </growth_output>
     </output>
 </MangaProject>

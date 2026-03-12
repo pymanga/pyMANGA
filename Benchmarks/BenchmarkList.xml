@@ -143,6 +143,9 @@
                     <Random>
                         <test> Random_CI.xml </test>
                     </Random>
+                    <VolumeThreshold>
+                        <test> VolumeThreshold_CI.xml </test>
+                    </VolumeThreshold>
                 </Mortality>
             </Saltmarsh>
         </PlantModules>

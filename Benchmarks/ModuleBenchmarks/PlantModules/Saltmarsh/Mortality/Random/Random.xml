@@ -46,8 +46,8 @@
         <geometry_output> h_ag </geometry_output>
         <geometry_output> r_bg </geometry_output>
         <geometry_output> h_bg </geometry_output>
-        <growth_output> growth </growth_output>
-        <growth_output> ag_factor </growth_output>
-        <growth_output> bg_factor </growth_output>
+        <growth_output> grow </growth_output>
+        <growth_output> f_reslim_ag </growth_output>
+        <growth_output> f_reslim_bg </growth_output>
     </output>
 </MangaProject>

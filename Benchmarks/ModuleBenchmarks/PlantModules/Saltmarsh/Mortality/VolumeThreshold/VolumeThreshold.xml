@@ -13,7 +13,8 @@
             <name> Initial </name>
             <species> Saltmarsh </species>
             <vegetation_model_type> Saltmarsh </vegetation_model_type>
-            <mortality> NoGrowth </mortality>
+            <mortality>VolumeThreshold</mortality>
+            <probability>0.25 </probability>
             <distribution>
                 <type> FromFile </type>
                 <domain>
@@ -40,7 +41,7 @@
          <type> OneTimestepOneFile </type>
 		<output_times> [864000, 8640000] </output_times>
         <allow_previous_output>True</allow_previous_output>
-        <output_dir>Benchmarks/TestOutputs/</output_dir>
+        <output_dir>Benchmarks/TestOutputs</output_dir>
         <geometry_output> r_ag </geometry_output>
         <geometry_output> h_ag </geometry_output>
         <geometry_output> r_bg </geometry_output>

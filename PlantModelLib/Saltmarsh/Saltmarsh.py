@@ -56,10 +56,13 @@ class Saltmarsh(PlantModel):
         self.parameter = plant.getParameter()
 
         # Current geometry values
-        self.r_ag = geometry["r_ag"]  # [m]
-        self.h_ag = geometry["h_ag"]  # [m]
-        self.r_bg = geometry["r_bg"]  # [m]
-        self.h_bg = geometry["h_bg"]  # [m]
+        self.r_ag = geometry["r_ag"]              # [m]
+        self.h_ag = geometry["h_ag"]              # [m]
+        self.r_bg = geometry["r_bg"]              # [m]
+        self.h_bg = geometry["h_bg"]              # [m]
+        self.r_ag_thr = geometry["r_ag_thr"]      # [m]
+        self.r_bg_thr = geometry["r_bg_thr"]      # [m]
+        self.volume_thr = geometry["volume_thr"]  # [m^3]
 
         self.survive = 1
         self.f_reslim_ag = aboveground_factor  # [-]

@@ -25,8 +25,14 @@ class Saltmarsh(PlantModel):
         to track structural changes (delta h, delta r) in AG and BG biovolume.
 
         Uses:
-            t_ini (float): Start time of timestep [s]
-            t_end (float): End time of timestep [s]
+            self.t_ini (float): Start time of timestep [s]
+            self.t_end (float): End time of timestep [s]
+        Sets:
+            self.time (float): Length of the current timestep [s]
+            self.w_h_bg (float): Growth weight for BG height [-]
+            self.w_r_bg (float): Growth weight for BG radius [-]
+            self.w_h_ag (float): Growth weight for AG height [-]
+            self.w_r_ag (float): Growth weight for AG radius [-]
         """
         self.time = t_end - t_ini  # [s] = [s] - [s]
 
@@ -106,7 +112,7 @@ class Saltmarsh(PlantModel):
             "f_reslim_bg": self.f_reslim_bg,  #     [-]
             "res_ag": self.res_ag,  #               [J]
             "res_bg": self.res_bg,  #               [J]
-            "res_eff": self.res_eff,   #            [J]
+            "res_eff": self.res_eff,  #             [J]
             "grow": self.grow,  #                   [m³]
             "maint": self.maint,  #                 [m³]
             "volume": self.volume,  #               [m³]

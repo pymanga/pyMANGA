@@ -1,7 +1,7 @@
 # Description
 
 This module determines whether a plant is dying or not based on the individual plant's geometry. 
-If (i) the current biovolume falls below a threshold biovolume, or (ii) the aboveground radius becomes smaller than the threshold aboveground radius, or (iii) the belowground radius becomes smaller than the threshold belowground radius, the plant dies.
+If (i) the current biovolume falls below a threshold biovolume, or (ii) the above-ground radius becomes smaller than the threshold above-ground radius, or (iii) the below-ground radius becomes smaller than the threshold below-ground radius, the plant dies.
 
 In this concept, plant mortality is intrinsic and is dependent on plant growth.
 This mortality concept includes no stochasticity.
@@ -35,7 +35,7 @@ If True, the plant survives, if False the plant dies.
 # Details
 ## Purpose
 
-If (i) the current biovolume falls below the threshold biovolume, or (ii) the aboveground radius becomes smaller than the threshold aboveground radius, or (iii) the belowground radius becomes smaller than the threshold belowground radius, the plant dies.
+If (i) the current biovolume falls below the threshold biovolume, or (ii) the above-ground radius becomes smaller than the threshold above-ground radius, or (iii) the below-ground radius becomes smaller than the threshold below-ground radius, the plant dies.
 
 
 ## Process overview

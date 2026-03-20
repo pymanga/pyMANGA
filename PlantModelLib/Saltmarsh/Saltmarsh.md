@@ -1,6 +1,6 @@
 # Description
 
-This module calculates the growth (production of biovolume) of saltmarsh plants.
+This module calculates the growth (production of biovolume) of saltmarsh plants, e.g., grasses, shrubs and herbs.
 The growth is calculated using a simple model based on resource limitation and competition.
 
 # Usage
@@ -57,8 +57,8 @@ From this, volumes are computed:
 
 - ``plantVolume``: calculates $V_{ag}$, $V_{bg}$, and $V_{total}$
 - ``plantMaintenance``: computes maintenance costs $maint$
-- ``agResources``: computes available aboveground resources $res_ag$
-- ``bgResources``: computes available belowground resources $res_bg$
+- ``agResources``: computes available above-ground resources $res_ag$
+- ``bgResources``: computes available below-ground resources $res_bg$
 - ``growthResources``: computes effective resources $res_eff$ and net growth $grow$
 - ``plantGrowth``: allocates net growth to $V_{ag}$ and $V_{bg}$ and updates geometries ($r$, $h$)
 - ``plantVolume`` (again): recalculates volumes after geometry update
@@ -66,17 +66,17 @@ From this, volumes are computed:
 
 ## Sub-processes
 
-### Aboveground resources
+### above-ground resources
 
-Available aboveground resources depend on the aboveground limitation factor ($f_{reslim,ag} \in (0,1)$) , plant aboveground radius ($r_{ag}$), solar radiation ($p_{sun}$), and the timestep length ($\Delta t$):
+Available above-ground resources depend on the above-ground limitation factor ($f_{reslim,ag} \in (0,1)$) , plant above-ground radius ($r_{ag}$), solar radiation ($p_{sun}$), and the timestep length ($\Delta t$):
 
 $$
 res_{ag} = f_{reslim,ag} \cdot \pi \cdot r_{ag}^{2} \cdot p_{sun} \cdot \Delta t
 $$
 
-### Belowground resources
+### below-ground resources
 
-Available belowground resources depend on the belowground limitation factor ($f_{reslim,bg} \in (0,1)$), plant geometry ($r_{bg}, h_{bg}, h_{ag}$), solar radiation ($p_{sun}$), hydraulic conductivity ($p_{water}$) and timestep length ($\Delta t$):
+Available below-ground resources depend on the below-ground limitation factor ($f_{reslim,bg} \in (0,1)$), plant geometry ($r_{bg}, h_{bg}, h_{ag}$), solar radiation ($p_{sun}$), hydraulic conductivity ($p_{water}$) and timestep length ($\Delta t$):
 
 $$
 res_{bg} = f_{reslim,bg} \cdot \pi \cdot r_{bg}^{2} \cdot h_{bg} \cdot p_{sun} \cdot p_{water}
@@ -93,7 +93,7 @@ $$
 
 ### Effective resources and net growth
 
-The resources effectively available to the plant $res_{eff}$ are given by the minimum of the aboveground and belowground resources ($res_{ag}$ and $res_{bg}$):
+The resources effectively available to the plant $res_{eff}$ are given by the minimum of the above-ground and below-ground resources ($res_{ag}$ and $res_{bg}$):
 
 $$
 res_{eff} = \min(res_{ag},\ res_{bg})

@@ -14,7 +14,6 @@
             <species> Saltmarsh </species>
             <vegetation_model_type> Saltmarsh </vegetation_model_type>
             <mortality>VolumeThreshold</mortality>
-            <probability>0.25 </probability>
             <distribution>
                 <type> FromFile </type>
                 <domain>

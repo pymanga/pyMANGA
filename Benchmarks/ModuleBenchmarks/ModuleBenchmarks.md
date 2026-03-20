@@ -50,7 +50,18 @@ Output is written after the first and last time step. The first output is used f
 
 ### Type: marsh plant
 
-*coming soon*
+The plants are placed in a 2 × 2 m model domain.
+The initial population is designed such that the respective plant geometry and spacing trigger a potentially critical situation of the concept to be tested.
+For example, in the aboveground benchmark the plants are positioned such that their zones of influence overlap, while in the belowground benchmarks the setup is chosen to induce either root overlap or salinity limitation, depending on the module.
+Thus, a specific initial population is defined for each compartment and benchmark case.
+Each initial population is stored in Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/<compartment>/<module>/.
+
+The random seed for all setups is 643879.
+
+The time step length is 86400 seconds (1 day).
+For the standard benchmark runs, the simulation time is 8640000 seconds (100 days), and output is written after the first and last output time step.
+For the CI benchmarks, the simulation time is 864000 seconds (10 days), and output is written after the first output time step only.
+The first output is used for automatic testing.
 
 ## Disturbance modules
 

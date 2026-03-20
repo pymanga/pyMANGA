@@ -51,5 +51,6 @@
         <growth_output> grow </growth_output>
         <growth_output> f_reslim_ag </growth_output>
         <growth_output> f_reslim_bg </growth_output>
+        <growth_output> salinity </growth_output>
     </output>
 </MangaProject>

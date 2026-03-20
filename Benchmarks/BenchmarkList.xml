@@ -147,6 +147,9 @@
                         <test> VolumeThreshold_CI.xml </test>
                     </VolumeThreshold>
                 </Mortality>
+                <Default>
+                    <test> Default_CI.xml </test>
+                </Default>
             </Saltmarsh>
         </PlantModules>
         <OutputModules>

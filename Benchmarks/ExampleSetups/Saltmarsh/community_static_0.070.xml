@@ -115,7 +115,7 @@
     <time_loop>
         <type>Simple</type>
         <t_start>0</t_start>
-        <t_end>3.154e+8</t_end>
+        <t_end>315400000.0</t_end>
         <delta_t>86400</delta_t>
         <terminal_print>days</terminal_print>
     </time_loop>
@@ -126,16 +126,17 @@
         <type>OneFile</type>
         <output_time_range>[1.577e+8, 3.154e+8]</output_time_range>
         <allow_previous_output>True</allow_previous_output>
-        <output_each_nth_timestep>[0, 10]</output_each_nth_timestep>
+        <output_each_nth_timestep>[0,10]</output_each_nth_timestep>
         <output_dir>Benchmarks/TestOutputs</output_dir>
         <geometry_output>r_ag</geometry_output>
         <geometry_output>h_ag</geometry_output>
         <geometry_output>r_bg</geometry_output>
         <geometry_output>h_bg</geometry_output>
-        <growth_output>growth</growth_output>
+        <growth_output>f_reslim_ag</growth_output>
+        <growth_output>f_reslim_bg</growth_output>
+        <growth_output>grow</growth_output>
         <growth_output>maint</growth_output>
-        <growth_output>ag_factor</growth_output>
-        <growth_output>bg_factor</growth_output>
         <growth_output>age</growth_output>
+        <growth_output>salinity</growth_output>
     </output>
 </MangaProject>

@@ -23,7 +23,7 @@ See the Plant Growth (`pyMANGA.PlantModelLib`) and Population (`pyMANGA.Populati
 
 # Attributes
 
-- ``type`` (string): "Random" (no other values accepted)
+- ``type`` (string): "VolumeThreshold" (no other values accepted)
 
 # Value
 
@@ -43,11 +43,11 @@ If (i) the current biovolume falls below the threshold biovolume, or (ii) the ab
 - Greater than comparison for
   - r_ag
   - r_bg
-  - V_tot
+  - volume
 ```
-r_ag > r_ag_ini
-r_bg > r_bg_ini
-V_total > V_total_ini
+r_ag > r_ag_thr
+r_bg > r_bg_thr
+V_total > V_total_thr
 ```
 
 
@@ -76,7 +76,7 @@ Jonas Vollhüter
     <group>
         <name> Initial </name>
         <vegetation_model_type> Saltmarsh </vegetation_model_type>
-        <mortality> Memory </mortality>
+        <mortality> VolumeThreshold </mortality>
         <distribution>
             <type> FromFile </type>
             <domain>

@@ -57,16 +57,16 @@ From this, volumes are computed:
 
 - ``plantVolume``: calculates $V_{ag}$, $V_{bg}$, and $V_{total}$
 - ``plantMaintenance``: computes maintenance costs $maint$
-- ``agResources``: computes available above-ground resources $res_ag$
-- ``bgResources``: computes available below-ground resources $res_bg$
-- ``growthResources``: computes effective resources $res_eff$ and net growth $grow$
+- ``agResources``: computes available above-ground resources $res_{ag}$
+- ``bgResources``: computes available below-ground resources $res_{bg}$
+- ``growthResources``: computes effective resources $res_{eff}$ and net growth $grow$
 - ``plantGrowth``: allocates net growth to $V_{ag}$ and $V_{bg}$ and updates geometries ($r$, $h$)
 - ``plantVolume`` (again): recalculates volumes after geometry update
 - ``waterUptake``: computes transpiration
 
 ## Sub-processes
 
-### above-ground resources
+### Above-ground resources
 
 Available above-ground resources depend on the above-ground limitation factor ($f_{reslim,ag} \in (0,1)$) , plant above-ground radius ($r_{ag}$), solar radiation ($p_{sun}$), and the timestep length ($\Delta t$):
 
@@ -74,7 +74,7 @@ $$
 res_{ag} = f_{reslim,ag} \cdot \pi \cdot r_{ag}^{2} \cdot p_{sun} \cdot \Delta t
 $$
 
-### below-ground resources
+### Below-ground resources
 
 Available below-ground resources depend on the below-ground limitation factor ($f_{reslim,bg} \in (0,1)$), plant geometry ($r_{bg}, h_{bg}, h_{ag}$), solar radiation ($p_{sun}$), hydraulic conductivity ($p_{water}$) and timestep length ($\Delta t$):
 
@@ -141,7 +141,7 @@ $$
 f_{ad} \in (-0.5,\ 0.5)
 $$
 
-The allocation weight ($w_{ratio_{ag,bg}}$) is then obtained by multiplying the species-specific baseline allocation parameter $p_{ratio_{ag,bg}}$ by the adjustment factor $f_{ad}$ :
+The allocation weight ($w_{ratio_{ag,bg}}$) is then obtained by multiplying the species-specific baseline allocation parameter $p_{ratio_{ag,bg}}$ by the adjustment factor $1 - f_{ad}$ :
 
 $$
 w_{ratio_{ag,bg}} = p_{ratio_{ag,bg}} \cdot (1 - f_{ad})

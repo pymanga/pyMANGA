@@ -36,12 +36,6 @@ class Saltmarsh(PlantModel):
         """
         self.time = t_end - t_ini  # [s] = [s] - [s]
 
-        # Reset growth weight variables
-        self.w_h_bg = 0  # [-]
-        self.w_r_bg = 0  # [-]
-        self.w_h_ag = 0  # [-]
-        self.w_r_ag = 0  # [-]
-
     def progressPlant(self, plant, aboveground_factor, belowground_factor):
         """
         Executes one time step of plant development:
@@ -116,10 +110,6 @@ class Saltmarsh(PlantModel):
             "grow": self.grow,  #                   [m³]
             "maint": self.maint,  #                 [m³]
             "volume": self.volume,  #               [m³]
-            "w_h_bg": self.w_h_bg,  #               [-]
-            "w_r_bg": self.w_r_bg,  #               [-]
-            "w_h_ag": self.w_h_ag,  #               [-]
-            "w_r_ag": self.w_r_ag,  #               [-]
         })
 
         # Calculate plant age
@@ -175,7 +165,7 @@ class Saltmarsh(PlantModel):
         Sets:
             self.maint (float): Maintenance cost [m³]
         Uses:
-            self.volume (float): Aboveground radius [m^3]
+            self.volume (float): Total plant volume [m^3]
             self.parameter["p_maint"] (float): Maintenance factor [1/s]
             self.time (float): Timestep length [s]
         """
@@ -203,7 +193,7 @@ class Saltmarsh(PlantModel):
         """
         Calculate the available belowground resources.
 
-        AG resources depend on BG resource factor, geometry of plant and parameter p_sun and p_water.
+        BG resources depend on BG resource factor, geometry of plant and parameter p_sun and p_water.
 
         Sets:
             self.res_bg (float): Available belowground resources [J]
@@ -212,7 +202,7 @@ class Saltmarsh(PlantModel):
             self.r_bg (float): Belowground radius [m]
             self.h_bg (float): Belowground height [m]
             self.h_ag (float): Aboveground height [m]
-            self.paramter["p_water"] (float): Hydraulic conductivity [-]
+            self.parameter["p_water"] (float): Water uptake efficiency parameter [-]
             self.parameter["p_sun"] (float): Solar radiation [J/(m^2*s)]
             self.time (float): Timestep length [s]
         """
@@ -257,8 +247,8 @@ class Saltmarsh(PlantModel):
             self.h_ag (float): Aboveground height [m]
             self.r_bg (float): Belowground radius [m]
             self.h_bg (float): Belowground height [m]
-            self.V_ag (float): Aboveground volume [m]
-            self.V_bg (float): Belowground volume [m]
+            self.V_ag (float): Aboveground volume [m^3]
+            self.V_bg (float): Belowground volume [m^3]
             ratio_vol (float): AG/BG volume ratio [-]
             self.ratio_ag_bg (float): Resource ratio from AG perspective [-] (0, 1)
             self.f_ad (float): Adjustment factor for AG/BG allocation [-]
@@ -277,11 +267,8 @@ class Saltmarsh(PlantModel):
             self.V_bg (float): Current belowground volume [m^3]
         """
 
-        ag = self.f_reslim_ag  # [-]
-        bg = self.f_reslim_bg  # [-]
-
         # Resource ratio from AG perspective
-        self.ratio_ag_bg = np.clip(ag / (ag + bg + 1e-22), 1e-6, 0.999999)
+        self.ratio_ag_bg = np.clip(self.f_reslim_ag / (self.f_reslim_ag + self.f_reslim_bg + 1e-22), 1e-6, 0.999999)
 
         # When growth occurs, resources are allocated appropriately between aboveground and belowground growth
         if self.grow > 0:
@@ -331,13 +318,13 @@ class Saltmarsh(PlantModel):
         Calculate transpiration (soil water uptake)
 
         Sets:
-            self.transpiration
+            self.transpiration (float): Transpiration (soil water uptake) [m^3]
         Uses:
             self.volume (float): Plant volume [m^3]
             self.parameter["p_transpiration"] (float): Transpiration factor [1/s]
             self.time (float): Timestep Length [s]
         """
-        self.transpiration = self.volume * self.parameter["p_transpiration"] * self.time  # [m^3] = [m^3] * [m^3/s] * [s]
+        self.transpiration = self.volume * self.parameter["p_transpiration"] * self.time  # [m^3] = [m^3] * [1/s] * [s]
 
     def getTranspiration(self):
         """

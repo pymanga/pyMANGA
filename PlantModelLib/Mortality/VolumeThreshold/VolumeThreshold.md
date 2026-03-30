@@ -2,6 +2,7 @@
 
 This module determines whether a plant is dying or not based on the individual plant's geometry. 
 If (i) the current biovolume falls below a threshold biovolume, or (ii) the above-ground radius becomes smaller than the threshold above-ground radius, or (iii) the below-ground radius becomes smaller than the threshold below-ground radius, the plant dies.
+All thresholds are species-specific and are defined within the relevant species file (see `pyMANGA.PopulationLib.Species.Saltmarsh`).
 
 In this concept, plant mortality is intrinsic and is dependent on plant growth.
 This mortality concept includes no stochasticity.

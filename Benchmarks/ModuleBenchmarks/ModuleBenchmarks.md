@@ -40,7 +40,7 @@ The trees are placed in the center of a 22x22m model domain with a fixed distanc
 The initialization of these trees is based on the geometry of the reference plant.
 The initial population is designed so that the respective geometry triggers a potentially critical situation of the concept.
 For example, in some underground modules this is the case when the root systems of the plants overlap. Therefore, we defined an initial population for each compartment.
-Each initial population is stored in 'Benchmarks/ModuleBenchmarks/PlantModules/< plant_module>/< compartment>/'.
+Each initial population is stored in 'Benchmarks/ModuleBenchmarks/PlantModules/"plant_module"/"compartment"/'.
 
 If landward and seaward boundary conditions must be defined in a setup, the salinity is set to 25 ppt at the landward boundary and 35 ppt at the seaward boundary.
 The random seed for all setups is 643879.
@@ -54,13 +54,13 @@ The plants are placed in a 2 × 2 m model domain.
 The initial population is designed such that the respective plant geometry and spacing trigger a potentially critical situation of the concept to be tested.
 For example, in the aboveground benchmark the plants are positioned such that their zones of influence overlap, while in the belowground benchmarks the setup is chosen to induce either root overlap or salinity limitation, depending on the module.
 Thus, a specific initial population is defined for each compartment and benchmark case.
-Each initial population is stored in Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/<compartment>/<module>/.
+Each initial population is stored in 'Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/"compartment"/"module"/'.
 
 The random seed for all setups is 643879.
 
 The time step length is 86400 seconds (1 day).
-For the standard benchmark runs, the simulation time is 8640000 seconds (100 days), and output is written after the first and last output time step.
-For the CI benchmarks, the simulation time is 864000 seconds (10 days), and output is written after the first output time step only.
+For the standard benchmark runs, the simulation time is 8640000 seconds (100 days), and output is written after the first and last time step.
+For the CI benchmarks, the simulation time is 864000 seconds (10 days), and output is written after the last time step only.
 The first output is used for automatic testing.
 
 ## Disturbance modules

@@ -56,17 +56,27 @@ From this, volumes are computed:
 ## Process overview
 
 - ``plantVolume``: calculates $V_{ag}$, $V_{bg}$, and $V_{total}$
-- ``plantMaintenance``: computes maintenance costs $maint$
 - ``agResources``: computes available above-ground resources $res_{ag}$
 - ``bgResources``: computes available below-ground resources $res_{bg}$
+- ``plantMaintenance``: computes maintenance costs $maint$
 - ``growthResources``: computes effective resources $res_{eff}$ and net growth $grow$
 - ``plantGrowth``: allocates net growth to $V_{ag}$ and $V_{bg}$ and updates geometries ($r$, $h$)
-- ``plantVolume`` (again): recalculates volumes after geometry update
 - ``waterUptake``: computes transpiration
 
 ## Sub-processes
 
-### Above-ground resources
+### Plant volume (``plantVolume``)
+
+Above-ground volume ($V_{ag}$), below-ground volume ($V_{bg}$), total volume ($V_{total}$) an the ratio between above-ground and below-ground volume are calculated from plant geometry:
+
+$$
+V_{ag} = \pi \cdot r_{ag}^{2} \cdot h_{ag}
+V_{bg} = \pi \cdot r_{bg}^{2} \cdot h_{bg}
+volume = V_{ag} + V_{bg}
+r_V_ag_bg = \frac{V_{ag}}{V_bg}}
+$$
+
+### Above-ground resources (``agResources``)
 
 Available above-ground resources depend on the above-ground limitation factor ($f_{reslim,ag} \in (0,1)$) , plant above-ground radius ($r_{ag}$), solar radiation ($p_{sun}$), and the timestep length ($\Delta t$):
 
@@ -74,16 +84,16 @@ $$
 res_{ag} = f_{reslim,ag} \cdot \pi \cdot r_{ag}^{2} \cdot p_{sun} \cdot \Delta t
 $$
 
-### Below-ground resources
+### Below-ground resources (``bgResources``)
 
-Available below-ground resources depend on the below-ground limitation factor ($f_{reslim,bg} \in (0,1)$), plant geometry ($r_{bg}, h_{bg}, h_{ag}$), solar radiation ($p_{sun}$), hydraulic conductivity ($p_{water}$) and timestep length ($\Delta t$):
+Available below-ground resources depend on the below-ground limitation factor ($f_{reslim,bg} \in (0,1)$), plant geometry ($r_{bg}, h_{bg}, h_{ag}$), solar radiation ($p_{sun}$), water uptake efficiency parameter ($p_{water}$) and timestep length ($\Delta t$):
 
 $$
 res_{bg} = f_{reslim,bg} \cdot \pi \cdot r_{bg}^{2} \cdot h_{bg} \cdot p_{sun} \cdot p_{water}
 \cdot \left( h_{ag} + 0.5 \cdot h_{bg} \right)^{-1} \cdot \Delta t
 $$
 
-### Maintenance costs
+### Maintenance costs (``plantMaintenance``)
 
 Maintenance costs ($maint$) are proportional to total biovolume ($V_{total}$) and scaled by the species-specific maintenance factor ($p_{maint}$):
 
@@ -91,7 +101,7 @@ $$
 maint = V_{total} \cdot p_{maint} \cdot \Delta t
 $$
 
-### Effective resources and net growth
+### Effective resources and net growth (``growthResources``)
 
 The resources effectively available to the plant $res_{eff}$ are given by the minimum of the above-ground and below-ground resources ($res_{ag}$ and $res_{bg}$):
 
@@ -117,7 +127,9 @@ $$
 grow = grow \cdot p_{dieback} \quad \text{if} \ grow < 0
 $$
 
-### AG/BG allocation and biovolume update if $grow > 0$
+### AG/BG allocation and biovolume update (``plantGrowth``)
+
+#### if $grow > 0$
 
 Net growth is allocated dynamically adjusted based on the relative limitation of AG vs BG.
 
@@ -155,7 +167,7 @@ $$
 \Delta V_{ag} = grow \cdot (1 - w_{ratio_{ag,bg}})
 $$
 
-### AG/BG allocation and biovolume update if $grow \le 0$
+#### if $grow \le 0$
 
 The model symmetrically reduces AG and BG biovolume:
 
@@ -163,7 +175,7 @@ $$
 \Delta V_{ag} = \Delta V_{bg} = \frac{grow}{2}
 $$
 
-### Volume update and geometry recalculation
+### Volume update and geometry recalculation (``plantGrowth``)
 
 $$
 V_{ag} = V_{ag} + \Delta V_{ag}
@@ -192,7 +204,7 @@ r_{ag} = p_{ratio\_{ag}} \cdot h_{ag}
 r_{bg} = p_{ratio\_{bg}} \cdot h_{bg}
 $$
 
-### Water uptake / transpiration
+### Water uptake / transpiration (``waterUptake``)
 
 Transpiration is computed proportional to total plant volume, species-specific transpiration factor ($p_{transpiration}$) and timestep length ($\Delta t$):
 
@@ -204,14 +216,43 @@ $$
 
 # References
 
-tba
+coming soon
 
 # Authors
 
-tba
+Vollhüter, J., Baldauf, S., Berger, U., Peters, R., Tietjen, B., Wimmler, MC.
 
 # See Also
 
-tba
+coming soon
 
 # Examples
+
+The following Example defines a population of plants of the type PFT 1, whose species-specific parameterization is loaded from the corresponding file, while plant growth is simulated with the Saltmarsh vegetation model. Mortality is controlled by the three simultaneously active concepts Memory, Random, and VolumeThreshold. The Memory concept is parameterized with a memory period of approximately one year (3.154 × 10^7 s), the Random concept uses a mortality probability of 0.25, and the VolumeThreshold concept removes individuals whose geometries fall below the in the species file defined thresholds. Individuals are distributed randomly within a 2 m × 2 m domain, with an initial population size of 40 individuals and a recruitment rate of 4 new individuals per time step.
+
+````xml
+<population>
+        <group>
+            <name>Saltmarsh_1</name>
+            <species>Benchmarks/ExampleSetups/Saltmarsh/PFTs/Saltmarsh_1.py</species>
+            <vegetation_model_type>Saltmarsh</vegetation_model_type>
+            <mortality>Memory Random VolumeThreshold</mortality>
+            <period>3.154e+7*1</period>
+            <threshold>0.05</threshold>
+            <probability>0.25</probability>
+            <distribution>
+                <type>Random</type>
+                <domain>
+                    <x_1>0</x_1>
+                    <y_1>0</y_1>
+                    <x_2>2</x_2>
+                    <y_2>2</y_2>
+                </domain>
+                <n_recruitment_per_step>4</n_recruitment_per_step>
+                <n_individuals>40</n_individuals>
+            </distribution>
+        </group>
+</population>
+````
+
+Further examples can be found under `pyMANGA.Benchmarks.ExampleSetups.Saltmarsh`.

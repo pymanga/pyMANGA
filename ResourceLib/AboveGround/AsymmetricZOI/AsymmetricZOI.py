@@ -183,15 +183,18 @@ class AsymmetricZOI(ResourceModel):
         geometry = plant.getGeometry()
         # ToDo: resolve when all geometries are renamed
 
-        try:
+        if "r_crown" in geometry:
             r_ag = geometry["r_crown"]
-            h_stem = geometry["h_stem"]
-        except KeyError:
+        elif "r_ag" in geometry:
             r_ag = geometry["r_ag"]
-            try:
-                h_stem = geometry["height"] - 2*r_ag
-            except KeyError:
-                h_stem = geometry["h_ag"]
+
+        if "h_stem" in geometry:
+            h_stem = geometry["h_stem"]
+        elif "height" in geometry:
+            h_stem = geometry["height"] - 2 * r_ag
+        else:
+            h_stem = geometry["h_ag"]
+
         if r_ag < (self.mesh_size * 1 / 2**0.5):
             if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:
                 print("Error: mesh not fine enough for crown dimensions!")

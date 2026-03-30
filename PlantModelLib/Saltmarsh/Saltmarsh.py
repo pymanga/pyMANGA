@@ -202,7 +202,7 @@ class Saltmarsh(PlantModel):
             self.parameter["p_sun"] (float): Solar radiation [J/(m^2*s)]
             self.time (float): Timestep length [s]
         """
-        self.res_bg = self.f_reslim_bg * np.pi * self.r_bg**2 * self.h_bg * self.parameter['p_sun'] *\
+        self.res_bg = self.f_reslim_bg * self.V_bg * self.parameter['p_sun'] *\
                             self.parameter['p_water'] * 1/(self.h_ag + 0.5 * self.h_bg) * self.time  # \
         # [J] = [-] * [-] * [m^2] * [m] * [J/(m^2*s)] * [-] * [1/(m+m)] * [s]
 

@@ -39,17 +39,23 @@
             <period>3.154e+7*1</period>
             <threshold>0.05</threshold>
             <probability>0.25</probability>
-            <distribution>
+            <domain>
+                <x_1>0</x_1>
+                <y_1>0</y_1>
+                <x_2>2</x_2>
+                <y_2>2</y_2>
+            </domain>
+            <initial_population>
                 <type>Random</type>
-                <domain>
-                    <x_1>0</x_1>
-                    <y_1>0</y_1>
-                    <x_2>2</x_2>
-                    <y_2>2</y_2>
-                </domain>
-                <n_recruitment_per_step>4</n_recruitment_per_step>
                 <n_individuals>40</n_individuals>
-            </distribution>
+            </initial_population>
+            <production>
+                <type>FixedRate</type>
+                <per_model_area>4</per_model_area>
+            </production>
+            <dispersal>
+                <type>Uniform</type>
+            </dispersal>
         </group>
         <group>
             <name>Saltmarsh_2</name>
@@ -59,17 +65,23 @@
             <period>3.154e+7*1</period>
             <threshold>0.05</threshold>
             <probability>0.25</probability>
-            <distribution>
+            <domain>
+                <x_1>0</x_1>
+                <y_1>0</y_1>
+                <x_2>2</x_2>
+                <y_2>2</y_2>
+            </domain>
+            <initial_population>
                 <type>Random</type>
-                <domain>
-                    <x_1>0</x_1>
-                    <y_1>0</y_1>
-                    <x_2>2</x_2>
-                    <y_2>2</y_2>
-                </domain>
-                <n_recruitment_per_step>4</n_recruitment_per_step>
                 <n_individuals>40</n_individuals>
-            </distribution>
+            </initial_population>
+            <production>
+                <type>FixedRate</type>
+                <per_model_area>4</per_model_area>
+            </production>
+            <dispersal>
+                <type>Uniform</type>
+            </dispersal>
         </group>
         <group>
             <name>Saltmarsh_3</name>
@@ -79,17 +91,23 @@
             <period>3.154e+7*1</period>
             <threshold>0.05</threshold>
             <probability>0.25</probability>
-            <distribution>
+            <domain>
+                <x_1>0</x_1>
+                <y_1>0</y_1>
+                <x_2>2</x_2>
+                <y_2>2</y_2>
+            </domain>
+            <initial_population>
                 <type>Random</type>
-                <domain>
-                    <x_1>0</x_1>
-                    <y_1>0</y_1>
-                    <x_2>2</x_2>
-                    <y_2>2</y_2>
-                </domain>
-                <n_recruitment_per_step>4</n_recruitment_per_step>
                 <n_individuals>40</n_individuals>
-            </distribution>
+            </initial_population>
+            <production>
+                <type>FixedRate</type>
+                <per_model_area>4</per_model_area>
+            </production>
+            <dispersal>
+                <type>Uniform</type>
+            </dispersal>
         </group>
         <group>
             <name>Saltmarsh_4</name>
@@ -99,17 +117,23 @@
             <period>3.154e+7*1</period>
             <threshold>0.05</threshold>
             <probability>0.25</probability>
-            <distribution>
+            <domain>
+                <x_1>0</x_1>
+                <y_1>0</y_1>
+                <x_2>2</x_2>
+                <y_2>2</y_2>
+            </domain>
+            <initial_population>
                 <type>Random</type>
-                <domain>
-                    <x_1>0</x_1>
-                    <y_1>0</y_1>
-                    <x_2>2</x_2>
-                    <y_2>2</y_2>
-                </domain>
-                <n_recruitment_per_step>4</n_recruitment_per_step>
                 <n_individuals>40</n_individuals>
-            </distribution>
+            </initial_population>
+            <production>
+                <type>FixedRate</type>
+                <per_model_area>4</per_model_area>
+            </production>
+            <dispersal>
+                <type>Uniform</type>
+            </dispersal>
         </group>
     </population>
     <time_loop>

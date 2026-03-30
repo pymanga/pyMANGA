@@ -14,17 +14,23 @@
             <species> Saltmarsh </species>
             <vegetation_model_type> Saltmarsh </vegetation_model_type>
             <mortality> Random </mortality>
-            <distribution>
-                <type> FromFile </type>
-                <domain>
-                    <x_1> 0 </x_1>
-                    <y_1> 0 </y_1>
-                    <x_2> 2 </x_2>
-                    <y_2> 2 </y_2>
-                </domain>
-                <n_recruitment_per_step> 0 </n_recruitment_per_step>
+            <domain>
+                <x_1> 0 </x_1>
+                <y_1> 0 </y_1>
+                <x_2> 2 </x_2>
+                <y_2> 2 </y_2>
+            </domain>
+            <initial_population>
+                <type>FromFile</type>
                 <filename> Benchmarks/ModuleBenchmarks/PlantModules/Saltmarsh/initial_population.csv </filename>
-            </distribution>
+            </initial_population>
+            <production>
+                <type> FixedRate </type>
+                <per_model_area> 0 </per_model_area>
+            </production>
+            <dispersal>
+                <type> Uniform </type>
+            </dispersal>
         </group>
     </population>
     <time_loop>

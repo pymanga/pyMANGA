@@ -183,17 +183,23 @@ class AsymmetricZOI(ResourceModel):
         geometry = plant.getGeometry()
         # ToDo: resolve when all geometries are renamed
 
+        # Get above-ground radius
         if "r_crown" in geometry:
             r_ag = geometry["r_crown"]
         elif "r_ag" in geometry:
             r_ag = geometry["r_ag"]
+        else:
+            raise KeyError("Missing above-ground radius: geometry must contain 'r_crown' or 'r_ag'.")
 
+        # Get height
         if "h_stem" in geometry:
             h_stem = geometry["h_stem"]
         elif "height" in geometry:
             h_stem = geometry["height"] - 2 * r_ag
+        elif "h_ag" in geometry:
+            h_stem = geometry["h_ag"] - 2 * r_ag
         else:
-            h_stem = geometry["h_ag"]
+            raise KeyError("Missing height: geometry must contain 'h_stem', 'height', or 'h_ag'.")
 
         if r_ag < (self.mesh_size * 1 / 2**0.5):
             if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:

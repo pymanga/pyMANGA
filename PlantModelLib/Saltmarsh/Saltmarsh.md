@@ -19,7 +19,7 @@ Go to [Examples](#examples) for more information.
 # Attributes
 
 - ``vegetation_model_type`` (string): "Saltmarsh" (no other values accepted)
-- ``species`` (string): Path to file defining species or plant functional type (PFT). Possible Inputs: "Saltmarsh" (will use default saltmarsh species defined in `PopulationLib.Species.Saltmarsh` or path to custom species file.)
+- ``species`` (string): Path to file defining species or plant functional type (PFT). Possible Inputs: "Saltmarsh" (will use default saltmarsh species defined in `pyMANGA.PopulationLib.Species.Saltmarsh` or path to custom species file.)
 
 # Value
 
@@ -222,6 +222,22 @@ $$
 
 ## Application & Restriction
 
+The saltmarsh module was tested satisfactorily in combination with the following modules:
+
+- `pyMANGA.PopulationLib.Production.FixedRate`
+- `pyMANGA.PopulationLib.Dispersal.Uniform`
+- `pyMANGA.PopulationLib.InitialPop.FromFile`
+- `pyMANGA.ResourceLib.Aboveground.AsymmetricZOI`
+- `pyMANGA.ResourceLib.Belowground.Individual.FixedSalinity`
+- `pyMANGA.ResourceLib.Belowground.Individual.SymmetricZOI`
+- `pyMANGA.PlantModelLib.Mortality.Random`
+- `pyMANGA.PlantModelLib.Mortality.Memory`
+- `pyMANGA.PlantModelLib.Mortality.VolumeThreshold`
+- `pyMANGA.PlantModelLib.Mortality.NoGrowth`
+- all modules of `pyMANGA.ModelOutputLib` 
+
+If it is combined with other modules, meaningful results cannot be guaranteed.
+
 This plant module requires species files that contain the necessary parameters. Species files created for mangrove species e.g. cannot be used.
 
 
@@ -239,7 +255,7 @@ Jonas Vollhüter, Selina Baldauf, Uta Berger, Ronny Peters, Marie-Christin Wimml
 
 # Examples
 
-The following Example defines a population of plants of the type $PFT\ 1$, whose species-specific parameterization is loaded from the corresponding file, while plant growth is simulated with the Saltmarsh vegetation model. Mortality is controlled by the three simultaneously active concepts Memory, Random, and VolumeThreshold. The Memory concept is parameterized with a memory period of approximately one year <span style="white-space: nowrap;">($3.154 \cdot 10^7\ s$)</span>, the Random concept uses a mortality probability of $0.25$, and the VolumeThreshold concept removes individuals whose geometries fall below the in the species file defined thresholds. Individuals are distributed randomly within a $2\ m ×\ 2\ m$ domain, with an initial population size of $40$ individuals and a recruitment rate of $4$ new individuals per time step.
+The following example defines a population of plants of the type $PFT\ 1$, whose species-specific parameterization is loaded from the corresponding file. While plant growth is simulated with the Saltmarsh vegetation model, mortality is controlled by the three simultaneously active concepts Memory, Random, and VolumeThreshold. The Memory concept is parameterized with a memory period of approximately one year <span style="white-space: nowrap;">($3.154 \cdot 10^7\ s$)</span>, the Random concept uses a mortality probability of $0.25$, and the VolumeThreshold concept removes individuals whose geometries fall below the in the species file defined thresholds. Individuals are distributed randomly within a $2\ m ×\ 2\ m$ domain, with an initial population size of $40$ individuals and a recruitment rate of $4$ new individuals per time step.
 
 ````xml
 <population>

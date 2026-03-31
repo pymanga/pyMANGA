@@ -49,7 +49,11 @@ If (i) the current biovolume falls below the threshold biovolume, or (ii) the ab
 
 ## Application & Restrictions
 
--
+When this module is used, the species files must include the threshold geometries. These are:
+
+- r_ag_thr
+- r_bg_thr
+- volume_thr
 
 # References
 

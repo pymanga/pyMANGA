@@ -6,6 +6,7 @@
         </aboveground>
         <belowground>
             <type> FON </type>
+            <backend_type> cpp </backend_type>
             <domain>
                 <x_1>0</x_1>
                 <y_1> 0 </y_1>

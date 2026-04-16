@@ -145,7 +145,7 @@ class FON(ResourceModel):
             self._ly = 0.0
 
         if not hasattr(self, "backend_type"):
-            self.backend_type = "cpp"
+            self.backend_type = "auto"
 
     def _selectBackend(self):
         have_cpp = _FONZOI_OK

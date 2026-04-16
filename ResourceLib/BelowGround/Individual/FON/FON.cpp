@@ -43,6 +43,8 @@ py::array_t<double> compute_belowground_resources(
         throw std::invalid_argument("All plant arrays must have same length");
     if (grid_x.ndim() != 2 || grid_y.ndim() != 2)
         throw std::invalid_argument("grid_x and grid_y must be 2D");
+    if (grid_x.shape(0) != grid_y.shape(0) || grid_x.shape(1) != grid_y.shape(1))
+        throw std::invalid_argument("grid_x and grid_y must have the same shape");
 
     const int gy = (int)grid_x.shape(0), gx = (int)grid_x.shape(1);
     const int grid_size = gy * gx;
@@ -91,6 +93,8 @@ py::array_t<double> compute_belowground_resources(
         if (!pbc) {
             lo = std::max(lo, 0);
             hi = std::min(hi, n - 1);
+        } else if (hi - lo >= n) {
+            hi = lo + n - 1;
         }
         return {lo, hi};
     };

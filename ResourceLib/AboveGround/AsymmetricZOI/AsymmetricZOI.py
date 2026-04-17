@@ -57,7 +57,7 @@ class AsymmetricZOI(ResourceModel):
             # As the geometry is "complex", my_height is position dependent
             my_height, canopy_bools = self.calculateHeightFromDistance(
                 np.array([self.h_stem[i]]), np.array([self.r_ag[i]]),
-                distance)
+                distance, is_cylinder=self.is_cylinder[i])
             crown_areas[i] = np.sum(canopy_bools)
             indices = np.where(np.less(canopy_height, my_height))
             canopy_height[indices] = my_height[indices]
@@ -75,7 +75,8 @@ class AsymmetricZOI(ResourceModel):
             print(f"ERROR: NaN detected in aboveground_resources for plants at indices: {nan_indices}")
             exit()
 
-    def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
+    def calculateHeightFromDistance(self, stem_height, crown_radius, distance,
+                                    is_cylinder=False):
         """
         Calculate plant heights at each mesh point (node) based on the distance between plant and node.
         Args:
@@ -94,7 +95,9 @@ class AsymmetricZOI(ResourceModel):
         idx = np.where(bools)
         height = np.zeros_like(distance)
         #Here, the curved top of the plant is considered..
-        if self.curved_crown:
+        if is_cylinder:
+            height[idx] = stem_height
+        elif self.curved_crown:
             height[idx] = stem_height + (4 * crown_radius ** 2 -
                                          distance[idx] ** 2) ** 0.5
         else:
@@ -175,6 +178,7 @@ class AsymmetricZOI(ResourceModel):
         self.ye = []
         self.h_stem = []
         self.r_ag = []
+        self.is_cylinder = []
         self.t_ini = t_ini
         self.t_end = t_end
 
@@ -194,10 +198,13 @@ class AsymmetricZOI(ResourceModel):
         # Get height
         if "h_stem" in geometry:
             h_stem = geometry["h_stem"]
+            is_cylinder = False
         elif "height" in geometry:
             h_stem = geometry["height"] - 2 * r_ag
+            is_cylinder = False
         elif "h_ag" in geometry:
-            h_stem = geometry["h_ag"] - 2 * r_ag
+            h_stem = geometry["h_ag"]
+            is_cylinder = True
         else:
             raise KeyError("Missing height: geometry must contain 'h_stem', 'height', or 'h_ag'.")
 
@@ -212,6 +219,7 @@ class AsymmetricZOI(ResourceModel):
         self.ye.append(y)
         self.h_stem.append(h_stem)
         self.r_ag.append(r_ag)
+        self.is_cylinder.append(is_cylinder)
 
     def _requireGrid(self):
         """

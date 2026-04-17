@@ -1,2 +1,2 @@
-plant	time	x	y	r_ag	h_ag	r_bg	h_bg	grow	f_reslim_ag	f_reslim_bg
+plant	time	x	y	r_ag	h_ag	r_bg	h_bg	grow	aboveground_resources	belowground_resources
 Initial_000000001	8640000.0	1	0.8	1.120270768715436	2.240541537430872	1.120270768715436	2.240541537430872	0.029650296577568014	1.0	1

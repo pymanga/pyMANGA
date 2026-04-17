@@ -143,9 +143,9 @@
                     <Random>
                         <test> Random_CI.xml </test>
                     </Random>
-                    <VolumeThreshold>
-                        <test> VolumeThreshold_CI.xml </test>
-                    </VolumeThreshold>
+                    <SizeThreshold>
+                        <test> SizeThreshold_CI.xml </test>
+                    </SizeThreshold>
                 </Mortality>
                 <Default>
                     <test> Default_CI.xml </test>

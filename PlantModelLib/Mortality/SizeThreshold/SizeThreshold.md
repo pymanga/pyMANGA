@@ -17,14 +17,14 @@ See the Plant Growth (`pyMANGA.PlantModelLib`) and Population (`pyMANGA.Populati
 ```xml
 <population>
     <group>
-        <mortality>VolumeThreshold</mortality>
+        <mortality>SizeThreshold</mortality>
     </group>
 </population>
 ```
 
 # Attributes
 
-- ``type`` (string): "VolumeThreshold" (no other values accepted)
+- ``type`` (string): "SizeThreshold" (no other values accepted)
 
 # Value
 
@@ -76,7 +76,7 @@ Jonas Vollhüter
     <group>
         <name> Initial </name>
         <vegetation_model_type> Saltmarsh </vegetation_model_type>
-        <mortality> VolumeThreshold </mortality>
+        <mortality> SizeThreshold </mortality>
         <distribution>
             <type> FromFile </type>
             <domain>

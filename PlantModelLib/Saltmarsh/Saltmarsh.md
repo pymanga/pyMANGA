@@ -232,7 +232,7 @@ The saltmarsh module was tested satisfactorily in combination with the following
 - `pyMANGA.ResourceLib.Belowground.Individual.SymmetricZOI`
 - `pyMANGA.PlantModelLib.Mortality.Random`
 - `pyMANGA.PlantModelLib.Mortality.Memory`
-- `pyMANGA.PlantModelLib.Mortality.VolumeThreshold`
+- `pyMANGA.PlantModelLib.Mortality.SizeThreshold`
 - `pyMANGA.PlantModelLib.Mortality.NoGrowth`
 - all modules of `pyMANGA.ModelOutputLib` 
 
@@ -255,7 +255,7 @@ Jonas Vollhüter, Selina Baldauf, Uta Berger, Ronny Peters, Marie-Christin Wimml
 
 # Examples
 
-The following example defines a population of plants of the type $PFT\ 1$, whose species-specific parameterization is loaded from the corresponding file. While plant growth is simulated with the Saltmarsh vegetation model, mortality is controlled by the three simultaneously active concepts Memory, Random, and VolumeThreshold. The Memory concept is parameterized with a memory period of approximately one year <span style="white-space: nowrap;">($3.154 \cdot 10^7\ s$)</span>, the Random concept uses a mortality probability of $0.25$, and the VolumeThreshold concept removes individuals whose geometries fall below the in the species file defined thresholds. Individuals are distributed randomly within a $2\ m ×\ 2\ m$ domain, with an initial population size of $40$ individuals and a recruitment rate of $4$ new individuals per time step.
+The following example defines a population of plants of the type $PFT\ 1$, whose species-specific parameterization is loaded from the corresponding file. While plant growth is simulated with the Saltmarsh vegetation model, mortality is controlled by the three simultaneously active concepts Memory, Random, and SizeThreshold. The Memory concept is parameterized with a memory period of approximately one year <span style="white-space: nowrap;">($3.154 \cdot 10^7\ s$)</span>, the Random concept uses a mortality probability of $0.25$, and the SizeThreshold concept removes individuals whose geometries fall below the in the species file defined thresholds. Individuals are distributed randomly within a $2\ m ×\ 2\ m$ domain, with an initial population size of $40$ individuals and a recruitment rate of $4$ new individuals per time step.
 
 ````xml
 <population>
@@ -263,7 +263,7 @@ The following example defines a population of plants of the type $PFT\ 1$, whose
             <name>Saltmarsh_1</name>
             <species>Benchmarks/ExampleSetups/Saltmarsh/PFTs/Saltmarsh_1.py</species>
             <vegetation_model_type>Saltmarsh</vegetation_model_type>
-            <mortality>Memory Random VolumeThreshold</mortality>
+            <mortality>Memory Random SizeThreshold</mortality>
             <period>3.154e+7*1</period>
             <threshold>0.05</threshold>
             <probability>0.25</probability>

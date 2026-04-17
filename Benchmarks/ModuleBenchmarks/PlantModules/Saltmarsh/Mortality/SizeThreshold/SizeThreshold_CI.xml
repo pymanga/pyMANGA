@@ -13,7 +13,7 @@
             <name> Initial </name>
             <species> Saltmarsh </species>
             <vegetation_model_type> Saltmarsh </vegetation_model_type>
-            <mortality> VolumeThreshold </mortality>
+            <mortality> SizeThreshold </mortality>
             <domain>
                 <x_1> 0 </x_1>
                 <y_1> 0 </y_1>
@@ -52,7 +52,7 @@
         <geometry_output> r_bg </geometry_output>
         <geometry_output> h_bg </geometry_output>
         <growth_output> grow </growth_output>
-        <growth_output> f_reslim_ag </growth_output>
-        <growth_output> f_reslim_bg </growth_output>
+        <growth_output> aboveground_resources </growth_output>
+        <growth_output> belowground_resources </growth_output>
     </output>
 </MangaProject>

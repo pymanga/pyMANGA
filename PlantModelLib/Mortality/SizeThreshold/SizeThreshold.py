@@ -3,9 +3,9 @@
 
 from PlantModelLib.Mortality.NoGrowth import NoGrowth
 
-class VolumeThreshold(NoGrowth):
+class SizeThreshold(NoGrowth):
     """
-    VolumeThreshold mortality module.
+    SizeThreshold mortality module.
 
     Kills a plant if it does not exceed critical thresholds for:
     - aboveground radius (r_ag)

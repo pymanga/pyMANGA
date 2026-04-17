@@ -43,8 +43,8 @@ class Saltmarsh(PlantModel):
 
         Args:
             plant: The plant individual.
-            aboveground_factor (float): AG resource availability [-] (0,1)
-            belowground_factor (float): BG resource availability [-] (0,1)
+            aboveground_factor (float): AG resource availability [-] (0,1) PLEASE NOTE: SIMULAR TO f_reslim_ag
+            belowground_factor (float): BG resource availability [-] (0,1) PLEASE NOTE: SIMULAR TO f_reslim_bg
         """
         # Initialization
         geometry = plant.getGeometry()
@@ -61,8 +61,8 @@ class Saltmarsh(PlantModel):
         self.volume_thr = geometry["volume_thr"]  # [m^3]
 
         self.survive = 1
-        self.f_reslim_ag = aboveground_factor  # [-]
-        self.f_reslim_bg = belowground_factor  # [-]
+        self.aboveground_resources = aboveground_factor  # [-]
+        self.belowground_resources = belowground_factor  # [-]
 
         # STEP 1: Volume calculation
         self.plantVolume()
@@ -98,14 +98,14 @@ class Saltmarsh(PlantModel):
 
         # STEP 10: Store all relevant model variables in growth concept info
         growth_concept_information.update({
-            "f_reslim_ag": self.f_reslim_ag,  #     [-]
-            "f_reslim_bg": self.f_reslim_bg,  #     [-]
-            "res_ag": self.res_ag,  #               [J]
-            "res_bg": self.res_bg,  #               [J]
-            "res_eff": self.res_eff,  #             [J]
-            "grow": self.grow,  #                   [m³]
-            "maint": self.maint,  #                 [m³]
-            "volume": self.volume,  #               [m³]
+            "aboveground_resources": self.aboveground_resources,  #     [-]
+            "belowground_resources": self.belowground_resources,  #     [-]
+            "res_ag": self.res_ag,  #                                   [J]
+            "res_bg": self.res_bg,  #                                   [J]
+            "res_eff": self.res_eff,  #                                 [J]
+            "grow": self.grow,  #                                       [m³]
+            "maint": self.maint,  #                                     [m³]
+            "volume": self.volume,  #                                   [m³]
         })
 
         # Calculate plant age
@@ -177,12 +177,12 @@ class Saltmarsh(PlantModel):
         Sets:
             self.res_ag (float): Available aboveground resources [J]
         Uses:
-            self.f_reslim_ag (float): Aboveground resource availability [-] (0,1)
+            self.aboveground_resources (float): Aboveground resource availability [-] (0,1)
             self.r_ag (float): Aboveground radius [m]
             self.parameter["p_sun"] (float): Solar radiation [J/(m^2*s)]
             self.time (float): Timestep length [s]
         """
-        self.res_ag = self.f_reslim_ag * np.pi * self.r_ag**2 * self.parameter["p_sun"] * self.time  # \
+        self.res_ag = self.aboveground_resources * np.pi * self.r_ag**2 * self.parameter["p_sun"] * self.time  # \
         # [J] = [-] * [-] * [m^2] * [J/(m^2*s)] * [s]
 
     def bgResources(self):
@@ -194,7 +194,7 @@ class Saltmarsh(PlantModel):
         Sets:
             self.res_bg (float): Available belowground resources [J]
         Uses:
-            self.f_reslim_bg (float): Belowground resource availability [J] (0,1)
+            self.belowground_resources (float): Belowground resource availability [J] (0,1)
             self.r_bg (float): Belowground radius [m]
             self.h_bg (float): Belowground height [m]
             self.h_ag (float): Aboveground height [m]
@@ -202,7 +202,7 @@ class Saltmarsh(PlantModel):
             self.parameter["p_sun"] (float): Solar radiation [J/(m^2*s)]
             self.time (float): Timestep length [s]
         """
-        self.res_bg = self.f_reslim_bg * self.V_bg * self.parameter['p_sun'] *\
+        self.res_bg = self.belowground_resources * self.V_bg * self.parameter['p_sun'] *\
                             self.parameter['p_water'] * 1/(self.h_ag + 0.5 * self.h_bg) * self.time  # \
         # [J] = [-] * [-] * [m^2] * [m] * [J/(m^2*s)] * [-] * [1/(m+m)] * [s]
 
@@ -256,15 +256,15 @@ class Saltmarsh(PlantModel):
             distributed resource conditions [-]
             self.parameter['p_ratio_ag'] (float): Species specific AG radius-to-height ratio [-]
             self.parameter['p_ratio_bg'] (float): Species specific BG radius-to-height ratio [-]
-            self.f_reslim_ag (float): Aboveground resource limitation factor [-]
-            self.f_reslim_bg (float): Belowground resource limitation factor [-]
+            self.aboveground_resources (float): Aboveground resource limitation factor [-]
+            self.belowground_resources (float): Belowground resource limitation factor [-]
             self.grow (float): Net available resource units for growth [m^3]
             self.V_ag (float): Current aboveground volume [m^3]
             self.V_bg (float): Current belowground volume [m^3]
         """
 
         # Resource ratio from AG perspective
-        self.ratio_ag_bg = np.clip(self.f_reslim_ag / (self.f_reslim_ag + self.f_reslim_bg + 1e-22), 1e-6, 0.999999)
+        self.ratio_ag_bg = np.clip(self.aboveground_resources / (self.aboveground_resources + self.belowground_resources + 1e-22), 1e-6, 0.999999)
 
         # When growth occurs, resources are allocated appropriately between aboveground and belowground growth
         if self.grow > 0:

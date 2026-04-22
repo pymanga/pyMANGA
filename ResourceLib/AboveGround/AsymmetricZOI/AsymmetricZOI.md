@@ -44,6 +44,8 @@ This module supports an optional C++ backend for accelerated computation. See `p
 - ``allow_interpolation`` (bool): (optional) If True, the ZOI of a plant can be smaller than a grid cell, and it will be
   assigned to the nearest node. Default: False.
 - ``curved_crown`` (bool): (optional) If True, a curve-shaped crown is assumed. See pyMANGAs <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/AboveGround/AsymmetricZOI/curved_crown/curved_crown.md" target="_blank">sensetivity repository</a> for more information. Default: True
+- ``periodic_boundary`` (bool): (optional) If True, periodic boundary conditions are applied using
+  the minimum image convention. Default: False.
 
 
 # Value
@@ -95,7 +97,7 @@ r_ag > mesh_size * 0.5**0.5
 
 ### Above-ground factor (calculateAbovegroundResources)
 
-- Calculate the distance of plants to each node (``dist``)
+- Calculate the distance of plants to each node (``dist``). If periodic boundary conditions are enabled, the minimum image convention is applied.
 - Get index of nodes that are occupied by the plant (``idx``)	
 - Calculate the height of each plant (i) on a node (``idx``) assuming a spherical shape of the canopy	
 ````
@@ -156,5 +158,21 @@ Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler, Guanzhen Liu
         <y_resolution>80</y_resolution>
     </domain>
     <allow_interpolation>True</allow_interpolation>
+</aboveground>
+```
+
+- AsymmetricZOI with periodic boundary conditions on a 20x20m² mesh.
+```xml
+<aboveground>
+    <type> AsymmetricZOI </type>
+    <periodic_boundary> True </periodic_boundary>
+    <domain>
+        <x_1> 0 </x_1>
+        <y_1> 0 </y_1>
+        <x_2> 20 </x_2>
+        <y_2> 20 </y_2>
+        <x_resolution> 80 </x_resolution>
+        <y_resolution> 80 </y_resolution>
+    </domain>
 </aboveground>
 ```

@@ -73,6 +73,8 @@ For example, it can represent daily tides or seasonal variations.
 - ``save_file`` (str): (optional) file name or path of cell salinity file (without file format). If no path is defined, the file is saved in the root directory.
 - ``save_salinity_ts`` (int): (optional) number indicating at which nth timestep the salinity in each cell is written to a text file. Default: 1.
 - ``initial_salinity_file`` (str): (optional) path to text file containing initial cell salinity.
+- ``periodic_boundary`` (bool): (optional) If True, periodic boundary conditions are applied when
+  determining cells affected by a plant's root zone, using the minimum image convention. Default: False.
 
 See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/SaltFeedbackBucket/SaltFeedbackBucket.md" target="_blank">this example</a> for the effect discretization parameters. 
 
@@ -131,6 +133,7 @@ If this is not the case, salinity is calculated with *getInflowSalinity*.
 Add plant attributes such as position, size, and growth parameters to the resource module.
 
 The cells affected by each plant are determined based on the root plate radius (*getAffectedCellsIdx*).
+If periodic boundary conditions are enabled, the minimum image convention is applied when computing distances.
 It is assumed that the water uptake (``plant_water_uptake``, in m³ per timestep) of a plant is uniformly distributed over all affected cells, defined by their area (`cell_area)` and number (`no_cells`).
 Thus, the sink term (`sink_per_cell`, in m per s), i.e., the amount of water removed from each cell, is
 ````python

@@ -39,6 +39,8 @@ There is no temporal variation in resource availability.
   assigned to the nearest node. Default: False.
 - ``backend_type`` (string): (optional) "cpp" for C++ accelerated backend, "python" for pure Python.
   If omitted, auto-selects C++ when available, otherwise falls back to Python.
+- ``periodic_boundary`` (bool): (optional) If True, periodic boundary conditions are applied using
+  the minimum image convention. Default: False.
 
 # Value
 
@@ -89,7 +91,7 @@ r_bg > mesh_size * 0.5**0.5
 
 ### Below-ground factor (calculateBelowgroundResources)
 
-- Calculate the distance of plants to each node (``dist``)
+- Calculate the distance of plants to each node (``dist``). If periodic boundary conditions are enabled, the minimum image convention is applied.
 - Get index of nodes that are occupied by the plant (``idx``)	
 - Count the number of nodes occupied by a plant (``plant_counts``) 
 - Calculate the below-ground resource factor (``bg_factor``) 
@@ -161,6 +163,22 @@ Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler, Guanzhen Liu
     <salinity> 0.025 0.035 </salinity>
     <min_x>0</min_x>
     <max_x>22</max_x>
+</belowground>
+```
+
+- Symmetric ZOI with periodic boundary conditions on a 22x22m² mesh.
+```xml
+<belowground>
+    <type> SymmetricZOI </type>
+    <periodic_boundary> True </periodic_boundary>
+    <domain>
+        <x_1> 0 </x_1>
+        <y_1> 0 </y_1>
+        <x_2> 22 </x_2>
+        <y_2> 22 </y_2>
+        <x_resolution> 88 </x_resolution>
+        <y_resolution> 88 </y_resolution>
+    </domain>
 </belowground>
 ```
 

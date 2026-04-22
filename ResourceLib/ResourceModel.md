@@ -44,12 +44,30 @@ x = x_2 - x_1
 y = y_2 - y_1
 ```
 and the size of each cell is
-and cell size of
 ````python
-xs = x_2 / x_resolution
-ys = y_2 / y_resolution
+xs = x / x_resolution
+ys = y / y_resolution
 ````
 
+Additionally, ``makeGrid`` stores the domain dimensions (``_lx``, ``_ly``) and parses the optional
+``periodic_boundary`` tag. If ``periodic_boundary`` is True, distance calculations can use
+the minimum image convention via ``wrapDistance``.
+
+#### wrapDistance
+
+Apply the minimum image convention for periodic boundary conditions.
+Given distance components ``dx`` and ``dy`` (scalar or array), returns the wrapped values
+corresponding to the shortest distance across periodic images.
+
+This method is a no-op when ``periodic_boundary`` is False.
+
+Modules that compute plant-to-grid or plant-to-plant distances should call this method
+to support periodic boundaries transparently:
+
+```python
+dx, dy = self.wrapDistance(dx, dy)
+distance = (dx**2 + dy**2)**0.5
+```
 
 ---
 

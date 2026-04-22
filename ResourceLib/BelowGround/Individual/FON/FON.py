@@ -79,9 +79,7 @@ class FON(ResourceModel):
               np.array(self._xe)[np.newaxis, np.newaxis, :])
         dy = (self.my_grid[1][:, :, np.newaxis] -
               np.array(self._ye)[np.newaxis, np.newaxis, :])
-        if self._periodic_boundary:
-            dx = dx - self._lx * np.round(dx / self._lx)
-            dy = dy - self._ly * np.round(dy / self._ly)
+        dx, dy = self.wrapDistance(dx, dy)
         distance = (dx**2 + dy**2)**0.5
         my_fon = self.calculateFonFromDistance(distance=distance)
 
@@ -136,13 +134,6 @@ class FON(ResourceModel):
         self._y_2 = self.y_2
         self.x_resolution = int(self.x_resolution)
         self.y_resolution = int(self.y_resolution)
-        self._periodic_boundary = self.makeBoolFromArg("periodic_boundary")
-        if self._periodic_boundary:
-            self._lx = self._x_2 - self._x_1
-            self._ly = self._y_2 - self._y_1
-        else:
-            self._lx = 0.0
-            self._ly = 0.0
 
         if not hasattr(self, "backend_type"):
             self.backend_type = "auto"

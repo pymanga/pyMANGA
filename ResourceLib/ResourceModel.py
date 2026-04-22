@@ -121,6 +121,23 @@ class ResourceModel:
         self.my_grid = np.meshgrid(xe, ye)
         self.mesh_size = np.maximum(x_step, y_step)
         self.cell_area = x_step * y_step
+        self._lx = l_x
+        self._ly = l_y
+        self._periodic_boundary = self.makeBoolFromArg("periodic_boundary")
+
+    def wrapDistance(self, dx, dy):
+        """
+        Apply minimum image convention for periodic boundary conditions.
+        Args:
+            dx: x-component of distance (scalar or array)
+            dy: y-component of distance (scalar or array)
+        Returns:
+            (dx, dy) wrapped to shortest periodic image
+        """
+        if self._periodic_boundary:
+            dx = dx - self._lx * np.round(dx / self._lx)
+            dy = dy - self._ly * np.round(dy / self._ly)
+        return dx, dy
 
     def makeBoolFromArg(self, var_name):
         """

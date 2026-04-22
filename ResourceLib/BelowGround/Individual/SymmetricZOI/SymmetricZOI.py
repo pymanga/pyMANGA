@@ -74,10 +74,12 @@ class SymmetricZOI(ResourceModel):
             return
 
         # Numpy array of shape [res_x, res_y, n_plants]
-        distance = (((self.my_grid[0][:, :, np.newaxis] -
-                      np.array(self.xe)[np.newaxis, np.newaxis, :])**2 +
-                     (self.my_grid[1][:, :, np.newaxis] -
-                      np.array(self.ye)[np.newaxis, np.newaxis, :])**2)**0.5)
+        dx = (self.my_grid[0][:, :, np.newaxis] -
+              np.array(self.xe)[np.newaxis, np.newaxis, :])
+        dy = (self.my_grid[1][:, :, np.newaxis] -
+              np.array(self.ye)[np.newaxis, np.newaxis, :])
+        dx, dy = self.wrapDistance(dx, dy)
+        distance = (dx**2 + dy**2)**0.5
 
         # Use a tolerance of e^-20 for checking whether a plant covers a grid cell
         allowed_error = np.exp(-20)
@@ -151,7 +153,7 @@ class SymmetricZOI(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"],
-            "optional": ["allow_interpolation", "backend_type"],
+            "optional": ["allow_interpolation", "backend_type", "periodic_boundary"],
             "case_insensitive": ["backend_type"]
         }
         super().getInputParameters(**tags)

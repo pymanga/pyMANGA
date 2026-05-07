@@ -68,7 +68,10 @@ class Memory(NoGrowth):
         Sets:
             value in dictionary
         """
-        # Variable to store growth (m³ per time step)
+        # Variable to store the per-step growth increment.
+        # Units depend on the plant model (m³/step for Bettina, cm/step for
+        # Jabowa). All plant models are required to assign a per-step
+        # increment to ``plant_module.grow``.
         try:
             plant_module.grow_memory = growth_concept_information["grow_memory"]
         except KeyError:

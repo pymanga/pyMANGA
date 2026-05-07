@@ -43,14 +43,24 @@ If True, the plant survives, if False the plant dies.
 ## Purpose
 
 Plant mortality depends on relative growth over a defined period.
-Growth is based on the growth variable of the selected plant module.
-Relative growth is defined as the average growth over the defined period to plant volume (in m³ per m³). 
+Growth is based on the per-step growth variable of the selected plant module.
+Relative growth is defined as the average per-step growth over the defined
+period divided by the corresponding plant size measure (units depend on the
+plant model: m³/m³ for Bettina, cm/cm for Jabowa).
 
-If the relative growth falls below a certain threshold, a plant dies.
+If the relative growth, annualised by multiplying with the number of time steps
+per year, falls below a certain threshold, a plant dies.
 
-Here, growth refers to the relative change in biovolume (i.e., plant volume based on the selected plant module) between the current and the previous time step.
-The probability of dying is indirectly proportional to the relative volume increase.
-If the growth of a plant slows down over time, the probability of dying increases.
+Here, growth refers to the per-step increment in the plant size measure used
+by the selected plant module (e.g., volume for Bettina, dbh for Jabowa).
+The probability of dying is indirectly proportional to this relative
+increase. If the growth of a plant slows down over time, the probability of
+dying increases.
+
+**Contract for plant modules**: any plant module combined with this mortality
+concept must store a *per-step* increment in ``plant_module.grow``
+(not an annualised rate). Both `pyMANGA.PlantModelLib.Bettina` and
+`pyMANGA.PlantModelLib.Jabowa` follow this convention.
 
 
 ## Process overview

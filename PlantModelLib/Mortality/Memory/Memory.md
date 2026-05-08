@@ -57,7 +57,7 @@ The probability of dying is indirectly proportional to this relative
 increase. If the growth of a plant slows down over time, the probability of
 dying increases.
 
-**Contract for plant modules**: any plant module combined with this mortality
+**Note**: any plant module combined with this mortality
 concept must store a *per-step* increment in ``plant_module.grow``
 (not an annualised rate). Both `pyMANGA.PlantModelLib.Bettina` and
 `pyMANGA.PlantModelLib.Jabowa` follow this convention.

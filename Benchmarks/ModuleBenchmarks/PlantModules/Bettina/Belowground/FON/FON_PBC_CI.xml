@@ -1,12 +1,12 @@
 <MangaProject>
     <random_seed> 643879 </random_seed>
     <resources>
+        <periodic_boundary> True </periodic_boundary>
         <aboveground>
             <type> Default </type>
         </aboveground>
         <belowground>
             <type> FON </type>
-            <periodic_boundary> True </periodic_boundary>
             <domain>
                 <x_1>0</x_1>
                 <y_1> 0 </y_1>

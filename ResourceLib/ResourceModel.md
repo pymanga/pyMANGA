@@ -49,9 +49,33 @@ xs = x / x_resolution
 ys = y / y_resolution
 ````
 
-Additionally, ``makeGrid`` stores the domain dimensions (``_lx``, ``_ly``) and parses the optional
-``periodic_boundary`` tag. If ``periodic_boundary`` is True, distance calculations can use
-the minimum image convention via ``wrapDistance``.
+Additionally, ``makeGrid`` stores the domain dimensions (``_lx``, ``_ly``) and reads the
+optional ``periodic_boundary`` flag (set once at the ``<resources>`` level, see below).
+If ``periodic_boundary`` is True, distance calculations can use the minimum image convention
+via ``wrapDistance``.
+
+## Periodic boundary conditions
+
+Periodic boundary conditions (PBC) are configured **once** at the ``<resources>`` level and
+apply to both above- and below-ground modules. Specifying ``<periodic_boundary>`` inside
+``<aboveground>`` or ``<belowground>`` raises an error.
+
+```xml
+<resources>
+    <periodic_boundary> True </periodic_boundary>
+    <aboveground>
+        <type> Default </type>
+    </aboveground>
+    <belowground>
+        <type> SymmetricZOI </type>
+        <domain> ... </domain>
+    </belowground>
+</resources>
+```
+
+When enabled, distance calculations in supported modules (``AsymmetricZOI``,
+``SymmetricZOI``, ``FON``, ``SaltFeedbackBucket``) use the minimum image convention
+via ``wrapDistance``. The above- and below-ground domains must share the same extent.
 
 #### wrapDistance
 

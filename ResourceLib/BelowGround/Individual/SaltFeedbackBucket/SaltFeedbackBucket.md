@@ -73,8 +73,10 @@ For example, it can represent daily tides or seasonal variations.
 - ``save_file`` (str): (optional) file name or path of cell salinity file (without file format). If no path is defined, the file is saved in the root directory.
 - ``save_salinity_ts`` (int): (optional) number indicating at which nth timestep the salinity in each cell is written to a text file. Default: 1.
 - ``initial_salinity_file`` (str): (optional) path to text file containing initial cell salinity.
-- ``periodic_boundary`` (bool): (optional) If True, periodic boundary conditions are applied when
-  determining cells affected by a plant's root zone, using the minimum image convention. Default: False.
+
+Periodic boundary conditions are configured at the ``<resources>`` level
+(see ``pyMANGA.ResourceLib.ResourceModel``). When enabled, distance calculations
+in *getAffectedCellsIdx* use the minimum image convention.
 
 See <a href="https://github.com/pymanga/sensitivity/blob/main/ResourceLib/BelowGround/Individual/SaltFeedbackBucket/SaltFeedbackBucket.md" target="_blank">this example</a> for the effect discretization parameters. 
 

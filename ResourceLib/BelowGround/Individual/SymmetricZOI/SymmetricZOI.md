@@ -39,8 +39,9 @@ There is no temporal variation in resource availability.
   assigned to the nearest node. Default: False.
 - ``backend_type`` (string): (optional) "cpp" for C++ accelerated backend, "python" for pure Python.
   If omitted, auto-selects C++ when available, otherwise falls back to Python.
-- ``periodic_boundary`` (bool): (optional) If True, periodic boundary conditions are applied using
-  the minimum image convention. Default: False.
+
+Periodic boundary conditions are configured at the ``<resources>`` level
+(see ``pyMANGA.ResourceLib.ResourceModel``).
 
 # Value
 
@@ -166,20 +167,26 @@ Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler, Guanzhen Liu
 </belowground>
 ```
 
-- Symmetric ZOI with periodic boundary conditions on a 22x22m² mesh.
+- Symmetric ZOI with periodic boundary conditions on a 22x22m² mesh
+  (PBC is set once at the ``<resources>`` level):
 ```xml
-<belowground>
-    <type> SymmetricZOI </type>
+<resources>
     <periodic_boundary> True </periodic_boundary>
-    <domain>
-        <x_1> 0 </x_1>
-        <y_1> 0 </y_1>
-        <x_2> 22 </x_2>
-        <y_2> 22 </y_2>
-        <x_resolution> 88 </x_resolution>
-        <y_resolution> 88 </y_resolution>
-    </domain>
-</belowground>
+    <aboveground>
+        <type> Default </type>
+    </aboveground>
+    <belowground>
+        <type> SymmetricZOI </type>
+        <domain>
+            <x_1> 0 </x_1>
+            <y_1> 0 </y_1>
+            <x_2> 22 </x_2>
+            <y_2> 22 </y_2>
+            <x_resolution> 88 </x_resolution>
+            <y_resolution> 88 </y_resolution>
+        </domain>
+    </belowground>
+</resources>
 ```
 
 - Symmetric ZOI with C++ backend on a 22x22m² mesh.

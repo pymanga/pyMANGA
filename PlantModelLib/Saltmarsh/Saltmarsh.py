@@ -30,7 +30,7 @@ class Saltmarsh(PlantModel):
         Sets:
             self.time (float): Length of the current timestep [s]
         """
-        self.time = t_end - t_ini  # [s] = [s] - [s]
+        self.time = t_end - t_ini
 
     def progressPlant(self, plant, aboveground_factor, belowground_factor):
         """
@@ -112,7 +112,7 @@ class Saltmarsh(PlantModel):
         try:
             growth_concept_information["age"] += self.time  # [s]
         except KeyError:
-            growth_concept_information["age"] = self.time  # [s]
+            growth_concept_information["age"] = self.time  #  [s]
 
         # Apply mortality concept
         super().getMortalityVariables(growth_concept_information)
@@ -146,10 +146,10 @@ class Saltmarsh(PlantModel):
             self.h_ag (float): Aboveground height [m]
             self.h_bg (float): Belowground height [m]
         """
-        self.V_ag = np.pi * self.r_ag ** 2 * self.h_ag  # [m^3] = [-] * [m] * [m]
-        self.V_bg = np.pi * self.r_bg ** 2 * self.h_bg  # [m^3] = [-] * [m] * [m]
-        self.volume = self.V_ag + self.V_bg  # [m^3] = [m^3] + [m^3]
-        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-22)  # [-] = [m^3] / [m^3] Avoid division by zero
+        self.V_ag = np.pi * self.r_ag ** 2 * self.h_ag
+        self.V_bg = np.pi * self.r_bg ** 2 * self.h_bg
+        self.volume = self.V_ag + self.V_bg
+        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-22)  # Avoid division by zero
 
     def plantMaintenance(self):
         """
@@ -165,7 +165,7 @@ class Saltmarsh(PlantModel):
             self.parameter["p_maint"] (float): Maintenance factor [1/s]
             self.time (float): Timestep length [s]
         """
-        self.maint = self.volume * self.parameter["p_maint"] * self.time  # [m³] = [m^3] * [1/s] * [s]
+        self.maint = self.volume * self.parameter["p_maint"] * self.time
 
 
     def agResources(self):
@@ -182,8 +182,7 @@ class Saltmarsh(PlantModel):
             self.parameter["p_sun"] (float): Solar radiation [J/(m^2*s)]
             self.time (float): Timestep length [s]
         """
-        self.res_ag = self.aboveground_resources * np.pi * self.r_ag**2 * self.parameter["p_sun"] * self.time  # \
-        # [J] = [-] * [-] * [m^2] * [J/(m^2*s)] * [s]
+        self.res_ag = self.aboveground_resources * np.pi * self.r_ag**2 * self.parameter["p_sun"] * self.time
 
     def bgResources(self):
         """
@@ -203,8 +202,7 @@ class Saltmarsh(PlantModel):
             self.time (float): Timestep length [s]
         """
         self.res_bg = self.belowground_resources * self.V_bg * self.parameter['p_sun'] *\
-                            self.parameter['p_water'] * 1/(self.h_ag + 0.5 * self.h_bg) * self.time  # \
-        # [J] = [-] * [-] * [m^2] * [m] * [J/(m^2*s)] * [-] * [1/(m+m)] * [s]
+                            self.parameter['p_water'] * 1/(self.h_ag + 0.5 * self.h_bg) * self.time
 
     def growthResources(self):
         """
@@ -224,10 +222,9 @@ class Saltmarsh(PlantModel):
             self.parameter["p_grow"] (float): Growth factor [m^3/J]
             self.parameter["p_dieback"] (float): Dieback factor [-]
         """
-        self.res_eff = min(self.res_ag, self.res_bg)  # [J] = min([J], [J])
-        self.grow_pot = self.res_eff * self.parameter["p_grow"]  # \
-        # [m^3] = [J] * [m^3 / J]
-        self.grow = self.grow_pot - self.maint  # [m^3] = [m^3] - [m^3]
+        self.res_eff = min(self.res_ag, self.res_bg)
+        self.grow_pot = self.res_eff * self.parameter["p_grow"]
+        self.grow = self.grow_pot - self.maint
         if self.grow < 0:
             self.grow *= self.parameter["p_dieback"]
 
@@ -264,7 +261,9 @@ class Saltmarsh(PlantModel):
         """
 
         # Resource ratio from AG perspective
-        self.ratio_ag_bg = np.clip(self.aboveground_resources / (self.aboveground_resources + self.belowground_resources + 1e-22), 1e-6, 0.999999)
+        self.ratio_ag_bg = np.clip(self.aboveground_resources /
+                                   (self.aboveground_resources + self.belowground_resources + 1e-22), 1e-6, 0.999999)
+        # Avoid division by zero and ensure ratio is between 0 and 1
 
         # When growth occurs, resources are allocated appropriately between aboveground and belowground growth
         if self.grow > 0:
@@ -320,7 +319,7 @@ class Saltmarsh(PlantModel):
             self.parameter["p_transpiration"] (float): Transpiration factor [1/s]
             self.time (float): Timestep Length [s]
         """
-        self.transpiration = self.volume * self.parameter["p_transpiration"] * self.time  # [m^3] = [m^3] * [1/s] * [s]
+        self.transpiration = self.volume * self.parameter["p_transpiration"] * self.time
 
     def getTranspiration(self):
         """

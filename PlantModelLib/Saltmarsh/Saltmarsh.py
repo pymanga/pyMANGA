@@ -149,7 +149,7 @@ class Saltmarsh(PlantModel):
         self.V_ag = np.pi * self.r_ag ** 2 * self.h_ag  # [m^3] = [-] * [m] * [m]
         self.V_bg = np.pi * self.r_bg ** 2 * self.h_bg  # [m^3] = [-] * [m] * [m]
         self.volume = self.V_ag + self.V_bg  # [m^3] = [m^3] + [m^3]
-        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-22)  # [-] = [m^3] / [m^3]
+        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-22)  # [-] = [m^3] / [m^3] Avoid division by zero
 
     def plantMaintenance(self):
         """

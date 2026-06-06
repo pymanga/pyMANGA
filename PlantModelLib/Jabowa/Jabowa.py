@@ -35,13 +35,19 @@ class Jabowa(PlantModel):
         dbh = geometry["r_stem"] * 200
 
         height = (137 + parameter["b2"] * dbh - parameter["b3"] * dbh**2)
-        self.grow = (
+        # Berger & Hildenbrandt 2000, eq. 2 yields an annualized diameter
+        # increment (cm/yr). Multiply by dt_yr in-place so self.grow stores
+        # the per-step increment (cm/step), aligned with Bettina's per-step
+        # convention. This makes self.grow directly usable by Memory mortality
+        # without time-step rescaling.
+        grow_per_year = (
             parameter["max_growth"] * dbh *
             (1 - (dbh * height) / (parameter["max_dbh"] * parameter["max_height"]))
             /
             (274 + 3 * parameter["b2"] * dbh - 4 * parameter["b3"] * dbh**2) *
             belowground_resources * aboveground_resources)
-        dbh = dbh + self.grow * self.time / (3600 * 24 * 365.25)
+        self.grow = grow_per_year * self.time / (3600 * 24 * 365.25)
+        dbh = dbh + self.grow
 
         # Scaling dbh to zone of influence (ZOI) based on eq. 1 in
         # Berger & Hildenbrandt 2000

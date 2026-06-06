@@ -46,16 +46,19 @@ However, the area covered by the canopy and roots are approximated with the scal
 ````
 height = (137 + parameter["b2"] * dbh - parameter["b3"] * dbh**2)
 ````
-- Calculate annual growth rate (eq. 5 in Botkin et al. 1972)
+- Calculate annualized growth rate (eq. 5 in Botkin et al. 1972)
 ````
-grow = p_max_growth * dbh * N / D * ag_factor * bg_factor
+grow_per_year = p_max_growth * dbh * N / D * ag_factor * bg_factor
 N = 1 - (dbh * height) / (p_max_dbh * p_max_height)
 D = 274 + 3 * p_b2 * dbh - 4 * p_b3 * dbh**2
 ````
 - variables starting with ``p_`` are species-specific parameters (see `pyMANGA.PopulationLib.Species`)
-- Calculate new dbh (considering pyMANGAs time step length)
+- Convert annualized rate (cm/yr) to per-step increment (cm/step) and update dbh.
+This makes ``self.grow`` consistent with Bettina's per-step convention so it
+can be consumed directly by `pyMANGA.PlantModelLib.Mortality.Memory`.
 ```
-dbh = dbh + grow * time / (3600 * 24 * 365.25)
+grow = grow_per_year * time / (3600 * 24 * 365.25)
+dbh  = dbh + grow
 ```
 - Calculate root and crown radius
 ```

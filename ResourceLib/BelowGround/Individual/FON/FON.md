@@ -171,7 +171,7 @@ Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler, Guanzhen Liu
 ```
 
 - FON with C++ backend on a 22x22m² mesh.
-- The C++ backend requires compilation (see `CppBackend.md`). If the compiled module is not found, pyMANGA falls back to the pure Python implementation automatically.
+- The C++ backend requires compilation (see `pyMANGA.ResourceLib`). If the compiled module is not found, pyMANGA falls back to the pure Python implementation automatically.
 ```xml
 <belowground>
     <type> FON </type>

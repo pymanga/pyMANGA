@@ -14,6 +14,7 @@ The C++ backends are **fully optional**. If the compiled extension is not found,
 |-----------------------------------------------------------|---------------|-------------|
 | `pyMANGA.ResourceLib.AboveGround.AsymmetricZOI` | `asymzoi` | `AsymmetricZOI.cpp` |
 | `pyMANGA.ResourceLib.BelowGround.Individual.SymmetricZOI` | `symzoi` | `SymmetricZOI.cpp` |
+| `pyMANGA.ResourceLib.BelowGround.Individual.FON` | `fonzoi` | `FON.cpp` |
 
 ## XML Configuration
 
@@ -107,7 +108,7 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPYBIND11_FINDPYTHON=ON \
 
 ### Controlling OpenMP thread count
 
-Both `asymzoi` and `symzoi` use OpenMP to parallelize the per-plant grid evaluation loop. Control the thread count via the standard environment variable:
+All C++ backends (`asymzoi`, `symzoi`, `fonzoi`) use OpenMP to parallelize the per-plant grid evaluation loop. Control the thread count via the standard environment variable:
 
 ```bash
 export OMP_NUM_THREADS=4

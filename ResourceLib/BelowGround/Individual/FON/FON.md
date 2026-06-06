@@ -7,6 +7,10 @@ Competition is quantified by the overlap of FON fields.
 This concept assumes that a plant without neighbors gets 100% of the available resource.
 There is no temporal variation in resource availability.
 
+# C++ Backend
+
+This module supports an optional C++ backend for accelerated computation. See `pyMANGA.ResourceLib` for compilation instructions and configuration details.
+
 # Usage
 
 ```xml
@@ -35,6 +39,8 @@ There is no temporal variation in resource availability.
     - ``y_resolution`` (float): y-resolution of the grid
 - ``periodic_boundary`` (bool): (optional) If True, periodic boundary conditions are applied using
   the minimum image convention. Default: False.
+- ``backend_type`` (string): (optional, case-insensitive) "cpp" for C++ accelerated backend, "python" for pure Python.
+  If omitted, auto-selects C++ when available, otherwise falls back to Python.
 
 # Value
 
@@ -153,6 +159,23 @@ Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler, Guanzhen Liu
 <belowground>
     <type> FON </type>
     <periodic_boundary> True </periodic_boundary>
+    <domain>
+        <x_1> 0 </x_1>
+        <y_1> 0 </y_1>
+        <x_2> 22 </x_2>
+        <y_2> 22 </y_2>
+        <x_resolution> 88 </x_resolution>
+        <y_resolution> 88 </y_resolution>
+    </domain>
+</belowground>
+```
+
+- FON with C++ backend on a 22x22m² mesh.
+- The C++ backend requires compilation (see `pyMANGA.ResourceLib`). If the compiled module is not found, pyMANGA falls back to the pure Python implementation automatically.
+```xml
+<belowground>
+    <type> FON </type>
+    <backend_type> cpp </backend_type>
     <domain>
         <x_1> 0 </x_1>
         <y_1> 0 </y_1>

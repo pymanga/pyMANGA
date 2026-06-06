@@ -3,10 +3,19 @@
 import numpy as np
 from ResourceLib import ResourceModel
 
+# ---- Try to load C++ core (pybind11) ----------------------------------------
+try:
+    from ResourceLib.BelowGround.Individual.FON import fonzoi  # compiled C++ core
+    _FONZOI_OK = True
+except Exception:
+    fonzoi = None
+    _FONZOI_OK = False
+
 
 class FON(ResourceModel):
     """
     FON (Field of Neighborhood) below-ground resource concept.
+    Fully compatible with the legacy pure-Python workflow; adds an optional C++ backend.
     """
     def __init__(self, args):
         """
@@ -16,6 +25,7 @@ class FON(ResourceModel):
         case = args.find("type").text
         self.getInputParameters(args)
         super().makeGrid()
+        self._selectBackend()
 
     def prepareNextTimeStep(self, t_ini, t_end):
         self._fon_area = []
@@ -55,6 +65,11 @@ class FON(ResourceModel):
         Sets:
             numpy array with shape(number_of_plants)
         """
+        # Choose backend
+        if getattr(self, "_backend", "python") == "cpp":
+            self._calculateCppCompatible()
+            return
+
         self._r_stem = np.array(self._r_stem)
         self._aa = np.array(self._aa)
         self._bb = np.array(self._bb)
@@ -111,7 +126,8 @@ class FON(ResourceModel):
             "prj_file": args,
             "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
                          "y_resolution"],
-            "optional": ["periodic_boundary"]
+            "optional": ["periodic_boundary", "backend_type"],
+            "case_insensitive": ["backend_type"]
         }
         super().getInputParameters(**tags)
         self._x_1 = self.x_1
@@ -124,3 +140,63 @@ class FON(ResourceModel):
         if self._periodic_boundary:
             self._lx = self._x_2 - self._x_1
             self._ly = self._y_2 - self._y_1
+        else:
+            self._lx = 0.0
+            self._ly = 0.0
+
+        if not hasattr(self, "backend_type"):
+            self.backend_type = "auto"
+
+    def _selectBackend(self):
+        have_cpp = _FONZOI_OK
+        if self.backend_type == "cpp":
+            if have_cpp:
+                self._backend = "cpp"
+                print("[FON] Backend = cpp")
+            else:
+                self._backend = "python"
+                print("[FON] WARNING: <backend_type>cpp</backend_type> set, but C++ core not found. Falling back to python.")
+        elif self.backend_type == "python":
+            self._backend = "python"
+            print("[FON] Backend = python")
+        else:
+            self._backend = "cpp" if have_cpp else "python"
+            print(f"[FON] Backend = {self._backend} (auto)")
+
+    # C++ accelerated path
+    def _calculateCppCompatible(self):
+        """
+        The C++ acceleration branch packages the data prepared in Python for the
+        pybind11 kernel, which computes the belowground resource factor for each plant.
+        """
+        gx, gy = self._requireGrid()
+
+        xe = np.ascontiguousarray(np.asarray(self._xe, dtype=np.float64))
+        ye = np.ascontiguousarray(np.asarray(self._ye, dtype=np.float64))
+        r_stem = np.ascontiguousarray(np.asarray(self._r_stem, dtype=np.float64))
+        aa = np.ascontiguousarray(np.asarray(self._aa, dtype=np.float64))
+        bb = np.ascontiguousarray(np.asarray(self._bb, dtype=np.float64))
+        fmin = np.ascontiguousarray(np.asarray(self._fmin, dtype=np.float64))
+        phi = np.ascontiguousarray(np.asarray(self._phi, dtype=np.float64))
+        grid_x = np.ascontiguousarray(gx.astype(np.float64, copy=False))
+        grid_y = np.ascontiguousarray(gy.astype(np.float64, copy=False))
+
+        periodic = self._periodic_boundary
+        lx = self._lx if periodic else 0.0
+        ly = self._ly if periodic else 0.0
+
+        out = fonzoi.compute_belowground_resources(
+            xe, ye, r_stem, aa, bb, fmin, phi,
+            grid_x, grid_y,
+            periodic, lx, ly
+        )
+        self.belowground_resources = np.asarray(out, dtype=np.float64)
+
+    def _requireGrid(self):
+        """Raise RuntimeError if my_grid is absent or malformed."""
+        if not hasattr(self, "my_grid") or self.my_grid is None or len(self.my_grid) != 2:
+            raise RuntimeError("Grid not initialized. Did super().makeGrid() run?")
+        gx, gy = self.my_grid
+        if gx.ndim != 2 or gy.ndim != 2 or gx.shape != gy.shape:
+            raise RuntimeError("grid_x and grid_y must be 2D arrays with the same shape.")
+        return gx, gy

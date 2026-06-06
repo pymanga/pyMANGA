@@ -83,7 +83,10 @@
                         <test> FixedSalinity_CI.xml </test>
                     </FixedSalinity>
                     <FON>
+                        <test> FONcpp_CI.xml </test>
                         <test> FON_CI.xml </test>
+                        <test> FONcpp.xml </test>
+                        <test> FON.xml </test>
                     </FON>
                     <FON_MultiSpecies>
                         <test> FON_MultiSpecies_CI.xml </test>

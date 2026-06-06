@@ -196,4 +196,8 @@ add_hpc_module_in_tree(symzoi ResourceLib/BelowGround/Individual/SymmetricZOI
   ResourceLib/BelowGround/Individual/SymmetricZOI/SymmetricZOI.cpp
 )
 
+add_hpc_module_in_tree(fonzoi ResourceLib/BelowGround/Individual/FON
+  ResourceLib/BelowGround/Individual/FON/FON.cpp
+)
+
 # note: add more modules below as needed, just follow the pattern above

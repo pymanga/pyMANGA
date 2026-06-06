@@ -132,7 +132,7 @@ class AsymmetricZOI(ResourceModel):
         tags = {
             "prj_file": args,
             "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution", "y_resolution"],
-            "optional": ["allow_interpolation", "curved_crown", "backend_type", "periodic_boundary"],
+            "optional": ["allow_interpolation", "curved_crown", "backend_type"],
             "case_insensitive": ["backend_type"]
         }
         super().getInputParameters(**tags)

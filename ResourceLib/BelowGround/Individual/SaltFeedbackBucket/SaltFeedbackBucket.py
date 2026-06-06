@@ -224,8 +224,7 @@ class SaltFeedbackBucket(FixedSalinity):
                          "x_resolution", "y_resolution", "r_mix"],
             "optional": ["sine", "amplitude", "stretch", "offset", "noise",
                          "medium", "save_salinity_ts", "save_file",
-                         "depth", "initial_salinity_file",
-                         "periodic_boundary"]
+                         "depth", "initial_salinity_file"]
         }
         return tags
 

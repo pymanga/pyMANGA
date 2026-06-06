@@ -124,7 +124,7 @@ class FON(ResourceModel):
             "prj_file": args,
             "required": ["type", "domain", "x_1", "x_2", "y_1", "y_2", "x_resolution",
                          "y_resolution"],
-            "optional": ["periodic_boundary", "backend_type"],
+            "optional": ["backend_type"],
             "case_insensitive": ["backend_type"]
         }
         super().getInputParameters(**tags)

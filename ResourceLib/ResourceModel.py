@@ -65,6 +65,11 @@ class ResourceModel:
             optional_tags = tags["optional"]
         except KeyError:
             optional_tags = []
+        # periodic_boundary is configured once at the <resources> level
+        # (see ProjectLib.XMLtoProject) and injected into every resource
+        # module's tag tree, so always accept it as an optional tag.
+        if "periodic_boundary" not in optional_tags:
+            optional_tags = list(optional_tags) + ["periodic_boundary"]
         case_insensitive = tags.get("case_insensitive", [])
 
         for arg in prj_file_tags.iterdescendants():

@@ -8,7 +8,9 @@ from ResourceLib import ResourceModel
 try:
     from ResourceLib.AboveGround.AsymmetricZOI import asymzoi  # compiled C++ core
     _ASYMZOI_OK = True
-except Exception:
+except Exception as e:
+    print("[AsymmetricZOI] Could not import C++ backend:")
+    print(e)
     asymzoi = None
     _ASYMZOI_OK = False
 
@@ -107,9 +109,9 @@ class AsymmetricZOI(ResourceModel):
     # C++ accelerated path
     def _calculateCppCompatible(self):
         """
-        The C++ acceleration branch packages the data prepared in Python for the pybind11 kernel, which computes the 'above-ground resource factor' for each tree.
+        The C++ acceleration branch packages the data prepared in Python for the pybind11 kernel,
+        which computes the above-ground resource factor for each tree.
         The results are then written back to self.aboveground_resources.
-
         """
         gx, gy = self._requireGrid()
 
@@ -117,15 +119,23 @@ class AsymmetricZOI(ResourceModel):
         ye = np.ascontiguousarray(np.asarray(self.ye, dtype=np.float64))
         h_stem = np.ascontiguousarray(np.asarray(self.h_stem, dtype=np.float64))
         r_ag = np.ascontiguousarray(np.asarray(self.r_ag, dtype=np.float64))
+        is_cylinder = np.ascontiguousarray(np.asarray(self.is_cylinder, dtype=np.bool_))
+
         grid_x = np.ascontiguousarray(gx.astype(np.float64, copy=False))
         grid_y = np.ascontiguousarray(gy.astype(np.float64, copy=False))
 
         out = asymzoi.compute_aboveground_resources(
-            xe, ye, h_stem, r_ag,
-            grid_x, grid_y,
+            xe,
+            ye,
+            h_stem,
+            r_ag,
+            is_cylinder,
+            grid_x,
+            grid_y,
             bool(self.curved_crown),
             float(self.mesh_size) if hasattr(self, "mesh_size") else 1.0
         )
+
         self.aboveground_resources = np.asarray(out, dtype=np.float64)
 
     # Parameters

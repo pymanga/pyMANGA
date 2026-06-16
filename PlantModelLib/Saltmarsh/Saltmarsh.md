@@ -240,6 +240,70 @@ If it is combined with other modules, meaningful results cannot be guaranteed.
 
 This plant module requires species files that contain the necessary parameters. Species files created for mangrove species e.g. cannot be used.
 
+# Output options
+
+## Standard output
+
+The following basic output columns are written by default:
+
+- `plant`: plant identifier
+- `time`: simulation time
+- `x`: x-coordinate
+- `y`: y-coordinate
+
+## Optional outputs
+
+Additional plant-level variables can be written to the model output by specifying the corresponding output tags in the XML control file.
+
+### Geometry outputs
+
+Geometry outputs describe the above-ground and below-ground cylinder geometry of each individual plant:
+
+- `r_ag`: above-ground radius [m]
+- `h_ag`: above-ground height [m]
+- `r_bg`: below-ground radius [m]
+- `h_bg`: below-ground height [m]
+
+Example:
+
+```xml
+<geometry_output>r_ag</geometry_output>
+<geometry_output>h_ag</geometry_output>
+<geometry_output>r_bg</geometry_output>
+<geometry_output>h_bg</geometry_output>
+```
+
+### Growth concept outputs
+
+The following state variables can optionally be written from the Saltmarsh growth concept:
+
+- `aboveground_resources`
+- `belowground_resources`
+- `res_ag`
+- `res_bg`
+- `res_eff`
+- `grow`
+- `maint`
+- `volume`
+- `age`
+- `salinity`
+- `transpiration`
+
+Example:
+
+```xml
+<growth_output>aboveground_resources</growth_output>
+<growth_output>belowground_resources</growth_output>
+<growth_output>res_ag</growth_output>
+<growth_output>res_bg</growth_output>
+<growth_output>res_eff</growth_output>
+<growth_output>grow</growth_output>
+<growth_output>maint</growth_output>
+<growth_output>volume</growth_output>
+<growth_output>age</growth_output>
+<growth_output>salinity</growth_output>
+<growth_output>transpiration</growth_output>
+```
 
 # References
 

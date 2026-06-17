@@ -18,17 +18,10 @@ class Saltmarsh(PlantModel):
 
     def prepareNextTimeStep(self, t_ini, t_end):
         """
-        Prepares internal state for the next simulation time step.
+        Prepares the plant model for the next simulation time step.
 
-        This includes calculation of timestep length and resetting all
-        geometric growth weights to zero. These weights are later used
-        to track structural changes (delta h, delta r) in AG and BG biovolume.
-
-        Uses:
-            self.t_ini (float): Start time of timestep [s]
-            self.t_end (float): End time of timestep [s]
         Sets:
-            self.time (float): Length of the current timestep [s]
+            self.time (float): Length of the current timestep [s].
         """
         self.time = t_end - t_ini
 
@@ -43,8 +36,8 @@ class Saltmarsh(PlantModel):
 
         Args:
             plant: The plant individual.
-            aboveground_factor (float): AG resource availability [-] (0,1) PLEASE NOTE: SIMULAR TO f_reslim_ag
-            belowground_factor (float): BG resource availability [-] (0,1) PLEASE NOTE: SIMULAR TO f_reslim_bg
+            aboveground_factor (float): AG resource availability [-] (0,1) PLEASE NOTE: SIMILAR TO f_reslim_ag
+            belowground_factor (float): BG resource availability [-] (0,1) PLEASE NOTE: SIMILAR TO f_reslim_bg
         """
         # Initialization
         geometry = plant.getGeometry()
@@ -115,7 +108,7 @@ class Saltmarsh(PlantModel):
             growth_concept_information["age"] = self.time  #  [s]
 
         # Apply mortality concept
-        super().getMortalityVariables(growth_concept_information)
+        growth_concept_information = super().getMortalityVariables(growth_concept_information)
 
         # Apply all updates to the plant object
         plant.setGeometry(geometry)
@@ -124,10 +117,7 @@ class Saltmarsh(PlantModel):
         super().setTreeKiller()
 
         # set survival status
-        if self.survive == 1:
-            plant.setSurvival(1)
-        else:
-            plant.setSurvival(0)
+        plant.setSurvival(self.survive)
 
     def plantVolume(self):
         """
@@ -139,7 +129,6 @@ class Saltmarsh(PlantModel):
             self.V_ag (float): Aboveground volume [m^3]
             self.V_bg (float): Belowground volume [m^3]
             self.volume (float): Total plant volume [m^3]
-            self.r_V_ag_bg (float): AG/BG volume ratio [-]
         Uses:
             self.r_ag (float): Aboveground radius [m]
             self.r_bg (float): Belowground radius [m]
@@ -149,7 +138,6 @@ class Saltmarsh(PlantModel):
         self.V_ag = np.pi * self.r_ag ** 2 * self.h_ag
         self.V_bg = np.pi * self.r_bg ** 2 * self.h_bg
         self.volume = self.V_ag + self.V_bg
-        self.r_V_ag_bg = self.V_ag / max(self.V_bg, 1e-22)  # Avoid division by zero
 
     def plantMaintenance(self):
         """
@@ -193,7 +181,7 @@ class Saltmarsh(PlantModel):
         Sets:
             self.res_bg (float): Available belowground resources [J]
         Uses:
-            self.belowground_resources (float): Belowground resource availability [J] (0,1)
+            self.belowground_resources (float): Belowground resource availability [-] (0,1)
             self.r_bg (float): Belowground radius [m]
             self.h_bg (float): Belowground height [m]
             self.h_ag (float): Aboveground height [m]
@@ -215,7 +203,7 @@ class Saltmarsh(PlantModel):
         Sets:
             self.res_eff (float): Resources effective available for plants [J]
             self.grow_pot (float): Potential growth [m^3]
-            self.grow (float): Net available resource units for growth [J]
+            self.grow (float): Net available resource units for growth [m^3]
         Uses:
             self.res_ag (float): Aboveground resource availability factor [J]
             self.res_bg (float): Belowground resource availability factor [J]
@@ -268,7 +256,7 @@ class Saltmarsh(PlantModel):
         # When growth occurs, resources are allocated appropriately between aboveground and belowground growth
         if self.grow > 0:
             # Current AG/BG volume ratio
-            ratio_vol = self.V_ag / max(self.V_bg, 1e-6)
+            ratio_vol = self.V_ag / max(self.V_bg, 1e-22)
 
             # Adjustment factor
             self.f_ad = 0.5 - self.ratio_ag_bg
@@ -281,6 +269,7 @@ class Saltmarsh(PlantModel):
                 pass  # within target zone
             else:
                 self.f_ad = 0  # prevent maladaptive adjustment
+            # The range [0.15, 2.5] is an assumption based on values reported in the literature.
 
             # Compute AG/BG allocation weight
             self.w_ratio_ag_bg = self.parameter['p_ratio_ag_bg'] * (1 - self.f_ad)
@@ -289,7 +278,7 @@ class Saltmarsh(PlantModel):
             V_ag_incr = self.grow * (1 - self.w_ratio_ag_bg)
             V_bg_incr = self.grow * self.w_ratio_ag_bg
 
-        # If the plant shrinks, aboveground and belowground biovolume decrease in equal proportions
+        # If the plant shrinks, aboveground and belowground biovolume decrease by equal absolute amounts
         else:
             V_ag_incr = self.grow * 0.5
             V_bg_incr = self.grow * 0.5

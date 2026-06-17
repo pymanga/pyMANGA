@@ -41,7 +41,7 @@ If (i) the current biovolume falls below the threshold biovolume, or (ii) the ab
 
 ## Process overview
 
-- If all the metrics fall below their respective thresholds, the plant will die.
+- If at least one of the metrics falls below its respective threshold, the plant dies.
   - r_ag
   - r_bg
   - volume

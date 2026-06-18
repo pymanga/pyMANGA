@@ -5,7 +5,7 @@ def createPlant():
     geometry = {}
     parameter = {}
     parameter["p_sun"] = 1361
-    parameter['p_water'] = 1.5
+    parameter['p_conv,bg'] = 1.5
     geometry["r_ag"] = 0.05
     geometry["r_ag_thr"] = 0.05
     geometry["h_ag"] = 0.1

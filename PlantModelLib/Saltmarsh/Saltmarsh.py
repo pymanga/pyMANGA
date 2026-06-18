@@ -176,7 +176,7 @@ class Saltmarsh(PlantModel):
         """
         Calculate the available belowground resources.
 
-        BG resources depend on BG resource factor, geometry of plant and parameter p_sun and p_water.
+        BG resources depend on BG resource factor, geometry of plant and parameter p_sun and p_conv,bg.
 
         Sets:
             self.res_bg (float): Available belowground resources [J]
@@ -185,12 +185,12 @@ class Saltmarsh(PlantModel):
             self.r_bg (float): Belowground radius [m]
             self.h_bg (float): Belowground height [m]
             self.h_ag (float): Aboveground height [m]
-            self.parameter["p_water"] (float): Water uptake efficiency parameter [-]
+            self.parameter["p_conv,bg"] (float): Water uptake efficiency parameter [-]
             self.parameter["p_sun"] (float): Solar radiation [J/(m^2*s)]
             self.time (float): Timestep length [s]
         """
         self.res_bg = self.belowground_resources * self.V_bg * self.parameter['p_sun'] *\
-                            self.parameter['p_water'] * 1/(self.h_ag + 0.5 * self.h_bg) * self.time
+                            self.parameter['p_conv,bg'] * 1/(self.h_ag + 0.5 * self.h_bg) * self.time
 
     def growthResources(self):
         """

@@ -8,7 +8,9 @@ from ResourceLib import ResourceModel
 try:
     from ResourceLib.AboveGround.AsymmetricZOI import asymzoi  # compiled C++ core
     _ASYMZOI_OK = True
-except Exception:
+except Exception as e:
+    print("[AsymmetricZOI] Could not import C++ backend:")
+    print(e)
     asymzoi = None
     _ASYMZOI_OK = False
 
@@ -24,7 +26,7 @@ class AsymmetricZOI(ResourceModel):
         Args:
             args (lxml.etree._Element): above-ground module specifications from project file tags
         """
-        case = args.find("type").text  
+        case = args.find("type").text
         self.getInputParameters(args)
         super().makeGrid()
         self._selectBackend()
@@ -57,7 +59,7 @@ class AsymmetricZOI(ResourceModel):
             # As the geometry is "complex", my_height is position dependent
             my_height, canopy_bools = self.calculateHeightFromDistance(
                 np.array([self.h_stem[i]]), np.array([self.r_ag[i]]),
-                distance)
+                distance, is_cylinder=self.is_cylinder[i])
             crown_areas[i] = np.sum(canopy_bools)
             indices = np.where(np.less(canopy_height, my_height))
             canopy_height[indices] = my_height[indices]
@@ -75,7 +77,8 @@ class AsymmetricZOI(ResourceModel):
             print(f"ERROR: NaN detected in aboveground_resources for plants at indices: {nan_indices}")
             exit()
 
-    def calculateHeightFromDistance(self, stem_height, crown_radius, distance):
+    def calculateHeightFromDistance(self, stem_height, crown_radius, distance,
+                                    is_cylinder=False):
         """
         Calculate plant heights at each mesh point (node) based on the distance between plant and node.
         Args:
@@ -94,7 +97,9 @@ class AsymmetricZOI(ResourceModel):
         idx = np.where(bools)
         height = np.zeros_like(distance)
         #Here, the curved top of the plant is considered..
-        if self.curved_crown:
+        if is_cylinder:
+            height[idx] = stem_height
+        elif self.curved_crown:
             height[idx] = stem_height + (4 * crown_radius ** 2 -
                                          distance[idx] ** 2) ** 0.5
         else:
@@ -104,9 +109,9 @@ class AsymmetricZOI(ResourceModel):
     # C++ accelerated path
     def _calculateCppCompatible(self):
         """
-        The C++ acceleration branch packages the data prepared in Python for the pybind11 kernel, which computes the 'above-ground resource factor' for each tree. 
+        The C++ acceleration branch packages the data prepared in Python for the pybind11 kernel,
+        which computes the above-ground resource factor for each tree.
         The results are then written back to self.aboveground_resources.
-
         """
         gx, gy = self._requireGrid()
 
@@ -114,15 +119,23 @@ class AsymmetricZOI(ResourceModel):
         ye = np.ascontiguousarray(np.asarray(self.ye, dtype=np.float64))
         h_stem = np.ascontiguousarray(np.asarray(self.h_stem, dtype=np.float64))
         r_ag = np.ascontiguousarray(np.asarray(self.r_ag, dtype=np.float64))
+        is_cylinder = np.ascontiguousarray(np.asarray(self.is_cylinder, dtype=np.bool_))
+
         grid_x = np.ascontiguousarray(gx.astype(np.float64, copy=False))
         grid_y = np.ascontiguousarray(gy.astype(np.float64, copy=False))
 
         out = asymzoi.compute_aboveground_resources(
-            xe, ye, h_stem, r_ag,
-            grid_x, grid_y,
+            xe,
+            ye,
+            h_stem,
+            r_ag,
+            is_cylinder,
+            grid_x,
+            grid_y,
             bool(self.curved_crown),
             float(self.mesh_size) if hasattr(self, "mesh_size") else 1.0
         )
+
         self.aboveground_resources = np.asarray(out, dtype=np.float64)
 
     # Parameters
@@ -175,6 +188,7 @@ class AsymmetricZOI(ResourceModel):
         self.ye = []
         self.h_stem = []
         self.r_ag = []
+        self.is_cylinder = []
         self.t_ini = t_ini
         self.t_end = t_end
 
@@ -182,12 +196,27 @@ class AsymmetricZOI(ResourceModel):
         x, y = plant.getPosition()
         geometry = plant.getGeometry()
         # ToDo: resolve when all geometries are renamed
-        try:
+
+        # Get above-ground radius
+        if "r_crown" in geometry:
             r_ag = geometry["r_crown"]
-            h_stem = geometry["h_stem"]
-        except KeyError:
+        elif "r_ag" in geometry:
             r_ag = geometry["r_ag"]
-            h_stem = geometry["height"] - 2*r_ag
+        else:
+            raise KeyError("Missing above-ground radius: geometry must contain 'r_crown' or 'r_ag'.")
+
+        # Get height
+        if "h_stem" in geometry:
+            h_stem = geometry["h_stem"]
+            is_cylinder = False
+        elif "height" in geometry:
+            h_stem = geometry["height"] - 2 * r_ag
+            is_cylinder = False
+        elif "h_ag" in geometry:
+            h_stem = geometry["h_ag"]
+            is_cylinder = True
+        else:
+            raise KeyError("Missing height: geometry must contain 'h_stem', 'height', or 'h_ag'.")
 
         if r_ag < (self.mesh_size * 1 / 2**0.5):
             if not hasattr(self, "allow_interpolation") or not self.allow_interpolation:
@@ -200,10 +229,11 @@ class AsymmetricZOI(ResourceModel):
         self.ye.append(y)
         self.h_stem.append(h_stem)
         self.r_ag.append(r_ag)
+        self.is_cylinder.append(is_cylinder)
 
     def _requireGrid(self):
         """
-        Confirm that the object contains 'my_grid', that it is not 'None', and that it contains precisely 'grid_x' and 'grid_y'. 
+        Confirm that the object contains 'my_grid', that it is not 'None', and that it contains precisely 'grid_x' and 'grid_y'.
         Otherwise, raise an exception immediately and prompt the user to check whether they have forgotten to call the superclass's `makeGrid()` method.
         """
         if not hasattr(self, "my_grid") or self.my_grid is None or len(self.my_grid) != 2:

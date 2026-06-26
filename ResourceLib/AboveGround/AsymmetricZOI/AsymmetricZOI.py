@@ -54,8 +54,10 @@ class AsymmetricZOI(ResourceModel):
         #Iteration over plants to identify highest plant at gridpoint
 
         for i in range(len(self.xe)):
-            distance = (((self.my_grid[0] - np.array(self.xe)[i])**2 +
-                         (self.my_grid[1] - np.array(self.ye)[i])**2)**0.5)
+            dx = self.my_grid[0] - np.array(self.xe)[i]
+            dy = self.my_grid[1] - np.array(self.ye)[i]
+            dx, dy = self.wrapDistance(dx, dy)
+            distance = (dx**2 + dy**2)**0.5
             # As the geometry is "complex", my_height is position dependent
             my_height, canopy_bools = self.calculateHeightFromDistance(
                 np.array([self.h_stem[i]]), np.array([self.r_ag[i]]),

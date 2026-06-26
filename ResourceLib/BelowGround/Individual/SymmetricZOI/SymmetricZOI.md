@@ -40,6 +40,9 @@ There is no temporal variation in resource availability.
 - ``backend_type`` (string): (optional) "cpp" for C++ accelerated backend, "python" for pure Python.
   If omitted, auto-selects C++ when available, otherwise falls back to Python.
 
+Periodic boundary conditions are configured at the ``<resources>`` level
+(see ``pyMANGA.ResourceLib.ResourceModel``).
+
 # Value
 
 A list of values with length = number of plant.
@@ -89,7 +92,7 @@ r_bg > mesh_size * 0.5**0.5
 
 ### Below-ground factor (calculateBelowgroundResources)
 
-- Calculate the distance of plants to each node (``dist``)
+- Calculate the distance of plants to each node (``dist``). If periodic boundary conditions are enabled, the minimum image convention is applied.
 - Get index of nodes that are occupied by the plant (``idx``)	
 - Count the number of nodes occupied by a plant (``plant_counts``) 
 - Calculate the below-ground resource factor (``bg_factor``) 
@@ -164,8 +167,30 @@ Jasper Bathmann, Ronny Peters, Marie-Christin Wimmler, Guanzhen Liu
 </belowground>
 ```
 
+- Symmetric ZOI with periodic boundary conditions on a 22x22m² mesh
+  (PBC is set once at the ``<resources>`` level):
+```xml
+<resources>
+    <periodic_boundary> True </periodic_boundary>
+    <aboveground>
+        <type> Default </type>
+    </aboveground>
+    <belowground>
+        <type> SymmetricZOI </type>
+        <domain>
+            <x_1> 0 </x_1>
+            <y_1> 0 </y_1>
+            <x_2> 22 </x_2>
+            <y_2> 22 </y_2>
+            <x_resolution> 88 </x_resolution>
+            <y_resolution> 88 </y_resolution>
+        </domain>
+    </belowground>
+</resources>
+```
+
 - Symmetric ZOI with C++ backend on a 22x22m² mesh.
-- The C++ backend requires compilation (see `CppBackend.md`). If the compiled module is not found, pyMANGA falls back to the pure Python implementation automatically.
+- The C++ backend requires compilation (see `pyMANGA.ResourceLib`). If the compiled module is not found, pyMANGA falls back to the pure Python implementation automatically.
 ```xml
 <belowground>
     <type> SymmetricZOI </type>

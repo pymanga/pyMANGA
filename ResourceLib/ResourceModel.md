@@ -44,12 +44,54 @@ x = x_2 - x_1
 y = y_2 - y_1
 ```
 and the size of each cell is
-and cell size of
 ````python
-xs = x_2 / x_resolution
-ys = y_2 / y_resolution
+xs = x / x_resolution
+ys = y / y_resolution
 ````
 
+Additionally, ``makeGrid`` stores the domain dimensions (``_lx``, ``_ly``) and reads the
+optional ``periodic_boundary`` flag (set once at the ``<resources>`` level, see below).
+If ``periodic_boundary`` is True, distance calculations can use the minimum image convention
+via ``wrapDistance``.
+
+## Periodic boundary conditions
+
+Periodic boundary conditions (PBC) are configured **once** at the ``<resources>`` level and
+apply to both above- and below-ground modules. Specifying ``<periodic_boundary>`` inside
+``<aboveground>`` or ``<belowground>`` raises an error.
+
+```xml
+<resources>
+    <periodic_boundary> True </periodic_boundary>
+    <aboveground>
+        <type> Default </type>
+    </aboveground>
+    <belowground>
+        <type> SymmetricZOI </type>
+        <domain> ... </domain>
+    </belowground>
+</resources>
+```
+
+When enabled, distance calculations in supported modules (``AsymmetricZOI``,
+``SymmetricZOI``, ``FON``, ``SaltFeedbackBucket``) use the minimum image convention
+via ``wrapDistance``. The above- and below-ground domains must share the same extent.
+
+#### wrapDistance
+
+Apply the minimum image convention for periodic boundary conditions.
+Given distance components ``dx`` and ``dy`` (scalar or array), returns the wrapped values
+corresponding to the shortest distance across periodic images.
+
+This method is a no-op when ``periodic_boundary`` is False.
+
+Modules that compute plant-to-grid or plant-to-plant distances should call this method
+to support periodic boundaries transparently:
+
+```python
+dx, dy = self.wrapDistance(dx, dy)
+distance = (dx**2 + dy**2)**0.5
+```
 
 ---
 

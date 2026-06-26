@@ -143,8 +143,10 @@ class SaltFeedbackBucket(FixedSalinity):
         Returns:
             array
         """
-        distance = (((self.my_grid[0] - np.array(xp)) ** 2 +
-                     (self.my_grid[1] - np.array(yp)) ** 2) ** 0.5)
+        dx = self.my_grid[0] - np.array(xp)
+        dy = self.my_grid[1] - np.array(yp)
+        dx, dy = self.wrapDistance(dx, dy)
+        distance = (dx**2 + dy**2)**0.5
         idx = np.where(distance < rrp)
         return idx
 

@@ -52,14 +52,30 @@ class XMLtoProject(MangaProject):
     def addResourceConcept(self):
         """
         Store the values that define above- and below-ground resource modules.
+        The optional <periodic_boundary> tag is read once at the <resources>
+        level and propagated to both above- and below-ground module configs.
         Sets:
             dictionary
         """
         self.plant_dynamics = self.findChild(self.root, "resources")
-        self.args["aboveground_resources_concept"] = self.findChild(
-            self.plant_dynamics, "aboveground")
-        self.args["belowground_resource_concept"] = self.findChild(
-            self.plant_dynamics, "belowground")
+        aboveground = self.findChild(self.plant_dynamics, "aboveground")
+        belowground = self.findChild(self.plant_dynamics, "belowground")
+
+        for section, name in ((aboveground, "aboveground"),
+                              (belowground, "belowground")):
+            if section.find("periodic_boundary") is not None:
+                raise ValueError(
+                    "<periodic_boundary> must be defined at the <resources> "
+                    "level, not inside <{}>.".format(name))
+
+        pbc = self.plant_dynamics.find("periodic_boundary")
+        if pbc is not None:
+            for section in (aboveground, belowground):
+                injected = etree.SubElement(section, "periodic_boundary")
+                injected.text = pbc.text
+
+        self.args["aboveground_resources_concept"] = aboveground
+        self.args["belowground_resource_concept"] = belowground
 
     def addPlantDynamicConcept(self):
         """

@@ -108,17 +108,19 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPYBIND11_FINDPYTHON=ON \
 
 ### Controlling OpenMP thread count
 
-All C++ backends (`asymzoi`, `symzoi`, `fonzoi`) use OpenMP to parallelize the per-plant grid evaluation loop. Control the thread count via the standard environment variable:
+All C++ backends (`asymzoi`, `symzoi`, `fonzoi`) use OpenMP. Their low-level pybind11 functions accept an optional `n_threads` argument. The FON backend uses the OpenMP runtime maximum when that argument is omitted, so its thread count can be controlled with the standard environment variable:
 
 ```bash
 export OMP_NUM_THREADS=4
 ```
 
-No thread configuration is needed in the XML project file. If OpenMP is not installed, the build still succeeds but runs single-threaded.
+No thread configuration is needed in the XML project file. `asymzoi` and `symzoi` retain their existing automatic processor selection when their low-level `n_threads` argument is omitted. If OpenMP is not installed, the build still succeeds but runs single-threaded.
 
 ## Performance Notes
 
-The C++ backends provide the most benefit for simulations with **large grids** (high spatial resolution) and/or **many plants**. For small problem sizes (e.g., 80×80 grid with a handful of plants), the speedup may be modest.
+The C++ backends provide the most benefit for simulations with **large grids** (high spatial resolution) and/or **many plants**. For small problem sizes (e.g., 80×80 grid with a handful of plants), the speedup may be modest, and using more threads than the workload can sustain may increase runtime.
+
+FON evaluates spatially indexed plant contributions in parallel, merges them in the original plant order, and then computes per-plant impacts in parallel. This preserves the serial floating-point accumulation order while avoiding a shared-grid data race.
 
 When benchmarking, be aware that the **first invocation** after a system restart incurs a few extra seconds of cold-start time while the operating system loads the compiled shared library (`.so`/`.pyd`) and its dependencies (OpenMP runtime, libstdc++, etc.) from disk into the page cache. Once cached, subsequent runs load these libraries from memory almost instantly. This overhead is negligible for real-world simulations that run for minutes or hours.
 

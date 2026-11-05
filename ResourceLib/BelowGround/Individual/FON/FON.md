@@ -9,7 +9,7 @@ There is no temporal variation in resource availability.
 
 # C++ Backend
 
-This module supports an optional C++ backend for accelerated computation. See `pyMANGA.ResourceLib` for compilation instructions and configuration details.
+This module supports an optional C++ backend for accelerated computation. The C++ kernel uses deterministic OpenMP parallelism: plant contributions are evaluated in private thread buffers and merged in the original plant order, preserving the serial floating-point result. Set `OMP_NUM_THREADS` to limit the thread count. See `pyMANGA.ResourceLib` for compilation instructions and configuration details.
 
 # Usage
 

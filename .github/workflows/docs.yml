@@ -18,9 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@main
         with:
-          python-version: '3.13.0'
+          python-version: '3.13'
           cache: 'pip' # caching pip dependencies
 
 
